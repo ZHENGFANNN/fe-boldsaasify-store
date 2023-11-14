@@ -474,7 +474,7 @@
   "store.order_info.real_price": "支払額",
   "store.order_info.pay_price": "支払金額",
   "store.order_info.finish_time": "完了時間",
-  "www.account.my_order.discount": "割引",
+  "www.account.my_order.discount": "割引価格",
   "www.account.my_order.order_price": "注文金額",
   "www.account.my_order.pay_price": "支払金額",
   "www.account.my_order.delivered": "出荷済み",
@@ -502,12 +502,12 @@
   "www.sales_policy.title": "販売方針",
   "www.sales_policy.description": "販売方針",
   "www.sales_policy.keywords": "販売方針",
-  "store.order.pay_info.pay_after_arrival": "商品到着後のお支払い",
+  "store.order.pay_info.pay_after_arrival": "代金引換",
   "store.order.pay_info.pay_after_arrival_desc": "購入者は、パッケージに署名するときに、受け取りサイトで現金で価格を支払います。",
   "store.order_info.pay_after_arrival": "商品到着後のお支払い",
-  "common.other.change_country": "※国・地域を切り替える場合は、ページ上部までスクロールして左上隅で切り替えてください！",
+  "common.other.change_country": "※国・地域を切り替える場合は、トップの左上で切り替えてください！",
   "www.account.my_order.cod": "代金引換",
   "store.order_info.order_remark": "注文メモ",
   "store.product.immedate_order": "即購入",
-  "store.cart.no_stock": "out of stock"
+  "store.cart.no_stock": "在庫切れ"
 }

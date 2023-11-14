@@ -474,7 +474,7 @@
   "store.order_info.real_price": "Importi da pagare",
   "store.order_info.pay_price": "importo del pagamento",
   "store.order_info.finish_time": "Tempo completo",
-  "www.account.my_order.discount": "sconto",
+  "www.account.my_order.discount": "Prezzo scontato",
   "www.account.my_order.order_price": "Ammontare dell'ordine",
   "www.account.my_order.pay_price": "importo del pagamento",
   "www.account.my_order.delivered": "Spedito",
@@ -502,12 +502,12 @@
   "www.sales_policy.title": "Politica di vendita",
   "www.sales_policy.description": "Politica di vendita",
   "www.sales_policy.keywords": "Politica di vendita",
-  "store.order.pay_info.pay_after_arrival": "Pagamento dopo l'arrivo della merce",
+  "store.order.pay_info.pay_after_arrival": "pagamento alla consegna",
   "store.order.pay_info.pay_after_arrival_desc": "L'acquirente paga il prezzo in contanti presso il luogo di ricevimento al momento della firma del pacco.",
   "store.order_info.pay_after_arrival": "Pagamento dopo l'arrivo della merce",
-  "common.other.change_country": "*Per cambiare paese/regione, scorri fino alla parte superiore della pagina e cambia nell'angolo in alto a sinistra!",
+  "common.other.change_country": "*Se devi cambiare paese/regione, cambialo nell'angolo in alto a sinistra in alto!",
   "www.account.my_order.cod": "pagamento alla consegna",
   "store.order_info.order_remark": "note dell'ordine",
   "store.product.immedate_order": "Compralo Subito",
-  "store.cart.no_stock": "out of stock"
+  "store.cart.no_stock": "esaurito"
 }

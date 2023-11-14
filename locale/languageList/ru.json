@@ -474,7 +474,7 @@
   "store.order_info.real_price": "Суммы к оплате",
   "store.order_info.pay_price": "к оплате",
   "store.order_info.finish_time": "Полное время",
-  "www.account.my_order.discount": "скидка",
+  "www.account.my_order.discount": "Цена со скидкой",
   "www.account.my_order.order_price": "сумма заказа",
   "www.account.my_order.pay_price": "к оплате",
   "www.account.my_order.delivered": "Отправленный",
@@ -502,12 +502,12 @@
   "www.sales_policy.title": "Политика продаж",
   "www.sales_policy.description": "Политика продаж",
   "www.sales_policy.keywords": "Политика продаж",
-  "store.order.pay_info.pay_after_arrival": "Оплата после прибытия товара",
+  "store.order.pay_info.pay_after_arrival": "оплата при доставке",
   "store.order.pay_info.pay_after_arrival_desc": "Покупатель оплачивает цену наличными на месте получения при подписании посылки.",
   "store.order_info.pay_after_arrival": "Оплата после прибытия товара",
-  "common.other.change_country": "*Чтобы переключить страну/регион, прокрутите страницу вверх и переключитесь в левом верхнем углу!",
+  "common.other.change_country": "*Если вам нужно переключить страну/регион, пожалуйста, переключитесь в левом верхнем углу!",
   "www.account.my_order.cod": "оплата при доставке",
   "store.order_info.order_remark": "примечания к заказу",
   "store.product.immedate_order": "Купить сейчас",
-  "store.cart.no_stock": "out of stock"
+  "store.cart.no_stock": "распродано"
 }

@@ -474,7 +474,7 @@
   "store.order_info.real_price": "Montants à payer",
   "store.order_info.pay_price": "montant du paiement",
   "store.order_info.finish_time": "Temps complet",
-  "www.account.my_order.discount": "rabais",
+  "www.account.my_order.discount": "Prix ​​réduit",
   "www.account.my_order.order_price": "montant de la commande",
   "www.account.my_order.pay_price": "montant du paiement",
   "www.account.my_order.delivered": "Expédié",
@@ -502,12 +502,12 @@
   "www.sales_policy.title": "Politique de vente",
   "www.sales_policy.description": "Politique de vente",
   "www.sales_policy.keywords": "Politique de vente",
-  "store.order.pay_info.pay_after_arrival": "Paiement après l'arrivée des marchandises",
+  "store.order.pay_info.pay_after_arrival": "paiement à la livraison",
   "store.order.pay_info.pay_after_arrival_desc": "L'acheteur paie le prix en espèces sur le site de réception lors de la signature du colis.",
   "store.order_info.pay_after_arrival": "Paiement après l'arrivée des marchandises",
-  "common.other.change_country": "*Pour changer de pays/région, veuillez faire défiler vers le haut de la page et basculer dans le coin supérieur gauche !",
+  "common.other.change_country": "*Si vous devez changer de pays/région, veuillez changer dans le coin supérieur gauche en haut !",
   "www.account.my_order.cod": "paiement à la livraison",
   "store.order_info.order_remark": "Notes d'ordre",
   "store.product.immedate_order": "Achetez-le maintenant",
-  "store.cart.no_stock": "out of stock"
+  "store.cart.no_stock": "en rupture de stock"
 }

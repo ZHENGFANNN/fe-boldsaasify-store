@@ -474,7 +474,7 @@
   "store.order_info.real_price": "지불 금액",
   "store.order_info.pay_price": "결제 금액",
   "store.order_info.finish_time": "완료 시간",
-  "www.account.my_order.discount": "할인",
+  "www.account.my_order.discount": "할인 가격",
   "www.account.my_order.order_price": "주문량",
   "www.account.my_order.pay_price": "결제 금액",
   "www.account.my_order.delivered": "배송됨",
@@ -502,12 +502,12 @@
   "www.sales_policy.title": "판매 정책",
   "www.sales_policy.description": "판매 정책",
   "www.sales_policy.keywords": "판매 정책",
-  "store.order.pay_info.pay_after_arrival": "상품 도착 후 결제",
+  "store.order.pay_info.pay_after_arrival": "대금 상환",
   "store.order.pay_info.pay_after_arrival_desc": "구매자는 패키지 서명 시 수령 장소에서 현금으로 가격을 지불합니다.",
   "store.order_info.pay_after_arrival": "상품 도착 후 결제",
-  "common.other.change_country": "*국가/지역을 변경하려면 페이지 상단으로 스크롤한 후 왼쪽 상단에서 전환하세요!",
+  "common.other.change_country": "*국가/지역을 변경해야 하는 경우 상단 왼쪽 상단에서 변경해주세요!",
   "www.account.my_order.cod": "대금 상환",
   "store.order_info.order_remark": "주문 메모",
   "store.product.immedate_order": "지금 구매하세요",
-  "store.cart.no_stock": "out of stock"
+  "store.cart.no_stock": "품절"
 }
