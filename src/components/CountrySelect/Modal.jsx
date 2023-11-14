@@ -3,7 +3,7 @@ import Link from "next/link";
 import GlobalContext from "@/context";
 import COUNTRYLIST from "@/config/COUNTRYLIST";
 import Cookie from "js-cookie";
-import styles from "./modal.module.less";
+import styles from "./modal.module.scss";
 import React from "react";
 import { useRouter } from "next/navigation";
 

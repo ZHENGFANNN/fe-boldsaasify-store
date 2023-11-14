@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useContext } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export default function DropSelect({
   children,

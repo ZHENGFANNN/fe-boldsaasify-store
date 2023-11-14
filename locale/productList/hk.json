@@ -19,6 +19,35 @@
     "created_time": "2023-09-09T09:20:44.000Z",
     "updated_time": "2023-09-18T15:02:56.000Z",
     "associateProduct": [],
+    "typeList": [
+      {
+        "id": 80,
+        "type": "text",
+        "title": "顏色",
+        "language": "hk",
+        "good_sort_key": "watches",
+        "good_key": "n9-ultra-pro",
+        "options": [
+          {
+            "title": "黑色"
+          },
+          {
+            "title": "白色"
+          },
+          {
+            "title": "綠色"
+          },
+          {
+            "title": "橘色"
+          }
+        ],
+        "enabled": 1,
+        "weight": 1,
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2023-09-17T13:27:03.000Z",
+        "updated_time": "2023-09-17T13:27:03.000Z"
+      }
+    ],
     "packageList": [
       {
         "id": 579,
@@ -294,35 +323,6 @@
         "weight": 1,
         "created_time": "2023-09-24T08:11:10.000Z",
         "updated_time": "2023-09-24T08:18:15.000Z"
-      }
-    ],
-    "typeList": [
-      {
-        "id": 80,
-        "type": "text",
-        "title": "顏色",
-        "language": "hk",
-        "good_sort_key": "watches",
-        "good_key": "n9-ultra-pro",
-        "options": [
-          {
-            "title": "黑色"
-          },
-          {
-            "title": "白色"
-          },
-          {
-            "title": "綠色"
-          },
-          {
-            "title": "橘色"
-          }
-        ],
-        "enabled": 1,
-        "weight": 1,
-        "associate_good_key": "watches:n9-ultra-pro",
-        "created_time": "2023-09-17T13:27:03.000Z",
-        "updated_time": "2023-09-17T13:27:03.000Z"
       }
     ],
     "comboList": [
@@ -2148,6 +2148,7 @@
     "created_time": "2022-12-26T14:24:11.000Z",
     "updated_time": "2023-09-09T09:53:43.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 684,
@@ -2239,7 +2240,6 @@
         "updated_time": "2023-09-09T14:31:51.000Z"
       }
     ],
-    "typeList": [],
     "comboList": [
       {
         "id": 55,
@@ -3859,6 +3859,7 @@
     "created_time": "2022-12-26T14:24:26.000Z",
     "updated_time": "2023-09-09T09:53:48.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 689,
@@ -3932,7 +3933,6 @@
       }
     ],
     "mediaList": [],
-    "typeList": [],
     "comboList": [
       {
         "id": 65,
@@ -5612,6 +5612,7 @@
     "created_time": "2022-12-26T14:24:54.000Z",
     "updated_time": "2023-09-09T09:53:51.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 694,
@@ -5685,7 +5686,6 @@
       }
     ],
     "mediaList": [],
-    "typeList": [],
     "comboList": [
       {
         "id": 75,
@@ -7318,6 +7318,7 @@
     "created_time": "2022-12-26T14:25:04.000Z",
     "updated_time": "2023-09-09T09:53:53.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 699,
@@ -7419,7 +7420,6 @@
       }
     ],
     "mediaList": [],
-    "typeList": [],
     "comboList": [
       {
         "id": 85,
@@ -9099,9 +9099,9 @@
     "created_time": "2022-12-26T14:24:37.000Z",
     "updated_time": "2023-09-09T09:53:55.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [],
     "mediaList": [],
-    "typeList": [],
     "comboList": [],
     "funcionList": [],
     "associationsList": [],

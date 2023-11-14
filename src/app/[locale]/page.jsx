@@ -7,7 +7,7 @@ import getConfigList from "@/utils/getConfigList";
 import getLanguageList from "@/utils/getLanguageList";
 import getGoodSortList from "@/utils/getGoodSortList";
 
-import styles from "./page.module.less";
+import styles from "./page.module.scss";
 
 // 首页产品列表
 function ProductItem({

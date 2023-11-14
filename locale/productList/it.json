@@ -19,191 +19,6 @@
     "created_time": "2023-09-09T09:20:44.000Z",
     "updated_time": "2023-09-18T15:04:13.000Z",
     "associateProduct": [],
-    "packageList": [
-      {
-        "id": 645,
-        "type": "image",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": null,
-        "key": null,
-        "image": "https://image.sslfly.com/base/2023/9/17/609D062B6FFAEED9D2F90036827B388C/package_1.jpg",
-        "weight": 11,
-        "created_time": "2023-09-17T12:20:14.000Z",
-        "updated_time": "2023-09-17T15:03:10.000Z"
-      },
-      {
-        "id": 646,
-        "type": "image",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": null,
-        "key": null,
-        "image": "https://image.sslfly.com/base/2023/9/17/0D5F9CFC292FDD2053E19882BE7E3322/package_2.jpg",
-        "weight": 10,
-        "created_time": "2023-09-17T12:19:35.000Z",
-        "updated_time": "2023-09-17T15:03:15.000Z"
-      },
-      {
-        "id": 647,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Testa della macchina*1, cinturino dell'orologio*1, manuale*1, caricabatterie wireless*1",
-        "key": "lista imballaggio:",
-        "image": null,
-        "weight": 9,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 648,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Corpo in lega di zinco + fondello IML",
-        "key": "Materiale corporeo:",
-        "image": null,
-        "weight": 8,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 649,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Gel di silice",
-        "key": "Materiale del cinturino:",
-        "image": null,
-        "weight": 7,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 650,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "49 mm",
-        "key": "Dimensioni del prodotto (mm):",
-        "image": null,
-        "weight": 6,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 651,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "20,8 * 11,3 * 2,1 cm",
-        "key": "Dimensioni della scatola dei colori (mm):",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 652,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "100 pezzi/cartone\n59,5*43,5*24 cm",
-        "key": "Dimensioni scatola esterna (mm):",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 653,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "53 g",
-        "key": "Peso del prodotto (g):",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 654,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "205 g",
-        "key": "Peso del set completo (g):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 655,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "21,5 kg/cartone",
-        "key": "Peso scatola intera (kg):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      }
-    ],
-    "typeList": [
-      {
-        "id": 86,
-        "type": "text",
-        "title": "colore",
-        "language": "it",
-        "good_sort_key": "watches",
-        "good_key": "n9-ultra-pro",
-        "options": [
-          {
-            "title": "nero"
-          },
-          {
-            "title": "Bianco"
-          },
-          {
-            "title": "verde"
-          },
-          {
-            "title": "arancione"
-          }
-        ],
-        "enabled": 1,
-        "weight": 1,
-        "associate_good_key": "watches:n9-ultra-pro",
-        "created_time": "2023-09-17T13:27:03.000Z",
-        "updated_time": "2023-09-18T15:06:09.000Z"
-      }
-    ],
     "comboList": [
       {
         "id": 111,
@@ -1051,6 +866,191 @@
             "updated_time": "2023-10-27T17:28:49.000Z"
           }
         ]
+      }
+    ],
+    "typeList": [
+      {
+        "id": 86,
+        "type": "text",
+        "title": "colore",
+        "language": "it",
+        "good_sort_key": "watches",
+        "good_key": "n9-ultra-pro",
+        "options": [
+          {
+            "title": "nero"
+          },
+          {
+            "title": "Bianco"
+          },
+          {
+            "title": "verde"
+          },
+          {
+            "title": "arancione"
+          }
+        ],
+        "enabled": 1,
+        "weight": 1,
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2023-09-17T13:27:03.000Z",
+        "updated_time": "2023-09-18T15:06:09.000Z"
+      }
+    ],
+    "packageList": [
+      {
+        "id": 645,
+        "type": "image",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": null,
+        "key": null,
+        "image": "https://image.sslfly.com/base/2023/9/17/609D062B6FFAEED9D2F90036827B388C/package_1.jpg",
+        "weight": 11,
+        "created_time": "2023-09-17T12:20:14.000Z",
+        "updated_time": "2023-09-17T15:03:10.000Z"
+      },
+      {
+        "id": 646,
+        "type": "image",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": null,
+        "key": null,
+        "image": "https://image.sslfly.com/base/2023/9/17/0D5F9CFC292FDD2053E19882BE7E3322/package_2.jpg",
+        "weight": 10,
+        "created_time": "2023-09-17T12:19:35.000Z",
+        "updated_time": "2023-09-17T15:03:15.000Z"
+      },
+      {
+        "id": 647,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Testa della macchina*1, cinturino dell'orologio*1, manuale*1, caricabatterie wireless*1",
+        "key": "lista imballaggio:",
+        "image": null,
+        "weight": 9,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 648,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Corpo in lega di zinco + fondello IML",
+        "key": "Materiale corporeo:",
+        "image": null,
+        "weight": 8,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 649,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Gel di silice",
+        "key": "Materiale del cinturino:",
+        "image": null,
+        "weight": 7,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 650,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "49 mm",
+        "key": "Dimensioni del prodotto (mm):",
+        "image": null,
+        "weight": 6,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 651,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "20,8 * 11,3 * 2,1 cm",
+        "key": "Dimensioni della scatola dei colori (mm):",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 652,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "100 pezzi/cartone\n59,5*43,5*24 cm",
+        "key": "Dimensioni scatola esterna (mm):",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 653,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "53 g",
+        "key": "Peso del prodotto (g):",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 654,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "205 g",
+        "key": "Peso del set completo (g):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 655,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "21,5 kg/cartone",
+        "key": "Peso scatola intera (kg):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
       }
     ],
     "mediaList": [
@@ -2148,79 +2148,6 @@
     "created_time": "2022-12-26T14:24:11.000Z",
     "updated_time": "2023-09-09T09:55:10.000Z",
     "associateProduct": [],
-    "packageList": [
-      {
-        "id": 833,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Testa della macchina*1, cinturino dell'orologio*1, manuale*1, caricabatterie wireless*1",
-        "key": "lista imballaggio:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      },
-      {
-        "id": 834,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Corpo in lega di zinco + fondello IML",
-        "key": "Materiale corporeo:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      },
-      {
-        "id": 835,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Gel di silice",
-        "key": "Materiale del cinturino:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      },
-      {
-        "id": 836,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "210*106*25mm",
-        "key": "Dimensioni della scatola dei colori (mm):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      },
-      {
-        "id": 837,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "50 pezzi/cartone\n570*315*235mm",
-        "key": "Dimensioni scatola esterna (mm):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      }
-    ],
-    "typeList": [],
     "comboList": [
       {
         "id": 61,
@@ -3057,6 +2984,79 @@
         ]
       }
     ],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 833,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Testa della macchina*1, cinturino dell'orologio*1, manuale*1, caricabatterie wireless*1",
+        "key": "lista imballaggio:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      },
+      {
+        "id": 834,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Corpo in lega di zinco + fondello IML",
+        "key": "Materiale corporeo:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      },
+      {
+        "id": 835,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Gel di silice",
+        "key": "Materiale del cinturino:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      },
+      {
+        "id": 836,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "210*106*25mm",
+        "key": "Dimensioni della scatola dei colori (mm):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      },
+      {
+        "id": 837,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "50 pezzi/cartone\n570*315*235mm",
+        "key": "Dimensioni scatola esterna (mm):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      }
+    ],
     "mediaList": [
       {
         "id": 40,
@@ -3859,79 +3859,6 @@
     "created_time": "2022-12-26T14:24:26.000Z",
     "updated_time": "2023-09-09T09:55:15.000Z",
     "associateProduct": [],
-    "packageList": [
-      {
-        "id": 828,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": " Testa della macchina*1, cinturino dell'orologio*1, manuale*1, cavo di ricarica wireless*1",
-        "key": "lista imballaggio:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 829,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "Corpo in lega di zinco + fondello IML",
-        "key": "Materiale corporeo:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 830,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "Gel di silice ",
-        "key": "Materiale del cinturino:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 831,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "214x117x27mm",
-        "key": "Dimensioni della scatola dei colori (cm):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 832,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "50/scatola 62*45,5*18 cm",
-        "key": "Dimensioni scatola esterna (cm):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      }
-    ],
-    "typeList": [],
     "comboList": [
       {
         "id": 71,
@@ -4766,6 +4693,79 @@
             "updated_time": "2023-09-03T16:08:31.000Z"
           }
         ]
+      }
+    ],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 828,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": " Testa della macchina*1, cinturino dell'orologio*1, manuale*1, cavo di ricarica wireless*1",
+        "key": "lista imballaggio:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 829,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "Corpo in lega di zinco + fondello IML",
+        "key": "Materiale corporeo:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 830,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "Gel di silice ",
+        "key": "Materiale del cinturino:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 831,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "214x117x27mm",
+        "key": "Dimensioni della scatola dei colori (cm):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 832,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "50/scatola 62*45,5*18 cm",
+        "key": "Dimensioni scatola esterna (cm):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
       }
     ],
     "mediaList": [],
@@ -5612,79 +5612,6 @@
     "created_time": "2022-12-26T14:24:54.000Z",
     "updated_time": "2023-09-09T09:55:18.000Z",
     "associateProduct": [],
-    "packageList": [
-      {
-        "id": 823,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Testa della macchina*1, cinturino dell'orologio*1, manuale*1, caricabatterie wireless*1",
-        "key": "lista imballaggio:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 824,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Corpo in lega di zinco + fondello IML",
-        "key": "Materiale corporeo:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 825,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Gel di silice",
-        "key": "Materiale del cinturino:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 826,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:series8-mini",
-        "value": "196*108,5*22 mm",
-        "key": "Dimensioni della scatola dei colori (mm):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 827,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:series8-mini",
-        "value": "100 pezzi/cartone\n565*245*415mm",
-        "key": "Dimensioni scatola esterna (mm):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      }
-    ],
-    "typeList": [],
     "comboList": [
       {
         "id": 81,
@@ -6521,6 +6448,79 @@
         ]
       }
     ],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 823,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Testa della macchina*1, cinturino dell'orologio*1, manuale*1, caricabatterie wireless*1",
+        "key": "lista imballaggio:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 824,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Corpo in lega di zinco + fondello IML",
+        "key": "Materiale corporeo:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 825,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Gel di silice",
+        "key": "Materiale del cinturino:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 826,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:series8-mini",
+        "value": "196*108,5*22 mm",
+        "key": "Dimensioni della scatola dei colori (mm):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 827,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:series8-mini",
+        "value": "100 pezzi/cartone\n565*245*415mm",
+        "key": "Dimensioni scatola esterna (mm):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      }
+    ],
     "mediaList": [],
     "indexConfig": [
       {
@@ -7318,107 +7318,6 @@
     "created_time": "2022-12-26T14:25:04.000Z",
     "updated_time": "2023-09-09T09:55:20.000Z",
     "associateProduct": [],
-    "packageList": [
-      {
-        "id": 816,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ultra-max",
-        "value": " Testa della macchina*1, cinturino dell'orologio*1, manuale*1, cavo di ricarica wireless*1",
-        "key": "lista imballaggio:",
-        "image": null,
-        "weight": 7,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 817,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ultra-max",
-        "value": "Corpo in lega di zinco + fondello IML",
-        "key": "Materiale corporeo:",
-        "image": null,
-        "weight": 6,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 818,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ultra-max",
-        "value": "Gel di silice ",
-        "key": "Materiale del cinturino:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 819,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ultra-max",
-        "value": "215x117x26 mm",
-        "key": "Dimensioni della scatola dei colori (cm):",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 820,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ultra-max",
-        "value": "50/scatola 62*45,5*18 cm",
-        "key": "Dimensioni scatola esterna (cm):",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 821,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ultra-max",
-        "value": "294,2 g",
-        "key": "Peso del set completo (g):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 822,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ultra-max",
-        "value": "15,77 kg",
-        "key": "Peso scatola intera (kg):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      }
-    ],
-    "typeList": [],
     "comboList": [
       {
         "id": 91,
@@ -8253,6 +8152,107 @@
             "updated_time": "2023-09-03T15:59:03.000Z"
           }
         ]
+      }
+    ],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 816,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ultra-max",
+        "value": " Testa della macchina*1, cinturino dell'orologio*1, manuale*1, cavo di ricarica wireless*1",
+        "key": "lista imballaggio:",
+        "image": null,
+        "weight": 7,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 817,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ultra-max",
+        "value": "Corpo in lega di zinco + fondello IML",
+        "key": "Materiale corporeo:",
+        "image": null,
+        "weight": 6,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 818,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ultra-max",
+        "value": "Gel di silice ",
+        "key": "Materiale del cinturino:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 819,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ultra-max",
+        "value": "215x117x26 mm",
+        "key": "Dimensioni della scatola dei colori (cm):",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 820,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ultra-max",
+        "value": "50/scatola 62*45,5*18 cm",
+        "key": "Dimensioni scatola esterna (cm):",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 821,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ultra-max",
+        "value": "294,2 g",
+        "key": "Peso del set completo (g):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 822,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ultra-max",
+        "value": "15,77 kg",
+        "key": "Peso scatola intera (kg):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
       }
     ],
     "mediaList": [],
@@ -9099,9 +9099,9 @@
     "created_time": "2022-12-26T14:24:37.000Z",
     "updated_time": "2023-09-09T09:55:23.000Z",
     "associateProduct": [],
-    "packageList": [],
-    "typeList": [],
     "comboList": [],
+    "typeList": [],
+    "packageList": [],
     "mediaList": [],
     "indexConfig": [
       {

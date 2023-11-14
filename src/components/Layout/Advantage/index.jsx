@@ -1,4 +1,4 @@
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export default function Advantage({ CONFIG, LANG }) {
   return (

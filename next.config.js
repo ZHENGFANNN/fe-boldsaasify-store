@@ -1,8 +1,6 @@
 const path = require("path");
 const withLess = require("next-plugin-antd-less");
 
-const isProd = process.env.NODE_ENV === "production";
-
 const nextConfig = {
   // 构建ID
   generateBuildId: () => {
@@ -27,4 +25,4 @@ const nextConfig = {
     return config;
   },
 };
-module.exports = withLess(nextConfig);
+module.exports = nextConfig;

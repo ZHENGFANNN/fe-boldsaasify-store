@@ -1,5 +1,5 @@
 "use client";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 import CountryList from "@/components/CountrySelect";
 

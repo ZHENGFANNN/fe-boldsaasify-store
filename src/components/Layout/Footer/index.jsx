@@ -4,7 +4,7 @@
  * 存在安全性问题（表单提交，提交订阅）
  */
 
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import React from "react";
 import TipModal from "@/components/Modal/FunctionTipModal";
 import { ISEMAIL } from "@/utils/pattern";

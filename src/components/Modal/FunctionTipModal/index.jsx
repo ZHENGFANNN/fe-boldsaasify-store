@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import GlobalContext from "@/context";
 // 临时功能
 function TipModal({ LANG }, ref) {
