@@ -1,0 +1,231 @@
+{
+  "www.index.kv_description": "심플한 디자인, 패션 취향을 보여주는",
+  "www.index.kv_title": "N9 ULTRA PRO",
+  "www.index.kv_link": "/store/product/watches/n9-ultra-pro",
+  "www.index.imgs": [
+    {
+      "id": "8872",
+      "title": "Ultra Max",
+      "src": "https://image.sslfly.com/base/2023/4/2/5E8A9B0D2847B8F82E9F5C0416753BFD/UltraMax.png",
+      "description": "다양한 요구를 충족시키는 다기능 테이블",
+      "href": "/store/product/watches/ultra-max"
+    },
+    {
+      "id": "9291",
+      "title": "Series8 mini",
+      "src": "https://image.sslfly.com/base/2023/4/2/854DE4949F8112D1A1E5606AD60F77B0/Series8-mini.png",
+      "description": "생산성 향상을 위한 손목 도우미",
+      "href": "/store/product/watches/series8-mini"
+    },
+    {
+      "id": "4463",
+      "title": "K8 UltraMax",
+      "src": "https://image.sslfly.com/base/2023/4/2/4FE111328161F80858C0E98BB200ECDD/K8UltraMax.png",
+      "description": "장인의 아름다움, 독창성의 정신을 보여주는",
+      "href": "/store/product/watches/k8-ultra-max"
+    },
+    {
+      "id": "9749",
+      "title": "IP8 ULTRA",
+      "src": "https://image.sslfly.com/base/2023/4/2/65A0959AE2D563388682D2923D8D8D02/IP8-ULTRA.png",
+      "description": "패션 트렌드, 쇼 개인 패션 태도",
+      "href": "/store/product/watches/ip8-ultra"
+    }
+  ],
+  "company.basic.work_phone": "+86 18903011871",
+  "company.social_media.index": [
+    {
+      "id": "8922",
+      "alt": "facebook",
+      "src": "https://image.sslfly.com/icon/social-facebook.svg",
+      "href": "https://facebook.com/sslfly"
+    },
+    {
+      "id": "461",
+      "alt": "ins",
+      "src": "https://image.sslfly.com/icon/social-ins.svg",
+      "href": "https://www.instagram.com/flytrade.ccit/"
+    },
+    {
+      "id": "2450",
+      "alt": "youtube",
+      "src": "https://image.sslfly.com/icon/social-youtube.svg",
+      "href": "https://www.youtube.com/channel/UCt5ZCtHFH5dvgYzSxGWkdRw"
+    },
+    {
+      "id": "7684",
+      "alt": "whatsapp",
+      "src": "https://image.sslfly.com/icon/social-whatsapp.svg",
+      "href": "https://wa.me/message/6I4UDKG45SK4I1"
+    },
+    {
+      "id": "6318",
+      "alt": "linkedin",
+      "src": "https://image.sslfly.com/icon/social-linkedin.svg",
+      "href": ""
+    },
+    {
+      "id": "466",
+      "alt": "twitter",
+      "src": "https://image.sslfly.com/icon/social-twitter.svg",
+      "href": ""
+    },
+    {
+      "id": "4583",
+      "alt": "tiktok",
+      "src": "https://image.sslfly.com/icon/social-tiktok.svg",
+      "href": ""
+    }
+  ],
+  "company.basic.website_beian": null,
+  "www.protocol.policy.content": "<h2 style=\"line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 24px; font-family: Verdana;\">1. Information Collection</span></h2><p style=\"line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">When you visit our website, we may collect the following information:</span></p><p style=\"line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">Personal information you provide, such as your name, email address, phone number, etc.;</span></p><p style=\"line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">Information automatically collected through cookies and other technologies, such as your IP address, browser type, access time and date, type of device used, etc.</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\"><em><strong>We use this information to:</strong></em></span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(1)Respond to your inquiries;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(2)Provide you with requested services;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(3)Process orders and payments;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(4)Send updates and promotional information;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(5)Improve our website and services;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(6)Provide you with personalized experiences.</span></p><p style=\"line-height: 2;\"><br></p><h2 style=\"line-height: 2.5;\"><span style=\"color: rgb(0, 0, 0); font-size: 24px; font-family: Verdana;\">2. Information Sharing</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">We may share your personal information with the following third parties:</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(1)We may share your personal information with the following third parties:</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(2)Vendors and service providers who support and provide services to us;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(3)Legal, regulatory, law enforcement, and government agencies who need to protect our rights, property, or safety.</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px; font-family: Verdana;\">*We promise not to sell, exchange, or rent your information. We will take appropriate measures to ensure the security of the third party receiving your personal information.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"color: rgb(0, 0, 0); font-size: 24px; font-family: Verdana;\">3. Data Storage and Security </span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">We will take reasonable measures to protect your personal information, including:</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(1)Using technologies such as password protection, data encryption, physical and electronic access controls to protect your personal information;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(2)Storing your personal information on servers and taking necessary security measures to prevent unauthorized access, use, modification, disclosure, or destruction;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(3)Regularly reviewing and updating our security measures to ensure their effectiveness.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"color: rgb(0, 0, 0); font-size: 24px; font-family: Verdana;\">4. Cookies and Other Technologies</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">We may use cookies and other technologies to enhance your browsing experience. For example, we use cookies to:</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(1)Remember your login information;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(2)Save your shopping cart information;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(3)Identify your preferences and interests;</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">(4)Collect statistical information about website usage.</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px; font-family: Verdana;\">*You can refuse cookies by setting your browser preferences, but this may affect your browsing experience.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"color: rgb(0, 0, 0); font-size: 24px; font-family: Verdana;\">5. Privacy Access and Correction</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">You may access and correct your personal information at any time. If you wish to access or correct your information, please contact us through our contact information.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"color: rgb(0, 0, 0); font-size: 24px; font-family: Verdana;\">6. Privacy Policy Changes</span></h2><p style=\"line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\">We may update this privacy policy periodically. We will post any changes on our website, and you will be deemed to have accepted the updated privacy policy.</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(0, 0, 0); font-size: 14px; font-family: Verdana;\"><br></span></p><p><br></p>",
+  "www.protocol.policy.title": "Privacy Policy",
+  "company.basic.company_name": "Flytrade",
+  "www.protocol.service.content": "<p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Welcome to use Flytrade, a service provided by Shenzhen Qifeifan Technology Co., Ltd. (hereinafter referred to as \"Flytrade\"). This User Service Agreement (hereinafter referred to as \"Agreement\") is a legal agreement between you and Flytrade. Please read this Agreement carefully before using Flytrade service. By using Flytrade service, you agree to be bound by this Agreement. If you do not agree to be bound by this Agreement, please do not use Flytrade service.</span></p><p style=\"line-height: 2;\"><br></p><h2 style=\"line-height: 2.5;\"><span style=\"font-size: 24px; font-family: Verdana;\">1. Service Content</span></h2><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Flytrade is an online trading platform that provides users with product information, transaction services, and other related services. Users can use Flytrade to browse product information, communicate with suppliers, place orders, and make payments.</span></p><p style=\"line-height: 2;\"><br></p><h2 style=\"line-height: 2.5;\"><span style=\"font-size: 24px; font-family: Verdana;\">2. User Qualifications</span></h2><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Users of Flytrade must be individuals or legal entities with full capacity for civil conduct. If you do not have full capacity for civil conduct, please do not use Flytrade service.</span></p><p style=\"line-height: 2;\"><br></p><h2 style=\"line-height: 2.5;\"><span style=\"font-size: 24px; font-family: Verdana;\">3. User Registration</span></h2><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">To use Flytrade service, users need to complete the registration process and obtain a Flytrade account. Users should provide accurate and complete information during the registration process. Users are responsible for maintaining the security of their account information and passwords. Flytrade will not be responsible for any losses caused by users' failure to keep their account information and passwords secure.</span></p><p style=\"line-height: 2;\"><br></p><h2 style=\"line-height: 2.5;\"><span style=\"font-size: 24px; font-family: Verdana;\">4. User Behavior</span></h2><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Users shall use Flytrade service in compliance with laws, regulations, and this Agreement. Users shall not engage in any behavior that violates the legitimate rights and interests of others, infringes intellectual property rights, or violates laws and regulations. Users shall not use Flytrade service to engage in any illegal or fraudulent activities.</span></p><p style=\"line-height: 2;\"><br></p><h2 style=\"line-height: 2.5;\"><span style=\"font-size: 24px; font-family: Verdana;\">5. Service Interruption and Termination</span></h2><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Flytrade may suspend or terminate Flytrade service in whole or in part at any time for any reason, with or without notice to users. Flytrade shall not be liable to users or any third party for any damages arising from the suspension or termination of Flytrade service.</span></p><p style=\"line-height: 2;\"><br></p><h2 style=\"line-height: 2.5;\"><span style=\"font-size: 24px; font-family: Verdana;\">6. Disclaimer</span></h2><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(1) Users understand and agree that Flytrade will not be responsible for any service interruption or user data loss caused by force majeure or other uncontrollable reasons.</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(2) Users understand and agree that Flytrade will not be responsible for any indirect, special, incidental, or consequential losses caused by users' use of Flytrade service, including but not limited to loss of profits, business reputation, and business opportunities.</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(3) Flytrade makes no express or implied warranties with respect to the services provided by Flytrade, including but not limited to the applicability, accuracy, timeliness, security, completeness, confidentiality, etc. of the services.</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(4) Agreement Modification</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(5) Flytrade has the right to modify the terms of this Agreement based on actual situations. Once this Agreement is modified, Flytrade will publish the latest Agreement terms on its website, and users should check them regularly.</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(6) If users do not agree with the modifications made by Flytrade to the Agreement terms, they should stop using Flytrade service. If users continue to use Flytrade service, they will be deemed to have accepted the modifications made to the Agreement terms.</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(7) Governing Law and Dispute Resolution</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(8) The formation, performance, and interpretation of this Agreement shall be governed by the laws of the People's Republic of China.</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">(9) &nbsp;Any dispute arising from this Agreement shall be resolved through friendly consultation. If consultation fails, either party may bring a lawsuit to the court with jurisdiction.</span></p><p style=\"line-height: 2;\"><br></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Contact Information of Flytrade:</span></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Company Name: Shenzhen Qifeifan Technology Co., Ltd.</span></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">English Name: Flytrade</span></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Address: LongHua District, Shenzhen City, Guangdong Province, China</span></p><p style=\"line-height: 2;\"><span style=\"font-size: 14px; font-family: Verdana;\">Email: info@sslfly.com</span></p>",
+  "www.protocol.service.title": "User Service Agreement",
+  "www.protocol.faq": [
+    {
+      "id": "6396",
+      "question": "우리를 어디?",
+      "answer": "우리는 두바이에 본사를 두고 있으며 전 세계적으로 스마트 시계 서비스를 제공하기 위해 광저우와 심천에 본사 주소를 두고 있습니다. 오셔서 방문하셔야 하는 경우 ccit.flytrade@gmail.com으로 이메일을 보내주시기 바랍니다."
+    },
+    {
+      "id": "2031",
+      "question": "주문하는 방법?",
+      "answer": "저희 웹사이트는 아직 초기 개발 단계에 있으며 당분간 웹사이트 결제를 지원하지 않습니다. 저희 개발팀은 열심히 개발하고 있으며, 향후 웹사이트 결제를 지원할 예정입니다. 주문이 필요한 경우 영업 관리자에게 문의하십시오. 영업 팀은 항상 서비스를 제공합니다."
+    },
+    {
+      "id": "7836",
+      "question": "회원가입, 로그인, 비밀번호 변경은 어떻게 하나요?",
+      "answer": "어떻게 등록하나요?\n홈페이지 우측 상단의 \"사용자 아이콘\" 아이콘을 클릭합니다.\n이메일 주소와 비밀번호를 포함한 개인 정보를 입력합니다.\n서비스 약관 및 개인 정보 보호 정책을 읽고 동의하십시오.\n\"등록\" 버튼을 클릭합니다.\n\n로그인하는 방법?\n홈페이지에서 \"로그인\" 버튼을 클릭합니다.\n이메일 주소와 비밀번호를 입력하세요.\n\"로그인\" 버튼을 클릭합니다.\n\n비밀번호는 어떻게 변경하나요?\n로그인 후 \"내 계정\" 페이지로 이동합니다.\n\"비밀번호 변경\" 버튼을 클릭합니다.\n현재 비밀번호와 새 비밀번호를 입력하고 새 비밀번호를 확인합니다.\n\"비밀번호 변경\" 버튼을 클릭하여 변경 사항을 저장하십시오."
+    },
+    {
+      "id": "7098",
+      "question": "사이트 약관, 문의처, 파트너십 기회에 대한 질문이 있으십니까?",
+      "answer": "사이트 약관 정보:\n당사 웹 사이트의 \"개인 정보 보호 정책 및 사용자 서비스 계약\" 페이지를 방문하십시오.\n\n저희에게 연락하십시오:\n도움이 필요하거나 질문이 있는 경우 당사 웹사이트 연락처 페이지(ccit.flytrade@gmail.com)를 통해 문의하십시오. 고객 지원팀이 가능한 한 빨리 귀하의 이메일에 응답할 것입니다.\n\n협력 기회 정보:\n저희 사업과 관련된 협력 기회가 있으시면 저희 웹사이트 연락처 페이지(ccit.flytrade@gmail.com)를 통해 연락해 주십시오. 우리는 가능한 한 빨리 귀하의 이메일에 회신하고 귀하에게 서비스를 제공할 수 있는 모든 리소스를 제공하며 귀하와 협력 문제를 논의할 것입니다."
+    },
+    {
+      "id": "711",
+      "question": "질문을 제출하는 방법, 고객 지원에 연락하는 방법 및 관련 솔루션은 무엇입니까?",
+      "answer": "저희 웹사이트 연락처 페이지(ccit.flytrade@gmail.com)를 통해 문의하실 수 있습니다. 발생한 문제를 가능한 한 자세히 설명해주시면 고객 지원팀이 최대한 빨리 이메일에 회신하여 관련 솔루션을 제공할 것입니다.\n\n고객 지원에 어떻게 연락합니까?\n\n도움이 필요하거나 질문이 있는 경우 당사 웹사이트 연락처 페이지(ccit.flytrade@gmail.com)를 통해 문의하십시오. 고객 지원팀이 가능한 한 빨리 귀하의 이메일에 회신하고 관련 솔루션을 제공할 것입니다.\n\n관련 솔루션?\n\n고객 지원팀은 귀하의 질문에 따라 관련 솔루션을 제공하고 지원 및 지원을 제공합니다. 또한 문제를 더 빨리 해결할 수 있도록 웹 사이트 FAQ에서 몇 가지 일반적인 문제와 솔루션을 제공합니다."
+    }
+  ],
+  "company.basic.recruitment": "recruitment@sslfly.com",
+  "company.basic.customer_service": "info@sslfly.com",
+  "company.basic.work_location": "심천 푸톈구 화창북로 1019호 화창광장, 화항 커뮤니티, 화창북로 1019호, 화창광장 블록 C, 선전시 푸톈구",
+  "company.basic.work_time": "Mon-Fri 7:00-17:00 (PST)",
+  "www.cooperate.common_title": "파트너 포털",
+  "www.cooperate.common_sub_title": "개방, 협력 및 상생",
+  "www.cooperate.common_description": "CCIT.Flytrade는 두바이에 본사를 두고 광저우와 심천에 지사를 둔 스마트 시계 제품의 연구 개발에 주력하는 기업입니다. Flytrade는 스포츠 및 건강, 생활 및 레저와 같은 여러 시나리오를 다루고 사용자를 위한 우수한 스마트 워치 경험을 만드는 고품질 스마트 워치 제품 및 서비스를 전 세계 소비자에게 제공하기 위해 최선을 다하고 있습니다.\n\n업계 리더인 CCIT.Flytrade는 스마트 시계 기술에 대한 광범위한 경험과 전문 지식을 보유하고 있으며 사용자에게 완전한 스마트 시계 경험을 제공하기 위해 고성능, 고품질 제품 및 솔루션을 제공하기 위해 최선을 다하고 있습니다. 동시에 CCIT.Flytrade는 상생 협력의 개념을 유지하고 스마트 시계 산업의 발전을 공동으로 촉진하고 더 나은 미래를 만들기 위해 전 세계 파트너와 협력할 의향이 있습니다.",
+  "www.cooperate.technology_img": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg",
+  "www.cooperate.market_img": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg",
+  "www.cooperate.supplier_img": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg",
+  "www.cooperate.technology_connect": "cooperation@sslfly.com",
+  "www.cooperate.market_connect": "cooperation@sslfly.com",
+  "www.cooperate.supplier_connect": "cooperation@sslfly.com",
+  "www.cooperate.technology_content_description": "1. 사용자가 시계를 통해 건강 모니터링, 운동 기록, 소셜 채팅 및 기타 작업을 수행할 수 있도록 스마트 시계용 애플리케이션을 개발합니다.\n2. 사용자가 플랫폼에서 시계 제품을 검색하고 구매하고 온라인 결제 작업을 수행할 수 있도록 시계용 전자 상거래 플랫폼을 구축합니다.\n3. 시계 생산, 판매, 재고 등 관련 데이터 관리를 위한 시계 제품 데이터 관리 시스템 구축\n4. 네트워크, 서버, 스토리지 및 기타 장비를 포함한 회사의 기존 인프라를 업그레이드하고 유지합니다.",
+  "www.cooperate.market_content_description": "1. 제품 판촉 및 마케팅을 위해 다른 시계 브랜드와 파트너십을 구축합니다.\n2. 전자 상거래 플랫폼과 협력하여 제품 노출 및 판매를 늘리기 위해 시계 제품의 판매 활동을 수행합니다.\n3. 패션매체, SNS, 블로그 등과 협력하여 브랜드 인지도 및 노출도를 높인다.\n4. 시계 전시회, 패션 이벤트 및 기타 관련 산업 활동에 참여하여 브랜드 영향력과 인지도를 높입니다.",
+  "www.cooperate.technology_require_description": "1. 관련 응용 프로그램 설계 및 개발 경험을 보유하고 스마트 시계 운영 체제에 익숙하며 시계의 하드웨어 특성에 따라 최적화할 수 있으며 응용 프로그램의 안정성과 성능을 보장합니다.\n2. 관련 전자 상거래 플랫폼 설계 및 개발 경험을 보유하고 플랫폼의 보안 및 안정성을 보장하기 위해 회사의 비즈니스 요구에 따라 맞춤형 개발을 수행할 수 있습니다.\n3. 관련 데이터 관리 시스템 설계 및 개발 경험을 보유하고 시스템의 보안 및 안정성을 보장하기 위해 회사의 비즈니스 요구에 따라 맞춤형 개발을 수행할 수 있습니다.\n4. 관련 인프라 업그레이드 및 유지 보수 경험을 보유하고 장비 고장에 신속하게 대응하고 해결할 수 있으며 회사 비즈니스의 정상적인 운영을 보장합니다.",
+  "www.cooperate.market_require_description": "1. 마케팅 및 프로모션 경험이 있고 시계 산업 및 시장을 이해합니다.\n2. 다른 브랜드 및 전자 상거래 플랫폼과의 커뮤니케이션 및 협상 능력\n3. 패션매체, SNS, 블로그 등을 통한 원활한 인간관계 및 협력관계 구축이 가능하신 분\n4. 강력한 조직 및 조정 기술을 보유하고 관련 산업 활동을 조직하고 참여할 수 있습니다.\n5. 일정 수준의 영어 실력을 보유하고 국경을 초월한 협력 및 커뮤니케이션을 수행할 수 있습니다.",
+  "www.cooperate.supplier_content_description": "1. 공급업체 배경: 회사 규모, 제품 라인, 품질 관리 시스템, 생산 능력 및 기타 정보를 포함하여 공급업체의 회사 배경을 소개합니다.\n2. 제품 카테고리: 남성용 및 여성용 시계, 기계식 시계, 전자 시계, 스포츠 시계 등과 같이 필요한 시계의 종류와 스타일을 지정합니다.\n3. 제품 품질: 외관, 재질, 장인 정신, 기능 등을 포함하여 시계의 품질 요구 사항을 자세히 설명합니다.\n4. 브랜드 협력: 브랜드 협력이 필요한 경우 공급업체는 해당 브랜드 승인 및 마케팅 지원을 제공해야 합니다.",
+  "www.cooperate.supplier_require_description": "1. 가격 요구 사항: 합리적인 가격 범위를 결정하고 공급업체가 경쟁력 있는 견적을 제공하도록 요구합니다.\n2. 공급 주기: 공급의 적시성과 연속성을 보장하기 위해 공급자의 공급 주기와 안정성을 결정합니다.\n3. 고객 서비스: 공급업체는 사전 판매, 판매, 애프터 서비스, 수리 및 유지 보수 지원을 포함한 완벽한 고객 서비스 시스템을 제공해야 합니다.\n4. 계약 조건: 협력 의사를 확인한 후 공급 계약에 서명하여 양 당사자의 권리와 의무, 계약 위반에 대한 책임 및 해결 방법을 명확히 합니다.",
+  "company.sales_channels.index": [
+    {
+      "id": "6197",
+      "title": " Official Store",
+      "src": "https://image.sslfly.com/icon/min-store-black.svg",
+      "href": "/store"
+    },
+    {
+      "id": "6361",
+      "title": "Amazon",
+      "src": "https://image.sslfly.com/icon/nav-amazon.svg",
+      "href": ""
+    }
+  ],
+  "www.company.video_src": "https://video.sslfly.com/base/2023/4/8/054E707E0F994D1B66517281C207D635/compay_video_compress.mp4",
+  "www.company.video_poster": "https://image.sslfly.com/base/2023/4/8/4AAD2EF2399231E9B03BD2DE6E67E1ED/compay_video_compress-00-00-00-000.jpg",
+  "www.company.video_title": "Flytrade",
+  "www.company.video_description": "Flytrade는 사용자 중심적이고 사용자에게 고품질 서비스와 제품을 제공하기 위해 노력하는 역동적이고 혁신적인 기업입니다. Flytrade는 가까운 미래에 훌륭한 회사가 될 것이며 더 우수한 제품을 개발하여 사용자에게 더 많은 가치를 제공할 것이라고 믿습니다!",
+  "www.company.contact_img": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg",
+  "company.basic.company_introduce": "2020년, 대학생 기업가로서 우리는 &quot;Fly Zhuke&quot; 프로젝트(WeChat 애플릿)를 설립하여 학교에서 학생들에게 더 나은 서비스를 제공하고, 도움이 필요한 학생들이 문제를 해결하도록 돕고, 가난한 학생들에게 돈을 벌 수 있는 기회를 제공합니다. 이 프로젝트는 우리 팀에 많은 트래픽과 이점을 가져왔습니다. 그 후, 우리는 공식적으로 Qifeifan Technology Co., Ltd.를 설립했습니다. 2021년에는 더 나아가 CCIT 브랜드와 협력하고 대외 무역로를 개척하고 &quot;Flytrade&quot; 프로젝트를 만들고 자체 제품 개발을 시작하기로 결정할 것입니다. 탐구와 혁신의 길에서 우리는 절대 멈추지 않습니다!",
+  "company.basic.company_mission": "사용자를 위한 훌륭한 제품 만들기\n직원들에게 즐겁고 진취적인 근무 분위기 조성\n협력사 상호신뢰 및 상생협력 플랫폼 구축\n주주에게 장기적이고 안정적인 수익 제공",
+  "company.basic.company_vision": "우리의 추구는 지속적인 개발과 건강에 대한 헌신으로 세계를 선도하는 기업이 되는 것입니다.",
+  "company.basic.company_core": "사용자 중심으로, 디자인 주도의 혁신을 추진하며, 지속적으로 배우고 발전하다",
+  "company.main_members.index": [
+    {
+      "id": "8514",
+      "name": "정 팬",
+      "src": "https://image.sslfly.com/base/2023/4/8/DC14FEDF8F063D1D3257FB72709D2E51/ZhengFan.jpg",
+      "position": "최고 경영자",
+      "responsibility": "회사의 성공 또는 실패에 대해 책임을 집니다. 회사의 모든 업무, 마케팅, 전략, 재무, 기업문화 조성, 인사, 채용, 해고 및 안전수칙 준수, 영업, 홍보 등",
+      "introduction": "Zheng Fan 씨는 Flytrade의 뛰어난 창립자 중 한 명이며 공동 창립자이자 이사회 의장입니다. 풍부한 경험과 뛰어난 경영능력을 보유하고 있으며, 오랫동안 대형항공사들과 긴밀한 경력을 쌓았습니다. 비전 있는 전략적 사고와 세계 최대 기업 구조에서 축적된 광범위한 경험을 통해 그는 Flytrade를 만드는 과정에서 탁월함을 달성했습니다. Zheng Fan 씨는 최신 기술, 스포츠 및 자동차를 사랑하고 위대한 사람들에게서 영감을 얻고 결코 포기하지 않습니다.그는 결단력과 시간이 있는 한 인생의 어떤 목표도 달성할 수 있다고 굳게 믿습니다."
+    }
+  ],
+  "company.company_history.index": [
+    {
+      "id": "7040",
+      "title": "세트 항해",
+      "description": "우리 대학생 몇 명이 공동으로 Shenzhen Qifan Technology Co., Ltd.를 설립하여 캠퍼스에서 학생들에게 더 나은 서비스를 제공하고 문제를 해결하며 돈을 벌 필요가 있는 학생들에게 기회를 제공하는 것을 목표로 합니다. 우리의 목표는 사업을 시작하여 진정한 도움과 변화를 가져오는 것입니다.",
+      "year": "2021/07",
+      "src": "https://image.sslfly.com/base/2023/4/8/B2303CA73E4F5EE719469F63D87588FD/qifan.jpg"
+    },
+    {
+      "id": "9545",
+      "title": "캠퍼스 프로젝트",
+      "description": "선구적인 캠퍼스 기업가로서 우리는 \"Fly Zhuke\" WeChat 미니 프로그램 및 캠퍼스 포럼을 만들어 학생들에게 더 나은 서비스와 소득 창출 기회를 제공하고 학생들 간의 소통과 협력을 촉진합니다. 우리의 노력은 결실을 맺었고 학교의 명성은 빠르게 퍼졌습니다.",
+      "year": "2021/09",
+      "src": "https://image.sslfly.com/base/2023/4/8/CC45BAA497B997AC2FED7C95DE0D9270/FlyZHUKE_Logo.jpg"
+    },
+    {
+      "id": "9702",
+      "title": "기술 개발",
+      "description": "회사의 꾸준하고 빠른 발전을 위하여 프론트엔드 디스플레이 시스템(공식홈페이지,몰), 백엔드관리시스템, ERP관리시스템, 권한관리시스템, 프론트엔드 등 신규 사업시스템 개발에 매진하고 있습니다. 업무를 효율적으로 관리하고 발전시키기 위한 구성 시스템 등",
+      "year": "2022/06",
+      "src": "https://image.sslfly.com/base/2023/4/8/DBFFEB509498884ECA0CC26A4A1C437B/CCIT_core.jpg"
+    },
+    {
+      "id": "2981",
+      "title": "CCIT.플라이트레이드",
+      "description": "우리는 성숙한 대외 무역 시스템을 성공적으로 개발했으며 신제품 개발을 위해 시장에 진입했습니다. CCIT와 협력하여 CCIT.Flytrade 프로젝트(Flytrade)를 만들고, 시장에 더 높은 품질의 제품을 제공하기 위해 시계를 추가로 개발 및 판매했습니다.",
+      "year": "2023/03",
+      "src": "https://image.sslfly.com/base/2023/4/8/4751D9F73971C1AC3BF7E6FFB573DC76/Flytrade_Logo.jpg"
+    }
+  ],
+  "company.basic.logo": "https://image.sslfly.com/base/2023/5/28/8DC3C1B57E0CD6470BC414ABCAEF39D7/logo.svg",
+  "store.index.banner": [
+    {
+      "id": "423",
+      "isDark": false,
+      "title": "N9 울트라 프로",
+      "sub_title": "새로운 스마트 시계",
+      "description": "다양한 요구에 부응하는 다기능 시계",
+      "href": "/store/product/watches/n9-ultra-pro",
+      "pc_image": "https://image.sslfly.com/base/2023/8/8/A1D946562DB0981EA117E93AC3D37169/ceshi.jpg",
+      "ipad_image": "https://image.sslfly.com/base/2023/8/8/BE4B6CA248017CB0D7650EE0F40744E3/store-kv-ipad.jpg",
+      "mob_image": "https://image.sslfly.com/base/2023/8/8/FFFAF4D51721586B2C8871FFA0BF721A/store-kv-mob.jpg"
+    },
+    {
+      "id": "6421",
+      "isDark": true,
+      "title": "울트라맥스",
+      "sub_title": "최고의 스마트 시계",
+      "description": "다양한 다이얼을 원하는 대로 매치하세요",
+      "href": "/store/product/watches/ultra-max",
+      "pc_image": "https://image.sslfly.com/base/2023/8/13/C6FC78742AE2E20FAA29B85264BD3853/store-kv-pv.jpg",
+      "ipad_image": "https://image.sslfly.com/base/2023/8/13/6873E4EFE285A27E5164411DFD9CDE0B/store-kv2-ipad.jpg",
+      "mob_image": "https://image.sslfly.com/base/2023/8/13/C82FA3354DA19E5F3FC8CDBAEBA0EE3E/store-kv2-mob.jpg"
+    }
+  ],
+  "pay.transfer.name": "",
+  "company.basic.order_service": "pay@sslfly.com",
+  "pay.transfer.info": "",
+  "pay.transfer.location": "",
+  "www.protocol.sales.content": "<h2 style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 22px;\">Welcome to the official website of Flytrade!</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">Here, we provide you with high-quality products and excellent service. Please read the following sales policy carefully before making a purchase:</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">1. </span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>Orders and Payments: </strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">Placing an order on our website signifies your agreement to purchase the selected products. We strive to ensure accurate product information on our website, but we reserve the right to correct errors and cancel orders if necessary.We accept various payment methods, including credit cards, debit cards, Alipay, and other international payment methods. You can choose your preferred payment method at the checkout page.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">2. </span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>Prices and Currencies: </strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">All product prices are subject to market adjustments. We support other major currencies such as US Dollars (USD), Euros (EUR), and more. You can select your desired currency at the checkout page.Please note that currency exchange rates may cause slight variations between the displayed price and the final price.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">3. </span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>Shipping and Delivery: </strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">We strive to process and ship your order as soon as possible after receiving payment. The delivery time depends on your location and the chosen shipping method.Shipping fees are calculated based on the weight, dimensions, and destination of the order and will be displayed at the checkout page. Please note that international shipping may incur additional customs duties and taxes, which are the responsibility of the buyer.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">4.</span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong> Returns and Refunds: </strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">If you encounter any quality issues with the received products, please contact us within 7 working days after receiving the goods. We will do our best to resolve the issue and provide return or refund services.When returning a product, it must be in its original condition and accompanied by complete packaging and accessories. Refunds will be processed upon confirmation of receiving the returned item and conducting an inspection.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">5. </span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>Privacy Protection: </strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">We highly value the protection of your personal information. When using our website, we employ appropriate security measures to safeguard your information and only use it when necessary.Please refer to our Privacy Policy for more information on how we collect, use, and protect your personal information.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">If you have any questions or need further assistance regarding the above sales policy, please feel free to contact us via the following means:</span></p><ul><li style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">Email: </span><a href=\"mailto:info@sslfly.com\" target=\"_blank\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">info@sslfly.com</span></a></li><li style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">Phone: +86 18903011871</span></li></ul><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">Thank you for choosing Flytrade! We look forward to providing you with outstanding products and services.</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">Please note that the above sales policy may be subject to adjustments and updates as needed. The latest version of the sales policy will always be published on our website.</span></p>",
+  "www.protocol.sales.title": "Sales Policy",
+  "www.index.kv_img_pc": "https://image.sslfly.com/base/2023/4/2/59754D0F22B8508689029DCB0B484887/8Ultra-mini.jpg",
+  "www.index.kv_img_ipad": "https://image.sslfly.com/base/2023/4/2/59754D0F22B8508689029DCB0B484887/8Ultra-mini.jpg",
+  "www.index.kv_img_mob": "https://image.sslfly.com/base/2023/8/11/D9B39C5AE7449CCE93AE8BFCECE45F97/kv-index.mob.jpeg",
+  "www.index.about_us_img_mob": "https://image.sslfly.com/base/2023/8/14/BA1B5E8DC4A46E561DF5C2E3099D38D9/contact_us_mob.jpg",
+  "www.index.about_us_img_pc": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg"
+}

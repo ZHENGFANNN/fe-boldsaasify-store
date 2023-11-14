@@ -1,0 +1,119 @@
+.container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 48px;
+  z-index: 9999;
+
+  .show_content {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    height: 100%;
+  }
+
+  .list_container {
+    position: absolute;
+    white-space: nowrap;
+    right: 0;
+    z-index: 9;
+
+    background: #fff;
+    border: 0.5px solid #e1e3e6;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px -12px rgb(75 77 80 / 19%), 0 6px 14px -12px rgb(75 77 80 / 22%), 0 9px 16px -12px rgb(75 77 80 / 11%);
+    padding: 10px 8px;
+
+    display: none;
+    flex-direction: column;
+
+    li {
+      text-align: center;
+      font-size: 14px;
+      line-height: 35px;
+      padding: 0 16px;
+      transition: all 200ms;
+
+      cursor: pointer;
+      &:hover {
+        background-color: #f2f2f2;
+        border-radius: 8px;
+      }
+      &::selection {
+        display: none;
+      }
+    }
+
+    &:before {
+      right: 20px;
+      position: absolute;
+      content: '';
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      z-index: 19;
+      background-color: #fff;
+      border: 0.5px solid #e1e3e6;
+      border-bottom: 0;
+      border-right: 0;
+      box-shadow: 0 3px 12px -12px rgb(75 77 80 / 19%), 0 6px 14px -12px rgb(75 77 80 / 22%), 0 9px 16px -12px rgb(75 77 80 / 11%);
+    }
+
+    &:after {
+      position: absolute;
+      content: '';
+      display: inline-block;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 22px;
+      z-index: -1;
+      background: transparent;
+
+      // cursor: default!important;
+    }
+
+    &.bottom {
+      top: 70px;
+      z-index: 99;
+      &:before {
+        z-index: 99;
+        top: -1.5px;
+        transform: translateY(-50%) rotate(45deg);
+      }
+      &:after {
+        transform: translateY(-100%);
+        top: 0;
+      }
+    }
+    &.top {
+      z-index: 9;
+      bottom: 55px;
+      &:before {
+        z-index: 9;
+        bottom: -0.5px;
+        transform: translateY(50%) rotate(-135deg);
+      }
+      &:after {
+        transform: translateY(100%);
+        bottom: 0;
+      }
+    }
+
+    &.right {
+      left: 0;
+      right: auto;
+      &:before {
+        left: 20px;
+      }
+    }
+    &.left {
+      right: 0;
+      left: auto;
+      &:before {
+        right: 20px;
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: all 500ms;
+  z-index: -1;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  &.show {
+    opacity: 1;
+    z-index: 99;
+  }
+  .modal_content {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    max-width: 500px;
+    width: calc(100vw - 48px);
+    background: #fff;
+    padding: 60px 20px 20px;
+    border-radius: 16px;
+
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    h2 {
+      font-size: 20px;
+      color: #494b4d;
+      font-weight: 400;
+      margin-bottom: 25px;
+    }
+    p {
+      font-size: 14px;
+      line-height: 24px;
+      color: #919699;
+      font-weight: 400;
+      margin-bottom: 32px;
+
+      padding: 0 48px;
+    }
+    button {
+      display: block;
+      padding: 10px;
+      color: #fff;
+      background-color: #3c3e40;
+      font-size: 18px;
+      line-height: 26px;
+      width: 100%;
+
+      border-radius: 8px;
+      cursor: pointer;
+
+      transition: all 400ms;
+
+      border: 0;
+      outline: none;
+      &:hover {
+        opacity: 0.8;
+      }
+      &:active {
+        opacity: 1;
+        background: #000;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal {
+    .modal_content {
+      p {
+        padding: 0 16px;
+      }
+    }
+  }
+}

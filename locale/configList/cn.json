@@ -1,0 +1,225 @@
+{
+  "www.index.kv_description": "简约设计，展现时尚品味",
+  "www.index.kv_title": "N9 ULTRA PRO",
+  "www.index.kv_link": "/store/product/watches/n9-ultra-pro",
+  "www.index.imgs": [
+    {
+      "id": "8872",
+      "title": "Ultra Max",
+      "src": "https://image.sslfly.com/base/2023/4/2/5E8A9B0D2847B8F82E9F5C0416753BFD/UltraMax.png",
+      "description": "多功能表，满足多样需求",
+      "href": "/store/product/watches/ultra-max"
+    },
+    {
+      "id": "9291",
+      "title": "Series8 mini",
+      "src": "https://image.sslfly.com/base/2023/4/2/854DE4949F8112D1A1E5606AD60F77B0/Series8-mini.png",
+      "description": "手腕助手，提升生产力",
+      "href": "/store/product/watches/series8-mini"
+    },
+    {
+      "id": "4463",
+      "title": "K8 UltraMax",
+      "src": "https://image.sslfly.com/base/2023/4/2/4FE111328161F80858C0E98BB200ECDD/K8UltraMax.png",
+      "description": "工匠之美，展现匠心精神",
+      "href": "/store/product/watches/k8-ultra-max"
+    },
+    {
+      "id": "9749",
+      "title": "IP8 ULTRA",
+      "src": "https://image.sslfly.com/base/2023/4/2/65A0959AE2D563388682D2923D8D8D02/IP8-ULTRA.png",
+      "description": "时尚潮流，展现个人时尚态度",
+      "href": "/store/product/watches/ip8-ultra"
+    }
+  ],
+  "company.basic.work_phone": "+86 18903011871",
+  "company.social_media.index": [
+    {
+      "id": "4582",
+      "alt": "微博",
+      "src": "https://image.sslfly.com/icon/social-sina.svg",
+      "href": ""
+    },
+    {
+      "id": "4984",
+      "alt": "微信",
+      "src": "https://image.sslfly.com/icon/social-weixin.svg",
+      "href": ""
+    },
+    {
+      "id": "7367",
+      "alt": "B站",
+      "src": "https://image.sslfly.com/icon/social-bilibili.svg",
+      "href": ""
+    },
+    {
+      "id": "6747",
+      "alt": "抖音",
+      "src": "https://image.sslfly.com/icon/social-tiktok.svg",
+      "href": ""
+    }
+  ],
+  "company.basic.website_beian": "粤ICP备 2021104004号-1",
+  "www.protocol.policy.content": "<h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">一、信息收集</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">当您访问我们的网站时，我们可能会收集以下信息：</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）您提供的个人信息，例如您的姓名、电子邮件地址、电话号码等；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）Cookie和其他技术自动收集的信息，例如您的IP地址、浏览器类型、访问时间和日期、您使用的设备类型等。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\"><em><strong>我们会使用这些信息来：</strong></em></span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）回答您的查询；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）提供您要求的服务；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（3）处理订单和支付；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（4）发送更新和促销信息；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（5）改进我们的网站和服务；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（6）为您提供个性化的体验。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">二、信息共享</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">我们可能会与以下第三方共享您的个人信息：</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）为我们提供支持和服务的供应商和服务提供商；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）需要保护我们的权利、财产或安全的法律机构、监管机构、执法机构和政府机构。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">*我们保证不会出售、交换或出租您的信息。我们会采取适当的措施来确保第三方接收您的个人信息的安全。</span></p><p style=\"text-align: start;\"><br></p><h2 style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 24px;\">三、数据存储和安全</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">我们会采取合理的措施来保护您的个人信息，包括：</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）采用密码保护、数据加密、物理和电子访问控制等技术来保护您的个人信息；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）在服务器上存储您的个人信息，并采取必要的安全措施来防止未经授权的访问、使用、修改、披露或破坏；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（3）定期检查和更新我们的安全措施，以确保其有效性。</span></p><p style=\"text-align: start;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">四、Cookie和其他技术</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">我们可能会使用Cookie和其他技术来提高您的访问体验。例如，我们会使用Cookie来：</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）记录您的登录信息；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）保存您的购物车信息；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（3）识别您的偏好和兴趣；</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（4）收集有关网站使用情况的统计信息。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">*您可以通过浏览器设置拒绝Cookie，但这可能会影响您的访问体验。</span></p><p style=\"text-align: start;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">五、隐私权访问和更正</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">您可以随时访问和更正您的个人信息。如果您希望访问或更正您的信息，请通过我们的联系信息与我们联系。</span></p><p style=\"text-align: start;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">六、隐私政策的修改</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">我们可能会定期更新本隐私政策。我们将在我们的网站上发布任何更改，并且您将被视为已接受更新后的隐私政策。</span></p>",
+  "www.protocol.policy.title": "隐私政策",
+  "company.basic.company_name": "飞贸Flytrade",
+  "www.protocol.service.content": "<h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">一、引言</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">欢迎您使用飞贸Flytarde提供的服务。本协议是您与飞贸Flytarde之间的法律协议，详细阐述了您使用本公司提供的服务所需遵守的规定和条件。请您仔细阅读本协议，确保您已完全理解并接受了本协议的全部内容。如果您不同意本协议的任何条款，请勿使用本公司提供的服务。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">二、定义</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）服务：指飞贸Flytarde向用户提供的网络平台、技术、咨询、推广等服务。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）用户：指使用飞贸Flytarde提供的服务的个人或组织。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">三、服务内容</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）飞贸Flytarde将根据实际情况为用户提供相关服务，并为用户提供技术支持和帮助。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）飞贸Flytarde有权对其提供的服务进行升级、修改或增加新的服务，包括但不限于增加服务的收费标准。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（3）用户了解并同意，飞贸Flytarde提供的服务可能会受到各种因素的影响，如网络、技术、不可抗力等因素，因此，本公司无法保证服务的连贯性、及时性、安全性和准确性，用户应自行承担使用本公司服务所存在的风险。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">四、用户责任</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）用户应遵守中国相关法律法规，不得利用本公司提供的服务从事违法或不正当的活动，如发布违法信息、传播淫秽色情信息、侵犯他人知识产权等行为。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）用户应妥善保管自己的账号和密码，不得将其转让或出借给他人使用，如因用户的账号和密码被泄露而造成的损失，由用户自行承担。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（3）用户应保证其提供的信息真实、准确、完整、合法，如因用户提供虚假信息而导致的任何后果，由用户自行承担。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">五、知识产权</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）飞贸Flytarde拥有本公司提供的所有服务和软件的知识产权。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）用户使用本公司提供的服务仅限于个人使用，不得将其用于商业目的，不得非法复制、分发、传播、翻译、修改、编译、汇编、反编译、反汇编本公司所提供的软件。</span></p><h2 style=\"text-align: start; line-height: 2;\"></h2><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">六、免责声明</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）用户理解并同意，飞贸Flytarde不对因不可抗力或其他无法控制的原因导致的服务中断或用户数据丢失承担责任。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）用户理解并同意，飞贸Flytarde不对用户因使用本公司服务而引起的任何间接、特殊、附带或后果性损失承担责任，包括但不限于利润、商业信誉、商业机会的损失。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（3）飞贸Flytarde对本公司提供的服务不作任何明示或暗示的担保，包括但不限于服务的适用性、无误性、及时性、安全性、完整性、保密性等。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">七、协议修改</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）飞贸Flytarde有权根据实际情况修改本协议的条款，一旦本协议发生变动，飞贸Flytarde将在其网站上公布最新的协议条款，用户应定期查看。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）如用户不同意本公司对协议条款所做的修改，应停止使用本公司的服务，如用户继续使用本公司服务，则视为已接受协议条款的修改。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><h2 style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 24px;\">八、法律适用与争议解决</span></h2><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（1）本协议的签订、执行和解释均适用中华人民共和国法律。</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">（2）如因本协议引起的任何争议，应通过友好协商解决，协商不成的，任何一方均可向有管辖权的法院提起诉讼。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2.5;\"><span style=\"font-size: 14px;\"><strong>飞贸Flytrade联系方式：</strong></span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">公司名称：深圳市启飞帆技术有限公司<br>中文简称：飞贸Flytrade<br>英文简称：Flytrade</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">电话：(86) 18903011871<br>地址：广东省深圳市龙华区</span></p><p style=\"text-align: start; line-height: 2;\"><span style=\"font-size: 14px;\">电子邮件：info@sslfly.com</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(140, 140, 140); font-size: 14px;\">以上为飞贸Flytarde的用户服务协议，请用户仔细阅读并遵守。如果您对本协议有任何疑问，请联系本公司客服人员。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p><br></p>",
+  "www.protocol.service.title": "用户服务协议",
+  "www.protocol.faq": [
+    {
+      "id": "6396",
+      "question": "我们在哪里？",
+      "answer": "我们为全球范围内的智能手表服务提供总部位于迪拜，并在广州和深圳设有主要办公地址。如果您需要前来拜访，请通过发送电子邮件至ccit.flytrade@gmail.com与我们联系。"
+    },
+    {
+      "id": "2031",
+      "question": "如何下订单？",
+      "answer": "我们的网站目前仍在发展初期，暂不支持网站支付。我们的开发团队正在努力开发中，未来我们将会支持网站支付。如果您需要下单，请联系我们的销售经理，我们的销售团队会随时为您服务。"
+    },
+    {
+      "id": "7836",
+      "question": "如何注册、如何登录、如何更改密码？",
+      "answer": "如何注册？\n在我们的网站首页右上角点击“用户ICON”的图标。\n填写您的个人信息，包括电子邮件地址和密码。\n阅读并同意我们的服务条款和隐私政策。\n点击“注册”按钮。\n\n如何登录？\n在我们的网站首页点击“登录”按钮。\n输入您的电子邮件地址和密码。\n点击“登录”按钮。\n\n如何更改密码？\n在登录后，进入“我的账户”页面。\n点击“更改密码”按钮。\n输入当前密码和新密码，并确认新密码。\n点击“更改密码”按钮，保存更改。"
+    },
+    {
+      "id": "7098",
+      "question": "关于网站条款、联系我们、合作机会的问题？",
+      "answer": "关于网站条款：\n请访问我们网站的“隐私政策和用户服务协议”页面。\n\n关于联系我们：\n如果您需要帮助或有任何问题，请通过我们的网站联系页面与我们联系（ccit.flytrade@gmail.com）。我们的客户支持团队会尽快回复您的邮件。\n\n关于合作机会：\n如果您有与我们的业务有关的合作机会，请通过我们的网站联系页面与我们联系（ccit.flytrade@gmail.com）。我们将尽快回复您的邮件，提供一切资源为您服务，并与您讨论合作事宜。"
+    },
+    {
+      "id": "711",
+      "question": "如何提交问题、如何联系客户支持，以及相关解决方案？",
+      "answer": "您可以通过我们的网站联系页面与我们联系（ccit.flytrade@gmail.com）。请尽可能详细地描述您遇到的问题，我们的客户支持团队会尽快回复您的邮件，并提供相关解决方案。\n\n如何联系客户支持？\n\n如果您需要帮助或有任何问题，请通过我们的网站联系页面与我们联系（ccit.flytrade@gmail.com）。我们的客户支持团队会尽快回复您的邮件，并提供相关解决方案。\n\n相关解决方案？\n\n我们的客户支持团队将根据您的问题提供相关的解决方案，并为您提供支持和帮助。我们也会在我们的网站FAQ中提供一些常见问题和解决方案，以帮助您更快地解决问题。"
+    }
+  ],
+  "company.basic.recruitment": "recruitment@sslfly.com",
+  "company.basic.customer_service": "info@sslfly.com",
+  "company.basic.work_location": "深圳市福田区华强北街道华航社区华强北路1019号华强广场C座",
+  "company.basic.work_time": "周一至周日 09: 00 - 12: 30, 14: 00 - 18: 00(GMT+ 8)",
+  "www.cooperate.common_title": "合作伙伴门户",
+  "www.cooperate.common_sub_title": "开放、合作、共赢",
+  "www.cooperate.common_description": "CCIT.Flytrade是一家专注于智能手表产品研发的企业，总部设在迪拜，同时在广州和深圳设有办公室。Flytrade致力于为全球消费者提供高品质的智能手表产品和服务，涵盖运动健康、生活休闲等多个场景，为用户打造出色的智能手表体验。\n\n作为行业领先者，CCIT.Flytrade在智能手表技术方面拥有广泛的经验和专业知识，致力于提供高性能、高质量的产品和解决方案，为用户提供全方位的智能手表体验。同时，CCIT.Flytrade秉持合作共赢的理念，愿意与世界各地的合作伙伴携手合作，共同推动智能手表行业的发展，共创更美好的未来。",
+  "www.cooperate.technology_img": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg",
+  "www.cooperate.market_img": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg",
+  "www.cooperate.supplier_img": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg",
+  "www.cooperate.technology_connect": "cooperation@sslfly.com",
+  "www.cooperate.market_connect": "cooperation@sslfly.com",
+  "www.cooperate.supplier_connect": "cooperation@sslfly.com",
+  "www.cooperate.technology_content_description": "1、为智能手表开发一款应用程序，让用户可以通过手表进行健康监测、运动记录、社交聊天等操作。\n2、为手表建设一套电子商务平台，让用户可以在平台上浏览、购买手表产品，以及进行在线支付等操作。\n3、为手表建设一套产品数据管理系统，用于管理手表的生产、销售、库存等相关数据。\n4、对公司现有的基础设施进行升级和维护，包括网络、服务器、存储等设备。",
+  "www.cooperate.market_content_description": "1、建立与其他手表品牌的合作伙伴关系，进行产品推广和市场营销；\n2、与电商平台合作，开展手表产品的销售活动，增加产品曝光度和销售量；\n3、与时尚媒体、社交媒体、博客等合作，增加品牌知名度和曝光度；\n4、参加手表展览会、时尚活动等相关行业活动，增加品牌影响力和认可度。",
+  "www.cooperate.technology_require_description": "1、具备相关的应用程序设计和开发经验，熟悉智能手表操作系统，能够根据手表硬件特性进行优化，确保应用程序的稳定性和性能。\n2、具备相关的电商平台设计和开发经验，能够根据公司业务需求进行定制开发，确保平台的安全性和稳定性。\n3、具备相关的数据管理系统设计和开发经验，能够根据公司业务需求进行定制开发，确保系统的安全性和稳定性。\n4、具备相关的基础设施升级和维护经验，能够快速响应并解决设备故障，确保公司业务的正常进行。",
+  "www.cooperate.market_require_description": "1、具有市场营销和推广经验，了解手表行业和市场；\n2、具备与其他品牌和电商平台的沟通和协商能力；\n3、具备良好的人际交往能力，能够与时尚媒体、社交媒体、博客等建立合作关系；\n4、具备较强的组织和协调能力，能够组织和参加相关行业活动；\n5、具备一定的英语水平，能够进行跨国合作和交流。",
+  "www.cooperate.supplier_content_description": "1、供应商背景：介绍供应商的公司背景，包括公司规模、产品线、质量控制体系、生产能力等信息。\n2、产品种类：明确需要的手表种类及款式，例如男女表、机械表、电子表、运动表等。\n3、产品质量：对手表的品质要求进行详细描述，包括外观、材质、工艺、功能等方面。\n4、品牌合作：如果需要进行品牌合作，要求供应商提供相应的品牌授权和营销支持。",
+  "www.cooperate.supplier_require_description": "1、价格要求：确定合理的价格范围，同时要求供应商提供具有竞争力的报价。\n2、供货周期：确定供应商的供货周期和稳定性，以确保供应的及时性和连续性。\n3、客户服务：要求供应商提供完善的客户服务体系，包括售前、售中、售后服务，以及维修和保养支持。\n4、合同条款：在确定合作意向后，签署供应合同，明确双方的权利和义务，以及违约责任和解决方案。",
+  "company.sales_channels.index": [
+    {
+      "id": "3763",
+      "title": "官网商城",
+      "src": "https://image.sslfly.com/icon/min-store-black.svg",
+      "href": "/store"
+    },
+    {
+      "id": "226",
+      "title": "天猫",
+      "src": "https://image.sslfly.com/icon/nav-tianmao.svg",
+      "href": ""
+    },
+    {
+      "id": "8537",
+      "title": "淘宝",
+      "src": "https://image.sslfly.com/icon/nav-taobao.svg",
+      "href": ""
+    },
+    {
+      "id": "9741",
+      "title": "京东",
+      "src": "https://image.sslfly.com/icon/nav-jindong.svg",
+      "href": ""
+    }
+  ],
+  "www.company.video_src": "https://video.sslfly.com/base/2023/4/8/054E707E0F994D1B66517281C207D635/compay_video_compress.mp4",
+  "www.company.video_poster": "https://image.sslfly.com/base/2023/4/8/4AAD2EF2399231E9B03BD2DE6E67E1ED/compay_video_compress-00-00-00-000.jpg",
+  "www.company.video_title": "飞贸Flytrade",
+  "www.company.video_description": "Flytrade是一家充满活力和创新的企业，它以用户为中心，致力于为用户提供优质的服务和产品。Flytrade相信在不久的将来，它将成为一家伟大的企业，并研发出更多优秀的产品，为用户贡献更多价值！",
+  "www.company.contact_img": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg",
+  "company.basic.company_introduce": "在2020年，我们身为大学生创业者，创立了“Fly珠科”项目（微信小程序），旨在更好地服务在校学生，帮助有需求的同学解决问题，同时为贫困学生提供赚钱的机会。这个项目给我们的团队带来了不少的流量和效益。随后，我们正式成立了启飞帆技术有限公司。到了2021年，我们将目光放得更远，与CCIT品牌合作，开启了外贸路线，创立了“飞贸Flytrade”项目，并决定开始研发我们自己的产品。在探索和创新的路上，我们从未停止脚步！",
+  "company.basic.company_mission": "为用户创造出色的产品\n为员工营造愉悦进取的工作氛围\n为合作伙伴建立互信共赢的合作平台\n为股东提供长期稳健的回报",
+  "company.basic.company_vision": "我们的追求是成为一个全球领先的、持续发展和致力于健康事业的企业",
+  "company.basic.company_core": "以用户为导向，以设计驱动创新，不断学习进步",
+  "company.main_members.index": [
+    {
+      "id": "8514",
+      "name": "郑一亿",
+      "src": "https://image.sslfly.com/base/2023/4/8/DC14FEDF8F063D1D3257FB72709D2E51/ZhengFan.jpg",
+      "position": "首席执行官",
+      "responsibility": "对公司的成败负责。 所有公司运作、市场、战略、财务、企业文化的创立、人力资源、雇用、解聘及遵守安全法规、销售、公共关系等等。",
+      "introduction": "郑一亿先生是Flytrade的杰出创始人之一，同时也是联合创始人和董事会主席。他具备丰富的经验和卓越的管理能力，其职业生涯长期与大型客机公司紧密相连。他凭借着独具远见的策略思维和在世界最大公司的架构中积累的丰富经验，在创建Flytrade过程中取得了卓越成就。郑凡先生酷爱最新科技、热衷运动和汽车，从伟人身上获取灵感，始终不放弃，坚信只要具备决心和时间，人生中任何目标都可以实现。"
+    }
+  ],
+  "company.company_history.index": [
+    {
+      "id": "7040",
+      "title": "起帆",
+      "description": "我们几位在校大学生共同创建了深圳启帆科技有限公司，旨在为校内学生提供更好的服务和解决问题，并为有需要的学生创造赚钱机会。我们的目标是创业并带来实实在在的帮助和改变。",
+      "year": "2021/07",
+      "src": "https://image.sslfly.com/base/2023/4/8/B2303CA73E4F5EE719469F63D87588FD/qifan.jpg"
+    },
+    {
+      "id": "9545",
+      "title": "校园项目",
+      "description": "作为富有远见的校园创业者，我们通过创建“Fly珠科”微信小程序和校园论坛，为在校学生提供更优质的服务和创收机会，并促进同学们之间的交流和合作。我们的努力获得了显著成果，校内声誉迅速扩散。",
+      "year": "2021/09",
+      "src": "https://image.sslfly.com/base/2023/4/8/CC45BAA497B997AC2FED7C95DE0D9270/FlyZHUKE_Logo.jpg"
+    },
+    {
+      "id": "9702",
+      "title": "科技发展",
+      "description": "为了稳步快速地发展公司，我们致力于开发全新的业务系统，包括前台展示系统（官网、商城），后台管理系统、ERP管理系统、权限管理系统、前台配置系统等，以高效地管理和发展业务。",
+      "year": "2022/06",
+      "src": "https://image.sslfly.com/base/2023/4/8/DBFFEB509498884ECA0CC26A4A1C437B/CCIT_core.jpg"
+    },
+    {
+      "id": "2981",
+      "title": "CCIT.Flytrade",
+      "description": "我们成功开发了成熟的外贸系统，并进入市场开发新产品。与CCIT合作创建了CCIT.Flytrade项目（Flytrade），并进一步研发和销售手表，为市场提供更多高质量的产品。",
+      "year": "2023/03",
+      "src": "https://image.sslfly.com/base/2023/4/8/4751D9F73971C1AC3BF7E6FFB573DC76/Flytrade_Logo.jpg"
+    }
+  ],
+  "company.basic.logo": "https://image.sslfly.com/base/2023/5/28/8DC3C1B57E0CD6470BC414ABCAEF39D7/logo.svg",
+  "store.index.banner": [
+    {
+      "id": "423",
+      "isDark": false,
+      "title": "N9 ULTRA PRO",
+      "sub_title": "全新智能手表",
+      "description": "多功能表，满足多样需求",
+      "href": "/store/product/watches/n9-ultra-pro",
+      "pc_image": "https://image.sslfly.com/base/2023/8/8/A1D946562DB0981EA117E93AC3D37169/ceshi.jpg",
+      "ipad_image": "https://image.sslfly.com/base/2023/8/8/BE4B6CA248017CB0D7650EE0F40744E3/store-kv-ipad.jpg",
+      "mob_image": "https://image.sslfly.com/base/2023/8/8/FFFAF4D51721586B2C8871FFA0BF721A/store-kv-mob.jpg"
+    },
+    {
+      "id": "6421",
+      "isDark": true,
+      "title": "UltraMax",
+      "sub_title": "顶级智能手表",
+      "description": "多种表盘，随意搭配",
+      "href": "/store/product/watches/ultra-max",
+      "pc_image": "https://image.sslfly.com/base/2023/8/13/C6FC78742AE2E20FAA29B85264BD3853/store-kv-pv.jpg",
+      "ipad_image": "https://image.sslfly.com/base/2023/8/13/6873E4EFE285A27E5164411DFD9CDE0B/store-kv2-ipad.jpg",
+      "mob_image": "https://image.sslfly.com/base/2023/8/13/C82FA3354DA19E5F3FC8CDBAEBA0EE3E/store-kv2-mob.jpg"
+    }
+  ],
+  "pay.transfer.name": "深圳市启飞帆技术有限公司",
+  "company.basic.order_service": "pay@sslfly.com",
+  "pay.transfer.info": 79400078801300000000,
+  "pay.transfer.location": "上海浦东发展银行股份有限公司深圳西丽支行",
+  "www.protocol.sales.content": "<h2 style=\"text-align: start; line-height: 2;\">欢迎光临飞贸Flytrade的官方网站！</h2><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(140, 140, 140); font-size: 14px;\">在这里，我们为您提供高品质的产品和优质的服务。请在购买前仔细阅读以下销售政策：</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>1. 订单与付款</strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">：在我们的网站上下单即表示您同意购买所选的产品。我们将尽力确保网站上的产品信息准确无误，但如果出现错误，我们保留更正和取消订单的权利。我们接受多种付款方式，包括信用卡、借记卡、支付宝以及其他国际支付方式。您可以在结账页面选择您方便的付款方式。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>2. 价格和货币：</strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">所有产品的价格以人民币（CNY）为基准，并根据市场行情进行调整。我们还支持其他主要货币，如美元（USD）、欧元（EUR）等。您可以在结账页面选择您希望使用的货币。请注意，货币汇率可能会导致最终价格与显示的价格略有不同。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>3. 配送和运费：</strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">我们将尽力在收到付款后尽快处理和发货您的订单。配送时间取决于您所在的地区和选择的配送方式。运费将根据订单的重量、尺寸和目的地进行计算，并在结账页面显示。请注意，国际运输可能会产生额外的关税和税费，这些费用由购买者承担。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>4. 退货和退款：</strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">如果您对收到的产品有任何质量问题，请在收到货物后的7个工作日内与我们联系。我们将尽力解决问题并提供退货或退款服务。退货时，产品必须处于原始状态，并附有完整的包装和配件。退款将在确认收到退货并检查后进行处理。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\"><strong>5. 隐私保护：</strong></span><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">我们非常重视您的个人信息的保护。在您使用我们的网站时，我们会采取适当的安全措施来保护您的信息，并仅在必要的情况下使用您的信息。请阅读我们的隐私政策以了解更多关于我们如何收集、使用和保护您的个人信息的信息。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">*如果您对以上销售政策有任何疑问或需要进一步的帮助，请随时通过以下联系方式与我们取得联系：</span></p><ul><li style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">邮箱：</span><a href=\"mailto:info@sslfly.com\" target=\"_blank\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">info@sslfly.com</span></a></li><li style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">手机：(86) 18903011871</span></li></ul><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">感谢您选择飞贸Flytrade！我们期待为您提供卓越的产品和服务。</span></p><p style=\"text-align: start; line-height: 2;\"><br></p><p style=\"text-align: start; line-height: 2;\"><span style=\"color: rgb(89, 89, 89); font-size: 14px;\">请注意，以上销售政策可能会根据需要进行调整和更新。最新版本的销售政策将始终在我们的网站上公布。</span></p>",
+  "www.protocol.sales.title": "商城销售协议",
+  "www.index.kv_img_pc": "https://image.sslfly.com/base/2023/4/2/59754D0F22B8508689029DCB0B484887/8Ultra-mini.jpg",
+  "www.index.kv_img_ipad": "https://image.sslfly.com/base/2023/4/2/59754D0F22B8508689029DCB0B484887/8Ultra-mini.jpg",
+  "www.index.kv_img_mob": "https://image.sslfly.com/base/2023/8/11/D9B39C5AE7449CCE93AE8BFCECE45F97/kv-index.mob.jpeg",
+  "www.index.about_us_img_mob": "https://image.sslfly.com/base/2023/8/14/BA1B5E8DC4A46E561DF5C2E3099D38D9/contact_us_mob.jpg",
+  "www.index.about_us_img_pc": "https://image.sslfly.com/base/2023/4/2/0516F5C3E6504B39CC9386FFD6A7FD56/about_us.jpg"
+}
