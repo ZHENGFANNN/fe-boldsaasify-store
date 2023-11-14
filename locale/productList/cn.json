@@ -60,6 +60,42 @@
         "updated_time": "2023-09-17T13:27:03.000Z"
       }
     ],
+    "indexConfig": [
+      {
+        "id": 28,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "page_keywords": "N9 ULTRA PRO, 智能手表, 苹果手表, 高性能智能手表, 时尚智能手表",
+        "page_title": "N9 ULTRA PRO",
+        "page_description": "N9 ULTRA PRO是一款功能强大的智能手表，具有类似苹果手表的先进功能和创新设计。它结合了时尚外观和高性能技术，为用户提供了卓越的智能体验。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-17T14:31:22.000Z",
+        "updated_time": "2023-09-24T04:31:35.000Z"
+      }
+    ],
+    "mediaList": [
+      {
+        "id": 44,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "多彩世界尽在掌握！",
+        "description": "展现多种色彩选择，让你尽享个性与时尚！",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/17/5B4DCAD8DF1E8E928036B24E0684B764/color.jpg",
+        "media_code": null,
+        "weight": 100,
+        "created_time": "2023-09-24T07:13:48.000Z",
+        "updated_time": "2023-09-24T08:09:36.000Z"
+      }
+    ],
     "packageList": [
       {
         "id": 567,
@@ -216,23 +252,83 @@
         "updated_time": "2023-09-10T16:03:19.000Z"
       }
     ],
-    "mediaList": [
+    "sellingList": [
       {
-        "id": 44,
+        "id": 899,
+        "light": "NFC",
+        "weight": 7,
         "good_key": "n9-ultra-pro",
         "good_sort_key": "watches",
-        "language": "cn",
         "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "多彩世界尽在掌握！",
-        "description": "展现多种色彩选择，让你尽享个性与时尚！",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/17/5B4DCAD8DF1E8E928036B24E0684B764/color.jpg",
-        "media_code": null,
-        "weight": 100,
-        "created_time": "2023-09-24T07:13:48.000Z",
-        "updated_time": "2023-09-24T08:09:36.000Z"
+        "language": "cn",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-10T16:12:29.000Z"
+      },
+      {
+        "id": 900,
+        "light": "消息提醒",
+        "weight": 6,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "cn",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:56:07.000Z"
+      },
+      {
+        "id": 901,
+        "light": "腕上钱包",
+        "weight": 5,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "cn",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:19.000Z"
+      },
+      {
+        "id": 903,
+        "light": "语音通话",
+        "weight": 3,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "cn",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-10T16:12:29.000Z"
+      },
+      {
+        "id": 905,
+        "light": "音乐播放",
+        "weight": 3,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "cn",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:42.000Z"
+      },
+      {
+        "id": 904,
+        "light": "手环语言切换",
+        "weight": 2,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "cn",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:33.000Z"
+      },
+      {
+        "id": 902,
+        "light": "共享定位",
+        "weight": 1,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "cn",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:56:18.000Z"
       }
     ],
     "comboList": [
@@ -1084,6 +1180,260 @@
         ]
       }
     ],
+    "associationsList": [
+      {
+        "id": 1693,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Wearfit OS",
+        "key": "手表系统",
+        "weight": 21,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1694,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "android5.0+ / ios10.0+",
+        "key": "系统要求",
+        "weight": 20,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1695,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Hs6621PG",
+        "key": "主控芯片",
+        "weight": 19,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1696,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "128M",
+        "key": "手环内存",
+        "weight": 18,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1697,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "AB5376A2",
+        "key": "通话蓝牙",
+        "weight": 17,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1698,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "5.2",
+        "key": "蓝牙版本",
+        "weight": 16,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1699,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "SC7R30",
+        "key": "心率芯片",
+        "weight": 15,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1700,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "2.1inch-方屏-385*385-TFT",
+        "key": "屏幕显示",
+        "weight": 14,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1701,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "380mAH",
+        "key": "电池容量",
+        "weight": 13,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1702,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "65天",
+        "key": "待机时间",
+        "weight": 12,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1703,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "10天左右",
+        "key": "使用时间",
+        "weight": 11,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1704,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "全屏触控+三按键+旋钮",
+        "key": "按键方式",
+        "weight": 10,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1705,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "圆饼马达",
+        "key": "马达",
+        "weight": 9,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1706,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "无线充",
+        "key": "充电接口",
+        "weight": 8,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1707,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "IP68",
+        "key": "防水等级",
+        "weight": 7,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1708,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "G-sensor 3轴",
+        "key": "传感器",
+        "weight": 6,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1709,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "6",
+        "key": "本地表盘",
+        "weight": 5,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1710,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "300+",
+        "key": "表盘市场",
+        "weight": 4,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1711,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "4",
+        "key": "菜单风格",
+        "weight": 3,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1712,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "WearFit pro",
+        "key": "APP",
+        "weight": 2,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      },
+      {
+        "id": 1713,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "简体中文、繁体中文、英语、法语、希伯来语、波斯语、德语、日语、西班牙语、意大利语、朝鲜语、俄语、泰语、捷克语、\n葡萄牙语、印度尼西亚语、阿拉伯语、土耳其语、希腊语、爱莎尼亚语、保加利亚语、拉脱维亚语、\n立陶宛语、罗马尼亚语、塞尔维亚语、斯洛伐克语",
+        "key": "APP支持语言",
+        "weight": 1,
+        "created_time": "2023-09-10T15:50:55.000Z",
+        "updated_time": "2023-09-10T15:50:55.000Z"
+      }
+    ],
     "funcionList": [
       {
         "id": 2925,
@@ -1686,356 +2036,6 @@
         "updated_time": "2023-09-10T16:07:02.000Z"
       }
     ],
-    "associationsList": [
-      {
-        "id": 1693,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Wearfit OS",
-        "key": "手表系统",
-        "weight": 21,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1694,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "android5.0+ / ios10.0+",
-        "key": "系统要求",
-        "weight": 20,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1695,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Hs6621PG",
-        "key": "主控芯片",
-        "weight": 19,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1696,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "128M",
-        "key": "手环内存",
-        "weight": 18,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1697,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "AB5376A2",
-        "key": "通话蓝牙",
-        "weight": 17,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1698,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "5.2",
-        "key": "蓝牙版本",
-        "weight": 16,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1699,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "SC7R30",
-        "key": "心率芯片",
-        "weight": 15,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1700,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "2.1inch-方屏-385*385-TFT",
-        "key": "屏幕显示",
-        "weight": 14,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1701,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "380mAH",
-        "key": "电池容量",
-        "weight": 13,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1702,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "65天",
-        "key": "待机时间",
-        "weight": 12,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1703,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "10天左右",
-        "key": "使用时间",
-        "weight": 11,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1704,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "全屏触控+三按键+旋钮",
-        "key": "按键方式",
-        "weight": 10,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1705,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "圆饼马达",
-        "key": "马达",
-        "weight": 9,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1706,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "无线充",
-        "key": "充电接口",
-        "weight": 8,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1707,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "IP68",
-        "key": "防水等级",
-        "weight": 7,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1708,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "G-sensor 3轴",
-        "key": "传感器",
-        "weight": 6,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1709,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "6",
-        "key": "本地表盘",
-        "weight": 5,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1710,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "300+",
-        "key": "表盘市场",
-        "weight": 4,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1711,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "4",
-        "key": "菜单风格",
-        "weight": 3,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1712,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "WearFit pro",
-        "key": "APP",
-        "weight": 2,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      },
-      {
-        "id": 1713,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "简体中文、繁体中文、英语、法语、希伯来语、波斯语、德语、日语、西班牙语、意大利语、朝鲜语、俄语、泰语、捷克语、\n葡萄牙语、印度尼西亚语、阿拉伯语、土耳其语、希腊语、爱莎尼亚语、保加利亚语、拉脱维亚语、\n立陶宛语、罗马尼亚语、塞尔维亚语、斯洛伐克语",
-        "key": "APP支持语言",
-        "weight": 1,
-        "created_time": "2023-09-10T15:50:55.000Z",
-        "updated_time": "2023-09-10T15:50:55.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 899,
-        "light": "NFC",
-        "weight": 7,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "cn",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-10T16:12:29.000Z"
-      },
-      {
-        "id": 900,
-        "light": "消息提醒",
-        "weight": 6,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "cn",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:56:07.000Z"
-      },
-      {
-        "id": 901,
-        "light": "腕上钱包",
-        "weight": 5,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "cn",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:19.000Z"
-      },
-      {
-        "id": 903,
-        "light": "语音通话",
-        "weight": 3,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "cn",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-10T16:12:29.000Z"
-      },
-      {
-        "id": 905,
-        "light": "音乐播放",
-        "weight": 3,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "cn",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:42.000Z"
-      },
-      {
-        "id": 904,
-        "light": "手环语言切换",
-        "weight": 2,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "cn",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:33.000Z"
-      },
-      {
-        "id": 902,
-        "light": "共享定位",
-        "weight": 1,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "cn",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:56:18.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 28,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "page_keywords": "N9 ULTRA PRO, 智能手表, 苹果手表, 高性能智能手表, 时尚智能手表",
-        "page_title": "N9 ULTRA PRO",
-        "page_description": "N9 ULTRA PRO是一款功能强大的智能手表，具有类似苹果手表的先进功能和创新设计。它结合了时尚外观和高性能技术，为用户提供了卓越的智能体验。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-17T14:31:22.000Z",
-        "updated_time": "2023-09-24T04:31:35.000Z"
-      }
-    ],
     "path": "/watches/n9-ultra-pro"
   },
   {
@@ -2064,6 +2064,42 @@
     "updated_time": "2023-09-10T15:34:09.000Z",
     "associateProduct": [],
     "typeList": [],
+    "indexConfig": [
+      {
+        "id": 29,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "page_keywords": "8Ultra min, 智能手表, 小巧轻便, 健康监测, 运动追踪",
+        "page_title": "8Ultra mini",
+        "page_description": "8Ultra min是一款小巧轻便的智能手表，拥有出色的功能和精致的设计。它具有多种智能功能，如健康监测、通知提醒和运动追踪，让你随时随地保持连接和管理生活。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-19T13:17:16.000Z",
+        "updated_time": "2023-09-24T04:31:58.000Z"
+      }
+    ],
+    "mediaList": [
+      {
+        "id": 31,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "type": "facebook",
+        "title": "时尚科技，\n全能智能手表",
+        "description": "这款智能手表集合了多种功能，包括健康管理、智能助手、通讯、娱乐等，让您可以随时随地保持联系、监测健康状况、接受个性化建议，并通过语音控制、手势识别等方式更加便捷高效。",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": null,
+        "media_code": "288303853920678",
+        "weight": 12,
+        "created_time": "2023-09-09T14:28:04.000Z",
+        "updated_time": "2023-09-09T14:53:32.000Z"
+      }
+    ],
     "packageList": [
       {
         "id": 531,
@@ -2136,23 +2172,72 @@
         "updated_time": "2023-09-09T16:01:57.000Z"
       }
     ],
-    "mediaList": [
+    "sellingList": [
       {
-        "id": 31,
+        "id": 1000,
+        "light": "语音助手",
+        "weight": 7,
         "good_key": "8-ultra-mini",
         "good_sort_key": "watches",
-        "language": "cn",
         "associate_good_key": "watches:8-ultra-mini",
-        "type": "facebook",
-        "title": "时尚科技，\n全能智能手表",
-        "description": "这款智能手表集合了多种功能，包括健康管理、智能助手、通讯、娱乐等，让您可以随时随地保持联系、监测健康状况、接受个性化建议，并通过语音控制、手势识别等方式更加便捷高效。",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": null,
-        "media_code": "288303853920678",
-        "weight": 12,
-        "created_time": "2023-09-09T14:28:04.000Z",
-        "updated_time": "2023-09-09T14:53:32.000Z"
+        "language": "cn",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1001,
+        "light": "锌合金机身",
+        "weight": 6,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "cn",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1002,
+        "light": "全屏触控",
+        "weight": 5,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "cn",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1003,
+        "light": "语音通话",
+        "weight": 4,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "cn",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1004,
+        "light": "消息提醒",
+        "weight": 3,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "cn",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1006,
+        "light": "来电提醒",
+        "weight": 1,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "cn",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
       }
     ],
     "comboList": [
@@ -2991,6 +3076,272 @@
         ]
       }
     ],
+    "associationsList": [
+      {
+        "id": 1625,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "android5.0+ / ios10.0+",
+        "key": "系统要求",
+        "weight": 22,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1626,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "OM6621-PG",
+        "key": "主控芯片",
+        "weight": 21,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1627,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "64M",
+        "key": "手环内存",
+        "weight": 20,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1628,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "AB5376A2",
+        "key": "通话蓝牙",
+        "weight": 19,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1629,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "5.2",
+        "key": "蓝牙版本",
+        "weight": 18,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1630,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "-",
+        "key": "心率传感器",
+        "weight": 17,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1631,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "SC7R30",
+        "key": "计步传感器",
+        "weight": 16,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1632,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "1.7inch-全面屏\n240*296分辨率",
+        "key": "屏幕显示",
+        "weight": 15,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1633,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "200mAh",
+        "key": "电池容量",
+        "weight": 14,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1634,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "5天",
+        "key": "待机时间",
+        "weight": 13,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1635,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "3天左右",
+        "key": "使用时间",
+        "weight": 12,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1636,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "全屏触控",
+        "key": "按键方式",
+        "weight": 11,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1637,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "圆饼马达",
+        "key": "马达",
+        "weight": 10,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1638,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "无线充电",
+        "key": "充电接口",
+        "weight": 9,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1639,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "IP67",
+        "key": "防水等级",
+        "weight": 8,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1640,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "G-sensor 3轴",
+        "key": "传感器",
+        "weight": 7,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1641,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "10+",
+        "key": "本地表盘",
+        "weight": 6,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1642,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "50+",
+        "key": "表盘市场",
+        "weight": 5,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1643,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "4",
+        "key": "菜单风格",
+        "weight": 4,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1644,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "WearFit pro",
+        "key": "APP",
+        "weight": 3,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1645,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "简体中文、英文、法语、德语、西班牙语、意大利语、俄语、马来语、葡萄牙语、土耳其语、希伯来、乌克兰语、越南语、印尼语、泰语、阿拉伯、波兰语、荷兰语、罗马尼亚语、波斯语",
+        "key": "消息推送",
+        "weight": 2,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      },
+      {
+        "id": 1646,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "简体中文、繁体中文、英语、法语、德语、日语、西班牙语、意大利语、朝鲜语、俄语、泰语、捷克语、\n葡萄牙语、印度尼西亚语、阿拉伯语、土耳其语、希腊语、爱莎尼亚语、保加利亚语、拉脱维亚语、\n立陶宛语、波斯语、塞尔维亚语、斯洛伐克语（24门）",
+        "key": "APP支持语言",
+        "weight": 1,
+        "created_time": "2023-09-09T16:01:26.000Z",
+        "updated_time": "2023-09-09T16:01:26.000Z"
+      }
+    ],
     "funcionList": [
       {
         "id": 2855,
@@ -3401,357 +3752,6 @@
         "updated_time": "2023-09-09T15:37:22.000Z"
       }
     ],
-    "associationsList": [
-      {
-        "id": 1625,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "android5.0+ / ios10.0+",
-        "key": "系统要求",
-        "weight": 22,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1626,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "OM6621-PG",
-        "key": "主控芯片",
-        "weight": 21,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1627,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "64M",
-        "key": "手环内存",
-        "weight": 20,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1628,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "AB5376A2",
-        "key": "通话蓝牙",
-        "weight": 19,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1629,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "5.2",
-        "key": "蓝牙版本",
-        "weight": 18,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1630,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "-",
-        "key": "心率传感器",
-        "weight": 17,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1631,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "SC7R30",
-        "key": "计步传感器",
-        "weight": 16,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1632,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "1.7inch-全面屏\n240*296分辨率",
-        "key": "屏幕显示",
-        "weight": 15,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1633,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "200mAh",
-        "key": "电池容量",
-        "weight": 14,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1634,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "5天",
-        "key": "待机时间",
-        "weight": 13,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1635,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "3天左右",
-        "key": "使用时间",
-        "weight": 12,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1636,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "全屏触控",
-        "key": "按键方式",
-        "weight": 11,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1637,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "圆饼马达",
-        "key": "马达",
-        "weight": 10,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1638,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "无线充电",
-        "key": "充电接口",
-        "weight": 9,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1639,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "IP67",
-        "key": "防水等级",
-        "weight": 8,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1640,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "G-sensor 3轴",
-        "key": "传感器",
-        "weight": 7,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1641,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "10+",
-        "key": "本地表盘",
-        "weight": 6,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1642,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "50+",
-        "key": "表盘市场",
-        "weight": 5,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1643,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "4",
-        "key": "菜单风格",
-        "weight": 4,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1644,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "WearFit pro",
-        "key": "APP",
-        "weight": 3,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1645,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "简体中文、英文、法语、德语、西班牙语、意大利语、俄语、马来语、葡萄牙语、土耳其语、希伯来、乌克兰语、越南语、印尼语、泰语、阿拉伯、波兰语、荷兰语、罗马尼亚语、波斯语",
-        "key": "消息推送",
-        "weight": 2,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      },
-      {
-        "id": 1646,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "简体中文、繁体中文、英语、法语、德语、日语、西班牙语、意大利语、朝鲜语、俄语、泰语、捷克语、\n葡萄牙语、印度尼西亚语、阿拉伯语、土耳其语、希腊语、爱莎尼亚语、保加利亚语、拉脱维亚语、\n立陶宛语、波斯语、塞尔维亚语、斯洛伐克语（24门）",
-        "key": "APP支持语言",
-        "weight": 1,
-        "created_time": "2023-09-09T16:01:26.000Z",
-        "updated_time": "2023-09-09T16:01:26.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 1000,
-        "light": "语音助手",
-        "weight": 7,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "cn",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1001,
-        "light": "锌合金机身",
-        "weight": 6,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "cn",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1002,
-        "light": "全屏触控",
-        "weight": 5,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "cn",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1003,
-        "light": "语音通话",
-        "weight": 4,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "cn",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1004,
-        "light": "消息提醒",
-        "weight": 3,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "cn",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1006,
-        "light": "来电提醒",
-        "weight": 1,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "cn",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 29,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:8-ultra-mini",
-        "page_keywords": "8Ultra min, 智能手表, 小巧轻便, 健康监测, 运动追踪",
-        "page_title": "8Ultra mini",
-        "page_description": "8Ultra min是一款小巧轻便的智能手表，拥有出色的功能和精致的设计。它具有多种智能功能，如健康监测、通知提醒和运动追踪，让你随时随地保持连接和管理生活。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-19T13:17:16.000Z",
-        "updated_time": "2023-09-24T04:31:58.000Z"
-      }
-    ],
     "path": "/watches/8-ultra-mini"
   },
   {
@@ -3775,6 +3775,24 @@
     "updated_time": "2023-09-09T09:53:10.000Z",
     "associateProduct": [],
     "typeList": [],
+    "indexConfig": [
+      {
+        "id": 30,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "page_keywords": "UltraMax, 智能手表, 高性能, 长续航, 防水手表",
+        "page_title": "UltraMax",
+        "page_description": "UltraMax是一款功能全面的智能手表，为用户提供了卓越的性能和多样化的功能。它具备强大的处理能力、长续航时间和防水功能，适合各种户外和日常活动。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-19T13:17:24.000Z",
+        "updated_time": "2023-09-24T04:32:18.000Z"
+      }
+    ],
+    "mediaList": [],
     "packageList": [
       {
         "id": 545,
@@ -3875,7 +3893,74 @@
         "updated_time": "2023-09-10T16:03:34.000Z"
       }
     ],
-    "mediaList": [],
+    "sellingList": [
+      {
+        "id": 906,
+        "light": "来电提醒",
+        "weight": 8,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 907,
+        "light": "消息提醒",
+        "weight": 7,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 908,
+        "light": "手环语言切换",
+        "weight": 6,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 909,
+        "light": "共享定位",
+        "weight": 5,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 910,
+        "light": "NFC",
+        "weight": 4,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 912,
+        "light": "疲劳分析",
+        "weight": 2,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 83,
@@ -4712,6 +4797,236 @@
         ]
       }
     ],
+    "associationsList": [
+      {
+        "id": 1714,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "android5.0+ / ios10.0+",
+        "key": "系统要求",
+        "weight": 19,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1715,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "8762DT",
+        "key": "主控芯片",
+        "weight": 18,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1716,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "UltraMax-Audio",
+        "key": "通话蓝牙",
+        "weight": 17,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1717,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "5",
+        "key": "蓝牙版本",
+        "weight": 16,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1718,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "HRS3300",
+        "key": "心率芯片",
+        "weight": 15,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1719,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "2.1inch-方屏-320*385-TFT",
+        "key": "屏幕显示",
+        "weight": 14,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1720,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "300mAH",
+        "key": "电池容量",
+        "weight": 13,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1721,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "7-10天",
+        "key": "待机时间",
+        "weight": 12,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1722,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "3-4天",
+        "key": "使用时间",
+        "weight": 11,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1723,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "全屏触控",
+        "key": "按键方式",
+        "weight": 10,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1724,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "圆饼马达",
+        "key": "马达",
+        "weight": 9,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1725,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "无线充电",
+        "key": "充电接口",
+        "weight": 8,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1726,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "IP67",
+        "key": "防水等级",
+        "weight": 7,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1727,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "SC7A20",
+        "key": "计步传感器",
+        "weight": 6,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1728,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "9",
+        "key": "本地表盘",
+        "weight": 5,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1729,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "500+",
+        "key": "表盘市场",
+        "weight": 4,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1730,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "4",
+        "key": "菜单风格",
+        "weight": 3,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1731,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "HD Fit Pro",
+        "key": "APP",
+        "weight": 2,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      },
+      {
+        "id": 1732,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ultra-max",
+        "value": "英语、简体中文、意大利语、葡萄牙语、西班牙语、法语、波斯语、匈牙利语、俄语、乌克兰、土耳其语、泰语、越南语、印尼语.马来语、阿拉伯语 默认：简体中文",
+        "key": "APP支持语言",
+        "weight": 1,
+        "created_time": "2023-09-10T16:00:39.000Z",
+        "updated_time": "2023-09-10T16:00:39.000Z"
+      }
+    ],
     "funcionList": [
       {
         "id": 2975,
@@ -5218,321 +5533,6 @@
         "updated_time": "2023-09-10T16:07:39.000Z"
       }
     ],
-    "associationsList": [
-      {
-        "id": 1714,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "android5.0+ / ios10.0+",
-        "key": "系统要求",
-        "weight": 19,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1715,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "8762DT",
-        "key": "主控芯片",
-        "weight": 18,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1716,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "UltraMax-Audio",
-        "key": "通话蓝牙",
-        "weight": 17,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1717,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "5",
-        "key": "蓝牙版本",
-        "weight": 16,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1718,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "HRS3300",
-        "key": "心率芯片",
-        "weight": 15,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1719,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "2.1inch-方屏-320*385-TFT",
-        "key": "屏幕显示",
-        "weight": 14,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1720,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "300mAH",
-        "key": "电池容量",
-        "weight": 13,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1721,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "7-10天",
-        "key": "待机时间",
-        "weight": 12,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1722,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "3-4天",
-        "key": "使用时间",
-        "weight": 11,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1723,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "全屏触控",
-        "key": "按键方式",
-        "weight": 10,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1724,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "圆饼马达",
-        "key": "马达",
-        "weight": 9,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1725,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "无线充电",
-        "key": "充电接口",
-        "weight": 8,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1726,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "IP67",
-        "key": "防水等级",
-        "weight": 7,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1727,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "SC7A20",
-        "key": "计步传感器",
-        "weight": 6,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1728,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "9",
-        "key": "本地表盘",
-        "weight": 5,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1729,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "500+",
-        "key": "表盘市场",
-        "weight": 4,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1730,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "4",
-        "key": "菜单风格",
-        "weight": 3,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1731,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "HD Fit Pro",
-        "key": "APP",
-        "weight": 2,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      },
-      {
-        "id": 1732,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "value": "英语、简体中文、意大利语、葡萄牙语、西班牙语、法语、波斯语、匈牙利语、俄语、乌克兰、土耳其语、泰语、越南语、印尼语.马来语、阿拉伯语 默认：简体中文",
-        "key": "APP支持语言",
-        "weight": 1,
-        "created_time": "2023-09-10T16:00:39.000Z",
-        "updated_time": "2023-09-10T16:00:39.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 906,
-        "light": "来电提醒",
-        "weight": 8,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 907,
-        "light": "消息提醒",
-        "weight": 7,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 908,
-        "light": "手环语言切换",
-        "weight": 6,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 909,
-        "light": "共享定位",
-        "weight": 5,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 910,
-        "light": "NFC",
-        "weight": 4,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 912,
-        "light": "疲劳分析",
-        "weight": 2,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 30,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ultra-max",
-        "page_keywords": "UltraMax, 智能手表, 高性能, 长续航, 防水手表",
-        "page_title": "UltraMax",
-        "page_description": "UltraMax是一款功能全面的智能手表，为用户提供了卓越的性能和多样化的功能。它具备强大的处理能力、长续航时间和防水功能，适合各种户外和日常活动。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-19T13:17:24.000Z",
-        "updated_time": "2023-09-24T04:32:18.000Z"
-      }
-    ],
     "path": "/watches/ultra-max"
   },
   {
@@ -5556,6 +5556,24 @@
     "updated_time": "2023-09-09T09:53:12.000Z",
     "associateProduct": [],
     "typeList": [],
+    "indexConfig": [
+      {
+        "id": 31,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "page_keywords": "Series8 mini, 智能手表, 时尚设计, 消息推送, 健康监测",
+        "page_title": "Series8 mini",
+        "page_description": "Series8 mini是一款时尚精致的智能手表，融合了时尚设计和智能科技。它具有多种智能功能，如消息推送、健康监测和个性化表盘，让你在时尚中享受智能科技带来的便利。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-19T13:17:31.000Z",
+        "updated_time": "2023-09-24T04:32:40.000Z"
+      }
+    ],
+    "mediaList": [],
     "packageList": [
       {
         "id": 552,
@@ -5628,7 +5646,63 @@
         "updated_time": "2023-09-10T16:05:11.000Z"
       }
     ],
-    "mediaList": [],
+    "sellingList": [
+      {
+        "id": 915,
+        "light": "语音助手",
+        "weight": 7,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 917,
+        "light": "全屏触控",
+        "weight": 5,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 918,
+        "light": "语音通话",
+        "weight": 4,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 919,
+        "light": "消息提醒",
+        "weight": 3,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 921,
+        "light": "来电提醒",
+        "weight": 1,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "cn",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 73,
@@ -6465,6 +6539,260 @@
         ]
       }
     ],
+    "associationsList": [
+      {
+        "id": 1971,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "android5.0+ / ios10.0+",
+        "key": "系统要求",
+        "weight": 21,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1972,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "OM6621-PG",
+        "key": "主控芯片",
+        "weight": 20,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1973,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "128M",
+        "key": "手环内存",
+        "weight": 19,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1974,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "AB5376A2",
+        "key": "通话蓝牙",
+        "weight": 18,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1975,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "5",
+        "key": "蓝牙版本",
+        "weight": 17,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1976,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "展恒1662",
+        "key": "心率芯片",
+        "weight": 16,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1977,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "SC7R30",
+        "key": "计步芯片",
+        "weight": 15,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1978,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "1.77inch-320*385窄边框全面屏",
+        "key": "屏幕显示",
+        "weight": 14,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1979,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "230mAH",
+        "key": "电池容量",
+        "weight": 13,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1980,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "7天",
+        "key": "待机时间",
+        "weight": 12,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1981,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "5天左右",
+        "key": "使用时间",
+        "weight": 11,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1982,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "全屏触控",
+        "key": "按键方式",
+        "weight": 10,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1983,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "圆饼马达",
+        "key": "马达",
+        "weight": 9,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1984,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "无线充电",
+        "key": "充电接口",
+        "weight": 8,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1985,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "IP67",
+        "key": "防水等级",
+        "weight": 7,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1986,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "G-sensor 3轴",
+        "key": "传感器",
+        "weight": 6,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1987,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "10+",
+        "key": "本地表盘",
+        "weight": 5,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1988,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "100+",
+        "key": "表盘市场",
+        "weight": 4,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1989,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "4",
+        "key": "菜单风格",
+        "weight": 3,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1990,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "WearFit pro",
+        "key": "APP",
+        "weight": 2,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      },
+      {
+        "id": 1991,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:series8-mini",
+        "value": "简体中文、繁体中文、英语、法语、德语、日语、西班牙语、意大利语、朝鲜语、俄语、泰语、捷克语、\n葡萄牙语、印度尼西亚语、阿拉伯语、土耳其语、希腊语、爱莎尼亚语、保加利亚语、拉脱维亚语、\n立陶宛语、波斯语、塞尔维亚语、斯洛伐克语（24门）",
+        "key": "APP支持语言",
+        "weight": 1,
+        "created_time": "2023-09-19T12:47:26.000Z",
+        "updated_time": "2023-09-19T12:47:26.000Z"
+      }
+    ],
     "funcionList": [
       {
         "id": 3017,
@@ -6911,334 +7239,6 @@
         "updated_time": "2023-09-10T16:08:19.000Z"
       }
     ],
-    "associationsList": [
-      {
-        "id": 1971,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "android5.0+ / ios10.0+",
-        "key": "系统要求",
-        "weight": 21,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1972,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "OM6621-PG",
-        "key": "主控芯片",
-        "weight": 20,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1973,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "128M",
-        "key": "手环内存",
-        "weight": 19,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1974,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "AB5376A2",
-        "key": "通话蓝牙",
-        "weight": 18,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1975,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "5",
-        "key": "蓝牙版本",
-        "weight": 17,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1976,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "展恒1662",
-        "key": "心率芯片",
-        "weight": 16,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1977,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "SC7R30",
-        "key": "计步芯片",
-        "weight": 15,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1978,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "1.77inch-320*385窄边框全面屏",
-        "key": "屏幕显示",
-        "weight": 14,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1979,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "230mAH",
-        "key": "电池容量",
-        "weight": 13,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1980,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "7天",
-        "key": "待机时间",
-        "weight": 12,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1981,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "5天左右",
-        "key": "使用时间",
-        "weight": 11,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1982,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "全屏触控",
-        "key": "按键方式",
-        "weight": 10,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1983,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "圆饼马达",
-        "key": "马达",
-        "weight": 9,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1984,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "无线充电",
-        "key": "充电接口",
-        "weight": 8,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1985,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "IP67",
-        "key": "防水等级",
-        "weight": 7,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1986,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "G-sensor 3轴",
-        "key": "传感器",
-        "weight": 6,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1987,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "10+",
-        "key": "本地表盘",
-        "weight": 5,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1988,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "100+",
-        "key": "表盘市场",
-        "weight": 4,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1989,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "4",
-        "key": "菜单风格",
-        "weight": 3,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1990,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "WearFit pro",
-        "key": "APP",
-        "weight": 2,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      },
-      {
-        "id": 1991,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "value": "简体中文、繁体中文、英语、法语、德语、日语、西班牙语、意大利语、朝鲜语、俄语、泰语、捷克语、\n葡萄牙语、印度尼西亚语、阿拉伯语、土耳其语、希腊语、爱莎尼亚语、保加利亚语、拉脱维亚语、\n立陶宛语、波斯语、塞尔维亚语、斯洛伐克语（24门）",
-        "key": "APP支持语言",
-        "weight": 1,
-        "created_time": "2023-09-19T12:47:26.000Z",
-        "updated_time": "2023-09-19T12:47:26.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 915,
-        "light": "语音助手",
-        "weight": 7,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 917,
-        "light": "全屏触控",
-        "weight": 5,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 918,
-        "light": "语音通话",
-        "weight": 4,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 919,
-        "light": "消息提醒",
-        "weight": 3,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 921,
-        "light": "来电提醒",
-        "weight": 1,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "cn",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 31,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:series8-mini",
-        "page_keywords": "Series8 mini, 智能手表, 时尚设计, 消息推送, 健康监测",
-        "page_title": "Series8 mini",
-        "page_description": "Series8 mini是一款时尚精致的智能手表，融合了时尚设计和智能科技。它具有多种智能功能，如消息推送、健康监测和个性化表盘，让你在时尚中享受智能科技带来的便利。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-19T13:17:31.000Z",
-        "updated_time": "2023-09-24T04:32:40.000Z"
-      }
-    ],
     "path": "/watches/series8-mini"
   },
   {
@@ -7262,6 +7262,24 @@
     "updated_time": "2023-09-09T09:53:15.000Z",
     "associateProduct": [],
     "typeList": [],
+    "indexConfig": [
+      {
+        "id": 32,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "page_keywords": "IP8 ULTRA, 智能手表, 高端手表, 高清触摸屏, 强大性能",
+        "page_title": "IP8 ULTRA",
+        "page_description": "IP8 ULTRA是一款高端智能手表，以其出色的性能和精美的外观而闻名。它具备强大的处理能力、高清触摸屏和丰富的功能，为用户提供了卓越的智能体验。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-19T13:17:40.000Z",
+        "updated_time": "2023-09-24T04:32:58.000Z"
+      }
+    ],
+    "mediaList": [],
     "packageList": [
       {
         "id": 557,
@@ -7334,7 +7352,74 @@
         "updated_time": "2023-09-10T16:05:34.000Z"
       }
     ],
-    "mediaList": [],
+    "sellingList": [
+      {
+        "id": 922,
+        "light": "NFC",
+        "weight": 7,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "cn",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 923,
+        "light": "智能遥控",
+        "weight": 6,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "cn",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 924,
+        "light": "自定义表盘",
+        "weight": 5,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "cn",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 926,
+        "light": "语音通话",
+        "weight": 3,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "cn",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 927,
+        "light": "天气",
+        "weight": 2,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "cn",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 928,
+        "light": "音乐播放",
+        "weight": 1,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "cn",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 63,
@@ -8171,6 +8256,236 @@
         ]
       }
     ],
+    "associationsList": [
+      {
+        "id": 1754,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "android5.0+ / ios10.0+",
+        "key": "系统要求",
+        "weight": 19,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1755,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "8762DT",
+        "key": "主控芯片",
+        "weight": 18,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1756,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "IP8 ULTRA-Audio",
+        "key": "通话蓝牙",
+        "weight": 17,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1757,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "5",
+        "key": "蓝牙版本",
+        "weight": 16,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1758,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "HRS3300",
+        "key": "心率芯片",
+        "weight": 15,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1759,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "2.1inch-方屏-320*385-TFT",
+        "key": "屏幕显示",
+        "weight": 14,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1760,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "300mAH",
+        "key": "电池容量",
+        "weight": 13,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1761,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "7-10天",
+        "key": "待机时间",
+        "weight": 12,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1762,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "3-4天",
+        "key": "使用时间",
+        "weight": 11,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1763,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "全屏触控",
+        "key": "按键方式",
+        "weight": 10,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1764,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "圆饼马达",
+        "key": "马达",
+        "weight": 9,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1765,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "无线充电",
+        "key": "充电接口",
+        "weight": 8,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1766,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "IP67",
+        "key": "防水等级",
+        "weight": 7,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1767,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "SC7A20",
+        "key": "计步传感器",
+        "weight": 6,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1768,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "8",
+        "key": "本地表盘",
+        "weight": 5,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1769,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "500+",
+        "key": "表盘市场",
+        "weight": 4,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1770,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "5",
+        "key": "菜单风格",
+        "weight": 3,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1771,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "HD Fit Pro",
+        "key": "APP",
+        "weight": 2,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      },
+      {
+        "id": 1772,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "cn",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "英语、简体中文、意大利语、葡萄牙语、西班牙语、法语、波斯语、匈牙利语、俄语、乌克兰、土耳其语、泰语、越南语、印尼语.马来语、阿拉伯语 默认：简体中文",
+        "key": "APP支持语言",
+        "weight": 1,
+        "created_time": "2023-09-10T16:02:11.000Z",
+        "updated_time": "2023-09-10T16:02:11.000Z"
+      }
+    ],
     "funcionList": [
       {
         "id": 3054,
@@ -8677,321 +8992,6 @@
         "updated_time": "2023-09-10T16:08:42.000Z"
       }
     ],
-    "associationsList": [
-      {
-        "id": 1754,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "android5.0+ / ios10.0+",
-        "key": "系统要求",
-        "weight": 19,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1755,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "8762DT",
-        "key": "主控芯片",
-        "weight": 18,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1756,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "IP8 ULTRA-Audio",
-        "key": "通话蓝牙",
-        "weight": 17,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1757,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "5",
-        "key": "蓝牙版本",
-        "weight": 16,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1758,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "HRS3300",
-        "key": "心率芯片",
-        "weight": 15,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1759,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "2.1inch-方屏-320*385-TFT",
-        "key": "屏幕显示",
-        "weight": 14,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1760,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "300mAH",
-        "key": "电池容量",
-        "weight": 13,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1761,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "7-10天",
-        "key": "待机时间",
-        "weight": 12,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1762,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "3-4天",
-        "key": "使用时间",
-        "weight": 11,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1763,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "全屏触控",
-        "key": "按键方式",
-        "weight": 10,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1764,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "圆饼马达",
-        "key": "马达",
-        "weight": 9,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1765,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "无线充电",
-        "key": "充电接口",
-        "weight": 8,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1766,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "IP67",
-        "key": "防水等级",
-        "weight": 7,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1767,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "SC7A20",
-        "key": "计步传感器",
-        "weight": 6,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1768,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "8",
-        "key": "本地表盘",
-        "weight": 5,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1769,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "500+",
-        "key": "表盘市场",
-        "weight": 4,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1770,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "5",
-        "key": "菜单风格",
-        "weight": 3,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1771,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "HD Fit Pro",
-        "key": "APP",
-        "weight": 2,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      },
-      {
-        "id": 1772,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "英语、简体中文、意大利语、葡萄牙语、西班牙语、法语、波斯语、匈牙利语、俄语、乌克兰、土耳其语、泰语、越南语、印尼语.马来语、阿拉伯语 默认：简体中文",
-        "key": "APP支持语言",
-        "weight": 1,
-        "created_time": "2023-09-10T16:02:11.000Z",
-        "updated_time": "2023-09-10T16:02:11.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 922,
-        "light": "NFC",
-        "weight": 7,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "cn",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 923,
-        "light": "智能遥控",
-        "weight": 6,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "cn",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 924,
-        "light": "自定义表盘",
-        "weight": 5,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "cn",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 926,
-        "light": "语音通话",
-        "weight": 3,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "cn",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 927,
-        "light": "天气",
-        "weight": 2,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "cn",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 928,
-        "light": "音乐播放",
-        "weight": 1,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "cn",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 32,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "cn",
-        "associate_good_key": "watches:ip8-ultra",
-        "page_keywords": "IP8 ULTRA, 智能手表, 高端手表, 高清触摸屏, 强大性能",
-        "page_title": "IP8 ULTRA",
-        "page_description": "IP8 ULTRA是一款高端智能手表，以其出色的性能和精美的外观而闻名。它具备强大的处理能力、高清触摸屏和丰富的功能，为用户提供了卓越的智能体验。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-19T13:17:40.000Z",
-        "updated_time": "2023-09-24T04:32:58.000Z"
-      }
-    ],
     "path": "/watches/ip8-ultra"
   },
   {
@@ -9015,12 +9015,6 @@
     "updated_time": "2023-09-09T09:53:19.000Z",
     "associateProduct": [],
     "typeList": [],
-    "packageList": [],
-    "mediaList": [],
-    "comboList": [],
-    "funcionList": [],
-    "associationsList": [],
-    "sellingList": [],
     "indexConfig": [
       {
         "id": 33,
@@ -9038,6 +9032,12 @@
         "updated_time": "2023-09-24T04:33:13.000Z"
       }
     ],
+    "mediaList": [],
+    "packageList": [],
+    "sellingList": [],
+    "comboList": [],
+    "associationsList": [],
+    "funcionList": [],
     "path": "/watches/k8-ultra-max"
   }
 ]

@@ -1,12 +1,7 @@
-import Head from "next/head";
 import React from "react";
 import Script from "next/script";
 
-import getGoodList from "@/utils/getGoodList";
-import getConfigList from "@/utils/getConfigList";
-import getLanguageList from "@/utils/getLanguageList";
-import getGoodSortList from "@/utils/getGoodSortList";
-
+import getAllConfigData from "@/utils/getAllConfigData";
 import styles from "./page.module.scss";
 
 export const runtime = "edge";
@@ -43,26 +38,19 @@ function ProductItem({
   );
 }
 
-export const metadata = {
-  title: "Home",
-  description: "Welcome to Next.js",
-  keywords: "Next.js,React,JavaScript",
-};
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG } = await getAllConfigData(locale);
+  return {
+    title: LANG["www.index.title"],
+    description: LANG["www.index.description"],
+    keywords: LANG["www.index.keywords"],
+  };
+}
 
-export default async function Home({ locale }) {
-  const [CONFIG, LANG, GOODLIST, goodList] = await Promise.all([
-    getConfigList("en"),
-    getLanguageList("en"),
-    getGoodSortList("en"),
-    getGoodList("en"),
-  ]);
+export default async function Home({ params: { locale } }) {
+  const { CONFIG, LANG, GOODLIST } = await getAllConfigData(locale);
   return (
     <div className={styles.container}>
-      {/* <Head>
-        <title>{`${CONFIG["company.basic.company_name"]} - ${LANG["www.index.title"]}`}</title>
-        <meta name="description" content={LANG["www.index.description"]} />
-        <meta name="keywords" content={LANG["www.index.keywords"]} />
-      </Head> */}
       <main className={styles.main}>
         <section
           className={styles.main_kv}
