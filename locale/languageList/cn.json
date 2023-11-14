@@ -474,7 +474,7 @@
   "store.order_info.real_price": "应付金额",
   "store.order_info.pay_price": "支付金额",
   "store.order_info.finish_time": "完成时间",
-  "www.account.my_order.discount": "优惠金额",
+  "www.account.my_order.discount": "优惠",
   "www.account.my_order.order_price": "订单金额",
   "www.account.my_order.pay_price": "支付金额",
   "www.account.my_order.delivered": "已发货",
@@ -505,9 +505,9 @@
   "store.order.pay_info.pay_after_arrival": "货到付款",
   "store.order.pay_info.pay_after_arrival_desc": "买家在签收包裹时在收货现场用现金支付货款的付款方式。",
   "store.order_info.pay_after_arrival": "货到付款",
-  "common.other.change_country": "*如需切换国家/地区，请在顶部左上角进行切换！",
+  "common.other.change_country": "*如需切换国家/地区，请滚动至页面顶部，在左上角进行切换！",
   "www.account.my_order.cod": "货到付款",
   "store.order_info.order_remark": "订单备注",
   "store.product.immedate_order": "立即购买",
-  "store.cart.no_stock": "缺货"
+  "store.cart.no_stock": "没货"
 }

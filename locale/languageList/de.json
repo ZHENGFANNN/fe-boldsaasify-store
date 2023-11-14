@@ -474,7 +474,7 @@
   "store.order_info.real_price": "Zu zahlende Beträge",
   "store.order_info.pay_price": "Zahlungsbetrag",
   "store.order_info.finish_time": "Komplette Zeit",
-  "www.account.my_order.discount": "Herabgesetzter Preis",
+  "www.account.my_order.discount": "Rabatt",
   "www.account.my_order.order_price": "Bestellbetrag",
   "www.account.my_order.pay_price": "Zahlungsbetrag",
   "www.account.my_order.delivered": "Ausgeliefert",
@@ -502,12 +502,12 @@
   "www.sales_policy.title": "Verkaufspolitik",
   "www.sales_policy.description": "Verkaufspolitik",
   "www.sales_policy.keywords": "Verkaufspolitik",
-  "store.order.pay_info.pay_after_arrival": "Barzahlung bei Lieferung",
+  "store.order.pay_info.pay_after_arrival": "Zahlung nach Wareneingang",
   "store.order.pay_info.pay_after_arrival_desc": "Der Käufer zahlt den Preis in bar am Empfangsort bei der Unterzeichnung des Pakets.",
   "store.order_info.pay_after_arrival": "Zahlung nach Wareneingang",
-  "common.other.change_country": "*Wenn Sie das Land/die Region wechseln müssen, wechseln Sie bitte in der oberen linken Ecke!",
+  "common.other.change_country": "*Um das Land/die Region zu wechseln, scrollen Sie bitte zum Seitenanfang und wechseln Sie in der oberen linken Ecke!",
   "www.account.my_order.cod": "Barzahlung bei Lieferung",
   "store.order_info.order_remark": "Bestellnotizen",
   "store.product.immedate_order": "Kaufe es jetzt",
-  "store.cart.no_stock": "ausverkauft"
+  "store.cart.no_stock": "out of stock"
 }

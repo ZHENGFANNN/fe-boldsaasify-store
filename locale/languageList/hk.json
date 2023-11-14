@@ -474,7 +474,7 @@
   "store.order_info.real_price": "應付金額",
   "store.order_info.pay_price": "支付金額",
   "store.order_info.finish_time": "完成時間",
-  "www.account.my_order.discount": "優惠金額",
+  "www.account.my_order.discount": "優惠",
   "www.account.my_order.order_price": "訂單金額",
   "www.account.my_order.pay_price": "支付金額",
   "www.account.my_order.delivered": "已發貨",
@@ -502,12 +502,12 @@
   "www.sales_policy.title": "Sales Policy",
   "www.sales_policy.description": "Sales Policy",
   "www.sales_policy.keywords": "Sales Policy",
-  "store.order.pay_info.pay_after_arrival": "貨到付款",
+  "store.order.pay_info.pay_after_arrival": "Payment after Arrival of Goods",
   "store.order.pay_info.pay_after_arrival_desc": "The buyer pays the price in cash at the receiving site when signing for the package.",
   "store.order_info.pay_after_arrival": "Payment after Arrival of Goods",
-  "common.other.change_country": "*如需切換國家/地區，請在頂部左上角進行切換！",
+  "common.other.change_country": "*如需切換國家/地區，請捲動至頁面頂部，在左上角進行切換！",
   "www.account.my_order.cod": "貨到付款",
   "store.order_info.order_remark": "訂單備註",
   "store.product.immedate_order": "立即購買",
-  "store.cart.no_stock": "缺貨"
+  "store.cart.no_stock": "out of stock"
 }
