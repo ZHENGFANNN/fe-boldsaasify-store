@@ -11,6 +11,8 @@ import getGoodSortList from "@/utils/getGoodSortList";
 
 import React from "react";
 
+import useStore from "../globalStore";
+
 export default async function RootLayout({ children }) {
   const [configList, languageList, goodSortList, goodList] = await Promise.all([
     getConfigList("en"),
@@ -18,6 +20,9 @@ export default async function RootLayout({ children }) {
     getGoodSortList("en"),
     getGoodList("en"),
   ]);
+
+  // const { area } = useStore((state) => state.area);
+  // console.log("area", area);
   /**
    * 功能：处理全局数据
    * 数据：

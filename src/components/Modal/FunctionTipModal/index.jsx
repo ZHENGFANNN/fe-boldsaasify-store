@@ -1,10 +1,9 @@
 import React from "react";
 import styles from "./index.module.scss";
-import GlobalContext from "@/context";
-// 临时功能
-function TipModal({ LANG }, ref) {
-  const [show, setShow] = React.useState(false);
 
+// 临时功能
+async function TipModal({ LANG }, ref) {
+  const [show, setShow] = React.useState(false);
   React.useImperativeHandle(ref, () => {
     return {
       showModal: () => {

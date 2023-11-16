@@ -1,12 +1,10 @@
+"use client";
 import React from "react";
 import styles from "./index.module.scss";
-import GlobalContext from "@/context";
 
 // 临时功能
-function BuyModal(_, ref) {
+async function BuyModal({ CONFIG, LANG }, ref) {
   const [show, setShow] = React.useState(false);
-  const { CONFIG, LANG } = React.useContext(GlobalContext);
-
   React.useImperativeHandle(ref, () => {
     return {
       showModal: () => {
@@ -15,7 +13,6 @@ function BuyModal(_, ref) {
       },
     };
   });
-
   return (
     <div className={`${styles.modal} ${show ? styles.show : ""}`}>
       <div className={styles.modal_content}>

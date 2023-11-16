@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 
 import NAVFUNC from "@/config/NAVFUNC";
 import Api from "../api";
-import GlobalContext from "@/context";
+import GlobalContext from "@/globalStore";
 const FULLYEAR = new Date().getFullYear();
 
 function ShowLanguageItem({ value }) {
@@ -57,10 +57,7 @@ export default function Footer({
   locale,
 }) {
   const router = useRouter();
-  // const { CONFIG, LANG, GOODSORTLIST, GOODLIST, locale } =
-  //   React.useContext(GlobalContext);
   const ModalRef = React.useRef(null);
-
   const NAVLIST = React.useMemo(() => {
     return NAVFUNC({ LANG, CONFIG, GOODLIST, GOODSORTLIST });
   }, [LANG, CONFIG, GOODLIST, GOODSORTLIST]);

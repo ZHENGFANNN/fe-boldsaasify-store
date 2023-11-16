@@ -1,0 +1,80 @@
+import Head from "next/head";
+import Link from "next/link";
+import styles from "./page.module.scss";
+import getAllConfigData from "@/utils/getAllConfigData";
+
+export const runtime = "edge";
+
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG, CONFIG } = await getAllConfigData(locale);
+  return {
+    title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.company_supplier.title"]}`,
+    description: LANG["www.company_supplier.description"],
+    keywords: LANG["www.company_supplier.keywords"],
+  };
+}
+
+export default async function Supplier({ params: { locale } }) {
+  const { LANG, CONFIG } = await getAllConfigData(locale);
+  return (
+    <div className={styles.container}>
+      <section className={styles.top_container}>
+        <div className={styles.top_content}>
+          <h1 className={styles.top_content_title}>
+            {LANG["www.company_supplier.suppiler_cooperation"]}
+          </h1>
+          <div className={styles.top_content_description_container}>
+            <div className={styles.top_content_description}>
+              {LANG["www.company_supplier.welcome"]}
+            </div>
+          </div>
+        </div>
+        <img
+          alt={LANG["www.company_supplier.contact"]}
+          src={CONFIG["www.cooperate.supplier_img"]}
+        />
+      </section>
+
+      <section className={styles.content_container}>
+        <h2 className={styles.content_title}>
+          {CONFIG["www.cooperate.common_title"]}
+        </h2>
+        <h3 className={styles.content_sub_title}>
+          {CONFIG["www.cooperate.common_sub_title"]}
+        </h3>
+        <p className={styles.content_description}>
+          {CONFIG["www.cooperate.common_description"]}
+        </p>
+        <Link href="/company/introduce" className={styles.content_about_us}>
+          <span>{LANG["www.company_supplier.see_more"]}</span>
+          <span className={styles.arrow_icon}></span>
+        </Link>
+      </section>
+
+      <section className={styles.content_container}>
+        <h2 className={styles.content_title}>
+          {LANG["www.company_supplier.cooperative_contents"]}
+        </h2>
+        <p className={styles.content_description}>
+          {CONFIG["www.cooperate.supplier_content_description"]}
+        </p>
+      </section>
+
+      <section className={styles.content_container}>
+        <h2 className={styles.content_title}>
+          {LANG["www.company_supplier.cooperatio_requirements"]}
+        </h2>
+        <p className={styles.content_description}>
+          {CONFIG["www.cooperate.supplier_require_description"]}
+        </p>
+      </section>
+
+      <section className={styles.contact_email_container}>
+        <div className={styles.contact_email}>
+          <h3>{LANG["www.company_supplier.contact"]}</h3>
+          <p>{CONFIG["www.cooperate.supplier_connect"]}</p>
+        </div>
+      </section>
+    </div>
+  );
+}

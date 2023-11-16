@@ -6,7 +6,16 @@ import styles from "./page.module.scss";
 
 export const runtime = "edge";
 
-// 首页产品列表
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG } = await getAllConfigData(locale);
+  return {
+    title: LANG["www.index.title"],
+    description: LANG["www.index.description"],
+    keywords: LANG["www.index.keywords"],
+  };
+}
+
+// 首页产品列表组件
 function ProductItem({
   title,
   description,
@@ -36,15 +45,6 @@ function ProductItem({
       <img alt={img_title} src={img_src} />
     </div>
   );
-}
-
-export async function generateMetadata({ params: { locale } }) {
-  const { LANG } = await getAllConfigData(locale);
-  return {
-    title: LANG["www.index.title"],
-    description: LANG["www.index.description"],
-    keywords: LANG["www.index.keywords"],
-  };
 }
 
 export default async function Home({ params: { locale } }) {

@@ -6,13 +6,12 @@ import CountryList from "@/components/CountrySelect";
 import React from "react";
 import DropSelect from "@/components/DropSelect";
 import Link from "next/link";
-import Router, { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import NAVFUNC from "@/config/NAVFUNC";
 
 import TipModal from "@/components/Modal/FunctionTipModal";
 import Api from "../api";
-import GlobalContext from "@/context";
 
 export default function NavBar({ CONFIG, LANG, GOODSORTLIST, GOODLIST }) {
   const { userInfo, productNum, locale = "en" } = {};

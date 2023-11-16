@@ -1,6 +1,5 @@
 import styles from "./index.module.scss";
-
-export default function Advantage({ CONFIG, LANG }) {
+export default function Advantage({ LANG }) {
   return (
     <div className={styles.tip_container} data-role="store-advantage">
       <div className={styles.tip_item}>

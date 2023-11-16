@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom";
 import Link from "next/link";
-import GlobalContext from "@/context";
 import COUNTRYLIST from "@/config/COUNTRYLIST";
 import Cookie from "js-cookie";
 import styles from "./modal.module.scss";
