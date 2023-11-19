@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./index.module.scss";
-import GlobalContext from "@/globalStore";
+import GlobalContext from "@/globalContext";
 
 // 临时功能
 function ConfirmModal({

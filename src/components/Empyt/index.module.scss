@@ -1,0 +1,45 @@
+.container {
+  text-transform: capitalize;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 60px 0;
+  p {
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 14px;
+  }
+  a {
+    margin-top: 16px;
+    text-decoration: none;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    color: #fff;
+    background-color: #3c3e40;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+
+    border-radius: 8px;
+    cursor: pointer;
+
+    transition: all 400ms;
+
+    border: 0;
+    outline: none;
+
+    &:hover {
+      opacity: 0.9;
+    }
+    &:active {
+      opacity: 1;
+      background: #000;
+    }
+  }
+}

@@ -31,8 +31,7 @@
     "react-html-parser": "^2.0.2",
     "sass": "^1.69.5",
     "sitemap": "^7.1.1",
-    "yarn": "^1.22.21",
-    "zustand": "^4.4.6"
+    "yarn": "^1.22.21"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

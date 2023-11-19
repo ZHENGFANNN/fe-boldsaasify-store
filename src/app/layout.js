@@ -10,8 +10,7 @@ import getLanguageList from "@/utils/getLanguageList";
 import getGoodSortList from "@/utils/getGoodSortList";
 
 import React from "react";
-
-import useStore from "../globalStore";
+import Layout from "@/components/Layout";
 
 export default async function RootLayout({ children }) {
   const [configList, languageList, goodSortList, goodList] = await Promise.all([
@@ -93,19 +92,21 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Navbar
-          LANG={languageList}
-          CONFIG={configList}
-          GOODLIST={goodList}
-          GOODSORTLIST={goodSortList}
-        />
-        <div id="app-content">{children}</div>
-        <Footer
-          LANG={languageList}
-          CONFIG={configList}
-          GOODLIST={goodList}
-          GOODSORTLIST={goodSortList}
-        />
+        <Layout>
+          <Navbar
+            LANG={languageList}
+            CONFIG={configList}
+            GOODLIST={goodList}
+            GOODSORTLIST={goodSortList}
+          />
+          <div id="app-content">{children}</div>
+          <Footer
+            LANG={languageList}
+            CONFIG={configList}
+            GOODLIST={goodList}
+            GOODSORTLIST={goodSortList}
+          />
+        </Layout>
       </body>
     </html>
   );

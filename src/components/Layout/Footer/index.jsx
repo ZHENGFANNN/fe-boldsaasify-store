@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 
 import NAVFUNC from "@/config/NAVFUNC";
 import Api from "../api";
-import GlobalContext from "@/globalStore";
+import GlobalContext from "@/globalContext";
 const FULLYEAR = new Date().getFullYear();
 
 function ShowLanguageItem({ value }) {

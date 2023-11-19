@@ -19,6 +19,35 @@
     "created_time": "2023-09-09T09:20:44.000Z",
     "updated_time": "2023-09-18T15:04:13.000Z",
     "associateProduct": [],
+    "typeList": [
+      {
+        "id": 86,
+        "type": "text",
+        "title": "colore",
+        "language": "it",
+        "good_sort_key": "watches",
+        "good_key": "n9-ultra-pro",
+        "options": [
+          {
+            "title": "nero"
+          },
+          {
+            "title": "Bianco"
+          },
+          {
+            "title": "verde"
+          },
+          {
+            "title": "arancione"
+          }
+        ],
+        "enabled": 1,
+        "weight": 1,
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2023-09-17T13:27:03.000Z",
+        "updated_time": "2023-09-18T15:06:09.000Z"
+      }
+    ],
     "packageList": [
       {
         "id": 645,
@@ -296,33 +325,21 @@
         "updated_time": "2023-09-24T08:18:15.000Z"
       }
     ],
-    "typeList": [
+    "indexConfig": [
       {
-        "id": 86,
-        "type": "text",
-        "title": "colore",
-        "language": "it",
-        "good_sort_key": "watches",
+        "id": 85,
         "good_key": "n9-ultra-pro",
-        "options": [
-          {
-            "title": "nero"
-          },
-          {
-            "title": "Bianco"
-          },
-          {
-            "title": "verde"
-          },
-          {
-            "title": "arancione"
-          }
-        ],
-        "enabled": 1,
-        "weight": 1,
+        "good_sort_key": "watches",
+        "language": "it",
         "associate_good_key": "watches:n9-ultra-pro",
-        "created_time": "2023-09-17T13:27:03.000Z",
-        "updated_time": "2023-09-18T15:06:09.000Z"
+        "page_keywords": "N9 ULTRA PRO, Smart Watch, Apple Watch, Smart Watch ad alte prestazioni, Smart Watch alla moda",
+        "page_title": "N9ULTRA PRO",
+        "page_description": "N9 ULTRA PRO è un potente smartwatch con funzionalità avanzate e design innovativo simile ad Apple Watch. Combina aspetto elegante e tecnologia ad alte prestazioni per offrire agli utenti un'eccellente esperienza intelligente.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:51:38.000Z",
+        "updated_time": "2023-09-24T04:51:38.000Z"
       }
     ],
     "comboList": [
@@ -1776,6 +1793,85 @@
         "updated_time": "2023-09-10T16:07:02.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 985,
+        "light": "NFC",
+        "weight": 7,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "it",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-10T16:12:29.000Z"
+      },
+      {
+        "id": 986,
+        "light": "notifica del messaggio",
+        "weight": 6,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "it",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:56:07.000Z"
+      },
+      {
+        "id": 987,
+        "light": "portafoglio da polso",
+        "weight": 5,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "it",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:19.000Z"
+      },
+      {
+        "id": 988,
+        "light": "Chiamate vocali",
+        "weight": 3,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "it",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-10T16:12:29.000Z"
+      },
+      {
+        "id": 989,
+        "light": "suonare",
+        "weight": 3,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "it",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:42.000Z"
+      },
+      {
+        "id": 990,
+        "light": "Cambio della lingua del braccialetto",
+        "weight": 2,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "it",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:33.000Z"
+      },
+      {
+        "id": 991,
+        "light": "Posizionamento condiviso",
+        "weight": 1,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "it",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:56:18.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 1928,
@@ -2030,102 +2126,6 @@
         "updated_time": "2023-09-10T15:50:55.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 985,
-        "light": "NFC",
-        "weight": 7,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "it",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-10T16:12:29.000Z"
-      },
-      {
-        "id": 986,
-        "light": "notifica del messaggio",
-        "weight": 6,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "it",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:56:07.000Z"
-      },
-      {
-        "id": 987,
-        "light": "portafoglio da polso",
-        "weight": 5,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "it",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:19.000Z"
-      },
-      {
-        "id": 988,
-        "light": "Chiamate vocali",
-        "weight": 3,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "it",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-10T16:12:29.000Z"
-      },
-      {
-        "id": 989,
-        "light": "suonare",
-        "weight": 3,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "it",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:42.000Z"
-      },
-      {
-        "id": 990,
-        "light": "Cambio della lingua del braccialetto",
-        "weight": 2,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "it",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:33.000Z"
-      },
-      {
-        "id": 991,
-        "light": "Posizionamento condiviso",
-        "weight": 1,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "it",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:56:18.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 85,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "page_keywords": "N9 ULTRA PRO, Smart Watch, Apple Watch, Smart Watch ad alte prestazioni, Smart Watch alla moda",
-        "page_title": "N9ULTRA PRO",
-        "page_description": "N9 ULTRA PRO è un potente smartwatch con funzionalità avanzate e design innovativo simile ad Apple Watch. Combina aspetto elegante e tecnologia ad alte prestazioni per offrire agli utenti un'eccellente esperienza intelligente.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:51:38.000Z",
-        "updated_time": "2023-09-24T04:51:38.000Z"
-      }
-    ],
     "path": "/watches/n9-ultra-pro"
   },
   {
@@ -2148,6 +2148,7 @@
     "created_time": "2022-12-26T14:24:11.000Z",
     "updated_time": "2023-09-09T09:55:10.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 833,
@@ -2239,7 +2240,23 @@
         "updated_time": "2023-09-09T14:31:51.000Z"
       }
     ],
-    "typeList": [],
+    "indexConfig": [
+      {
+        "id": 86,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:8-ultra-mini",
+        "page_keywords": "8Ultra min, orologio intelligente, compatto e leggero, monitoraggio della salute, monitoraggio sportivo",
+        "page_title": "8Ultramini",
+        "page_description": "8Ultra min è uno smartwatch piccolo e leggero con grandi funzionalità e design sofisticato. Ha una varietà di funzioni intelligenti, come il monitoraggio della salute, i promemoria delle notifiche e il monitoraggio degli esercizi, che ti consentono di rimanere connesso e gestire la tua vita sempre e ovunque.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:51:40.000Z",
+        "updated_time": "2023-09-24T04:51:40.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 61,
@@ -3486,6 +3503,74 @@
         "updated_time": "2023-09-09T15:37:22.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 1196,
+        "light": "assistente vocale",
+        "weight": 7,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "it",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1197,
+        "light": "Corpo in lega di zinco",
+        "weight": 6,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "it",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1198,
+        "light": "Tocco a schermo intero",
+        "weight": 5,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "it",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1199,
+        "light": "Chiamate vocali",
+        "weight": 4,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "it",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1200,
+        "light": "notifica del messaggio",
+        "weight": 3,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "it",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1201,
+        "light": "chiamata in arrivo",
+        "weight": 1,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "it",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2580,
@@ -3752,91 +3837,6 @@
         "updated_time": "2023-09-09T16:01:26.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1196,
-        "light": "assistente vocale",
-        "weight": 7,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "it",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1197,
-        "light": "Corpo in lega di zinco",
-        "weight": 6,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "it",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1198,
-        "light": "Tocco a schermo intero",
-        "weight": 5,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "it",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1199,
-        "light": "Chiamate vocali",
-        "weight": 4,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "it",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1200,
-        "light": "notifica del messaggio",
-        "weight": 3,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "it",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1201,
-        "light": "chiamata in arrivo",
-        "weight": 1,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "it",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 86,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:8-ultra-mini",
-        "page_keywords": "8Ultra min, orologio intelligente, compatto e leggero, monitoraggio della salute, monitoraggio sportivo",
-        "page_title": "8Ultramini",
-        "page_description": "8Ultra min è uno smartwatch piccolo e leggero con grandi funzionalità e design sofisticato. Ha una varietà di funzioni intelligenti, come il monitoraggio della salute, i promemoria delle notifiche e il monitoraggio degli esercizi, che ti consentono di rimanere connesso e gestire la tua vita sempre e ovunque.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:51:40.000Z",
-        "updated_time": "2023-09-24T04:51:40.000Z"
-      }
-    ],
     "path": "/watches/8-ultra-mini"
   },
   {
@@ -3859,6 +3859,7 @@
     "created_time": "2022-12-26T14:24:26.000Z",
     "updated_time": "2023-09-09T09:55:15.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 828,
@@ -3932,7 +3933,23 @@
       }
     ],
     "mediaList": [],
-    "typeList": [],
+    "indexConfig": [
+      {
+        "id": 87,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ip8-ultra",
+        "page_keywords": "IP8 ULTRA, orologio intelligente, orologio di fascia alta, touch screen HD, prestazioni potenti",
+        "page_title": "IP8ULTRA",
+        "page_description": "IP8 ULTRA è uno smartwatch di fascia alta noto per le sue eccellenti prestazioni e l'aspetto raffinato. Ha una potente potenza di elaborazione, touch screen ad alta definizione e funzioni avanzate, offrendo agli utenti un'eccellente esperienza intelligente.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:51:43.000Z",
+        "updated_time": "2023-09-24T04:51:43.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 71,
@@ -5275,6 +5292,74 @@
         "updated_time": "2023-09-10T16:08:42.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 1202,
+        "light": "NFC",
+        "weight": 7,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "it",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1203,
+        "light": "Telecomando intelligente",
+        "weight": 6,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "it",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1204,
+        "light": "Quadrante personalizzato",
+        "weight": 5,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "it",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1205,
+        "light": "Chiamate vocali",
+        "weight": 3,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "it",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1206,
+        "light": "tempo atmosferico",
+        "weight": 2,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "it",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1207,
+        "light": "suonare",
+        "weight": 1,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "it",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2602,
@@ -5505,91 +5590,6 @@
         "updated_time": "2023-09-10T16:02:11.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1202,
-        "light": "NFC",
-        "weight": 7,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "it",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1203,
-        "light": "Telecomando intelligente",
-        "weight": 6,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "it",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1204,
-        "light": "Quadrante personalizzato",
-        "weight": 5,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "it",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1205,
-        "light": "Chiamate vocali",
-        "weight": 3,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "it",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1206,
-        "light": "tempo atmosferico",
-        "weight": 2,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "it",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1207,
-        "light": "suonare",
-        "weight": 1,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "it",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 87,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ip8-ultra",
-        "page_keywords": "IP8 ULTRA, orologio intelligente, orologio di fascia alta, touch screen HD, prestazioni potenti",
-        "page_title": "IP8ULTRA",
-        "page_description": "IP8 ULTRA è uno smartwatch di fascia alta noto per le sue eccellenti prestazioni e l'aspetto raffinato. Ha una potente potenza di elaborazione, touch screen ad alta definizione e funzioni avanzate, offrendo agli utenti un'eccellente esperienza intelligente.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:51:43.000Z",
-        "updated_time": "2023-09-24T04:51:43.000Z"
-      }
-    ],
     "path": "/watches/ip8-ultra"
   },
   {
@@ -5612,6 +5612,7 @@
     "created_time": "2022-12-26T14:24:54.000Z",
     "updated_time": "2023-09-09T09:55:18.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 823,
@@ -5685,7 +5686,23 @@
       }
     ],
     "mediaList": [],
-    "typeList": [],
+    "indexConfig": [
+      {
+        "id": 88,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:series8-mini",
+        "page_keywords": "Serie8 mini, orologio intelligente, design elegante, messaggio push, monitoraggio della salute",
+        "page_title": "Serie8 mini",
+        "page_description": "Series8 mini è uno smartwatch elegante e sofisticato che combina design elegante e tecnologia intelligente. Ha una varietà di funzioni intelligenti, come il push dei messaggi, il monitoraggio della salute e i quadranti personalizzati, che ti consentono di goderti la comodità portata dalla tecnologia intelligente nella moda.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:51:46.000Z",
+        "updated_time": "2023-09-24T04:51:46.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 81,
@@ -6968,6 +6985,63 @@
         "updated_time": "2023-09-10T16:08:19.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 1208,
+        "light": "assistente vocale",
+        "weight": 7,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1209,
+        "light": "Tocco a schermo intero",
+        "weight": 5,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1210,
+        "light": "Chiamate vocali",
+        "weight": 4,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1211,
+        "light": "notifica del messaggio",
+        "weight": 3,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1212,
+        "light": "chiamata in arrivo",
+        "weight": 1,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2621,
@@ -7222,80 +7296,6 @@
         "updated_time": "2023-09-19T12:47:26.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1208,
-        "light": "assistente vocale",
-        "weight": 7,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1209,
-        "light": "Tocco a schermo intero",
-        "weight": 5,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1210,
-        "light": "Chiamate vocali",
-        "weight": 4,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1211,
-        "light": "notifica del messaggio",
-        "weight": 3,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1212,
-        "light": "chiamata in arrivo",
-        "weight": 1,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 88,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:series8-mini",
-        "page_keywords": "Serie8 mini, orologio intelligente, design elegante, messaggio push, monitoraggio della salute",
-        "page_title": "Serie8 mini",
-        "page_description": "Series8 mini è uno smartwatch elegante e sofisticato che combina design elegante e tecnologia intelligente. Ha una varietà di funzioni intelligenti, come il push dei messaggi, il monitoraggio della salute e i quadranti personalizzati, che ti consentono di goderti la comodità portata dalla tecnologia intelligente nella moda.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:51:46.000Z",
-        "updated_time": "2023-09-24T04:51:46.000Z"
-      }
-    ],
     "path": "/watches/series8-mini"
   },
   {
@@ -7318,6 +7318,7 @@
     "created_time": "2022-12-26T14:25:04.000Z",
     "updated_time": "2023-09-09T09:55:20.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 816,
@@ -7419,7 +7420,23 @@
       }
     ],
     "mediaList": [],
-    "typeList": [],
+    "indexConfig": [
+      {
+        "id": 89,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "it",
+        "associate_good_key": "watches:ultra-max",
+        "page_keywords": "UltraMax, orologio intelligente, alte prestazioni, lunga durata della batteria, orologio impermeabile",
+        "page_title": "UltraMax",
+        "page_description": "UltraMax è uno smartwatch completo che offre agli utenti prestazioni eccellenti e diverse funzioni. Ha una potente potenza di elaborazione, una lunga durata della batteria e resistenza all'acqua, che lo rendono adatto a una varietà di attività quotidiane e all'aperto.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:51:49.000Z",
+        "updated_time": "2023-09-24T04:51:49.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 91,
@@ -8762,6 +8779,74 @@
         "updated_time": "2023-09-10T16:07:39.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 1213,
+        "light": "chiamata in arrivo",
+        "weight": 8,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1214,
+        "light": "notifica del messaggio",
+        "weight": 7,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1215,
+        "light": "Cambio della lingua del braccialetto",
+        "weight": 6,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1216,
+        "light": "Posizionamento condiviso",
+        "weight": 5,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1217,
+        "light": "NFC",
+        "weight": 4,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1218,
+        "light": "Analisi della fatica",
+        "weight": 2,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "it",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2642,
@@ -8992,91 +9077,6 @@
         "updated_time": "2023-09-10T16:00:39.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1213,
-        "light": "chiamata in arrivo",
-        "weight": 8,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1214,
-        "light": "notifica del messaggio",
-        "weight": 7,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1215,
-        "light": "Cambio della lingua del braccialetto",
-        "weight": 6,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1216,
-        "light": "Posizionamento condiviso",
-        "weight": 5,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1217,
-        "light": "NFC",
-        "weight": 4,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1218,
-        "light": "Analisi della fatica",
-        "weight": 2,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "it",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 89,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "it",
-        "associate_good_key": "watches:ultra-max",
-        "page_keywords": "UltraMax, orologio intelligente, alte prestazioni, lunga durata della batteria, orologio impermeabile",
-        "page_title": "UltraMax",
-        "page_description": "UltraMax è uno smartwatch completo che offre agli utenti prestazioni eccellenti e diverse funzioni. Ha una potente potenza di elaborazione, una lunga durata della batteria e resistenza all'acqua, che lo rendono adatto a una varietà di attività quotidiane e all'aperto.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:51:49.000Z",
-        "updated_time": "2023-09-24T04:51:49.000Z"
-      }
-    ],
     "path": "/watches/ultra-max"
   },
   {
@@ -9099,13 +9099,9 @@
     "created_time": "2022-12-26T14:24:37.000Z",
     "updated_time": "2023-09-09T09:55:23.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [],
     "mediaList": [],
-    "typeList": [],
-    "comboList": [],
-    "funcionList": [],
-    "associationsList": [],
-    "sellingList": [],
     "indexConfig": [
       {
         "id": 90,
@@ -9123,6 +9119,10 @@
         "updated_time": "2023-09-24T04:51:53.000Z"
       }
     ],
+    "comboList": [],
+    "funcionList": [],
+    "sellingList": [],
+    "associationsList": [],
     "path": "/watches/k8-ultra-max"
   }
 ]

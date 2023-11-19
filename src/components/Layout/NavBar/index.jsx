@@ -10,11 +10,17 @@ import { useRouter } from "next/navigation";
 
 import NAVFUNC from "@/config/NAVFUNC";
 
+import GlobalContext from "@/globalContext";
+
 import TipModal from "@/components/Modal/FunctionTipModal";
 import Api from "../api";
 
 export default function NavBar({ CONFIG, LANG, GOODSORTLIST, GOODLIST }) {
-  const { userInfo, productNum, locale = "en" } = {};
+  const {
+    userInfo,
+    productNum,
+    locale = "en",
+  } = React.useContext(GlobalContext);
   const ModalRef = React.useRef(null);
   const NAVLIST = React.useMemo(() => {
     return NAVFUNC({ LANG, CONFIG, GOODLIST, GOODSORTLIST });

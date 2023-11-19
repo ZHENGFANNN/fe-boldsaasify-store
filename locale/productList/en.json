@@ -19,414 +19,6 @@
     "created_time": "2023-09-09T09:20:44.000Z",
     "updated_time": "2023-10-21T07:50:50.000Z",
     "associateProduct": [],
-    "typeList": [
-      {
-        "id": 79,
-        "type": "text",
-        "title": "color",
-        "language": "en",
-        "good_sort_key": "watches",
-        "good_key": "n9-ultra-pro",
-        "options": [
-          {
-            "title": "black"
-          },
-          {
-            "title": "White"
-          },
-          {
-            "title": "green"
-          },
-          {
-            "title": "orange"
-          }
-        ],
-        "enabled": 1,
-        "weight": 1,
-        "associate_good_key": "watches:n9-ultra-pro",
-        "created_time": "2023-09-17T13:27:03.000Z",
-        "updated_time": "2023-09-17T13:28:54.000Z"
-      }
-    ],
-    "packageList": [
-      {
-        "id": 568,
-        "type": "image",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": null,
-        "key": null,
-        "image": "https://image.sslfly.com/base/2023/9/17/609D062B6FFAEED9D2F90036827B388C/package_1.jpg",
-        "weight": 11,
-        "created_time": "2023-09-17T12:20:14.000Z",
-        "updated_time": "2023-09-17T15:03:10.000Z"
-      },
-      {
-        "id": 569,
-        "type": "image",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": null,
-        "key": null,
-        "image": "https://image.sslfly.com/base/2023/9/17/0D5F9CFC292FDD2053E19882BE7E3322/package_2.jpg",
-        "weight": 10,
-        "created_time": "2023-09-17T12:19:35.000Z",
-        "updated_time": "2023-09-17T15:03:15.000Z"
-      },
-      {
-        "id": 570,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Machine head*1, watch strap*1, manual*1, wireless charger*1",
-        "key": "packing list:",
-        "image": null,
-        "weight": 9,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 571,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Zinc alloy body + IML bottom case",
-        "key": "Body material:",
-        "image": null,
-        "weight": 8,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 572,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Silica gel",
-        "key": "Strap material:",
-        "image": null,
-        "weight": 7,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 573,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "49mm",
-        "key": "Product size (mm):",
-        "image": null,
-        "weight": 6,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 574,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "20.8*11.3*2.1CM",
-        "key": "Color box size (mm):",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 575,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "100PCS/carton\n59.5*43.5*24CM",
-        "key": "Outer box size (mm):",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 576,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "53g",
-        "key": "Product weight (g):",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 577,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "205g",
-        "key": "Complete set weight (g):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 578,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "21.5kg/carton",
-        "key": "Full box weight (kg):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      }
-    ],
-    "mediaList": [
-      {
-        "id": 53,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "Vibrant Colors at Your Fingertips!",
-        "description": "Showcasing a variety of color options, allowing you to embrace individuality and style!",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/17/5B4DCAD8DF1E8E928036B24E0684B764/color.jpg",
-        "media_code": null,
-        "weight": 100,
-        "created_time": "2023-09-24T07:13:48.000Z",
-        "updated_time": "2023-09-24T08:52:18.000Z"
-      },
-      {
-        "id": 116,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "Bluetooth Call Support, Never Miss A Call.",
-        "description": "You can answer calls on your watch with a single touch and talk directly through its built-in microphone and speaker. The watch syncs contacts from your phone, allowing you to quickly call anyone you want within seconds.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/4401D7D088256D26566279370BA1464C/N9Ultrapro-message.jpg",
-        "media_code": null,
-        "weight": 99,
-        "created_time": "2023-10-21T09:10:37.000Z",
-        "updated_time": "2023-10-21T09:10:37.000Z"
-      },
-      {
-        "id": 117,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "Multi Payment & Offline Payment Support",
-        "description": "This watch supports offline payment and collection through popular platforms such as PayPal, WeChat Pay, and Alipay. It enables quick and convenient transactions with a simple wrist gesture.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/E3FE84315C593EA31A1DDD3D3F1993B4/N9Ultrapro-pay.jpg",
-        "media_code": null,
-        "weight": 98,
-        "created_time": "2023-10-21T09:11:39.000Z",
-        "updated_time": "2023-10-21T09:11:39.000Z"
-      },
-      {
-        "id": 118,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "NFC & Tiktok Controller",
-        "description": "This wrist device serves as both a smart key and supports analog access control cards for NFC unlocking. Additionally, it functions as a Bluetooth remote control for short videos, offering a unique and enhanced entertainment experience.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/6EA3A919566F5BD222AF69D11DEAFD2A/N9Ultrapro-nfc.jpg",
-        "media_code": null,
-        "weight": 97,
-        "created_time": "2023-10-21T09:14:22.000Z",
-        "updated_time": "2023-10-21T09:14:22.000Z"
-      },
-      {
-        "id": 119,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "IP68 Water resistance",
-        "description": "This watch has an IP68 water resistance rating, allowing you to freely wear it during open water swimming or in the pool without any concerns.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/4593A14DA519728BE41E76FB1112D01C/N9Ultrapro-ip3.jpg",
-        "media_code": null,
-        "weight": 96,
-        "created_time": "2023-10-21T09:16:00.000Z",
-        "updated_time": "2023-10-21T09:16:00.000Z"
-      },
-      {
-        "id": 120,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "Outdoor Altitude Pressure Function",
-        "description": "The watch features a built-in altitude pressure sensor that provides real-time numerical indication of outdoor altitude and barometric pressure. It offers professional data support for your outdoor activities.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/827702AD5C46D4B4A2E6165F158F4BC2/N9Ultrapro%20-%20sport.jpg",
-        "media_code": null,
-        "weight": 95,
-        "created_time": "2023-10-21T09:17:39.000Z",
-        "updated_time": "2023-10-21T09:17:39.000Z"
-      },
-      {
-        "id": 121,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "One Watch For Every Outfit",
-        "description": "Customize your watch to match your mood, outfit, or the occasion with over 100 stylish watch faces available at the dial store. You can even upload your own photo as the background image for a truly personalized touch.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/EEA1C3AAD79C95D9000DE3C5888DF458/N9Ultrapro-ui.jpg",
-        "media_code": null,
-        "weight": 94,
-        "created_time": "2023-10-21T09:19:36.000Z",
-        "updated_time": "2023-10-21T09:19:36.000Z"
-      },
-      {
-        "id": 122,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "Real Titanium, More Details.",
-        "description": "Made of lightweight titanium, the watch is wear-resistant, scratch-resistant, and corrosion-resistant. It can handle sweat, bumps, and close inspection with ease.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/45AC68988E6A6DCEB829C5F75CC291F1/N9Ultrapro-face.jpg",
-        "media_code": null,
-        "weight": 93,
-        "created_time": "2023-10-21T09:21:51.000Z",
-        "updated_time": "2023-10-21T09:21:51.000Z"
-      },
-      {
-        "id": 123,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/07FE7BFD5547C60870F50141E32C8792/N9Ultrapro%E8%AF%A6%20(19).jpg",
-        "media_code": null,
-        "weight": 92,
-        "created_time": "2023-10-21T09:22:29.000Z",
-        "updated_time": "2023-10-21T09:22:29.000Z"
-      },
-      {
-        "id": 125,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/24/35EE499D62A99ACC594A1F7D74002945/N9Ultrapro%E8%AF%A6%20(11).jpg",
-        "media_code": null,
-        "weight": 92,
-        "created_time": "2023-10-21T09:23:14.000Z",
-        "updated_time": "2023-10-21T09:37:57.000Z"
-      },
-      {
-        "id": 124,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/17/16F7663FF3336F01C297210F74A903CA/N9Ultrapro%E8%AF%A6%20(22)_proc.jpg",
-        "media_code": null,
-        "weight": 91,
-        "created_time": "2023-10-21T09:23:00.000Z",
-        "updated_time": "2023-10-21T09:38:04.000Z"
-      },
-      {
-        "id": 126,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/10/21/A5E5F56644FC852C174943DDAC233C9F/N9Ultrapro%E8%AF%A6%20(21).jpg",
-        "media_code": null,
-        "weight": 90,
-        "created_time": "2023-10-21T09:38:24.000Z",
-        "updated_time": "2023-10-21T09:38:24.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 34,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "page_keywords": "N9 ULTRA PRO, Smart Watch, Apple Watch, High Performance Smart Watch, Fashion Smart Watch",
-        "page_title": "N9 ULTRA PRO",
-        "page_description": "N9 ULTRA PRO is a powerful smartwatch with advanced features and innovative design similar to Apple Watch. It combines stylish appearance and high-performance technology to provide users with an excellent smart experience.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:38:43.000Z",
-        "updated_time": "2023-09-24T04:38:43.000Z"
-      }
-    ],
     "comboList": [
       {
         "id": 104,
@@ -1276,6 +868,414 @@
         ]
       }
     ],
+    "typeList": [
+      {
+        "id": 79,
+        "type": "text",
+        "title": "color",
+        "language": "en",
+        "good_sort_key": "watches",
+        "good_key": "n9-ultra-pro",
+        "options": [
+          {
+            "title": "black"
+          },
+          {
+            "title": "White"
+          },
+          {
+            "title": "green"
+          },
+          {
+            "title": "orange"
+          }
+        ],
+        "enabled": 1,
+        "weight": 1,
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2023-09-17T13:27:03.000Z",
+        "updated_time": "2023-09-17T13:28:54.000Z"
+      }
+    ],
+    "packageList": [
+      {
+        "id": 568,
+        "type": "image",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": null,
+        "key": null,
+        "image": "https://image.sslfly.com/base/2023/9/17/609D062B6FFAEED9D2F90036827B388C/package_1.jpg",
+        "weight": 11,
+        "created_time": "2023-09-17T12:20:14.000Z",
+        "updated_time": "2023-09-17T15:03:10.000Z"
+      },
+      {
+        "id": 569,
+        "type": "image",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": null,
+        "key": null,
+        "image": "https://image.sslfly.com/base/2023/9/17/0D5F9CFC292FDD2053E19882BE7E3322/package_2.jpg",
+        "weight": 10,
+        "created_time": "2023-09-17T12:19:35.000Z",
+        "updated_time": "2023-09-17T15:03:15.000Z"
+      },
+      {
+        "id": 570,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Machine head*1, watch strap*1, manual*1, wireless charger*1",
+        "key": "packing list:",
+        "image": null,
+        "weight": 9,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 571,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Zinc alloy body + IML bottom case",
+        "key": "Body material:",
+        "image": null,
+        "weight": 8,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 572,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Silica gel",
+        "key": "Strap material:",
+        "image": null,
+        "weight": 7,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 573,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "49mm",
+        "key": "Product size (mm):",
+        "image": null,
+        "weight": 6,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 574,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "20.8*11.3*2.1CM",
+        "key": "Color box size (mm):",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 575,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "100PCS/carton\n59.5*43.5*24CM",
+        "key": "Outer box size (mm):",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 576,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "53g",
+        "key": "Product weight (g):",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 577,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "205g",
+        "key": "Complete set weight (g):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 578,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "21.5kg/carton",
+        "key": "Full box weight (kg):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      }
+    ],
+    "mediaList": [
+      {
+        "id": 53,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "Vibrant Colors at Your Fingertips!",
+        "description": "Showcasing a variety of color options, allowing you to embrace individuality and style!",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/17/5B4DCAD8DF1E8E928036B24E0684B764/color.jpg",
+        "media_code": null,
+        "weight": 100,
+        "created_time": "2023-09-24T07:13:48.000Z",
+        "updated_time": "2023-09-24T08:52:18.000Z"
+      },
+      {
+        "id": 116,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "Bluetooth Call Support, Never Miss A Call.",
+        "description": "You can answer calls on your watch with a single touch and talk directly through its built-in microphone and speaker. The watch syncs contacts from your phone, allowing you to quickly call anyone you want within seconds.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/4401D7D088256D26566279370BA1464C/N9Ultrapro-message.jpg",
+        "media_code": null,
+        "weight": 99,
+        "created_time": "2023-10-21T09:10:37.000Z",
+        "updated_time": "2023-10-21T09:10:37.000Z"
+      },
+      {
+        "id": 117,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "Multi Payment & Offline Payment Support",
+        "description": "This watch supports offline payment and collection through popular platforms such as PayPal, WeChat Pay, and Alipay. It enables quick and convenient transactions with a simple wrist gesture.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/E3FE84315C593EA31A1DDD3D3F1993B4/N9Ultrapro-pay.jpg",
+        "media_code": null,
+        "weight": 98,
+        "created_time": "2023-10-21T09:11:39.000Z",
+        "updated_time": "2023-10-21T09:11:39.000Z"
+      },
+      {
+        "id": 118,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "NFC & Tiktok Controller",
+        "description": "This wrist device serves as both a smart key and supports analog access control cards for NFC unlocking. Additionally, it functions as a Bluetooth remote control for short videos, offering a unique and enhanced entertainment experience.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/6EA3A919566F5BD222AF69D11DEAFD2A/N9Ultrapro-nfc.jpg",
+        "media_code": null,
+        "weight": 97,
+        "created_time": "2023-10-21T09:14:22.000Z",
+        "updated_time": "2023-10-21T09:14:22.000Z"
+      },
+      {
+        "id": 119,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "IP68 Water resistance",
+        "description": "This watch has an IP68 water resistance rating, allowing you to freely wear it during open water swimming or in the pool without any concerns.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/4593A14DA519728BE41E76FB1112D01C/N9Ultrapro-ip3.jpg",
+        "media_code": null,
+        "weight": 96,
+        "created_time": "2023-10-21T09:16:00.000Z",
+        "updated_time": "2023-10-21T09:16:00.000Z"
+      },
+      {
+        "id": 120,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "Outdoor Altitude Pressure Function",
+        "description": "The watch features a built-in altitude pressure sensor that provides real-time numerical indication of outdoor altitude and barometric pressure. It offers professional data support for your outdoor activities.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/827702AD5C46D4B4A2E6165F158F4BC2/N9Ultrapro%20-%20sport.jpg",
+        "media_code": null,
+        "weight": 95,
+        "created_time": "2023-10-21T09:17:39.000Z",
+        "updated_time": "2023-10-21T09:17:39.000Z"
+      },
+      {
+        "id": 121,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "One Watch For Every Outfit",
+        "description": "Customize your watch to match your mood, outfit, or the occasion with over 100 stylish watch faces available at the dial store. You can even upload your own photo as the background image for a truly personalized touch.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/EEA1C3AAD79C95D9000DE3C5888DF458/N9Ultrapro-ui.jpg",
+        "media_code": null,
+        "weight": 94,
+        "created_time": "2023-10-21T09:19:36.000Z",
+        "updated_time": "2023-10-21T09:19:36.000Z"
+      },
+      {
+        "id": 122,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "Real Titanium, More Details.",
+        "description": "Made of lightweight titanium, the watch is wear-resistant, scratch-resistant, and corrosion-resistant. It can handle sweat, bumps, and close inspection with ease.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/45AC68988E6A6DCEB829C5F75CC291F1/N9Ultrapro-face.jpg",
+        "media_code": null,
+        "weight": 93,
+        "created_time": "2023-10-21T09:21:51.000Z",
+        "updated_time": "2023-10-21T09:21:51.000Z"
+      },
+      {
+        "id": 123,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/07FE7BFD5547C60870F50141E32C8792/N9Ultrapro%E8%AF%A6%20(19).jpg",
+        "media_code": null,
+        "weight": 92,
+        "created_time": "2023-10-21T09:22:29.000Z",
+        "updated_time": "2023-10-21T09:22:29.000Z"
+      },
+      {
+        "id": 125,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/24/35EE499D62A99ACC594A1F7D74002945/N9Ultrapro%E8%AF%A6%20(11).jpg",
+        "media_code": null,
+        "weight": 92,
+        "created_time": "2023-10-21T09:23:14.000Z",
+        "updated_time": "2023-10-21T09:37:57.000Z"
+      },
+      {
+        "id": 124,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/17/16F7663FF3336F01C297210F74A903CA/N9Ultrapro%E8%AF%A6%20(22)_proc.jpg",
+        "media_code": null,
+        "weight": 91,
+        "created_time": "2023-10-21T09:23:00.000Z",
+        "updated_time": "2023-10-21T09:38:04.000Z"
+      },
+      {
+        "id": 126,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/10/21/A5E5F56644FC852C174943DDAC233C9F/N9Ultrapro%E8%AF%A6%20(21).jpg",
+        "media_code": null,
+        "weight": 90,
+        "created_time": "2023-10-21T09:38:24.000Z",
+        "updated_time": "2023-10-21T09:38:24.000Z"
+      }
+    ],
+    "indexConfig": [
+      {
+        "id": 34,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "page_keywords": "N9 ULTRA PRO, Smart Watch, Apple Watch, High Performance Smart Watch, Fashion Smart Watch",
+        "page_title": "N9 ULTRA PRO",
+        "page_description": "N9 ULTRA PRO is a powerful smartwatch with advanced features and innovative design similar to Apple Watch. It combines stylish appearance and high-performance technology to provide users with an excellent smart experience.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:38:43.000Z",
+        "updated_time": "2023-09-24T04:38:43.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 1992,
@@ -1528,6 +1528,85 @@
         "weight": 1,
         "created_time": "2023-09-10T15:50:55.000Z",
         "updated_time": "2023-09-10T15:50:55.000Z"
+      }
+    ],
+    "sellingList": [
+      {
+        "id": 1007,
+        "light": "Access Assistant: Use the NFC feature to effortlessly swipe into your office or residence!",
+        "weight": 7,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "en",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-10-21T07:18:41.000Z"
+      },
+      {
+        "id": 1008,
+        "light": " Fitness Enthusiast: Record your training data and help achieve your fitness goals! ",
+        "weight": 6,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "en",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-10-21T07:16:19.000Z"
+      },
+      {
+        "id": 1009,
+        "light": "Super Reminder: Set alarm reminders and never miss any important events! ",
+        "weight": 5,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "en",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-10-21T07:18:38.000Z"
+      },
+      {
+        "id": 1010,
+        "light": "Message Interaction: Receive message notifications to stay connected with family and friends! ",
+        "weight": 3,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "en",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-10-21T06:51:15.000Z"
+      },
+      {
+        "id": 1011,
+        "light": " Voice Calls: Enjoy voice calling functionality for seamless communication with loved ones! ",
+        "weight": 3,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "en",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-10-21T06:51:31.000Z"
+      },
+      {
+        "id": 1012,
+        "light": " Multilingual Support: Switch languages and communicate effortlessly with friends worldwide!",
+        "weight": 2,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "en",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-10-21T06:51:55.000Z"
+      },
+      {
+        "id": 1013,
+        "light": " Music Companion: Experience music playback feature for a rhythmic stride! ",
+        "weight": 1,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "en",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-10-21T06:52:21.000Z"
       }
     ],
     "funcionList": [
@@ -2132,85 +2211,6 @@
         "updated_time": "2023-09-10T16:07:02.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1007,
-        "light": "Access Assistant: Use the NFC feature to effortlessly swipe into your office or residence!",
-        "weight": 7,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "en",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-10-21T07:18:41.000Z"
-      },
-      {
-        "id": 1008,
-        "light": " Fitness Enthusiast: Record your training data and help achieve your fitness goals! ",
-        "weight": 6,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "en",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-10-21T07:16:19.000Z"
-      },
-      {
-        "id": 1009,
-        "light": "Super Reminder: Set alarm reminders and never miss any important events! ",
-        "weight": 5,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "en",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-10-21T07:18:38.000Z"
-      },
-      {
-        "id": 1010,
-        "light": "Message Interaction: Receive message notifications to stay connected with family and friends! ",
-        "weight": 3,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "en",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-10-21T06:51:15.000Z"
-      },
-      {
-        "id": 1011,
-        "light": " Voice Calls: Enjoy voice calling functionality for seamless communication with loved ones! ",
-        "weight": 3,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "en",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-10-21T06:51:31.000Z"
-      },
-      {
-        "id": 1012,
-        "light": " Multilingual Support: Switch languages and communicate effortlessly with friends worldwide!",
-        "weight": 2,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "en",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-10-21T06:51:55.000Z"
-      },
-      {
-        "id": 1013,
-        "light": " Music Companion: Experience music playback feature for a rhythmic stride! ",
-        "weight": 1,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "en",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-10-21T06:52:21.000Z"
-      }
-    ],
     "path": "/watches/n9-ultra-pro"
   },
   {
@@ -2236,115 +2236,6 @@
     "created_time": "2022-12-26T14:24:11.000Z",
     "updated_time": "2023-09-18T14:47:40.000Z",
     "associateProduct": [],
-    "typeList": [],
-    "packageList": [
-      {
-        "id": 526,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Machine head*1, watch strap*1, manual*1, wireless charger*1",
-        "key": "packing list:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-09T15:58:47.000Z",
-        "updated_time": "2023-09-09T15:58:47.000Z"
-      },
-      {
-        "id": 527,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Zinc alloy body + IML bottom case",
-        "key": "Body material:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-09T15:58:47.000Z",
-        "updated_time": "2023-09-09T15:58:47.000Z"
-      },
-      {
-        "id": 528,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Silica gel",
-        "key": "Strap material:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-09T15:58:47.000Z",
-        "updated_time": "2023-09-09T15:58:47.000Z"
-      },
-      {
-        "id": 529,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "210*106*25mm",
-        "key": "Color box size (mm):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-09T15:58:47.000Z",
-        "updated_time": "2023-09-09T15:58:47.000Z"
-      },
-      {
-        "id": 530,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "50pcs/carton\n570*315*235mm",
-        "key": "Outer box size (mm):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-09T15:58:47.000Z",
-        "updated_time": "2023-09-09T15:58:47.000Z"
-      }
-    ],
-    "mediaList": [
-      {
-        "id": 33,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:8-ultra-mini",
-        "type": "facebook",
-        "title": "Fashion technology,\nAll-round smart watch",
-        "description": "This smart watch integrates a variety of functions, including health management, smart assistant, communication, entertainment, etc., allowing you to stay in touch anytime, anywhere, monitor your health, receive personalized recommendations, and make it more convenient through voice control, gesture recognition, etc. Efficient.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": null,
-        "media_code": "288303853920678",
-        "weight": 12,
-        "created_time": "2023-09-09T14:28:04.000Z",
-        "updated_time": "2023-09-24T06:49:22.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 36,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:8-ultra-mini",
-        "page_keywords": "8Ultra min, smart watch, compact and lightweight, health monitoring, sports tracking",
-        "page_title": "8Ultra mini",
-        "page_description": "8Ultra min is a small and lightweight smartwatch with great features and sophisticated design. It has a variety of smart functions, such as health monitoring, notification reminders, and exercise tracking, allowing you to stay connected and manage your life anytime, anywhere.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:43:00.000Z",
-        "updated_time": "2023-09-24T04:43:00.000Z"
-      }
-    ],
     "comboList": [
       {
         "id": 54,
@@ -3181,6 +3072,115 @@
         ]
       }
     ],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 526,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Machine head*1, watch strap*1, manual*1, wireless charger*1",
+        "key": "packing list:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-09T15:58:47.000Z",
+        "updated_time": "2023-09-09T15:58:47.000Z"
+      },
+      {
+        "id": 527,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Zinc alloy body + IML bottom case",
+        "key": "Body material:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-09T15:58:47.000Z",
+        "updated_time": "2023-09-09T15:58:47.000Z"
+      },
+      {
+        "id": 528,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Silica gel",
+        "key": "Strap material:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-09T15:58:47.000Z",
+        "updated_time": "2023-09-09T15:58:47.000Z"
+      },
+      {
+        "id": 529,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "210*106*25mm",
+        "key": "Color box size (mm):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-09T15:58:47.000Z",
+        "updated_time": "2023-09-09T15:58:47.000Z"
+      },
+      {
+        "id": 530,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "50pcs/carton\n570*315*235mm",
+        "key": "Outer box size (mm):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-09T15:58:47.000Z",
+        "updated_time": "2023-09-09T15:58:47.000Z"
+      }
+    ],
+    "mediaList": [
+      {
+        "id": 33,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:8-ultra-mini",
+        "type": "facebook",
+        "title": "Fashion technology,\nAll-round smart watch",
+        "description": "This smart watch integrates a variety of functions, including health management, smart assistant, communication, entertainment, etc., allowing you to stay in touch anytime, anywhere, monitor your health, receive personalized recommendations, and make it more convenient through voice control, gesture recognition, etc. Efficient.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": null,
+        "media_code": "288303853920678",
+        "weight": 12,
+        "created_time": "2023-09-09T14:28:04.000Z",
+        "updated_time": "2023-09-24T06:49:22.000Z"
+      }
+    ],
+    "indexConfig": [
+      {
+        "id": 36,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:8-ultra-mini",
+        "page_keywords": "8Ultra min, smart watch, compact and lightweight, health monitoring, sports tracking",
+        "page_title": "8Ultra mini",
+        "page_description": "8Ultra min is a small and lightweight smartwatch with great features and sophisticated design. It has a variety of smart functions, such as health monitoring, notification reminders, and exercise tracking, allowing you to stay connected and manage your life anytime, anywhere.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:43:00.000Z",
+        "updated_time": "2023-09-24T04:43:00.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2013,
@@ -3445,6 +3445,74 @@
         "weight": 1,
         "created_time": "2023-09-09T16:01:26.000Z",
         "updated_time": "2023-09-09T16:01:26.000Z"
+      }
+    ],
+    "sellingList": [
+      {
+        "id": 1014,
+        "light": "voice assistant",
+        "weight": 7,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "en",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1015,
+        "light": "Zinc alloy body",
+        "weight": 6,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "en",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1016,
+        "light": "Full screen touch",
+        "weight": 5,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "en",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1017,
+        "light": "Voice calls",
+        "weight": 4,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "en",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1018,
+        "light": "message notification",
+        "weight": 3,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "en",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1019,
+        "light": "incoming call",
+        "weight": 1,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "en",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
       }
     ],
     "funcionList": [
@@ -3857,74 +3925,6 @@
         "updated_time": "2023-09-09T15:37:22.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1014,
-        "light": "voice assistant",
-        "weight": 7,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "en",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1015,
-        "light": "Zinc alloy body",
-        "weight": 6,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "en",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1016,
-        "light": "Full screen touch",
-        "weight": 5,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "en",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1017,
-        "light": "Voice calls",
-        "weight": 4,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "en",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1018,
-        "light": "message notification",
-        "weight": 3,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "en",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1019,
-        "light": "incoming call",
-        "weight": 1,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "en",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      }
-    ],
     "path": "/watches/8-ultra-mini"
   },
   {
@@ -3947,97 +3947,6 @@
     "created_time": "2022-12-26T14:24:26.000Z",
     "updated_time": "2023-09-17T12:10:55.000Z",
     "associateProduct": [],
-    "typeList": [],
-    "packageList": [
-      {
-        "id": 667,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": " Machine head*1, watch strap*1, manual*1, wireless charging cable*1",
-        "key": "packing list:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 668,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "Zinc alloy body + IML bottom case",
-        "key": "Body material:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 669,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "Silica gel ",
-        "key": "Strap material:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 670,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "214x117x27mm",
-        "key": "Color box size (cm):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 671,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "50/box 62*45.5*18cm",
-        "key": "Outer box size (cm):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      }
-    ],
-    "mediaList": [],
-    "indexConfig": [
-      {
-        "id": 35,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ip8-ultra",
-        "page_keywords": "IP8 ULTRA, smart watch, high-end watch, HD touch screen, powerful performance",
-        "page_title": "IP8 ULTRA",
-        "page_description": "IP8 ULTRA is a high-end smartwatch known for its excellent performance and exquisite appearance. It has powerful processing power, high-definition touch screen and rich functions, providing users with an excellent smart experience.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:39:09.000Z",
-        "updated_time": "2023-09-24T04:39:09.000Z"
-      }
-    ],
     "comboList": [
       {
         "id": 64,
@@ -4874,6 +4783,97 @@
         ]
       }
     ],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 667,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": " Machine head*1, watch strap*1, manual*1, wireless charging cable*1",
+        "key": "packing list:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 668,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "Zinc alloy body + IML bottom case",
+        "key": "Body material:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 669,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "Silica gel ",
+        "key": "Strap material:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 670,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "214x117x27mm",
+        "key": "Color box size (cm):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 671,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "50/box 62*45.5*18cm",
+        "key": "Outer box size (cm):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      }
+    ],
+    "mediaList": [],
+    "indexConfig": [
+      {
+        "id": 35,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ip8-ultra",
+        "page_keywords": "IP8 ULTRA, smart watch, high-end watch, HD touch screen, powerful performance",
+        "page_title": "IP8 ULTRA",
+        "page_description": "IP8 ULTRA is a high-end smartwatch known for its excellent performance and exquisite appearance. It has powerful processing power, high-definition touch screen and rich functions, providing users with an excellent smart experience.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:39:09.000Z",
+        "updated_time": "2023-09-24T04:39:09.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2035,
@@ -5102,6 +5102,74 @@
         "weight": 1,
         "created_time": "2023-09-10T16:02:11.000Z",
         "updated_time": "2023-09-10T16:02:11.000Z"
+      }
+    ],
+    "sellingList": [
+      {
+        "id": 1020,
+        "light": "NFC",
+        "weight": 7,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "en",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1021,
+        "light": "Smart remote control",
+        "weight": 6,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "en",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1022,
+        "light": "Custom watch face",
+        "weight": 5,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "en",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1023,
+        "light": "Voice calls",
+        "weight": 3,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "en",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1024,
+        "light": "weather",
+        "weight": 2,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "en",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1025,
+        "light": "play music",
+        "weight": 1,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "en",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
       }
     ],
     "funcionList": [
@@ -5610,74 +5678,6 @@
         "updated_time": "2023-09-10T16:08:42.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1020,
-        "light": "NFC",
-        "weight": 7,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "en",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1021,
-        "light": "Smart remote control",
-        "weight": 6,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "en",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1022,
-        "light": "Custom watch face",
-        "weight": 5,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "en",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1023,
-        "light": "Voice calls",
-        "weight": 3,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "en",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1024,
-        "light": "weather",
-        "weight": 2,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "en",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1025,
-        "light": "play music",
-        "weight": 1,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "en",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      }
-    ],
     "path": "/watches/ip8-ultra"
   },
   {
@@ -5700,97 +5700,6 @@
     "created_time": "2022-12-26T14:24:54.000Z",
     "updated_time": "2023-09-09T09:53:36.000Z",
     "associateProduct": [],
-    "typeList": [],
-    "packageList": [
-      {
-        "id": 672,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Machine head*1, watch strap*1, manual*1, wireless charger*1",
-        "key": "packing list:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 673,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Zinc alloy body + IML bottom case",
-        "key": "Body material:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 674,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Silica gel",
-        "key": "Strap material:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 675,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:series8-mini",
-        "value": "196*108.5*22mm",
-        "key": "Color box size (mm):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 676,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:series8-mini",
-        "value": "100pcs/carton\n565*245*415mm",
-        "key": "Outer box size (mm):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      }
-    ],
-    "mediaList": [],
-    "indexConfig": [
-      {
-        "id": 37,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:series8-mini",
-        "page_keywords": "Series8 mini, smart watch, stylish design, push message, health monitoring",
-        "page_title": "Series8 mini",
-        "page_description": "Series8 mini is a stylish and sophisticated smartwatch that combines stylish design and smart technology. It has a variety of smart functions, such as message push, health monitoring and personalized watch faces, allowing you to enjoy the convenience brought by smart technology in fashion.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:43:06.000Z",
-        "updated_time": "2023-09-24T04:43:06.000Z"
-      }
-    ],
     "comboList": [
       {
         "id": 74,
@@ -6627,6 +6536,97 @@
         ]
       }
     ],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 672,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Machine head*1, watch strap*1, manual*1, wireless charger*1",
+        "key": "packing list:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 673,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Zinc alloy body + IML bottom case",
+        "key": "Body material:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 674,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Silica gel",
+        "key": "Strap material:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 675,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:series8-mini",
+        "value": "196*108.5*22mm",
+        "key": "Color box size (mm):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 676,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:series8-mini",
+        "value": "100pcs/carton\n565*245*415mm",
+        "key": "Outer box size (mm):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      }
+    ],
+    "mediaList": [],
+    "indexConfig": [
+      {
+        "id": 37,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:series8-mini",
+        "page_keywords": "Series8 mini, smart watch, stylish design, push message, health monitoring",
+        "page_title": "Series8 mini",
+        "page_description": "Series8 mini is a stylish and sophisticated smartwatch that combines stylish design and smart technology. It has a variety of smart functions, such as message push, health monitoring and personalized watch faces, allowing you to enjoy the convenience brought by smart technology in fashion.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:43:06.000Z",
+        "updated_time": "2023-09-24T04:43:06.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2054,
@@ -6879,6 +6879,63 @@
         "weight": 1,
         "created_time": "2023-09-19T12:47:26.000Z",
         "updated_time": "2023-09-19T12:47:26.000Z"
+      }
+    ],
+    "sellingList": [
+      {
+        "id": 1026,
+        "light": "voice assistant",
+        "weight": 7,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1027,
+        "light": "Full screen touch",
+        "weight": 5,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1028,
+        "light": "Voice calls",
+        "weight": 4,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1029,
+        "light": "message notification",
+        "weight": 3,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1030,
+        "light": "incoming call",
+        "weight": 1,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
       }
     ],
     "funcionList": [
@@ -7327,63 +7384,6 @@
         "updated_time": "2023-09-10T16:08:19.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1026,
-        "light": "voice assistant",
-        "weight": 7,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1027,
-        "light": "Full screen touch",
-        "weight": 5,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1028,
-        "light": "Voice calls",
-        "weight": 4,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1029,
-        "light": "message notification",
-        "weight": 3,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1030,
-        "light": "incoming call",
-        "weight": 1,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      }
-    ],
     "path": "/watches/series8-mini"
   },
   {
@@ -7406,125 +7406,6 @@
     "created_time": "2022-12-26T14:25:04.000Z",
     "updated_time": "2023-09-09T09:53:38.000Z",
     "associateProduct": [],
-    "typeList": [],
-    "packageList": [
-      {
-        "id": 677,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ultra-max",
-        "value": " Machine head*1, watch strap*1, manual*1, wireless charging cable*1",
-        "key": "packing list:",
-        "image": null,
-        "weight": 7,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 678,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ultra-max",
-        "value": "Zinc alloy body + IML bottom case",
-        "key": "Body material:",
-        "image": null,
-        "weight": 6,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 679,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ultra-max",
-        "value": "Silica gel ",
-        "key": "Strap material:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 680,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ultra-max",
-        "value": "215x117x26mm",
-        "key": "Color box size (cm):",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 681,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ultra-max",
-        "value": "50/box 62*45.5*18cm",
-        "key": "Outer box size (cm):",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 682,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ultra-max",
-        "value": "294.2g",
-        "key": "Complete set weight (g):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 683,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ultra-max",
-        "value": "15.77kg",
-        "key": "Full box weight (kg):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      }
-    ],
-    "mediaList": [],
-    "indexConfig": [
-      {
-        "id": 38,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "en",
-        "associate_good_key": "watches:ultra-max",
-        "page_keywords": "UltraMax, smart watch, high performance, long battery life, waterproof watch",
-        "page_title": "UltraMax",
-        "page_description": "UltraMax is a comprehensive smartwatch that provides users with excellent performance and diverse functions. It has powerful processing power, long battery life and water resistance, making it suitable for a variety of outdoor and daily activities.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:43:09.000Z",
-        "updated_time": "2023-09-24T04:43:09.000Z"
-      }
-    ],
     "comboList": [
       {
         "id": 84,
@@ -8361,6 +8242,125 @@
         ]
       }
     ],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 677,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ultra-max",
+        "value": " Machine head*1, watch strap*1, manual*1, wireless charging cable*1",
+        "key": "packing list:",
+        "image": null,
+        "weight": 7,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 678,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ultra-max",
+        "value": "Zinc alloy body + IML bottom case",
+        "key": "Body material:",
+        "image": null,
+        "weight": 6,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 679,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ultra-max",
+        "value": "Silica gel ",
+        "key": "Strap material:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 680,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ultra-max",
+        "value": "215x117x26mm",
+        "key": "Color box size (cm):",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 681,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ultra-max",
+        "value": "50/box 62*45.5*18cm",
+        "key": "Outer box size (cm):",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 682,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ultra-max",
+        "value": "294.2g",
+        "key": "Complete set weight (g):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 683,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ultra-max",
+        "value": "15.77kg",
+        "key": "Full box weight (kg):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      }
+    ],
+    "mediaList": [],
+    "indexConfig": [
+      {
+        "id": 38,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "en",
+        "associate_good_key": "watches:ultra-max",
+        "page_keywords": "UltraMax, smart watch, high performance, long battery life, waterproof watch",
+        "page_title": "UltraMax",
+        "page_description": "UltraMax is a comprehensive smartwatch that provides users with excellent performance and diverse functions. It has powerful processing power, long battery life and water resistance, making it suitable for a variety of outdoor and daily activities.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:43:09.000Z",
+        "updated_time": "2023-09-24T04:43:09.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2075,
@@ -8589,6 +8589,74 @@
         "weight": 1,
         "created_time": "2023-09-10T16:00:39.000Z",
         "updated_time": "2023-09-10T16:00:39.000Z"
+      }
+    ],
+    "sellingList": [
+      {
+        "id": 1031,
+        "light": "incoming call",
+        "weight": 8,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1032,
+        "light": "message notification",
+        "weight": 7,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1033,
+        "light": "Bracelet language switching",
+        "weight": 6,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1034,
+        "light": "Shared positioning",
+        "weight": 5,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1035,
+        "light": "NFC",
+        "weight": 4,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1036,
+        "light": "Fatigue analysis",
+        "weight": 2,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "en",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
       }
     ],
     "funcionList": [
@@ -9097,74 +9165,6 @@
         "updated_time": "2023-09-10T16:07:39.000Z"
       }
     ],
-    "sellingList": [
-      {
-        "id": 1031,
-        "light": "incoming call",
-        "weight": 8,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1032,
-        "light": "message notification",
-        "weight": 7,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1033,
-        "light": "Bracelet language switching",
-        "weight": 6,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1034,
-        "light": "Shared positioning",
-        "weight": 5,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1035,
-        "light": "NFC",
-        "weight": 4,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1036,
-        "light": "Fatigue analysis",
-        "weight": 2,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "en",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      }
-    ],
     "path": "/watches/ultra-max"
   },
   {
@@ -9187,6 +9187,7 @@
     "created_time": "2022-12-26T14:24:37.000Z",
     "updated_time": "2023-09-09T09:53:40.000Z",
     "associateProduct": [],
+    "comboList": [],
     "typeList": [],
     "packageList": [],
     "mediaList": [],
@@ -9207,10 +9208,9 @@
         "updated_time": "2023-09-24T04:43:12.000Z"
       }
     ],
-    "comboList": [],
     "associationsList": [],
-    "funcionList": [],
     "sellingList": [],
+    "funcionList": [],
     "path": "/watches/k8-ultra-max"
   }
 ]
