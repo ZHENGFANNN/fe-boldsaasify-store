@@ -35,66 +35,69 @@ export default function Main({ LANG, GOODLIST, area, locale }) {
   const tipRef = React.useRef();
   React.useEffect(() => {
     setLoading(true);
-    let localStoreList = window.localStorage.getItem("store_shopping");
-    try {
-      localStoreList = JSON.parse(localStoreList ?? []);
-      const list = [];
-      localStoreList.forEach((item) => {
-        let comboInfo, areaInfo;
-        // 查找该语言的商品
-        const product = GOODLIST.find(
-          (product) =>
-            item.productKey === product.key && item.sortKey === product.sort_key
-        );
-        if (product) {
-          // 查找当前语言的套餐
-          comboInfo = product.comboList.find(
-            (combo) => combo.key === item.comboKey
+    setTimeout(() => {
+      let localStoreList = window.localStorage.getItem("store_shopping");
+      try {
+        localStoreList = JSON.parse(localStoreList ?? []);
+        const list = [];
+        localStoreList.forEach((item) => {
+          let comboInfo, areaInfo;
+          // 查找该语言的商品
+          const product = GOODLIST.find(
+            (product) =>
+              item.productKey === product.key &&
+              item.sortKey === product.sort_key
           );
-          if (comboInfo) {
-            // 查找当前国家的商品信息
-            areaInfo = comboInfo.areaList.find(
-              (areaItem) => areaItem.country_code === area
+          if (product) {
+            // 查找当前语言的套餐
+            comboInfo = product.comboList.find(
+              (combo) => combo.key === item.comboKey
             );
+            if (comboInfo) {
+              // 查找当前国家的商品信息
+              areaInfo = comboInfo.areaList.find(
+                (areaItem) => areaItem.country_code === area
+              );
+            }
           }
-        }
-        if (areaInfo && comboInfo && product) {
-          // 库存不存在的情况下，不允许点击
-          if (!areaInfo.stock) item.selected = false;
-          list.push({
-            // 套餐相关
-            id: comboInfo.id,
-            comboName: comboInfo.title,
-            // 地区相关
-            currency: areaInfo.currency,
-            priceSymbol: areaInfo.currency_symbol + areaInfo.currency,
-            price: areaInfo.price,
-            good_discount: areaInfo.good_discount,
-            stock: areaInfo.stock,
-            // 产品相关
-            name: product.name,
-            image: product.image_url,
-            href: `/${locale}/store/product/${product.sort_key}/${product.key}`,
-            sortKey: product.sort_key,
-            productKey: product.key,
-            comboKey: comboInfo.key,
-            // 其他
-            productNum: item.productNum,
-            selected: item.selected,
-            options:
-              typeof item.options === "object"
-                ? item.options
-                : JSON.parse(item.options),
-          });
-        }
-      });
-      setCartList(list);
-      setLoading(false);
-    } catch (err) {
-      localStorage.setItem("store_shopping", JSON.stringify([]));
-      setLoading(false);
-      console.warn("【购物列表解析失败】", err);
-    }
+          if (areaInfo && comboInfo && product) {
+            // 库存不存在的情况下，不允许点击
+            if (!areaInfo.stock) item.selected = false;
+            list.push({
+              // 套餐相关
+              id: comboInfo.id,
+              comboName: comboInfo.title,
+              // 地区相关
+              currency: areaInfo.currency,
+              priceSymbol: areaInfo.currency_symbol + areaInfo.currency,
+              price: areaInfo.price,
+              good_discount: areaInfo.good_discount,
+              stock: areaInfo.stock,
+              // 产品相关
+              name: product.name,
+              image: product.image_url,
+              href: `/${locale}/store/product/${product.sort_key}/${product.key}`,
+              sortKey: product.sort_key,
+              productKey: product.key,
+              comboKey: comboInfo.key,
+              // 其他
+              productNum: item.productNum,
+              selected: item.selected,
+              options:
+                typeof item.options === "object"
+                  ? item.options
+                  : JSON.parse(item.options),
+            });
+          }
+        });
+        setCartList(list);
+        setLoading(false);
+      } catch (err) {
+        localStorage.setItem("store_shopping", JSON.stringify([]));
+        setLoading(false);
+        console.warn("【购物列表解析失败】", err);
+      }
+    }, 500);
   }, []);
 
   const [totalPrice, setTotalPrice] = React.useState(0);

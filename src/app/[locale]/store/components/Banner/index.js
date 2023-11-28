@@ -4,8 +4,10 @@ import styles from "../../page.module.scss";
 import Splide from "@splidejs/splide";
 import "@splidejs/splide/css";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 export default function Banner({ CONFIG, LANG }) {
+  const router = useRouter();
   const [splide, setSplide] = React.useState();
   const [active, setActive] = React.useState(0);
   const bannerList = React.useMemo(() => {
@@ -48,7 +50,11 @@ export default function Banner({ CONFIG, LANG }) {
                 {item.href.startsWith("http") ? (
                   <a rel="noreferrer" target="_blank" href={item.href}></a>
                 ) : (
-                  <a href={`/${item.href}`}></a>
+                  <a
+                    onClick={() => {
+                      router.push(item.href);
+                    }}
+                  ></a>
                 )}
                 <div className={styles.splide_content_container}>
                   <div

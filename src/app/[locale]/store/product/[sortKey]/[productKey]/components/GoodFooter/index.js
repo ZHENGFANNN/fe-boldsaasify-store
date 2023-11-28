@@ -35,17 +35,22 @@ export default function GoodFooter({ LANG, productInfo, comboList }) {
         const scrollTop = document.documentElement.scrollTop;
         if (scrollTop > 200) {
           $footerDom.css({
-            transform: `translateY(-100%)`,
+            bottom: 0,
           });
         } else {
           $footerDom.css({
-            transform: `translateY(12px)`,
+            bottom: "-100%",
           });
         }
       }
     }
     $(window).on("scroll", () => computedFooterBottom());
-    return () => $(window).off("scroll", () => computedFooterBottom());
+    return () => {
+      $(window).off("scroll", () => computedFooterBottom());
+      $("[data-role='footer-info']").css({
+        paddingBottom: 0,
+      });
+    };
   }, []);
 
   return (

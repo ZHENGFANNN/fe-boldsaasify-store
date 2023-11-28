@@ -8,6 +8,7 @@ import Input from "@/components/Form/Input";
 import { useForm } from "react-hook-form";
 import Loading from "@/components/Loading";
 import { ISEMAIL } from "@/utils/pattern";
+import Link from "next/link";
 
 function UserInfo({ LANG, token }, ref) {
   const {
@@ -141,22 +142,18 @@ function UserInfo({ LANG, token }, ref) {
                     {LANG["store.order.user_type.no_login"]}
                   </div>
                   <div className={styles.btn_container}>
-                    <a
-                      onClick={() => {
-                        location.href = `/user/login?redirect=${location.href}`;
-                      }}
+                    <Link
+                      href={`/user/login?redirect=${location.href}`}
                       className={styles.btn_item}
                     >
                       {LANG["store.order.user_type.login"]}
-                    </a>
-                    <a
-                      onClick={() => {
-                        location.href = `/user/register?redirect=${location.href}`;
-                      }}
+                    </Link>
+                    <Link
+                      href={`/user/register?redirect=${location.href}`}
                       className={styles.btn_item}
                     >
                       {LANG["store.order.user_type.register"]}
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}

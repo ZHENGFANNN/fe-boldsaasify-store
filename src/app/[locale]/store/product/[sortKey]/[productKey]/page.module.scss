@@ -214,15 +214,14 @@
     min-width: 375px;
     z-index: 999999;
 
+    bottom: 0;
+
+
     background-color: #fff;
     padding: 16px 0;
-    top: 100%;
-    transform: translateY(-100%);
     -webkit-box-shadow: 0 -2px 4px rgb(0 0 0 / 10%);
     box-shadow: 0 -2px 4px rgb(0 0 0 / 10%);
     border-bottom: 1px solid rgba(0, 0, 0, 0.09);
-
-    height: 90px;
     box-sizing: border-box;
     .footer_content {
       max-width: 1200px;
@@ -513,11 +512,8 @@
       height: fit-content;
       border-radius: 8px 8px 0 0;
       padding: 16px;
-
-      top: 100%;
-
-      transform: translateY(12px);
       transition: all 350ms ease;
+      bottom: -100%;
       .footer_content {
         display: flex;
         flex-direction: column;

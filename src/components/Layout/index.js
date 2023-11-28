@@ -71,6 +71,7 @@ export default function Layout({ children }) {
         const storeList = JSON.parse(localStorage.getItem("store_shopping"));
         let num = 0;
         if (typeof storeList === "object") {
+          console.log("storeList", storeList);
           storeList.forEach((item) => {
             num = num + item.productNum;
           });

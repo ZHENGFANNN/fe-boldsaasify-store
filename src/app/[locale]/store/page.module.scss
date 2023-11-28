@@ -1040,6 +1040,10 @@
             h3 {
               color: #000;
             }
+            .stock_tip {
+              color: rgb(255, 255, 255);
+              background-color: rgb(67, 69, 71);
+            }
           }
         }
         &:not(.hover_big) {
@@ -1058,6 +1062,10 @@
           .title {
             h3 {
               color: #000;
+            }
+            .stock_tip {
+              color: rgb(255, 255, 255);
+        background-color: rgb(67, 69, 71);
             }
           }
         }

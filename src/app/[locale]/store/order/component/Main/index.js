@@ -87,15 +87,17 @@ export default function Main({ CONFIG, LANG, GOODLIST, area, token }) {
     return pay;
   }, [locale]);
 
-  // 订单列表
-  const [orderList, setOrderList] = React.useState([]);
+  // 设置销售政策
   React.useEffect(() => {
-    // 设置销售政策
     const $dom = document.getElementsByClassName(styles.sales_content)[0];
     const $aTags = $dom.getElementsByTagName("a")[0];
     $aTags?.setAttribute("href", `/protocol/sales`);
     $aTags?.setAttribute("target", "_blank");
+  }, []);
 
+  // 订单列表
+  const [orderList, setOrderList] = React.useState([]);
+  React.useEffect(() => {
     // 获取购物车列表
     let localStoreList = singleGood
       ? window.localStorage.getItem("single_store_shopping")
