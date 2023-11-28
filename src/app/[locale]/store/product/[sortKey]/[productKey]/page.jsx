@@ -142,6 +142,7 @@ export default async function Product({ params: { locale, productKey } }) {
               <span>{LANG["store.product.product_info"]}</span>
               <div className={styles.arrow_icon}></div>
             </a> */}
+
             {productInfo.typeList?.length > 0
               ? productInfo.typeList.map((item, index) => {
                   return (
