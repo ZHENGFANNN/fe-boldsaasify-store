@@ -45,6 +45,8 @@
         color: #494b4d;
         font-weight: 400;
         margin-bottom: 25px;
+
+        text-transform: capitalize;
       }
       p {
         font-size: 14px;
@@ -78,6 +80,8 @@
 
           border: 0;
           outline: none;
+
+          text-transform: capitalize;
           &:hover {
             opacity: 0.8;
           }

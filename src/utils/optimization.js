@@ -1,5 +1,4 @@
 "use client";
-import $ from "jquery";
 // 图片封面懒加载
 export const lazyLoadImages = function ($container) {
   if (!$container) return;

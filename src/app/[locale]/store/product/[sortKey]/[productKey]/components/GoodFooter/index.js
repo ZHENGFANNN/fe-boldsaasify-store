@@ -3,11 +3,12 @@
 import React from "react";
 import styles from "../../page.module.scss";
 import useProductStore from "../../productStore";
-import $ from "jquery";
+import ProductContext from "../../productContext";
 import tracking from "../../tracking";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function GoodFooter({ LANG, productInfo, comboList }) {
+  const { lazyLoading } = React.useContext(ProductContext);
   const productNum = useProductStore((state) => state.productNum);
   const productOptions = useProductStore((state) => state.productOptions);
   const productCurCombo = useProductStore((state) => state.productCurCombo);
@@ -17,41 +18,43 @@ export default function GoodFooter({ LANG, productInfo, comboList }) {
 
   // Footer处理
   React.useEffect(() => {
-    const $footerDom = $('[data-role="footer-buy"]');
-    // 计算底部位置
-    const height = $footerDom.outerHeight();
-    $("[data-role='footer-info']").css({
-      paddingBottom: height,
-    });
-    // 处理查看次数
-    tracking.viewContent({
-      productName: productInfo.key,
-    });
+    if (!lazyLoading) {
+      const $footerDom = $('[data-role="footer-buy"]');
+      // 计算底部位置
+      const height = $footerDom.outerHeight();
+      $("[data-role='footer-info']").css({
+        paddingBottom: height,
+      });
+      // 处理查看次数
+      tracking.viewContent({
+        productName: productInfo.key,
+      });
 
-    // 滚动展示
-    const width = $(window).width();
-    function computedFooterBottom() {
-      if (width < 820) {
-        const scrollTop = document.documentElement.scrollTop;
-        if (scrollTop > 200) {
-          $footerDom.css({
-            bottom: 0,
-          });
-        } else {
-          $footerDom.css({
-            bottom: "-100%",
-          });
+      // 滚动展示
+      const width = $(window).width();
+      function computedFooterBottom() {
+        if (width < 820) {
+          const scrollTop = document.documentElement.scrollTop;
+          if (scrollTop > 200) {
+            $footerDom.css({
+              bottom: 0,
+            });
+          } else {
+            $footerDom.css({
+              bottom: "-100%",
+            });
+          }
         }
       }
+      $(window).on("scroll", () => computedFooterBottom());
+      return () => {
+        $(window).off("scroll", () => computedFooterBottom());
+        $("[data-role='footer-info']").css({
+          paddingBottom: 0,
+        });
+      };
     }
-    $(window).on("scroll", () => computedFooterBottom());
-    return () => {
-      $(window).off("scroll", () => computedFooterBottom());
-      $("[data-role='footer-info']").css({
-        paddingBottom: 0,
-      });
-    };
-  }, []);
+  }, [lazyLoading]);
 
   return (
     <section data-role="footer-buy" className={styles.footer_container}>

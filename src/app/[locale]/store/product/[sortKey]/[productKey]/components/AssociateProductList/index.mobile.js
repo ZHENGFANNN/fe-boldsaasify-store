@@ -4,10 +4,10 @@ import React from "react";
 import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 
-import styles from "./index.mobile.module.scss";
-import $ from "jquery";
+import ProductContext from "../../productContext";
 
 export default function MobProductList({ products, title }) {
+  const { lazyLoading } = React.useContext(ProductContext);
   const initSplide = React.useCallback(() => {
     const splide = new Splide(`.${styles["splide-mobile"]}`, {
       pagination: false,
@@ -41,8 +41,10 @@ export default function MobProductList({ products, title }) {
   }, []);
 
   React.useEffect(() => {
-    initSplide();
-  }, []);
+    if (!lazyLoading) {
+      initSplide();
+    }
+  }, [lazyLoading]);
   return (
     <section className={styles.associate_product}>
       <div className={styles.title}>{title}</div>

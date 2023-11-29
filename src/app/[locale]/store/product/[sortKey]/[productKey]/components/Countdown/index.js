@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./index.module.scss";
-import $ from "jquery";
+import ProductContext from "../../productContext";
 import moment from "moment";
 
 const endTime = 1699632000000;
@@ -28,13 +28,16 @@ function updateCountdown(endTime) {
 }
 
 export default function Countdown() {
+  const { lazyLoading } = React.useContext(ProductContext);
   React.useEffect(() => {
-    const t = setInterval(() => {
-      updateCountdown(endTime);
-    }, 500);
-    return () => {
-      clearInterval(t);
-    };
+    if (!lazyLoading) {
+      const t = setInterval(() => {
+        updateCountdown(endTime);
+      }, 500);
+      return () => {
+        clearInterval(t);
+      };
+    }
   }, []);
   return (
     <div className={styles.container}>

@@ -5,17 +5,20 @@ import styles from "./index.module.scss";
 
 import Image from "@/components/Image";
 import { lazyLoadImages } from "@/utils/optimization";
-import $ from "jquery";
+import ProductContext from "../../productContext";
 
 export default function GoodFunctionList({ configList = [], LANG = () => {} }) {
+  const { lazyLoading } = React.useContext(ProductContext);
   const mainFunction = React.useMemo(() => {
     return configList.filter((item) => !!item.image);
   }, [configList]);
 
   React.useEffect(() => {
-    const cleanLazy = lazyLoadImages($(`.${styles.function_images}`));
-    return () => cleanLazy();
-  }, []);
+    if (!lazyLoading) {
+      const cleanLazy = lazyLoadImages($(`.${styles.function_images}`));
+      return () => cleanLazy();
+    }
+  }, [lazyLoading]);
 
   if (configList.length < 1) return null;
   return (

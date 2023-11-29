@@ -122,6 +122,19 @@ export default function Main({ CONFIG, LANG, GOODLIST, area, token }) {
             );
           }
         }
+
+        // 处理选项
+        let options;
+        try {
+          if (typeof item.options === "object") {
+            options = item.options;
+          } else {
+            options = JSON.parse(item.options);
+          }
+        } catch {
+          options = [];
+        }
+
         if (areaInfo && comboInfo && product && areaInfo.stock) {
           const itemData = {
             // 套餐相关
@@ -143,10 +156,7 @@ export default function Main({ CONFIG, LANG, GOODLIST, area, token }) {
             // 其他
             productNum: item.productNum,
             selected: item.selected,
-            options:
-              typeof item.options === "object"
-                ? item.options
-                : JSON.parse(item.options),
+            options,
           };
           if (areaInfo.country_code === "ae" && payKey === "payPal") {
             itemData.priceSymbol = "$";

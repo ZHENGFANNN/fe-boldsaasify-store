@@ -1,10 +1,11 @@
 import React from "react";
 
-import $ from "jquery";
+import ProductContext from "../../productContext";
 import styles from "./index.module.scss";
 import Link from "next/link";
 
 export default function PcProductList({ products, title }) {
+  const { lazyLoading } = React.useContext(ProductContext);
   const [active, setActive] = React.useState(0);
   const [showArrow, setShowArrow] = React.useState(true);
 
@@ -61,9 +62,11 @@ export default function PcProductList({ products, title }) {
   }, []);
 
   React.useEffect(() => {
-    initList();
-    initAnimate();
-  }, []);
+    if (!lazyLoading) {
+      initList();
+      initAnimate();
+    }
+  }, [lazyLoading]);
 
   return (
     <section className={styles.associate_product}>

@@ -126,6 +126,7 @@ function ProductInfo({ product, productIndex, LANG }) {
     </Link>
   );
 }
+
 export default async function Home({ params: { locale } }) {
   const area = cookies().get("area").value;
   const { CONFIG, LANG, GOODSORTLIST } = await getAllConfigData(locale);

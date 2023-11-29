@@ -137,7 +137,7 @@ export default async function Product({ params: { locale, productKey } }) {
             ) : null}
             {/* <a
               className={styles.product_detail}
-              href={`/${locale}/product/${productInfo.sort_key}/${productInfo.key}`}
+              href={`/product/${productInfo.sort_key}/${productInfo.key}`}
             >
               <span>{LANG["store.product.product_info"]}</span>
               <div className={styles.arrow_icon}></div>

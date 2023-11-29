@@ -2,28 +2,32 @@
 
 import React from "react";
 import styles from "./index.module.scss";
-import $ from "jquery";
 import useProductStore from "../../productStore";
+import ProductContext from "../../productContext";
 
 export default function SelectList({ options = [] }) {
+  const { lazyLoading } = React.useContext(ProductContext);
   const setProductShowType = useProductStore(
     (state) => state.setProductShowType
   );
   const productShowType = useProductStore((state) => state.productShowType);
   React.useEffect(() => {
-    // 初始化类型按钮
-    const $typeColor = $(`.${styles.type_container_color}`);
-    const imageWidth = $('[role="image"]').innerWidth();
-    const videoWidth = $('[role="video"]').innerWidth();
-    const activeWidth = $(`.${styles.type_active}`).innerWidth();
-    let transformX = 0;
-    !!(productShowType === "video") && (transformX = imageWidth + 4);
-    !!(productShowType === "3d") && (transformX = videoWidth + imageWidth + 8);
-    $typeColor.css({
-      transform: `translate3d(${transformX}px, 0px, 0px)`,
-      width: `${activeWidth}px`,
-    });
-  }, [productShowType]);
+    if (!lazyLoading) {
+      // 初始化类型按钮
+      const $typeColor = $(`.${styles.type_container_color}`);
+      const imageWidth = $('[role="image"]').innerWidth();
+      const videoWidth = $('[role="video"]').innerWidth();
+      const activeWidth = $(`.${styles.type_active}`).innerWidth();
+      let transformX = 0;
+      !!(productShowType === "video") && (transformX = imageWidth + 4);
+      !!(productShowType === "3d") &&
+        (transformX = videoWidth + imageWidth + 8);
+      $typeColor.css({
+        transform: `translate3d(${transformX}px, 0px, 0px)`,
+        width: `${activeWidth}px`,
+      });
+    }
+  }, [productShowType, lazyLoading]);
   return (
     <div className={styles.left_content_type_container}>
       <div className={styles.left_content_type}>

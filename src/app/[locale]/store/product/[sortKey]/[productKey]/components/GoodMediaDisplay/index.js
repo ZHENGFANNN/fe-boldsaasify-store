@@ -1,94 +1,101 @@
 "use client";
 import styles from "./index.module.scss";
 import React from "react";
-import $ from "jquery";
 
 import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 import useProductStore from "../../productStore";
+import ProductContext from "../../productContext";
 
 export default function ContentDisplay({ options = [], productInfo, LANG }) {
+  const { lazyLoading } = React.useContext(ProductContext);
   const productCurCombo = useProductStore((state) => state.productCurCombo);
   const productShowType = useProductStore((state) => state.productShowType);
   const [progress, setProgress] = React.useState(0);
   React.useEffect(() => {
-    // 初始化Splide
-    const splide = new Splide(".splide", {
-      type: "fade",
-      rewind: true,
-      interval: 5000,
-      autoplay: productCurCombo.img_list?.length > 0,
-      pagination: false,
-      arrows: productCurCombo.img_list?.length > 0,
-      classes: {
-        arrow: `splide__arrow ${styles.splide__arrow}`,
-      },
-    });
-    const $domList = $(`.${styles.splide_image_list}`).find("ul li");
-    // 激活index
-    splide.on("active", (target) => {
-      $domList.each((index) => {
-        if (index === target.index) {
-          $domList.eq(index).addClass(styles.active);
-        } else {
-          $domList.eq(index).removeClass(styles.active);
-        }
+    if (!lazyLoading) {
+      // 初始化Splide
+      const splide = new Splide(".splide", {
+        type: "fade",
+        rewind: true,
+        interval: 5000,
+        autoplay: productCurCombo.img_list?.length > 0,
+        pagination: false,
+        arrows: productCurCombo.img_list?.length > 0,
+        classes: {
+          arrow: `splide__arrow ${styles.splide__arrow}`,
+        },
       });
-    });
-    // 点击轮播图
-    $domList.on("click", function () {
-      splide.go($(this).index());
-    });
-    splide.mount();
-    return () => {
-      splide.destroy();
-    };
-  }, [productCurCombo]);
-
-  React.useEffect(() => {
-    const scaleHeight = function () {
-      const bili = ((window.innerHeight - 150) / 740).toFixed(2);
-      const width = window.innerWidth;
-      if (bili < 1 && width > 1200) {
-        const $dom = $(`.${styles.left_content}`);
-        $dom.css({
-          transform: `scale(${bili})`,
-          transformOrigin: "top",
+      const $domList = $(`.${styles.splide_image_list}`).find("ul li");
+      // 激活index
+      splide.on("active", (target) => {
+        $domList.each((index) => {
+          if (index === target.index) {
+            $domList.eq(index).addClass(styles.active);
+          } else {
+            $domList.eq(index).removeClass(styles.active);
+          }
         });
-      }
-    };
-    scaleHeight();
-    $(window).on("resize", scaleHeight);
-  }, []);
-  React.useEffect(() => {
-    // 控制视频播放/暂停
-    const $productVideo = $("#product_video").get(0);
-    if ($productVideo && productShowType === "video") {
-      $productVideo.play();
-    } else if (
-      $productVideo &&
-      productShowType !== "video" &&
-      !$productVideo.paused
-    ) {
-      $productVideo.pause();
-    }
-
-    // 控制3D进度条
-    if (productShowType === "3d") {
-      const $productModelViewer = $("#product-model-viewer");
-      $productModelViewer.on("progress", (e) => {
-        let process = (e.detail.totalProgress * 100).toFixed(0);
-        setProgress(process);
       });
-      $productModelViewer.attr("src", $productModelViewer.attr("data-src"));
-      $productModelViewer.attr(
-        "environment-image",
-        $productModelViewer.attr("data-environment-image")
-      );
-      $productModelViewer.removeAttr("data-src");
-      $productModelViewer.removeAttr("data-environment-image");
+      // 点击轮播图
+      $domList.on("click", function () {
+        splide.go($(this).index());
+      });
+      splide.mount();
+      return () => {
+        splide.destroy();
+      };
     }
-  }, [productShowType]);
+  }, [productCurCombo, lazyLoading]);
+
+  React.useEffect(() => {
+    if (!lazyLoading) {
+      const scaleHeight = function () {
+        const bili = ((window.innerHeight - 150) / 740).toFixed(2);
+        const width = window.innerWidth;
+        if (bili < 1 && width > 1200) {
+          const $dom = $(`.${styles.left_content}`);
+          $dom.css({
+            transform: `scale(${bili})`,
+            transformOrigin: "top",
+          });
+        }
+      };
+      scaleHeight();
+      $(window).on("resize", scaleHeight);
+    }
+  }, [lazyLoading]);
+  React.useEffect(() => {
+    if (!lazyLoading) {
+      // 控制视频播放/暂停
+      const $productVideo = $("#product_video").get(0);
+      if ($productVideo && productShowType === "video") {
+        $productVideo.play();
+      } else if (
+        $productVideo &&
+        productShowType !== "video" &&
+        !$productVideo.paused
+      ) {
+        $productVideo.pause();
+      }
+
+      // 控制3D进度条
+      if (productShowType === "3d") {
+        const $productModelViewer = $("#product-model-viewer");
+        $productModelViewer.on("progress", (e) => {
+          let process = (e.detail.totalProgress * 100).toFixed(0);
+          setProgress(process);
+        });
+        $productModelViewer.attr("src", $productModelViewer.attr("data-src"));
+        $productModelViewer.attr(
+          "environment-image",
+          $productModelViewer.attr("data-environment-image")
+        );
+        $productModelViewer.removeAttr("data-src");
+        $productModelViewer.removeAttr("data-environment-image");
+      }
+    }
+  }, [productShowType, lazyLoading]);
 
   return (
     <div className={styles.left_content_top}>

@@ -7,9 +7,11 @@ import React from "react";
 
 import Image from "@/components/Image";
 import { lazyLoadImages } from "@/utils/optimization";
-import $ from "jquery";
+import ProductContext from "../../productContext";
 
 export default function Package({ configList = [], LANG = () => {} }) {
+  const { lazyLoading } = React.useContext(ProductContext);
+
   const imageList = React.useMemo(() => {
     return configList.filter((item) => item.type === "image");
   }, [configList]);
@@ -17,9 +19,11 @@ export default function Package({ configList = [], LANG = () => {} }) {
     return configList.filter((item) => item.type === "text");
   }, [configList]);
   React.useEffect(() => {
-    const cleanLazy = lazyLoadImages($(`.${styles.image_list}`));
-    return () => cleanLazy();
-  }, []);
+    if (!lazyLoading) {
+      const cleanLazy = lazyLoadImages($(`.${styles.image_list}`));
+      return () => cleanLazy();
+    }
+  }, [lazyLoading]);
 
   if (configList.length < 1) return null;
   return (
