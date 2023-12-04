@@ -27,6 +27,7 @@ import { useSearchParams, useParams, useRouter } from "next/navigation";
 export default function Main({ CONFIG, LANG, GOODLIST, area, token }) {
   const router = useRouter();
   const { locale } = useParams();
+  console.log("locale", locale);
   const searchParams = useSearchParams();
   const singleGood = searchParams.get("single_good");
 

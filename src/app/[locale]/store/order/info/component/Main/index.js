@@ -10,7 +10,7 @@ import ShowTipModal from "@/components/Modal/ShowTipModal";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 
-export default function Main({ secret, LANG, CONFIG }) {
+export default function Main({ secret, locale, LANG, CONFIG }) {
   const router = useRouter();
   const [order, setOrder] = React.useState();
   const [loading, setLoading] = React.useState(true);
@@ -53,7 +53,7 @@ export default function Main({ secret, LANG, CONFIG }) {
         }
       })
       .catch(() => {
-        router.push("/not-found");
+        router.push("/");
       })
       .finally(() => {
         setLoading(false);
@@ -116,7 +116,7 @@ export default function Main({ secret, LANG, CONFIG }) {
 
   return (
     <div className={styles.container}>
-      {loading ? (
+      {loading || !order ? (
         <div className={styles.loading_container}>
           <Loading />
         </div>

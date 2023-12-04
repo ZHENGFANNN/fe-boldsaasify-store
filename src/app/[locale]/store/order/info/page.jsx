@@ -17,5 +17,5 @@ export default async function Info({
   searchParams: { secret },
 }) {
   const { CONFIG, LANG } = await getAllConfigData(locale);
-  return <Main LANG={LANG} CONFIG={CONFIG} secret={secret} />;
+  return <Main LANG={LANG} CONFIG={CONFIG} secret={secret} locale={locale} />;
 }

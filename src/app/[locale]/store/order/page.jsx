@@ -16,7 +16,7 @@ export async function generateMetadata({ params: { locale } }) {
 
 export default async function Order({ params: { locale } }) {
   const { CONFIG, LANG, GOODLIST } = await getAllConfigData(locale);
-  const area = cookies().get("area")?.value;
+  const area = cookies().get("area")?.value || "us";
   const token = cookies().get("token")?.value;
   return (
     <Main

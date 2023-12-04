@@ -128,7 +128,8 @@ function ProductInfo({ product, productIndex, LANG }) {
 }
 
 export default async function Home({ params: { locale } }) {
-  const area = cookies().get("area").value;
+  const area = cookies().get("area")?.value || "us";
+
   const { CONFIG, LANG, GOODSORTLIST } = await getAllConfigData(locale);
   const sortList = await getSortList({
     productSort: GOODSORTLIST,

@@ -6,7 +6,7 @@ import CountryList from "@/components/CountrySelect";
 import React from "react";
 import DropSelect from "@/components/DropSelect";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import NAVFUNC from "@/config/NAVFUNC";
 
@@ -17,6 +17,7 @@ import Api from "../api";
 
 export default function NavBar({ CONFIG, LANG, GOODSORTLIST, GOODLIST }) {
   const { userInfo, productNum } = React.useContext(GlobalContext);
+  const pathname = usePathname();
   const ModalRef = React.useRef(null);
   const NAVLIST = React.useMemo(() => {
     return NAVFUNC({ LANG, CONFIG, GOODLIST, GOODSORTLIST });
@@ -32,9 +33,9 @@ export default function NavBar({ CONFIG, LANG, GOODSORTLIST, GOODLIST }) {
       "/store/order/info",
       "/store/product/",
     ].some((item) => {
-      return router.pathname?.includes(item);
+      return pathname.includes(item);
     });
-  }, []);
+  }, [pathname]);
 
   // 逻辑处理
   // 展开导航栏屏幕（小于1080）

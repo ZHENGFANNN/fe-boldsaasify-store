@@ -19,6 +19,35 @@
     "created_time": "2023-09-09T09:20:44.000Z",
     "updated_time": "2023-09-18T15:03:38.000Z",
     "associateProduct": [],
+    "typeList": [
+      {
+        "id": 83,
+        "type": "text",
+        "title": "color",
+        "language": "es",
+        "good_sort_key": "watches",
+        "good_key": "n9-ultra-pro",
+        "options": [
+          {
+            "title": "negro"
+          },
+          {
+            "title": "Blanco"
+          },
+          {
+            "title": "verde"
+          },
+          {
+            "title": "naranja"
+          }
+        ],
+        "enabled": 1,
+        "weight": 1,
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2023-09-17T13:27:03.000Z",
+        "updated_time": "2023-09-18T15:05:28.000Z"
+      }
+    ],
     "packageList": [
       {
         "id": 612,
@@ -311,35 +340,6 @@
         "is_light": null,
         "created_time": "2023-09-24T04:49:52.000Z",
         "updated_time": "2023-09-24T04:49:52.000Z"
-      }
-    ],
-    "typeList": [
-      {
-        "id": 83,
-        "type": "text",
-        "title": "color",
-        "language": "es",
-        "good_sort_key": "watches",
-        "good_key": "n9-ultra-pro",
-        "options": [
-          {
-            "title": "negro"
-          },
-          {
-            "title": "Blanco"
-          },
-          {
-            "title": "verde"
-          },
-          {
-            "title": "naranja"
-          }
-        ],
-        "enabled": 1,
-        "weight": 1,
-        "associate_good_key": "watches:n9-ultra-pro",
-        "created_time": "2023-09-17T13:27:03.000Z",
-        "updated_time": "2023-09-18T15:05:28.000Z"
       }
     ],
     "comboList": [
@@ -2148,6 +2148,7 @@
     "created_time": "2022-12-26T14:24:11.000Z",
     "updated_time": "2023-09-09T09:54:25.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 750,
@@ -2256,7 +2257,6 @@
         "updated_time": "2023-09-24T04:49:55.000Z"
       }
     ],
-    "typeList": [],
     "comboList": [
       {
         "id": 58,
@@ -3859,6 +3859,7 @@
     "created_time": "2022-12-26T14:24:26.000Z",
     "updated_time": "2023-09-09T09:54:30.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 755,
@@ -3949,7 +3950,6 @@
         "updated_time": "2023-09-24T04:49:59.000Z"
       }
     ],
-    "typeList": [],
     "comboList": [
       {
         "id": 68,
@@ -5612,6 +5612,7 @@
     "created_time": "2022-12-26T14:24:54.000Z",
     "updated_time": "2023-09-09T09:54:32.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 760,
@@ -5702,7 +5703,6 @@
         "updated_time": "2023-09-24T04:50:02.000Z"
       }
     ],
-    "typeList": [],
     "comboList": [
       {
         "id": 78,
@@ -7318,6 +7318,7 @@
     "created_time": "2022-12-26T14:25:04.000Z",
     "updated_time": "2023-09-09T09:54:34.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [
       {
         "id": 765,
@@ -7436,7 +7437,6 @@
         "updated_time": "2023-09-24T04:50:06.000Z"
       }
     ],
-    "typeList": [],
     "comboList": [
       {
         "id": 88,
@@ -9099,6 +9099,7 @@
     "created_time": "2022-12-26T14:24:37.000Z",
     "updated_time": "2023-09-09T09:54:37.000Z",
     "associateProduct": [],
+    "typeList": [],
     "packageList": [],
     "mediaList": [],
     "indexConfig": [
@@ -9118,7 +9119,6 @@
         "updated_time": "2023-09-24T04:50:09.000Z"
       }
     ],
-    "typeList": [],
     "comboList": [],
     "funcionList": [],
     "associationsList": [],
