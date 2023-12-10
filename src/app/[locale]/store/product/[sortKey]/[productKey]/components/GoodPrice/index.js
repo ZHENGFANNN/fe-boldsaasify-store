@@ -2,18 +2,18 @@
 import styles from "../../page.module.scss";
 import useProductStore from "../../productStore";
 
-export default function GoodPrice() {
+export default function GoodPrice({ goodDiscountFestival }) {
   const productCurCombo = useProductStore((state) => state.productCurCombo);
   return (
     <>
       {/* 优惠金额 */}
-      {productCurCombo.areaInfo.good_discount ? (
+      {goodDiscountFestival ? (
         <div className={styles.discount_price}>
           -{" "}
           {`${productCurCombo.areaInfo.currency_symbol}${
             productCurCombo.areaInfo.currency
           } ${Math.ceil(
-            (100 - productCurCombo.areaInfo.good_discount) *
+            (100 - goodDiscountFestival.discount) *
               0.01 *
               productCurCombo.areaInfo.price
           )}`}
@@ -21,12 +21,12 @@ export default function GoodPrice() {
       ) : null}
       {/* 价格计算 */}
       <div className={styles.product_price}>
-        {productCurCombo.areaInfo?.good_discount ? (
+        {goodDiscountFestival ? (
           <div>{`${productCurCombo.areaInfo.currency_symbol}${
             productCurCombo.areaInfo.currency
           } ${Math.floor(
             productCurCombo.areaInfo.price *
-              productCurCombo.areaInfo.good_discount *
+              goodDiscountFestival.discount *
               0.01
           )}`}</div>
         ) : null}

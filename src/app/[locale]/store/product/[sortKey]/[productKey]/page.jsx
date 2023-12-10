@@ -113,14 +113,16 @@ async function getTypeList({ productInfo, LANG }) {
 
 export default async function Product({ params: { locale, productKey } }) {
   const area = cookies().get("area")?.value || "us";
-  const { LANG, CONFIG, GOODLIST } = await getAllConfigData(locale);
+  const { LANG, CONFIG, GOODLIST, GOODDISCOUNTFESTIVAL } =
+    await getAllConfigData(locale);
   const productInfo = await getProductInfo({
     productList: GOODLIST,
     productKey,
   });
-  const comboList = await getComboList({ area, productInfo });
-  const typeList = await getTypeList({ productInfo, LANG });
-
+  const [comboList, typeList] = await Promise.all([
+    getComboList({ area, productInfo }),
+    getTypeList({ productInfo, LANG }),
+  ]);
   return (
     <div className={styles.container}>
       {!productInfo || !comboList ? (
@@ -136,15 +138,16 @@ export default async function Product({ params: { locale, productKey } }) {
               <GoodMediaDisplay
                 LANG={LANG}
                 options={typeList}
+                goodDiscountFestival={GOODDISCOUNTFESTIVAL}
                 productInfo={productInfo}
               />
-              <Countdown />
+              <Countdown goodDiscountFestival={GOODDISCOUNTFESTIVAL} />
               <GoodMediaTabs options={typeList} />
             </div>
             <div className={styles.right_content}>
               <div>
                 <h1>{productInfo.name}</h1>
-                <GoodPrice />
+                <GoodPrice goodDiscountFestival={GOODDISCOUNTFESTIVAL} />
                 {productInfo.sellingList.length > 0 ? (
                   <ul className={styles.product_advantage}>
                     {productInfo.sellingList.map((item, index) => {
@@ -208,7 +211,11 @@ export default async function Product({ params: { locale, productKey } }) {
             </>
           ) : null}
           {/* 产品底部 */}
-          <GoodFooter LANG={LANG} productInfo={productInfo} />
+          <GoodFooter
+            LANG={LANG}
+            productInfo={productInfo}
+            goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+          />
           <Script
             id="product-3d-script"
             async

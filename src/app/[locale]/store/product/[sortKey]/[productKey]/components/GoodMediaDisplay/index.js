@@ -7,7 +7,12 @@ import Splide from "@splidejs/splide";
 import useProductStore from "../../productStore";
 import ProductContext from "../../productContext";
 
-export default function ContentDisplay({ options = [], productInfo, LANG }) {
+export default function ContentDisplay({
+  options = [],
+  productInfo,
+  LANG,
+  goodDiscountFestival,
+}) {
   const { lazyLoading } = React.useContext(ProductContext);
   const productCurCombo = useProductStore((state) => state.productCurCombo);
   const productShowType = useProductStore((state) => state.productShowType);
@@ -112,11 +117,11 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
               <div className={`splide__track ${styles.splide__track}`}>
                 <ul className="splide__list">
                   <li className={`splide__slide ${styles.splide__slide}`}>
-                    {productCurCombo.areaInfo.good_discount ? (
+                    {goodDiscountFestival.discount ? (
                       <div className={styles.good_discount}>
                         <div className={styles.off}>OFF</div>
                         <div className={styles.discount}>
-                          {100 - productCurCombo.areaInfo.good_discount}%
+                          {100 - goodDiscountFestival.discount}%
                         </div>
                       </div>
                     ) : null}

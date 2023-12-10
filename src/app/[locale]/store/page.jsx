@@ -43,7 +43,7 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-function ProductInfo({ product, productIndex, LANG }) {
+function ProductInfo({ product, productIndex, LANG, goodDiscountFestival }) {
   return (
     <Link
       href={`/store/product/${product.sort_key}/${product.key}`}
@@ -59,11 +59,11 @@ function ProductInfo({ product, productIndex, LANG }) {
         <div className={styles.mask_top}></div>
         <div className={styles.mask_bottom}></div>
 
-        {product.areaInfo.good_discount ? (
+        {goodDiscountFestival ? (
           <div className={styles.good_discount}>
             <div className={styles.off}>OFF</div>
             <div className={styles.discount}>
-              {100 - product.areaInfo.good_discount}%
+              {100 - goodDiscountFestival.discount}%
             </div>
           </div>
         ) : null}
@@ -75,12 +75,12 @@ function ProductInfo({ product, productIndex, LANG }) {
               {LANG["store.index.no_stock"]}
             </span>
           ) : null}
-          {product.areaInfo.good_discount ? (
+          {goodDiscountFestival && product.areaInfo.price ? (
             <span className={styles.discount_tip}>{`- ${
               product.areaInfo.currency_symbol
             }${product.areaInfo.currency} ${Math.ceil(
               product.areaInfo.price *
-                (100 - product.areaInfo.good_discount) *
+                (100 - goodDiscountFestival.discount) *
                 0.01
             )}`}</span>
           ) : null}
@@ -88,11 +88,11 @@ function ProductInfo({ product, productIndex, LANG }) {
         <div className={styles.goods_item_price}>
           {product.areaInfo.price ? (
             <div className={styles.price_container}>
-              {product.areaInfo.good_discount ? (
+              {goodDiscountFestival ? (
                 <div>{`${product.areaInfo.currency_symbol}${
                   product.areaInfo.currency
                 } ${Math.floor(
-                  product.areaInfo.price * product.areaInfo.good_discount * 0.01
+                  product.areaInfo.price * goodDiscountFestival.discount * 0.01
                 )}`}</div>
               ) : null}
               <div>{`${product.areaInfo.currency_symbol}${product.areaInfo.currency}  ${product.areaInfo.price}`}</div>
@@ -129,13 +129,14 @@ function ProductInfo({ product, productIndex, LANG }) {
 
 export default async function Home({ params: { locale } }) {
   const area = cookies().get("area")?.value || "us";
-
-  const { CONFIG, LANG, GOODSORTLIST } = await getAllConfigData(locale);
+  const { CONFIG, LANG, GOODSORTLIST, GOODDISCOUNTFESTIVAL } =
+    await getAllConfigData(locale);
   const sortList = await getSortList({
     productSort: GOODSORTLIST,
     locale,
     area,
   });
+
   return (
     <main className={styles.container}>
       <Banner CONFIG={CONFIG} LANG={LANG} />
@@ -190,6 +191,7 @@ export default async function Home({ params: { locale } }) {
                       LANG={LANG}
                       product={product}
                       productIndex={productIndex}
+                      goodDiscountFestival={GOODDISCOUNTFESTIVAL}
                     />
                     <Script
                       key={productIndex}

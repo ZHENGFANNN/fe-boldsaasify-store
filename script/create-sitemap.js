@@ -73,7 +73,6 @@ const getAllPages = (dir = "") => {
   const files = fs.readdirSync(pagesDir);
   let pages = [];
   files.forEach((file) => {
-    console.log("file", file);
     if (fs.statSync(join(pagesDir, file)).isDirectory()) {
       pages = pages.concat(getAllPages(join(dir, file)));
     } else {
@@ -111,7 +110,6 @@ async function getSitMap(times = 1) {
             .replace(`[locale]`, locale === "en" ? "" : locale)
             .replace(/\/$/, "");
           // 排查特殊页面
-          console.log(url);
           const isExcludeUrl = getExcludePath().some((item) => {
             return url.includes(item);
           });

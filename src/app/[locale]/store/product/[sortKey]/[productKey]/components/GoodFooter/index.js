@@ -7,7 +7,11 @@ import ProductContext from "../../productContext";
 import tracking from "../../tracking";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function GoodFooter({ LANG, productInfo, comboList }) {
+export default function GoodFooter({
+  LANG,
+  productInfo,
+  goodDiscountFestival,
+}) {
   const { lazyLoading } = React.useContext(ProductContext);
   const productNum = useProductStore((state) => state.productNum);
   const productOptions = useProductStore((state) => state.productOptions);
@@ -83,13 +87,13 @@ export default function GoodFooter({ LANG, productInfo, comboList }) {
           <div className={styles.footer_price}>
             {productCurCombo.areaInfo.price ? (
               <div className={styles.price}>
-                {productCurCombo.areaInfo?.good_discount ? (
+                {goodDiscountFestival ? (
                   <div>{`${productCurCombo.areaInfo.currency_symbol}${
                     productCurCombo.areaInfo.currency
                   } ${
                     Math.floor(
                       productCurCombo.areaInfo.price *
-                        productCurCombo.areaInfo.good_discount *
+                        goodDiscountFestival.discount *
                         0.01
                     ) * productNum
                   }`}</div>
@@ -99,14 +103,14 @@ export default function GoodFooter({ LANG, productInfo, comboList }) {
                 } ${productCurCombo.areaInfo.price * productNum}`}</div>
               </div>
             ) : null}
-            {productCurCombo.areaInfo.good_discount ? (
+            {goodDiscountFestival ? (
               <div className={styles.save_price}>
                 -{" "}
                 {`${productCurCombo.areaInfo.currency_symbol}${
                   productCurCombo.areaInfo.currency
                 } ${
                   Math.ceil(
-                    (100 - productCurCombo.areaInfo.good_discount) *
+                    (100 - goodDiscountFestival.discount) *
                       0.01 *
                       productCurCombo.areaInfo.price
                   ) * productNum
