@@ -75,6 +75,8 @@
         font-weight: 700;
         font-size: 14px;
         line-height: 18px;
+
+        margin-right: 4px;
       }
       .list_item_right {
         font-size: 14px;
@@ -82,11 +84,15 @@
         color: #191c21;
         display: flex;
         flex-direction: row-reverse;
+
+        white-space: nowrap;
         div:nth-child(2) {
           color: #898a8e;
           font-size: 12px;
           margin-right: 8px;
           text-decoration: line-through;
+
+          white-space: nowrap;
         }
       }
     }

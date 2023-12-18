@@ -4,7 +4,7 @@ import styles from "./page.module.scss";
 import React from "react";
 
 import getAllConfigData from "@/utils/getAllConfigData";
-import IntroduceStaff from "./components/IntroduceStaff";
+// import IntroduceStaff from "./components/IntroduceStaff";
 import CompanyHistory from "./components/CompanyHistory";
 export const runtime = "edge";
 
@@ -93,7 +93,7 @@ export default async function Introduce({ params: { locale } }) {
       </section>
 
       <CompanyHistory CONFIG={CONFIG} />
-      <IntroduceStaff LANG={LANG} CONFIG={CONFIG} />
+      {/* <IntroduceStaff LANG={LANG} CONFIG={CONFIG} /> */}
 
       <Link href="/company/contact">
         <section className={styles.footer_container}>

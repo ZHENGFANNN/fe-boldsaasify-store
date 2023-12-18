@@ -62,8 +62,12 @@ export default function GoodComboList({
                 ) : null}
               </div>
             </div>
-            <div className={styles.line}></div>
-            <div className={styles.description}>{item.description}</div>
+            {item.description ? (
+              <>
+                <div className={styles.line}></div>
+                <div className={styles.description}>{item.description}</div>
+              </>
+            ) : null}
           </div>
         );
       })}

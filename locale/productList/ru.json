@@ -19,6 +19,191 @@
     "created_time": "2023-09-09T09:20:44.000Z",
     "updated_time": "2023-09-18T15:04:27.000Z",
     "associateProduct": [],
+    "typeList": [
+      {
+        "id": 87,
+        "type": "text",
+        "title": "цвет",
+        "language": "ru",
+        "good_sort_key": "watches",
+        "good_key": "n9-ultra-pro",
+        "options": [
+          {
+            "title": "черный"
+          },
+          {
+            "title": "Белый"
+          },
+          {
+            "title": "зеленый"
+          },
+          {
+            "title": "оранжевый"
+          }
+        ],
+        "enabled": 1,
+        "weight": 1,
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2023-09-17T13:27:03.000Z",
+        "updated_time": "2023-09-18T15:06:22.000Z"
+      }
+    ],
+    "packageList": [
+      {
+        "id": 656,
+        "type": "image",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": null,
+        "key": null,
+        "image": "https://image.sslfly.com/base/2023/9/17/609D062B6FFAEED9D2F90036827B388C/package_1.jpg",
+        "weight": 11,
+        "created_time": "2023-09-17T12:20:14.000Z",
+        "updated_time": "2023-09-17T15:03:10.000Z"
+      },
+      {
+        "id": 657,
+        "type": "image",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": null,
+        "key": null,
+        "image": "https://image.sslfly.com/base/2023/9/17/0D5F9CFC292FDD2053E19882BE7E3322/package_2.jpg",
+        "weight": 10,
+        "created_time": "2023-09-17T12:19:35.000Z",
+        "updated_time": "2023-09-17T15:03:15.000Z"
+      },
+      {
+        "id": 658,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Головка машины*1, ремешок для часов*1, руководство*1, беспроводное зарядное устройство*1",
+        "key": "товарная накладная:",
+        "image": null,
+        "weight": 9,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 659,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Корпус из цинкового сплава + нижний корпус IML",
+        "key": "Материал корпуса:",
+        "image": null,
+        "weight": 8,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 660,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "Силикагель",
+        "key": "Материал ремешка:",
+        "image": null,
+        "weight": 7,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 661,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "49 мм",
+        "key": "Размер продукта (мм):",
+        "image": null,
+        "weight": 6,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 662,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "20,8*11,3*2,1 см",
+        "key": "Размер цветной коробки (мм):",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 663,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "100 шт/коробка\n59,5*43,5*24 СМ",
+        "key": "Внешний размер коробки (мм):",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 664,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "53г",
+        "key": "Вес продукта (г):",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 665,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "205г",
+        "key": "Вес комплекта (г):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      },
+      {
+        "id": 666,
+        "type": "text",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "value": "21,5 кг/коробка",
+        "key": "Полная масса коробки (кг):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:03:19.000Z",
+        "updated_time": "2023-09-10T16:03:19.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 112,
@@ -868,189 +1053,21 @@
         ]
       }
     ],
-    "typeList": [
+    "indexConfig": [
       {
-        "id": 87,
-        "type": "text",
-        "title": "цвет",
-        "language": "ru",
-        "good_sort_key": "watches",
-        "good_key": "n9-ultra-pro",
-        "options": [
-          {
-            "title": "черный"
-          },
-          {
-            "title": "Белый"
-          },
-          {
-            "title": "зеленый"
-          },
-          {
-            "title": "оранжевый"
-          }
-        ],
-        "enabled": 1,
-        "weight": 1,
-        "associate_good_key": "watches:n9-ultra-pro",
-        "created_time": "2023-09-17T13:27:03.000Z",
-        "updated_time": "2023-09-18T15:06:22.000Z"
-      }
-    ],
-    "packageList": [
-      {
-        "id": 656,
-        "type": "image",
+        "id": 91,
         "good_key": "n9-ultra-pro",
         "good_sort_key": "watches",
         "language": "ru",
         "associate_good_key": "watches:n9-ultra-pro",
-        "value": null,
-        "key": null,
-        "image": "https://image.sslfly.com/base/2023/9/17/609D062B6FFAEED9D2F90036827B388C/package_1.jpg",
-        "weight": 11,
-        "created_time": "2023-09-17T12:20:14.000Z",
-        "updated_time": "2023-09-17T15:03:10.000Z"
-      },
-      {
-        "id": 657,
-        "type": "image",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": null,
-        "key": null,
-        "image": "https://image.sslfly.com/base/2023/9/17/0D5F9CFC292FDD2053E19882BE7E3322/package_2.jpg",
-        "weight": 10,
-        "created_time": "2023-09-17T12:19:35.000Z",
-        "updated_time": "2023-09-17T15:03:15.000Z"
-      },
-      {
-        "id": 658,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Головка машины*1, ремешок для часов*1, руководство*1, беспроводное зарядное устройство*1",
-        "key": "товарная накладная:",
-        "image": null,
-        "weight": 9,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 659,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Корпус из цинкового сплава + нижний корпус IML",
-        "key": "Материал корпуса:",
-        "image": null,
-        "weight": 8,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 660,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "Силикагель",
-        "key": "Материал ремешка:",
-        "image": null,
-        "weight": 7,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 661,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "49 мм",
-        "key": "Размер продукта (мм):",
-        "image": null,
-        "weight": 6,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 662,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "20,8*11,3*2,1 см",
-        "key": "Размер цветной коробки (мм):",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 663,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "100 шт/коробка\n59,5*43,5*24 СМ",
-        "key": "Внешний размер коробки (мм):",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 664,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "53г",
-        "key": "Вес продукта (г):",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 665,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "205г",
-        "key": "Вес комплекта (г):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
-      },
-      {
-        "id": 666,
-        "type": "text",
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "value": "21,5 кг/коробка",
-        "key": "Полная масса коробки (кг):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:03:19.000Z",
-        "updated_time": "2023-09-10T16:03:19.000Z"
+        "page_keywords": "N9 ULTRA PRO, умные часы, Apple Watch, высокопроизводительные умные часы, модные умные часы",
+        "page_title": "Н9 УЛЬТРА ПРО",
+        "page_description": "N9 ULTRA PRO — мощные умные часы с расширенными функциями и инновационным дизайном, аналогичные Apple Watch. Он сочетает в себе стильный внешний вид и высокопроизводительные технологии, обеспечивая пользователям превосходные интеллектуальные возможности.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:52:24.000Z",
+        "updated_time": "2023-09-24T04:52:24.000Z"
       }
     ],
     "mediaList": [
@@ -1172,23 +1189,6 @@
         "weight": 1,
         "created_time": "2023-09-24T08:11:10.000Z",
         "updated_time": "2023-09-24T08:18:15.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 91,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "page_keywords": "N9 ULTRA PRO, умные часы, Apple Watch, высокопроизводительные умные часы, модные умные часы",
-        "page_title": "Н9 УЛЬТРА ПРО",
-        "page_description": "N9 ULTRA PRO — мощные умные часы с расширенными функциями и инновационным дизайном, аналогичные Apple Watch. Он сочетает в себе стильный внешний вид и высокопроизводительные технологии, обеспечивая пользователям превосходные интеллектуальные возможности.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:52:24.000Z",
-        "updated_time": "2023-09-24T04:52:24.000Z"
       }
     ],
     "associationsList": [
@@ -2148,6 +2148,79 @@
     "created_time": "2022-12-26T14:24:11.000Z",
     "updated_time": "2023-09-09T09:55:27.000Z",
     "associateProduct": [],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 838,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Головка машины*1, ремешок для часов*1, руководство*1, беспроводное зарядное устройство*1",
+        "key": "товарная накладная:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      },
+      {
+        "id": 839,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Корпус из цинкового сплава + нижний корпус IML",
+        "key": "Материал корпуса:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      },
+      {
+        "id": 840,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "Силикагель",
+        "key": "Материал ремешка:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      },
+      {
+        "id": 841,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "210*106*25 мм",
+        "key": "Размер цветной коробки (мм):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      },
+      {
+        "id": 842,
+        "type": "text",
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:8-ultra-mini",
+        "value": "50 шт/коробка\n570*315*235 мм",
+        "key": "Внешний размер коробки (мм):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-09T16:01:57.000Z",
+        "updated_time": "2023-09-09T16:01:57.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 62,
@@ -2984,98 +3057,6 @@
         ]
       }
     ],
-    "typeList": [],
-    "packageList": [
-      {
-        "id": 838,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Головка машины*1, ремешок для часов*1, руководство*1, беспроводное зарядное устройство*1",
-        "key": "товарная накладная:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      },
-      {
-        "id": 839,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Корпус из цинкового сплава + нижний корпус IML",
-        "key": "Материал корпуса:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      },
-      {
-        "id": 840,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "Силикагель",
-        "key": "Материал ремешка:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      },
-      {
-        "id": 841,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "210*106*25 мм",
-        "key": "Размер цветной коробки (мм):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      },
-      {
-        "id": 842,
-        "type": "text",
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:8-ultra-mini",
-        "value": "50 шт/коробка\n570*315*235 мм",
-        "key": "Внешний размер коробки (мм):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-09T16:01:57.000Z",
-        "updated_time": "2023-09-09T16:01:57.000Z"
-      }
-    ],
-    "mediaList": [
-      {
-        "id": 41,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:8-ultra-mini",
-        "type": "facebook",
-        "title": "модные технологии,\nУниверсальные умные часы",
-        "description": "Эти умные часы объединяют в себе множество функций, включая управление здоровьем, умного помощника, общение, развлечения и т. д., позволяя вам оставаться на связи в любое время и в любом месте, следить за своим здоровьем, получать персональные рекомендации и делать его более удобным с помощью голосового управления. распознавание жестов и т. д. Эффективно.",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": null,
-        "media_code": "288303853920678",
-        "weight": 12,
-        "created_time": "2023-09-09T14:28:04.000Z",
-        "updated_time": "2023-09-09T14:31:51.000Z"
-      }
-    ],
     "indexConfig": [
       {
         "id": 92,
@@ -3106,6 +3087,25 @@
         "is_light": null,
         "created_time": "2023-09-24T04:52:37.000Z",
         "updated_time": "2023-09-24T04:52:37.000Z"
+      }
+    ],
+    "mediaList": [
+      {
+        "id": 41,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:8-ultra-mini",
+        "type": "facebook",
+        "title": "модные технологии,\nУниверсальные умные часы",
+        "description": "Эти умные часы объединяют в себе множество функций, включая управление здоровьем, умного помощника, общение, развлечения и т. д., позволяя вам оставаться на связи в любое время и в любом месте, следить за своим здоровьем, получать персональные рекомендации и делать его более удобным с помощью голосового управления. распознавание жестов и т. д. Эффективно.",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": null,
+        "media_code": "288303853920678",
+        "weight": 12,
+        "created_time": "2023-09-09T14:28:04.000Z",
+        "updated_time": "2023-09-09T14:31:51.000Z"
       }
     ],
     "associationsList": [
@@ -3874,6 +3874,79 @@
     "created_time": "2022-12-26T14:24:26.000Z",
     "updated_time": "2023-09-09T09:55:31.000Z",
     "associateProduct": [],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 843,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": " Головка машины*1, ремешок для часов*1, руководство*1, кабель беспроводной зарядки*1",
+        "key": "товарная накладная:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 844,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "Корпус из цинкового сплава + нижний корпус IML",
+        "key": "Материал корпуса:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 845,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "Силикагель ",
+        "key": "Материал ремешка:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 846,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "214х117х27мм",
+        "key": "Размер цветной коробки (см):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      },
+      {
+        "id": 847,
+        "type": "text",
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ip8-ultra",
+        "value": "50/коробка 62*45,5*18 см",
+        "key": "Внешний размер коробки (см):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:05:34.000Z",
+        "updated_time": "2023-09-10T16:05:34.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 72,
@@ -4710,80 +4783,6 @@
         ]
       }
     ],
-    "typeList": [],
-    "packageList": [
-      {
-        "id": 843,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": " Головка машины*1, ремешок для часов*1, руководство*1, кабель беспроводной зарядки*1",
-        "key": "товарная накладная:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 844,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "Корпус из цинкового сплава + нижний корпус IML",
-        "key": "Материал корпуса:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 845,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "Силикагель ",
-        "key": "Материал ремешка:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 846,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "214х117х27мм",
-        "key": "Размер цветной коробки (см):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      },
-      {
-        "id": 847,
-        "type": "text",
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ip8-ultra",
-        "value": "50/коробка 62*45,5*18 см",
-        "key": "Внешний размер коробки (см):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:05:34.000Z",
-        "updated_time": "2023-09-10T16:05:34.000Z"
-      }
-    ],
-    "mediaList": [],
     "indexConfig": [
       {
         "id": 94,
@@ -4801,6 +4800,7 @@
         "updated_time": "2023-09-24T04:52:41.000Z"
       }
     ],
+    "mediaList": [],
     "associationsList": [
       {
         "id": 2683,
@@ -5627,6 +5627,79 @@
     "created_time": "2022-12-26T14:24:54.000Z",
     "updated_time": "2023-09-09T09:55:33.000Z",
     "associateProduct": [],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 848,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Головка машины*1, ремешок для часов*1, руководство*1, беспроводное зарядное устройство*1",
+        "key": "товарная накладная:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 849,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Корпус из цинкового сплава + нижний корпус IML",
+        "key": "Материал корпуса:",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 850,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:series8-mini",
+        "value": "Силикагель",
+        "key": "Материал ремешка:",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 851,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:series8-mini",
+        "value": "196*108,5*22 мм",
+        "key": "Размер цветной коробки (мм):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      },
+      {
+        "id": 852,
+        "type": "text",
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:series8-mini",
+        "value": "100 шт/коробка\n565*245*415 мм",
+        "key": "Внешний размер коробки (мм):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:05:11.000Z",
+        "updated_time": "2023-09-10T16:05:11.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 82,
@@ -6463,80 +6536,6 @@
         ]
       }
     ],
-    "typeList": [],
-    "packageList": [
-      {
-        "id": 848,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Головка машины*1, ремешок для часов*1, руководство*1, беспроводное зарядное устройство*1",
-        "key": "товарная накладная:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 849,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Корпус из цинкового сплава + нижний корпус IML",
-        "key": "Материал корпуса:",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 850,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:series8-mini",
-        "value": "Силикагель",
-        "key": "Материал ремешка:",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 851,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:series8-mini",
-        "value": "196*108,5*22 мм",
-        "key": "Размер цветной коробки (мм):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      },
-      {
-        "id": 852,
-        "type": "text",
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:series8-mini",
-        "value": "100 шт/коробка\n565*245*415 мм",
-        "key": "Внешний размер коробки (мм):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:05:11.000Z",
-        "updated_time": "2023-09-10T16:05:11.000Z"
-      }
-    ],
-    "mediaList": [],
     "indexConfig": [
       {
         "id": 95,
@@ -6569,6 +6568,7 @@
         "updated_time": "2023-09-24T04:52:51.000Z"
       }
     ],
+    "mediaList": [],
     "associationsList": [
       {
         "id": 2702,
@@ -7348,6 +7348,107 @@
     "created_time": "2022-12-26T14:25:04.000Z",
     "updated_time": "2023-09-09T09:55:35.000Z",
     "associateProduct": [],
+    "typeList": [],
+    "packageList": [
+      {
+        "id": 853,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ultra-max",
+        "value": " Головка машины*1, ремешок для часов*1, руководство*1, кабель беспроводной зарядки*1",
+        "key": "товарная накладная:",
+        "image": null,
+        "weight": 7,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 854,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ultra-max",
+        "value": "Корпус из цинкового сплава + нижний корпус IML",
+        "key": "Материал корпуса:",
+        "image": null,
+        "weight": 6,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 855,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ultra-max",
+        "value": "Силикагель ",
+        "key": "Материал ремешка:",
+        "image": null,
+        "weight": 5,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 856,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ultra-max",
+        "value": "215х117х26мм",
+        "key": "Размер цветной коробки (см):",
+        "image": null,
+        "weight": 4,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 857,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ultra-max",
+        "value": "50/коробка 62*45,5*18 см",
+        "key": "Внешний размер коробки (см):",
+        "image": null,
+        "weight": 3,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 858,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ultra-max",
+        "value": "294,2 г",
+        "key": "Вес комплекта (г):",
+        "image": null,
+        "weight": 2,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      },
+      {
+        "id": 859,
+        "type": "text",
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ru",
+        "associate_good_key": "watches:ultra-max",
+        "value": "15,77 кг",
+        "key": "Полная масса коробки (кг):",
+        "image": null,
+        "weight": 1,
+        "created_time": "2023-09-10T16:03:34.000Z",
+        "updated_time": "2023-09-10T16:03:34.000Z"
+      }
+    ],
     "comboList": [
       {
         "id": 92,
@@ -8184,108 +8285,6 @@
         ]
       }
     ],
-    "typeList": [],
-    "packageList": [
-      {
-        "id": 853,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ultra-max",
-        "value": " Головка машины*1, ремешок для часов*1, руководство*1, кабель беспроводной зарядки*1",
-        "key": "товарная накладная:",
-        "image": null,
-        "weight": 7,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 854,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ultra-max",
-        "value": "Корпус из цинкового сплава + нижний корпус IML",
-        "key": "Материал корпуса:",
-        "image": null,
-        "weight": 6,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 855,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ultra-max",
-        "value": "Силикагель ",
-        "key": "Материал ремешка:",
-        "image": null,
-        "weight": 5,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 856,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ultra-max",
-        "value": "215х117х26мм",
-        "key": "Размер цветной коробки (см):",
-        "image": null,
-        "weight": 4,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 857,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ultra-max",
-        "value": "50/коробка 62*45,5*18 см",
-        "key": "Внешний размер коробки (см):",
-        "image": null,
-        "weight": 3,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 858,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ultra-max",
-        "value": "294,2 г",
-        "key": "Вес комплекта (г):",
-        "image": null,
-        "weight": 2,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      },
-      {
-        "id": 859,
-        "type": "text",
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ru",
-        "associate_good_key": "watches:ultra-max",
-        "value": "15,77 кг",
-        "key": "Полная масса коробки (кг):",
-        "image": null,
-        "weight": 1,
-        "created_time": "2023-09-10T16:03:34.000Z",
-        "updated_time": "2023-09-10T16:03:34.000Z"
-      }
-    ],
-    "mediaList": [],
     "indexConfig": [
       {
         "id": 97,
@@ -8318,6 +8317,7 @@
         "updated_time": "2023-09-24T04:52:59.000Z"
       }
     ],
+    "mediaList": [],
     "associationsList": [
       {
         "id": 2723,
@@ -9144,10 +9144,9 @@
     "created_time": "2022-12-26T14:24:37.000Z",
     "updated_time": "2023-09-09T09:55:37.000Z",
     "associateProduct": [],
-    "comboList": [],
     "typeList": [],
     "packageList": [],
-    "mediaList": [],
+    "comboList": [],
     "indexConfig": [
       {
         "id": 99,
@@ -9180,6 +9179,7 @@
         "updated_time": "2023-09-24T04:53:07.000Z"
       }
     ],
+    "mediaList": [],
     "associationsList": [],
     "funcionList": [],
     "sellingList": [],
