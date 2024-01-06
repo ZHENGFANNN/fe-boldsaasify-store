@@ -59,11 +59,11 @@ function ProductInfo({ product, productIndex, LANG, goodDiscountFestival }) {
         <div className={styles.mask_top}></div>
         <div className={styles.mask_bottom}></div>
 
-        {goodDiscountFestival ? (
+        {goodDiscountFestival && product.areaInfo.good_discount ? (
           <div className={styles.good_discount}>
             <div className={styles.off}>OFF</div>
             <div className={styles.discount}>
-              {100 - goodDiscountFestival.discount}%
+              {100 - product.areaInfo.good_discount}%
             </div>
           </div>
         ) : null}
@@ -75,12 +75,14 @@ function ProductInfo({ product, productIndex, LANG, goodDiscountFestival }) {
               {LANG["store.index.no_stock"]}
             </span>
           ) : null}
-          {goodDiscountFestival && product.areaInfo.price ? (
+          {goodDiscountFestival &&
+          product.areaInfo.good_discount &&
+          product.areaInfo.price ? (
             <span className={styles.discount_tip}>{`- ${
               product.areaInfo.currency_symbol
             }${product.areaInfo.currency} ${Math.ceil(
               product.areaInfo.price *
-                (100 - goodDiscountFestival.discount) *
+                (100 - product.areaInfo.good_discount) *
                 0.01
             )}`}</span>
           ) : null}
@@ -88,11 +90,11 @@ function ProductInfo({ product, productIndex, LANG, goodDiscountFestival }) {
         <div className={styles.goods_item_price}>
           {product.areaInfo.price ? (
             <div className={styles.price_container}>
-              {goodDiscountFestival ? (
+              {goodDiscountFestival && product.areaInfo.good_discount ? (
                 <div>{`${product.areaInfo.currency_symbol}${
                   product.areaInfo.currency
                 } ${Math.floor(
-                  product.areaInfo.price * goodDiscountFestival.discount * 0.01
+                  product.areaInfo.price * product.areaInfo.good_discount * 0.01
                 )}`}</div>
               ) : null}
               <div>{`${product.areaInfo.currency_symbol}${product.areaInfo.currency}  ${product.areaInfo.price}`}</div>

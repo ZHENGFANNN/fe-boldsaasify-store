@@ -334,12 +334,16 @@ export default function OrderInfo({ LANG }) {
                           <div className={styles.user_item}>
                             {orderItem.email}
                           </div>
-                          <div
-                            className={styles.user_item}
-                          >{`(${orderItem.zip_code}} ${orderItem.area_text} ${orderItem.address1}`}</div>
-                          <div className={styles.user_item}>
-                            {orderItem.address2}
-                          </div>
+                          {orderItem.address1 ? (
+                            <div
+                              className={styles.user_item}
+                            >{`(${orderItem.zip_code}) ${orderItem.area_text} ${orderItem.address1}`}</div>
+                          ) : null}
+                          {orderItem.address2 ? (
+                            <div className={styles.user_item}>
+                              {orderItem.address2}
+                            </div>
+                          ) : null}
                         </div>
                         {orderItem.user_remark || orderItem.seller_remark ? (
                           <div className={styles.order_remark}>

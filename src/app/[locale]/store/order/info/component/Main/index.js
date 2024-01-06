@@ -10,13 +10,7 @@ import ShowTipModal from "@/components/Modal/ShowTipModal";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 
-export default function Main({
-  secret,
-  locale,
-  goodDiscountFestival,
-  LANG,
-  CONFIG,
-}) {
+export default function Main({ secret, locale, LANG, CONFIG }) {
   const router = useRouter();
   const [order, setOrder] = React.useState();
   const [loading, setLoading] = React.useState(true);
@@ -259,7 +253,7 @@ export default function Main({
               {order.pay_price ? (
                 <li>
                   <h3 className={styles.flex_2}>
-                    {LANG["store.order_info.order_remark"]}
+                    {LANG["store.order_info.pay_price"]}
                   </h3>
                   <p
                     className={styles.flex_3}
@@ -307,14 +301,12 @@ export default function Main({
                         </div>
                       </div>
                       <div className={styles.product_number}>
-                        {goodDiscountFestival ? (
+                        {goodItem.good_discount ? (
                           <div className={styles.good_price}>{`${
                             goodItem.priceSymbol
                           }${goodItem.priceCurrency} ${
                             Math.floor(
-                              goodItem.price *
-                                goodDiscountFestival.discount *
-                                0.01
+                              goodItem.price * goodItem.good_discount * 0.01
                             ) * goodItem.productNum
                           }`}</div>
                         ) : null}
@@ -330,7 +322,7 @@ export default function Main({
               </div>
 
               {order.first_name && order.address1 ? (
-                <>
+                <div className={styles.user_info}>
                   <h2>{LANG["store.order_info.user_info"]}</h2>
                   <li>
                     <p>{`${order.first_name} ${order.last_name}`}</p>
@@ -344,7 +336,7 @@ export default function Main({
                   <li>
                     <p>{`(${order.zip_code}) ${order.area_text} ${order.address1} ${order.address2}`}</p>
                   </li>
-                </>
+                </div>
               ) : null}
             </ul>
 

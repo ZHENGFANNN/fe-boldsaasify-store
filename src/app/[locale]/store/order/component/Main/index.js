@@ -192,10 +192,10 @@ export default function Main({
 
   const discount = React.useMemo(() => {
     return orderList.reduce((pre, cur) => {
-      if (GOODDISCOUNTFESTIVAL) {
+      if (GOODDISCOUNTFESTIVAL && cur.good_discount) {
         return (
           pre +
-          Math.ceil(cur.price * (100 - GOODDISCOUNTFESTIVAL.discount) * 0.01) *
+          Math.ceil(cur.price * (100 - cur.good_discount) * 0.01) *
             cur.productNum
         );
       } else {
@@ -382,18 +382,16 @@ export default function Main({
                           </div>
                         </div>
                         <div className={styles.order_price}>
-                          {GOODDISCOUNTFESTIVAL ? (
+                          {GOODDISCOUNTFESTIVAL && item.good_discount ? (
                             <div className={styles.discount}>{`${
-                              item.priceSymbol || item.priceCurrency
-                            } ${
+                              item.priceSymbol
+                            }${item.priceCurrency} ${
                               Math.floor(
-                                item.price *
-                                  GOODDISCOUNTFESTIVAL.discount *
-                                  0.01
+                                item.price * item.good_discount * 0.01
                               ) * item.productNum
                             }`}</div>
                           ) : null}
-                          <div>{`${item.priceSymbol || item.priceCurrency} ${
+                          <div>{`${item.priceSymbol}${item.priceCurrency} ${
                             item.price * item.productNum
                           }`}</div>
                         </div>
@@ -404,8 +402,8 @@ export default function Main({
                 <div className={styles.price_list}>
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.good_total"]}</h3>
-                    <span>{`${
-                      orderList[0]?.priceSymbol || orderList[0]?.priceCurrency
+                    <span>{`${orderList[0]?.priceSymbol}${
+                      orderList[0]?.priceCurrency
                     } ${totalPrice - discount}`}</span>
                   </div>
                   <div className={styles.price_item}>
@@ -419,8 +417,8 @@ export default function Main({
                 </div>
                 <div className={styles.price_total}>
                   <h3>{LANG["store.order.total_price"]}</h3>
-                  <span>{`${
-                    orderList[0]?.priceSymbol || orderList[0]?.priceCurrency
+                  <span>{`${orderList[0]?.priceSymbol}${
+                    orderList[0]?.priceCurrency
                   } ${formatPrice(totalPrice - discount)}`}</span>
                 </div>
               </>

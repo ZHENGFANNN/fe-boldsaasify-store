@@ -868,47 +868,6 @@
         ]
       }
     ],
-    "typeList": [
-      {
-        "id": 77,
-        "type": "text",
-        "title": "颜色",
-        "language": "cn",
-        "good_sort_key": "watches",
-        "good_key": "n9-ultra-pro",
-        "options": [
-          {
-            "title": "黑色",
-            "images": [
-              ""
-            ]
-          },
-          {
-            "title": "白色",
-            "images": [
-              ""
-            ]
-          },
-          {
-            "title": "绿色",
-            "images": [
-              ""
-            ]
-          },
-          {
-            "title": "橙色",
-            "images": [
-              ""
-            ]
-          }
-        ],
-        "enabled": 1,
-        "weight": 1,
-        "associate_good_key": "watches:n9-ultra-pro",
-        "created_time": "2023-09-17T13:27:03.000Z",
-        "updated_time": "2023-09-17T13:27:03.000Z"
-      }
-    ],
     "packageList": [
       {
         "id": 567,
@@ -1099,6 +1058,47 @@
         "is_light": null,
         "created_time": "2023-09-17T14:31:22.000Z",
         "updated_time": "2023-09-24T04:31:35.000Z"
+      }
+    ],
+    "typeList": [
+      {
+        "id": 77,
+        "type": "text",
+        "title": "颜色",
+        "language": "cn",
+        "good_sort_key": "watches",
+        "good_key": "n9-ultra-pro",
+        "options": [
+          {
+            "title": "黑色",
+            "images": [
+              ""
+            ]
+          },
+          {
+            "title": "白色",
+            "images": [
+              ""
+            ]
+          },
+          {
+            "title": "绿色",
+            "images": [
+              ""
+            ]
+          },
+          {
+            "title": "橙色",
+            "images": [
+              ""
+            ]
+          }
+        ],
+        "enabled": 1,
+        "weight": 1,
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2023-09-17T13:27:03.000Z",
+        "updated_time": "2023-09-17T13:27:03.000Z"
       }
     ],
     "funcionList": [
@@ -2899,7 +2899,6 @@
         ]
       }
     ],
-    "typeList": [],
     "packageList": [
       {
         "id": 531,
@@ -3008,6 +3007,7 @@
         "updated_time": "2023-09-24T04:31:58.000Z"
       }
     ],
+    "typeList": [],
     "funcionList": [
       {
         "id": 2855,
@@ -4610,7 +4610,6 @@
         ]
       }
     ],
-    "typeList": [],
     "packageList": [
       {
         "id": 545,
@@ -4729,6 +4728,7 @@
         "updated_time": "2023-09-24T04:32:18.000Z"
       }
     ],
+    "typeList": [],
     "funcionList": [
       {
         "id": 2975,
@@ -6391,7 +6391,6 @@
         ]
       }
     ],
-    "typeList": [],
     "packageList": [
       {
         "id": 552,
@@ -6482,6 +6481,7 @@
         "updated_time": "2023-09-24T04:32:40.000Z"
       }
     ],
+    "typeList": [],
     "funcionList": [
       {
         "id": 3017,
@@ -8097,7 +8097,6 @@
         ]
       }
     ],
-    "typeList": [],
     "packageList": [
       {
         "id": 557,
@@ -8188,6 +8187,7 @@
         "updated_time": "2023-09-24T04:32:58.000Z"
       }
     ],
+    "typeList": [],
     "funcionList": [
       {
         "id": 3054,
@@ -9015,7 +9015,6 @@
     "updated_time": "2023-09-09T09:53:19.000Z",
     "associateProduct": [],
     "comboList": [],
-    "typeList": [],
     "packageList": [],
     "mediaList": [],
     "indexConfig": [
@@ -9035,6 +9034,7 @@
         "updated_time": "2023-09-24T04:33:13.000Z"
       }
     ],
+    "typeList": [],
     "funcionList": [],
     "associationsList": [],
     "sellingList": [],

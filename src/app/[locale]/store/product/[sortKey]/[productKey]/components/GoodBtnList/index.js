@@ -36,18 +36,20 @@ function PayButton({
   }, []);
 
   const discount = React.useMemo(() => {
-    return (
-      Math.ceil(
-        productCurCombo.areaInfo.price *
-          (100 - productCurCombo.areaInfo.discount) *
-          0.01 *
-          productNum
-      ) || 0
-    );
+    if (!productCurCombo.areaInfo.good_discount) {
+      return 0;
+    } else {
+      return (
+        Math.ceil(
+          productCurCombo.areaInfo.price *
+            (100 - productCurCombo.areaInfo.good_discount) *
+            0.01
+        ) * productNum || 0
+      );
+    }
   }, [productCurCombo, productNum]);
 
   const totalPrice = React.useMemo(() => {
-    console.log("totalPrice", productCurCombo.areaInfo.price * productNum);
     return productCurCombo.areaInfo.price * productNum;
   });
 
@@ -88,6 +90,13 @@ function PayButton({
             color: "gold",
             label: "paypal",
           }}
+          forceReRender={[
+            productNum,
+            productCurCombo,
+            productInfo,
+            locale,
+            discount,
+          ]}
           createOrder={async () => {
             // 处理订单
             return Api.createOrder({
@@ -147,7 +156,7 @@ function PayButton({
                   // 移除订单信息
                   localStorage.removeItem("order");
                   setTimeout(() => {
-                    location.href = `/store/order/info?secret=${res.data.secret}`;
+                    router.push(`/store/order/info?secret=${res.data.secret}`);
                   }, 1000);
                 } else {
                   throw new Error("code !== 0");
@@ -167,9 +176,9 @@ function PayButton({
                 text: LANG["store.order.pay_cancel"],
                 type: "error",
               });
-              // setTimeout(() => {
-              //   location.href = `/store/order/info?secret=${secret.current}`;
-              // }, 1000);
+              setTimeout(() => {
+                router.push(`/store/order/info?secret=${secret.current}`);
+              }, 1000);
             }
           }}
           onError={(error) => {
