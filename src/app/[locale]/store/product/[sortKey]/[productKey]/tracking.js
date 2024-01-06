@@ -12,4 +12,24 @@ export default {
       content_type: "product",
     });
   },
+  // 购买流程
+  initiateCheckout: function ({ currency, value, discount, contents, type }) {
+    window.fbq("track", "InitiateCheckout", {
+      currency,
+      value,
+      contents,
+      discount,
+      type,
+    });
+  },
+  // 购买转化
+  purchase: function ({ currency, value, discount, contents, type }) {
+    window.fbq("track", "Purchase", {
+      currency,
+      value,
+      discount,
+      contents,
+      type,
+    });
+  },
 };

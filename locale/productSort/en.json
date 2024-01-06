@@ -22,7 +22,7 @@
         "weight": 1,
         "sort_key": "ambien-light",
         "language": "en",
-        "video_url": null,
+        "video_url": "https://video.sslfly.com/base/2023/9/17/15B446259E60551FD48FBA5FD60426F7/N9%20Ultra%20Pro.mp4",
         "video_cover": null,
         "three_d": null,
         "three_d_background": null,
@@ -31,8 +31,7 @@
         "associate_keys": null,
         "associate_good_key": "ambien-light:rhythm-light",
         "created_time": "2023-12-17T05:09:29.000Z",
-        "updated_time": "2023-12-18T14:36:29.000Z",
-        "typeList": [],
+        "updated_time": "2024-01-06T07:37:29.000Z",
         "comboList": [
           {
             "id": 113,
@@ -885,14 +884,14 @@
             "updated_time": "2023-12-18T15:03:05.000Z",
             "areaList": [
               {
-                "id": 4266,
+                "id": 4558,
                 "country": "United Kingdom",
                 "country_code": "gb",
                 "language_code": "en",
                 "currency": "GBP",
                 "currency_symbol": "£",
                 "price": 14,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -902,14 +901,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4265,
+                "id": 4557,
                 "country": "Switzerland",
                 "country_code": "ch",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -919,14 +918,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4264,
+                "id": 4556,
                 "country": "Sweden",
                 "country_code": "se",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -936,14 +935,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4263,
+                "id": 4555,
                 "country": "España",
                 "country_code": "es",
                 "language_code": "es",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -953,14 +952,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4262,
+                "id": 4554,
                 "country": "Slovenia",
                 "country_code": "si",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -970,14 +969,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4261,
+                "id": 4553,
                 "country": "Slovakia",
                 "country_code": "sk",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -987,14 +986,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4260,
+                "id": 4552,
                 "country": "Portugal",
                 "country_code": "pt",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1004,14 +1003,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4259,
+                "id": 4551,
                 "country": "Poland",
                 "country_code": "pl",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1021,14 +1020,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4258,
+                "id": 4550,
                 "country": "Norway",
                 "country_code": "no",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1038,14 +1037,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4257,
+                "id": 4549,
                 "country": "Netherlands",
                 "country_code": "nl",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1055,14 +1054,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4256,
+                "id": 4548,
                 "country": "Monaco",
                 "country_code": "mc",
                 "language_code": "fr",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1072,14 +1071,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4255,
+                "id": 4547,
                 "country": "Malta",
                 "country_code": "mt",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1089,14 +1088,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4254,
+                "id": 4546,
                 "country": "Luxembourg",
                 "country_code": "lu",
                 "language_code": "fr",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1106,14 +1105,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4253,
+                "id": 4545,
                 "country": "Lithuania",
                 "country_code": "lt",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1123,14 +1122,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4252,
+                "id": 4544,
                 "country": "Liechtenstein",
                 "country_code": "li",
                 "language_code": "de",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1140,14 +1139,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4251,
+                "id": 4543,
                 "country": "Latvia",
                 "country_code": "lv",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1157,14 +1156,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4250,
+                "id": 4542,
                 "country": "Italia",
                 "country_code": "it",
                 "language_code": "it",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1174,14 +1173,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4249,
+                "id": 4541,
                 "country": "Ireland",
                 "country_code": "ie",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1191,14 +1190,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4248,
+                "id": 4540,
                 "country": "Hungary",
                 "country_code": "hu",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1208,14 +1207,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4247,
+                "id": 4539,
                 "country": "Greece",
                 "country_code": "gr",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1225,14 +1224,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4246,
+                "id": 4538,
                 "country": "Deutschland",
                 "country_code": "de",
                 "language_code": "de",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1242,14 +1241,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4245,
+                "id": 4537,
                 "country": "France",
                 "country_code": "fr",
                 "language_code": "fr",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1259,14 +1258,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4244,
+                "id": 4536,
                 "country": "Finland",
                 "country_code": "fi",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1276,14 +1275,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4243,
+                "id": 4535,
                 "country": "Estonia",
                 "country_code": "ee",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1293,14 +1292,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4242,
+                "id": 4534,
                 "country": "Denmark",
                 "country_code": "dk",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1310,14 +1309,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4241,
+                "id": 4533,
                 "country": "Czech Republic",
                 "country_code": "cz",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1327,14 +1326,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4240,
+                "id": 4532,
                 "country": "Croatia",
                 "country_code": "hr",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1344,14 +1343,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4239,
+                "id": 4531,
                 "country": "Bulgaria",
                 "country_code": "bg",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1361,14 +1360,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4238,
+                "id": 4530,
                 "country": "Belgium",
                 "country_code": "be",
                 "language_code": "en",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1378,14 +1377,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4237,
+                "id": 4529,
                 "country": "Österreich",
                 "country_code": "at",
                 "language_code": "de",
                 "currency": "EUR",
                 "currency_symbol": "€",
                 "price": 16,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1395,14 +1394,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4236,
+                "id": 4528,
                 "country": "New Zealand",
                 "country_code": "nz",
                 "language_code": "en",
                 "currency": "AUD",
                 "currency_symbol": "$",
                 "price": 25,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1412,14 +1411,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4235,
+                "id": 4527,
                 "country": "Australia",
                 "country_code": "au",
                 "language_code": "en",
                 "currency": "AUD",
                 "currency_symbol": "$",
                 "price": 25,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1429,14 +1428,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4234,
+                "id": 4526,
                 "country": "台湾",
                 "country_code": "tw",
                 "language_code": "hk",
                 "currency": "TWD",
                 "currency_symbol": "$",
                 "price": 519,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1446,14 +1445,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4233,
+                "id": 4525,
                 "country": "대한민국",
                 "country_code": "kr",
                 "language_code": "ko",
                 "currency": "KRW",
                 "currency_symbol": "₩",
                 "price": 21549,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1463,14 +1462,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4232,
+                "id": 4524,
                 "country": "Singapore",
                 "country_code": "sg",
                 "language_code": "en",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 17,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1480,14 +1479,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4231,
+                "id": 4523,
                 "country": "澳门",
                 "country_code": "mo",
                 "language_code": "hk",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 17,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1497,14 +1496,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4230,
+                "id": 4522,
                 "country": "日本",
                 "country_code": "jp",
                 "language_code": "ja",
                 "currency": "JPY",
                 "currency_symbol": "¥",
                 "price": 2353,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1514,14 +1513,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4229,
+                "id": 4521,
                 "country": "Hong Kong",
                 "country_code": "hk_en",
                 "language_code": "en",
                 "currency": "HKD",
                 "currency_symbol": "$",
                 "price": 130,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1531,14 +1530,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4228,
+                "id": 4520,
                 "country": "香港",
                 "country_code": "hk",
                 "language_code": "hk",
                 "currency": "HKD",
                 "currency_symbol": "$",
                 "price": 130,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1548,31 +1547,31 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4227,
+                "id": 4519,
                 "country": "中国大陆",
                 "country_code": "cn",
                 "language_code": "cn",
                 "currency": "CNY",
                 "currency_symbol": "¥",
                 "price": 118,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
                 "good_key": "rhythm-light",
                 "combo_key": "16-lamp-white",
                 "created_time": "2023-12-17T05:35:53.000Z",
-                "updated_time": "2023-12-18T14:54:48.000Z"
+                "updated_time": "2024-01-06T07:30:54.000Z"
               },
               {
-                "id": 4226,
+                "id": 4518,
                 "country": "Israel",
                 "country_code": "il",
                 "language_code": "en",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 17,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1582,14 +1581,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4225,
+                "id": 4517,
                 "country": "UAE",
                 "country_code": "ae",
                 "language_code": "en",
                 "currency": "AED",
                 "currency_symbol": "",
                 "price": 61,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1599,14 +1598,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4224,
+                "id": 4516,
                 "country": "Saudi Arabia",
                 "country_code": "sa",
                 "language_code": "en",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 17,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1616,14 +1615,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4223,
+                "id": 4515,
                 "country": "Kuwait",
                 "country_code": "kw",
                 "language_code": "en",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 17,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1633,14 +1632,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4222,
+                "id": 4514,
                 "country": "United States",
                 "country_code": "us",
                 "language_code": "en",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 18,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1650,14 +1649,14 @@
                 "updated_time": "2023-12-18T14:54:58.000Z"
               },
               {
-                "id": 4221,
+                "id": 4513,
                 "country": "Puerto Rico",
                 "country_code": "pr",
                 "language_code": "en",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 17,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1667,14 +1666,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4220,
+                "id": 4512,
                 "country": "Canada",
                 "country_code": "ca",
                 "language_code": "fr",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 17,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -1684,14 +1683,14 @@
                 "updated_time": "2023-12-17T05:35:56.000Z"
               },
               {
-                "id": 4219,
+                "id": 4511,
                 "country": "Canada",
                 "country_code": "ca_en",
                 "language_code": "en",
                 "currency": "USD",
                 "currency_symbol": "$",
                 "price": 17,
-                "good_discount": null,
+                "good_discount": 70,
                 "stock": true,
                 "good_sort_key": "ambien-light",
                 "associate_country_key": "ambien-light:rhythm-light:16-lamp-white",
@@ -5038,7 +5037,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       }
     ]
   },
@@ -5090,35 +5090,6 @@
         "associate_good_key": "watches:n9-ultra-pro",
         "created_time": "2023-09-09T09:20:44.000Z",
         "updated_time": "2023-12-18T14:35:52.000Z",
-        "typeList": [
-          {
-            "id": 79,
-            "type": "text",
-            "title": "color",
-            "language": "en",
-            "good_sort_key": "watches",
-            "good_key": "n9-ultra-pro",
-            "options": [
-              {
-                "title": "black"
-              },
-              {
-                "title": "White"
-              },
-              {
-                "title": "green"
-              },
-              {
-                "title": "orange"
-              }
-            ],
-            "enabled": 1,
-            "weight": 1,
-            "associate_good_key": "watches:n9-ultra-pro",
-            "created_time": "2023-09-17T13:27:03.000Z",
-            "updated_time": "2023-09-17T13:28:54.000Z"
-          }
-        ],
         "comboList": [
           {
             "id": 104,
@@ -5967,6 +5938,35 @@
               }
             ]
           }
+        ],
+        "typeList": [
+          {
+            "id": 79,
+            "type": "text",
+            "title": "color",
+            "language": "en",
+            "good_sort_key": "watches",
+            "good_key": "n9-ultra-pro",
+            "options": [
+              {
+                "title": "black"
+              },
+              {
+                "title": "White"
+              },
+              {
+                "title": "green"
+              },
+              {
+                "title": "orange"
+              }
+            ],
+            "enabled": 1,
+            "weight": 1,
+            "associate_good_key": "watches:n9-ultra-pro",
+            "created_time": "2023-09-17T13:27:03.000Z",
+            "updated_time": "2023-09-17T13:28:54.000Z"
+          }
         ]
       },
       {
@@ -5991,7 +5991,6 @@
         "associate_good_key": "watches:8-ultra-mini",
         "created_time": "2022-12-26T14:24:11.000Z",
         "updated_time": "2023-09-18T14:47:40.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 54,
@@ -6827,7 +6826,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       },
       {
         "id": 203,
@@ -6848,7 +6848,6 @@
         "associate_good_key": "watches:ip8-ultra",
         "created_time": "2022-12-26T14:24:26.000Z",
         "updated_time": "2023-09-17T12:10:55.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 64,
@@ -7684,7 +7683,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       },
       {
         "id": 205,
@@ -7705,7 +7705,6 @@
         "associate_good_key": "watches:series8-mini",
         "created_time": "2022-12-26T14:24:54.000Z",
         "updated_time": "2023-09-09T09:53:36.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 74,
@@ -8541,7 +8540,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       },
       {
         "id": 206,
@@ -8562,7 +8562,6 @@
         "associate_good_key": "watches:ultra-max",
         "created_time": "2022-12-26T14:25:04.000Z",
         "updated_time": "2023-09-09T09:53:38.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 84,
@@ -9398,7 +9397,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       },
       {
         "id": 204,
@@ -9419,8 +9419,8 @@
         "associate_good_key": "watches:k8-ultra-max",
         "created_time": "2022-12-26T14:24:37.000Z",
         "updated_time": "2023-09-09T09:53:40.000Z",
-        "typeList": [],
-        "comboList": []
+        "comboList": [],
+        "typeList": []
       }
     ]
   }

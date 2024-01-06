@@ -20,7 +20,6 @@ function PayButton({ createOrder, onApprove, onCancel, onError }) {
             layout: "vertical",
             color: "gold",
             label: "paypal",
-            shape: "pill",
             "disable-country-change": "true",
           }}
           createOrder={createOrder}
@@ -49,7 +48,7 @@ export default function Paypal({
     } else if (area === "ca_en") {
       countryCode = "ca";
     }
-    return countryCode?.toUpperCase();
+    return countryCode?.toUpperCase() || "US";
   }, [area]);
   return (
     <PayPalScriptProvider

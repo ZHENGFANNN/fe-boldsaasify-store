@@ -4,7 +4,7 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 21px;
-    color: #191c21;
+    color: #282b3a;
 
     padding-bottom: 16px;
     text-transform: capitalize;
@@ -127,17 +127,6 @@
         &:nth-child(2n) {
           margin-right: 0;
         }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .container {
-    .list {
-      .list_item {
-      }
-      .list_item_image {
       }
     }
   }

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import styles from "../../page.module.scss";
+import styles from "./index.module.scss";
 import useProductStore from "../../productStore";
 import ProductContext from "../../productContext";
 import tracking from "../../tracking";
@@ -29,27 +29,27 @@ export default function GoodFooter({
       $("[data-role='footer-info']").css({
         paddingBottom: height,
       });
-      // 处理查看次数
+      // 埋点 - 查看次数
       tracking.viewContent({
         productName: productInfo.key,
       });
 
-      // 滚动展示
-      const width = $(window).width();
+      // 滚动展示底部位置
+      const $btnDom = $('[data-role="buy-btn-list"]').eq(0);
       function computedFooterBottom() {
-        if (width < 820) {
-          const scrollTop = document.documentElement.scrollTop;
-          if (scrollTop > 200) {
-            $footerDom.css({
-              bottom: 0,
-            });
-          } else {
-            $footerDom.css({
-              bottom: "-100%",
-            });
-          }
+        const btnTop = $btnDom.offset().top;
+        const scrollTop = $(document).scrollTop();
+        if (scrollTop > btnTop) {
+          $footerDom.css({
+            bottom: 0,
+          });
+        } else {
+          $footerDom.css({
+            bottom: "-100%",
+          });
         }
       }
+      computedFooterBottom();
       $(window).on("scroll", () => computedFooterBottom());
       return () => {
         $(window).off("scroll", () => computedFooterBottom());
@@ -87,13 +87,14 @@ export default function GoodFooter({
           <div className={styles.footer_price}>
             {productCurCombo.areaInfo.price ? (
               <div className={styles.price}>
-                {goodDiscountFestival && productCurCombo.areaInfo.price ? (
+                {goodDiscountFestival &&
+                productCurCombo.areaInfo.good_discount ? (
                   <div>{`${productCurCombo.areaInfo.currency_symbol}${
                     productCurCombo.areaInfo.currency
                   } ${
                     Math.floor(
                       productCurCombo.areaInfo.price *
-                        goodDiscountFestival.discount *
+                        productCurCombo.areaInfo.good_discount *
                         0.01
                     ) * productNum
                   }`}</div>
@@ -103,14 +104,14 @@ export default function GoodFooter({
                 } ${productCurCombo.areaInfo.price * productNum}`}</div>
               </div>
             ) : null}
-            {goodDiscountFestival && productCurCombo.areaInfo.price ? (
+            {goodDiscountFestival && productCurCombo.areaInfo.good_discount ? (
               <div className={styles.save_price}>
                 -{" "}
                 {`${productCurCombo.areaInfo.currency_symbol}${
                   productCurCombo.areaInfo.currency
                 } ${
                   Math.ceil(
-                    (100 - goodDiscountFestival.discount) *
+                    (100 - productCurCombo.areaInfo.good_discount) *
                       0.01 *
                       productCurCombo.areaInfo.price
                   ) * productNum
@@ -172,7 +173,6 @@ export default function GoodFooter({
                     }
                   });
                   // 判断是否商品是否购物车里
-                  console.log("includeCurCombo", includeCurCombo, returnCart);
                   if (includeCurCombo) {
                     newCart = returnCart;
                   } else {

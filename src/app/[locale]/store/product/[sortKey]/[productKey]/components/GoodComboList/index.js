@@ -38,30 +38,34 @@ export default function GoodComboList({
             }}
           >
             <div className={styles.list_item}>
+              {/* 提示 */}
               {!item.areaInfo?.price || !item.areaInfo?.stock ? (
                 <div className={styles.stock_tip}>
                   {LANG["store.product.no_stock"]}
                 </div>
               ) : null}
-              {goodDiscountFestival && item.areaInfo?.price ? (
+              {goodDiscountFestival && item.areaInfo?.good_discount ? (
                 <div className={styles.discount_tip}>
                   OFF {100 - goodDiscountFestival.discount}%
                 </div>
               ) : null}
+              {/* 套餐标题 */}
               <div className={styles.list_item_left}>{item.title}</div>
-              <div className={styles.list_item_right}>
-                {goodDiscountFestival && item.areaInfo?.price ? (
-                  <div>{`${item.areaInfo.currency_symbol}${
-                    item.areaInfo.currency
-                  } ${Math.floor(
-                    item.areaInfo.price * goodDiscountFestival.discount * 0.01
-                  )}`}</div>
-                ) : null}
-                {item.areaInfo?.price ? (
+              {/* 套餐价格 */}
+              {item.areaInfo?.price ? (
+                <div className={styles.list_item_right}>
+                  {goodDiscountFestival && item.areaInfo?.good_discount ? (
+                    <div>{`${item.areaInfo.currency_symbol}${
+                      item.areaInfo.currency
+                    } ${Math.floor(
+                      item.areaInfo.price * item.areaInfo?.good_discount * 0.01
+                    )}`}</div>
+                  ) : null}
                   <div>{`${item.areaInfo?.currency_symbol}${item.areaInfo?.currency} ${item.areaInfo?.price}`}</div>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
             </div>
+            {/* 套餐描述 */}
             {item.description ? (
               <>
                 <div className={styles.line}></div>

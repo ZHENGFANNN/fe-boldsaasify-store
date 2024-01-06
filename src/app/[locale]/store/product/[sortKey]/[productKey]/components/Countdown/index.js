@@ -34,6 +34,7 @@ function updateCountdown(endTime) {
 export default function Countdown({ goodDiscountFestival, LANG }) {
   const { lazyLoading } = React.useContext(ProductContext);
   const productCurCombo = useProductStore((state) => state.productCurCombo);
+  console.log("productCurCombo", productCurCombo);
   React.useEffect(() => {
     if (!lazyLoading) {
       const t = setInterval(() => {
@@ -44,19 +45,19 @@ export default function Countdown({ goodDiscountFestival, LANG }) {
       };
     }
   }, [lazyLoading]);
-  if (!goodDiscountFestival) return null;
+  if (!goodDiscountFestival || !productCurCombo.areaInfo.good_discount)
+    return null;
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.price}>
           {productCurCombo.areaInfo.price ? (
             <>
-              {" "}
               <div>{`${productCurCombo.areaInfo.currency_symbol}${
                 productCurCombo.areaInfo.currency
               } ${Math.floor(
                 productCurCombo.areaInfo.price *
-                  goodDiscountFestival.discount *
+                  productCurCombo.areaInfo.good_discount *
                   0.01
               )}`}</div>
               <div>{`${productCurCombo.areaInfo.currency_symbol}${productCurCombo.areaInfo.currency} ${productCurCombo.areaInfo.price}`}</div>

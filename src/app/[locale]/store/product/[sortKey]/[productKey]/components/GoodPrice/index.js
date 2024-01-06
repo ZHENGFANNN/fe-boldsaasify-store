@@ -7,7 +7,7 @@ export default function GoodPrice({ goodDiscountFestival }) {
   return (
     <>
       {/* 优惠金额 */}
-      {goodDiscountFestival && productCurCombo.areaInfo.price ? (
+      {goodDiscountFestival && productCurCombo.areaInfo.good_discount ? (
         <div className={styles.discount_price}>
           -{" "}
           {`${productCurCombo.areaInfo.currency_symbol}${
@@ -20,22 +20,22 @@ export default function GoodPrice({ goodDiscountFestival }) {
         </div>
       ) : null}
       {/* 价格计算 */}
-      <div className={styles.product_price}>
-        {goodDiscountFestival && productCurCombo.areaInfo.price ? (
-          <div>{`${productCurCombo.areaInfo.currency_symbol}${
-            productCurCombo.areaInfo.currency
-          } ${Math.floor(
-            productCurCombo.areaInfo.price *
-              goodDiscountFestival.discount *
-              0.01
-          )}`}</div>
-        ) : null}
-        <div>
-          {productCurCombo.areaInfo?.price
-            ? `${productCurCombo.areaInfo.currency_symbol}${productCurCombo.areaInfo.currency} ${productCurCombo.areaInfo.price}`
-            : null}
+      {productCurCombo.areaInfo.price ? (
+        <div className={styles.product_price}>
+          {goodDiscountFestival && productCurCombo.areaInfo.good_discount ? (
+            <div>{`${productCurCombo.areaInfo.currency_symbol}${
+              productCurCombo.areaInfo.currency
+            } ${Math.floor(
+              productCurCombo.areaInfo.price *
+                productCurCombo.areaInfo.good_discount *
+                0.01
+            )}`}</div>
+          ) : null}
+          <div>
+            {`${productCurCombo.areaInfo.currency_symbol}${productCurCombo.areaInfo.currency} ${productCurCombo.areaInfo.price}`}
+          </div>
         </div>
-      </div>
+      ) : null}
     </>
   );
 }

@@ -10,6 +10,7 @@ import GoodAccessoriesList from "./components/GoodAccessoriesList";
 import GoodFunctionList from "./components/GoodFunctionList";
 import GoodMediaList from "./components/GoodMediaList";
 import GoodNumber from "./components/GoodNumber";
+import GoodBtnList from "./components/GoodBtnList";
 import Countdown from "./components/Countdown";
 
 import styles from "./page.module.scss";
@@ -116,7 +117,6 @@ export default async function Product({ params: { locale, productKey } }) {
   const { LANG, CONFIG, GOODLIST, GOODDISCOUNTFESTIVAL } =
     await getAllConfigData(locale);
 
-  console.log("GOODDISCOUNTFESTIVAL", GOODDISCOUNTFESTIVAL);
   const productInfo = await getProductInfo({
     productList: GOODLIST,
     productKey,
@@ -152,22 +152,28 @@ export default async function Product({ params: { locale, productKey } }) {
             <div className={styles.right_content}>
               <div>
                 <h1>{productInfo.name}</h1>
-                <GoodPrice goodDiscountFestival={GOODDISCOUNTFESTIVAL} />
+                {/* 配置的亮点 */}
                 {productInfo.sellingList.length > 0 ? (
                   <ul className={styles.product_advantage}>
                     {productInfo.sellingList.map((item, index) => {
-                      return <li key={index}>{item.light}</li>;
+                      if (index > 3) {
+                        return null;
+                      } else {
+                        return (
+                          <li key={index}>
+                            <span className={styles.product_advantage_symbol}>
+                              ✅
+                            </span>
+                            {item.light}
+                          </li>
+                        );
+                      }
                     })}
                   </ul>
                 ) : null}
-                {/* <a
-              className={styles.product_detail}
-              href={`/product/${productInfo.sort_key}/${productInfo.key}`}
-            >
-              <span>{LANG["store.product.product_info"]}</span>
-              <div className={styles.arrow_icon}></div>
-            </a> */}
-
+                {/* 价格配置 */}
+                <GoodPrice goodDiscountFestival={GOODDISCOUNTFESTIVAL} />
+                <div className={styles.line}></div>
                 {productInfo.typeList?.length > 0
                   ? productInfo.typeList.map((item, index) => {
                       return (
@@ -192,6 +198,11 @@ export default async function Product({ params: { locale, productKey } }) {
               </div>
 
               <GoodNumber LANG={LANG} />
+              <GoodBtnList
+                LANG={LANG}
+                locale={locale}
+                productInfo={productInfo}
+              />
             </div>
           </section>
           <div className={styles.sec_line}></div>

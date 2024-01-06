@@ -328,19 +328,24 @@ export default function Main({
                   );
                 })}
               </div>
-              <h2>{LANG["store.order_info.user_info"]}</h2>
-              <li>
-                <p>{`${order.first_name} ${order.last_name}`}</p>
-              </li>
-              <li>
-                <p>{order.email}</p>
-              </li>
-              <li>
-                <p>{`(${order.short_phone}) ${order.phone}`}</p>
-              </li>
-              <li>
-                <p>{`(${order.zip_code}) ${order.area_text} ${order.address1} ${order.address2}`}</p>
-              </li>
+
+              {order.first_name && order.address1 ? (
+                <>
+                  <h2>{LANG["store.order_info.user_info"]}</h2>
+                  <li>
+                    <p>{`${order.first_name} ${order.last_name}`}</p>
+                  </li>
+                  <li>
+                    <p>{order.email}</p>
+                  </li>
+                  <li>
+                    <p>{`(${order.short_phone}) ${order.phone}`}</p>
+                  </li>
+                  <li>
+                    <p>{`(${order.zip_code}) ${order.area_text} ${order.address1} ${order.address2}`}</p>
+                  </li>
+                </>
+              ) : null}
             </ul>
 
             {order.pay_key === "payPal" && order.order_status === "status0" ? (
