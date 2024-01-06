@@ -46,7 +46,7 @@ export default function GoodComboList({
               ) : null}
               {goodDiscountFestival && item.areaInfo?.good_discount ? (
                 <div className={styles.discount_tip}>
-                  OFF {100 - goodDiscountFestival.discount}%
+                  OFF {100 - item.areaInfo?.good_discount}%
                 </div>
               ) : null}
               {/* 套餐标题 */}
