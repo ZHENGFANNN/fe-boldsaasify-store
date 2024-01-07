@@ -513,5 +513,7 @@
   "store.product.limit_time_discount": "기간 한정 제안",
   "store.product.off": "구하다",
   "store.index.off": "구하다",
-  "store.product.reviews": "${num}개의 댓글"
+  "store.product.reviews": "${num}개의 댓글",
+  "store.product.all": "모두",
+  "store.product.stars": "${num}개의 별"
 }

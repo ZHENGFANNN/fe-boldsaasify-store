@@ -513,5 +513,7 @@
   "store.product.limit_time_discount": "限時優惠",
   "store.product.off": "節約",
   "store.index.off": "節約",
-  "store.product.reviews": "${num} 一則評論"
+  "store.product.reviews": "${num} 一則評論",
+  "store.product.all": "全部",
+  "store.product.stars": "${num} 星"
 }

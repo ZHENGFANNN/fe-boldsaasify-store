@@ -513,5 +513,7 @@
   "store.product.limit_time_discount": "Offre d'une durée limitée",
   "store.product.off": "sauvegarder",
   "store.index.off": "sauvegarder",
-  "store.product.reviews": "${num} commentaires"
+  "store.product.reviews": "${num} commentaires",
+  "store.product.all": "Tous",
+  "store.product.stars": "${num} étoiles"
 }

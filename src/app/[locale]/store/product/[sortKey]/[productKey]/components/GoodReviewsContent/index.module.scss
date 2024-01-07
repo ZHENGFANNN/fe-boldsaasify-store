@@ -121,7 +121,7 @@
             .reviews_list {
                 .reviews_list_item {
                     display: flex;
-                    padding: 46px 24px 30px;
+                    padding: 46px 0 30px;
 
                     border-bottom: 1px solid #edeff2;
                     &:last-child {
@@ -171,23 +171,82 @@
     }
 }
 
+@media screen and (max-width: 1080px) {
+    .reviews {
+      .reviews_container {
+        .review_top {
+            .reviews_total {
+                margin-left: 24px;
+            }
+            .reviews_detail {
+                margin-left: 80px;
+                padding-left: 80px;
+            }
+        }
+      }
+    }
+}
+
+@media screen and (max-width: 820px) {
+    .reviews {
+      .reviews_container {
+        padding: 40px 0;
+         .review_top {
+            flex-direction: column;
+            .reviews_total {
+                margin-left: 0;
+                margin-bottom: 16px;
+            }
+            .reviews_detail {
+                margin-left: 0;
+                padding-left: 0;
+
+                transform: scale(0.85);
+                transform-origin: top center;
+                white-space: nowrap;
+            }
+        }
+        .review_bottom {
+            margin-top: 24px;
+            .reviews_list {
+                .reviews_list_item {
+                    flex-direction: column;
+
+                    padding: 31px 0 15px;
+                    .reviews_user_info {
+                        min-width: none;
+                        .reviews_user_name {
+                            color: #000;
+                        }
+                        .review_rate_container {
+
+                        }
+                    }
+                    .reviews_content {
+                        margin-left: 0;
+                        .reviews_content_description {
+                            color: #898a8e;
+                        }
+                    }
+                }
+            }
+        }
+      }
+    }
+}
+
 @media screen and (max-width: 780px) {
     .reviews {
       .reviews_container {
         padding: 40px 0;
-        h2 {
-          font-size: 32px;
-          font-weight: 800;
-          line-height: 39px;
-          margin-bottom: 12px;
-        }
-       
       }
     }
-  }
+}
+
+
   
 
-  .stars_container {
+.stars_container {
     position: relative;
     height: 24px;
     user-select: none;

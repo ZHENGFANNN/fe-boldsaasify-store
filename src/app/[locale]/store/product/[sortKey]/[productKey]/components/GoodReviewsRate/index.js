@@ -49,7 +49,7 @@ export default function GoodReviewsRate({ LANG }) {
         ))}
       </div>
       <div className={styles.reviews_text}>
-        ( {LANG["store.product.reviews"].replace("${num}", 100)} )
+        ( {LANG["store.product.reviews"]?.replace("${num}", 100)} )
       </div>
     </div>
   );

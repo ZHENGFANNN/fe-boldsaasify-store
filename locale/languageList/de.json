@@ -513,5 +513,7 @@
   "store.product.limit_time_discount": "Zeitlich befristetes Angebot",
   "store.product.off": "speichern",
   "store.index.off": "speichern",
-  "store.product.reviews": "${num} Kommentare"
+  "store.product.reviews": "${num} Kommentare",
+  "store.product.all": "Alle",
+  "store.product.stars": "${num} Sterne"
 }

@@ -48,6 +48,20 @@ function ReviewRate() {
 
 export default function GoodReviewsContent({ LANG }) {
   const { lazyLoading } = React.useContext(ProductContext);
+
+  const [value, setValue] = React.useState("all");
+
+  const reviewsList = React.useMemo(() => {
+    return [
+      { label: LANG["store.product.all"], value: "all" },
+      { label: LANG["store.product.stars"]?.replace("${num}", 5), value: "5" },
+      { label: LANG["store.product.stars"]?.replace("${num}", 4), value: "4" },
+      { label: LANG["store.product.stars"]?.replace("${num}", 3), value: "3" },
+      { label: LANG["store.product.stars"]?.replace("${num}", 2), value: "2" },
+      { label: LANG["store.product.stars"]?.replace("${num}", 1), value: "1" },
+    ];
+  }, [LANG]);
+
   React.useEffect(() => {
     if (!lazyLoading) {
       const cleanLazy = lazyLoadImages($(`.${styles.reviews}`));
@@ -63,14 +77,14 @@ export default function GoodReviewsContent({ LANG }) {
             <div className={styles.reviews_score}>4.7</div>
             <ReviewRate />
             <div className={styles.reviews_text}>
-              {LANG["store.product.reviews"].replace("${num}", 100)}
+              {LANG["store.product.reviews"]?.replace("${num}", 100)}
             </div>
           </div>
           <div className={styles.reviews_detail}>
             <div className={styles.reviews_detail_list}>
               <div className={styles.reviews_detail_list_item}>
                 {icon}
-                <span>5 Stars</span>
+                <span>{LANG["store.product.stars"]?.replace("${num}", 5)}</span>
                 <div className={styles.line_container}>
                   <div className={styles.un_active_line}></div>
                   <div className={styles.active_line}></div>
@@ -79,7 +93,7 @@ export default function GoodReviewsContent({ LANG }) {
               </div>
               <div className={styles.reviews_detail_list_item}>
                 {icon}
-                <span>4 Stars</span>
+                <span>{LANG["store.product.stars"]?.replace("${num}", 4)}</span>
                 <div className={styles.line_container}>
                   <div className={styles.un_active_line}></div>
                   <div className={styles.active_line}></div>
@@ -88,7 +102,7 @@ export default function GoodReviewsContent({ LANG }) {
               </div>
               <div className={styles.reviews_detail_list_item}>
                 {icon}
-                <span>3 Stars</span>
+                <span>{LANG["store.product.stars"]?.replace("${num}", 3)}</span>
                 <div className={styles.line_container}>
                   <div className={styles.un_active_line}></div>
                   <div className={styles.active_line}></div>
@@ -97,7 +111,7 @@ export default function GoodReviewsContent({ LANG }) {
               </div>
               <div className={styles.reviews_detail_list_item}>
                 {icon}
-                <span>2 Stars</span>
+                <span>{LANG["store.product.stars"]?.replace("${num}", 2)}</span>
                 <div className={styles.line_container}>
                   <div className={styles.un_active_line}></div>
                   <div className={styles.active_line}></div>
@@ -106,7 +120,7 @@ export default function GoodReviewsContent({ LANG }) {
               </div>
               <div className={styles.reviews_detail_list_item}>
                 {icon}
-                <span>1 Stars</span>
+                <span>{LANG["store.product.stars"]?.replace("${num}", 1)}</span>
                 <div className={styles.line_container}>
                   <div className={styles.un_active_line}></div>
                   <div className={styles.active_line}></div>
@@ -119,7 +133,7 @@ export default function GoodReviewsContent({ LANG }) {
         <div className={styles.review_bottom}>
           <div className={styles.reviews_header}>
             <div className={styles.reviews_header_num}>
-              {LANG["store.product.reviews"].replace("${num}", 100)}
+              {LANG["store.product.reviews"]?.replace("${num}", 100)}
             </div>
             <div className={styles.reviews_header_select}>
               <div className={styles.review_header_select_item}>
@@ -129,17 +143,11 @@ export default function GoodReviewsContent({ LANG }) {
                 <DropSelect
                   position="bottom"
                   tanslatefromX={16}
-                  options={[
-                    { label: "全部", value: "all" },
-                    { label: "5 Stars", value: "5" },
-                    { label: "4 Stars", value: "4" },
-                    { label: "3 Stars", value: "3" },
-                    { label: "2 Stars", value: "2" },
-                    { label: "1 Stars", value: "1" },
-                  ]}
+                  selectValue={(value) => setValue(value)}
+                  options={reviewsList}
                 >
                   <div className={styles.review_header_select_item_label}>
-                    测试
+                    {reviewsList.find((item) => item.value === value)?.label}
                   </div>
                 </DropSelect>
               </div>

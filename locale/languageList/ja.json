@@ -513,5 +513,7 @@
   "store.product.limit_time_discount": "期間限定オファー",
   "store.product.off": "保存",
   "store.index.off": "保存",
-  "store.product.reviews": "${num} 件のコメント"
+  "store.product.reviews": "${num} 件のコメント",
+  "store.product.all": "全て",
+  "store.product.stars": "${num} つ星"
 }

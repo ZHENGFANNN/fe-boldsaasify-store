@@ -32,7 +32,6 @@
         "associate_good_key": "ambien-light:rhythm-light",
         "created_time": "2023-12-17T05:09:29.000Z",
         "updated_time": "2024-01-06T07:37:29.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 113,
@@ -5038,7 +5037,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       }
     ]
   },
@@ -5090,35 +5090,6 @@
         "associate_good_key": "watches:n9-ultra-pro",
         "created_time": "2023-09-09T09:20:44.000Z",
         "updated_time": "2023-12-18T14:35:52.000Z",
-        "typeList": [
-          {
-            "id": 79,
-            "type": "text",
-            "title": "color",
-            "language": "en",
-            "good_sort_key": "watches",
-            "good_key": "n9-ultra-pro",
-            "options": [
-              {
-                "title": "black"
-              },
-              {
-                "title": "White"
-              },
-              {
-                "title": "green"
-              },
-              {
-                "title": "orange"
-              }
-            ],
-            "enabled": 1,
-            "weight": 1,
-            "associate_good_key": "watches:n9-ultra-pro",
-            "created_time": "2023-09-17T13:27:03.000Z",
-            "updated_time": "2023-09-17T13:28:54.000Z"
-          }
-        ],
         "comboList": [
           {
             "id": 104,
@@ -5967,6 +5938,35 @@
               }
             ]
           }
+        ],
+        "typeList": [
+          {
+            "id": 79,
+            "type": "text",
+            "title": "color",
+            "language": "en",
+            "good_sort_key": "watches",
+            "good_key": "n9-ultra-pro",
+            "options": [
+              {
+                "title": "black"
+              },
+              {
+                "title": "White"
+              },
+              {
+                "title": "green"
+              },
+              {
+                "title": "orange"
+              }
+            ],
+            "enabled": 1,
+            "weight": 1,
+            "associate_good_key": "watches:n9-ultra-pro",
+            "created_time": "2023-09-17T13:27:03.000Z",
+            "updated_time": "2023-09-17T13:28:54.000Z"
+          }
         ]
       },
       {
@@ -5991,7 +5991,6 @@
         "associate_good_key": "watches:8-ultra-mini",
         "created_time": "2022-12-26T14:24:11.000Z",
         "updated_time": "2023-09-18T14:47:40.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 54,
@@ -6827,7 +6826,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       },
       {
         "id": 203,
@@ -6848,7 +6848,6 @@
         "associate_good_key": "watches:ip8-ultra",
         "created_time": "2022-12-26T14:24:26.000Z",
         "updated_time": "2023-09-17T12:10:55.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 64,
@@ -7684,7 +7683,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       },
       {
         "id": 205,
@@ -7705,7 +7705,6 @@
         "associate_good_key": "watches:series8-mini",
         "created_time": "2022-12-26T14:24:54.000Z",
         "updated_time": "2023-09-09T09:53:36.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 74,
@@ -8541,7 +8540,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       },
       {
         "id": 206,
@@ -8562,7 +8562,6 @@
         "associate_good_key": "watches:ultra-max",
         "created_time": "2022-12-26T14:25:04.000Z",
         "updated_time": "2023-09-09T09:53:38.000Z",
-        "typeList": [],
         "comboList": [
           {
             "id": 84,
@@ -9398,7 +9397,8 @@
               }
             ]
           }
-        ]
+        ],
+        "typeList": []
       },
       {
         "id": 204,
@@ -9419,8 +9419,8 @@
         "associate_good_key": "watches:k8-ultra-max",
         "created_time": "2022-12-26T14:24:37.000Z",
         "updated_time": "2023-09-09T09:53:40.000Z",
-        "typeList": [],
-        "comboList": []
+        "comboList": [],
+        "typeList": []
       }
     ]
   }

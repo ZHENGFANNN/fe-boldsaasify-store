@@ -513,5 +513,7 @@
   "store.product.limit_time_discount": "Ограниченное по времени предложение",
   "store.product.off": "сохранять",
   "store.index.off": "сохранять",
-  "store.product.reviews": "${num} комментариев"
+  "store.product.reviews": "${num} комментариев",
+  "store.product.all": "все",
+  "store.product.stars": "${num} звезд"
 }

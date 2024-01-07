@@ -513,5 +513,7 @@
   "store.product.limit_time_discount": "限时优惠",
   "store.product.off": "节约",
   "store.index.off": "节约",
-  "store.product.reviews": "${num} 条评论"
+  "store.product.reviews": "${num} 条评论",
+  "store.product.all": "全部",
+  "store.product.stars": "${num} 星"
 }
