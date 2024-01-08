@@ -516,5 +516,6 @@
   "store.product.reviews": "${num}개의 댓글",
   "store.product.all": "모두",
   "store.product.stars": "${num}개의 별",
-  "store.product.filter": "필터:"
+  "store.product.filter": "필터:",
+  "store.product.load_more": "더 로드하세요"
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import styles from "./index.module.scss";
 
 const icon = (
@@ -17,8 +18,14 @@ const icon = (
   </svg>
 );
 
-export default function GoodReviewsRate({ LANG }) {
+export default function GoodReviewsRate({ LANG, configList }) {
   const icons = [icon, icon, icon, icon, icon];
+  const rate = React.useMemo(() => {
+    const totalScore = configList.reduce((pre, cur) => {
+      return pre + cur.score;
+    }, 0);
+    return totalScore / configList.length / 5;
+  }, [configList]);
   return (
     <div
       className={styles.container}
@@ -41,7 +48,7 @@ export default function GoodReviewsRate({ LANG }) {
       <div
         className={styles.active_stars}
         style={{
-          width: 70 * 0.8,
+          width: 70 * rate,
         }}
       >
         {icons.map((item, index) => (
@@ -49,7 +56,8 @@ export default function GoodReviewsRate({ LANG }) {
         ))}
       </div>
       <div className={styles.reviews_text}>
-        ( {LANG["store.product.reviews"]?.replace("${num}", 100)} )
+        ( {LANG["store.product.reviews"]?.replace("${num}", configList.length)}{" "}
+        )
       </div>
     </div>
   );

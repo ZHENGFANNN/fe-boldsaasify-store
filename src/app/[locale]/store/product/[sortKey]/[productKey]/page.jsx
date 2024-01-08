@@ -176,7 +176,12 @@ export default async function Product({ params: { locale, productKey } }) {
                 {/* 价格配置 */}
                 <GoodPrice goodDiscountFestival={GOODDISCOUNTFESTIVAL} />
                 {/* 产品评价 */}
-                <GoodReviewsRate LANG={LANG} />
+                {productInfo.reviewsList.length > 0 ? (
+                  <GoodReviewsRate
+                    configList={productInfo.reviewsList}
+                    LANG={LANG}
+                  />
+                ) : null}
                 <div className={styles.line}></div>
                 {/* 产品选项 */}
                 {productInfo.typeList?.length > 0
@@ -223,7 +228,12 @@ export default async function Product({ params: { locale, productKey } }) {
           {/* 产品包装列表 */}
           <GoodPackageList configList={productInfo.packageList} LANG={LANG} />
           {/* 产品评论 */}
-          <GoodReviewsContent LANG={LANG} />
+          {productInfo.reviewsList.length > 0 ? (
+            <GoodReviewsContent
+              configList={productInfo.reviewsList}
+              LANG={LANG}
+            />
+          ) : null}
           {/* 关联产品列表 */}
           {/* {productInfo.associateProduct.length > 0 ? (
             <>

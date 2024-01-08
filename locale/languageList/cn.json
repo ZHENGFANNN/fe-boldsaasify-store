@@ -516,5 +516,6 @@
   "store.product.reviews": "${num} 条评论",
   "store.product.all": "全部",
   "store.product.stars": "${num} 星",
-  "store.product.filter": "筛选："
+  "store.product.filter": "筛选：",
+  "store.product.load_more": "加载更多"
 }

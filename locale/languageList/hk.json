@@ -516,5 +516,6 @@
   "store.product.reviews": "${num} 一則評論",
   "store.product.all": "全部",
   "store.product.stars": "${num} 星",
-  "store.product.filter": "篩選："
+  "store.product.filter": "篩選：",
+  "store.product.load_more": "加載更多"
 }

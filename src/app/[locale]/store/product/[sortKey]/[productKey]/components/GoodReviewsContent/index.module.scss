@@ -26,6 +26,7 @@
                 }
                 
                 .reviews_text {
+                    text-transform: capitalize;
                     font-size: 16px;
                     color: #534040;
                 }
@@ -77,10 +78,10 @@
                             .active_line {
                                 position: absolute;
                                 left: 0;
-                                right: 0;
                                 top: 0;
                                 bottom: 0;
                                 background: #fdb300;
+                                border-radius: 32px;
                             }
                         }
                     }
@@ -90,7 +91,6 @@
         .review_bottom {
             margin-top: 48px;
             .reviews_header {
-                border-bottom: 1px solid #edeff2;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -112,10 +112,39 @@
                             font-size: 14px;
                         }
                         .review_header_select_item_label {
+                            display: flex;
+                            justify-content: center;
+
+                            min-width: 40px;
                             color: #000;
                             font-size: 14px;
                         }
                     }
+                }
+            }
+            .empyt {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .load_more_container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 24px;
+                .load_more {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 12px 32px;
+                    border-radius: 64px;
+                    background: transparent;
+                    font-size: 14px;
+                    cursor: pointer;
+
+                    color: rgba(0, 0, 0, 0.25);
+                    border: 1px solid rgba(0, 0, 0, 0.25);
+                    text-transform: capitalize;
                 }
             }
             .reviews_list {
@@ -123,8 +152,8 @@
                     display: flex;
                     padding: 46px 0 30px;
 
-                    border-bottom: 1px solid #edeff2;
-                    &:last-child {
+                    border-top: 1px solid #edeff2;
+                    &:first-child {
                         border-bottom: 0;
                     }
                     .reviews_user_info {
@@ -212,7 +241,7 @@
                 .reviews_list_item {
                     flex-direction: column;
 
-                    padding: 31px 0 15px;
+                    padding: 26px 0 26px;
                     .reviews_user_info {
                         min-width: none;
                         .reviews_user_name {

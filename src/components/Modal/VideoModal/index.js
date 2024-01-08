@@ -11,6 +11,7 @@ export default function VideoModal({
   height = "100px",
   width = "100px",
   borderRadius = "6px",
+  lazyLoading = false,
 }) {
   const videoRef = React.useRef(null);
   const [show, setShow] = React.useState(false);
@@ -39,38 +40,39 @@ export default function VideoModal({
           borderRadius,
         }}
       />
-      {ReactDOM.createPortal(
-        <div className={[styles.fixed, show ? styles.show : ""].join(" ")}>
-          <div
-            onClick={() => setShow(false)}
-            className={styles.fixed_container}
-          >
+      {!lazyLoading &&
+        ReactDOM.createPortal(
+          <div className={[styles.fixed, show ? styles.show : ""].join(" ")}>
             <div
-              className={styles.media}
-              onClick={(e) => {
-                const event = e || window.event;
-                if (event.stopPropagation) {
-                  event.stopPropagation();
-                } else {
-                  event.cancelBubble = true;
-                }
-              }}
+              onClick={() => setShow(false)}
+              className={styles.fixed_container}
             >
-              <div className={styles.close} onClick={() => setShow(false)}>
-                ×
+              <div
+                className={styles.media}
+                onClick={(e) => {
+                  const event = e || window.event;
+                  if (event.stopPropagation) {
+                    event.stopPropagation();
+                  } else {
+                    event.cancelBubble = true;
+                  }
+                }}
+              >
+                <div className={styles.close} onClick={() => setShow(false)}>
+                  ×
+                </div>
+                <Video
+                  actionRef={videoRef}
+                  controls
+                  src={src}
+                  poster={poster}
+                  controlsList="nodownload nofullscreen"
+                />
               </div>
-              <Video
-                actionRef={videoRef}
-                controls
-                src={src}
-                poster={poster}
-                controlsList="nodownload nofullscreen"
-              />
             </div>
-          </div>
-        </div>,
-        document.body
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

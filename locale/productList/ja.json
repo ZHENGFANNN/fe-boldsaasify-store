@@ -19,173 +19,6 @@
     "created_time": "2023-09-09T09:20:44.000Z",
     "updated_time": "2023-09-18T15:03:24.000Z",
     "associateProduct": [],
-    "typeList": [
-      {
-        "id": 82,
-        "type": "text",
-        "title": "色",
-        "language": "ja",
-        "good_sort_key": "watches",
-        "good_key": "n9-ultra-pro",
-        "options": [
-          {
-            "title": "黒"
-          },
-          {
-            "title": "白"
-          },
-          {
-            "title": "緑"
-          },
-          {
-            "title": "オレンジ色"
-          }
-        ],
-        "enabled": 1,
-        "weight": 1,
-        "associate_good_key": "watches:n9-ultra-pro",
-        "created_time": "2023-09-17T13:27:03.000Z",
-        "updated_time": "2023-09-17T13:27:03.000Z"
-      }
-    ],
-    "mediaList": [
-      {
-        "id": 74,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": "カラフルな世界があなたの指先に！",
-        "description": "豊富なカラー展開で個性とファッションを楽しめます！",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/17/5B4DCAD8DF1E8E928036B24E0684B764/color.jpg",
-        "media_code": null,
-        "weight": 100,
-        "created_time": "2023-09-24T07:13:48.000Z",
-        "updated_time": "2023-09-24T08:09:36.000Z"
-      },
-      {
-        "id": 75,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/24/5F63B882E9E4268F00A067755DD0AF60/N9Ultrapro%E8%AF%A6%20(6).jpg",
-        "media_code": null,
-        "weight": 12,
-        "created_time": "2023-09-24T08:08:35.000Z",
-        "updated_time": "2023-09-24T08:16:32.000Z"
-      },
-      {
-        "id": 76,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/24/D4F6CF13454FCD72F1DE9A96C1D0068D/N9Ultrapro%E8%AF%A6%20(12).jpg",
-        "media_code": null,
-        "weight": 10,
-        "created_time": "2023-09-24T08:04:34.000Z",
-        "updated_time": "2023-09-24T08:17:19.000Z"
-      },
-      {
-        "id": 77,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/24/35EE499D62A99ACC594A1F7D74002945/N9Ultrapro%E8%AF%A6%20(11).jpg",
-        "media_code": null,
-        "weight": 4,
-        "created_time": "2023-09-24T08:11:28.000Z",
-        "updated_time": "2023-09-24T08:17:27.000Z"
-      },
-      {
-        "id": 78,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/24/BC9DF73E47697A5BDF6216FA0DDEDA3D/N9Ultrapro%E8%AF%A6%20(15).jpg",
-        "media_code": null,
-        "weight": 3,
-        "created_time": "2023-09-24T08:11:21.000Z",
-        "updated_time": "2023-09-24T08:17:40.000Z"
-      },
-      {
-        "id": 79,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/24/FCCA9FF3E8BA73426FF8FA529B6A5DE4/N9Ultrapro%E8%AF%A6%20(10).jpg",
-        "media_code": null,
-        "weight": 2,
-        "created_time": "2023-09-24T08:11:15.000Z",
-        "updated_time": "2023-09-24T08:11:15.000Z"
-      },
-      {
-        "id": 80,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "type": "image",
-        "title": null,
-        "description": null,
-        "video_src": null,
-        "poster_src": null,
-        "image_src": "https://image.sslfly.com/base/2023/9/24/61350595987BE18F6CCD64C7EDB0D541/N9Ultrapro%E8%AF%A6%20(18).jpg",
-        "media_code": null,
-        "weight": 1,
-        "created_time": "2023-09-24T08:11:10.000Z",
-        "updated_time": "2023-09-24T08:18:15.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 52,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "page_keywords": "N9 ULTRA PRO、スマートウォッチ、Apple Watch、高性能スマートウォッチ、ファッションスマートウォッチ",
-        "page_title": "N9 ULTRA PRO",
-        "page_description": "N9 ULTRA PROは、Apple Watchと同様の高度な機能と革新的なデザインを備えた強力なスマートウォッチです。スタイリッシュな外観と高性能テクノロジーを組み合わせ、ユーザーに優れたスマート体験を提供します。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:48:41.000Z",
-        "updated_time": "2023-09-24T04:49:00.000Z"
-      }
-    ],
     "packageList": [
       {
         "id": 601,
@@ -340,6 +173,35 @@
         "weight": 1,
         "created_time": "2023-09-10T16:03:19.000Z",
         "updated_time": "2023-09-10T16:03:19.000Z"
+      }
+    ],
+    "typeList": [
+      {
+        "id": 82,
+        "type": "text",
+        "title": "色",
+        "language": "ja",
+        "good_sort_key": "watches",
+        "good_key": "n9-ultra-pro",
+        "options": [
+          {
+            "title": "黒"
+          },
+          {
+            "title": "白"
+          },
+          {
+            "title": "緑"
+          },
+          {
+            "title": "オレンジ色"
+          }
+        ],
+        "enabled": 1,
+        "weight": 1,
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2023-09-17T13:27:03.000Z",
+        "updated_time": "2023-09-17T13:27:03.000Z"
       }
     ],
     "comboList": [
@@ -1191,6 +1053,144 @@
         ]
       }
     ],
+    "mediaList": [
+      {
+        "id": 74,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": "カラフルな世界があなたの指先に！",
+        "description": "豊富なカラー展開で個性とファッションを楽しめます！",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/17/5B4DCAD8DF1E8E928036B24E0684B764/color.jpg",
+        "media_code": null,
+        "weight": 100,
+        "created_time": "2023-09-24T07:13:48.000Z",
+        "updated_time": "2023-09-24T08:09:36.000Z"
+      },
+      {
+        "id": 75,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/24/5F63B882E9E4268F00A067755DD0AF60/N9Ultrapro%E8%AF%A6%20(6).jpg",
+        "media_code": null,
+        "weight": 12,
+        "created_time": "2023-09-24T08:08:35.000Z",
+        "updated_time": "2023-09-24T08:16:32.000Z"
+      },
+      {
+        "id": 76,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/24/D4F6CF13454FCD72F1DE9A96C1D0068D/N9Ultrapro%E8%AF%A6%20(12).jpg",
+        "media_code": null,
+        "weight": 10,
+        "created_time": "2023-09-24T08:04:34.000Z",
+        "updated_time": "2023-09-24T08:17:19.000Z"
+      },
+      {
+        "id": 77,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/24/35EE499D62A99ACC594A1F7D74002945/N9Ultrapro%E8%AF%A6%20(11).jpg",
+        "media_code": null,
+        "weight": 4,
+        "created_time": "2023-09-24T08:11:28.000Z",
+        "updated_time": "2023-09-24T08:17:27.000Z"
+      },
+      {
+        "id": 78,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/24/BC9DF73E47697A5BDF6216FA0DDEDA3D/N9Ultrapro%E8%AF%A6%20(15).jpg",
+        "media_code": null,
+        "weight": 3,
+        "created_time": "2023-09-24T08:11:21.000Z",
+        "updated_time": "2023-09-24T08:17:40.000Z"
+      },
+      {
+        "id": 79,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/24/FCCA9FF3E8BA73426FF8FA529B6A5DE4/N9Ultrapro%E8%AF%A6%20(10).jpg",
+        "media_code": null,
+        "weight": 2,
+        "created_time": "2023-09-24T08:11:15.000Z",
+        "updated_time": "2023-09-24T08:11:15.000Z"
+      },
+      {
+        "id": 80,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "type": "image",
+        "title": null,
+        "description": null,
+        "video_src": null,
+        "poster_src": null,
+        "image_src": "https://image.sslfly.com/base/2023/9/24/61350595987BE18F6CCD64C7EDB0D541/N9Ultrapro%E8%AF%A6%20(18).jpg",
+        "media_code": null,
+        "weight": 1,
+        "created_time": "2023-09-24T08:11:10.000Z",
+        "updated_time": "2023-09-24T08:18:15.000Z"
+      }
+    ],
+    "indexConfig": [
+      {
+        "id": 52,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "page_keywords": "N9 ULTRA PRO、スマートウォッチ、Apple Watch、高性能スマートウォッチ、ファッションスマートウォッチ",
+        "page_title": "N9 ULTRA PRO",
+        "page_description": "N9 ULTRA PROは、Apple Watchと同様の高度な機能と革新的なデザインを備えた強力なスマートウォッチです。スタイリッシュな外観と高性能テクノロジーを組み合わせ、ユーザーに優れたスマート体験を提供します。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:48:41.000Z",
+        "updated_time": "2023-09-24T04:49:00.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 1840,
@@ -1443,85 +1443,6 @@
         "weight": 1,
         "created_time": "2023-09-10T15:50:55.000Z",
         "updated_time": "2023-09-10T15:50:55.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 957,
-        "light": "NFC",
-        "weight": 7,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "ja",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-10T16:12:29.000Z"
-      },
-      {
-        "id": 958,
-        "light": "メッセージ通知",
-        "weight": 6,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "ja",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:56:07.000Z"
-      },
-      {
-        "id": 959,
-        "light": "手首の財布",
-        "weight": 5,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "ja",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:19.000Z"
-      },
-      {
-        "id": 960,
-        "light": "音声通話",
-        "weight": 3,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "ja",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-10T16:12:29.000Z"
-      },
-      {
-        "id": 961,
-        "light": "音楽を再生",
-        "weight": 3,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "ja",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:42.000Z"
-      },
-      {
-        "id": 962,
-        "light": "ブレスレットの言語切り替え",
-        "weight": 2,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "ja",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:54:33.000Z"
-      },
-      {
-        "id": 963,
-        "light": "共有ポジショニング",
-        "weight": 1,
-        "good_key": "n9-ultra-pro",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:n9-ultra-pro",
-        "language": "ja",
-        "created_time": "2023-09-10T16:12:29.000Z",
-        "updated_time": "2023-09-17T13:56:18.000Z"
       }
     ],
     "funcionList": [
@@ -2126,6 +2047,407 @@
         "updated_time": "2023-09-10T16:07:02.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 957,
+        "light": "NFC",
+        "weight": 7,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "ja",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-10T16:12:29.000Z"
+      },
+      {
+        "id": 958,
+        "light": "メッセージ通知",
+        "weight": 6,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "ja",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:56:07.000Z"
+      },
+      {
+        "id": 959,
+        "light": "手首の財布",
+        "weight": 5,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "ja",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:19.000Z"
+      },
+      {
+        "id": 960,
+        "light": "音声通話",
+        "weight": 3,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "ja",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-10T16:12:29.000Z"
+      },
+      {
+        "id": 961,
+        "light": "音楽を再生",
+        "weight": 3,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "ja",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:42.000Z"
+      },
+      {
+        "id": 962,
+        "light": "ブレスレットの言語切り替え",
+        "weight": 2,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "ja",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:54:33.000Z"
+      },
+      {
+        "id": 963,
+        "light": "共有ポジショニング",
+        "weight": 1,
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "language": "ja",
+        "created_time": "2023-09-10T16:12:29.000Z",
+        "updated_time": "2023-09-17T13:56:18.000Z"
+      }
+    ],
+    "reviewsList": [
+      {
+        "id": 887,
+        "name": "name space11",
+        "score": 5,
+        "weight": 10,
+        "comment": "comment11",
+        "image": "https://image.sslfly.com/base/2023/12/24/0314F49DD9196786FD88C3795E8DE66B/06(1)_16.jpg",
+        "video": "https://video.sslfly.com/base/2023/4/8/054E707E0F994D1B66517281C207D635/compay_video_compress.mp4",
+        "type": "video",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 888,
+        "name": "name space12",
+        "score": 5,
+        "weight": 9,
+        "comment": "comment12",
+        "image": "https://image.sslfly.com/base/2023/12/24/0314F49DD9196786FD88C3795E8DE66B/06(1)_16.jpg",
+        "video": "https://video.sslfly.com/base/2023/4/8/054E707E0F994D1B66517281C207D635/compay_video_compress.mp4",
+        "type": "video",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 889,
+        "name": "name space13",
+        "score": 5,
+        "weight": 8,
+        "comment": "comment13",
+        "image": "https://image.sslfly.com/base/2023/12/24/0314F49DD9196786FD88C3795E8DE66B/06(1)_16.jpg",
+        "video": null,
+        "type": "image",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 890,
+        "name": "name space14",
+        "score": 5,
+        "weight": 7,
+        "comment": "comment14",
+        "image": "https://image.sslfly.com/base/2023/12/24/876E7175C51C185D8D1B8D486A3983CA/06(1)_12.jpg",
+        "video": null,
+        "type": "image",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 891,
+        "name": "name space15",
+        "score": 5,
+        "weight": 6,
+        "comment": "comment15",
+        "image": "https://image.sslfly.com/base/2023/12/24/0314F49DD9196786FD88C3795E8DE66B/06(1)_16.jpg",
+        "video": null,
+        "type": "image",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 892,
+        "name": "name space16",
+        "score": 5,
+        "weight": 5,
+        "comment": "comment16",
+        "image": "https://image.sslfly.com/base/2023/12/24/876E7175C51C185D8D1B8D486A3983CA/06(1)_12.jpg",
+        "video": null,
+        "type": "image",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 893,
+        "name": "name space17",
+        "score": 5,
+        "weight": 4,
+        "comment": "comment17",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 894,
+        "name": "name space18",
+        "score": 5,
+        "weight": 3,
+        "comment": "comment18",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 895,
+        "name": "name space19",
+        "score": 5,
+        "weight": 2,
+        "comment": "comment19",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 885,
+        "name": "name space9",
+        "score": 4,
+        "weight": 12,
+        "comment": "comment9",
+        "image": "https://image.sslfly.com/base/2023/12/24/0314F49DD9196786FD88C3795E8DE66B/06(1)_16.jpg",
+        "video": "https://video.sslfly.com/base/2023/4/8/054E707E0F994D1B66517281C207D635/compay_video_compress.mp4",
+        "type": "video",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 886,
+        "name": "name space10",
+        "score": 4,
+        "weight": 11,
+        "comment": "comment10",
+        "image": "https://image.sslfly.com/base/2023/12/24/0314F49DD9196786FD88C3795E8DE66B/06(1)_16.jpg",
+        "video": "https://video.sslfly.com/base/2023/4/8/054E707E0F994D1B66517281C207D635/compay_video_compress.mp4",
+        "type": "video",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 884,
+        "name": "name space8",
+        "score": 3,
+        "weight": 13,
+        "comment": "comment8",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 896,
+        "name": "name space20",
+        "score": 3,
+        "weight": 1,
+        "comment": "comment20",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 883,
+        "name": "name space7",
+        "score": 2,
+        "weight": 14,
+        "comment": "comment7",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 877,
+        "name": "name space1",
+        "score": 1,
+        "weight": 20,
+        "comment": "comment1",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 878,
+        "name": "name space2",
+        "score": 1,
+        "weight": 19,
+        "comment": "comment2",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 879,
+        "name": "name space3",
+        "score": 1,
+        "weight": 18,
+        "comment": "comment3",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 880,
+        "name": "name space4",
+        "score": 1,
+        "weight": 17,
+        "comment": "comment4",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 881,
+        "name": "name space5",
+        "score": 1,
+        "weight": 16,
+        "comment": "comment5",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      },
+      {
+        "id": 882,
+        "name": "name space6",
+        "score": 1,
+        "weight": 15,
+        "comment": "comment6",
+        "image": null,
+        "video": null,
+        "type": "text",
+        "language": "ja",
+        "good_key": "n9-ultra-pro",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:n9-ultra-pro",
+        "created_time": "2024-01-08T13:01:26.000Z",
+        "updated_time": "2024-01-08T13:01:26.000Z"
+      }
+    ],
     "path": "/watches/n9-ultra-pro"
   },
   {
@@ -2148,43 +2470,6 @@
     "created_time": "2022-12-26T14:24:11.000Z",
     "updated_time": "2023-09-09T09:54:13.000Z",
     "associateProduct": [],
-    "typeList": [],
-    "mediaList": [
-      {
-        "id": 36,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:8-ultra-mini",
-        "type": "facebook",
-        "title": "ファッションテクノロジー、\nオールラウンドなスマートウォッチ",
-        "description": "このスマートウォッチには、健康管理、スマートアシスタント、コミュニケーション、エンターテイメントなどのさまざまな機能が統合されており、いつでもどこでも連絡を取り合ったり、健康状態を監視したり、パーソナライズされた推奨事項を受け取ったり、音声制御を通じてさらに便利にしたりできます。ジェスチャー認識など効率的。",
-        "video_src": null,
-        "poster_src": null,
-        "image_src": null,
-        "media_code": "288303853920678",
-        "weight": 12,
-        "created_time": "2023-09-09T14:28:04.000Z",
-        "updated_time": "2023-09-09T14:31:51.000Z"
-      }
-    ],
-    "indexConfig": [
-      {
-        "id": 53,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:8-ultra-mini",
-        "page_keywords": "8Ultra min、スマートウォッチ、小型軽量、健康モニタリング、スポーツ追跡",
-        "page_title": "8Ultra mini",
-        "page_description": "8Ultra min は、優れた機能と洗練されたデザインを備えた小型軽量のスマートウォッチです。健康状態のモニタリング、通知リマインダー、運動追跡などのさまざまなスマート機能を備えており、いつでもどこでも接続を維持して生活を管理できます。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:48:45.000Z",
-        "updated_time": "2023-09-24T04:49:08.000Z"
-      }
-    ],
     "packageList": [
       {
         "id": 728,
@@ -2257,6 +2542,7 @@
         "updated_time": "2023-09-09T16:01:57.000Z"
       }
     ],
+    "typeList": [],
     "comboList": [
       {
         "id": 57,
@@ -3093,6 +3379,42 @@
         ]
       }
     ],
+    "mediaList": [
+      {
+        "id": 36,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:8-ultra-mini",
+        "type": "facebook",
+        "title": "ファッションテクノロジー、\nオールラウンドなスマートウォッチ",
+        "description": "このスマートウォッチには、健康管理、スマートアシスタント、コミュニケーション、エンターテイメントなどのさまざまな機能が統合されており、いつでもどこでも連絡を取り合ったり、健康状態を監視したり、パーソナライズされた推奨事項を受け取ったり、音声制御を通じてさらに便利にしたりできます。ジェスチャー認識など効率的。",
+        "video_src": null,
+        "poster_src": null,
+        "image_src": null,
+        "media_code": "288303853920678",
+        "weight": 12,
+        "created_time": "2023-09-09T14:28:04.000Z",
+        "updated_time": "2023-09-09T14:31:51.000Z"
+      }
+    ],
+    "indexConfig": [
+      {
+        "id": 53,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:8-ultra-mini",
+        "page_keywords": "8Ultra min、スマートウォッチ、小型軽量、健康モニタリング、スポーツ追跡",
+        "page_title": "8Ultra mini",
+        "page_description": "8Ultra min は、優れた機能と洗練されたデザインを備えた小型軽量のスマートウォッチです。健康状態のモニタリング、通知リマインダー、運動追跡などのさまざまなスマート機能を備えており、いつでもどこでも接続を維持して生活を管理できます。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:48:45.000Z",
+        "updated_time": "2023-09-24T04:49:08.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2256,
@@ -3357,74 +3679,6 @@
         "weight": 1,
         "created_time": "2023-09-09T16:01:26.000Z",
         "updated_time": "2023-09-09T16:01:26.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 1097,
-        "light": "音声アシスタント",
-        "weight": 7,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "ja",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1098,
-        "light": "亜鉛合金ボディ",
-        "weight": 6,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "ja",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1099,
-        "light": "全画面タッチ",
-        "weight": 5,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "ja",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1100,
-        "light": "音声通話",
-        "weight": 4,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "ja",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1101,
-        "light": "メッセージ通知",
-        "weight": 3,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "ja",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
-      },
-      {
-        "id": 1102,
-        "light": "電話の着信",
-        "weight": 1,
-        "good_key": "8-ultra-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:8-ultra-mini",
-        "language": "ja",
-        "created_time": "2023-09-19T13:12:23.000Z",
-        "updated_time": "2023-09-19T13:12:23.000Z"
       }
     ],
     "funcionList": [
@@ -3837,6 +4091,75 @@
         "updated_time": "2023-09-09T15:37:22.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 1097,
+        "light": "音声アシスタント",
+        "weight": 7,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "ja",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1098,
+        "light": "亜鉛合金ボディ",
+        "weight": 6,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "ja",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1099,
+        "light": "全画面タッチ",
+        "weight": 5,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "ja",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1100,
+        "light": "音声通話",
+        "weight": 4,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "ja",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1101,
+        "light": "メッセージ通知",
+        "weight": 3,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "ja",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      },
+      {
+        "id": 1102,
+        "light": "電話の着信",
+        "weight": 1,
+        "good_key": "8-ultra-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:8-ultra-mini",
+        "language": "ja",
+        "created_time": "2023-09-19T13:12:23.000Z",
+        "updated_time": "2023-09-19T13:12:23.000Z"
+      }
+    ],
+    "reviewsList": [],
     "path": "/watches/8-ultra-mini"
   },
   {
@@ -3859,40 +4182,6 @@
     "created_time": "2022-12-26T14:24:26.000Z",
     "updated_time": "2023-09-09T09:56:06.000Z",
     "associateProduct": [],
-    "typeList": [],
-    "mediaList": [],
-    "indexConfig": [
-      {
-        "id": 54,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:ip8-ultra",
-        "page_keywords": "IP8 ULTRA、スマートウォッチ、ハイエンドウォッチ、HDタッチスクリーン、強力なパフォーマンス",
-        "page_title": "IP8ウルトラ",
-        "page_description": "IP8 ULTRAは、優れた性能と絶妙な外観で知られるハイエンドスマートウォッチです。強力な処理能力、高解像度のタッチスクリーン、豊富な機能を備え、ユーザーに優れたスマートエクスペリエンスを提供します。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:49:12.000Z",
-        "updated_time": "2023-09-24T04:49:12.000Z"
-      },
-      {
-        "id": 55,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:ip8-ultra",
-        "page_keywords": "IP8 ULTRA、スマートウォッチ、ハイエンドウォッチ、HDタッチスクリーン、強力なパフォーマンス",
-        "page_title": "IP8 ULTRA",
-        "page_description": "IP8 ULTRAは、優れた性能と絶妙な外観で知られるハイエンドスマートウォッチです。強力な処理能力、高解像度のタッチスクリーン、豊富な機能を備え、ユーザーに優れたスマートエクスペリエンスを提供します。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:49:17.000Z",
-        "updated_time": "2023-09-24T04:49:17.000Z"
-      }
-    ],
     "packageList": [
       {
         "id": 733,
@@ -3965,6 +4254,7 @@
         "updated_time": "2023-09-10T16:05:34.000Z"
       }
     ],
+    "typeList": [],
     "comboList": [
       {
         "id": 67,
@@ -4801,6 +5091,39 @@
         ]
       }
     ],
+    "mediaList": [],
+    "indexConfig": [
+      {
+        "id": 54,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:ip8-ultra",
+        "page_keywords": "IP8 ULTRA、スマートウォッチ、ハイエンドウォッチ、HDタッチスクリーン、強力なパフォーマンス",
+        "page_title": "IP8ウルトラ",
+        "page_description": "IP8 ULTRAは、優れた性能と絶妙な外観で知られるハイエンドスマートウォッチです。強力な処理能力、高解像度のタッチスクリーン、豊富な機能を備え、ユーザーに優れたスマートエクスペリエンスを提供します。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:49:12.000Z",
+        "updated_time": "2023-09-24T04:49:12.000Z"
+      },
+      {
+        "id": 55,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:ip8-ultra",
+        "page_keywords": "IP8 ULTRA、スマートウォッチ、ハイエンドウォッチ、HDタッチスクリーン、強力なパフォーマンス",
+        "page_title": "IP8 ULTRA",
+        "page_description": "IP8 ULTRAは、優れた性能と絶妙な外観で知られるハイエンドスマートウォッチです。強力な処理能力、高解像度のタッチスクリーン、豊富な機能を備え、ユーザーに優れたスマートエクスペリエンスを提供します。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:49:17.000Z",
+        "updated_time": "2023-09-24T04:49:17.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2278,
@@ -5029,74 +5352,6 @@
         "weight": 1,
         "created_time": "2023-09-10T16:02:11.000Z",
         "updated_time": "2023-09-10T16:02:11.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 1103,
-        "light": "NFC",
-        "weight": 7,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "ja",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1104,
-        "light": "スマートリモコン",
-        "weight": 6,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "ja",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1105,
-        "light": "カスタムウォッチフェイス",
-        "weight": 5,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "ja",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1106,
-        "light": "音声通話",
-        "weight": 3,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "ja",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1107,
-        "light": "天気",
-        "weight": 2,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "ja",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
-      },
-      {
-        "id": 1108,
-        "light": "音楽を再生",
-        "weight": 1,
-        "good_key": "ip8-ultra",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ip8-ultra",
-        "language": "ja",
-        "created_time": "2023-09-10T16:14:06.000Z",
-        "updated_time": "2023-09-10T16:14:06.000Z"
       }
     ],
     "funcionList": [
@@ -5605,6 +5860,75 @@
         "updated_time": "2023-09-10T16:08:42.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 1103,
+        "light": "NFC",
+        "weight": 7,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "ja",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1104,
+        "light": "スマートリモコン",
+        "weight": 6,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "ja",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1105,
+        "light": "カスタムウォッチフェイス",
+        "weight": 5,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "ja",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1106,
+        "light": "音声通話",
+        "weight": 3,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "ja",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1107,
+        "light": "天気",
+        "weight": 2,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "ja",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      },
+      {
+        "id": 1108,
+        "light": "音楽を再生",
+        "weight": 1,
+        "good_key": "ip8-ultra",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ip8-ultra",
+        "language": "ja",
+        "created_time": "2023-09-10T16:14:06.000Z",
+        "updated_time": "2023-09-10T16:14:06.000Z"
+      }
+    ],
+    "reviewsList": [],
     "path": "/watches/ip8-ultra"
   },
   {
@@ -5627,40 +5951,6 @@
     "created_time": "2022-12-26T14:24:54.000Z",
     "updated_time": "2023-09-09T09:54:17.000Z",
     "associateProduct": [],
-    "typeList": [],
-    "mediaList": [],
-    "indexConfig": [
-      {
-        "id": 56,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:series8-mini",
-        "page_keywords": "Series8 mini、スマートウォッチ、スタイリッシュなデザイン、プッシュメッセージ、ヘルスモニタリング",
-        "page_title": "シリーズ8ミニ",
-        "page_description": "Series8 miniは、スタイリッシュなデザインとスマートテクノロジーを融合した、スタイリッシュで洗練されたスマートウォッチです。メッセージプッシュ、ヘルスモニタリング、パーソナライズされたウォッチフェイスなど、さまざまなスマート機能を備えており、スマートテクノロジーがもたらす利便性をファッションで楽しむことができます。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:49:21.000Z",
-        "updated_time": "2023-09-24T04:49:21.000Z"
-      },
-      {
-        "id": 57,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:series8-mini",
-        "page_keywords": "Series8 mini、スマートウォッチ、スタイリッシュなデザイン、プッシュメッセージ、ヘルスモニタリング",
-        "page_title": "Series8 mini",
-        "page_description": "Series8 miniは、スタイリッシュなデザインとスマートテクノロジーを融合した、スタイリッシュで洗練されたスマートウォッチです。メッセージプッシュ、ヘルスモニタリング、パーソナライズされたウォッチフェイスなど、さまざまなスマート機能を備えており、スマートテクノロジーがもたらす利便性をファッションで楽しむことができます。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:49:28.000Z",
-        "updated_time": "2023-09-24T04:49:28.000Z"
-      }
-    ],
     "packageList": [
       {
         "id": 738,
@@ -5733,6 +6023,7 @@
         "updated_time": "2023-09-10T16:05:11.000Z"
       }
     ],
+    "typeList": [],
     "comboList": [
       {
         "id": 77,
@@ -6569,6 +6860,39 @@
         ]
       }
     ],
+    "mediaList": [],
+    "indexConfig": [
+      {
+        "id": 56,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:series8-mini",
+        "page_keywords": "Series8 mini、スマートウォッチ、スタイリッシュなデザイン、プッシュメッセージ、ヘルスモニタリング",
+        "page_title": "シリーズ8ミニ",
+        "page_description": "Series8 miniは、スタイリッシュなデザインとスマートテクノロジーを融合した、スタイリッシュで洗練されたスマートウォッチです。メッセージプッシュ、ヘルスモニタリング、パーソナライズされたウォッチフェイスなど、さまざまなスマート機能を備えており、スマートテクノロジーがもたらす利便性をファッションで楽しむことができます。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:49:21.000Z",
+        "updated_time": "2023-09-24T04:49:21.000Z"
+      },
+      {
+        "id": 57,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:series8-mini",
+        "page_keywords": "Series8 mini、スマートウォッチ、スタイリッシュなデザイン、プッシュメッセージ、ヘルスモニタリング",
+        "page_title": "Series8 mini",
+        "page_description": "Series8 miniは、スタイリッシュなデザインとスマートテクノロジーを融合した、スタイリッシュで洗練されたスマートウォッチです。メッセージプッシュ、ヘルスモニタリング、パーソナライズされたウォッチフェイスなど、さまざまなスマート機能を備えており、スマートテクノロジーがもたらす利便性をファッションで楽しむことができます。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:49:28.000Z",
+        "updated_time": "2023-09-24T04:49:28.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2297,
@@ -6821,63 +7145,6 @@
         "weight": 1,
         "created_time": "2023-09-19T12:47:26.000Z",
         "updated_time": "2023-09-19T12:47:26.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 1109,
-        "light": "音声アシスタント",
-        "weight": 7,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1110,
-        "light": "全画面タッチ",
-        "weight": 5,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1111,
-        "light": "音声通話",
-        "weight": 4,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1112,
-        "light": "メッセージ通知",
-        "weight": 3,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
-      },
-      {
-        "id": 1113,
-        "light": "電話の着信",
-        "weight": 1,
-        "good_key": "series8-mini",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:series8-mini",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:45.000Z",
-        "updated_time": "2023-09-10T16:13:45.000Z"
       }
     ],
     "funcionList": [
@@ -7326,6 +7593,64 @@
         "updated_time": "2023-09-10T16:08:19.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 1109,
+        "light": "音声アシスタント",
+        "weight": 7,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1110,
+        "light": "全画面タッチ",
+        "weight": 5,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1111,
+        "light": "音声通話",
+        "weight": 4,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1112,
+        "light": "メッセージ通知",
+        "weight": 3,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      },
+      {
+        "id": 1113,
+        "light": "電話の着信",
+        "weight": 1,
+        "good_key": "series8-mini",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:series8-mini",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:45.000Z",
+        "updated_time": "2023-09-10T16:13:45.000Z"
+      }
+    ],
+    "reviewsList": [],
     "path": "/watches/series8-mini"
   },
   {
@@ -7348,40 +7673,6 @@
     "created_time": "2022-12-26T14:25:04.000Z",
     "updated_time": "2023-09-09T09:54:22.000Z",
     "associateProduct": [],
-    "typeList": [],
-    "mediaList": [],
-    "indexConfig": [
-      {
-        "id": 58,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:ultra-max",
-        "page_keywords": "UltraMax、スマートウォッチ、高性能、長いバッテリー寿命、防水時計",
-        "page_title": "ウルトラマックス",
-        "page_description": "UltraMax は、優れたパフォーマンスと多彩な機能をユーザーに提供する総合スマートウォッチです。強力な処理能力、長いバッテリー寿命、耐水性を備えており、さまざまなアウトドアや日常のアクティビティに適しています。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:49:32.000Z",
-        "updated_time": "2023-09-24T04:49:32.000Z"
-      },
-      {
-        "id": 59,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "language": "ja",
-        "associate_good_key": "watches:ultra-max",
-        "page_keywords": "UltraMax、スマートウォッチ、高性能、長いバッテリー寿命、防水時計",
-        "page_title": "UltraMax",
-        "page_description": "UltraMax は、優れたパフォーマンスと多彩な機能をユーザーに提供する総合スマートウォッチです。強力な処理能力、長いバッテリー寿命、耐水性を備えており、さまざまなアウトドアや日常のアクティビティに適しています。",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2023-09-24T04:49:37.000Z",
-        "updated_time": "2023-09-24T04:49:37.000Z"
-      }
-    ],
     "packageList": [
       {
         "id": 743,
@@ -7482,6 +7773,7 @@
         "updated_time": "2023-09-10T16:03:34.000Z"
       }
     ],
+    "typeList": [],
     "comboList": [
       {
         "id": 87,
@@ -8318,6 +8610,39 @@
         ]
       }
     ],
+    "mediaList": [],
+    "indexConfig": [
+      {
+        "id": 58,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:ultra-max",
+        "page_keywords": "UltraMax、スマートウォッチ、高性能、長いバッテリー寿命、防水時計",
+        "page_title": "ウルトラマックス",
+        "page_description": "UltraMax は、優れたパフォーマンスと多彩な機能をユーザーに提供する総合スマートウォッチです。強力な処理能力、長いバッテリー寿命、耐水性を備えており、さまざまなアウトドアや日常のアクティビティに適しています。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:49:32.000Z",
+        "updated_time": "2023-09-24T04:49:32.000Z"
+      },
+      {
+        "id": 59,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "language": "ja",
+        "associate_good_key": "watches:ultra-max",
+        "page_keywords": "UltraMax、スマートウォッチ、高性能、長いバッテリー寿命、防水時計",
+        "page_title": "UltraMax",
+        "page_description": "UltraMax は、優れたパフォーマンスと多彩な機能をユーザーに提供する総合スマートウォッチです。強力な処理能力、長いバッテリー寿命、耐水性を備えており、さまざまなアウトドアや日常のアクティビティに適しています。",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2023-09-24T04:49:37.000Z",
+        "updated_time": "2023-09-24T04:49:37.000Z"
+      }
+    ],
     "associationsList": [
       {
         "id": 2318,
@@ -8546,74 +8871,6 @@
         "weight": 1,
         "created_time": "2023-09-10T16:00:39.000Z",
         "updated_time": "2023-09-10T16:00:39.000Z"
-      }
-    ],
-    "sellingList": [
-      {
-        "id": 1114,
-        "light": "電話の着信",
-        "weight": 8,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1115,
-        "light": "メッセージ通知",
-        "weight": 7,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1116,
-        "light": "ブレスレットの言語切り替え",
-        "weight": 6,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1117,
-        "light": "共有ポジショニング",
-        "weight": 5,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1118,
-        "light": "NFC",
-        "weight": 4,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
-      },
-      {
-        "id": 1119,
-        "light": "疲労解析",
-        "weight": 2,
-        "good_key": "ultra-max",
-        "good_sort_key": "watches",
-        "associate_good_key": "watches:ultra-max",
-        "language": "ja",
-        "created_time": "2023-09-10T16:13:25.000Z",
-        "updated_time": "2023-09-10T16:13:25.000Z"
       }
     ],
     "funcionList": [
@@ -9122,6 +9379,75 @@
         "updated_time": "2023-09-10T16:07:39.000Z"
       }
     ],
+    "sellingList": [
+      {
+        "id": 1114,
+        "light": "電話の着信",
+        "weight": 8,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1115,
+        "light": "メッセージ通知",
+        "weight": 7,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1116,
+        "light": "ブレスレットの言語切り替え",
+        "weight": 6,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1117,
+        "light": "共有ポジショニング",
+        "weight": 5,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1118,
+        "light": "NFC",
+        "weight": 4,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      },
+      {
+        "id": 1119,
+        "light": "疲労解析",
+        "weight": 2,
+        "good_key": "ultra-max",
+        "good_sort_key": "watches",
+        "associate_good_key": "watches:ultra-max",
+        "language": "ja",
+        "created_time": "2023-09-10T16:13:25.000Z",
+        "updated_time": "2023-09-10T16:13:25.000Z"
+      }
+    ],
+    "reviewsList": [],
     "path": "/watches/ultra-max"
   },
   {
@@ -9144,7 +9470,9 @@
     "created_time": "2022-12-26T14:24:37.000Z",
     "updated_time": "2023-09-09T09:54:20.000Z",
     "associateProduct": [],
+    "packageList": [],
     "typeList": [],
+    "comboList": [],
     "mediaList": [],
     "indexConfig": [
       {
@@ -9178,11 +9506,10 @@
         "updated_time": "2023-09-24T04:49:45.000Z"
       }
     ],
-    "packageList": [],
-    "comboList": [],
     "associationsList": [],
-    "sellingList": [],
     "funcionList": [],
+    "sellingList": [],
+    "reviewsList": [],
     "path": "/watches/k8-ultra-max"
   }
 ]

@@ -516,5 +516,6 @@
   "store.product.reviews": "${num} commenti",
   "store.product.all": "Tutto",
   "store.product.stars": "${num} Stelle",
-  "store.product.filter": "Filtro:"
+  "store.product.filter": "Filtro:",
+  "store.product.load_more": "caricare di più"
 }

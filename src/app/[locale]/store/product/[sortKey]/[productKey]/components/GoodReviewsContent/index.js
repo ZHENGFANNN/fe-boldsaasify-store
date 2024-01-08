@@ -7,7 +7,7 @@ import { lazyLoadImages } from "@/utils/optimization";
 import ProductContext from "../../productContext";
 import React from "react";
 import DropSelect from "@/components/DropSelect";
-import VConsole from "vconsole";
+import Empyt from "@/components/Empyt";
 
 const icon = (
   <svg
@@ -24,7 +24,7 @@ const icon = (
   </svg>
 );
 
-function ReviewRate() {
+function ReviewRate({ scoreRate = 1 }) {
   const icons = [icon, icon, icon, icon, icon];
   return (
     <div className={styles.stars_container}>
@@ -36,7 +36,7 @@ function ReviewRate() {
       <div
         className={styles.active_stars}
         style={{
-          width: 130 * 0.8,
+          width: 130 * scoreRate,
         }}
       >
         {icons.map((item, index) => (
@@ -47,10 +47,68 @@ function ReviewRate() {
   );
 }
 
-export default function GoodReviewsContent({ LANG }) {
-  const { lazyLoading } = React.useContext(ProductContext);
+function loadingReviews({ configList, score }) {
+  const [averageScore, setAverageScore] = React.useState(0);
+  const [scoreRate, setScoreRate] = React.useState(0);
+  const [scoreMap, setScoreMap] = React.useState({});
+  const [scoreList, setScoreList] = React.useState(configList);
+  const [page, setPage] = React.useState(1);
 
+  React.useEffect(() => {
+    // 初始化Map
+    const map = {
+      5: {
+        num: 0,
+        list: [],
+      },
+      4: {
+        num: 0,
+        list: [],
+      },
+      3: {
+        num: 0,
+        list: [],
+      },
+      2: {
+        num: 0,
+        list: [],
+      },
+      1: {
+        num: 0,
+        list: [],
+      },
+    };
+    const totalScore = configList.reduce((pre, cur) => {
+      map[cur.score].num = map[cur.score].num + 1;
+      map[cur.score].push = map[cur.score].list.push(cur);
+      return pre + cur.score;
+    }, 0);
+
+    setScoreMap(map);
+    setAverageScore((totalScore / configList.length).toFixed(1));
+    setScoreRate(totalScore / configList.length / 5);
+  }, [configList]);
+
+  React.useEffect(() => {
+    setPage(1);
+    if (score === "all") {
+      setScoreList(configList);
+    } else {
+      setScoreList(scoreMap[score].list);
+    }
+  }, [score]);
+
+  return { scoreRate, averageScore, scoreMap, scoreList, page, setPage };
+}
+
+export default function GoodReviewsContent({ LANG, configList }) {
   const [value, setValue] = React.useState("all");
+  const { scoreRate, averageScore, scoreMap, scoreList, page, setPage } =
+    loadingReviews({
+      configList,
+      score: value,
+    });
+  const { lazyLoading } = React.useContext(ProductContext);
 
   const reviewsList = React.useMemo(() => {
     return [
@@ -64,78 +122,68 @@ export default function GoodReviewsContent({ LANG }) {
   }, [LANG]);
 
   React.useEffect(() => {
-    new VConsole();
     if (!lazyLoading) {
       const cleanLazy = lazyLoadImages($(`.${styles.reviews}`));
       return () => cleanLazy();
     }
-  }, [lazyLoading]);
+  }, [lazyLoading, scoreList]);
 
+  if (configList.length < 1) return null;
   return (
     <section className={styles.reviews} id="productReviews">
       <div className={styles.reviews_container}>
         <div className={styles.review_top}>
           <div className={styles.reviews_total}>
-            <div className={styles.reviews_score}>4.7</div>
-            <ReviewRate />
+            <div className={styles.reviews_score}>{averageScore}</div>
+            <ReviewRate scoreRate={scoreRate} />
             <div className={styles.reviews_text}>
-              {LANG["store.product.reviews"]?.replace("${num}", 100)}
+              {LANG["store.product.reviews"]?.replace(
+                "${num}",
+                configList.length
+              )}
             </div>
           </div>
           <div className={styles.reviews_detail}>
             <div className={styles.reviews_detail_list}>
-              <div className={styles.reviews_detail_list_item}>
-                {icon}
-                <span>{LANG["store.product.stars"]?.replace("${num}", 5)}</span>
-                <div className={styles.line_container}>
-                  <div className={styles.un_active_line}></div>
-                  <div className={styles.active_line}></div>
-                </div>
-                <span>7799</span>
-              </div>
-              <div className={styles.reviews_detail_list_item}>
-                {icon}
-                <span>{LANG["store.product.stars"]?.replace("${num}", 4)}</span>
-                <div className={styles.line_container}>
-                  <div className={styles.un_active_line}></div>
-                  <div className={styles.active_line}></div>
-                </div>
-                <span>7799</span>
-              </div>
-              <div className={styles.reviews_detail_list_item}>
-                {icon}
-                <span>{LANG["store.product.stars"]?.replace("${num}", 3)}</span>
-                <div className={styles.line_container}>
-                  <div className={styles.un_active_line}></div>
-                  <div className={styles.active_line}></div>
-                </div>
-                <span>7799</span>
-              </div>
-              <div className={styles.reviews_detail_list_item}>
-                {icon}
-                <span>{LANG["store.product.stars"]?.replace("${num}", 2)}</span>
-                <div className={styles.line_container}>
-                  <div className={styles.un_active_line}></div>
-                  <div className={styles.active_line}></div>
-                </div>
-                <span>7799</span>
-              </div>
-              <div className={styles.reviews_detail_list_item}>
-                {icon}
-                <span>{LANG["store.product.stars"]?.replace("${num}", 1)}</span>
-                <div className={styles.line_container}>
-                  <div className={styles.un_active_line}></div>
-                  <div className={styles.active_line}></div>
-                </div>
-                <span>7799</span>
-              </div>
+              {Object.keys(scoreMap)
+                .map((key, index) => {
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => setValue(key)}
+                      className={styles.reviews_detail_list_item}
+                    >
+                      {icon}
+                      <span>
+                        {LANG["store.product.stars"]?.replace("${num}", key)}
+                      </span>
+                      <div className={styles.line_container}>
+                        <div className={styles.un_active_line}></div>
+                        <div
+                          style={{
+                            width: `${
+                              (scoreMap[key].list.length / configList.length) *
+                              100
+                            }%`,
+                          }}
+                          className={styles.active_line}
+                        ></div>
+                      </div>
+                      <span>{scoreMap[key].list.length}</span>
+                    </div>
+                  );
+                })
+                .sort((a, b) => b.key - a.key)}
             </div>
           </div>
         </div>
         <div className={styles.review_bottom}>
           <div className={styles.reviews_header}>
             <div className={styles.reviews_header_num}>
-              {LANG["store.product.reviews"]?.replace("${num}", 100)}
+              {LANG["store.product.reviews"]?.replace(
+                "${num}",
+                scoreMap[value]?.list.length ?? configList.length
+              )}
             </div>
             <div className={styles.reviews_header_select}>
               <div className={styles.review_header_select_item}>
@@ -155,83 +203,70 @@ export default function GoodReviewsContent({ LANG }) {
               </div>
             </div>
           </div>
-          <div className={styles.reviews_list}>
-            <div className={styles.reviews_list_item}>
-              <div className={styles.reviews_user_info}>
-                <div className={styles.reviews_user_name}>名***字</div>
-                <div className={styles.review_rate_container}>
-                  <ReviewRate />
-                </div>
+          {scoreList.length > 0 ? (
+            <>
+              <div className={styles.reviews_list}>
+                {scoreList.map((item, index) => {
+                  return (
+                    <div
+                      style={{
+                        display: index + 1 <= page * 5 ? "flex" : "none",
+                      }}
+                      className={styles.reviews_list_item}
+                      key={item.id}
+                    >
+                      <div className={styles.reviews_user_info}>
+                        <div className={styles.reviews_user_name}>
+                          {item.name}
+                        </div>
+                        <div className={styles.review_rate_container}>
+                          <ReviewRate scoreRate={item.score / 5} />
+                        </div>
+                      </div>
+                      <div className={styles.reviews_content}>
+                        <div className={styles.reviews_content_description}>
+                          {item.comment}
+                        </div>
+                        {item.type === "image" ? (
+                          <div className={styles.reviews_content_media}>
+                            <ImageModal
+                              lazyLoading={lazyLoading}
+                              src={item.image}
+                            />
+                          </div>
+                        ) : null}
+                        {item.type === "video" ? (
+                          <div className={styles.reviews_content_media}>
+                            <VideoModal
+                              lazyLoading={lazyLoading}
+                              poster={item.image}
+                              src={item.video}
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              <div className={styles.reviews_content}>
-                <div className={styles.reviews_content_description}>
-                  Perfect shots, high quality videos. I love it
+              {page * 5 < scoreList.length ? (
+                <div className={styles.load_more_container}>
+                  <div
+                    className={styles.load_more}
+                    onClick={() => {
+                      setPage((state) => state + 1);
+                    }}
+                  >
+                    {LANG["store.product.load_more"]}
+                  </div>
                 </div>
-                <div className={styles.reviews_content_media}>
-                  <ImageModal src="https://res.insta360.com/dynamic/store/a066547de9b562997ca88e7ff6ba96df/3143_90c41196-fd2a-4bde-90da-466a9b959c26.jpg" />
-                </div>
-              </div>
+              ) : null}
+            </>
+          ) : (
+            <div className={styles.empyt}>
+              <Empyt LANG={LANG} />
             </div>
-
-            <div className={styles.reviews_list_item}>
-              <div className={styles.reviews_user_info}>
-                <div className={styles.reviews_user_name}>名***字</div>
-                <div className={styles.review_rate_container}>
-                  <ReviewRate />
-                </div>
-              </div>
-              <div className={styles.reviews_content}>
-                <div className={styles.reviews_content_description}>
-                  Perfect shots, high quality videos. I love it
-                </div>
-                <div className={styles.reviews_content_media}>
-                  <VideoModal
-                    poster="https://res.insta360.com/dynamic/store/a59231b0be2d4f125ebdaabddaad8cc0/3143_cf58c026-ee15-4732-bb6e-2de2eddc9a0f.jpg"
-                    src="https://media.insta360.com/dynamic/store/1c7d2d8f5d01426097b71dce69ee1eab/3143_7b06669e-a743-40e8-af11-197b118b3c75.mp4"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className={styles.reviews_list_item}>
-              <div className={styles.reviews_user_info}>
-                <div className={styles.reviews_user_name}>名***字</div>
-                <div className={styles.review_rate_container}>
-                  <ReviewRate />
-                </div>
-              </div>
-              <div className={styles.reviews_content}>
-                <div className={styles.reviews_content_description}>
-                  Perfect shots, high quality videos. I love it
-                </div>
-              </div>
-            </div>
-            <div className={styles.reviews_list_item}>
-              <div className={styles.reviews_user_info}>
-                <div className={styles.reviews_user_name}>名***字</div>
-                <div className={styles.review_rate_container}>
-                  <ReviewRate />
-                </div>
-              </div>
-              <div className={styles.reviews_content}>
-                <div className={styles.reviews_content_description}>
-                  Perfect shots, high quality videos. I love it
-                </div>
-              </div>
-            </div>
-            <div className={styles.reviews_list_item}>
-              <div className={styles.reviews_user_info}>
-                <div className={styles.reviews_user_name}>名***字</div>
-                <div className={styles.review_rate_container}>
-                  <ReviewRate />
-                </div>
-              </div>
-              <div className={styles.reviews_content}>
-                <div className={styles.reviews_content_description}>
-                  Perfect shots, high quality videos. I love it
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

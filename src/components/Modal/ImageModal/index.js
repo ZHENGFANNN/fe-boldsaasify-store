@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import styles from "./index.module.scss";
 import ReactDOM from "react-dom";
@@ -9,6 +10,7 @@ export default function ImageModal({
   height = "100px",
   width = "100px",
   borderRadius = "6px",
+  lazyLoading = false,
 }) {
   const [show, setShow] = React.useState(false);
   React.useEffect(() => {
@@ -29,22 +31,23 @@ export default function ImageModal({
           borderRadius,
         }}
       />
-      {ReactDOM.createPortal(
-        <div className={[styles.fixed, show ? styles.show : ""].join(" ")}>
-          <div
-            onClick={() => setShow(false)}
-            className={styles.fixed_container}
-          >
-            <div className={styles.media}>
-              <div className={styles.close} onClick={() => setShow(false)}>
-                ×
+      {!lazyLoading &&
+        ReactDOM.createPortal(
+          <div className={[styles.fixed, show ? styles.show : ""].join(" ")}>
+            <div
+              onClick={() => setShow(false)}
+              className={styles.fixed_container}
+            >
+              <div className={styles.media}>
+                <div className={styles.close} onClick={() => setShow(false)}>
+                  ×
+                </div>
+                {show ? <img src={src} /> : null}
               </div>
-              {show ? <img src={src} /> : null}
             </div>
-          </div>
-        </div>,
-        document.body
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

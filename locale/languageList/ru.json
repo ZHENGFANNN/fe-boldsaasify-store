@@ -516,5 +516,6 @@
   "store.product.reviews": "${num} комментариев",
   "store.product.all": "все",
   "store.product.stars": "${num} звезд",
-  "store.product.filter": "фильтр:"
+  "store.product.filter": "фильтр:",
+  "store.product.load_more": "Загрузи больше"
 }

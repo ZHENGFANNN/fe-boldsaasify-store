@@ -516,5 +516,6 @@
   "store.product.reviews": "${num} 件のコメント",
   "store.product.all": "全て",
   "store.product.stars": "${num} つ星",
-  "store.product.filter": "フィルター："
+  "store.product.filter": "フィルター：",
+  "store.product.load_more": "もっと読み込む"
 }
