@@ -47,7 +47,7 @@ function ReviewRate({ scoreRate = 1 }) {
   );
 }
 
-function loadingReviews({ configList, score }) {
+function LoadingReviews({ configList, score }) {
   const [averageScore, setAverageScore] = React.useState(0);
   const [scoreRate, setScoreRate] = React.useState(0);
   const [scoreMap, setScoreMap] = React.useState({});
@@ -104,7 +104,7 @@ function loadingReviews({ configList, score }) {
 export default function GoodReviewsContent({ LANG, configList }) {
   const [value, setValue] = React.useState("all");
   const { scoreRate, averageScore, scoreMap, scoreList, page, setPage } =
-    loadingReviews({
+    LoadingReviews({
       configList,
       score: value,
     });
