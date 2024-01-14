@@ -50,7 +50,7 @@ export default function Countdown({ goodDiscountFestival, LANG }) {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.price}>
-          {productCurCombo.areaInfo.price ? (
+          {productCurCombo.areaInfo?.price ? (
             <>
               <div>{`${productCurCombo.areaInfo.currency_symbol}${
                 productCurCombo.areaInfo.currency

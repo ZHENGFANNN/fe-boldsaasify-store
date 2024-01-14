@@ -20,7 +20,7 @@ export default function GoodPrice({ goodDiscountFestival, comboList }) {
         </div>
       ) : null}
       {/* 价格计算 */}
-      {productCurCombo.areaInfo.price ? (
+      {productCurCombo.areaInfo?.price ? (
         <div className={styles.product_price}>
           {goodDiscountFestival && productCurCombo.areaInfo.good_discount ? (
             <div>{`${productCurCombo.areaInfo.currency_symbol}${

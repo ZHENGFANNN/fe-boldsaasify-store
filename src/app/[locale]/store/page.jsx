@@ -58,7 +58,6 @@ function ProductInfo({ product, productIndex, LANG, goodDiscountFestival }) {
       >
         <div className={styles.mask_top}></div>
         <div className={styles.mask_bottom}></div>
-
         {/* {goodDiscountFestival && product.areaInfo.good_discount ? (
           <div className={styles.good_discount}>
             <div className={styles.off}>{LANG["store.index.off"]}</div>
@@ -67,7 +66,6 @@ function ProductInfo({ product, productIndex, LANG, goodDiscountFestival }) {
             </div>
           </div>
         ) : null} */}
-
         <div className={styles.title}>
           <h3>{product.name}</h3>
           {!product.areaInfo.stock ? (
@@ -77,7 +75,7 @@ function ProductInfo({ product, productIndex, LANG, goodDiscountFestival }) {
           ) : null}
           {goodDiscountFestival &&
           product.areaInfo.good_discount &&
-          product.areaInfo.price ? (
+          product.areaInfo?.price ? (
             <span className={styles.discount_tip}>{`- ${
               product.areaInfo.currency_symbol
             }${product.areaInfo.currency} ${Math.ceil(
@@ -117,7 +115,10 @@ function ProductInfo({ product, productIndex, LANG, goodDiscountFestival }) {
             !product.image_scenes ? styles.hover_big : ""
           }`}
         >
-          <img alt={product.name} src={product.image_url} />
+          <img
+            alt={product.name}
+            src={product?.image_list?.[0]?.src || product.image_url}
+          />
         </div>
         {product.image_scenes ? (
           <div className={styles.goods_item_hover_img}>

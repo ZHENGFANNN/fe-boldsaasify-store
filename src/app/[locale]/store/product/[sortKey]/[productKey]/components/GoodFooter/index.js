@@ -91,7 +91,7 @@ export default function GoodFooter({
         </div>
         <div className={styles.footer_right}>
           <div className={styles.footer_price}>
-            {productCurCombo.areaInfo.price ? (
+            {productCurCombo.areaInfo?.price ? (
               <div className={styles.price}>
                 {goodDiscountFestival &&
                 productCurCombo.areaInfo.good_discount ? (

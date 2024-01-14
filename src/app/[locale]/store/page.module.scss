@@ -306,10 +306,10 @@
       position: absolute;
       content: '';
       left: 0;
-      bottom: -64px;
+      bottom: 0;
       height: 64px;
       width: 100%;
-      z-index: 0;
+      z-index: 1;
       background: rgba(0, 0, 0, 0.7);
       transition: all 0.3s ease-in-out;
     }
@@ -322,7 +322,7 @@
       height: 88px;
       transition: all 300ms;
 
-      opacity: 0;
+      opacity: 1;
 
       background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     }
@@ -336,10 +336,10 @@
       align-items: center;
       justify-content: space-between;
 
+      z-index: 9;
       font-size: 16px;
-      color: #000;
+      color: #fff;
       transition: all 0.3s;
-
       bottom: 24px;
       left: 32px;
       right: 32px;
@@ -372,7 +372,8 @@
       top: 32px;
       left: 32px;
       right: 32px;
-      color: #000;
+      // color: #000;
+      color: #fff;
 
       span {
         margin-right: 4px;
@@ -445,10 +446,13 @@
     }
   }
   .img_container {
+    width: 100%;
+    height: 100%;
     .goods_item_img {
       position: relative;
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       transition: all 300ms;
       opacity: 1;
       img {
@@ -652,36 +656,6 @@
       h3 {
       }
     }
-    .img_container {
-      .goods_item_img {
-        img {
-        }
-      }
-
-      .goods_item_hover_img {
-        img {
-        }
-      }
-    }
-    &:hover {
-      .infos_container {
-        .mask_top {
-        }
-        .mask_bottom {
-        }
-        .mask_top {
-        }
-        .goods_item_price,
-        h3 {
-        }
-      }
-      .img_container {
-        .goods_item_img {
-        }
-        .goods_item_hover_img {
-        }
-      }
-    }
   }
 }
 
@@ -786,17 +760,6 @@
       h3 {
       }
     }
-    .img_container {
-      .goods_item_img {
-        img {
-        }
-      }
-
-      .goods_item_hover_img {
-        img {
-        }
-      }
-    }
     &:hover {
       .infos_container {
         .mask_top {
@@ -810,8 +773,6 @@
         }
       }
       .img_container {
-        .goods_item_img {
-        }
         .video_item_pc {
           display: none;
         }
@@ -1000,7 +961,8 @@
       .goods_item_price {
         line-height: 21px;
         font-size: 14px;
-        color: #000;
+        // color: #000;
+        // color: #fff;
 
         bottom: 24px;
         left: 24px;
@@ -1016,11 +978,13 @@
       }
     }
     .img_container {
+      width: 100%;
+      height: 100%;
       .goods_item_img {
-        width: 45vw;
-        height: 45vw;
-        img {
-        }
+        width: 100%;
+        height: 100%;
+        // width: 45vw;
+        // height: 45vw;
       }
 
       .goods_item_hover_img {

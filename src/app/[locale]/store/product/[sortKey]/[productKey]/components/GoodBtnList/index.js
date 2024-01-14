@@ -15,11 +15,11 @@ import useProductStore from "../../productStore";
 import { useRouter } from "next/navigation";
 import tracking from "../../tracking";
 import GlobalContext from "@/globalContext";
-import COUNTRYLIST from "@/config/COUNTRYLIST";
 
 import Api from "../../api";
 
 function PayButton({
+  goodDiscountFestival,
   productInfo,
   productCurCombo,
   productOptions,
@@ -37,7 +37,7 @@ function PayButton({
   }, []);
 
   const discount = React.useMemo(() => {
-    if (!productCurCombo.areaInfo.good_discount) {
+    if (!productCurCombo.areaInfo.good_discount || !goodDiscountFestival) {
       return 0;
     } else {
       return (
@@ -197,7 +197,13 @@ function PayButton({
   );
 }
 
-export default function GoodBtnList({ area_code, locale, productInfo, LANG }) {
+export default function GoodBtnList({
+  area_code,
+  locale,
+  productInfo,
+  goodDiscountFestival,
+  LANG,
+}) {
   const productNum = useProductStore((state) => state.productNum);
   const productCurCombo = useProductStore((state) => state.productCurCombo);
   const productOptions = useProductStore((state) => state.productOptions);
@@ -303,6 +309,7 @@ export default function GoodBtnList({ area_code, locale, productInfo, LANG }) {
           <PayButton
             LANG={LANG}
             locale={locale}
+            goodDiscountFestival={goodDiscountFestival}
             productInfo={productInfo}
             productCurCombo={productCurCombo}
             productOptions={productOptions}

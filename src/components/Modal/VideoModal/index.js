@@ -62,6 +62,7 @@ export default function VideoModal({
                   ×
                 </div>
                 <Video
+                  preload="none"
                   actionRef={videoRef}
                   controls
                   src={src}

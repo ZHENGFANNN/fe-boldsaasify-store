@@ -117,11 +117,25 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
                       <img alt={productInfo.name} src={productInfo.image_url} />
                     </div>
                   </li>
-                  {productCurCombo.img_list?.length > 0
-                    ? productCurCombo.img_list?.map((item, index) => {
+                  {/* 产品图 */}
+                  {productInfo.image_list?.length > 0
+                    ? productInfo.image_list.map((item) => {
                         return (
                           <li
-                            key={index}
+                            key={item.src}
+                            className={`splide__slide ${styles.splide__slide}`}
+                          >
+                            <img alt={productInfo.name} src={item.src} />
+                          </li>
+                        );
+                      })
+                    : null}
+                  {/* 套餐图 */}
+                  {productCurCombo.img_list?.length > 0
+                    ? productCurCombo.img_list?.map((item) => {
+                        return (
+                          <li
+                            key={item.src}
                             className={`splide__slide ${styles.splide__slide}`}
                           >
                             <img alt={productInfo.name} src={item.src} />
@@ -131,7 +145,8 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
                     : null}
                 </ul>
               </div>
-              {productCurCombo.img_list?.length > 0 ? (
+              {productCurCombo.img_list?.length > 0 ||
+              productInfo.image_list?.length > 0 ? (
                 <div className={styles.splide_image_list}>
                   <ul>
                     <li>
@@ -142,9 +157,16 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
                         />
                       </div>
                     </li>
+                    {productInfo.image_list?.map((item, index) => {
+                      return (
+                        <li key={item.src}>
+                          <img alt={productInfo.name} src={item.src} />
+                        </li>
+                      );
+                    })}
                     {productCurCombo.img_list?.map((item, index) => {
                       return (
-                        <li key={index}>
+                        <li key={item.src}>
                           <img alt={productInfo.name} src={item.src} />
                         </li>
                       );

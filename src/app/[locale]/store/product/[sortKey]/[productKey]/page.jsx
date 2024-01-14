@@ -214,6 +214,7 @@ export default async function Product({ params: { locale, productKey } }) {
 
               <GoodNumber LANG={LANG} />
               <GoodBtnList
+                goodDiscountFestival={GOODDISCOUNTFESTIVAL}
                 LANG={LANG}
                 locale={locale}
                 productInfo={productInfo}
