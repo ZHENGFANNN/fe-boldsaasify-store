@@ -10,6 +10,7 @@ import Loading from "@/components/Loading";
 
 function PayButton({ createOrder, onApprove, onCancel, onError }) {
   const [{ isPending }] = usePayPalScriptReducer();
+
   return (
     <>
       {isPending ? (
@@ -41,21 +42,28 @@ export default function Paypal({
   onCancel,
   onError,
 }) {
+  console.log("currency", currency, area);
   const countryCode = React.useMemo(() => {
     let countryCode = area;
     if (area === "hk_en") {
-      countryCode = "hk";
+      countryCode = "HK";
     } else if (area === "ca_en") {
-      countryCode = "ca";
+      countryCode = "CA";
+    } else if (area === "c2") {
+      return "CN";
+    } else {
+      return countryCode?.toUpperCase() || "US";
     }
-    return countryCode?.toUpperCase() || "US";
   }, [area]);
+
   return (
     <PayPalScriptProvider
       options={{
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
         components: "buttons",
-        locale: `${locale === "hk" ? "zh" : locale}_${countryCode}`,
+        locale: `${
+          locale === "hk" || locale === "cn" ? "zh" : locale
+        }_${countryCode}`,
         currency,
       }}
     >

@@ -20,9 +20,13 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
         type: "fade",
         rewind: true,
         interval: 5000,
-        autoplay: productCurCombo.img_list?.length > 0,
+        autoplay:
+          productCurCombo.img_list?.length > 0 ||
+          productCurCombo.img_list?.length > 0,
         pagination: false,
-        arrows: productCurCombo.img_list?.length > 0,
+        arrows:
+          productCurCombo.img_list?.length > 0 ||
+          productCurCombo.img_list?.length > 0,
         classes: {
           arrow: `splide__arrow ${styles.splide__arrow}`,
         },
@@ -112,11 +116,6 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
             >
               <div className={`splide__track ${styles.splide__track}`}>
                 <ul className="splide__list">
-                  <li className={`splide__slide ${styles.splide__slide}`}>
-                    <div className={styles.product_img}>
-                      <img alt={productInfo.name} src={productInfo.image_url} />
-                    </div>
-                  </li>
                   {/* 产品图 */}
                   {productInfo.image_list?.length > 0
                     ? productInfo.image_list.map((item) => {
@@ -149,22 +148,14 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
               productInfo.image_list?.length > 0 ? (
                 <div className={styles.splide_image_list}>
                   <ul>
-                    <li>
-                      <div className={styles.product_img}>
-                        <img
-                          alt={productInfo.name}
-                          src={productInfo.image_url}
-                        />
-                      </div>
-                    </li>
-                    {productInfo.image_list?.map((item, index) => {
+                    {productInfo.image_list?.map((item) => {
                       return (
                         <li key={item.src}>
                           <img alt={productInfo.name} src={item.src} />
                         </li>
                       );
                     })}
-                    {productCurCombo.img_list?.map((item, index) => {
+                    {productCurCombo.img_list?.map((item) => {
                       return (
                         <li key={item.src}>
                           <img alt={productInfo.name} src={item.src} />

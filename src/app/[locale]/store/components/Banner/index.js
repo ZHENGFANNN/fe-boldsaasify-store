@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "../../page.module.scss";
+import styles from "./index.module.scss";
 import Splide from "@splidejs/splide";
 import "@splidejs/splide/css";
 import React from "react";

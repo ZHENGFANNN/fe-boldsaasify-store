@@ -155,7 +155,7 @@ export default function Main({
             stock: areaInfo.stock,
             // 产品相关
             name: product.name,
-            image: product.image_url,
+            image: product.image_list[0].src,
             href: `/${locale}/product/${product.sort_key}/${product.key}`,
             sortKey: product.sort_key,
             productKey: product.key,

@@ -25,7 +25,12 @@ export default function NAVFUNC({ LANG, CONFIG, GOODLIST, GOODSORTLIST }) {
           sub_title: item.name,
           href: `/store/product${item.path}`,
           img: (
-            <img height={60} width={60} src={item.image_url} alt={item.name} />
+            <img
+              height={60}
+              width={60}
+              src={item.image_list[0].src}
+              alt={item.name}
+            />
           ),
         };
       }),

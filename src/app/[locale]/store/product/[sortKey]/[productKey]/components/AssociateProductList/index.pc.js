@@ -81,7 +81,7 @@ export default function PcProductList({ products, title }) {
                 target="_blank"
               >
                 <div className={styles.image_container}>
-                  <img alt={item.name} src={item.image_url}></img>
+                  <img alt={item.name} src={item.image_list[0].src}></img>
                   {<div className={styles.product_name}>{item.name}</div>}
                 </div>
                 {item.image_scenes ? (

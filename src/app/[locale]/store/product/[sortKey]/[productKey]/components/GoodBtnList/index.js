@@ -68,7 +68,7 @@ function PayButton({
         stock: productCurCombo.areaInfo.stock,
         // 产品相关
         name: productInfo.name,
-        image: productInfo.image_url,
+        image: productInfo.image_list[0].src,
         href: `/${locale}/product/${productInfo.sort_key}/${productInfo.key}`,
         sortKey: productInfo.sort_key,
         productKey: productInfo.key,
@@ -99,7 +99,6 @@ function PayButton({
             discount,
           ]}
           createOrder={async () => {
-            console.log();
             // 处理订单
             return Api.createOrder({
               ...userInfo,
@@ -198,7 +197,7 @@ function PayButton({
 }
 
 export default function GoodBtnList({
-  area_code,
+  areaCode,
   locale,
   productInfo,
   goodDiscountFestival,
@@ -211,14 +210,17 @@ export default function GoodBtnList({
   const router = useRouter();
 
   const countryCode = React.useMemo(() => {
-    let countryCode = area_code;
-    if (area_code === "hk_en") {
-      countryCode = "hk";
-    } else if (area_code === "ca_en") {
-      countryCode = "ca";
+    let countryCode = areaCode;
+    if (areaCode === "hk_en") {
+      countryCode = "HK";
+    } else if (areaCode === "ca_en") {
+      countryCode = "CA";
+    } else if (areaCode === "c2") {
+      return "CN";
+    } else {
+      return countryCode?.toUpperCase() || "US";
     }
-    return countryCode?.toUpperCase() || "US";
-  }, [area_code]);
+  }, [areaCode]);
 
   const currency = React.useMemo(() => {
     let areaInfo = productCurCombo?.areaInfo;
@@ -227,7 +229,7 @@ export default function GoodBtnList({
     } else {
       return "USD";
     }
-  }, [productCurCombo]);
+  }, [productCurCombo, areaCode]);
 
   if (!productCurCombo.areaInfo?.stock || !productCurCombo.areaInfo?.price) {
     return null;
@@ -237,8 +239,10 @@ export default function GoodBtnList({
         options={{
           clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
           components: "buttons",
-          locale: `${locale === "hk" ? "zh" : locale}_${countryCode}`,
           currency,
+          locale: `${
+            locale === "hk" || locale === "cn" ? "zh" : locale
+          }_${countryCode}`,
         }}
       >
         <div className={styles.container} data-role="buy-btn-list">

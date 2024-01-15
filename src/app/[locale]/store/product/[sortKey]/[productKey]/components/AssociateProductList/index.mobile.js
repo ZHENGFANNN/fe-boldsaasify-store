@@ -61,7 +61,7 @@ export default function MobProductList({ products, title }) {
                   <div className={styles.splide_item}>
                     <div className={styles.media_background}>
                       <div className={styles.media_container}>
-                        <img alt={item.name} src={item.image_url} />
+                        <img alt={item.name} src={item.image_list[0].src} />
                         <div className={styles.content_container}>
                           <div className={styles.learn_more_container}>
                             <div className={styles["product-name"]}>

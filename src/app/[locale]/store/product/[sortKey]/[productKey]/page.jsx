@@ -40,7 +40,7 @@ export async function generateMetadata({ params: { locale, productKey } }) {
       openGraph: {
         title: `${productInfo.indexConfig[0]?.page_title} - ${CONFIG["company.basic.company_name"]}`,
         description: productInfo.indexConfig[0]?.page_description,
-        image: productInfo.image_url,
+        image: productInfo.image_list[0].src,
       },
     };
   } else {
@@ -84,12 +84,12 @@ async function getComboList({ area, productInfo }) {
 async function getTypeList({ productInfo, LANG }) {
   if (productInfo) {
     const list = [];
-    if (productInfo.image_url) {
+    if (productInfo.image_list.length > 0) {
       list.push({
         type: "image",
         icon_src: `${process.env.NEXT_PUBLIC_IMAGE}/icon/media-image.svg`,
         text: LANG["store.product.image"],
-        image_url: productInfo.image_url,
+        image_list: productInfo.image_list,
       });
     }
     if (productInfo.video_url) {
@@ -216,6 +216,7 @@ export default async function Product({ params: { locale, productKey } }) {
               <GoodBtnList
                 goodDiscountFestival={GOODDISCOUNTFESTIVAL}
                 LANG={LANG}
+                areaCode={area}
                 locale={locale}
                 productInfo={productInfo}
               />
@@ -271,7 +272,7 @@ export default async function Product({ params: { locale, productKey } }) {
                   "@context": "https://schema.org/",
                   "@type": "Product",
                   name: productInfo.name,
-                  image: [productInfo.image_url],
+                  image: productInfo.image_list.map((item) => item.src),
                   description: productInfo.description,
                   offers: {
                     "@type": "Offer",

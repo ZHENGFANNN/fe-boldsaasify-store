@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 import moment from "moment";
 
-export default function Main({ secret, locale, LANG, CONFIG }) {
+export default function Main({ secret, locale, area, LANG, CONFIG }) {
   const router = useRouter();
   const [order, setOrder] = React.useState();
   const [loading, setLoading] = React.useState(true);
@@ -133,7 +133,6 @@ export default function Main({ secret, locale, LANG, CONFIG }) {
                   .join(`/company/contact`),
               }}
             />
-
             <div className={styles.copy_container}>
               <div
                 className={styles.copy_order}
@@ -148,7 +147,6 @@ export default function Main({ secret, locale, LANG, CONFIG }) {
                 {LANG["store.order_info.copy_order"]}
               </div>
             </div>
-
             <ul className={styles.order_list}>
               <h2>{LANG["store.order_info.order_info"]}</h2>
               <li>
@@ -350,16 +348,15 @@ export default function Main({ secret, locale, LANG, CONFIG }) {
                 </div>
               ) : null}
             </ul>
-
             {order.pay_key === "payPal" && order.order_status === "status0" ? (
               <div className={styles.btn_container}>
                 <Paypal
-                  area={order.area_code}
+                  area={order.area_code || area}
                   locale={locale}
                   order_number={order.order_number}
                   currency={order.order_list[0].priceCurrency}
-                  pre
                   onError={(error) => {
+                    console.log(error);
                     showTip({
                       text: LANG["store.order_info.pay_error"],
                       type: "error",
