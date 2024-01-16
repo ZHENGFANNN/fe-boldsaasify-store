@@ -253,6 +253,8 @@ export default async function Product({ params: { locale, productKey } }) {
           ) : null} */}
           {/* 产品底部 */}
           <GoodFooter
+            areaCode={area}
+            locale={locale}
             LANG={LANG}
             productInfo={productInfo}
             goodDiscountFestival={GOODDISCOUNTFESTIVAL}
