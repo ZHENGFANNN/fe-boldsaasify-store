@@ -37,6 +37,7 @@
     "updated_time": "2024-01-16T14:08:23.000Z",
     "associateProduct": [],
     "typeList": [],
+    "packageList": [],
     "mediaList": [
       {
         "id": 155,
@@ -294,39 +295,6 @@
         "updated_time": "2024-01-16T12:59:40.000Z"
       }
     ],
-    "indexConfig": [
-      {
-        "id": 105,
-        "good_key": "sensor-light-usb-magnetic-night",
-        "good_sort_key": "sensor-light",
-        "language": "en",
-        "associate_good_key": "sensor-light:sensor-light-usb-magnetic-night",
-        "page_keywords": "Wireless remote control sensor light,Sensor Light",
-        "page_title": "Wireless remote control sensor light",
-        "page_description": "Remote sensor light, motion sensor light, three-color changing, mini night light, USB rechargeable, wireless magnetic cabinet light.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2024-01-16T13:16:48.000Z",
-        "updated_time": "2024-01-16T13:18:03.000Z"
-      },
-      {
-        "id": 106,
-        "good_key": "sensor-light-usb-magnetic-night",
-        "good_sort_key": "sensor-light",
-        "language": "en",
-        "associate_good_key": "sensor-light:sensor-light-usb-magnetic-night",
-        "page_keywords": "Wireless remote control sensor light",
-        "page_title": "Wireless remote control sensor light",
-        "page_description": "Remote sensor light, motion sensor light, three-color changing, mini night light, USB rechargeable, wireless magnetic cabinet light.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2024-01-16T13:17:20.000Z",
-        "updated_time": "2024-01-16T13:17:20.000Z"
-      }
-    ],
-    "funcionList": [],
     "associationsList": [
       {
         "id": 2770,
@@ -425,7 +393,39 @@
         "updated_time": "2024-01-16T13:16:33.000Z"
       }
     ],
-    "packageList": [],
+    "funcionList": [],
+    "indexConfig": [
+      {
+        "id": 105,
+        "good_key": "sensor-light-usb-magnetic-night",
+        "good_sort_key": "sensor-light",
+        "language": "en",
+        "associate_good_key": "sensor-light:sensor-light-usb-magnetic-night",
+        "page_keywords": "Wireless remote control sensor light,Sensor Light",
+        "page_title": "Wireless remote control sensor light",
+        "page_description": "Remote sensor light, motion sensor light, three-color changing, mini night light, USB rechargeable, wireless magnetic cabinet light.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2024-01-16T13:16:48.000Z",
+        "updated_time": "2024-01-16T13:18:03.000Z"
+      },
+      {
+        "id": 106,
+        "good_key": "sensor-light-usb-magnetic-night",
+        "good_sort_key": "sensor-light",
+        "language": "en",
+        "associate_good_key": "sensor-light:sensor-light-usb-magnetic-night",
+        "page_keywords": "Wireless remote control sensor light",
+        "page_title": "Wireless remote control sensor light",
+        "page_description": "Remote sensor light, motion sensor light, three-color changing, mini night light, USB rechargeable, wireless magnetic cabinet light.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2024-01-16T13:17:20.000Z",
+        "updated_time": "2024-01-16T13:17:20.000Z"
+      }
+    ],
     "reviewsList": [
       {
         "id": 956,
@@ -4869,134 +4869,8 @@
     "updated_time": "2024-01-15T12:16:42.000Z",
     "associateProduct": [],
     "typeList": [],
+    "packageList": [],
     "mediaList": [],
-    "indexConfig": [
-      {
-        "id": 102,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "page_keywords": "Ambient light, Atmosphere light,RGB light strip, RGB lighting,Sound-activated light, Music rhythm light,Dual-sided pickup light, Dual-sided,microphone light,Bluetooth controlled light, APP controlled light,Desktop light, Car light,Computer light, PC light",
-        "page_title": "RGB Sound-Activated Music Rhythm Light",
-        "page_description": "New 3D Dual-sided Sound-pickup Lamp RGB Sound-activated Music Rhythm Lamp for Computer Car Desktop with APP Bluetooth Ambient Light Strip.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2024-01-13T15:10:09.000Z",
-        "updated_time": "2024-01-13T15:10:09.000Z"
-      }
-    ],
-    "funcionList": [
-      {
-        "id": 4986,
-        "name": "Sound Rhythm",
-        "image": null,
-        "weight": 9,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      },
-      {
-        "id": 4987,
-        "name": "Multiple Lighting Effects",
-        "image": null,
-        "weight": 8,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      },
-      {
-        "id": 4988,
-        "name": "RGB Full-Color Lighting",
-        "image": null,
-        "weight": 7,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      },
-      {
-        "id": 4989,
-        "name": "Dual-sided Illumination",
-        "image": null,
-        "weight": 6,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      },
-      {
-        "id": 4990,
-        "name": "18 Modes",
-        "image": null,
-        "weight": 5,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      },
-      {
-        "id": 4991,
-        "name": "APP Control",
-        "image": null,
-        "weight": 4,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      },
-      {
-        "id": 4992,
-        "name": "Intelligent Noise Reduction",
-        "image": null,
-        "weight": 3,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      },
-      {
-        "id": 4993,
-        "name": "Built-in Lithium Battery",
-        "image": null,
-        "weight": 2,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      },
-      {
-        "id": 4994,
-        "name": "USB Power Supply",
-        "image": null,
-        "weight": 1,
-        "good_key": "rgb-sound-music-rhythm-light",
-        "good_sort_key": "ambien-light",
-        "language": "en",
-        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
-        "created_time": "2024-01-13T15:06:56.000Z",
-        "updated_time": "2024-01-13T15:06:56.000Z"
-      }
-    ],
     "associationsList": [
       {
         "id": 2752,
@@ -5119,7 +4993,133 @@
         "updated_time": "2024-01-13T15:06:38.000Z"
       }
     ],
-    "packageList": [],
+    "funcionList": [
+      {
+        "id": 4986,
+        "name": "Sound Rhythm",
+        "image": null,
+        "weight": 9,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      },
+      {
+        "id": 4987,
+        "name": "Multiple Lighting Effects",
+        "image": null,
+        "weight": 8,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      },
+      {
+        "id": 4988,
+        "name": "RGB Full-Color Lighting",
+        "image": null,
+        "weight": 7,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      },
+      {
+        "id": 4989,
+        "name": "Dual-sided Illumination",
+        "image": null,
+        "weight": 6,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      },
+      {
+        "id": 4990,
+        "name": "18 Modes",
+        "image": null,
+        "weight": 5,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      },
+      {
+        "id": 4991,
+        "name": "APP Control",
+        "image": null,
+        "weight": 4,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      },
+      {
+        "id": 4992,
+        "name": "Intelligent Noise Reduction",
+        "image": null,
+        "weight": 3,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      },
+      {
+        "id": 4993,
+        "name": "Built-in Lithium Battery",
+        "image": null,
+        "weight": 2,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      },
+      {
+        "id": 4994,
+        "name": "USB Power Supply",
+        "image": null,
+        "weight": 1,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "created_time": "2024-01-13T15:06:56.000Z",
+        "updated_time": "2024-01-13T15:06:56.000Z"
+      }
+    ],
+    "indexConfig": [
+      {
+        "id": 102,
+        "good_key": "rgb-sound-music-rhythm-light",
+        "good_sort_key": "ambien-light",
+        "language": "en",
+        "associate_good_key": "ambien-light:rgb-sound-music-rhythm-light",
+        "page_keywords": "Ambient light, Atmosphere light,RGB light strip, RGB lighting,Sound-activated light, Music rhythm light,Dual-sided pickup light, Dual-sided,microphone light,Bluetooth controlled light, APP controlled light,Desktop light, Car light,Computer light, PC light",
+        "page_title": "RGB Sound-Activated Music Rhythm Light",
+        "page_description": "New 3D Dual-sided Sound-pickup Lamp RGB Sound-activated Music Rhythm Lamp for Computer Car Desktop with APP Bluetooth Ambient Light Strip.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2024-01-13T15:10:09.000Z",
+        "updated_time": "2024-01-13T15:10:09.000Z"
+      }
+    ],
     "reviewsList": [],
     "sellingList": [
       {
@@ -11025,6 +11025,7 @@
     "updated_time": "2024-01-15T12:04:33.000Z",
     "associateProduct": [],
     "typeList": [],
+    "packageList": [],
     "mediaList": [
       {
         "id": 144,
@@ -11214,39 +11215,6 @@
         "updated_time": "2024-01-14T13:20:50.000Z"
       }
     ],
-    "indexConfig": [
-      {
-        "id": 103,
-        "good_key": "smart-night-light-strip",
-        "good_sort_key": "sensor-light",
-        "language": "en",
-        "associate_good_key": "sensor-light:smart-night-light-strip",
-        "page_keywords": "Smart Motion-Sensing LED Desk Lamp,Sensor Light",
-        "page_title": "Smart Motion-Sensing LED Desk Lamp",
-        "page_description": "Manufacturer Wholesale: Smart Motion-Sensing LED Desk Lamp for Home Use, with Rechargeable Long Light Strip and Eye-Care Night Light for Dormitories.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2024-01-13T17:52:18.000Z",
-        "updated_time": "2024-01-16T13:17:54.000Z"
-      },
-      {
-        "id": 104,
-        "good_key": "smart-night-light-strip",
-        "good_sort_key": "sensor-light",
-        "language": "en",
-        "associate_good_key": "sensor-light:smart-night-light-strip",
-        "page_keywords": "Smart Motion-Sensing LED Desk Lamp,Sensor Light,Motion sensor lights,Intelligent lighting,Motion-activated lights,Motion-sensitive lights,Automatic operation,Energy-saving,LED technology,Home lighting,Office lighting,Security lighting,Convenience,Energy efficiency,High-quality,Motion detection,Sensor technology",
-        "page_title": "Smart Motion-Sensing LED Desk Lamp",
-        "page_description": "Manufacturer Wholesale: Smart Motion-Sensing LED Desk Lamp for Home Use, with Rechargeable Long Light Strip and Eye-Care Night Light for Dormitories.",
-        "pc_background": null,
-        "mob_background": null,
-        "is_light": null,
-        "created_time": "2024-01-13T17:55:33.000Z",
-        "updated_time": "2024-01-13T17:55:33.000Z"
-      }
-    ],
-    "funcionList": [],
     "associationsList": [
       {
         "id": 2762,
@@ -11345,7 +11313,39 @@
         "updated_time": "2024-01-14T15:22:19.000Z"
       }
     ],
-    "packageList": [],
+    "funcionList": [],
+    "indexConfig": [
+      {
+        "id": 103,
+        "good_key": "smart-night-light-strip",
+        "good_sort_key": "sensor-light",
+        "language": "en",
+        "associate_good_key": "sensor-light:smart-night-light-strip",
+        "page_keywords": "Smart Motion-Sensing LED Desk Lamp,Sensor Light",
+        "page_title": "Smart Motion-Sensing LED Desk Lamp",
+        "page_description": "Manufacturer Wholesale: Smart Motion-Sensing LED Desk Lamp for Home Use, with Rechargeable Long Light Strip and Eye-Care Night Light for Dormitories.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2024-01-13T17:52:18.000Z",
+        "updated_time": "2024-01-16T13:17:54.000Z"
+      },
+      {
+        "id": 104,
+        "good_key": "smart-night-light-strip",
+        "good_sort_key": "sensor-light",
+        "language": "en",
+        "associate_good_key": "sensor-light:smart-night-light-strip",
+        "page_keywords": "Smart Motion-Sensing LED Desk Lamp,Sensor Light,Motion sensor lights,Intelligent lighting,Motion-activated lights,Motion-sensitive lights,Automatic operation,Energy-saving,LED technology,Home lighting,Office lighting,Security lighting,Convenience,Energy efficiency,High-quality,Motion detection,Sensor technology",
+        "page_title": "Smart Motion-Sensing LED Desk Lamp",
+        "page_description": "Manufacturer Wholesale: Smart Motion-Sensing LED Desk Lamp for Home Use, with Rechargeable Long Light Strip and Eye-Care Night Light for Dormitories.",
+        "pc_background": null,
+        "mob_background": null,
+        "is_light": null,
+        "created_time": "2024-01-13T17:55:33.000Z",
+        "updated_time": "2024-01-13T17:55:33.000Z"
+      }
+    ],
     "reviewsList": [
       {
         "id": 897,
