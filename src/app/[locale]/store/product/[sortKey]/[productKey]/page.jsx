@@ -24,6 +24,7 @@ import Loading from "@/components/Loading";
 import NavigatorIndex from "./components/NavigatorIndex";
 import GoodReviewsRate from "./components/GoodReviewsRate";
 import GoodReviewsContent from "./components/GoodReviewsContent";
+
 export const runtime = "edge";
 
 export async function generateMetadata({ params: { locale, productKey } }) {
@@ -202,24 +203,23 @@ export default async function Product({ params: { locale, productKey } }) {
                     })
                   : null}
                 {/* 套餐列表 */}
-                {comboList.length > 0 ? (
-                  <GoodComboList
-                    goodDiscountFestival={GOODDISCOUNTFESTIVAL}
-                    LANG={LANG}
-                    title={LANG["store.product.combo"]}
-                    options={comboList}
-                  />
-                ) : null}
+                <GoodComboList
+                  goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+                  LANG={LANG}
+                  title={LANG["store.product.combo"]}
+                  options={comboList}
+                />
               </div>
-
-              <GoodNumber LANG={LANG} />
-              <GoodBtnList
-                goodDiscountFestival={GOODDISCOUNTFESTIVAL}
-                LANG={LANG}
-                areaCode={area}
-                locale={locale}
-                productInfo={productInfo}
-              />
+              <div>
+                <GoodNumber LANG={LANG} />
+                <GoodBtnList
+                  goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+                  LANG={LANG}
+                  areaCode={area}
+                  locale={locale}
+                  productInfo={productInfo}
+                />
+              </div>
             </div>
           </section>
           <div className={styles.sec_line}></div>
@@ -235,12 +235,10 @@ export default async function Product({ params: { locale, productKey } }) {
           {/* 产品包装列表 */}
           <GoodPackageList configList={productInfo.packageList} LANG={LANG} />
           {/* 产品评论 */}
-          {productInfo.reviewsList.length > 0 ? (
-            <GoodReviewsContent
-              configList={productInfo.reviewsList}
-              LANG={LANG}
-            />
-          ) : null}
+          <GoodReviewsContent
+            configList={productInfo.reviewsList}
+            LANG={LANG}
+          />
           {/* 关联产品列表 */}
           {/* {productInfo.associateProduct.length > 0 ? (
             <>

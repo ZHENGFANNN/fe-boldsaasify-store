@@ -44,7 +44,7 @@ export default function Countdown({ goodDiscountFestival, LANG }) {
       };
     }
   }, [lazyLoading]);
-  if (!goodDiscountFestival || !productCurCombo.areaInfo.good_discount)
+  if (!goodDiscountFestival || !productCurCombo.areaInfo?.good_discount)
     return null;
   return (
     <div className={styles.container}>

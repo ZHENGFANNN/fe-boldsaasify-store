@@ -79,7 +79,7 @@ function PayButton({
       },
     ];
   }, [productNum, productCurCombo, productInfo, productOptions, locale]);
-
+  console.log("isPending", isPending);
   return (
     <>
       {isPending ? (

@@ -109,6 +109,8 @@
           text-transform: uppercase;
           text-decoration: none;
 
+          min-width: 80px;
+
           &.disabled {
             cursor: not-allowed;
           }

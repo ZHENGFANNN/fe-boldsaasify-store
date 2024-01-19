@@ -15,14 +15,18 @@ export default function GoodComboList({
     (state) => state.setProductCurCombo
   );
   const [active, setActive] = React.useState(() => {
-    return defaultActive || options[0].id;
+    return defaultActive || options[0]?.id;
   });
 
   React.useEffect(() => {
-    console.log("options", options[0]);
-    setProductCurCombo(options[0]);
+    setProductCurCombo(
+      options[0] || {
+        areaInfo: {},
+      }
+    );
   }, []);
 
+  if (options.length < 1) return null;
   return (
     <div className={styles.container}>
       <h2>{title}</h2>
