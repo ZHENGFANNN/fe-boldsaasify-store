@@ -13,6 +13,7 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
   const productCurCombo = useProductStore((state) => state.productCurCombo);
   const productShowType = useProductStore((state) => state.productShowType);
   const [progress, setProgress] = React.useState(0);
+
   React.useEffect(() => {
     if (!lazyLoading) {
       // 初始化Splide
@@ -70,6 +71,7 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
       $(window).on("resize", scaleHeight);
     }
   }, [lazyLoading]);
+
   React.useEffect(() => {
     if (!lazyLoading) {
       // 控制视频播放/暂停
@@ -116,9 +118,9 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
             >
               <div className={`splide__track ${styles.splide__track}`}>
                 <ul className="splide__list">
-                  {/* 产品图 */}
-                  {productInfo.image_list?.length > 0
-                    ? productInfo.image_list.map((item) => {
+                  {/* 套餐图 */}
+                  {productCurCombo.img_list?.length > 0
+                    ? productCurCombo.img_list?.map((item) => {
                         return (
                           <li
                             key={item.src}
@@ -129,9 +131,9 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
                         );
                       })
                     : null}
-                  {/* 套餐图 */}
-                  {productCurCombo.img_list?.length > 0
-                    ? productCurCombo.img_list?.map((item) => {
+                  {/* 产品图 */}
+                  {productInfo.image_list?.length > 0
+                    ? productInfo.image_list.map((item) => {
                         return (
                           <li
                             key={item.src}
