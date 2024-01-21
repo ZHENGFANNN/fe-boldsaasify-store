@@ -165,8 +165,13 @@
 
                 padding: 0 12px;
 
-                height: 16px;
                 text-align: center;
+
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                text-overflow: ellipsis;
+                overflow: hidden;
               }
               &:hover {
                 background-color: #eee;
@@ -404,6 +409,16 @@
             height: calc(100vh - 90px) !important;
             min-width: none;
             max-width: none;
+
+            overflow-y: scroll;
+            &::-webkit-scrollbar {
+              height: 80px;
+              width: 6px;
+            }
+            &::-webkit-scrollbar-thumb {
+              background: #c8c9cd;
+              border-radius: 4px;
+            }
             .header_nav_width {
               width: auto;
               max-width: none;
@@ -508,7 +523,6 @@
                   font-size: 14px;
                   line-height: 17px;
 
-                  height: 16px;
                   text-align: center;
                   opacity: 0.8;
                 }

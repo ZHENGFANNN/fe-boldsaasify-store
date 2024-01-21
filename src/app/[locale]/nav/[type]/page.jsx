@@ -47,7 +47,7 @@ export default async function Nav({ params: { type, locale } }) {
                         <img
                           width={60}
                           height={60}
-                          src={item2.image_url}
+                          src={item2.image_list?.[0].src}
                           alt={item2.name}
                         />
                         <p>{item2.name}</p>

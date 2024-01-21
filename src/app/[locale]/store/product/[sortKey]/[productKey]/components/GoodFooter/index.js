@@ -5,25 +5,16 @@ import styles from "./index.module.scss";
 import useProductStore from "../../productStore";
 import ProductContext from "../../productContext";
 import tracking from "../../tracking";
-import { useRouter, useSearchParams } from "next/navigation";
-
 import $ from "jquery";
 
 export default function GoodFooter({
-  locale,
-  areaCode,
   LANG,
   productInfo,
   goodDiscountFestival,
 }) {
   const { lazyLoading } = React.useContext(ProductContext);
   const productNum = useProductStore((state) => state.productNum);
-  const productOptions = useProductStore((state) => state.productOptions);
   const productCurCombo = useProductStore((state) => state.productCurCombo);
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const orderPage = searchParams.get("order_page");
-
   // Footer处理
   React.useEffect(() => {
     if (!lazyLoading) {
