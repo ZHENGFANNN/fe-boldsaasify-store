@@ -16,7 +16,7 @@ export default function GoodComboList({
   );
 
   const [active, setActive] = React.useState(() => {
-    return defaultActive || options[0]?.id;
+    return defaultActive || options[0]?.key;
   });
 
   React.useEffect(() => {
@@ -36,11 +36,11 @@ export default function GoodComboList({
           return (
             <div
               className={`${styles.list} ${
-                active === item.id ? styles.active : ""
+                active === item.key ? styles.active : ""
               }`}
-              key={item.id}
+              key={item.key}
               onClick={() => {
-                setActive(item.id);
+                setActive(item.key);
                 setProductCurCombo(item);
               }}
             >

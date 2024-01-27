@@ -47,7 +47,7 @@ export default function Main({
         localStoreList = JSON.parse(localStoreList ?? []);
         const list = [];
         localStoreList.forEach((item) => {
-          let comboInfo, areaInfo;
+          let comboInfo;
           // 查找该语言的商品
           const product = GOODLIST.find(
             (product) =>
@@ -59,12 +59,6 @@ export default function Main({
             comboInfo = product.comboList.find(
               (combo) => combo.key === item.comboKey
             );
-            if (comboInfo) {
-              // 查找当前国家的商品信息
-              areaInfo = comboInfo.areaList.find(
-                (areaItem) => areaItem.country_code === area
-              );
-            }
           }
           // 处理选项
           let options;
@@ -78,19 +72,21 @@ export default function Main({
             options = [];
           }
 
-          if (areaInfo && comboInfo && product) {
+          if (comboInfo?.areaInfo && comboInfo && product) {
             // 库存不存在的情况下，不允许点击
-            if (!areaInfo.stock) item.selected = false;
+            if (!comboInfo.areaInfo.stock) item.selected = false;
             list.push({
               // 套餐相关
               id: comboInfo.id,
               comboName: comboInfo.title,
               // 地区相关
-              currency: areaInfo.currency,
-              priceSymbol: areaInfo.currency_symbol + areaInfo.currency,
-              price: areaInfo.price,
-              good_discount: areaInfo.good_discount,
-              stock: areaInfo.stock,
+              currency: comboInfo.areaInfo.currency,
+              priceSymbol:
+                comboInfo.areaInfo.currency_symbol +
+                comboInfo.areaInfo.currency,
+              price: comboInfo.areaInfo.price,
+              good_discount: comboInfo.areaInfo.good_discount,
+              stock: comboInfo.areaInfo.stock,
               // 产品相关
               name: product.name,
               image: product.image_list[0].src,

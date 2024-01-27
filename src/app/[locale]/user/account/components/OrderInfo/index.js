@@ -326,12 +326,17 @@ export default function OrderInfo({ LANG }) {
                         </div>
                         <div className={styles.user_info}>
                           <h2>{LANG["www.account.my_order.user_info"]}</h2>
-                          <div
-                            className={styles.user_item}
-                          >{`${orderItem.first_name} ${orderItem.last_name}`}</div>
-                          <div className={styles.user_item}>
-                            {orderItem.phone}
-                          </div>
+                          {orderItem.first_name ? (
+                            <div
+                              className={styles.user_item}
+                            >{`${orderItem.first_name} ${orderItem.last_name}`}</div>
+                          ) : null}
+                          {orderItem.phone ? (
+                            <div className={styles.user_item}>
+                              {orderItem.phone}
+                            </div>
+                          ) : null}
+
                           <div className={styles.user_item}>
                             {orderItem.email}
                           </div>

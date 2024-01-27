@@ -4,10 +4,11 @@ import "../../styles/reset.css";
 import Navbar from "@/components/Layout/NavBar";
 import Footer from "@/components/Layout/Footer";
 
-import getAllConfigData from "@/utils/getAllConfigData";
-
 import React from "react";
 import Layout from "@/components/Layout";
+
+import getConfigDataV2 from "@/utils/getConfigDataV2";
+import { cookies } from "next/headers";
 
 export const viewport = {
   width: "device-width",
@@ -17,14 +18,39 @@ export const viewport = {
   userScalable: "no",
 };
 
+/**
+ * 获取数据
+ */
+async function getData({ locale, area, configList }) {
+  const result = await getConfigDataV2({ locale, area, configList });
+  result.GOODLIST = result.GOODLIST.map(({ name, path, image_list }) => {
+    return {
+      name,
+      path,
+      image_list,
+    };
+  });
+  result.GOODSORTLIST = result.GOODSORTLIST.map(({ name, key, image_src }) => {
+    return {
+      name,
+      key,
+      image_src,
+    };
+  });
+  return result;
+}
+
 export default async function RootLayout(props) {
   const {
     children,
     params: { locale },
   } = props;
-  const { CONFIG, LANG, GOODLIST, GOODSORTLIST } = await getAllConfigData(
-    locale
-  );
+  const area = cookies().get("area")?.value || "us";
+  const { CONFIG, LANG, GOODLIST, GOODSORTLIST } = await getData({
+    locale,
+    area,
+    configList: ["config", "language", "goodSort", "good"],
+  });
   return (
     <html lang="en">
       <body>

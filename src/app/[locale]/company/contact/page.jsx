@@ -2,12 +2,15 @@ import Link from "next/link";
 import { contactList } from "./config";
 import { ISEMAIL } from "@/utils/pattern";
 import styles from "./page.module.scss";
-import getAllConfigData from "@/utils/getAllConfigData";
+import getConfigDataV2 from "@/utils/getConfigDataV2";
 
 export const runtime = "edge";
 
 export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.company_contact.title"]}`,
     description: LANG["www.company_contact.description"],
@@ -16,7 +19,10 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Contact({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return (
     <div className={styles.container}>
       <div className={styles.img_container}>

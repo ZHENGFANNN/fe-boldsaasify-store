@@ -17,7 +17,6 @@ import styles from "./page.module.scss";
 import { cookies } from "next/headers";
 import Script from "next/script";
 
-import getAllConfigData from "@/utils/getAllConfigData";
 import GoodPrice from "./components/GoodPrice";
 import GoodFooter from "./components/GoodFooter";
 import Loading from "@/components/Loading";
@@ -25,10 +24,40 @@ import NavigatorIndex from "./components/NavigatorIndex";
 import GoodReviewsRate from "./components/GoodReviewsRate";
 import GoodReviewsContent from "./components/GoodReviewsContent";
 
+import getConfigDataV2 from "@/utils/getConfigDataV2";
 export const runtime = "edge";
 
+// 匹配产品信息
+async function getProductInfo({ productList, productKey }) {
+  return productList.find((item) => {
+    return item.key === productKey;
+  });
+}
+
+/**
+ * 获取数据
+ */
+async function getData({ productKey, locale, area, configList }) {
+  const result = await getConfigDataV2({ locale, area, configList });
+  result.productInfo = await getProductInfo({
+    productList: result.GOODLIST,
+    productKey,
+  });
+  result.typeList = await getTypeList({
+    productInfo: result.productInfo,
+    LANG: result.LANG,
+  });
+  return result;
+}
+
+// 设置元信息
 export async function generateMetadata({ params: { locale, productKey } }) {
-  const { CONFIG, GOODLIST } = await getAllConfigData(locale);
+  const area = cookies().get("area")?.value || "us";
+  const { CONFIG, GOODLIST } = await getConfigDataV2({
+    locale,
+    area,
+    configList: ["config", "good"],
+  });
   const productInfo = await getProductInfo({
     productList: GOODLIST,
     productKey,
@@ -48,36 +77,6 @@ export async function generateMetadata({ params: { locale, productKey } }) {
     return {
       title: CONFIG["company.basic.company_name"],
     };
-  }
-}
-
-// 获取产品信息
-async function getProductInfo({ productList, productKey, order_page = null }) {
-  return productList.find((item) => {
-    return item.key === productKey;
-  });
-}
-
-// 获取产品套餐
-async function getComboList({ area, productInfo }) {
-  if (productInfo) {
-    const list = productInfo.comboList.map(
-      ({ areaList, weight, updated_time, created_time, ...item }) => {
-        let areaInfo = null;
-        areaList.forEach((country) => {
-          if (country.country_code === area) {
-            areaInfo = country;
-          }
-        });
-        return {
-          ...item,
-          areaInfo,
-        };
-      }
-    );
-    return list;
-  } else {
-    return null;
   }
 }
 
@@ -119,20 +118,17 @@ async function getTypeList({ productInfo, LANG }) {
 
 export default async function Product({ params: { locale, productKey } }) {
   const area = cookies().get("area")?.value || "us";
-  const { LANG, CONFIG, GOODLIST, GOODDISCOUNTFESTIVAL } =
-    await getAllConfigData(locale);
+  const { LANG, CONFIG, GOODDISCOUNTFESTIVAL, productInfo, typeList } =
+    await getData({
+      locale,
+      area,
+      productKey,
+      configList: ["config", "language", "good", "goodDiscountFestival"],
+    });
 
-  const productInfo = await getProductInfo({
-    productList: GOODLIST,
-    productKey,
-  });
-  const [comboList, typeList] = await Promise.all([
-    getComboList({ area, productInfo }),
-    getTypeList({ productInfo, LANG }),
-  ]);
   return (
     <div className={styles.container}>
-      {!productInfo || !comboList ? (
+      {!productInfo || !productInfo?.comboList ? (
         <>
           <Loading height="80vh" />
           <NavigatorIndex />
@@ -179,7 +175,7 @@ export default async function Product({ params: { locale, productKey } }) {
                 {/* 价格配置 */}
                 <GoodPrice
                   goodDiscountFestival={GOODDISCOUNTFESTIVAL}
-                  comboList={comboList}
+                  comboList={productInfo.comboList}
                 />
                 {/* 产品评价 */}
                 {productInfo.reviewsList.length > 0 ? (
@@ -207,7 +203,7 @@ export default async function Product({ params: { locale, productKey } }) {
                   goodDiscountFestival={GOODDISCOUNTFESTIVAL}
                   LANG={LANG}
                   title={LANG["store.product.combo"]}
-                  options={comboList}
+                  options={productInfo.comboList}
                 />
               </div>
               <div>
@@ -276,8 +272,9 @@ export default async function Product({ params: { locale, productKey } }) {
                   description: productInfo.description,
                   offers: {
                     "@type": "Offer",
-                    price: comboList[0]?.areaInfo?.price ?? 99999,
-                    priceCurrency: comboList[0]?.areaInfo?.currency ?? "USD",
+                    price: productInfo.comboList[0]?.areaInfo?.price ?? 99999,
+                    priceCurrency:
+                      productInfo.comboList[0]?.areaInfo?.currency ?? "USD",
                   },
                   sku: CONFIG["company.basic.company_name"],
                   mpn: productInfo.key,

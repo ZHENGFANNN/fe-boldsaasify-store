@@ -1,11 +1,14 @@
 import styles from "./page.module.scss";
 import StickyTitle from "./components/StickyTitle";
-import getAllConfigData from "@/utils/getAllConfigData";
+import getConfigDataV2 from "@/utils/getConfigDataV2";
 
 export const runtime = "experimental-edge";
 
 export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.protocol_user.title"]}`,
     description: LANG["www.protocol_user.description"],
@@ -14,7 +17,10 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function User({ params: { locale } }) {
-  const { CONFIG } = await getAllConfigData(locale);
+  const { CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config"],
+  });
   return (
     <div className={styles.container}>
       <StickyTitle CONFIG={CONFIG} />

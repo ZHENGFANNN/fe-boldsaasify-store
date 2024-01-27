@@ -108,7 +108,7 @@ export default function AddressInfo({ showTip, LANG }) {
               })}
             </div>
           ) : (
-            <Empyt />
+            <Empyt LANG={LANG} />
           )}
         </div>
       )}

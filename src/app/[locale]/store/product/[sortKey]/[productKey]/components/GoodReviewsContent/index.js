@@ -204,7 +204,7 @@ export default function GoodReviewsContent({ LANG, configList }) {
                         display: index + 1 <= page * 5 ? "flex" : "none",
                       }}
                       className={styles.reviews_list_item}
-                      key={item.id}
+                      key={index}
                     >
                       <div className={styles.reviews_user_info}>
                         <div className={styles.reviews_user_name}>

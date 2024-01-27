@@ -1,11 +1,14 @@
 import Link from "next/link";
-import getAllConfigData from "@/utils/getAllConfigData";
+import getConfigDataV2 from "@/utils/getConfigDataV2";
 import styles from "./page.module.scss";
 
 export const runtime = "edge";
 
 export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.company_market.title"]}`,
     description: LANG["www.company_market.description"],
@@ -14,7 +17,10 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Market({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return (
     <div className={styles.container}>
       <section className={styles.top_container}>

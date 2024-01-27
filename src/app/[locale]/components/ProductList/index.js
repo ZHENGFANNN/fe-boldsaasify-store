@@ -4,6 +4,7 @@ import styles from "./index.module.scss";
 import Link from "next/link";
 const active_icon = `${process.env.NEXT_PUBLIC_IMAGE}/icon/previews_stars_active_icon.svg`;
 const no_active_icon = `${process.env.NEXT_PUBLIC_IMAGE}/icon/previews_stars_icon.svg`;
+
 function ReviewRate({ LANG, reviewScore, reviewsNum }) {
   return (
     <div className={styles.stars_container}>
@@ -60,35 +61,34 @@ export default function ProductList({
                     reviewScore={product.reviewScore}
                   />
                 ) : null}
-
                 {/* 产品名称 */}
                 <h3 className={styles.product_name}>{product.name}</h3>
                 {/* 产品优惠 */}
-                {goodDiscountFestival && product.areaInfo.good_discount ? (
+                {goodDiscountFestival && product.areaInfo?.good_discount ? (
                   <div className={styles.good_discount_container}>
                     <div className={styles.off}>{LANG["store.index.off"]}</div>
                     <div className={styles.discount}>
-                      {100 - product.areaInfo.good_discount}%
+                      {100 - product.areaInfo?.good_discount}%
                     </div>
                   </div>
                 ) : null}
                 {/* 产品价格 */}
-                {!product.areaInfo.stock || !product.areaInfo.price ? (
+                {!product.areaInfo?.stock || !product.areaInfo?.price ? (
                   <div className={styles.product_stock_container}>
                     {LANG["store.index.no_stock"]}
                   </div>
                 ) : (
                   <div className={styles.product_price_container}>
-                    {goodDiscountFestival && product.areaInfo.good_discount ? (
-                      <div>{`${product.areaInfo.currency_symbol}${
-                        product.areaInfo.currency
+                    {goodDiscountFestival && product.areaInfo?.good_discount ? (
+                      <div>{`${product.areaInfo?.currency_symbol}${
+                        product.areaInfo?.currency
                       } ${Math.floor(
-                        product.areaInfo.price *
-                          product.areaInfo.good_discount *
+                        product.areaInfo?.price *
+                          product.areaInfo?.good_discount *
                           0.01
                       )}`}</div>
                     ) : null}
-                    <div>{`${product.areaInfo.currency_symbol}${product.areaInfo.currency}  ${product.areaInfo.price}`}</div>
+                    <div>{`${product.areaInfo?.currency_symbol}${product.areaInfo?.currency}  ${product.areaInfo?.price}`}</div>
                   </div>
                 )}
               </div>
@@ -106,8 +106,8 @@ export default function ProductList({
                     image: product.image_list,
                     offers: {
                       "@type": "Offer",
-                      price: product.areaInfo.price ?? 99999,
-                      priceCurrency: product.areaInfo.currency ?? "USD",
+                      price: product.areaInfo?.price ?? 99999,
+                      priceCurrency: product.areaInfo?.currency ?? "USD",
                     },
                     sku: CONFIG["company.basic.company_name"],
                     mpn: product.key,

@@ -1,13 +1,16 @@
 import Link from "next/link";
 import React from "react";
 import styles from "./page.module.scss";
-import getAllConfigData from "@/utils/getAllConfigData";
+import getConfigDataV2 from "@/utils/getConfigDataV2";
 import LoginForm from "./components/LoginForm";
 
 export const runtime = "edge";
 
 export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.user_login.title"]}`,
     description: LANG["www.user_login.description"],
@@ -16,7 +19,10 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Login({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return (
     <div
       className={styles.container}

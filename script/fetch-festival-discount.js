@@ -1,6 +1,5 @@
 const chalk = require("chalk");
 const fs = require("fs");
-const LANGUAGES = require("../src/config/LANGUAGE");
 const api = require("./api");
 
 // 获取产品优惠

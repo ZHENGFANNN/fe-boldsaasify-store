@@ -123,11 +123,6 @@ export default function Main({
           comboInfo = product.comboList.find(
             (combo) => combo.key === item.comboKey
           );
-          if (comboInfo) {
-            areaInfo = comboInfo.areaList.find(
-              (areaItem) => areaItem.country_code === area
-            );
-          }
         }
 
         // 处理选项
@@ -142,17 +137,22 @@ export default function Main({
           options = [];
         }
 
-        if (areaInfo && comboInfo && product && areaInfo.stock) {
+        if (
+          comboInfo?.areaInfo &&
+          comboInfo &&
+          product &&
+          comboInfo?.areaInfo?.stock
+        ) {
           const itemData = {
             // 套餐相关
             id: comboInfo.id,
             comboName: comboInfo.title,
             // 地区相关
-            priceSymbol: areaInfo.currency_symbol,
-            priceCurrency: areaInfo.currency,
-            price: areaInfo.price,
-            good_discount: areaInfo.good_discount,
-            stock: areaInfo.stock,
+            priceSymbol: comboInfo.areaInfo.currency_symbol,
+            priceCurrency: comboInfo.areaInfo.currency,
+            price: comboInfo.areaInfo.price,
+            good_discount: comboInfo.areaInfo.good_discount,
+            stock: comboInfo.areaInfo.stock,
             // 产品相关
             name: product.name,
             image: product.image_list[0].src,
@@ -165,11 +165,6 @@ export default function Main({
             selected: item.selected,
             options,
           };
-          // if (areaInfo.country_code === "ae" && payKey === "payPal") {
-          //   itemData.priceSymbol = "$";
-          //   itemData.priceCurrency = "USD";
-          //   itemData.price = Math.floor(0.27 * areaInfo.price);
-          // }
           list.push(itemData);
         }
       });

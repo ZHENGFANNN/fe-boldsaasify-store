@@ -3,13 +3,16 @@ import Link from "next/link";
 import styles from "./page.module.scss";
 import React from "react";
 
-import getAllConfigData from "@/utils/getAllConfigData";
+import getConfigDataV2 from "@/utils/getConfigDataV2";
 // import IntroduceStaff from "./components/IntroduceStaff";
 import CompanyHistory from "./components/CompanyHistory";
 export const runtime = "edge";
 
 export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.company_introduce.title"]}`,
     description: LANG["www.company_introduce.description"],
@@ -18,7 +21,10 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Introduce({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return (
     <div className={styles.container}>
       <div className={styles.video_container}>

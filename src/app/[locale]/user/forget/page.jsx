@@ -1,12 +1,15 @@
 import styles from "./page.module.scss";
 import React from "react";
 
-import getAllConfigData from "@/utils/getAllConfigData";
+import getConfigDataV2 from "@/utils/getConfigDataV2";
 import ForgetForm from "./components/ForgetForm";
 export const runtime = "edge";
 
 export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.forget.title"]}`,
     description: LANG["www.forget.description"],
@@ -15,7 +18,10 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Forget({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["config", "language"],
+  });
   return (
     <div
       className={styles.container}

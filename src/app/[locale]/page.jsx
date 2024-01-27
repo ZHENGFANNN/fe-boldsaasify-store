@@ -2,7 +2,7 @@ import styles from "./page.module.scss";
 import React from "react";
 
 import Advantage from "@/components/Layout/Advantage";
-import getAllConfigData from "@/utils/getAllConfigData";
+import getConfigDataV2 from "@/utils/getConfigDataV2";
 
 import ProductList from "./components/ProductList";
 import Banner from "./components/Banner";
@@ -10,7 +10,10 @@ import { cookies } from "next/headers";
 
 export const runtime = "edge";
 
-async function getSortList({ productSort, area }) {
+/**
+ * 处理分类列表
+ */
+async function getSortList(productSort) {
   return productSort.map((item) => {
     const goodList = item.goodList.map((good) => {
       const totalValue = good.reviewsList.reduce(
@@ -18,10 +21,7 @@ async function getSortList({ productSort, area }) {
         0
       );
       const avertValue = totalValue / good.reviewsList.length;
-      const areaInfo =
-        good.comboList[0]?.areaList?.find((item) => {
-          return item.country_code === area;
-        }) ?? {};
+      const areaInfo = good.comboList[0]?.areaInfo;
       return {
         ...good,
         areaInfo,
@@ -35,8 +35,20 @@ async function getSortList({ productSort, area }) {
   });
 }
 
+/**
+ * 获取数据
+ */
+async function getData({ locale, area, configList }) {
+  const result = await getConfigDataV2({ locale, area, configList });
+  result.GOODSORTLIST = await getSortList(result.GOODSORTLIST);
+  return result;
+}
+
 export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getAllConfigData(locale);
+  const { LANG, CONFIG } = await getConfigDataV2({
+    locale,
+    configList: ["language", "config"],
+  });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["store.index.title"]}`,
     description: LANG["store.index.description"],
@@ -46,19 +58,16 @@ export async function generateMetadata({ params: { locale } }) {
 
 export default async function Home({ params: { locale } }) {
   const area = cookies().get("area")?.value || "us";
-  const { CONFIG, LANG, GOODSORTLIST, GOODDISCOUNTFESTIVAL } =
-    await getAllConfigData(locale);
-  const sortList = await getSortList({
-    productSort: GOODSORTLIST,
+  const { CONFIG, LANG, GOODDISCOUNTFESTIVAL, GOODSORTLIST } = await getData({
     locale,
     area,
+    configList: ["config", "language", "goodSort", "goodDiscountFestival"],
   });
-
   return (
     <main className={styles.container}>
       <Banner CONFIG={CONFIG} LANG={LANG} />
       {/* 产品列表 */}
-      {sortList.map((item, index) => {
+      {GOODSORTLIST.map((item, index) => {
         return (
           <div className={styles.sort_container} key={index}>
             <div className={styles.sort_header}>
