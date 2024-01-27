@@ -56,7 +56,7 @@ export default function Banner({ CONFIG, LANG }) {
                     }}
                   ></a>
                 )}
-                <div className={styles.splide_content_container}>
+                {/* <div className={styles.splide_content_container}>
                   <div
                     className={`
                   ${styles.splide_content}
@@ -70,7 +70,7 @@ export default function Banner({ CONFIG, LANG }) {
                       <button>{LANG["store.index.buy_now"]}</button>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </li>
             );
           })}

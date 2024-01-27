@@ -96,7 +96,12 @@ const filterGood = async function ({ result, area }) {
   });
 };
 
-export default async function getConfigDataV2({ locale, area, configList }) {
+export default async function getConfigDataV2({
+  locale,
+  area,
+  configList,
+  languageNameSpace,
+}) {
   // 获取所有配置数据
   const result = await getConfig({ locale, configList });
   /**
@@ -111,6 +116,20 @@ export default async function getConfigDataV2({ locale, area, configList }) {
   if (result.GOODLIST) {
     result.GOODLIST = await filterGood({ result, area });
   }
-
+  /**
+   * 过滤语言包
+   */
+  if (result.LANG && languageNameSpace) {
+    const languageObj = {};
+    languageNameSpace.forEach((nameSpace) => {
+      Object.keys(result.LANG).forEach((key) => {
+        if (key.startsWith(nameSpace) && !languageObj[key]) {
+          languageObj[key] = result.LANG[key];
+        }
+      });
+    });
+    console.log("languageObj", languageObj);
+    result.LANG = languageObj;
+  }
   return result;
 }
