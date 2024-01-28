@@ -4,19 +4,19 @@ import commonTracking from "@/utils/commonTracking";
 export default {
   // 加入购物车
   addToCart: function ({ productName }) {
-    commonTracking("add_to_cart", {
+    commonTracking("AddToCart", {
       content_name: productName,
     });
   },
   // 查看产品页
   viewContent: function ({ productName }) {
-    commonTracking("view_product", {
+    commonTracking("ViewProduct", {
       product_name: productName,
     });
   },
   // 购买流程
   initiateCheckout: function ({ currency, value, discount, contents, type }) {
-    commonTracking("create_order", {
+    commonTracking("InitiateCheckout", {
       from: "product_page",
       currency,
       value,
@@ -27,7 +27,7 @@ export default {
   },
   // 购买转化
   purchase: function ({ currency, value, discount, contents, type }) {
-    commonTracking("purchase", {
+    commonTracking("Purchase", {
       from: "product_page",
       currency,
       value,
@@ -38,7 +38,7 @@ export default {
   },
   // Footer按钮
   clickFooterBtn: function ({ productName }) {
-    commonTracking("click_product_footer_btn", {
+    commonTracking("ClickFooterBtn", {
       product_name: productName,
     });
   },

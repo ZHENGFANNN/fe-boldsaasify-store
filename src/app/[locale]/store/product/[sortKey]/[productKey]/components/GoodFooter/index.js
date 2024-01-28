@@ -16,12 +16,12 @@ export default function GoodFooter({
   const productCurCombo = useProductStore((state) => state.productCurCombo);
   // Footer处理
   React.useEffect(() => {
-    // 埋点 - 查看次数
-    tracking.viewContent({
-      productName: productInfo.key,
-    });
-
     if (!lazyLoading) {
+      // 埋点 - 查看次数
+      tracking.viewContent({
+        productName: productInfo.key,
+      });
+
       const $footerDom = $('[data-role="footer-buy"]');
       // 计算底部位置
       const height = $footerDom.outerHeight();

@@ -204,7 +204,7 @@ export default function Main({
     const user_remark = textareaRef.current.value;
     let addressForm, emailForm;
     // 用户登录 - 获取地址
-    if (userType === "user" && addressInfo) {
+    if (userType === "user") {
       addressForm = addressInfo;
     }
     // 获取用户邮箱
@@ -517,10 +517,14 @@ export default function Main({
                       currency={orderList[0]?.priceCurrency}
                       onError={(error) => {
                         console.log(error);
-                        showTip({
-                          text: LANG["store.order.pay_error"],
-                          type: "error",
-                        });
+                        if (userType === "user" && !addressInfo) {
+                          return;
+                        } else {
+                          showTip({
+                            text: LANG["store.order.pay_error"],
+                            type: "error",
+                          });
+                        }
                       }}
                       onCancel={(data) => {
                         if (data.orderID) {

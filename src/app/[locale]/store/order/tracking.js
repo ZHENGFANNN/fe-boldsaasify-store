@@ -3,7 +3,7 @@ import commonTracking from "@/utils/commonTracking";
 export default {
   // 购买转化
   purchase: function ({ currency, value, discount, contents, type, from }) {
-    commonTracking("purchase", {
+    commonTracking("Purchase", {
       from,
       currency,
       value,
@@ -21,7 +21,7 @@ export default {
     type,
     from,
   }) {
-    commonTracking("create_order", {
+    commonTracking("InitiateCheckout", {
       from,
       currency,
       value,
@@ -32,7 +32,7 @@ export default {
   },
   // 进入订单详情页
   enterOrderDetail: function ({ currency, value, discount, contents }) {
-    window.fbq("track", "进入订单详情页", {
+    commonTracking("EnterOrderDetail", {
       currency,
       value,
       contents,
