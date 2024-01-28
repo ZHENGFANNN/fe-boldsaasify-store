@@ -382,6 +382,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                       .then((res) => {
                         if (res.code === 0) {
                           tracking.purchase({
+                            from: "order_info_page",
                             currency: res.data.currency_code,
                             value: res.data.value,
                             discount: order.discount,

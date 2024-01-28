@@ -100,14 +100,22 @@ export default function CompanyHistory({ CONFIG }) {
         {CONFIG["company.company_history.index"]?.map((item) => {
           return (
             <div key={item.id} className={styles.expand_content}>
-              <div className={styles.expand_content_img}>
-                <img alt={item.title} src={item.src} />
-              </div>
-              <div className={styles.expand_content_text}>
-                <div className={styles.expand_content_title}>{item.title}</div>
-                <div className={styles.expand_content_description}>
-                  {item.description}
+              {item.src ? (
+                <div className={styles.expand_content_img}>
+                  <img alt={item.title} src={item.src} />
                 </div>
+              ) : null}
+              <div className={styles.expand_content_text}>
+                {item.title ? (
+                  <div className={styles.expand_content_title}>
+                    {item.title}
+                  </div>
+                ) : null}
+                {item.description ? (
+                  <div className={styles.expand_content_description}>
+                    {item.description}
+                  </div>
+                ) : null}
               </div>
             </div>
           );

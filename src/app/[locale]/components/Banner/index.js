@@ -5,6 +5,7 @@ import Splide from "@splidejs/splide";
 import "@splidejs/splide/css";
 import React from "react";
 import { useRouter } from "next/navigation";
+import tracking from "../../tracking";
 
 export default function Banner({ CONFIG, LANG }) {
   const router = useRouter();
@@ -46,6 +47,9 @@ export default function Banner({ CONFIG, LANG }) {
                   "--kv-mob": "url(" + item.mob_image + ")",
                 }}
                 className={`${styles.splide_item} splide__slide`}
+                onClick={() => {
+                  tracking.clickBannerLink({ link: item.href });
+                }}
               >
                 {item.href.startsWith("http") ? (
                   <a rel="noreferrer" target="_blank" href={item.href}></a>

@@ -429,7 +429,7 @@ export default function Main({
               }}
             />
             {/* 禁用国内支付 */}
-            {area === "cn" ? (
+            {area === "c2" ? (
               <div
                 onClick={() => {
                   tipRef.current.show({
@@ -463,6 +463,7 @@ export default function Main({
                     });
                     if (res.code === 0) {
                       tracking.initiateCheckout({
+                        from: "order_page",
                         currency: orderList[0].priceCurrency,
                         value: totalPrice - discount,
                         discount,
@@ -547,6 +548,7 @@ export default function Main({
                             if (res.code === 0) {
                               secret.current = res.data.secret;
                               tracking.initiateCheckout({
+                                from: "order_page",
                                 currency: orderList[0].priceCurrency,
                                 value: totalPrice - discount,
                                 discount,
@@ -582,6 +584,7 @@ export default function Main({
                           .then((res) => {
                             if (res.code === 0) {
                               tracking.purchase({
+                                from: "order_page",
                                 currency: res.data.currency_code,
                                 value: res.data.value,
                                 discount,

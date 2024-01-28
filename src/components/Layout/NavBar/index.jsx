@@ -15,6 +15,8 @@ import GlobalContext from "@/globalContext";
 import TipModal from "@/components/Modal/FunctionTipModal";
 import Api from "../api";
 
+import tracking from "../tracking";
+
 export default function NavBar({ CONFIG, LANG, GOODSORTLIST, GOODLIST }) {
   const { userInfo, productNum } = React.useContext(GlobalContext);
   const pathname = usePathname();
@@ -313,7 +315,11 @@ export default function NavBar({ CONFIG, LANG, GOODSORTLIST, GOODLIST }) {
             </div>
           </div>
           <ul className={styles.header_right}>
-            <li>
+            <li
+              onClick={() => {
+                tracking.clickNavStoreBtn();
+              }}
+            >
               <Link className={styles.header_store_container} href={`/`}>
                 <img
                   src={`${process.env.NEXT_PUBLIC_IMAGE}/icon/min-store.svg`}

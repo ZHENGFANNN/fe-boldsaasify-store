@@ -96,6 +96,21 @@ const filterGood = async function ({ result, area }) {
   });
 };
 
+/**
+ * 语言过滤
+ */
+const filterLanguage = async function ({ result, languageNameSpace }) {
+  const languageObj = {};
+  languageNameSpace.forEach((nameSpace) => {
+    Object.keys(result.LANG).forEach((key) => {
+      if (key.startsWith(nameSpace) && !languageObj[key]) {
+        languageObj[key] = result.LANG[key];
+      }
+    });
+  });
+  return languageObj;
+};
+
 export default async function getConfigDataV2({
   locale,
   area,
@@ -120,16 +135,7 @@ export default async function getConfigDataV2({
    * 过滤语言包
    */
   if (result.LANG && languageNameSpace) {
-    const languageObj = {};
-    languageNameSpace.forEach((nameSpace) => {
-      Object.keys(result.LANG).forEach((key) => {
-        if (key.startsWith(nameSpace) && !languageObj[key]) {
-          languageObj[key] = result.LANG[key];
-        }
-      });
-    });
-    console.log("languageObj", languageObj);
-    result.LANG = languageObj;
+    result.LANG = await filterLanguage({ result, languageNameSpace });
   }
   return result;
 }

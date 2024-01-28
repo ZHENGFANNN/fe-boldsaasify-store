@@ -16,6 +16,11 @@ export default function GoodFooter({
   const productCurCombo = useProductStore((state) => state.productCurCombo);
   // Footer处理
   React.useEffect(() => {
+    // 埋点 - 查看次数
+    tracking.viewContent({
+      productName: productInfo.key,
+    });
+
     if (!lazyLoading) {
       const $footerDom = $('[data-role="footer-buy"]');
       // 计算底部位置
@@ -23,11 +28,6 @@ export default function GoodFooter({
       $("[data-role='footer-info']").css({
         paddingBottom: height,
       });
-      // 埋点 - 查看次数
-      tracking.viewContent({
-        productName: productInfo.key,
-      });
-
       // 滚动展示底部位置
       const $btnDom = $('[data-role="buy-btn-list"]').eq(0);
       function computedFooterBottom() {
@@ -129,12 +129,13 @@ export default function GoodFooter({
                   const domTop = $btnDom.offset().top;
                   const screenHeight = $(window).height();
 
-                  console.log(domHeight, domTop, screenHeight);
                   window.scrollTo({
                     left: 0,
                     top: domTop - screenHeight + domHeight,
                     behavior: "smooth",
                   });
+
+                  tracking.clickFooterBtn({ productName: productInfo.key });
                 }}
                 className={`${styles.footer_button} ${
                   !productCurCombo?.areaInfo?.price ||

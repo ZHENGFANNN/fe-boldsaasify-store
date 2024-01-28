@@ -1,9 +1,12 @@
+"use client";
+
 import React from "react";
 import Script from "next/script";
 import styles from "./index.module.scss";
 import Link from "next/link";
 const active_icon = `${process.env.NEXT_PUBLIC_IMAGE}/icon/previews_stars_active_icon.svg`;
 const no_active_icon = `${process.env.NEXT_PUBLIC_IMAGE}/icon/previews_stars_icon.svg`;
+import tracking from "../../tracking";
 
 function ReviewRate({ LANG, reviewScore, reviewsNum }) {
   return (
@@ -46,6 +49,11 @@ export default function ProductList({
         return (
           <React.Fragment key={productIndex}>
             <Link
+              onClick={() => {
+                tracking.enterProduct({
+                  productName: product.key,
+                });
+              }}
               href={`/store/product/${product.sort_key}/${product.key}`}
               className={styles.goods_item}
             >

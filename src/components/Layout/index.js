@@ -119,10 +119,10 @@ export default function Layout({ children }) {
         />
       </noscript>
       {/* 谷歌 - GTM */}
-      {/* <script
+      <script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-HXTW7Y9DD3"
-      ></script> */}
+      ></script>
       <Script
         id="google-gtm"
         dangerouslySetInnerHTML={{
