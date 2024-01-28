@@ -228,6 +228,7 @@
 
     background-color: #fff;
     background-position: 50%;
+    background-image: none!important;
     .main {
       width: 100%;
       padding: 24px;
@@ -239,7 +240,6 @@
       justify-content: center;
 
       transition: all 400ms;
-
       form {
         display: flex;
         flex-direction: column;
