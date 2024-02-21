@@ -71,7 +71,13 @@ export async function generateMetadata({ params: { locale, productKey } }) {
       openGraph: {
         title: `${productInfo.indexConfig[0]?.page_title} - ${CONFIG["company.basic.company_name"]}`,
         description: productInfo.indexConfig[0]?.page_description,
-        image: productInfo.image_list.map((item) => item.src),
+        images: productInfo.image_list.map((item) => {
+          return {
+            url: item.src,
+            width: 300,
+            height: 300,
+          };
+        }),
       },
     };
   } else {
