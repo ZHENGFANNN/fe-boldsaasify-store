@@ -38,7 +38,7 @@ export const lazyLoadVideos = function ($container) {
   if (!$container) return;
 
   const viewportHeight = $(window).height();
-  const videos = $container.find("video[data-src]");
+  const videos = $container.find("video[data-poster]");
 
   function lazyLoad() {
     const scrollTop = $(window).scrollTop();
@@ -48,8 +48,8 @@ export const lazyLoadVideos = function ($container) {
       const videoTop = $video.offset()?.top;
 
       if (viewportHeight * 2 + scrollTop > videoTop) {
-        $video.attr("src", $video.attr("data-src"));
-        $video.removeAttr("data-src");
+        $video.attr("poster", $video.attr("data-poster"));
+        $video.removeAttr("data-poster");
       }
     });
 
