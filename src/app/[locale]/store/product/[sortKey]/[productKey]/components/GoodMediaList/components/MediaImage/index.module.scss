@@ -62,7 +62,7 @@
 
 @media screen and (max-width: 780px) {
   .media_container {
-    padding: 20px 0;
+    padding: 12px 0;
     .media_item {
       flex-direction: column;
       .media_description {
@@ -71,6 +71,8 @@
           font-weight: 600;
           font-size: 24px;
           line-height: 27px;
+          
+          margin-top: 8px;
           margin-bottom: 8px;
         }
         p {
