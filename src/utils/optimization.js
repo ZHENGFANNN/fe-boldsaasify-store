@@ -60,6 +60,7 @@ export const lazyLoadVideos = function ($container) {
   }
 
   // Bind scroll event listener
+  lazyLoad();
   $(window).on("scroll", lazyLoad);
 
   // Return function to remove scroll event listener
