@@ -150,14 +150,14 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
               productInfo.image_list?.length > 0 ? (
                 <div className={styles.splide_image_list}>
                   <ul>
-                    {productInfo.image_list?.map((item) => {
+                    {productCurCombo.img_list?.map((item) => {
                       return (
                         <li key={item.src}>
                           <img alt={productInfo.name} src={item.src} />
                         </li>
                       );
                     })}
-                    {productCurCombo.img_list?.map((item) => {
+                    {productInfo.image_list?.map((item) => {
                       return (
                         <li key={item.src}>
                           <img alt={productInfo.name} src={item.src} />
@@ -177,7 +177,6 @@ export default function ContentDisplay({ options = [], productInfo, LANG }) {
               controlsList="nodownload"
               playsInline
               controls
-              muted
               preload="none"
               height="100%"
               width="100%"
