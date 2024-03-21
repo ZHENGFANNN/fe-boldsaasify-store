@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 import moment from "moment";
 
+import formatCurrency from "@/utils/formatCurrency";
+
 export default function Main({ secret, locale, area, LANG, CONFIG }) {
   const router = useRouter();
   const [order, setOrder] = React.useState();
@@ -31,8 +33,9 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 productNum,
                 priceSymbol,
                 priceCurrency,
-                price,
-                good_discount,
+                selling_price,
+                product_price,
+                product_discount,
                 options,
                 image,
               } = item;
@@ -42,8 +45,9 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 productNum,
                 priceSymbol,
                 priceCurrency,
-                price,
-                good_discount,
+                selling_price,
+                product_price,
+                product_discount,
                 options,
                 image,
               };
@@ -64,7 +68,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
   React.useEffect(() => {
     if (order) {
       tracking.enterOrderDetail({
-        currency: order.order_list[0].priceCurrency,
+        currency: `${order.order_list[0].priceSymbol}${order.order_list[0].priceCurrency}`,
         value: order.total_price,
         discount: order.discount,
         contents: order.order_list,
@@ -229,9 +233,9 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 <h3 className={styles.flex_2}>
                   {LANG["store.order_info.order_total"]}
                 </h3>
-                <p
-                  className={styles.flex_3}
-                >{`${order.order_list[0].priceCurrency} ${order.total_price}`}</p>
+                <p className={styles.flex_3}>{`${
+                  order.order_list[0].priceSymbol
+                }${formatCurrency(order.total_price)}`}</p>
               </li>
 
               {order.discount ? (
@@ -241,9 +245,9 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                       {LANG["store.order_info.discount_price"]}
                     </h3>
                     <p className={styles.flex_3}>
-                      <span
-                        className={styles.red}
-                      >{`- ${order.order_list[0].priceCurrency} ${order.discount}`}</span>
+                      <span className={styles.red}>{`- ${
+                        order.order_list[0].priceSymbol
+                      }${formatCurrency(order.discount)}`}</span>
                     </p>
                   </li>
                   <li>
@@ -251,8 +255,8 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                       {LANG["store.order_info.real_price"]}
                     </h3>
                     <p className={styles.flex_3}>{`${
-                      order.order_list[0].priceCurrency
-                    } ${order.total_price - order.discount}`}</p>
+                      order.order_list[0].priceSymbol
+                    }${formatCurrency(order.total_price - order.discount)}`}</p>
                   </li>
                 </>
               ) : null}
@@ -262,9 +266,9 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                   <h3 className={styles.flex_2}>
                     {LANG["store.order_info.pay_price"]}
                   </h3>
-                  <p
-                    className={styles.flex_3}
-                  >{`${order.pay_symbol} ${order.pay_price}`}</p>
+                  <p className={styles.flex_3}>{`${
+                    order.order_list[0].priceSymbol
+                  }${formatCurrency(order.pay_price)}`}</p>
                 </li>
               ) : null}
 
@@ -321,20 +325,18 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                         </div>
                       </div>
                       <div className={styles.product_number}>
-                        {goodItem.good_discount ? (
+                        {goodItem.product_discount ? (
                           <div className={styles.good_price}>{`${
                             goodItem.priceSymbol
-                          }${goodItem.priceCurrency} ${
-                            Math.floor(
-                              goodItem.price * goodItem.good_discount * 0.01
-                            ) * goodItem.productNum
-                          }`}</div>
+                          }${formatCurrency(
+                            goodItem.selling_price * goodItem.productNum
+                          )}`}</div>
                         ) : null}
                         <div className={styles.good_price}>{`${
                           goodItem.priceSymbol
-                        }${goodItem.priceCurrency} ${
-                          goodItem.price * goodItem.productNum
-                        }`}</div>
+                        }${formatCurrency(
+                          goodItem.product_price * goodItem.productNum
+                        )}`}</div>
                       </div>
                     </div>
                   );

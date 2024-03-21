@@ -106,20 +106,19 @@
         .good_item {
           display: flex;
           justify-content: space-between;
-          align-items: center;
           margin-bottom: 12px;
           &:last-child {
             margin-bottom: 0;
           }
           .product_info {
             display: flex;
-            align-items: center;
             .good_img {
               margin-right: 8px;
               width: 80px;
               min-width: 80px;
               height: 80px;
               position: relative;
+              display: flex;
               img {
                 position: absolute;
                 left: 0;
@@ -155,6 +154,9 @@
             }
           }
           .product_number {
+            height: 80px;
+            display: flex;
+            align-items: center;
             .good_price {
               color: #000;
               font-size: 14px;

@@ -2,16 +2,14 @@
     margin-top: 20px;
     .list {
         .item {
-            &:first-child {
-                border-top: 0;
-            }
-            border-top: 1px solid #e8e8e1;
+            border-bottom: 1px solid #e8e8e1;
             padding: 20px 0;
             display: flex;  
             align-items: center;
             width: 100%;
             justify-content: space-between;
             cursor: pointer;
+            
             .left_content {
                 display: flex;
                 align-items: center;
@@ -64,7 +62,26 @@
                   width: 2px;
                   background-color: #262629;
                 }
-              }
+            }
+        }
+       
+    }
+    .email_question_container {
+        display: flex;
+        justify-content: center;
+        flex: 1;
+        padding: 16px 0;
+        margin-top: 32px;
+        img {
+            margin-right: 6px;
+            width: 20px;
+            height: 20px;
+        }
+        a {
+            color: #4795e9;
+            font-size: 14px;
+            line-height: 20px;
+            text-decoration: none;
         }
     }
 }

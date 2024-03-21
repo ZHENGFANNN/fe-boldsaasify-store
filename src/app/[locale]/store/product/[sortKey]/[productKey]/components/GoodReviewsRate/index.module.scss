@@ -4,6 +4,11 @@
     user-select: none;
     cursor: pointer;
     display: inline-block;
+
+    &[data-disabled="true"] {
+        cursor: auto;
+    }
+
     .active_stars, .no_active_stars {
         position: absolute;
         left: 0;

@@ -69,6 +69,15 @@ export default function GoodGuarantee({ LANG, CONFIG }) {
           <div className={styles.arrow_icon}></div>
         </div>
       </div>
+      <div className={styles.email_question_container}>
+        <img src={`${process.env.NEXT_PUBLIC_IMAGE}/icon/product-email.png`} />
+        <a
+          href={`mailto:${CONFIG["company.basic.customer_service"]}`}
+          target="_blank"
+        >
+          {LANG["store.product.question_email"]}
+        </a>
+      </div>
       <DeliveryTermsModal
         LANG={LANG}
         CONFIG={CONFIG}

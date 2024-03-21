@@ -24,13 +24,24 @@ export const viewport = {
 async function getData({ locale, area, configList }) {
   const result = await getConfigDataV2({ locale, area, configList });
   result.GOODLIST = result.GOODLIST.map(
-    ({ name, path, image_list, sort_key, key, comboList }) => {
+    ({
+      name,
+      path,
+      image_list,
+      sort_key,
+      key,
+      comboList,
+      review_score,
+      review_num,
+    }) => {
       return {
         name,
         path,
         image_list,
         sort_key,
         key,
+        review_score,
+        review_num,
         comboList,
       };
     }

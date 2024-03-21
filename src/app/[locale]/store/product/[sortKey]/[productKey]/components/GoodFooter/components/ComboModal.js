@@ -6,7 +6,7 @@ import GoodBtnList from "../../GoodBtnList";
 import styles from "./index.module.scss";
 
 function ComboModal(
-  { GOODDISCOUNTFESTIVAL, LANG, options, locale, area, productInfo },
+  { GOODDISCOUNTFESTIVAL, LANG, CONFIG, options, locale, area, productInfo },
   ref
 ) {
   const modalRef = React.useRef();
@@ -29,6 +29,7 @@ function ComboModal(
         <GoodNumber LANG={LANG} />
         <GoodBtnList
           goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+          CONFIG={CONFIG}
           LANG={LANG}
           areaCode={area}
           locale={locale}

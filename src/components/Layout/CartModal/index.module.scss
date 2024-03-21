@@ -210,28 +210,6 @@
                     margin-left: 12px;
                     white-space: wrap;
                     .product_content {
-                      min-height: 80px;
-                      display: flex;
-                      flex-direction: column;
-                      justify-content: center;
-                      .no_stock {
-                        text-transform: capitalize;
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-            
-                        margin-bottom: 8px;
-                        padding: 3px 10px;
-                        background: #000;
-                        border-radius: 4px;
-                        font-size: 12px;
-                        line-height: 16px;
-                        color: #fff;
-                        margin-bottom: 4px;
-                        width: -moz-fit-content;
-                        width: fit-content;
-                        min-width: 32px;
-                      }
                       .title {
                         margin-bottom: 6px;
                         a {
@@ -255,7 +233,53 @@
                         color: #646669;
                       }
                     }
-                   
+                    .table_num_delete_container {
+                      margin-top: 12px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      .table_body_operation {
+                        display: flex;
+                        align-items: center;
+                        img {
+                          cursor: pointer;
+                          width: 24px;
+                          height: 24px;
+                        }
+                      }
+                      .table_body_num {
+                        display: inline-flex;
+                        align-items: center;
+        
+                        border: 1px solid rgb(219, 219, 219);
+                        border-radius: 8px;
+                        text-align: center;
+        
+                        .product_num {
+                          
+                          width: 46px;
+                          text-align: center;
+                          font-size: 14px;
+                          line-height: 32px;
+                          color: #191c21;
+                          font-weight: 700;
+                          outline: none;
+                          border: 0;
+                        }
+                        .product_num_symbol {
+                          width: 32px;
+                          height: 32px;
+                          line-height: 29px;
+                          text-align: center;
+                          cursor: pointer;
+                          margin: 0 3px;
+                          padding: 0;
+                          border: 0;
+                          user-select: none;
+                        }
+                      }
+                      
+                    }
                   }
                 }
                 
@@ -284,62 +308,18 @@
                   display: flex;
                   align-items: center;
                   margin-top: 8px;
+                  font-size: 16px;
+                  letter-spacing: 1.2px;
                   div:nth-child(2) {
                     color: #898a8e;
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-right: 8px;
                     text-decoration: line-through;
                     margin-left: 8px;
                   }
                 }
               }
-              .table_num_price_container {
-                margin-top: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                .table_body_operation {
-                  display: flex;
-                  align-items: center;
-                  img {
-                    cursor: pointer;
-                    width: 24px;
-                    height: 24px;
-                  }
-                }
-                .table_body_num {
-                  display: inline-flex;
-                  align-items: center;
-  
-                  border: 1px solid rgb(219, 219, 219);
-                  border-radius: 8px;
-                  text-align: center;
-  
-                  .product_num {
-                    
-                    width: 46px;
-                    text-align: center;
-                    font-size: 14px;
-                    line-height: 32px;
-                    color: #191c21;
-                    font-weight: 700;
-                    outline: none;
-                    border: 0;
-                  }
-                  .product_num_symbol {
-                    width: 32px;
-                    height: 32px;
-                    line-height: 29px;
-                    text-align: center;
-                    cursor: pointer;
-                    margin: 0 3px;
-                    padding: 0;
-                    border: 0;
-                    user-select: none;
-                  }
-                }
-                
-              }
+              
              
             }
           }

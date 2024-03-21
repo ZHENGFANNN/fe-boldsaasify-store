@@ -3,6 +3,7 @@
 import React from "react";
 import styles from "./index.module.scss";
 import useProductStore from "../../productStore";
+import formatCurrency from "@/utils/formatCurrency";
 
 export default function GoodComboList({
   options = [],
@@ -56,15 +57,15 @@ export default function GoodComboList({
             >
               <div className={styles.list_item}>
                 {/* 提示 */}
-                {!item.areaInfo?.price || !item.areaInfo?.stock ? (
+                {!item.areaInfo?.product_price || !item.areaInfo?.stock ? (
                   <div className={styles.stock_tip}>
                     {LANG["store.product.no_stock"]}
                   </div>
                 ) : null}
-                {goodDiscountFestival && item.areaInfo?.good_discount ? (
+                {goodDiscountFestival && item.areaInfo?.product_discount ? (
                   <div className={styles.discount_tip}>
                     {LANG["store.product.off"]}{" "}
-                    {100 - item.areaInfo?.good_discount}%
+                    {100 - item.areaInfo?.product_discount}%
                   </div>
                 ) : null}
                 {/* 套餐标题 */}
@@ -78,16 +79,16 @@ export default function GoodComboList({
                   <div>{item.title}</div>
                 </div>
                 {/* 套餐价格 */}
-                {item.areaInfo?.price ? (
+                {item.areaInfo?.product_price ? (
                   <div className={styles.list_item_right}>
-                    {goodDiscountFestival && item.areaInfo?.good_discount ? (
-                      <div>{`${item.areaInfo.currency_symbol}${Math.floor(
-                        item.areaInfo.price *
-                          item.areaInfo?.good_discount *
-                          0.01
+                    {goodDiscountFestival && item.areaInfo?.product_discount ? (
+                      <div>{`${item.areaInfo.currency_symbol}${formatCurrency(
+                        item.areaInfo?.selling_price
                       )}`}</div>
                     ) : (
-                      <div>{`${item.areaInfo?.currency_symbol}${item.areaInfo?.price}`}</div>
+                      <div>{`${item.areaInfo?.currency_symbol}${formatCurrency(
+                        item.areaInfo?.product_price
+                      )}`}</div>
                     )}
                   </div>
                 ) : null}

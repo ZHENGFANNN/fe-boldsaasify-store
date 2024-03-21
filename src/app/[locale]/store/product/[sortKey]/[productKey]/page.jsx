@@ -27,6 +27,9 @@ import GoodReviewsContent from "./components/GoodReviewsContent";
 import getConfigDataV2 from "@/utils/getConfigDataV2";
 import GoodGuarantee from "./components/GoodGuarantee";
 import GoodFaq from "./components/GoodFaq";
+
+import formatCurrency from "@/utils/formatCurrency";
+
 export const runtime = "edge";
 
 // 匹配产品信息
@@ -187,8 +190,10 @@ export default async function Product({ params: { locale, productKey } }) {
                   comboList={productInfo.comboList}
                 />
                 {/* 产品评价 */}
-                {productInfo.reviewsList.length > 0 ? (
+                {productInfo.reviewsList.length || productInfo.reviews_score ? (
                   <GoodReviewsRate
+                    reviewsScore={productInfo.reviews_score}
+                    reviewsNum={productInfo.reviews_num}
                     configList={productInfo.reviewsList}
                     LANG={LANG}
                   />
@@ -218,6 +223,7 @@ export default async function Product({ params: { locale, productKey } }) {
                 <GoodNumber LANG={LANG} />
                 <GoodBtnList
                   goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+                  CONFIG={CONFIG}
                   LANG={LANG}
                   areaCode={area}
                   locale={locale}
@@ -264,6 +270,7 @@ export default async function Product({ params: { locale, productKey } }) {
           <GoodFooter
             area={area}
             locale={locale}
+            CONFIG={CONFIG}
             LANG={LANG}
             productInfo={productInfo}
             goodDiscountFestival={GOODDISCOUNTFESTIVAL}
@@ -288,7 +295,10 @@ export default async function Product({ params: { locale, productKey } }) {
                   description: productInfo.description,
                   offers: {
                     "@type": "Offer",
-                    price: productInfo.comboList[0]?.areaInfo?.price ?? 99999,
+                    price:
+                      formatCurrency(
+                        productInfo.comboList[0]?.areaInfo?.selling_price
+                      ) ?? 99999,
                     priceCurrency:
                       productInfo.comboList[0]?.areaInfo?.currency ?? "USD",
                   },

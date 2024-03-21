@@ -16,13 +16,15 @@ import AddressList from "../../component/AddressList";
 import AddressForm from "../../component/AddressForm";
 import NewAddressForm from "../../component/NewAddressForm";
 
-import formatPrice from "@/utils/formatPrice";
 import Advantage from "@/components/Layout/Advantage";
 
 import Paypal from "../../component/Paypal";
 import tracking from "../../tracking";
 
-import { useSearchParams, useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import formatCurrency from "@/utils/formatCurrency";
+
+import roundToTwoDecimalPlaces from "@/utils/roundToTwoDecimalPlaces";
 
 export default function Main({
   CONFIG,
@@ -34,10 +36,9 @@ export default function Main({
 }) {
   const router = useRouter();
   const { locale } = useParams();
-  const searchParams = useSearchParams();
-
   const { userInfo } = React.useContext(GlobalContext);
   const [orderLoading, setOrderLoading] = React.useState(false);
+  const [errorPay, setErrorPay] = React.useState(false);
   // 订单备注
   const textareaRef = React.useRef();
   // 用户方式
@@ -146,8 +147,9 @@ export default function Main({
             // 地区相关
             priceSymbol: comboInfo.areaInfo.currency_symbol,
             priceCurrency: comboInfo.areaInfo.currency,
-            price: comboInfo.areaInfo.price,
-            good_discount: comboInfo.areaInfo.good_discount,
+            product_price: comboInfo.areaInfo.product_price,
+            selling_price: comboInfo.areaInfo.selling_price,
+            product_discount: comboInfo.areaInfo.product_discount,
             stock: comboInfo.areaInfo.stock,
             // 产品相关
             name: product.name,
@@ -164,7 +166,7 @@ export default function Main({
         }
       });
       if (list.length === 0) {
-        location.href = `/${locale}/store/cart`;
+        location.href = `/${locale}`;
       }
       setOrderList(list);
     } catch (err) {
@@ -176,18 +178,14 @@ export default function Main({
   // 计算总价
   const totalPrice = React.useMemo(() => {
     return orderList.reduce((pre, cur) => {
-      return pre + cur.price * cur.productNum;
+      return pre + cur.product_price * cur.productNum;
     }, 0);
   }, [orderList]);
 
   const discount = React.useMemo(() => {
     return orderList.reduce((pre, cur) => {
-      if (GOODDISCOUNTFESTIVAL && cur.good_discount) {
-        return (
-          pre +
-          Math.ceil(cur.price * (100 - cur.good_discount) * 0.01) *
-            cur.productNum
-        );
+      if (GOODDISCOUNTFESTIVAL && cur.product_discount) {
+        return pre + (cur.product_price - cur.selling_price) * cur.productNum;
       } else {
         return pre;
       }
@@ -363,18 +361,16 @@ export default function Main({
                           </div>
                         </div>
                         <div className={styles.order_price}>
-                          {GOODDISCOUNTFESTIVAL && item.good_discount ? (
+                          {GOODDISCOUNTFESTIVAL && item.product_discount ? (
                             <div className={styles.discount}>{`${
                               item.priceSymbol
-                            }${
-                              Math.floor(
-                                item.price * item.good_discount * 0.01
-                              ) * item.productNum
-                            }`}</div>
+                            }${formatCurrency(
+                              item.selling_price * item.productNum
+                            )}`}</div>
                           ) : null}
-                          <div>{`${item.priceSymbol}${
-                            item.price * item.productNum
-                          }`}</div>
+                          <div>{`${item.priceSymbol}${formatCurrency(
+                            item.product_price * item.productNum
+                          )}`}</div>
                         </div>
                       </div>
                     );
@@ -383,9 +379,9 @@ export default function Main({
                 <div className={styles.price_list}>
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.good_total"]}</h3>
-                    <span>{`${orderList[0]?.priceSymbol}${
+                    <span>{`${orderList[0]?.priceSymbol}${formatCurrency(
                       totalPrice - discount
-                    }`}</span>
+                    )}`}</span>
                   </div>
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.express_price"]}</h3>
@@ -398,7 +394,7 @@ export default function Main({
                 </div>
                 <div className={styles.price_total}>
                   <h3>{LANG["store.order.total_price"]}</h3>
-                  <span>{`${orderList[0]?.priceSymbol}${formatPrice(
+                  <span>{`${orderList[0]?.priceSymbol}${formatCurrency(
                     totalPrice - discount
                   )}`}</span>
                 </div>
@@ -443,8 +439,8 @@ export default function Main({
                     const res = await Api.createOrder({
                       ...userInfo,
                       pay_key: payKey,
-                      total_price: totalPrice,
-                      discount,
+                      total_price: roundToTwoDecimalPlaces(totalPrice),
+                      discount: roundToTwoDecimalPlaces(discount),
                       order_list: orderList,
                     });
                     if (res.code === 0) {
@@ -492,120 +488,145 @@ export default function Main({
             ) : null}
             {/* Paypal支付方式 */}
             {payKey === "payPal" && orderList[0]?.priceCurrency ? (
-              <>
-                {!payPalLoading ? (
-                  <Loading height={108} />
-                ) : (
-                  <div className={styles.paypal_btn}>
-                    <Paypal
-                      locale={locale}
-                      area={area}
-                      currency={orderList[0]?.priceCurrency}
-                      onError={(error) => {
-                        console.log(error);
-                        if (userType === "user" && !addressInfo) {
-                          return;
-                        } else {
-                          showTip({
-                            text: LANG["store.order.pay_error"],
-                            type: "error",
-                          });
-                        }
-                      }}
-                      onCancel={(data) => {
-                        if (data.orderID) {
-                          showTip({
-                            text: LANG["store.order.pay_cancel"],
-                            type: "error",
-                          });
-                          setTimeout(() => {
-                            clearOrderList();
-                            location.href = `/store/order/info?secret=${secret.current}`;
-                          }, 1000);
-                        }
-                      }}
-                      createOrder={() => {
-                        const userInfo = getUserInfo();
-                        if (!userInfo) return;
-                        return Api.createOrder({
-                          ...userInfo,
-                          pay_key: payKey,
-                          total_price: totalPrice,
-                          discount,
-                          order_list: orderList,
-                        })
-                          .then((res) => {
-                            if (res.code === 0) {
-                              secret.current = res.data.secret;
-                              tracking.initiateCheckout({
-                                from: "order_page",
-                                currency: orderList[0].priceCurrency,
-                                value: totalPrice - discount,
-                                discount,
-                                type: "payPal",
-                                contents: orderList,
-                              });
-                              // 保存订单号
-                              localStorage.setItem(
-                                "order",
-                                JSON.stringify({
-                                  secret: res.data.secret,
-                                  time: Date.now(),
-                                })
-                              );
-
-                              return res.data.id;
-                            } else {
-                              throw new Error("code !== 0");
-                            }
-                          })
-                          .catch(() => {
-                            showTip({
-                              text: LANG["store.order.create_error"],
-                              type: "error",
-                            });
-                          });
-                      }}
-                      onApprove={(data) => {
-                        return Api.confirmPaypal({
-                          id: data.orderID,
-                          from: "order_page",
-                        })
-                          .then((res) => {
-                            if (res.code === 0) {
-                              tracking.purchase({
-                                from: "order_page",
-                                currency: res.data.currency_code,
-                                value: res.data.value,
-                                discount,
-                                type: "payPal",
-                                contents: orderList,
-                              });
-                              showTip({
-                                text: LANG["store.order.pay_success"],
-                                type: "success",
-                              });
-                              // 移除订单信息
-                              localStorage.removeItem("order");
-                              setTimeout(() => {
-                                clearOrderList();
-                                location.href = `/store/order/info?secret=${res.data.secret}`;
-                              }, 1000);
-                            } else {
-                              throw new Error("code !== 0");
-                            }
-                          })
-                          .catch(() => {
-                            showTip({
-                              text: LANG["store.order.pay_fail"],
-                              type: "error",
-                            });
-                          });
-                      }}
-                    />
+              errorPay ? (
+                <div className={styles.pay_error_container}>
+                  <div
+                    className={styles.btn_container}
+                    onClick={() => {
+                      setErrorPay(false);
+                    }}
+                  >
+                    <div className={styles.title}>
+                      {LANG["store.order.pay_fail.title"]}
+                    </div>
+                    <div className={styles.button}>
+                      {LANG["store.order.pay_fail.click_reload"]}
+                    </div>
                   </div>
-                )}
-              </>
+                  <div className={styles.tip}>
+                    {LANG["store.order.pay_fail.error_tip"]?.replace(
+                      "${email}",
+                      CONFIG["company.basic.customer_service"]
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {!payPalLoading ? (
+                    <Loading height={108} />
+                  ) : (
+                    <div className={styles.paypal_btn}>
+                      <Paypal
+                        locale={locale}
+                        area={area}
+                        currency={orderList[0]?.priceCurrency}
+                        onError={(error) => {
+                          setErrorPay(true);
+                          console.log("[Order Page Paypal Error]: ", error);
+                          if (userType === "user" && !addressInfo) {
+                            return;
+                          } else {
+                            showTip({
+                              text: LANG["store.order.pay_error"],
+                              type: "error",
+                            });
+                          }
+                        }}
+                        onCancel={(data) => {
+                          if (data.orderID) {
+                            showTip({
+                              text: LANG["store.order.pay_cancel"],
+                              type: "error",
+                            });
+                            setTimeout(() => {
+                              clearOrderList();
+                              location.href = `/store/order/info?secret=${secret.current}`;
+                            }, 1000);
+                          }
+                        }}
+                        createOrder={() => {
+                          const userInfo = getUserInfo();
+                          if (!userInfo) return;
+                          return Api.createOrder({
+                            ...userInfo,
+                            pay_key: payKey,
+                            total_price: roundToTwoDecimalPlaces(totalPrice),
+                            discount: roundToTwoDecimalPlaces(discount),
+                            order_list: orderList,
+                          })
+                            .then((res) => {
+                              if (res.code === 0) {
+                                secret.current = res.data.secret;
+                                tracking.initiateCheckout({
+                                  from: "order_page",
+                                  currency: orderList[0].priceCurrency,
+                                  value: totalPrice - discount,
+                                  discount,
+                                  type: "payPal",
+                                  contents: orderList,
+                                });
+                                // 保存订单号
+                                localStorage.setItem(
+                                  "order",
+                                  JSON.stringify({
+                                    secret: res.data.secret,
+                                    time: Date.now(),
+                                  })
+                                );
+
+                                return res.data.id;
+                              } else {
+                                throw new Error("code !== 0");
+                              }
+                            })
+                            .catch(() => {
+                              showTip({
+                                text: LANG["store.order.create_error"],
+                                type: "error",
+                              });
+                            });
+                        }}
+                        onApprove={(data) => {
+                          return Api.confirmPaypal({
+                            id: data.orderID,
+                            from: "order_page",
+                          })
+                            .then((res) => {
+                              if (res.code === 0) {
+                                tracking.purchase({
+                                  from: "order_page",
+                                  currency: res.data.currency_code,
+                                  value: res.data.value,
+                                  discount,
+                                  type: "payPal",
+                                  contents: orderList,
+                                });
+                                showTip({
+                                  text: LANG["store.order.pay_success"],
+                                  type: "success",
+                                });
+                                // 移除订单信息
+                                localStorage.removeItem("order");
+                                setTimeout(() => {
+                                  clearOrderList();
+                                  location.href = `/store/order/info?secret=${res.data.secret}`;
+                                }, 1000);
+                              } else {
+                                throw new Error("code !== 0");
+                              }
+                            })
+                            .catch(() => {
+                              showTip({
+                                text: LANG["store.order.pay_fail_tip"],
+                                type: "error",
+                              });
+                            });
+                        }}
+                      />
+                    </div>
+                  )}
+                </>
+              )
             ) : null}
           </div>
         </div>

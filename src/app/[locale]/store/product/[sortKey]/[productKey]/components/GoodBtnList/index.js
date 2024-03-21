@@ -16,6 +16,9 @@ import { useRouter } from "next/navigation";
 import tracking from "../../tracking";
 import GlobalContext from "@/globalContext";
 
+import roundToTwoDecimalPlaces from "@/utils/roundToTwoDecimalPlaces";
+import formatCurrency from "@/utils/formatCurrency";
+
 import Api from "../../api";
 
 function PayButton({
@@ -26,32 +29,34 @@ function PayButton({
   productNum,
   locale,
   LANG,
+  CONFIG,
 }) {
   const { userInfo = {} } = React.useContext(GlobalContext);
   const [{ isPending }] = usePayPalScriptReducer();
   const router = useRouter();
   const tipRef = React.useRef(null);
   const secret = React.useRef();
+  const [errorPay, setErrorPay] = React.useState(false);
   const showTip = React.useCallback(({ text, type }) => {
     tipRef.current.show({ text, type });
   }, []);
 
   const discount = React.useMemo(() => {
-    if (!productCurCombo.areaInfo.good_discount || !goodDiscountFestival) {
+    if (!productCurCombo.areaInfo.product_discount || !goodDiscountFestival) {
       return 0;
     } else {
-      return (
-        Math.ceil(
-          productCurCombo.areaInfo.price *
-            (100 - productCurCombo.areaInfo.good_discount) *
-            0.01
-        ) * productNum || 0
+      return roundToTwoDecimalPlaces(
+        (productCurCombo.areaInfo.product_price -
+          productCurCombo.areaInfo.selling_price) *
+          productNum
       );
     }
   }, [productCurCombo, productNum]);
 
   const totalPrice = React.useMemo(() => {
-    return productCurCombo.areaInfo.price * productNum;
+    return roundToTwoDecimalPlaces(
+      productCurCombo.areaInfo.product_price * productNum
+    );
   });
 
   const orderList = React.useMemo(() => {
@@ -63,8 +68,9 @@ function PayButton({
         // 地区相关
         priceSymbol: productCurCombo.areaInfo.currency_symbol,
         priceCurrency: productCurCombo.areaInfo.currency,
-        price: productCurCombo.areaInfo.price,
-        good_discount: productCurCombo.areaInfo.good_discount || 0,
+        product_price: productCurCombo.areaInfo.product_price,
+        selling_price: productCurCombo.areaInfo.selling_price,
+        product_discount: productCurCombo.areaInfo.product_discount || 0,
         stock: productCurCombo.areaInfo.stock,
         // 产品相关
         name: productInfo.name,
@@ -80,120 +86,149 @@ function PayButton({
     ];
   }, [productNum, productCurCombo, productInfo, productOptions, locale]);
 
-  return (
-    <>
-      {isPending ? (
-        <Loading height={108} />
-      ) : (
-        <PayPalButtons
-          style={{
-            layout: "vertical",
-            color: "gold",
-            label: "paypal",
+  if (errorPay) {
+    return (
+      <div className={styles.pay_error_container}>
+        <div
+          className={styles.btn_container}
+          onClick={() => {
+            setErrorPay(false);
           }}
-          forceReRender={[
-            productNum,
-            productCurCombo,
-            productInfo,
-            locale,
-            discount,
-          ]}
-          createOrder={async () => {
-            // 处理订单
-            return Api.createOrder({
-              ...userInfo,
-              pay_key: "payPal",
-              total_price: totalPrice,
+        >
+          <div className={styles.title}>
+            {LANG["store.product.pay_fail.title"]}
+          </div>
+          <div className={styles.button}>
+            {LANG["store.product.pay_fail.click_reload"]}
+          </div>
+        </div>
+        <div className={styles.tip}>
+          {LANG["store.product.pay_fail.error_tip"]?.replace(
+            "${email}",
+            CONFIG["company.basic.customer_service"]
+          )}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <>
+        {isPending ? (
+          <Loading height={108} />
+        ) : (
+          <PayPalButtons
+            style={{
+              layout: "vertical",
+              color: "gold",
+              label: "paypal",
+            }}
+            forceReRender={[
+              productNum,
+              productCurCombo,
+              productInfo,
+              locale,
               discount,
-              order_list: orderList,
-            })
-              .then((res) => {
-                if (res.code === 0) {
-                  secret.current = res.data.secret;
-                  tracking.initiateCheckout({
-                    currency: orderList[0].priceCurrency,
-                    value: totalPrice - discount,
-                    discount,
-                    type: "payPal",
-                    contents: orderList,
-                  });
+            ]}
+            createOrder={async () => {
+              // 处理订单
+              return Api.createOrder({
+                ...userInfo,
+                pay_key: "payPal",
+                total_price: totalPrice,
+                discount,
+                order_list: orderList,
+              })
+                .then((res) => {
+                  if (res.code === 0) {
+                    secret.current = res.data.secret;
+                    tracking.initiateCheckout({
+                      currency: orderList[0].priceCurrency,
+                      value: roundToTwoDecimalPlaces(totalPrice - discount),
+                      discount: roundToTwoDecimalPlaces(discount),
+                      type: "payPal",
+                      contents: orderList,
+                    });
 
-                  // 保存订单号
-                  localStorage.setItem(
-                    "order",
-                    JSON.stringify({
-                      secret: res.data.secret,
-                      time: Date.now(),
-                    })
-                  );
-                  return res.data.id;
-                } else {
-                  throw new Error("code !== 0");
-                }
-              })
-              .catch(() => {
-                console.log(`[Page Paypal createOrder]: ${error}`);
-                showTip({
-                  text: LANG["store.order.create_error"],
-                  type: "error",
-                });
-              });
-          }}
-          onApprove={(data) => {
-            return Api.confirmPaypal({ id: data.orderID })
-              .then((res) => {
-                if (res.code === 0) {
-                  tracking.purchase({
-                    currency: res.data.currency_code,
-                    value: res.data.value,
-                    discount,
-                    type: "payPal",
-                    contents: orderList,
-                  });
+                    // 保存订单号
+                    localStorage.setItem(
+                      "order",
+                      JSON.stringify({
+                        secret: res.data.secret,
+                        time: Date.now(),
+                      })
+                    );
+                    return res.data.id;
+                  } else {
+                    throw new Error("code !== 0");
+                  }
+                })
+                .catch(() => {
+                  console.log(`[Page Paypal createOrder]: ${error}`);
                   showTip({
-                    text: LANG["store.order.pay_success"],
-                    type: "success",
+                    text: LANG["store.order.create_error"],
+                    type: "error",
                   });
-                  // 移除订单信息
-                  localStorage.removeItem("order");
-                  setTimeout(() => {
-                    router.push(`/store/order/info?secret=${res.data.secret}`);
-                  }, 1000);
-                } else {
-                  throw new Error("code !== 0");
-                }
-              })
-              .catch(() => {
-                console.log(`[Page Paypal onApprove]: ${error}`);
+                });
+            }}
+            onApprove={(data) => {
+              return Api.confirmPaypal({ id: data.orderID })
+                .then((res) => {
+                  if (res.code === 0) {
+                    tracking.purchase({
+                      currency: res.data.currency_code,
+                      value: res.data.value,
+                      discount,
+                      type: "payPal",
+                      contents: orderList,
+                    });
+                    showTip({
+                      text: LANG["store.order.pay_success"],
+                      type: "success",
+                    });
+                    // 移除订单信息
+                    localStorage.removeItem("order");
+                    setTimeout(() => {
+                      router.push(
+                        `/store/order/info?secret=${res.data.secret}`
+                      );
+                    }, 1000);
+                  } else {
+                    throw new Error("code !== 0");
+                  }
+                })
+                .catch(() => {
+                  console.log(`[Page Paypal onApprove]: ${error}`);
+                  showTip({
+                    text: LANG["store.order.pay_fail_tip"],
+                    type: "error",
+                  });
+                });
+            }}
+            onCancel={(data) => {
+              if (data.orderID) {
                 showTip({
-                  text: LANG["store.order.pay_fail"],
+                  text: LANG["store.order.pay_cancel"],
                   type: "error",
                 });
-              });
-          }}
-          onCancel={(data) => {
-            if (data.orderID) {
+                setTimeout(() => {
+                  router.push(`/store/order/info?secret=${secret.current}`);
+                }, 1000);
+              }
+            }}
+            onError={(error) => {
+              console.log(`[Page Paypal onError]: ${error}`);
+              setErrorPay(true);
               showTip({
-                text: LANG["store.order.pay_cancel"],
+                text: LANG["store.order.pay_error"],
                 type: "error",
               });
-              setTimeout(() => {
-                router.push(`/store/order/info?secret=${secret.current}`);
-              }, 1000);
-            }
-          }}
-          onError={(error) => {
-            console.log(`[Page Paypal onError]: ${error}`);
-            showTip({
-              text: LANG["store.order.pay_error"],
-              type: "error",
-            });
-          }}
-        />
-      )}
-      <ShowTipModal ref={tipRef} />
-    </>
-  );
+            }}
+          />
+        )}
+        <ShowTipModal ref={tipRef} />
+      </>
+    );
+  }
 }
 
 export default function GoodBtnList({
@@ -202,14 +237,13 @@ export default function GoodBtnList({
   productInfo,
   goodDiscountFestival,
   LANG,
+  CONFIG,
 }) {
   const { showCartModal } = React.useContext(GlobalContext);
   const productNum = useProductStore((state) => state.productNum);
   const productCurCombo = useProductStore((state) => state.productCurCombo);
   const productOptions = useProductStore((state) => state.productOptions);
   const [loading, setLoading] = React.useState(false);
-
-  const router = useRouter();
 
   const [countryCode, setCountryCode] = React.useState("US");
   React.useEffect(() => {
@@ -233,7 +267,10 @@ export default function GoodBtnList({
     setCurrency(currency);
     setLoading(false);
   }, [productCurCombo]);
-  if (!productCurCombo.areaInfo?.stock || !productCurCombo.areaInfo?.price) {
+  if (
+    !productCurCombo.areaInfo?.stock ||
+    !productCurCombo.areaInfo?.product_price
+  ) {
     return null;
   } else {
     return (
@@ -241,7 +278,7 @@ export default function GoodBtnList({
         <div
           onClick={() => {
             if (
-              !productCurCombo?.areaInfo?.price ||
+              !productCurCombo?.areaInfo?.product_price ||
               !productCurCombo?.areaInfo?.stock
             )
               return;
@@ -262,7 +299,6 @@ export default function GoodBtnList({
                 options: productOptions,
               },
             ];
-            console.log("newCart", newCart);
             // 购物车是否存在
             if (cartList?.length > 0) {
               let includeCurCombo = false;
@@ -316,6 +352,7 @@ export default function GoodBtnList({
             }}
           >
             <PayButton
+              CONFIG={CONFIG}
               LANG={LANG}
               locale={locale}
               goodDiscountFestival={goodDiscountFestival}

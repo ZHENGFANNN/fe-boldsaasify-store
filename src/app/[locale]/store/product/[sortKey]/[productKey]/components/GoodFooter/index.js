@@ -6,8 +6,10 @@ import useProductStore from "../../productStore";
 import ProductContext from "../../productContext";
 import tracking from "../../tracking";
 import ComboModal from "./components/ComboModal";
+import formatCurrency from "@/utils/formatCurrency";
 
 export default function GoodFooter({
+  CONFIG,
   LANG,
   area,
   locale,
@@ -100,37 +102,36 @@ export default function GoodFooter({
         </div>
         <div className={styles.footer_right}>
           <div className={styles.footer_price}>
-            {productCurCombo.areaInfo?.price ? (
+            {productCurCombo.areaInfo?.product_price ? (
               <div className={styles.price}>
                 {goodDiscountFestival &&
-                productCurCombo.areaInfo.good_discount ? (
-                  <div>{`${productCurCombo.areaInfo.currency_symbol}${
-                    Math.floor(
-                      productCurCombo.areaInfo.price *
-                        productCurCombo.areaInfo.good_discount *
-                        0.01
-                    ) * productNum
-                  }`}</div>
+                productCurCombo.areaInfo.product_discount ? (
+                  <div>{`${
+                    productCurCombo.areaInfo.currency_symbol
+                  }${formatCurrency(
+                    productCurCombo.areaInfo.selling_price * productNum
+                  )}`}</div>
                 ) : null}
-                <div>{`${productCurCombo.areaInfo.currency_symbol}${
-                  productCurCombo.areaInfo.price * productNum
-                }`}</div>
+                <div>{`${
+                  productCurCombo.areaInfo.currency_symbol
+                }${formatCurrency(
+                  productCurCombo.areaInfo.product_price * productNum
+                )}`}</div>
               </div>
             ) : null}
-            {goodDiscountFestival && productCurCombo.areaInfo?.good_discount ? (
+            {goodDiscountFestival &&
+            productCurCombo.areaInfo?.product_discount ? (
               <div className={styles.save_price}>
                 -{" "}
-                {`${productCurCombo.areaInfo.currency_symbol}${
-                  Math.ceil(
-                    (100 - productCurCombo.areaInfo.good_discount) *
-                      0.01 *
-                      productCurCombo.areaInfo.price
-                  ) * productNum
-                }`}
+                {`${productCurCombo.areaInfo.currency_symbol}${formatCurrency(
+                  (productCurCombo.areaInfo.product_price -
+                    productCurCombo.areaInfo.selling_price) *
+                    productNum
+                )}`}
               </div>
             ) : null}
           </div>
-          {productCurCombo?.areaInfo?.price &&
+          {productCurCombo?.areaInfo?.product_price &&
           productCurCombo?.areaInfo?.stock ? (
             <>
               <div
@@ -141,25 +142,13 @@ export default function GoodFooter({
                     type: "buy",
                   });
                 }}
-                className={`${styles.footer_button} ${
-                  !productCurCombo?.areaInfo?.price ||
-                  !productCurCombo?.areaInfo?.stock
-                    ? styles.disabled
-                    : ""
-                }`}
+                className={`${styles.footer_button}`}
               >
                 {LANG["store.product.buy"]}
               </div>
             </>
           ) : (
-            <div
-              className={`${styles.footer_button} ${
-                !productCurCombo?.areaInfo?.price ||
-                !productCurCombo?.areaInfo?.stock
-                  ? styles.disabled
-                  : ""
-              }`}
-            >
+            <div className={`${styles.footer_button} ${styles.disabled}`}>
               {LANG["store.product.no_stock"]}
             </div>
           )}
@@ -172,6 +161,7 @@ export default function GoodFooter({
         options={options}
         GOODDISCOUNTFESTIVAL={goodDiscountFestival}
         LANG={LANG}
+        CONFIG={CONFIG}
         ref={comboModalRef}
       />
     </section>

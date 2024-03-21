@@ -9,6 +9,7 @@ import tracking from "../tracking";
 import Link from "next/link";
 
 import GlobalContext from "@/globalContext";
+import formatCurrency from "@/utils/formatCurrency";
 
 const EmptyCart = function ({ LANG, handleClose }) {
   return (
@@ -122,7 +123,6 @@ const CartMain = function ({
       try {
         localStoreList = JSON.parse(localStoreList ?? []);
         const list = [];
-        console.log("localStoreList", localStoreList);
         localStoreList.forEach((item) => {
           let comboInfo;
           // 查找该语言的商品
@@ -159,8 +159,9 @@ const CartMain = function ({
                 // 地区相关
                 currency: comboInfo.areaInfo.currency,
                 priceSymbol: comboInfo.areaInfo.currency_symbol,
-                price: comboInfo.areaInfo.price,
-                good_discount: comboInfo.areaInfo.good_discount,
+                product_price: comboInfo.areaInfo.product_price,
+                selling_price: comboInfo.areaInfo.selling_price,
+                product_discount: comboInfo.areaInfo.product_discount,
                 stock: comboInfo.areaInfo.stock,
                 // 产品相关
                 name: product.name,
@@ -191,18 +192,15 @@ const CartMain = function ({
     let productNum = 0;
     const price = cartList.reduce((pre, cur) => {
       productNum = productNum + cur.productNum;
-      if (goodDiscountFestival && cur.good_discount) {
-        return (
-          pre +
-          Math.floor(cur.price * 0.01 * cur.good_discount) * cur.productNum
-        );
+      if (goodDiscountFestival && cur.product_discount) {
+        return pre + cur.selling_price * cur.productNum;
       } else {
-        return pre + cur.price * cur.productNum;
+        return pre + cur.product_price * cur.productNum;
       }
     }, 0);
     setProductNum(productNum > 99 ? "99+" : productNum);
-    setTotalPrice(price);
-  }, [cartList]);
+    setTotalPrice(formatCurrency(price));
+  }, [cartList, goodDiscountFestival]);
 
   return (
     <div className={styles.container}>
@@ -229,11 +227,6 @@ const CartMain = function ({
                           </div>
 
                           <div className={styles.product_info}>
-                            {/* {!item.stock ? (
-                              <div className={styles.no_stock}>
-                                {LANG["store.cart.no_stock"]}
-                              </div>
-                            ) : null} */}
                             <div className={styles.product_content}>
                               <div className={styles.title}>
                                 <Link href={item.href}>{item.name}</Link>
@@ -251,7 +244,31 @@ const CartMain = function ({
                                 })}
                               </div>
                             </div>
-                            <div className={styles.table_num_price_container}>
+                            <div className={styles.table_body_price}>
+                              {/* {goodDiscountFestival && item.good_discount ? (
+                                <div className={styles.discount}>{`- ${
+                                  item.priceSymbol
+                                }${
+                                  Math.ceil(
+                                    item.price *
+                                      (100 - item.good_discount) *
+                                      0.01
+                                  ) * item.productNum
+                                }`}</div>
+                              ) : null} */}
+                              <div className={styles.price}>
+                                {goodDiscountFestival &&
+                                item.product_discount ? (
+                                  <div>{`${item.priceSymbol}${formatCurrency(
+                                    item.selling_price * item.productNum
+                                  )}`}</div>
+                                ) : null}
+                                <div>{`${item.priceSymbol}${formatCurrency(
+                                  item.product_price * item.productNum
+                                )}`}</div>
+                              </div>
+                            </div>
+                            <div className={styles.table_num_delete_container}>
                               <div className={styles.table_body_num}>
                                 <div
                                   onClick={() => {
@@ -436,31 +453,6 @@ const CartMain = function ({
                                   height={24}
                                   src={`${process.env.NEXT_PUBLIC_IMAGE}/icon/min-utils-delete.svg`}
                                 />
-                              </div>
-                            </div>
-                            <div className={styles.table_body_price}>
-                              {goodDiscountFestival && item.good_discount ? (
-                                <div className={styles.discount}>{`- ${
-                                  item.priceSymbol
-                                }${
-                                  Math.ceil(
-                                    item.price *
-                                      (100 - item.good_discount) *
-                                      0.01
-                                  ) * item.productNum
-                                }`}</div>
-                              ) : null}
-                              <div className={styles.price}>
-                                {goodDiscountFestival && item.good_discount ? (
-                                  <div>{`${item.priceSymbol}${
-                                    Math.floor(
-                                      item.price * item.good_discount * 0.01
-                                    ) * item.productNum
-                                  }`}</div>
-                                ) : null}
-                                <div>{`${item.priceSymbol}${
-                                  item.price * item.productNum
-                                }`}</div>
                               </div>
                             </div>
                           </div>
