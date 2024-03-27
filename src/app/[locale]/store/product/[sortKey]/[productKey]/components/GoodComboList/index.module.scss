@@ -38,9 +38,9 @@
         }
       }
     }
-    &:hover {
-      border: 1px solid #000;
-    }
+    // &:hover {
+    //   border: 1px solid #000;
+    // }
     &.active {
       border: 1px solid #000;
     }
@@ -168,9 +168,9 @@
 @media screen and (max-width: 820px) {
   .container {
     .list {
-      &:hover {
-        border: 1px solid #ddd;
-      }
+      // &:hover {
+      //   border: 1px solid #ddd;
+      // }
       &.active {
         border: 1px solid #000;
       }

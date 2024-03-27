@@ -182,6 +182,7 @@ export default function GoodReviewsContent({ LANG, configList }) {
                   {LANG["store.product.filter"]}
                 </div>
                 <DropSelect
+                  zIndex={9}
                   position="bottom"
                   tanslatefromX={16}
                   selectValue={(value) => setValue(value)}

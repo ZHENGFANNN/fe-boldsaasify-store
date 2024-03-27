@@ -11,6 +11,7 @@ import ProductContext from "../../productContext";
 export default function ContentDisplay({ options = [], productInfo }) {
   const { lazyLoading } = React.useContext(ProductContext);
   const productCurCombo = useProductStore((state) => state.productCurCombo);
+  const productOptions = useProductStore((state) => state.productOptions);
   const productShowType = useProductStore((state) => state.productShowType);
   const [progress, setProgress] = React.useState(0);
 
@@ -50,6 +51,10 @@ export default function ContentDisplay({ options = [], productInfo }) {
       };
     }
   }, [productCurCombo, lazyLoading]);
+
+  React.useEffect(() => {
+    console.log("productOptions:", productOptions);
+  }, [productOptions]);
 
   React.useEffect(() => {
     if (!lazyLoading) {

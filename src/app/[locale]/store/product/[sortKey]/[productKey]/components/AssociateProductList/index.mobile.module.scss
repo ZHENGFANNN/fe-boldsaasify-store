@@ -59,6 +59,8 @@
 
         border-radius: 0 0 8px 8px;
         .product_name {
+          margin-top: 8px;
+
             font-size: 17px;
             line-height: 22px;
             color: rgba(0,0,0,.85);
@@ -141,6 +143,11 @@
         width: 10px;
         height: 10px;
 
+        min-width: 10px;
+        min-height: 10px;
+
+        overflow: visible;
+
         background: #ebebeb;
         transition: background .2s;
         border-radius: 50%;
@@ -160,14 +167,15 @@
         }
         svg {
           position: absolute;
-          left: 1px;
-          top: 1px;
+          left: 0;
+          top: 0;
 
-          width: 8px;
-          height: 8px;
+          width: 10px;
+          height: 10px;
   
           fill: transparent;
           stroke: transparent;
+
         }
       }
      

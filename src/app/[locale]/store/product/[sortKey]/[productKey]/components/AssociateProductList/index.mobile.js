@@ -162,7 +162,7 @@ export default function MobProductList({
                       fill="inherit"
                       stroke="inherit"
                       strokeDashoffset="inherit"
-                      strokeWidth="6"
+                      strokeWidth="4"
                       strokeLinecap="round"
                       strokeDasharray="100 100"
                     ></circle>
@@ -181,7 +181,7 @@ export default function MobProductList({
                       fill="inherit"
                       stroke="inherit"
                       strokeDashoffset="inherit"
-                      strokeWidth="6"
+                      strokeWidth="4"
                       strokeLinecap="round"
                       strokeDasharray="100 100"
                     ></circle>

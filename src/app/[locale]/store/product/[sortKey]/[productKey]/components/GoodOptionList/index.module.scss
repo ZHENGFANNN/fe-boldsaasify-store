@@ -44,40 +44,41 @@
       }
     }
     .list_item_image {
-      height: 90px;
-      width: 90px;
+      height: 64px;
+      width: 64px;
       overflow: hidden;
 
       position: relative;
-      margin-right: 12px;
-      margin-bottom: 12px;
+      margin-right: 8px;
+      margin-bottom: 8px;
 
       font-weight: 700;
       font-size: 15px;
       line-height: 18px;
 
-      padding: 12px;
       box-sizing: border-box;
-      border: 1px solid #ddd;
       cursor: pointer;
 
       border-radius: 8px;
-      img {
-        object-fit: cover;
-
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-      }
-      &:hover {
-        border: 1px solid #000;
-      }
+      border: 1px solid transparent;
       &.active {
+        opacity: 1;
         border: 1px solid #000;
+      }
+      img {
+        border-radius: 8px;
+        overflow: hidden;
+        object-fit: cover;
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        right: 2px;
+        bottom: 2px;
+        width: calc(100% - 4px);
+        height: calc(100% - 4px);
+
+        transition: all 300ms;
+       
       }
     }
   }
@@ -112,7 +113,7 @@
         font-size: 15px;
         line-height: 18px;
 
-        padding: 12px;
+        padding: 16px;
         box-sizing: border-box;
         border: 1px solid #ddd;
         cursor: pointer;

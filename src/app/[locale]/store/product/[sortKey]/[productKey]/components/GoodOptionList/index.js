@@ -63,7 +63,7 @@ export default function GoodOptionList({
                 key={index}
                 className={`
                     ${styles.list_item_image}
-                    ${active === currentItem ? styles.active : ""}
+                    ${item.title === currentItem ? styles.active : ""}
                 `}
                 onClick={() => {
                   setActive(item.title);

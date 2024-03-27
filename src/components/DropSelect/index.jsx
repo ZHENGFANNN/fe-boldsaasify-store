@@ -10,6 +10,7 @@ export default function DropSelect({
   defaultValue,
   tanslatefromX = 0,
   position = "top",
+  zIndex = 99,
 }) {
   const [label, setLabel] = useState();
   const listRef = useRef(null);
@@ -59,7 +60,13 @@ export default function DropSelect({
   }, []);
 
   return (
-    <div ref={listRef} className={styles.container}>
+    <div
+      ref={listRef}
+      className={styles.container}
+      style={{
+        zIndex,
+      }}
+    >
       <div
         onMouseOver={() => {
           itemsRef.current.style.display = "block";
