@@ -10,7 +10,7 @@ import { NextResponse } from "next/server";
 
 export function middleware(request) {
   let area = request.cookies.get("area")?.value;
-  let locale = request.cookies.get("locale").value;
+  let locale = request.cookies.get("locale")?.value;
   /**
    * 功能：
    *  1、判断地区Cookie是否存在
