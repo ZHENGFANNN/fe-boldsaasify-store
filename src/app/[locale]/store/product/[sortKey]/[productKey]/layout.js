@@ -5,6 +5,7 @@ import Script from "next/script";
 
 import { isUserMobile } from "@/utils";
 import formatCurrency from "@/utils/formatCurrency";
+import NotFound from "./components/NotFound";
 
 // 匹配产品信息
 async function getProductInfo({ productList, productKey }) {
@@ -14,6 +15,8 @@ async function getProductInfo({ productList, productKey }) {
 }
 // 获取关联产品
 async function getAssociateProduct({ productInfo, area }) {
+  if (!productInfo?.associateProduct) return [];
+
   let newAssociateProduct = productInfo.associateProduct.filter(
     (item) => item.key !== productInfo.key
   );
@@ -50,14 +53,17 @@ async function getData({ productKey, locale, area, configList }) {
     productList: result.GOODLIST,
     productKey,
   });
-  const [associateProduct] = await Promise.all([
-    // 获取关联产品
-    await getAssociateProduct({
-      productInfo: result.productInfo,
-      area,
-    }),
-  ]);
-  result.productInfo.associateProduct = associateProduct;
+
+  if (result.productInfo) {
+    const [associateProduct] = await Promise.all([
+      // 获取关联产品
+      await getAssociateProduct({
+        productInfo: result.productInfo,
+        area,
+      }),
+    ]);
+    result.productInfo.associateProduct = associateProduct;
+  }
   return result;
 }
 
@@ -112,6 +118,8 @@ export default async function Layout({
     locale,
     configList: ["config", "language", "good", "goodDiscountFestival"],
   });
+
+  if (!productInfo) return <NotFound LANG={LANG} />;
 
   return (
     <BaseLayout

@@ -4,6 +4,7 @@ import React from "react";
 import Script from "next/script";
 import styles from "./index.module.scss";
 import Link from "next/link";
+import { IndexContent } from "../IndexContext";
 const active_icon = `${process.env.NEXT_PUBLIC_IMAGE}/icon/previews_stars_active_icon.svg`;
 const no_active_icon = `${process.env.NEXT_PUBLIC_IMAGE}/icon/previews_stars_icon.svg`;
 
@@ -39,12 +40,8 @@ function ReviewRate({ LANG, reviewScore, reviewsNum }) {
   );
 }
 
-export default function ProductList({
-  CONFIG,
-  LANG,
-  goodList,
-  goodDiscountFestival,
-}) {
+function ProductItem({ goodList }) {
+  const { CONFIG, LANG, goodDiscountFestival } = React.useContext(IndexContent);
   return (
     <section className={styles.goods_container}>
       {goodList.map((product, productIndex) => {
@@ -167,5 +164,23 @@ export default function ProductList({
         );
       })}
     </section>
+  );
+}
+
+export default function ProductList() {
+  const { goodSortList } = React.useContext(IndexContent);
+  return (
+    <div className={styles.container}>
+      {goodSortList.map((item, index) => {
+        return (
+          <div className={styles.sort_container} key={index}>
+            <div className={styles.sort_header}>
+              <h2>{item.name}</h2>
+            </div>
+            <ProductItem key={index} goodList={item.goodList} />
+          </div>
+        );
+      })}
+    </div>
   );
 }

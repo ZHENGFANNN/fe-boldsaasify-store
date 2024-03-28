@@ -6,8 +6,11 @@ import "@splidejs/splide/css";
 import React from "react";
 import { useRouter } from "next/navigation";
 import tracking from "../../tracking";
+import { IndexContent } from "../IndexContext";
 
-export default function Banner({ CONFIG, LANG }) {
+export default function Banner() {
+  const { CONFIG } = React.useContext(IndexContent);
+
   const router = useRouter();
   const [splide, setSplide] = React.useState();
   const [active, setActive] = React.useState(0);

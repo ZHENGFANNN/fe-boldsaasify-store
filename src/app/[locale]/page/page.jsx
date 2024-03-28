@@ -1,12 +1,11 @@
+import styles from "./page.module.scss";
 import React from "react";
 
 import Advantage from "@/components/Layout/Advantage";
 import getConfigDataV2 from "@/utils/getConfigDataV2";
 
-import IndexProductList from "./components/IndexProductList";
-import IndexBanner from "./components/IndexBanner";
-import IndexContext from "./components/IndexContext";
-
+import ProductList from "../components/IndexProductList";
+import Banner from "../components/IndexBanner";
 import { cookies } from "next/headers";
 
 export const runtime = "edge";
@@ -65,21 +64,26 @@ export default async function Home({ params: { locale } }) {
     configList: ["config", "language", "goodSort", "goodDiscountFestival"],
   });
   return (
-    <main>
-      <IndexContext
-        CONFIG={CONFIG}
-        LANG={LANG}
-        goodDiscountFestival={GOODDISCOUNTFESTIVAL}
-        goodSortList={GOODSORTLIST}
-        locale={locale}
-        area={area}
-      >
-        {/* Banner */}
-        <IndexBanner />
-        {/* List */}
-        <IndexProductList />
-        <Advantage LANG={LANG} />
-      </IndexContext>
+    <main className={styles.container}>
+      <Banner CONFIG={CONFIG} LANG={LANG} />
+      {/* 产品列表 */}
+      {GOODSORTLIST.map((item, index) => {
+        return (
+          <div className={styles.sort_container} key={index}>
+            <div className={styles.sort_header}>
+              <h2>{item.name}</h2>
+            </div>
+            <ProductList
+              key={index}
+              CONFIG={CONFIG}
+              LANG={LANG}
+              goodList={item.goodList}
+              goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+            />
+          </div>
+        );
+      })}
+      <Advantage LANG={LANG} />
     </main>
   );
 }
