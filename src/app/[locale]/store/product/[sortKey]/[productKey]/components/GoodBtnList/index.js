@@ -10,7 +10,7 @@ import React from "react";
 import Loading from "@/components/Loading";
 
 import ShowTipModal from "@/components/Modal/ShowTipModal";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 
 import { useRouter } from "next/navigation";
 import tracking from "../../tracking";

@@ -2,7 +2,7 @@
 
 import React from "react";
 import styles from "./index.module.scss";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 
 // 格式化时间，保证显示为两位数
 function formatTime(time) {

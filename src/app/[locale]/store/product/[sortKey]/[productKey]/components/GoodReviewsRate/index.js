@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 import styles from "./index.module.scss";
 
 const active_icon = `${process.env.NEXT_PUBLIC_IMAGE}/icon/previews_stars_active_icon.svg`;

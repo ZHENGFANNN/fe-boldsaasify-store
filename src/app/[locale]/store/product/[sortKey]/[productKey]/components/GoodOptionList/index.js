@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import styles from "./index.module.scss";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 
 function GoodOptionItem({ title = "", options = [], type }) {
   const { setProductOptions, productOptions } =

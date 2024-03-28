@@ -7,7 +7,7 @@ import React from "react";
 
 import Image from "@/components/Image";
 import { lazyLoadImages } from "@/utils/optimization";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 
 export default function Package() {
   const {

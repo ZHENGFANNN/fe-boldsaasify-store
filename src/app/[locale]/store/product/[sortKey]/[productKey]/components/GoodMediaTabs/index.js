@@ -2,7 +2,7 @@
 
 import React from "react";
 import styles from "./index.module.scss";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 
 export default function SelectList() {
   const {

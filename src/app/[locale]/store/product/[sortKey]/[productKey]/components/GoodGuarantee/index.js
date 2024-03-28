@@ -6,7 +6,7 @@ import DeliveryTermsModal from "./components/DeliveryTermsModal";
 import ProductGuarantee from "./components/ProductGuarantee";
 import ViewOrder from "./components/ViewOrder";
 
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 
 export default function GoodGuarantee() {
   const { LANG, CONFIG } = React.useContext(ProductContext);

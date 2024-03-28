@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 
 import PcProductList from "./index.pc";
 import MobProductList from "./index.mobile";

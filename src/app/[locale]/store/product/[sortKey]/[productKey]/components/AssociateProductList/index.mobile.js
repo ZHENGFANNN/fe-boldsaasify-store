@@ -6,7 +6,7 @@ import Splide from "@splidejs/splide";
 
 import formatCurrency from "@/utils/formatCurrency";
 
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 import { lazyLoadImages } from "@/utils/optimization";
 
 import styles from "./index.mobile.module.scss";

@@ -2,7 +2,7 @@
 
 import React from "react";
 import styles from "./index.module.scss";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 import formatCurrency from "@/utils/formatCurrency";
 
 export default function GoodComboList() {

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 import styles from "./index.module.scss";
 
 import { lazyLoadImages } from "@/utils/optimization";

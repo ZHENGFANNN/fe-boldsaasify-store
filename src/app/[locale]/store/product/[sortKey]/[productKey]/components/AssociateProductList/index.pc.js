@@ -1,7 +1,7 @@
 import React from "react";
 
 import formatCurrency from "@/utils/formatCurrency";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 import styles from "./index.module.scss";
 import Link from "next/link";
 

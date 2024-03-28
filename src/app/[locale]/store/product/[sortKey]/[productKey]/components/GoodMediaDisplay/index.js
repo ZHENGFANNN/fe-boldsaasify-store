@@ -4,7 +4,7 @@ import React from "react";
 
 import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 
 // 获取类型
 async function getMediaDisplayList({ productInfo, LANG }) {

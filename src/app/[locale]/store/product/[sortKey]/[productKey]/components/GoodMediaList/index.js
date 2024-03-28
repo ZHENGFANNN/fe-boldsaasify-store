@@ -10,7 +10,7 @@ import MediaFacebook from "./components/MediaFacebook";
 import MediaImage from "./components/MediaImage";
 
 import { lazyLoadImages, lazyLoadVideos } from "@/utils/optimization";
-import ProductContext from "../../ProductContext2";
+import ProductContext from "../../ProductContext";
 import MediaHtml from "./components/MediaHtml";
 
 export default function GoodMediaList() {
