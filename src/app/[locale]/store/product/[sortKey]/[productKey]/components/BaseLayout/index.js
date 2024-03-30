@@ -19,7 +19,6 @@ export default function Layout({
       router.push("/not-found");
     }
   }, [productInfo]);
-  if (!productInfo) return null;
 
   const [lazyLoading, setLazyLoading] = React.useState(true);
 
@@ -28,12 +27,12 @@ export default function Layout({
 
   // 商品套餐
   const [productCurCombo, setProductCurCombo] = React.useState(() => {
-    return productInfo.comboList.find((item) => item.areaInfo.stock);
+    return productInfo?.comboList.find((item) => item.areaInfo.stock);
   });
 
   // 商品选项
   const [productOptions, setProductOptions] = React.useState(() => {
-    return productInfo.typeList.map((item) => {
+    return productInfo?.typeList.map((item) => {
       return {
         name: item.title,
         value: item.options[0].title,
@@ -50,6 +49,8 @@ export default function Layout({
       setLazyLoading(false);
     });
   }, []);
+
+  if (!productInfo) return null;
 
   return (
     <ProductContext.Provider
