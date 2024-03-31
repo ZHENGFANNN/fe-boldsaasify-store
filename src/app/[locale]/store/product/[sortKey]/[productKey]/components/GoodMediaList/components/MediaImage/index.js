@@ -36,7 +36,7 @@ export default function MediaVideo({ imageInfo, productName }) {
               : (1200 * height) / width,
           }}
         >
-          <Image alt={title || description || `${productName}`} src={src} />
+          <Image alt={title || description || productName} src={src} />
         </div>
       </div>
     </div>

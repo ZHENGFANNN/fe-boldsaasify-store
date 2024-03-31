@@ -91,12 +91,18 @@ export default function GoodMediaDisplay() {
           arrow: `splide__arrow ${styles.splide__arrow}`,
         },
       });
+      const $domListContainer = $(`.${styles.splide_image_list}`);
       const $domList = $(`.${styles.splide_image_list}`).find("ul li");
       // 激活index
       splide.on("active", (target) => {
         $domList.each((index) => {
           if (index === target.index) {
             $domList.eq(index).addClass(styles.active);
+            const top = $domList.eq(index).position().top;
+            $domListContainer.get(0).scrollTo({
+              top: $domListContainer.scrollTop() + top,
+              behavior: "smooth",
+            });
           } else {
             $domList.eq(index).removeClass(styles.active);
           }
@@ -168,43 +174,7 @@ export default function GoodMediaDisplay() {
       {mediaDisplayList.map((item, index) => {
         if (item.type === "image") {
           return (
-            <div
-              key={index}
-              className={`splide ${styles.splide}`}
-              style={{
-                display: productShowType === "image" ? "block" : "none",
-              }}
-            >
-              <div className={`splide__track ${styles.splide__track}`}>
-                <ul className="splide__list">
-                  {/* 套餐图 */}
-                  {productCurCombo.img_list?.length > 0
-                    ? productCurCombo.img_list?.map((item) => {
-                        return (
-                          <li
-                            key={item.src}
-                            className={`splide__slide ${styles.splide__slide}`}
-                          >
-                            <img alt={productInfo.name} src={item.src} />
-                          </li>
-                        );
-                      })
-                    : null}
-                  {/* 产品图 */}
-                  {productInfo.image_list?.length > 0
-                    ? productInfo.image_list.map((item, index) => {
-                        return (
-                          <li
-                            key={index}
-                            className={`splide__slide ${styles.splide__slide}`}
-                          >
-                            <img alt={productInfo.name} src={item.src} />
-                          </li>
-                        );
-                      })
-                    : null}
-                </ul>
-              </div>
+            <React.Fragment key={index}>
               {productCurCombo.img_list?.length > 0 ||
               productInfo.image_list?.length > 0 ? (
                 <div className={styles.splide_image_list}>
@@ -226,7 +196,44 @@ export default function GoodMediaDisplay() {
                   </ul>
                 </div>
               ) : null}
-            </div>
+              <div
+                className={`splide ${styles.splide}`}
+                style={{
+                  display: productShowType === "image" ? "block" : "none",
+                }}
+              >
+                <div className={`splide__track ${styles.splide__track}`}>
+                  <ul className="splide__list">
+                    {/* 套餐图 */}
+                    {productCurCombo.img_list?.length > 0
+                      ? productCurCombo.img_list?.map((item) => {
+                          return (
+                            <li
+                              key={item.src}
+                              className={`splide__slide ${styles.splide__slide}`}
+                            >
+                              <img alt={productInfo.name} src={item.src} />
+                            </li>
+                          );
+                        })
+                      : null}
+                    {/* 产品图 */}
+                    {productInfo.image_list?.length > 0
+                      ? productInfo.image_list.map((item, index) => {
+                          return (
+                            <li
+                              key={index}
+                              className={`splide__slide ${styles.splide__slide}`}
+                            >
+                              <img alt={productInfo.name} src={item.src} />
+                            </li>
+                          );
+                        })
+                      : null}
+                  </ul>
+                </div>
+              </div>
+            </React.Fragment>
           );
         } else if (item.type === "video") {
           return (

@@ -1,13 +1,80 @@
 .left_content_top {
   width: 656px;
-  height: 656px;
-  border-radius: 8px;
+  height: 588px;
   overflow: hidden;
   background-color: #fff;
+
+  display: flex;
+  .splide_image_list {
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    &::-webkit-scrollbar {
+      width: 0;
+      display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #eaecf0;
+      border-radius: 0;
+      display: none;
+    }
+    ul {
+      display: flex;
+      flex-direction: column;
+
+      min-height: 100%;
+      justify-content: center;
+      li {
+        cursor: pointer;
+        width: 56px;
+        height: 56px;
+        min-width: 56px;
+        min-height: 56px;
+        margin: 0 6px 6px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        border-radius: 4px;
+        overflow: hidden;
+
+        
+        img {
+          border-radius: 4px;
+          overflow: hidden;
+
+          object-fit: cover;
+          
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          
+          transition: all 300ms;
+          opacity: 0.4;
+        }
+        &.active {
+          img {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
   .splide {
     position: relative;
-    width: 100%;
+    width: calc(100% - 68px);
     height: 100%;
+    overflow: hidden;
+    border-radius: 8px;
     .splide__arrow {
       width: 48px;
       height: 48px;
@@ -89,93 +156,96 @@
       }
     }
 
-    .splide_image_list {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 24px;
-      ul {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        li {
-          width: 8px;
-          height: 8px;
-          margin: 0 4px;
-          transition: all 0.6s ease;
-          border: 1px solid transparent;
+    // .splide_image_list {
+    //   position: absolute;
+    //   left: 0;
+    //   right: 0;
+    //   bottom: 24px;
+    //   ul {
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     li {
+    //       width: 8px;
+    //       height: 8px;
+    //       margin: 0 4px;
+    //       transition: all 0.6s ease;
+    //       border: 1px solid transparent;
           
-          position: relative;
-          border-radius: 8px;
-          overflow: hidden;
-          background: #dfdfdf;
+    //       position: relative;
+    //       border-radius: 8px;
+    //       overflow: hidden;
+    //       background: #dfdfdf;
 
-          img {
-            border-radius: 8px;
-            overflow: hidden;
+    //       img {
+    //         border-radius: 8px;
+    //         overflow: hidden;
 
-            object-fit: cover;
-            transition: all 0.6s ease;
-            opacity: 0;
+    //         object-fit: cover;
+    //         transition: all 0.6s ease;
+    //         opacity: 0;
 
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-          }
-          &.active {
-            img {
-              opacity: 0;
-            }
-          }
-        }
-      }
-    }
-    &:hover {
-      .splide_image_list {
-        ul {
-          li {
-            cursor: pointer;
-            width: 46px;
-            height: 46px;
-            margin: 0 8px;
+    //         position: absolute;
+    //         left: 0;
+    //         right: 0;
+    //         top: 0;
+    //         bottom: 0;
+    //         width: 100%;
+    //         height: 100%;
+    //       }
+    //       &.active {
+    //         img {
+    //           opacity: 0;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // &:hover {
+    //   .splide_image_list {
+    //     ul {
+    //       justify-content: flex-start;
+    //       overflow-x: auto;
+    //       li {
+    //         cursor: pointer;
+    //         width: 46px;
+    //         min-width: 46px;
+    //         height: 46px;
+    //         margin: 0 4px;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            .product_img {
-              position: relative;
-              width: 36px;
-              height: 36px;
+    //         display: flex;
+    //         align-items: center;
+    //         justify-content: center;
+    //         .product_img {
+    //           position: relative;
+    //           width: 36px;
+    //           height: 36px;
 
-              img {
-                object-fit: cover;
+    //           img {
+    //             object-fit: cover;
 
-                position: absolute;
-                left: 0;
-                top: 0;
-                bottom: 0;
-                right: 0;
-                width: 100%;
-                height: 100%;
-              }
-            }
-            img {
-              transition: all 300ms;
-              opacity: 0.6;
-            }
-            &.active {
-              img {
-                opacity: 1;
-              }
-            }
-          }
-        }
-      }
-    }
+    //             position: absolute;
+    //             left: 0;
+    //             top: 0;
+    //             bottom: 0;
+    //             right: 0;
+    //             width: 100%;
+    //             height: 100%;
+    //           }
+    //         }
+    //         img {
+    //           transition: all 300ms;
+    //           opacity: 0.6;
+    //         }
+    //         &.active {
+    //           img {
+    //             opacity: 1;
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
   video {
     object-fit: contain;
@@ -208,27 +278,14 @@
 @media screen and (max-width: 1600px) {
   .left_content_top {
     width: 520px;
-    height: 520px;
-    .splide {
-      .splide__track {
-        ul {
-          .splide__slide {
-            .product_img {
-              position: relative;
-              width: 280px;
-              height: 280px;
-            }
-          }
-        }
-      }
-    }
+    height: 452px;
   }
 }
 
 @media screen and (max-width: 1080px) {
   .left_content_top {
     width: 400px;
-    height: 400px;
+    height: 332px;
     .splide {
       .splide__arrow {
         width: 32px;
@@ -256,9 +313,10 @@
 @media screen and (max-width: 820px) {
   .left_content_top {
     width: 100%;
-    height: 100vw;
+    height: calc(100vw - 68px);
     border-radius: 0;
     .splide {
+      border-radius: 0;
       .splide__arrow {
         display: none;
       }

@@ -32,8 +32,8 @@ export default async function Product() {
   return (
     <div className={styles.container}>
       <>
-        <link rel="dns-prefetch" href="https://connect.facebook.net" />.
-        <link rel="dns-prefetch" href="https://www.paypal.com" />.
+        <link rel="dns-prefetch" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://www.paypal.com" />
         {/* 首屏信息配置 */}
         <section className={styles.main_content}>
           <div className={styles.left_content}>
