@@ -262,7 +262,7 @@ export default function NavBar() {
                           }}
                         >
                           {item.key === "where_buy" ? (
-                            <a
+                            <div
                               className={styles.header_nav_items}
                               onClick={() => {
                                 setVavItemActive(false);
@@ -280,7 +280,7 @@ export default function NavBar() {
                             >
                               {item2.img}
                               <p>{item2.sub_title}</p>
-                            </a>
+                            </div>
                           ) : null}
                           {item.key ===
                           "where_buy" ? null : item2.href.startsWith("http") ? (

@@ -234,6 +234,7 @@ export default function GoodReviewsContent() {
                         {item.type === "image" ? (
                           <div className={styles.reviews_content_media}>
                             <ImageModal
+                              alt={item.comment}
                               lazyLoading={lazyLoading}
                               src={item.image}
                             />
@@ -244,6 +245,7 @@ export default function GoodReviewsContent() {
                             <VideoModal
                               lazyLoading={lazyLoading}
                               poster={item.image}
+                              alt={item.comment}
                               src={item.video}
                             />
                           </div>

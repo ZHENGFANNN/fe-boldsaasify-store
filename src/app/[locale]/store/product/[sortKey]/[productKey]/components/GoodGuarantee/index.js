@@ -27,6 +27,7 @@ export default function GoodGuarantee() {
           <div className={styles.left_content}>
             <div className={styles.icon}>
               <img
+                alt={LANG["store.product.service_agreement.delivery_terms"]}
                 src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/product-deliver.svg`}
               />
             </div>
@@ -45,6 +46,7 @@ export default function GoodGuarantee() {
           <div className={styles.left_content}>
             <div className={styles.icon}>
               <img
+                alt={LANG["store.product.service_agreement.produc_guarantee"]}
                 src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/product-guarantee.svg`}
               />
             </div>
@@ -63,6 +65,7 @@ export default function GoodGuarantee() {
           <div className={styles.left_content}>
             <div className={styles.icon}>
               <img
+                alt={LANG["store.product.service_agreement.view_order"]}
                 src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/product-order.svg`}
               />
             </div>
@@ -75,6 +78,7 @@ export default function GoodGuarantee() {
       </div>
       <div className={styles.email_question_container}>
         <img
+          alt={LANG["store.product.question_email"]}
           src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/product-email.png`}
         />
         <a

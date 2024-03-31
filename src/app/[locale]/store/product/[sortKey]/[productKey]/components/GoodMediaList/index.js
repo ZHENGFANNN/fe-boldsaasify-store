@@ -16,7 +16,7 @@ import MediaHtml from "./components/MediaHtml";
 export default function GoodMediaList() {
   const {
     lazyLoading,
-    productInfo: { mediaList },
+    productInfo: { mediaList, name },
   } = React.useContext(ProductContext);
   React.useEffect(() => {
     if (!lazyLoading) {
@@ -40,7 +40,7 @@ export default function GoodMediaList() {
         } else if (item.type === "facebook") {
           return <MediaFacebook key={index} facebookInfo={item} />;
         } else if (item.type === "image") {
-          return <MediaImage key={index} imageInfo={item} />;
+          return <MediaImage key={index} imageInfo={item} productName={name} />;
         } else if (item.type === "html") {
           return <MediaHtml key={index} htmlInfo={item} />;
         }

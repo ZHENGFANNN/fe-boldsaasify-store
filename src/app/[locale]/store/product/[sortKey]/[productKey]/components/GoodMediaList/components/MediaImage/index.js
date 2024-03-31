@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import qs from "qs";
 import React from "react";
 
-export default function MediaVideo({ imageInfo }) {
+export default function MediaVideo({ imageInfo, productName }) {
   const { src, title, description, width, height } = React.useMemo(() => {
     const { image_src, title, description } = imageInfo;
     const src = image_src.split("?")[0] || image_src;
@@ -36,7 +36,7 @@ export default function MediaVideo({ imageInfo }) {
               : (1200 * height) / width,
           }}
         >
-          <Image alt={title || description || ""} src={src} />
+          <Image alt={title || description || `${productName}`} src={src} />
         </div>
       </div>
     </div>

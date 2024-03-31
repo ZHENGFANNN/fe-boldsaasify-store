@@ -20,7 +20,7 @@ export default function GoodAccessoriesList() {
               .map((item, index) => {
                 return (
                   <li key={index}>
-                    <h4>{item.key}</h4>
+                    <h3>{item.key}</h3>
                     <p>{item.value}</p>
                   </li>
                 );
@@ -35,7 +35,7 @@ export default function GoodAccessoriesList() {
               .map((item, index) => {
                 return (
                   <li key={index}>
-                    <h4>{item.key}</h4>
+                    <h3>{item.key}</h3>
                     <p>{item.value}</p>
                   </li>
                 );

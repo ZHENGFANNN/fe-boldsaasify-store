@@ -7,6 +7,7 @@ import Video from "@/components/Video";
 
 export default function VideoModal({
   poster = "",
+  alt = "",
   src = "",
   height = "100px",
   width = "100px",
@@ -33,6 +34,7 @@ export default function VideoModal({
         <div className={styles.play_icon}></div>
       </div>
       <Image
+        alt={alt}
         src={poster}
         style={{
           height,

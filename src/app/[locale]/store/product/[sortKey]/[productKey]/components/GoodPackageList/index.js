@@ -12,7 +12,7 @@ import ProductContext from "../../ProductContext";
 export default function Package() {
   const {
     LANG,
-    productInfo: { packageList },
+    productInfo: { packageList, name },
     lazyLoading,
   } = React.useContext(ProductContext);
 
@@ -66,7 +66,10 @@ export default function Package() {
                     }`}
                   key={index}
                 >
-                  <Image src={item.image} alt="package" />
+                  <Image
+                    src={item.image}
+                    alt={`${name}_${LANG["store.product.packaging_list"]}`}
+                  />
                 </div>
               );
             })}

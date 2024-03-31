@@ -7,6 +7,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import tracking from "../../tracking";
 import { IndexContent } from "../IndexContext";
+import Link from "next/link";
 
 export default function Banner() {
   const { CONFIG } = React.useContext(IndexContent);
@@ -57,11 +58,7 @@ export default function Banner() {
                 {item.href.startsWith("http") ? (
                   <a rel="noreferrer" target="_blank" href={item.href}></a>
                 ) : (
-                  <a
-                    onClick={() => {
-                      router.push(item.href);
-                    }}
-                  ></a>
+                  <Link href={item.href}></Link>
                 )}
                 {/* <div className={styles.splide_content_container}>
                   <div

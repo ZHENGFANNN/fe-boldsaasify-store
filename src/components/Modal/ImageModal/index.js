@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import Image from "@/components/Image";
 
 export default function ImageModal({
+  alt = "",
   src = "",
   height = "100px",
   width = "100px",
@@ -25,6 +26,7 @@ export default function ImageModal({
       <Image
         onClick={() => setShow(true)}
         src={src}
+        alt={alt}
         style={{
           height,
           width,
@@ -52,7 +54,7 @@ export default function ImageModal({
                 <div className={styles.close} onClick={() => setShow(false)}>
                   ×
                 </div>
-                {show ? <img src={src} /> : null}
+                {show ? <img alt={alt} src={src} /> : null}
               </div>
             </div>
           </div>,

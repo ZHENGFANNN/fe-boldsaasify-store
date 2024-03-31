@@ -161,8 +161,8 @@ export default function Footer() {
                   }
                 ></span>
               </p>
-              <ul className={styles.nav_items_container}>
-                <div className={styles.nav_items}>
+              <div className={styles.nav_items_container}>
+                <ul className={styles.nav_items}>
                   {item?.list?.map((nav_items, index) => {
                     return (
                       <li key={index}>
@@ -172,7 +172,7 @@ export default function Footer() {
                             {nav_items.sub_title}
                           </Link>
                         ) : (
-                          <a
+                          <div
                             onClick={() => {
                               if (nav_items.href) {
                                 location.href = nav_items.href;
@@ -182,13 +182,13 @@ export default function Footer() {
                             }}
                           >
                             {nav_items.sub_title}
-                          </a>
+                          </div>
                         )}
                       </li>
                     );
                   })}
-                </div>
-              </ul>
+                </ul>
+              </div>
             </div>
           );
         })}
