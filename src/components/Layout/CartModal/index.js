@@ -73,7 +73,7 @@ const CartMain = function ({ handleClose }) {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (!goodDiscountFestival) return;
+    if (!goodDiscountFestival || goodDiscountFestival.long_activity) return;
     const t = setInterval(() => {
       const { hours, minutes, seconds } = updateCountdown(
         goodDiscountFestival?.end_time
@@ -192,21 +192,23 @@ const CartMain = function ({ handleClose }) {
                     <div className={styles.festival_discount_tip}>
                       {LANG["common.cart.festival_tip"]}
                     </div>
-                    <div className={styles.countdown}>
-                      <div className={styles.countdown_time}>
-                        <div className={styles.countdown_item}>
-                          <div>{hours}</div>
-                        </div>
-                        <div className={styles.countdown_symbol}>:</div>
-                        <div className={styles.countdown_item}>
-                          <div>{minutes}</div>
-                        </div>
-                        <div className={styles.countdown_symbol}>:</div>
-                        <div className={styles.countdown_item}>
-                          <div>{seconds}</div>
+                    {!goodDiscountFestival.long_activity ? (
+                      <div className={styles.countdown}>
+                        <div className={styles.countdown_time}>
+                          <div className={styles.countdown_item}>
+                            <div>{hours}</div>
+                          </div>
+                          <div className={styles.countdown_symbol}>:</div>
+                          <div className={styles.countdown_item}>
+                            <div>{minutes}</div>
+                          </div>
+                          <div className={styles.countdown_symbol}>:</div>
+                          <div className={styles.countdown_item}>
+                            <div>{seconds}</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ) : null}
                   </div>
                 </div>
               ) : null}
