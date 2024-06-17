@@ -74,12 +74,20 @@ function GoodOptionItem({ title = "", options = [], type }) {
 export default function GoodOptionList() {
   const {
     productInfo: { typeList },
+    productCurCombo,
   } = React.useContext(ProductContext);
-
   if (typeList.length < 1) return null;
   return (
     <>
       {typeList.map((item, index) => {
+        // 处理强关联
+        if (
+          item.associated &&
+          item.combo_keys &&
+          !item.combo_keys.includes(productCurCombo?.key)
+        ) {
+          return null;
+        }
         return (
           <GoodOptionItem
             key={index}

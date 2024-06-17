@@ -141,7 +141,6 @@ export default async function Layout({
       "company.basic.customer_service",
     ],
   });
-
   return (
     <BaseLayout
       locale={locale}

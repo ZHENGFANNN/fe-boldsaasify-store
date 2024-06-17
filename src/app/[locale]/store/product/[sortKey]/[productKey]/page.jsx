@@ -50,10 +50,10 @@ export default async function Product() {
               {/* 产品评价 */}
               <GoodReviewsRate />
               <div className={styles.line}></div>
-              {/* 产品选项 */}
-              <GoodOptionList />
               {/* 产品套餐 */}
               <GoodComboList />
+              {/* 产品选项 */}
+              <GoodOptionList />
               {/* 产品数量 */}
               <GoodNumber />
               {/* 支付按钮 */}
