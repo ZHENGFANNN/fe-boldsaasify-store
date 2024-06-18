@@ -1,5 +1,6 @@
 .container {
   margin-top: 32px;
+  overflow: hidden;
   h2 {
     font-weight: 700;
     font-size: 18px;
@@ -14,17 +15,21 @@
 
     display: flex;
     flex-wrap: wrap;
+    width: calc(
+      100% + 12px
+    );
+    
     .list_item {
       display: flex;
       align-items: center;
       justify-content: center;
 
-      width: calc(33.33% - 8px);
+      // width: calc(33.33% - 8px);
       margin-right: 12px;
       margin-bottom: 12px;
 
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 18px;
 
       padding: 16px;
@@ -88,7 +93,7 @@
     .list {
       .list_item {
         &:nth-child(3n) {
-          margin-right: 0;
+          // margin-right: 0;
         }
       }
     }
@@ -103,12 +108,12 @@
       display: flex;
       flex-wrap: wrap;
       .list_item {
-        width: calc(50% - 6px);
+        // width: calc(50% - 6px);
         margin-right: 12px;
         margin-bottom: 12px;
 
         font-weight: 700;
-        font-size: 15px;
+        font-size: 14px;
         line-height: 18px;
 
         padding: 16px;
@@ -124,7 +129,7 @@
           border: 1px solid #000;
         }
         &:nth-child(2n) {
-          margin-right: 0;
+          // margin-right: 0;
         }
       }
     }
