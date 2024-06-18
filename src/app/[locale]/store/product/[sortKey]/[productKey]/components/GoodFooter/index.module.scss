@@ -14,8 +14,6 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.09);
     box-sizing: border-box;
     transition: all 350ms ease;
-
-    padding-bottom: calc(16px + constant(safe-area-inset-bottom));
     .footer_content {
       max-width: 1248px;
       box-sizing: border-box;
