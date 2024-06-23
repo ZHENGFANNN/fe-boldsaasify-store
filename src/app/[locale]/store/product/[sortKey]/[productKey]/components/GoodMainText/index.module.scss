@@ -18,10 +18,10 @@
 
         display: flex;
         flex-wrap: wrap;
+
+        list-style: decimal;
         li {
           display: inline-flex;
-          text-transform: capitalize;
-
           min-width: calc(50% - 12px);
           margin-bottom: 6px;
           margin-right: 12px;
@@ -37,11 +37,7 @@
             vertical-align: middle;
             border-radius: 50%;
 
-            display: none;
-          }
-          .product_advantage_symbol {
-            margin-right: 4px;
-            font-size: 12px;
+            display: block;
           }
         }
       }
