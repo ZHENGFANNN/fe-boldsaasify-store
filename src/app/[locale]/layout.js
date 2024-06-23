@@ -36,7 +36,8 @@ async function getData({
     configNameSpace,
     languageNameSpace,
   });
-  result.GOODLIST = result.GOODLIST.map(
+  const GOODLIST = [];
+  result.GOODLIST.forEach(
     ({
       name,
       image_list,
@@ -45,18 +46,22 @@ async function getData({
       comboList,
       review_score,
       review_num,
+      goodSort,
     }) => {
-      return {
-        name,
-        image: image_list[0].src,
-        sort_key,
-        key,
-        review_score,
-        review_num,
-        comboList,
-      };
+      if (goodSort[0].enabled) {
+        GOODLIST.push({
+          name,
+          image: image_list[0].src,
+          sort_key,
+          key,
+          review_score,
+          review_num,
+          comboList,
+        });
+      }
     }
   );
+  result.GOODLIST = GOODLIST;
   result.GOODSORTLIST = result.GOODSORTLIST.map(({ name, key, image_src }) => {
     return {
       name,
@@ -98,7 +103,7 @@ export default async function RootLayout(props) {
     });
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
         <Layout
           locale={locale}

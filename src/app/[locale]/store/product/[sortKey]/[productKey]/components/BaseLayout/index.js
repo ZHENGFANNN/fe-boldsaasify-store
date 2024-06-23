@@ -46,6 +46,7 @@ export default function Layout({
         formateList.push({
           name: item.title,
           value: item.options[0].title,
+          desc: item.options[0].desc,
         });
       }
     });

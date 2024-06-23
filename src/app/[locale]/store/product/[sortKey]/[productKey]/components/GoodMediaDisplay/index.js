@@ -187,7 +187,12 @@ export default function GoodMediaDisplay() {
             <React.Fragment key={index}>
               {productCurCombo.img_list?.length > 0 ||
               productInfo.image_list?.length > 0 ? (
-                <div className={styles.splide_image_list}>
+                <div
+                  className={styles.splide_image_list}
+                  style={{
+                    display: productShowType === "image" ? "block" : "none",
+                  }}
+                >
                   <ul>
                     {productCurCombo.img_list?.map((item, index) => {
                       return (

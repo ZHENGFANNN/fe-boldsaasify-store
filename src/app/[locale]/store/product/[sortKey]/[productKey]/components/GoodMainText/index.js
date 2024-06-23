@@ -12,16 +12,14 @@ export default function GoodMainText() {
       {productInfo.sellingList.length > 0 ? (
         <ul className={styles.product_advantage}>
           {productInfo.sellingList.map((item, index) => {
-            if (index > 3) {
-              return null;
-            } else {
-              return (
-                <li key={index}>
-                  <span className={styles.product_advantage_symbol}>✅</span>
-                  {item.light}
-                </li>
-              );
-            }
+            return (
+              <li
+                key={index}
+                dangerouslySetInnerHTML={{
+                  __html: item.light,
+                }}
+              ></li>
+            );
           })}
         </ul>
       ) : null}

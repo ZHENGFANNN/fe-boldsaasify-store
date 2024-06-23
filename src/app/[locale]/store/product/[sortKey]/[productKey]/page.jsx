@@ -63,6 +63,8 @@ export default async function Product() {
             </div>
           </div>
         </section>
+        {/* 关联产品列表 */}
+        <AssociateProductList />
         <GoodNav />
         {/* 产品媒体列表 */}
         <GoodMediaList />
@@ -76,8 +78,7 @@ export default async function Product() {
         <GoodFaq />
         {/* 产品评论 */}
         <GoodReviewsContent />
-        {/* 关联产品列表 */}
-        <AssociateProductList />
+
         {/* 产品底部 */}
         <GoodFooter />
         {/* <Script

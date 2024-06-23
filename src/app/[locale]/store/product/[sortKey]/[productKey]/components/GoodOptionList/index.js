@@ -10,15 +10,8 @@ function GoodOptionItem({ title = "", options = [], type }) {
   const onChange = React.useCallback((item) => {
     setProductOptions(item);
   });
-
   const currentItem = React.useMemo(() => {
-    let value;
-    productOptions.forEach((item) => {
-      if (item.name === title) {
-        value = item.value;
-      }
-    });
-    return value;
+    return productOptions.find((item) => item.name === title) || {};
   }, [productOptions]);
 
   return (
@@ -33,12 +26,13 @@ function GoodOptionItem({ title = "", options = [], type }) {
                 key={index}
                 className={`
                     ${styles.list_item}
-                    ${item.title === currentItem ? styles.active : ""}
+                    ${item.title === currentItem.value ? styles.active : ""}
                 `}
                 onClick={() => {
                   onChange({
                     name: title,
                     value: item.title,
+                    desc: item.desc,
                   });
                 }}
               >
@@ -67,6 +61,14 @@ function GoodOptionItem({ title = "", options = [], type }) {
           }
         })}
       </div>
+      {currentItem.desc ? (
+        <div
+          className={styles.tip}
+          dangerouslySetInnerHTML={{
+            __html: currentItem.desc,
+          }}
+        ></div>
+      ) : null}
     </div>
   );
 }
@@ -75,7 +77,6 @@ export default function GoodOptionList() {
   const {
     productInfo: { typeList },
     productCurCombo,
-    productOptions,
     setProductOptions,
     removeProductOptions,
   } = React.useContext(ProductContext);
@@ -111,6 +112,7 @@ export default function GoodOptionList() {
         setProductOptions({
           name: item.title,
           value: item.options[0].title,
+          desc: item.options[0].desc,
         });
       }
     });
