@@ -1,0 +1,45 @@
+@keyframes fill {
+    0% {
+      stroke-dashoffset: 100;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+}
+
+
+
+.stars_container {
+    position: relative;
+    height: 16px;
+    user-select: none;
+  
+    margin-bottom: 8px;
+    .active_stars, .no_active_stars {
+        position: absolute;
+        left: 0;
+        top: 0;
+  
+        display: flex;
+        img {
+            margin: 0 1px;
+            width: 16px;
+            height: 16px;
+        }
+    }
+  
+    .active_stars {
+        overflow: hidden;
+    }
+    .score {
+        white-space: nowrap;
+  
+        display: flex;
+        align-items: center;
+        line-height: 16px;
+  
+        font-size: 13px;
+        color: rgba(0,0,0,.65);
+        margin-left: 100px;
+    }
+  }

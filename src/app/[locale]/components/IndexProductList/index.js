@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 
 import React from "react";
@@ -54,7 +56,7 @@ function ProductItem({ goodList }) {
                   productName: product.key,
                 });
               }}
-              href={`/store/product/${product.sort_key}/${product.key}`}
+              href={`/product/${product.sort_key}/${product.key}`}
               className={styles.goods_item}
             >
               <div

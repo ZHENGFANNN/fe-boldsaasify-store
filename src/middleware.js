@@ -94,6 +94,10 @@ export function middleware(request) {
     const origin = request.nextUrl.origin;
     return NextResponse.redirect(`${origin}${baseUrl}`);
   }
+
+  // 其他选项处理：设置请求头
+  returnOptions.headers.set("x-request-url", request.url);
+
   return returnOptions;
 }
 

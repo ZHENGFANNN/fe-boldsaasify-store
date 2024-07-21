@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 
 import styles from "./index.module.scss";
@@ -254,13 +256,13 @@ export default function OrderInfo({ LANG }) {
                           onClick={() => {
                             if (orderItem.pay_key === "bankTransfer") {
                               window.open(
-                                `/store/order/info?secret=${orderItem.secret}`,
+                                `/order/info?secret=${orderItem.secret}`,
                                 "_blank"
                               );
                             }
                             if (orderItem.pay_key === "payPal") {
                               window.open(
-                                `/store/order/info?secret=${orderItem.secret}`,
+                                `/order/info?secret=${orderItem.secret}`,
                                 "_blank"
                               );
                             }

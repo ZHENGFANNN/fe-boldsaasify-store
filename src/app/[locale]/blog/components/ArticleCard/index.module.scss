@@ -1,0 +1,98 @@
+.card {
+    max-width: 384px;
+    width: calc((100% - 48px) / 3);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 48px;
+    text-decoration: none;
+
+    background: #fff;
+    container-type: inline-size;
+
+    overflow: hidden;
+    border-radius: 8px;
+
+    transition: opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    &:hover {
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        .img_wrapper {
+            img {
+                transform: scale(1.1);
+            }
+        }
+    }
+    .img_wrapper {
+        width: 100%;
+        max-height: 216px;
+        height: calc((100vw - 48px) * 0.5625 / 3);
+        overflow: hidden;
+        img {
+            transition: opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1), transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .article_title {
+        padding: 0 16px;
+        margin-top: 5.6cqw;
+        font-weight: 700;
+        font-size: 5.6cqw;
+        line-height: 1.2;
+        color: #262629;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .article_info {
+        padding: 0 16px;
+        position: absolute;
+        bottom: 16px;
+        .article_info_time {
+            font-size: 14px;
+            line-height: 16px;
+            color: #76767f;
+        }
+    }
+}
+
+
+@media screen and (max-width:1080px) {
+    .card {
+        max-width: none;
+        width: calc(50% - 8px);
+        .img_wrapper {
+            width: 100%;
+            max-height: none;
+            height: calc((50vw - 36px) * 0.5625);
+        }
+        .article_title {
+            margin-top: 5cqw;
+            font-size: 5cqw;
+        }
+    }
+}
+
+@media screen and (max-width: 680px) {
+    .card {
+        width: 100%;
+        &:hover {
+            box-shadow: none;
+            .img_wrapper {
+                img {
+                    transform: scale(1);
+                }
+            }
+        }
+        .img_wrapper {
+            width: 100%;
+            height: calc((100vw - 32px) * 0.5625);
+        }
+    }
+}

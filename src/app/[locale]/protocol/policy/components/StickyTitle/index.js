@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 import styles from "../../page.module.scss";
 import React from "react";
@@ -6,35 +8,14 @@ export default function StickyTitle({ CONFIG }) {
   // 处理top
   React.useEffect(() => {
     const $appNavDom = document.getElementById("app-nav");
+    const $navSticky = document.getElementsByClassName(
+      styles.nav_posity_container
+    )[0];
     function scrollFunc() {
-      if (document.documentElement.scrollTop > 40) {
-        document.getElementsByClassName(
-          styles.nav_posity_container
-        )[0].style.top = `${$appNavDom.offsetHeight - 40}px`;
+      if (document.documentElement.scrollTop > 40 && $navSticky) {
+        $navSticky.style.top = `${$appNavDom.offsetHeight - 40}px`;
       } else {
-        document.getElementsByClassName(
-          styles.nav_posity_container
-        )[0].style.top = `${$appNavDom.offsetHeight}px`;
-      }
-    }
-    scrollFunc();
-    window.addEventListener("scroll", scrollFunc);
-    return () => {
-      window.removeEventListener("scroll", scrollFunc);
-    };
-  }, []);
-  // 处理top
-  React.useEffect(() => {
-    const $appNavDom = document.getElementById("app-nav");
-    function scrollFunc() {
-      if (document.documentElement.scrollTop > 40) {
-        document.getElementsByClassName(
-          styles.nav_posity_container
-        )[0].style.top = `${$appNavDom.offsetHeight - 40}px`;
-      } else {
-        document.getElementsByClassName(
-          styles.nav_posity_container
-        )[0].style.top = `${$appNavDom.offsetHeight}px`;
+        $navSticky.style.top = `${$appNavDom.offsetHeight}px`;
       }
     }
     scrollFunc();

@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 import React from "react";
 import GlobalContext from "@/GlobalContext";
@@ -8,7 +10,7 @@ import CountryList from "@/components/CountrySelect";
 import DropSelect from "@/components/DropSelect";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import Api from "../api";
 import tracking from "../tracking";
@@ -16,6 +18,7 @@ import tracking from "../tracking";
 import styles from "./index.module.scss";
 
 export default function NavBar() {
+  const pathname = usePathname();
   const { LANG, CONFIG, goodSortList, goodList } =
     React.useContext(GlobalContext);
   const ModalRef = React.useRef(null);
@@ -92,6 +95,16 @@ export default function NavBar() {
         setVavItemActive(false);
       }
       // 处理top header
+      // 不展示TOP header
+      const hiddenTopHeader = ["/blog"].find((item) => pathname.includes(item));
+      if (hiddenTopHeader) {
+        document.getElementsByClassName(
+          `${styles.container}`
+        )[0].style.transform = "translateY(-40px)";
+        return;
+      }
+
+      // 展示TOP header
       if (document.documentElement.scrollTop > 40) {
         document.getElementsByClassName(
           `${styles.container}`
@@ -109,7 +122,7 @@ export default function NavBar() {
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [navItemActive]);
+  }, [navItemActive, pathname]);
 
   return (
     <>
@@ -345,6 +358,7 @@ function TopNavBar() {
 }
 
 function RightArea() {
+  const router = useRouter();
   const { LANG, userInfo, productNum, showCartModal } =
     React.useContext(GlobalContext);
   return (
@@ -372,7 +386,7 @@ function RightArea() {
           showCartModal();
         }}
       >
-        <div href="/store/cart">
+        <div>
           {productNum !== 0 ? (
             <div className={styles.num}>{productNum}</div>
           ) : null}

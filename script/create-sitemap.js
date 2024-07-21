@@ -1,3 +1,5 @@
+/** @format */
+
 const fs = require("fs");
 const { SitemapStream, streamToPromise } = require("sitemap");
 const chalk = require("chalk");
@@ -57,7 +59,7 @@ function getProductPath() {
   LANGUAGES("list").forEach((item) => {
     productList[item.value].forEach((product) => {
       pathList.push(
-        `${item.value === "en" ? "" : `/${item.value}`}/store/product/${
+        `${item.value === "en" ? "" : `/${item.value}`}/product/${
           product.sort_key
         }/${product.key}`
       );
@@ -133,7 +135,7 @@ async function getSitMap(times = 1) {
         }
       }
       // 处理产品路径
-      if (page.includes("[locale]/store/product/[sortKey]/[productKey]")) {
+      if (page.includes("[locale]/product/[sortKey]/[productKey]")) {
         const productPaths = getProductPath();
         for (const productPath of productPaths) {
           allPages.push({ url: productPath, lastmod: new Date() });

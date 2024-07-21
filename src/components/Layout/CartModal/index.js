@@ -1,3 +1,5 @@
+/** @format */
+
 import ReactDOM from "react-dom";
 import React from "react";
 import styles from "./index.module.scss";
@@ -136,7 +138,7 @@ const CartMain = function ({ handleClose }) {
               // 产品相关
               name: product.name,
               image: product.image,
-              href: `/${locale}/store/product/${product.sort_key}/${product.key}`,
+              href: `/${locale}/product/${product.sort_key}/${product.key}`,
               sortKey: product.sort_key,
               productKey: product.key,
               comboKey: comboInfo.key,
@@ -223,7 +225,7 @@ const CartMain = function ({ handleClose }) {
                             onClick={() => {
                               handleClose();
                               router.push(
-                                `/store/product/${item.sortKey}/${item.productKey}`
+                                `/product/${item.sortKey}/${item.productKey}`
                               );
                             }}
                           >
@@ -481,7 +483,7 @@ const CartMain = function ({ handleClose }) {
                     value: totalPrice,
                     contents: cartList,
                   });
-                  location.href = `/${locale}/store/order`;
+                  location.href = `/${locale}/order`;
                 }}
               >
                 {LANG["common.cart.checkout"]}

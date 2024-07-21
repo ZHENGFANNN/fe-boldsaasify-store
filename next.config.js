@@ -1,3 +1,5 @@
+/** @format */
+
 const path = require("path");
 
 const nextConfig = {
@@ -16,6 +18,16 @@ const nextConfig = {
   // 图片白名单
   images: {
     domains: ["image.sslfly.com", "public.sslfly.com"],
+  },
+
+  async redirects() {
+    return [
+      {
+        source: "/product",
+        destination: "/",
+        permanent: true,
+      },
+    ];
   },
 
   webpack: (config) => {

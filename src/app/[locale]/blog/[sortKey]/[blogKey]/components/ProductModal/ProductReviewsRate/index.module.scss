@@ -1,0 +1,36 @@
+.container {
+    position: relative;
+    height: 14px;
+    user-select: none;
+    cursor: pointer;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+
+    &[data-disabled="true"] {
+        cursor: auto;
+    }
+
+    .active_stars, .no_active_stars {
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        display: flex;
+        img {
+            width: 14px;
+            height: 14px;
+        }
+    }
+
+    .active_stars {
+        overflow: hidden;
+       
+    }
+    .reviews_text {
+        text-transform: capitalize;
+        margin-left: 76px;
+        font-size: 13px;
+        color: #534040;
+    }
+}

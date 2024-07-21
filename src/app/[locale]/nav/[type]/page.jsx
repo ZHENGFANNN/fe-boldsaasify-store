@@ -1,3 +1,5 @@
+/** @format */
+
 import NAVFUNC from "@/config/NAVFUNC";
 import styles from "./page.module.scss";
 import React from "react";
@@ -93,7 +95,7 @@ export default async function Nav({ params: { type, locale } }) {
                     return (
                       <Link
                         key={index2}
-                        href={`/store/product/${item.key}/${item2.key}`}
+                        href={`/product/${item.key}/${item2.key}`}
                         className={styles.header_nav_items}
                       >
                         <img

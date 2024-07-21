@@ -1,3 +1,5 @@
+/** @format */
+
 import "../../styles/globals.css";
 import "../../styles/reset.css";
 

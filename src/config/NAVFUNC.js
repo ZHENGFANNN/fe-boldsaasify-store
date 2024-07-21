@@ -1,7 +1,10 @@
 /**
  * 作用：导航栏列表
  * 注意：所有语言相关的数据都在这里获取
+ *
+ * @format
  */
+
 export default function NAVFUNC({ LANG, CONFIG, goodList, goodSortList }) {
   return [
     {
@@ -28,7 +31,7 @@ export default function NAVFUNC({ LANG, CONFIG, goodList, goodSortList }) {
       list: goodList?.map((item) => {
         return {
           sub_title: item.name,
-          href: `/store/product/${item.sort_key}/${item.key}`,
+          href: `/product/${item.sort_key}/${item.key}`,
           img: (
             <img
               height={60}
@@ -39,6 +42,11 @@ export default function NAVFUNC({ LANG, CONFIG, goodList, goodSortList }) {
           ),
         };
       }),
+    },
+    {
+      key: "blog",
+      title: "Blog",
+      list: [],
     },
     {
       key: "where_buy",

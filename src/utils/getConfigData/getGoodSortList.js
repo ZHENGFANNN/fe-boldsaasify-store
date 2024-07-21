@@ -1,33 +1,27 @@
+const cn = require("@@/locale/productSort/cn.json");
+const de = require("@@/locale/productSort/de.json");
+const en = require("@@/locale/productSort/en.json");
+const es = require("@@/locale/productSort/es.json");
+const fr = require("@@/locale/productSort/fr.json");
+const hk = require("@@/locale/productSort/hk.json");
+const it = require("@@/locale/productSort/it.json");
+const ja = require("@@/locale/productSort/ja.json");
+const ko = require("@@/locale/productSort/ko.json");
+const ru = require("@@/locale/productSort/ru.json");
+
+const productSortList = {
+  cn,
+  de,
+  en,
+  es,
+  fr,
+  hk,
+  it,
+  ja,
+  ko,
+  ru,
+};
+
 export default async function getGoodSortList(lang) {
-  if (lang === "cn") {
-    const data = await import("@@/locale/productSort/cn.json");
-    return data.default;
-  } else if (lang === "de") {
-    const data = await import("@@/locale/productSort/de.json");
-    return data.default;
-  } else if (lang === "en") {
-    const data = await import("@@/locale/productSort/en.json");
-    return data.default;
-  } else if (lang === "es") {
-    const data = await import("@@/locale/productSort/es.json");
-    return data.default;
-  } else if (lang === "fr") {
-    const data = await import("@@/locale/productSort/fr.json");
-    return data.default;
-  } else if (lang === "hk") {
-    const data = await import("@@/locale/productSort/hk.json");
-    return data.default;
-  } else if (lang === "it") {
-    const data = await import("@@/locale/productSort/it.json");
-    return data.default;
-  } else if (lang === "ja") {
-    const data = await import("@@/locale/productSort/ja.json");
-    return data.default;
-  } else if (lang === "ko") {
-    const data = await import("@@/locale/productSort/ko.json");
-    return data.default;
-  } else if (lang === "ru") {
-    const data = await import("@@/locale/productSort/ru.json");
-    return data.default;
-  }
+  return productSortList[lang];
 }
