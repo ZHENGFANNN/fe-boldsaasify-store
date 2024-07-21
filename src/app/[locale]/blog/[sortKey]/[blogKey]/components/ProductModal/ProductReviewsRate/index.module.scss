@@ -7,6 +7,7 @@
     display: flex;
     align-items: center;
 
+    margin-bottom: 8px;
     &[data-disabled="true"] {
         cursor: auto;
     }

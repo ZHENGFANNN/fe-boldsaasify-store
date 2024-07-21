@@ -1,45 +1,26 @@
-@keyframes fill {
-    0% {
-      stroke-dashoffset: 100;
-    }
-    100% {
-      stroke-dashoffset: 0;
+.associate_product_tip {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    writing-mode: tb-rl;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    color: #000;
+    background: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 32px 6px;
+    border-radius: 12px 0 0 12px;
+
+    opacity: 0;
+    transition: all 300ms;
+    z-index: 9;
+    &[data-active="true"] {
+        opacity: 1;
     }
 }
-
-
-
-.stars_container {
-    position: relative;
-    height: 16px;
-    user-select: none;
-  
-    margin-bottom: 8px;
-    .active_stars, .no_active_stars {
-        position: absolute;
-        left: 0;
-        top: 0;
-  
-        display: flex;
-        img {
-            margin: 0 1px;
-            width: 16px;
-            height: 16px;
-        }
-    }
-  
-    .active_stars {
-        overflow: hidden;
-    }
-    .score {
-        white-space: nowrap;
-  
-        display: flex;
-        align-items: center;
-        line-height: 16px;
-  
-        font-size: 13px;
-        color: rgba(0,0,0,.65);
-        margin-left: 100px;
-    }
-  }

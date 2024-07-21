@@ -50,7 +50,6 @@ export default function AssociateArticle({ articleList, locale }) {
     // 判断屏幕是否大于列表
     const windowWidth = Math.min(window.innerWidth - 32, 1200);
     const listWidth = $listDom.offsetWidth;
-    console.log(windowWidth, listWidth);
     if (listWidth > windowWidth) {
       setShowArrow(true);
     } else {

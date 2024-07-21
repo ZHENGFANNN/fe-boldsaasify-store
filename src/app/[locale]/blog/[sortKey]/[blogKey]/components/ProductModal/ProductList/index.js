@@ -4,9 +4,9 @@ import React from "react";
 import Link from "next/link";
 import styles from "./index.module.scss";
 import { formatCurrency } from "@/utils";
+
 import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
-import $ from "jquery";
 import ProductReviewsRate from "../ProductReviewsRate";
 
 export default function ProductList({ products, goodDiscountFestival, LANG }) {
@@ -17,39 +17,42 @@ export default function ProductList({ products, goodDiscountFestival, LANG }) {
       type: "loop",
       arrows: false,
       rewind: true,
-      fixedWidth: "303px",
-      fixedHeight: "485px",
+      fixedWidth: "220px",
+      fixedHeight: "385px",
       interval: 4000,
       pauseOnHover: false,
       padding: {
-        left: "calc(50% - 151.5px)",
-        right: "calc(50% - 151.5px)",
+        left: "calc(50% - 110px)",
+        right: "calc(50% - 110px)",
       },
       gap: 12,
     }).mount();
 
-    const $progressList = $(
-      `.${styles.splide} .${styles.pagination_progress}`
-    ).find(`.${styles.progress_item}`);
+    const $progressList = document.querySelectorAll(
+      `.${styles.splide} .${styles.pagination_progress} .${styles.progress_item}`
+    );
 
-    $progressList.on("click", function () {
-      const index = $(this).index();
-      splide.go(index);
+    $progressList.forEach(function ($dom, index) {
+      $dom.addEventListener("click", function () {
+        splide.go(index);
+      });
     });
 
     splide.on("move", function (index) {
-      $progressList.each(function (progressIndex) {
+      $progressList.forEach(function ($dom, progressIndex) {
         if (index === progressIndex) {
-          $(this).addClass(styles.active);
+          $dom.classList.add(styles.active);
         } else {
-          $(this).removeClass(styles.active);
+          $dom.classList.remove(styles.active);
         }
       });
     });
   }, []);
+
   React.useEffect(() => {
     initSplide();
   }, []);
+
   return (
     <div className={styles.container}>
       <div className={`splide ${styles.splide}`}>

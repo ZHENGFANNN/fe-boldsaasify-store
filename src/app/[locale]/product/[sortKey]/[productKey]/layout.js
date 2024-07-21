@@ -1,3 +1,5 @@
+/** @format */
+
 import BaseLayout from "./components/BaseLayout";
 import getConfigData from "@/utils/getConfigData";
 import { cookies, headers } from "next/headers";

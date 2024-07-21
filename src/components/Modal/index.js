@@ -1,8 +1,10 @@
+/** @format */
+
 import React from "react";
 import ReactDOM from "react-dom";
 import styles from "./index.module.scss";
 
-function Modal({ children }, ref) {
+function Modal({ children, onClose = () => {} }, ref) {
   const [show, setShow] = React.useState(false);
   const [title, setTitle] = React.useState(false);
 
@@ -42,6 +44,7 @@ function Modal({ children }, ref) {
             data-show={show}
             onClick={() => {
               setShow(false);
+              onClose();
             }}
           >
             <div className={styles.modal_container}>
@@ -57,7 +60,10 @@ function Modal({ children }, ref) {
                       <div className={styles.title}>{title}</div>
                       <div
                         className={styles.close}
-                        onClick={() => setShow(false)}
+                        onClick={() => {
+                          setShow(false);
+                          onClose();
+                        }}
                       >
                         ×
                       </div>
