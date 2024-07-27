@@ -75,7 +75,14 @@ export default async function BlogSort({ params: { locale, sortKey } }) {
     languageNameSpace: ["store.blog_index.all", "store.blog_index.title"],
   });
   const blogSortList = Object.keys(blogSortMap)
-    .map((item) => blogSortMap[item])
+    .map((item) => {
+      const blogSort = blogSortMap[item];
+      return {
+        weight: blogSort.weight,
+        key: blogSort.key,
+        name: blogSort.name,
+      };
+    })
     .sort((a, b) => b.weight - a.weight);
 
   const currentBlogSort = blogSortMap[sortKey];

@@ -158,7 +158,14 @@ export default async function Article({
     ],
   });
   const blogSortList = Object.keys(blogSortMap)
-    .map((item) => blogSortMap[item])
+    .map((item) => {
+      const blogSort = blogSortMap[item];
+      return {
+        weight: blogSort.weight,
+        key: blogSort.key,
+        name: blogSort.name,
+      };
+    })
     .sort((a, b) => b.weight - a.weight);
 
   return (
