@@ -1,8 +1,11 @@
+/** @format */
+
 import Script from "next/script";
 
 export default function IdJson({ article, CONFIG }) {
   return (
     <Script
+      id="blog-article-ld-json"
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify({
