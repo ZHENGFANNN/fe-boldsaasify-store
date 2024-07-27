@@ -24,11 +24,6 @@ languageList.forEach((item) => {
   updateLocaleCache(item.value);
 });
 
-export default async function getBlogList(lang) {
-  return localeCache[lang];
-}
-
 export async function GET() {
-  // await getData();
   return Response.json(localeCache["en"]);
 }

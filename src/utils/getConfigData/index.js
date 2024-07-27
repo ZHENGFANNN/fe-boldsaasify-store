@@ -34,7 +34,7 @@ const getAllConfig = async function ({ locale, configList }) {
     result.GOODDISCOUNTFESTIVAL = null;
   }
   if (configList.includes("blog")) {
-    promiseList.push(getBlogData(locale));
+    promiseList.push(await getBlogData(locale));
     result.BLOG = null;
   }
 
