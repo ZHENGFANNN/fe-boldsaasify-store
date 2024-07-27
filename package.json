@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "fetch-dev": "NODE_ENV=local node ./script",
-    "fetch-prod":  "NODE_ENV=prod node ./script",
+    "fetch-prod": "NODE_ENV=prod node ./script",
     "dev": " yarn fetch-dev && next dev -p 8080",
     "prod": "yarn fetch-prod && next prod -p 8080",
     "start": "next start -p 8080",
@@ -20,6 +20,7 @@
     "body-scroll-lock": "^4.0.0-beta.0",
     "chalk": "4.1.2",
     "dayjs": "^1.11.11",
+    "dotenv": "^16.4.5",
     "gsap": "^3.12.2",
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
