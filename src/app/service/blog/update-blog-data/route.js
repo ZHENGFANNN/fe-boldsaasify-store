@@ -1,6 +1,7 @@
 /** @format */
 import fetchBlog from "@@/script/fetch-blog.js";
 import { updateData } from "../read-blog-data/route.js";
+export const runtime = "edge";
 
 export async function GET() {
   try {
