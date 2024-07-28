@@ -1,5 +1,6 @@
 /** @format */
 
+import "server-only";
 export const runtime = "nodejs";
 import getLanguage from "@/config/LANGUAGE";
 const languageList = getLanguage("list");
