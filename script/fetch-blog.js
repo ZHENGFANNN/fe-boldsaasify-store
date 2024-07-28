@@ -61,10 +61,10 @@ const fetchBlog = async (times = 1, cookie = "") => {
         if (!obj[lang.value]) obj[lang.value] = obj["en"];
       });
 
-      Object.keys(obj).map((item) => {
+      Object.keys(obj).forEach((item) => {
         // !! 处理数据结构
         const fileData = JSON.stringify(handleBlogData(obj[item]), null, 2);
-        fs.writeFile(`${fileDir}/${item}.json`, fileData, (err) => {
+        fs.writeFileSync(`${fileDir}/${item}.json`, fileData, (err) => {
           if (err) {
             console.log(`${chalk.red("【blog写入失败】")}`, err);
             error = true;

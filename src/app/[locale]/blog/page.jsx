@@ -108,11 +108,11 @@ export default async function BlogSort({ params: { locale } }) {
     .map((item) => {
       const blogSort = blogSortMap[item];
       return {
+        weight: blogSort.weight,
         key: blogSort.key,
         name: blogSort.name,
         blogList: blogSort.blogList.map((item) => {
           return {
-            weight: item.weight,
             image: item.image,
             title: item.title,
             key: item.key,
