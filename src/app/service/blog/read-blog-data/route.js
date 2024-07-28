@@ -1,4 +1,8 @@
 /** @format */
+
+export const runtime = "nodejs";
+export const fetchCache = "force-no-store";
+
 const fs = require("fs");
 import path from "path";
 import getLanguage from "@/config/LANGUAGE";
