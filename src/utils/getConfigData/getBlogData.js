@@ -5,7 +5,7 @@ import getLanguage from "@/config/LANGUAGE";
 const languageList = getLanguage("list");
 const localeCache = {};
 function updateLocaleCache(lang) {
-  const fileContents = import(`@@/locale/blogData/${lang}.json`);
+  const fileContents = require(`@@/locale/blogData/${lang}.json`);
   try {
     const data = JSON.parse(fileContents);
     localeCache[lang] = data;
@@ -16,11 +16,11 @@ function updateLocaleCache(lang) {
   }
 }
 
-const updateData = () => {
-  languageList.forEach((item) => {
-    updateLocaleCache(item.value);
-  });
-};
+// const updateData = () => {
+//   languageList.forEach((item) => {
+//     updateLocaleCache(item.value);
+//   });
+// };
 
 // // 初始化缓存
 // updateData();
