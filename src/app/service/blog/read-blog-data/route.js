@@ -32,6 +32,6 @@ const updateData = () => {
 // 初始化缓存
 updateData();
 
-export async function GET() {
+export async function POST() {
   return Response.json(localeCache["en"]);
 }
