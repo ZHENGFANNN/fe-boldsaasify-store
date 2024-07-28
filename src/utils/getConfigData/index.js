@@ -140,7 +140,6 @@ export default async function getConfigData({
   configNameSpace,
 }) {
   const startTIme = Date.now();
-  console.log("---开始CONFIG---");
   // 获取所有配置数据
   const result = await getAllConfig({ locale, configList });
   /**
