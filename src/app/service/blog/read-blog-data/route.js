@@ -22,7 +22,7 @@ function updateLocaleCache(lang) {
   }
 }
 
-export const updateData = () => {
+const updateData = () => {
   languageList.forEach((item) => {
     updateLocaleCache(item.value);
   });
