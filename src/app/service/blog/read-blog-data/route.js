@@ -1,6 +1,6 @@
 /** @format */
 
-import fs from "fs";
+const fs = require("fs");
 import path from "path";
 import getLanguage from "@/config/LANGUAGE";
 const languageList = getLanguage("list");
