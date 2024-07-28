@@ -1,6 +1,4 @@
 /** @format */
-export const runtime = "nodejs";
-
 const fs = require("fs");
 import path from "path";
 import getLanguage from "@/config/LANGUAGE";
@@ -24,7 +22,7 @@ function updateLocaleCache(lang) {
   }
 }
 
-const updateData = () => {
+export const updateData = () => {
   languageList.forEach((item) => {
     updateLocaleCache(item.value);
   });
