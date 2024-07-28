@@ -9,6 +9,7 @@ function updateLocaleCache(lang) {
   try {
     const data = JSON.parse(fileContents);
     localeCache[lang] = data;
+    return data;
   } catch {
     localeCache[lang] = fileContents;
   }
@@ -24,5 +25,5 @@ const updateData = () => {
 // updateData();
 
 export default async function getBlogList(lang) {
-  return localeCache[lang];
+  return updateLocaleCache[lang];
 }
