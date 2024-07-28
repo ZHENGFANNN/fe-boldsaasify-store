@@ -2,18 +2,28 @@
 
 import "server-only";
 export const runtime = "nodejs";
+
+const fs = require("fs");
+import path from "path";
 import getLanguage from "@/config/LANGUAGE";
 const languageList = getLanguage("list");
 const localeCache = {};
+
 function updateLocaleCache(lang) {
-  const fileContents = require(`@@/locale/blogData/${lang}.json`);
+  const filePath = path.join(
+    process.cwd(),
+    "locale",
+    "blogData",
+    `${lang}.json`
+  );
+  const fileContents = fs.readFileSync(filePath, "utf8");
   try {
     const data = JSON.parse(fileContents);
     localeCache[lang] = data;
     return data;
   } catch {
     localeCache[lang] = fileContents;
-    return fileContents;
+    return data;
   }
 }
 

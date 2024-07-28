@@ -1,5 +1,4 @@
 /** @format */
-
 import React from "react";
 import getConfigData from "@/utils/getConfigData";
 import styles from "./page.module.scss";
@@ -8,7 +7,7 @@ import BaseLayout from "./components/BaseLayout";
 import Link from "next/link";
 import Banner from "./components/Banner";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export async function generateMetadata({ params: { locale } }) {
   const {

@@ -1,5 +1,8 @@
 /** @format */
 
+import "server-only";
+export const runtime = "nodejs";
+
 import getGoodList from "@/utils/getConfigData/getGoodList";
 import getConfigList from "@/utils/getConfigData/getConfigList";
 import getLanguageList from "@/utils/getConfigData/getLanguageList";
