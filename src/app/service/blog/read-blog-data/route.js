@@ -3,7 +3,6 @@
 import fs from "fs";
 import path from "path";
 import getLanguage from "@/config/LANGUAGE";
-export const runtime = "edge";
 const languageList = getLanguage("list");
 
 const localeCache = {};
