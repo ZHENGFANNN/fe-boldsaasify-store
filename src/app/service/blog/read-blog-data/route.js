@@ -38,7 +38,6 @@ export const updateData = () => {
 updateData();
 
 export async function GET(request) {
-  console.log("request:", request.url);
   const data = Response.json(localeCache["cn"]);
   return data;
 }
