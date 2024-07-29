@@ -35,7 +35,8 @@ export const updateData = () => {
 // 初始化缓存
 updateData();
 
-export async function GET() {
+export async function GET(request) {
+  console.log("[Request]: ", request.nextUrl.searchParams.get("lang"));
   const data = Response.json(localeCache);
   return data;
 }
