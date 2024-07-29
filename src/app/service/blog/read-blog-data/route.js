@@ -4,7 +4,6 @@ export const runtime = "nodejs";
 export const fetchCache = "force-cache";
 
 const fs = require("fs");
-const qs = require("qs");
 
 import { useParams } from "next/navigation";
 import path from "path";
@@ -38,8 +37,7 @@ export const updateData = () => {
 // 初始化缓存
 updateData();
 
-export async function GET(request) {
-  const { lang } = qs.parse(request.url.split("?")[1]);
-  const data = Response.json(localeCache[lang]);
+export async function GET() {
+  const data = Response.json(localeCache);
   return data;
 }

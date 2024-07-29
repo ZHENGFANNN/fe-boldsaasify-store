@@ -50,7 +50,7 @@ export default function Banner({ list }) {
                   className={styles.splide_item}
                 >
                   <div className={styles.image_container}>
-                    <img src={item.image} />
+                    <img alt={item.title} src={item.image} />
                   </div>
                   <div className={styles.text_container}>{item.title}</div>
                   <div className={styles.mask}></div>

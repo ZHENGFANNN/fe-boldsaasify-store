@@ -4,10 +4,9 @@ const localeData = {};
 async function getData(lang) {
   if (!localeData[lang]) {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/service/blog/read-blog-data?lang=${lang}`,
+      `${process.env.NEXT_PUBLIC_DOMAIN}/service/blog/read-blog-data`,
       {
         method: "GET",
-        params: { lang },
       }
     );
     const data = await response.json();
