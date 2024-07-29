@@ -5,7 +5,7 @@ export const fetchCache = "force-cache";
 
 const fs = require("fs");
 
-import qs from "qs";
+import { useParams } from "next/navigation";
 import path from "path";
 import getLanguage from "@/config/LANGUAGE";
 
@@ -38,7 +38,7 @@ export const updateData = () => {
 updateData();
 
 export async function GET(request) {
-  const lang = request.nextUrl.search.split("?")[1];
+  console.log("request:", request.url);
   const data = Response.json(localeCache["cn"]);
   return data;
 }
