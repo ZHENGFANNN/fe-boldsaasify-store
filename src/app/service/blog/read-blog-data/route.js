@@ -38,7 +38,7 @@ export const updateData = () => {
 updateData();
 
 export async function GET(request) {
-  const { lang } = qs.parse(request.nextUrl.search.split("?")[1]);
-  const data = Response.json(localeCache[lang]);
+  const lang = request.nextUrl.search.split("?")[1];
+  const data = Response.json(localeCache["cn"]);
   return data;
 }
