@@ -27,7 +27,7 @@ export default function ProductModal({
     const scrollEvent = debounce(function () {
       const scrollTop =
         document.body.scrollTop || document.documentElement.scrollTop;
-      if (scrollTop > (bodyHeight * 1) / 2) {
+      if (scrollTop + window.innerHeight / 2 > (bodyHeight * 1) / 2) {
         modalRef.current.show({
           title: LANG["store.blog_index.related_products"],
         });

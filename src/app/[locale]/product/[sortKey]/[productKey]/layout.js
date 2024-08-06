@@ -101,13 +101,13 @@ export async function generateMetadata({ params: { locale, productKey } }) {
   });
   if (productInfo) {
     return {
-      title: `${productInfo.indexConfig[0]?.page_title} - ${CONFIG["company.basic.company_name"]}`,
-      description: productInfo.indexConfig[0]?.page_description,
-      keywords: productInfo.indexConfig[0]?.page_keywords,
+      title: `${productInfo.page_title} - ${CONFIG["company.basic.company_name"]}`,
+      description: productInfo.page_description,
+      keywords: productInfo.page_keywords,
       metadataBase: new URL(productInfo.image_list[0].src),
       openGraph: {
-        title: `${productInfo.indexConfig[0]?.page_title} - ${CONFIG["company.basic.company_name"]}`,
-        description: productInfo.indexConfig[0]?.page_description,
+        title: `${productInfo.page_title} - ${CONFIG["company.basic.company_name"]}`,
+        description: productInfo.page_description,
         images: productInfo.image_list.map((item) => {
           return {
             url: item.src,
