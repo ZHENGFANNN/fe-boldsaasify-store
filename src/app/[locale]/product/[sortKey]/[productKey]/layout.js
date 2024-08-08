@@ -14,6 +14,7 @@ async function getProductInfo({ productList, productKey }) {
     return item.key === productKey;
   });
 }
+
 // 获取关联产品
 async function getAssociateProduct({ productInfo, area }) {
   if (!productInfo?.associateProduct) return [];
@@ -50,6 +51,7 @@ async function getAssociateProduct({ productInfo, area }) {
   );
   return newAssociateProduct;
 }
+
 /**
  * 获取数据
  */

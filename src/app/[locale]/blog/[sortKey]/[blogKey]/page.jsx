@@ -13,6 +13,7 @@ import BaseLayout from "../../components/BaseLayout";
 
 import ProductModal from "./components/ProductModal";
 import { cookies } from "next/headers";
+import "@/styles/richtext.scss";
 
 export const runtime = "edge";
 
@@ -188,7 +189,7 @@ export default async function Article({
               />
               <div
                 id="blog-article-content-html"
-                className={styles.content}
+                className="wangeditor-rich-text-css"
                 dangerouslySetInnerHTML={{
                   __html: blogArticle.content,
                 }}

@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 import React from "react";
 import styles from "./index.module.scss";
@@ -33,15 +35,18 @@ export default function VideoModal({
       <div className={styles.play_icon_container} onClick={() => setShow(true)}>
         <div className={styles.play_icon}></div>
       </div>
-      <Image
-        alt={alt}
-        src={poster}
-        style={{
-          height,
-          width,
-          borderRadius,
-        }}
-      />
+      {poster ? (
+        <Image
+          alt={alt}
+          src={poster}
+          style={{
+            height,
+            width,
+            borderRadius,
+          }}
+        />
+      ) : null}
+
       {!lazyLoading &&
         ReactDOM.createPortal(
           <div className={[styles.fixed, show ? styles.show : ""].join(" ")}>

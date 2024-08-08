@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 
 import GoodMainText from "./components/GoodMainText";
@@ -11,6 +13,7 @@ import GoodAccessoriesList from "./components/GoodAccessoriesList";
 import GoodFunctionList from "./components/GoodFunctionList";
 import GoodMediaList from "./components/GoodMediaList";
 import GoodNumber from "./components/GoodNumber";
+import GoodContent from "./components/GoodContent";
 import GoodBtnList from "./components/GoodBtnList";
 import Countdown from "./components/Countdown";
 
@@ -58,6 +61,8 @@ export default async function Product() {
               <GoodNumber />
               {/* 支付按钮 */}
               <GoodBtnList />
+              {/* 商品内容 */}
+              <GoodContent />
               {/* 产品保障 */}
               <GoodGuarantee />
             </div>
@@ -78,7 +83,6 @@ export default async function Product() {
         <GoodFaq />
         {/* 产品评论 */}
         <GoodReviewsContent />
-
         {/* 产品底部 */}
         <GoodFooter />
         {/* <Script

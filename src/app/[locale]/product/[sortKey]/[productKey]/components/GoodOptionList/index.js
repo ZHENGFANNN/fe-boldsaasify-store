@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 import React from "react";
 import styles from "./index.module.scss";
@@ -46,12 +48,13 @@ function GoodOptionItem({ title = "", options = [], type }) {
                 data-carousel={item.index}
                 className={`
                     ${styles.list_item_image}
-                    ${item.title === currentItem ? styles.active : ""}
+                    ${item.title === currentItem.value ? styles.active : ""}
                 `}
                 onClick={() => {
                   onChange({
                     name: title,
                     value: item.title,
+                    desc: item.desc,
                   });
                 }}
               >
