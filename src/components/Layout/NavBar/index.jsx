@@ -98,7 +98,6 @@ export default function NavBar() {
       // 处理top header
       // 不展示TOP header
       const hiddenTopHeader = ["/blog"].find((item) => pathname.includes(item));
-      console.log("[pathname]: ", hiddenTopHeader, pathname);
       if (hiddenTopHeader) {
         document.getElementsByClassName(
           `${styles.container}`
