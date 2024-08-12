@@ -5,7 +5,6 @@ export const fetchCache = "force-cache";
 
 const fs = require("fs");
 
-import { useParams } from "next/navigation";
 import path from "path";
 import getLanguage from "@/config/LANGUAGE";
 
@@ -37,7 +36,8 @@ export const updateData = () => {
 // 初始化缓存
 updateData();
 
-export async function GET() {
+export async function GET(req, res) {
+  console.log("Response: ", new Request(req).url);
   const data = Response.json(localeCache);
   return data;
 }

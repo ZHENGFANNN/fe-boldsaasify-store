@@ -9,13 +9,6 @@ import IndexProductList from "./components/IndexProductList";
 import IndexBanner from "./components/IndexBanner";
 import IndexContext from "./components/IndexContext";
 
-import { Redis } from "@upstash/redis";
-
-const redis = new Redis({
-  url: "https://hot-llama-52146.upstash.io",
-  token: "AcuyAAIjcDEyYWY1YjhjMzY3OTg0OGIyYmJlYzk2NmZiZDc3OTM4OHAxMA",
-});
-
 import { cookies } from "next/headers";
 
 export const runtime = "edge";
@@ -86,13 +79,6 @@ async function getData({ locale, area }) {
   return result;
 }
 
-async function getRedisData() {
-  console.time("---redis---");
-  const res = await redis.get("foo");
-  console.timeEnd("---redis---");
-  return res;
-}
-
 export async function generateMetadata({ params: { locale } }) {
   const area = cookies().get("area")?.value || "us";
   const { LANG, CONFIG } = await getData({
@@ -107,7 +93,6 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Home({ params: { locale } }) {
-  const res = await getRedisData();
   const area = cookies().get("area")?.value || "us";
   const { CONFIG, LANG, GOODDISCOUNTFESTIVAL, GOODSORTLIST } = await getData({
     locale,
