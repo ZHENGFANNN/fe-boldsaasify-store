@@ -37,9 +37,7 @@ export const updateData = () => {
 // 初始化缓存
 updateData();
 
-export async function GET(req, res) {
-  const url = new Request(req).url;
-  const { lang } = qs.parse(url.split("?")[1], { ignoreQueryPrefix: true });
-  const data = Response.json(localeCache);
+export async function GET(_, { params: { lang } }) {
+  const data = Response.json(localeCache[lang]);
   return data;
 }
