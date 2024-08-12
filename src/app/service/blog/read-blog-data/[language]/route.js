@@ -38,6 +38,6 @@ export const updateData = () => {
 updateData();
 
 export async function GET(_, { params: { language } }) {
-  const data = Response.json(localeCache[language]);
+  const data = Response.json(localeCache);
   return data;
 }
