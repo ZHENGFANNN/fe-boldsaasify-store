@@ -1,11 +1,11 @@
 /** @format */
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const fetchCache = "force-cache";
 
-import path from "path";
-import fs from "fs";
+const fs = require("fs");
 
+import path from "path";
 import getLanguage from "@/config/LANGUAGE";
 
 const languageList = getLanguage("list");
@@ -36,7 +36,7 @@ export const updateData = () => {
 // 初始化缓存
 updateData();
 
-export async function GET(_, { params: { language } }) {
+export async function GET() {
   const data = Response.json(localeCache);
   return data;
 }
