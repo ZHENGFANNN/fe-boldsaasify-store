@@ -1,6 +1,6 @@
 /** @format */
 import fetchBlog from "@@/script/fetch-blog.js";
-import { updateData } from "../read-blog-data/route.js";
+import { updateData } from "../read-blog-data/[language]/route.js";
 
 export async function GET() {
   try {
