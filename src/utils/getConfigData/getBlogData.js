@@ -7,7 +7,6 @@ async function getData(lang) {
       `${process.env.NEXT_PUBLIC_DOMAIN}/service/blog/read-blog-data`,
       {
         method: "GET",
-        body: JSON.stringify({ lang }),
       }
     );
     const data = await response.json();
