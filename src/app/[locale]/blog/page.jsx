@@ -9,17 +9,32 @@ import Banner from "./components/Banner";
 
 export const runtime = "edge";
 
+const cache = {};
+async function getData({ locale }) {
+  if (!cache[locale]) {
+    const { LANG, BLOG, CONFIG } = await getConfigData({
+      locale,
+      configList: ["blog", "config", "language"],
+      configNameSpace: ["company.basic.company_name"],
+      languageNameSpace: [
+        "store.blog_index.view_all",
+        "store.blog_index.all",
+        "store.blog_index.title",
+      ],
+    });
+    cache[locale] = { LANG, BLOG, CONFIG };
+    return { LANG, BLOG, CONFIG };
+  } else {
+    return cache[locale];
+  }
+}
+
 export async function generateMetadata({ params: { locale } }) {
   const {
     LANG,
     CONFIG,
     BLOG: { blogSortMap, blogBannerList },
-  } = await getConfigData({
-    locale,
-    configList: ["blog", "config", "language"],
-    configNameSpace: ["company.basic.company_name"],
-    languageNameSpace: ["store.blog_index.title"],
-  });
+  } = await getData({ locale });
 
   const blogSortList = Object.keys(blogSortMap)
     .map((item) => blogSortMap[item])
@@ -86,15 +101,7 @@ export default async function BlogSort({ params: { locale } }) {
   const {
     LANG,
     BLOG: { blogSortMap, blogBannerList },
-  } = await getConfigData({
-    locale,
-    configList: ["blog", "language"],
-    languageNameSpace: [
-      "store.blog_index.view_all",
-      "store.blog_index.all",
-      "store.blog_index.title",
-    ],
-  });
+  } = await getData({ locale });
   const bannerList = blogBannerList.map((item) => {
     return {
       image: item.image,
