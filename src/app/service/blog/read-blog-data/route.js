@@ -4,9 +4,8 @@ export const runtime = "nodejs";
 export const fetchCache = "force-cache";
 
 const fs = require("fs");
-const qs = require("qs");
-
 import path from "path";
+import { parse } from "url";
 import getLanguage from "@/config/LANGUAGE";
 
 const languageList = getLanguage("list");
@@ -30,10 +29,10 @@ function updateLocaleCache(lang) {
 }
 
 export async function GET(req) {
-  const url = new URL(req.url, `https://${req.headers.host}`);
-  const query = url.searchParams;
-  const language = query.get("language");
-
+  // 解析 URL 和查询参数
+  const parsedUrl = parse(req.url, true);
+  const query = parsedUrl.query;
+  const language = query.language;
   console.log("[language]: ", language);
   const data = updateLocaleCache("en");
   return Response.json(data);
