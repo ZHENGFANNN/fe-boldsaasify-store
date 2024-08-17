@@ -56,9 +56,7 @@ async function loadLocaleData(language) {
   if (!localeCache[language]) {
     try {
       // 动态导入本地化数据文件
-      const data = await import(
-        /* webpackChunkName: "locale-[request]" */ `@@/locale/blogData/${language}.json`
-      );
+      const data = await import(`@@/locale/blogData/${language}.json`);
       localeCache[language] = data.default;
     } catch (error) {
       console.error(`Error loading data for language ${language}:`, error);
