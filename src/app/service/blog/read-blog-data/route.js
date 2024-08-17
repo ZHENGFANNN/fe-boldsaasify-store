@@ -34,8 +34,6 @@ export async function GET(req) {
   const parsedUrl = parse(newReq.url, true);
   const query = parsedUrl.query;
   const language = query.language;
-
-  console.log("[language]: ", language);
-  const data = updateLocaleCache("en");
+  const data = updateLocaleCache(language);
   return Response.json(data);
 }
