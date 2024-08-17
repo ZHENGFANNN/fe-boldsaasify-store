@@ -55,8 +55,11 @@ const localeCache = {};
 async function loadLocaleData(language) {
   if (!localeCache[language]) {
     try {
-      const data = await require(`@@/locale/blogData/${language}.json`);
-      localeCache[language] = data;
+      // 动态导入本地化数据文件
+      const data = await import(
+        /* webpackChunkName: "locale-[request]" */ `@@/locale/blogData/${language}.json`
+      );
+      localeCache[language] = data.default;
     } catch (error) {
       console.error(`Error loading data for language ${language}:`, error);
       localeCache[language] = {}; // 如果加载数据失败，设置为空对象
@@ -68,7 +71,6 @@ async function loadLocaleData(language) {
 export async function GET(req) {
   const url = new URL(req.url);
   const language = url.searchParams.get("language"); // 默认语言为 'en'
-  console.log("[locale]: ", language);
   const data = await loadLocaleData(language);
   return Response.json(data);
 }
