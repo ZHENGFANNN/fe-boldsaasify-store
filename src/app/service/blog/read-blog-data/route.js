@@ -7,6 +7,7 @@ const fs = require("fs");
 import path from "path";
 import { parse } from "url";
 import getLanguage from "@/config/LANGUAGE";
+import { cookies } from "next/headers";
 
 const languageList = getLanguage("list");
 const localeCache = {};
@@ -31,6 +32,7 @@ function updateLocaleCache(lang) {
 }
 
 languageList.forEach((item) => {
+  console.log("item: ", item);
   updateLocaleCache(item.value);
 });
 
@@ -40,7 +42,6 @@ export async function GET(req) {
   const parsedUrl = parse(newReq.url, true);
   const query = parsedUrl.query;
   const language = query.language;
-  console.log("[language]: ", language);
   const data = localeCache[language || "en"];
   return Response.json(data);
 }
