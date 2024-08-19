@@ -19,7 +19,7 @@ async function getData({ lang, area }) {
 
 const getCachedData = unstable_cache(
   async ({ lang, area }) => getData({ lang, area }),
-  ["my-app-user"]
+  [`${lang}:${area}`]
 );
 
 export default async function getBlogList(lang) {
