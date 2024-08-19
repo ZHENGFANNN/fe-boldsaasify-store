@@ -78,6 +78,7 @@ function handleProductList({ productList, area }) {
 
 export async function GET(req) {
   // 解析 URL 和查询参数
+  const pre = Date.now();
   const newReq = new Request(req);
   const parsedUrl = parse(newReq.url, true);
   const { language = "en", area = "us" } = parsedUrl.query;
@@ -92,5 +93,6 @@ export async function GET(req) {
       }),
     };
   });
+  console.log("[read-blog-data]: ", Date.now() - pre);
   return Response.json(data);
 }
