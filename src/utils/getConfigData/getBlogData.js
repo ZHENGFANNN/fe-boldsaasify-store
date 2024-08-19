@@ -34,5 +34,6 @@ export default async function getBlogList(lang) {
   const area = cookies().get("area")?.value || "us";
   const data = await getData({ lang, area });
   console.log(`---获取Blog时间: ${Date.now() - startTime}---`);
+  console.log(`---【当前时间戳】: ${Date.now()}---`);
   return data;
 }

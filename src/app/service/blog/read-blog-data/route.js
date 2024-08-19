@@ -11,6 +11,17 @@ import getLanguage from "@/config/LANGUAGE";
 const languageList = getLanguage("list");
 const localeCache = {};
 
+function getContentSizeInKB(content) {
+  if (content === null || content === undefined) {
+    throw new Error("Content cannot be null or undefined");
+  }
+
+  const contentString = JSON.stringify(content);
+  const byteSize = Buffer.byteLength(contentString, "utf8");
+  const sizeInKB = byteSize / 1024;
+  return `${sizeInKB.toFixed(2)} KB`; // 保留两位小数
+}
+
 function updateLocaleCache(lang) {
   if (!localeCache[lang]) {
     const filePath = path.join(
@@ -93,6 +104,13 @@ export async function GET(req) {
       }),
     };
   });
-  console.log("[read-blog-data]: ", Date.now() - pre);
+  console.log(
+    "[read-blog-data]: ",
+    Date.now() - pre,
+    "[read-blog-data] 当前时间戳：",
+    Date.now(),
+    "内容大小:",
+    getContentSizeInKB(data)
+  );
   return Response.json(data);
 }
