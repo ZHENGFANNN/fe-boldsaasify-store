@@ -3,28 +3,17 @@
 import { cookies } from "next/headers";
 
 /** @format */
-const localeData = {
-  cn: {},
-  en: {},
-  ja: {},
-  ko: {},
-  de: {},
-  it: {},
-  ru: {},
-  fr: {},
-  hk: {},
-};
-
+const localeData = new Map();
 async function getData({ lang, area }) {
-  if (!localeData[lang][area]) {
+  if (!localeData.get(`${lang}:${lang}`)) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_DOMAIN}/service/blog/read-blog-data?language=${lang}&area=${area}`,
       { method: "GET" }
     );
     const data = await response.json();
-    localeData[lang][area] = data;
+    localeData.set(`${lang}:${lang}`, data);
   }
-  return localeData[lang][area];
+  return localeData.get(`${lang}:${lang}`);
 }
 
 export default async function getBlogList(lang) {
