@@ -10,7 +10,7 @@ import getBlogData from "@/utils/getConfigData/getBlogData";
 /**
  * 获取所有配置数据
  */
-const getAllConfig = async function ({ locale, configList, blogNameSpace }) {
+const getAllConfig = async function ({ locale, configList }) {
   const promiseList = [];
   const result = {};
   if (configList.includes("config")) {
@@ -34,7 +34,7 @@ const getAllConfig = async function ({ locale, configList, blogNameSpace }) {
     result.GOODDISCOUNTFESTIVAL = null;
   }
   if (configList.includes("blog")) {
-    promiseList.push(await getBlogData(locale, blogNameSpace));
+    promiseList.push(await getBlogData(locale));
     result.BLOG = null;
   }
 
@@ -138,11 +138,10 @@ export default async function getConfigData({
   configList,
   languageNameSpace,
   configNameSpace,
-  blogNameSpace,
 }) {
   const startTIme = Date.now();
   // 获取所有配置数据
-  const result = await getAllConfig({ locale, configList, blogNameSpace });
+  const result = await getAllConfig({ locale, configList });
   /**
    * 商品分类 - 简化数据（去掉areaList）
    */
