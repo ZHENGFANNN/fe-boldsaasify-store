@@ -18,14 +18,17 @@ async function getData({ lang, area }) {
 }
 
 const getCachedData = unstable_cache(
-  async ({ lang, area }) => getData({ lang, area }),
-  [`${lang}:${area}`]
+  async (lang, area) => {
+    const data = getData({ lang, area });
+    return data;
+  },
+  [`blog:cache`]
 );
 
 export default async function getBlogList(lang) {
   const startTime = Date.now();
   const area = cookies().get("area")?.value || "us";
-  const data = await getCachedData({ lang, area });
+  const data = await getCachedData(lang, area);
   console.log(`---获取Blog时间: ${Date.now() - startTime}---`);
   return data;
 }
