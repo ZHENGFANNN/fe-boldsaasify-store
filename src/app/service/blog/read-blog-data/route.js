@@ -4,7 +4,6 @@ export const runtime = "nodejs";
 export const fetchCache = "force-cache";
 
 const fs = require("fs");
-const msgpack = require("msgpack-lite");
 import path from "path";
 import { parse } from "url";
 import getLanguage from "@/config/LANGUAGE";

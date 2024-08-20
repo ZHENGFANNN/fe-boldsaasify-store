@@ -12,7 +12,6 @@ module.exports = class CacheHandler {
   }
 
   async set(key, data) {
-    // This could be stored anywhere, like durable storage
     cache.set(key, data);
   }
 };

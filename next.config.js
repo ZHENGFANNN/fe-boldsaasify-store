@@ -1,10 +1,9 @@
 /** @format */
 
 const path = require("path");
-const cacheHandler = require("./src/cache/cache-handler.js");
 
 const nextConfig = {
-  cacheHandler,
+  cacheHandler: require.resolve("./cache-handler.js"),
   cacheMaxMemorySize: 0,
   // 构建ID
   generateBuildId: () => {
