@@ -5,8 +5,8 @@ export const fetchCache = "force-cache";
 
 const fs = require("fs");
 import path from "path";
-import { parse } from "url";
 import getLanguage from "@/config/LANGUAGE";
+import qs from "qs";
 
 const languageList = getLanguage("list");
 const localeCache = {};
@@ -76,9 +76,8 @@ function handleProductList({ productList, area }) {
 export async function GET(req) {
   // 解析 URL 和查询参数
   const newReq = new Request(req);
-  const parsedUrl = parse(newReq.url, true);
-  const { language = "en", area = "us" } = parsedUrl.query;
-  console.log("[GET language area]: ", language, area);
+  const query = newReq.url.split("?")[1];
+  const { language = "en", area = "us" } = qs.parse(query);
   const data = JSON.parse(JSON.stringify(localeCache[language]));
   Object.keys(data.blogMap).map((key) => {
     const { associateProduct, ...item } = data.blogMap[key];
@@ -92,6 +91,7 @@ export async function GET(req) {
   });
   data.language = language;
   data.area = area;
+  data.query = query;
 
   return Response.json(data);
 }
