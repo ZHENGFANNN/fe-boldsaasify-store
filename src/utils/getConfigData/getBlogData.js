@@ -27,7 +27,7 @@ export default async function getBlogList(lang) {
         const data = getData({ lang, area });
         return data;
     },
-    [`blog:${locale}:${area}`]
+    [`blog:${lang}:${area}`]
   );
   const data = await getCachedData(lang, area);
   console.log(`---获取Blog时间: ${Date.now() - startTime}---`);
