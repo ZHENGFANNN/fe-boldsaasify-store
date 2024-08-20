@@ -12,6 +12,7 @@
     "build": "yarn fetch-prod && next build"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.13.2",
     "@paypal/react-paypal-js": "^8.1.3",
     "@splidejs/splide": "^4.1.4",
     "@upstash/redis": "^1.34.0",

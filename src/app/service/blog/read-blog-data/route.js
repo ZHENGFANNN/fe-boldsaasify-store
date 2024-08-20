@@ -1,38 +1,38 @@
 /** @format */
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const fetchCache = "force-cache";
 
-// const fs = require("fs");
-// import path from "path";
+const fs = require("fs");
+import path from "path";
 import { parse } from "url";
 import getLanguage from "@/config/LANGUAGE";
 
 const languageList = getLanguage("list");
 const localeCache = {};
 
-// function updateLocaleCache(lang) {
-//   if (!localeCache[lang]) {
-//     const filePath = path.join(
-//       process.cwd(),
-//       "locale",
-//       "blogData",
-//       `${lang}.json`
-//     );
-//     const fileContents = fs.readFileSync(filePath, "utf8");
-//     try {
-//       const data = JSON.parse(fileContents);
-//       localeCache[lang] = data;
-//     } catch {
-//       localeCache[lang] = fileContents;
-//     }
-//   }
-//   return localeCache[lang];
-// }
+function updateLocaleCache(lang) {
+  if (!localeCache[lang]) {
+    const filePath = path.join(
+      process.cwd(),
+      "locale",
+      "blogData",
+      `${lang}.json`
+    );
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    try {
+      const data = JSON.parse(fileContents);
+      localeCache[lang] = data;
+    } catch {
+      localeCache[lang] = fileContents;
+    }
+  }
+  return localeCache[lang];
+}
 
-// languageList.forEach((item) => {
-//   updateLocaleCache(item.value);
-// });
+languageList.forEach((item) => {
+  updateLocaleCache(item.value);
+});
 
 function handleProductList({ productList, area }) {
   if (Array.isArray(productList) && productList.length > 0) {
@@ -78,7 +78,7 @@ export async function GET(req) {
   const parsedUrl = parse(req.url, true); // 直接使用 req.url
   const { language, area } = parsedUrl.query;
   console.log("[GET language area]: ", language, area);
-  const data = await import(`@@/locale/blogData/${language}.json`);
+  const data = JSON.parse(JSON.stringify(localeCache[language]));
   Object.keys(data.blogMap).map((key) => {
     const { associateProduct, ...item } = data.blogMap[key];
     data.blogMap[key] = {
