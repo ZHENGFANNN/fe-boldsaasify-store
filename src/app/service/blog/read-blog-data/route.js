@@ -47,13 +47,13 @@ function updateLocaleCache(lang) {
         localeCache[lang] = data;
       });
       break;
-    case "jp":
-      import("@@/locale/blogData/jp.json").then((data) => {
+    case "ja":
+      import("@@/locale/blogData/ja.json").then((data) => {
         localeCache[lang] = data;
       });
       break;
-    case "kr":
-      import("@@/locale/blogData/kr.json").then((data) => {
+    case "ko":
+      import("@@/locale/blogData/ko.json").then((data) => {
         localeCache[lang] = data;
       });
       break;
