@@ -5,10 +5,48 @@ import CacheHandler from "@@/cache-handler.js";
 
 const localeData = new CacheHandler();
 
+function handleProductList({ productList, area }) {
+  if (Array.isArray(productList) && productList.length > 0) {
+    return productList.map(
+      ({
+        reviewsList,
+        image_list,
+        comboList,
+        reviews_num,
+        reviews_score,
+        ...item
+      }) => {
+        let areaInfo = null;
+        comboList.find(({ areaList }) => {
+          areaList.find((area_item) => {
+            if (area_item.country_code === area) {
+              areaInfo = area_item;
+            }
+            return area_item.country_code === area;
+          });
+          return areaInfo?.stock;
+        });
+
+        const totalScore = reviewsList?.reduce(
+          (pre, cur) => pre + cur.score,
+          0
+        );
+        item.reviewScore = totalScore / reviewsList?.length || reviews_score;
+        item.reviewsNum = reviewsList?.length || reviews_num;
+
+        item.image = image_list[0].src;
+        item.areaInfo = areaInfo;
+
+        return item;
+      }
+    );
+  }
+  return [];
+}
+
 async function getData({ lang, area }) {
   const cacheKey = `${lang}:${area}`;
   const cachedData = await localeData.get(cacheKey);
-
   if (!cachedData) {
     console.log("Cache miss, fetching data...");
     const response = await fetch(
@@ -16,6 +54,17 @@ async function getData({ lang, area }) {
       { method: "GET" }
     );
     const data = await response.json();
+    Object.keys(data.blogMap).map((key) => {
+      const { associateProduct, ...item } = data.blogMap[key];
+      data.blogMap[key] = {
+        ...item,
+        products: handleProductList({
+          productList: associateProduct,
+          area,
+        }),
+      };
+    });
+
     await localeData.set(cacheKey, data);
   } else {
     console.log("Cache hit, returning cached data...");
