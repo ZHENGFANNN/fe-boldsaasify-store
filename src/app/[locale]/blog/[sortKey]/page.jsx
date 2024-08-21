@@ -8,19 +8,13 @@ import BaseLayout from "../components/BaseLayout";
 
 export const runtime = "edge";
 
-const cache = {};
 async function getData({ locale }) {
-  if (!cache[locale]) {
-    const { LANG, BLOG } = await getConfigData({
-      locale,
-      configList: ["blog", "language"],
-      languageNameSpace: ["store.blog_index.all", "store.blog_index.title"],
-    });
-    cache[locale] = { LANG, BLOG };
-    return { LANG, BLOG };
-  } else {
-    return cache[locale];
-  }
+  const { LANG, BLOG } = await getConfigData({
+    locale,
+    configList: ["blog", "language"],
+    languageNameSpace: ["store.blog_index.all", "store.blog_index.title"],
+  });
+  return { LANG, BLOG };
 }
 
 export async function generateMetadata({

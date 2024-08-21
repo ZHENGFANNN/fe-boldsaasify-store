@@ -9,24 +9,18 @@ import Banner from "./components/Banner";
 
 export const runtime = "edge";
 
-const cache = {};
 async function getData({ locale }) {
-  if (!cache[locale]) {
-    const { LANG, BLOG, CONFIG } = await getConfigData({
-      locale,
-      configList: ["blog", "config", "language"],
-      configNameSpace: ["company.basic.company_name"],
-      languageNameSpace: [
-        "store.blog_index.view_all",
-        "store.blog_index.all",
-        "store.blog_index.title",
-      ],
-    });
-    cache[locale] = { LANG, BLOG, CONFIG };
-    return { LANG, BLOG, CONFIG };
-  } else {
-    return cache[locale];
-  }
+  const { LANG, BLOG, CONFIG } = await getConfigData({
+    locale,
+    configList: ["blog", "config", "language"],
+    configNameSpace: ["company.basic.company_name"],
+    languageNameSpace: [
+      "store.blog_index.view_all",
+      "store.blog_index.all",
+      "store.blog_index.title",
+    ],
+  });
+  return { LANG, BLOG, CONFIG };
 }
 
 export async function generateMetadata({ params: { locale } }) {

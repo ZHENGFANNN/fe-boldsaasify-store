@@ -45,7 +45,7 @@ function handleProductList({ productList, area }) {
 
 async function getData({ lang, area }) {
   const cacheKey = `${lang}:${area}`;
-  const cachedData = await localeData.get(cacheKey);
+  const cachedData = localeData.get(cacheKey);
   if (!cachedData) {
     console.log("Cache miss, fetching data...");
     const response = await fetch(
@@ -66,12 +66,10 @@ async function getData({ lang, area }) {
         }),
       };
     });
-
-    await localeData.set(cacheKey, data);
+    localeData.set(cacheKey, data);
   } else {
     console.log("Cache hit, returning cached data...");
   }
-
   return localeData.get(cacheKey);
 }
 
