@@ -30,16 +30,16 @@ const productList = {
   ru,
 };
 
-const cnBlog = require("../locale/blogData/cn.json");
-const deBlog = require("../locale/blogData/de.json");
-const enBlog = require("../locale/blogData/en.json");
-const esBlog = require("../locale/blogData/es.json");
-const frBlog = require("../locale/blogData/fr.json");
-const hkBlog = require("../locale/blogData/hk.json");
-const itBlog = require("../locale/blogData/it.json");
-const jaBlog = require("../locale/blogData/ja.json");
-const koBlog = require("../locale/blogData/ko.json");
-const ruBlog = require("../locale/blogData/ru.json");
+const cnBlog = require("../public/config/blog-data/cn.json");
+const deBlog = require("../public/config/blog-data/de.json");
+const enBlog = require("../public/config/blog-data/en.json");
+const esBlog = require("../public/config/blog-data/es.json");
+const frBlog = require("../public/config/blog-data/fr.json");
+const hkBlog = require("../public/config/blog-data/hk.json");
+const itBlog = require("../public/config/blog-data/it.json");
+const jaBlog = require("../public/config/blog-data/ja.json");
+const koBlog = require("../public/config/blog-data/ko.json");
+const ruBlog = require("../public/config/blog-data/ru.json");
 const blogList = {
   cn: cnBlog,
   de: deBlog,
