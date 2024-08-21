@@ -105,7 +105,7 @@ function handleBlogData(list) {
 const fetchBlog = async (times = 1, cookie = "") => {
   let error = false;
   const startTime = new Date().getTime();
-  const fileDir = "./locale/blogData";
+  const fileDir = "./public/config/blog-data";
   if (!fs.existsSync(fileDir)) fs.mkdirSync(fileDir, { recursive: true });
   console.log(`${chalk.yellow("【开始获取Blog】")}`);
   await api
