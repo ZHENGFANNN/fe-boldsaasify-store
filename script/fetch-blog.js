@@ -5,6 +5,25 @@ const fs = require("fs");
 const LANGUAGES = require("../src/config/LANGUAGE");
 const api = require("./api");
 
+// 处理关联产品数据
+function handleAProductList(productList) {
+  if (Array.isArray(productList) && productList.length > 0) {
+    return productList.map(
+      ({ reviewsList, image_list, reviews_num, reviews_score, ...item }) => {
+        const totalScore = reviewsList?.reduce(
+          (pre, cur) => pre + cur.score,
+          0
+        );
+        item.reviewScore = totalScore / reviewsList?.length || reviews_score;
+        item.reviewsNum = reviewsList?.length || reviews_num;
+        item.image = image_list[0].src;
+        return item;
+      }
+    );
+  }
+  return [];
+}
+
 // 获取文章标题
 function getHeadTitleId(title) {
   return title
@@ -54,7 +73,7 @@ function addHeadTitleId(html) {
 // 处理Blog数据结构
 function handleBlogData(list) {
   const obj = {};
-  list.forEach(({ sortInfo, id, created_time, language, ...item }, index) => {
+  list.forEach(({ sortInfo, id, created_time, language, ...item }) => {
     // Blog分类
     const blogSortInfo = sortInfo[0];
     item.blogSortInfo = blogSortInfo;
@@ -81,7 +100,10 @@ function handleBlogData(list) {
     }
 
     // 处理Blog文章
-    obj[`article:${item.sort_key}:${item.key}`] = item;
+    obj[`article:${item.sort_key}:${item.key}`] = {
+      ...item,
+      associateProduct: handleAProductList(item.associateProduct),
+    };
 
     // 处理Blog分类
     const blogSortArticleItem = {
@@ -150,7 +172,7 @@ const fetchBlog = async (times = 1, cookie = "") => {
         // !! 处理数据结构
         const blogMap = handleBlogData(obj[languageKey]);
         Object.keys(blogMap).forEach((blogKey) => {
-          const fileData = JSON.stringify(blogMap[blogKey], null, 2);
+          const fileData = JSON.stringify(blogMap[blogKey], null, 0);
           if (!fs.existsSync(`${fileDir}/${blogKey}`)) {
             fs.mkdirSync(`${fileDir}/${blogKey}`, { recursive: true });
           }

@@ -48,17 +48,7 @@ function handleProductList({ productList, area }) {
           });
           return areaInfo?.stock;
         });
-
-        const totalScore = reviewsList?.reduce(
-          (pre, cur) => pre + cur.score,
-          0
-        );
-        item.reviewScore = totalScore / reviewsList?.length || reviews_score;
-        item.reviewsNum = reviewsList?.length || reviews_num;
-
-        item.image = image_list[0].src;
         item.areaInfo = areaInfo;
-
         return item;
       }
     );
