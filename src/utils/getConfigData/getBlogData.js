@@ -29,29 +29,17 @@ const layoutData = {
 const localeData = new Map();
 function handleProductList({ productList, area }) {
   if (Array.isArray(productList) && productList.length > 0) {
-    return productList.map(
-      ({
-        reviewsList,
-        image_list,
-        comboList,
-        reviews_num,
-        reviews_score,
-        ...item
-      }) => {
-        let areaInfo = null;
-        comboList.find(({ areaList }) => {
-          areaList.find((area_item) => {
-            if (area_item.country_code === area) {
-              areaInfo = area_item;
-            }
-            return area_item.country_code === area;
-          });
-          return areaInfo?.stock;
-        });
-        item.areaInfo = areaInfo;
-        return item;
-      }
-    );
+    return productList.map(({ comboItem, ...item }) => {
+      let areaInfo = null;
+      comboItem.areaList.find((area_item) => {
+        if (area_item.country_code === area) {
+          areaInfo = area_item;
+        }
+        return area_item.country_code === area;
+      });
+      item.areaInfo = areaInfo;
+      return item;
+    });
   }
   return [];
 }

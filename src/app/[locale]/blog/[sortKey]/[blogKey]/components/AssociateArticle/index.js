@@ -1,4 +1,5 @@
 /** @format */
+
 "use client";
 import styles from "./index.module.scss";
 import React from "react";
@@ -30,8 +31,9 @@ export default function AssociateArticle({ articleList, locale }) {
   const [active, setActive] = React.useState(0);
 
   const initList = React.useCallback(() => {
+    if (!articleList || articleList.length === 0) return;
     const itemWidth =
-      document.querySelector(`.${styles.card}`).offsetWidth + 20;
+      document.querySelector(`.${styles.card}`)?.offsetWidth + 20;
     const $scrollDom = document.querySelector(`.${styles.scroll_container}`);
     const $listDom = document.querySelector(`.${styles.list}`);
     const computedWidth = function () {
@@ -62,23 +64,19 @@ export default function AssociateArticle({ articleList, locale }) {
     computedWidth();
     $scrollDom.addEventListener("scroll", computedWidth);
     return () => $scrollDom.removeEventListener("scroll", computedWidth);
-  }, []);
+  }, [articleList]);
 
   React.useEffect(() => {
     initList();
   }, []);
 
-  const list = React.useMemo(
-    () => articleList.filter((item) => item.enabled),
-    []
-  );
   return (
     <div className={styles.container}>
       <div className={styles.title}>You May Also Like</div>
       <div className={styles.scroll_container}>
         <div className={styles.list_container}>
           <div className={styles.list}>
-            {list.map((item, index) => {
+            {articleList.map((item, index) => {
               return <ArticleCard key={index} item={item} locale={locale} />;
             })}
           </div>
@@ -95,7 +93,7 @@ export default function AssociateArticle({ articleList, locale }) {
             if (active === 0) return;
             const $dom = document.querySelector(`.${styles.scroll_container}`);
             const itemWidth =
-              document.querySelector(`.${styles.card}`).offsetWidth + 20;
+              document.querySelector(`.${styles.card}`)?.offsetWidth + 20;
 
             const left = $dom.scrollLeft;
             $dom.scrollTo({
@@ -119,7 +117,7 @@ export default function AssociateArticle({ articleList, locale }) {
             if (active === articleList.length) return;
             const $dom = document.querySelector(`.${styles.scroll_container}`);
             const itemWidth =
-              document.querySelector(`.${styles.card}`).offsetWidth + 20;
+              document.querySelector(`.${styles.card}`)?.offsetWidth + 20;
 
             const left = $dom.scrollLeft;
             $dom.scrollTo({

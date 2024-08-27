@@ -9,7 +9,14 @@ const api = require("./api");
 function handleAProductList(productList) {
   if (Array.isArray(productList) && productList.length > 0) {
     return productList.map(
-      ({ reviewsList, image_list, reviews_num, reviews_score, ...item }) => {
+      ({
+        reviewsList,
+        image_list,
+        reviews_num,
+        reviews_score,
+        comboList,
+        ...item
+      }) => {
         const totalScore = reviewsList?.reduce(
           (pre, cur) => pre + cur.score,
           0
@@ -17,6 +24,7 @@ function handleAProductList(productList) {
         item.reviewScore = totalScore / reviewsList?.length || reviews_score;
         item.reviewsNum = reviewsList?.length || reviews_num;
         item.image = image_list[0].src;
+        item.comboItem = comboList[0] || {};
         return item;
       }
     );
@@ -172,7 +180,7 @@ const fetchBlog = async (times = 1, cookie = "") => {
         // !! 处理数据结构
         const blogMap = handleBlogData(obj[languageKey]);
         Object.keys(blogMap).forEach((blogKey) => {
-          const fileData = JSON.stringify(blogMap[blogKey], null, 0);
+          const fileData = JSON.stringify(blogMap[blogKey], null, 2);
           if (!fs.existsSync(`${fileDir}/${blogKey}`)) {
             fs.mkdirSync(`${fileDir}/${blogKey}`, { recursive: true });
           }

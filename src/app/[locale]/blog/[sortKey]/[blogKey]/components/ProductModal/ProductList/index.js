@@ -96,8 +96,7 @@ export default function ProductList({ products, goodDiscountFestival, LANG }) {
                         </div>
                       ) : null}
                       {/* 产品价格 */}
-                      {!item.areaInfo?.stock ||
-                      !item.areaInfo?.selling_price ? (
+                      {!item.areaInfo?.selling_price ? (
                         <div className={styles.product_stock_container}>
                           {LANG["store.product.no_stock"]}
                         </div>
