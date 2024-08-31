@@ -3,13 +3,11 @@
 import getConfigList from "@/utils/getConfigData/getConfigList";
 import getLanguageList from "@/utils/getConfigData/getLanguageList";
 import getGoodDiscountList from "@/utils/getConfigData/getGoodDiscountList";
-
 import getProductData from "@/utils/getConfigData/getProductData";
 import getBlogData from "@/utils/getConfigData/getBlogData";
 
 export default async function getConfigData({
   locale,
-  area,
   configList = [],
   configNameSpace = [],
   languageNameSpace = [],

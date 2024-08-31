@@ -1,3 +1,5 @@
+/** @format */
+
 const chalk = require("chalk");
 const fs = require("fs");
 const LANGUAGES = require("../src/config/LANGUAGE");
@@ -41,7 +43,7 @@ const fetchConfig = async (times = 1, cookie = "") => {
         });
       });
       Object.keys(obj).map((item) => {
-        const fileData = JSON.stringify(obj[item], null, 2);
+        const fileData = JSON.stringify(obj[item], null, 0);
         fs.writeFile(`${fileDir}/${item}.json`, fileData, (err) => {
           if (err) {
             console.log(`${chalk.red("【配置信息写入失败】")}`, err);
