@@ -1,3 +1,5 @@
+/** @format */
+
 import getConfigData from "@/utils/getConfigData";
 import { cookies } from "next/headers";
 import Main from "./Main";
@@ -10,6 +12,7 @@ export default async function NotFound({ params: { locale } }) {
     locale,
     area,
     configList: ["language"],
+    languageNameSpace: ["common.not_found"],
   });
 
   return <Main LANG={LANG} />;
