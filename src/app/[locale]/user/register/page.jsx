@@ -7,10 +7,20 @@ import getConfigData from "@/utils/getConfigData";
 import RegisterForm from "./components/RegisterForm";
 
 export const runtime = "edge";
-export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+
+async function getData({ locale }) {
+  const result = await getConfigData({
     locale,
     configList: ["config", "language"],
+    languageNameSpace: ["www.user_register"],
+    configNameSpace: ["company.basic.company_name", "company.basic.logo"],
+  });
+  return result;
+}
+
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG, CONFIG } = await getData({
+    locale,
   });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.user_register.title"]}`,
@@ -20,11 +30,8 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Register({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+  const { LANG, CONFIG } = await getData({
     locale,
-    configList: ["config", "language"],
-    languageNameSpace: ["www.user_register"],
-    configNameSpace: ["company.basic.logo", "company.basic.company_name"],
   });
   return (
     <div

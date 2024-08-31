@@ -6,10 +6,19 @@ import styles from "./page.module.scss";
 
 export const runtime = "edge";
 
-export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+async function getData({ locale }) {
+  const result = await getConfigData({
     locale,
     configList: ["config", "language"],
+    languageNameSpace: ["www.company_market"],
+    configNameSpace: ["www.cooperate", "company.basic.company_name"],
+  });
+  return result;
+}
+
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG, CONFIG } = await getData({
+    locale,
   });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.company_market.title"]}`,
@@ -19,11 +28,8 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Market({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+  const { LANG, CONFIG } = await getData({
     locale,
-    configList: ["config", "language"],
-    languageNameSpace: ["www.company_market"],
-    configNameSpace: ["www.cooperate"],
   });
   return (
     <div className={styles.container}>

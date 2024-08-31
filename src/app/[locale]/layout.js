@@ -53,9 +53,11 @@ async function getData({ locale, area }) {
   });
 
   const productList = [];
+
   result.PRODUCT.sort.forEach((item) => {
     return productList.push(...item.goodList);
   });
+
   result.PRODUCT.cart = productList.map((item) => ({
     key: item.key,
     name: item.name,

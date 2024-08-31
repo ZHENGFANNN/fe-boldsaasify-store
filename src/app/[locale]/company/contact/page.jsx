@@ -8,10 +8,23 @@ import getConfigData from "@/utils/getConfigData";
 
 export const runtime = "edge";
 
-export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+async function getData({ locale }) {
+  const result = await getConfigData({
     locale,
     configList: ["config", "language"],
+    languageNameSpace: ["www.company_contact"],
+    configNameSpace: [
+      "company.basic",
+      "company.social_media.index",
+      "company.basic.company_name",
+    ],
+  });
+  return result;
+}
+
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG, CONFIG } = await getData({
+    locale,
   });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.company_contact.title"]}`,
@@ -21,11 +34,8 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Contact({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+  const { LANG, CONFIG } = await getData({
     locale,
-    configList: ["config", "language"],
-    languageNameSpace: ["www.company_contact"],
-    configNameSpace: ["company.basic", "company.social_media.index"],
   });
   return (
     <div className={styles.container}>

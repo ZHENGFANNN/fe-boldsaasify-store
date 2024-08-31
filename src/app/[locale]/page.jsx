@@ -16,7 +16,12 @@ export const runtime = "edge";
 /**
  * 获取数据
  */
+const cache = new Map();
 async function getData({ locale, area }) {
+  const cacheKey = `page:${locale}:${area}`;
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey);
+  }
   const result = await getConfigData({
     locale,
     area,
@@ -43,7 +48,7 @@ async function getData({ locale, area }) {
       }),
     };
   });
-
+  cache.set(cacheKey, result);
   return result;
 }
 

@@ -1,3 +1,5 @@
+/** @format */
+
 import styles from "./page.module.scss";
 import React from "react";
 
@@ -5,10 +7,19 @@ import getConfigData from "@/utils/getConfigData";
 import ForgetForm from "./components/ForgetForm";
 export const runtime = "edge";
 
-export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+async function getData({ locale }) {
+  const result = await getConfigData({
     locale,
     configList: ["config", "language"],
+    languageNameSpace: ["www.forget"],
+    configNameSpace: ["company.basic.company_name", "company.basic.logo"],
+  });
+  return result;
+}
+
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG, CONFIG } = await getData({
+    locale,
   });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.forget.title"]}`,
@@ -18,11 +29,9 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Forget({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+  const { LANG, CONFIG } = await getData({
     locale,
     configList: ["config", "language"],
-    languageNameSpace: ["www.forget"],
-    configNameSpace: ["company.basic.logo", "company.basic.company_name"],
   });
   return (
     <div

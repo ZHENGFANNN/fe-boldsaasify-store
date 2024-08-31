@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 
 import getConfigData from "@/utils/getConfigData";
@@ -5,10 +7,19 @@ import Main from "./components/Main";
 
 export const runtime = "edge";
 
-export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+async function getData({ locale }) {
+  const result = await getConfigData({
     locale,
     configList: ["config", "language"],
+    languageNameSpace: ["www.account"],
+    configNameSpace: ["company.basic.company_name"],
+  });
+  return result;
+}
+
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG, CONFIG } = await getData({
+    locale,
   });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.account.page_title"]}`,
@@ -18,10 +29,8 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Account({ params: { locale } }) {
-  const { LANG } = await getConfigData({
+  const { LANG } = await getData({
     locale,
-    configList: ["language"],
-    languageNameSpace: ["www.account"],
   });
   return <Main LANG={LANG} />;
 }

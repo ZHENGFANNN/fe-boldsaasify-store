@@ -10,11 +10,18 @@ import getConfigData from "@/utils/getConfigData";
 import CompanyHistory from "./components/CompanyHistory";
 export const runtime = "edge";
 
-export async function generateMetadata({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
+async function getData({ locale }) {
+  const result = await getConfigData({
     locale,
     configList: ["config", "language"],
+    languageNameSpace: ["www.company_introduce"],
+    configNameSpace: ["company.basic.company_name", "www.company", "company"],
   });
+  return result;
+}
+
+export async function generateMetadata({ params: { locale } }) {
+  const { LANG, CONFIG } = await getData({ locale });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.company_introduce.title"]}`,
     description: LANG["www.company_introduce.description"],
@@ -23,12 +30,7 @@ export async function generateMetadata({ params: { locale } }) {
 }
 
 export default async function Introduce({ params: { locale } }) {
-  const { LANG, CONFIG } = await getConfigData({
-    locale,
-    configList: ["config", "language"],
-    languageNameSpace: ["www.company_introduce"],
-    configNameSpace: ["company", "www.company"],
-  });
+  const { LANG, CONFIG } = await getData({ locale });
   return (
     <div className={styles.container}>
       <div className={styles.video_container}>
