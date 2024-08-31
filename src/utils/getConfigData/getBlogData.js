@@ -50,7 +50,6 @@ async function getData({ locale, nameSpace }) {
   const cachedData = localeData.get(cacheKey);
 
   if (!cachedData) {
-    console.log("Cache miss, fetching data...");
     // 性能优化：单独处理layout的数据（打包进去）
     if (nameSpace === "layout") {
       const data = layoutData[locale];
@@ -69,8 +68,6 @@ async function getData({ locale, nameSpace }) {
       }
       localeData.set(cacheKey, data);
     }
-  } else {
-    console.log("Cache hit, returning cached data...");
   }
   return localeData.get(cacheKey);
 }
