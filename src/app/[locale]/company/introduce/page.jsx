@@ -20,7 +20,8 @@ async function getData({ locale }) {
   return result;
 }
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getData({ locale });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.company_introduce.title"]}`,
@@ -29,7 +30,8 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-export default async function Introduce({ params: { locale } }) {
+export default async function Introduce({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getData({ locale });
   return (
     <div className={styles.container}>

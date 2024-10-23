@@ -21,7 +21,8 @@ function handleProductList({ productList, area }) {
 // 过滤商品数据
 const localeData = new Map();
 async function getData({ locale, nameSpace }) {
-  const area = cookies().get("area")?.value || "us";
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const cacheKey = `${locale}:${area}:${nameSpace}`;
   const cachedData = localeData.get(cacheKey);
   if (!cachedData) {

@@ -8,7 +8,8 @@ import { cookies } from "next/headers";
 
 export const runtime = "edge";
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getConfigData({
     locale,
     configList: ["config", "language"],
@@ -20,11 +21,10 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-export default async function Info({
-  params: { locale },
-  searchParams: { secret },
-}) {
-  const area = cookies().get("area")?.value || "us";
+export default async function Info({ params, searchParams: { secret } }) {
+  const { locale } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const { LANG, CONFIG } = await getConfigData({
     locale,
     configList: ["config", "language"],

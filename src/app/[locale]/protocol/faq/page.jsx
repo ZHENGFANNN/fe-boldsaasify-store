@@ -17,7 +17,8 @@ async function getData({ locale }) {
   return result;
 }
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getData({
     locale,
   });
@@ -28,7 +29,8 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-export default async function Faq({ params: { locale } }) {
+export default async function Faq({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getData({
     locale,
   });

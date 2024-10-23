@@ -72,11 +72,10 @@ async function getData({ locale, area }) {
 }
 
 export default async function RootLayout(props) {
-  const {
-    children,
-    params: { locale },
-  } = props;
-  const area = cookies().get("area")?.value || "us";
+  const { children, params } = props;
+  const { locale } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const { CONFIG, LANG, GOODDISCOUNTFESTIVAL, BLOG, PRODUCT } = await getData({
     locale,
     area,

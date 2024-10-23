@@ -7,7 +7,8 @@ import getConfigData from "@/utils/getConfigData";
 
 export const runtime = "edge";
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getConfigData({
     locale,
     configList: ["config", "language"],
@@ -40,9 +41,11 @@ async function getData({
   return result;
 }
 
-export default async function Order({ params: { locale } }) {
-  const area = cookies().get("area")?.value || "us";
-  const token = cookies().get("token")?.value;
+export default async function Order({ params }) {
+  const { locale } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
+  const token = cookieStore.get("token")?.value || "us";
 
   const { CONFIG, LANG, GOODDISCOUNTFESTIVAL } = await getData({
     locale,

@@ -18,7 +18,8 @@ async function getData({ locale }) {
   return { LANG, BLOG };
 }
 
-export async function generateMetadata({ params: { locale, sortKey } }) {
+export async function generateMetadata({ params }) {
+  const { locale, sortKey } = await params;
   const {
     BLOG: { sort },
   } = await getData({ locale });
@@ -70,7 +71,8 @@ function BlogArticleCard({ blogSort, locale }) {
   );
 }
 
-export default async function BlogSort({ params: { locale, sortKey } }) {
+export default async function BlogSort({ params }) {
+  const { locale, sortKey } = await params;
   const {
     LANG,
     BLOG: { sort: blogSortMap },

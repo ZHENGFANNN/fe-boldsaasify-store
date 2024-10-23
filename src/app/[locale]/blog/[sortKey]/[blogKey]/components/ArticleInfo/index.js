@@ -1,13 +1,11 @@
-/** @format */
-
 import React from "react";
 import styles from "./index.module.scss";
 import { formateTime } from "@/app/[locale]/blog/utils";
 import { headers } from "next/headers";
 import ShareIconList from "@/components/ShareIconList";
 
-export default function ArticleInfo({ article, locale }) {
-  const headersList = headers();
+export default async function ArticleInfo({ article, locale }) {
+  const headersList = await headers();
   const currentUrl = headersList.get("x-request-url");
   return (
     <div className={styles.container}>

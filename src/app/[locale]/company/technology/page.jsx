@@ -16,7 +16,8 @@ async function getData({ locale }) {
   return result;
 }
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getData({
     locale,
   });
@@ -26,7 +27,8 @@ export async function generateMetadata({ params: { locale } }) {
     keywords: LANG["www.company_technology.keywords"],
   };
 }
-export default async function Technology({ params: { locale } }) {
+export default async function Technology({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getData({
     locale,
   });

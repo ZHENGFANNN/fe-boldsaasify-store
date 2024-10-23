@@ -32,7 +32,8 @@ async function getData({ locale }) {
   return { LANG, BLOG, CONFIG };
 }
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG, BLOG } = await getData({ locale });
 
   let twitterImageList = [],
@@ -92,7 +93,8 @@ function BlogArticleCard({ blogSort, locale, LANG }) {
   );
 }
 
-export default async function BlogSort({ params: { locale } }) {
+export default async function BlogSort({ params }) {
+  const { locale } = await params;
   const { LANG, BLOG } = await getData({ locale });
   return (
     <>

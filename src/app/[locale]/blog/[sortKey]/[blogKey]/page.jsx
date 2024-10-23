@@ -54,10 +54,10 @@ const getData = async function ({ area, locale, blogKey, sortKey }) {
   };
 };
 
-export async function generateMetadata({
-  params: { locale, blogKey, sortKey },
-}) {
-  const area = cookies().get("area")?.value || "us";
+export async function generateMetadata({ params }) {
+  const { locale, blogKey, sortKey } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const { BLOG } = await getData({
     area,
     locale,
@@ -92,10 +92,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function Article({
-  params: { locale, blogKey, sortKey },
-}) {
-  const area = cookies().get("area")?.value || "us";
+export default async function Article({ params }) {
+  const { locale, blogKey, sortKey } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const { CONFIG, LANG, BLOG, GOODDISCOUNTFESTIVAL } = await getData({
     area,
     locale,

@@ -28,10 +28,10 @@ async function getData({ locale, area, sortKey, productKey }) {
 }
 
 // 设置元信息
-export async function generateMetadata({
-  params: { locale, productKey, sortKey },
-}) {
-  const area = cookies().get("area")?.value || "us";
+export async function generateMetadata({ params }) {
+  const { locale, productKey, sortKey } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const { CONFIG, productInfo } = await getData({
     area,
     locale,
@@ -63,12 +63,11 @@ export async function generateMetadata({
   }
 }
 
-export default async function Layout({
-  children,
-  params: { locale, sortKey, productKey },
-}) {
-  const area = cookies().get("area")?.value || "us";
-  const headersList = headers();
+export default async function Layout({ children, params }) {
+  const { locale, sortKey, productKey } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
+  const headersList = await headers();
   const userAgent = headersList.get("user-agent");
   const isMobile = isUserMobile(userAgent);
   const { LANG, CONFIG, GOODDISCOUNTFESTIVAL, productInfo } = await getData({

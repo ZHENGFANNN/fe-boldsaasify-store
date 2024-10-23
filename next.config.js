@@ -13,8 +13,6 @@ const nextConfig = {
   compress: true,
   // 开启ETag
   generateEtags: true,
-  // 禁用字体优化
-  optimizeFonts: false,
   // 图片白名单
   images: {
     domains: ["image.sslfly.com", "public.sslfly.com"],

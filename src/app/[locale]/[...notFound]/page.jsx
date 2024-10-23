@@ -6,8 +6,10 @@ import Main from "./Main";
 
 export const runtime = "edge";
 
-export default async function NotFound({ params: { locale } }) {
-  const area = cookies().get("area")?.value || "us";
+export default async function NotFound({ params }) {
+  const { locale } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const { LANG } = await getConfigData({
     locale,
     area,

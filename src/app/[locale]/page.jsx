@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 
 import Advantage from "@/components/Layout/Advantage";
@@ -52,8 +50,10 @@ async function getData({ locale, area }) {
   return result;
 }
 
-export async function generateMetadata({ params: { locale } }) {
-  const area = cookies().get("area")?.value || "us";
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const { LANG, CONFIG } = await getData({
     locale,
     area,
@@ -65,8 +65,10 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-export default async function Home({ params: { locale } }) {
-  const area = cookies().get("area")?.value || "us";
+export default async function Home({ params }) {
+  const { locale } = await params;
+  const cookieStore = await cookies();
+  const area = cookieStore.get("area")?.value || "us";
   const { CONFIG, LANG, GOODDISCOUNTFESTIVAL, PRODUCT } = await getData({
     locale,
     area,

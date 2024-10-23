@@ -16,7 +16,8 @@ async function getData({ locale }) {
   return result;
 }
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
   const { LANG, CONFIG } = await getData({
     locale,
   });
@@ -27,7 +28,8 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-export default async function User({ params: { locale } }) {
+export default async function User({ params }) {
+  const { locale } = await params;
   const { CONFIG } = await getData({
     locale,
   });
