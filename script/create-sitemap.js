@@ -3,7 +3,7 @@
 const fs = require("fs");
 const { SitemapStream, streamToPromise } = require("sitemap");
 const chalk = require("chalk");
-const LANGUAGES = require("../src/config/LANGUAGE");
+const LANGUAGES = require("../app/config/LANGUAGE");
 const { join } = require("path");
 const { Readable } = require("stream");
 

@@ -2,7 +2,7 @@
 
 const chalk = require("chalk");
 const fs = require("fs");
-const LANGUAGES = require("../src/config/LANGUAGE");
+const LANGUAGES = require("../app/config/LANGUAGE");
 const api = require("./api");
 
 // 处理鸡蛋的产品数据（关联产品）

@@ -29,10 +29,10 @@ const nextConfig = {
   },
 
   webpack: (config) => {
-    config.resolve.alias["@"] = path.join(__dirname, "src");
+    config.resolve.alias["@"] = path.join(__dirname, "app");
     config.resolve.alias["@@"] = __dirname;
-
     return config;
   },
 };
+
 module.exports = nextConfig;
