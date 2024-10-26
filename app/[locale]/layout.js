@@ -12,6 +12,7 @@ import Layout from "../components/Layout";
 import getConfigData from "../utils/getConfigData";
 import { cookies } from "next/headers";
 
+// Meta - viewport
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -83,6 +84,10 @@ export default async function RootLayout(props) {
 
   return (
     <html lang={locale}>
+      <head>
+        {/* website Logo */}
+        <link rel="icon" href={CONFIG["company.basic.logo"]} />
+      </head>
       <body>
         <Layout
           locale={locale}

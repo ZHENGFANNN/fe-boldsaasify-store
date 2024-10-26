@@ -1,7 +1,7 @@
 /** @format */
 
 import getConfigList from "./getConfigList";
-import getLanguageList from "./getLanguageList";
+import getlanguageList from "./getLanguageList";
 import getGoodDiscountList from "./getGoodDiscountList";
 import getProductData from "./getProductData";
 import getBlogData from "./getBlogData";
@@ -18,7 +18,7 @@ export default async function getConfigData({
   const [CONFIG, LANG, GOODDISCOUNTFESTIVAL, BLOG, PRODUCT] = await Promise.all(
     [
       getConfigList({ locale, configList, configNameSpace }),
-      getLanguageList({ locale, configList, languageNameSpace }),
+      getlanguageList({ locale, configList, languageNameSpace }),
       getGoodDiscountList({ locale, configList }),
       getBlogData({ locale, configList, blogNameSpace }),
       getProductData({ locale, configList, productNameSpace }),

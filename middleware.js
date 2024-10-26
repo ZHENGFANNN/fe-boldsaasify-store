@@ -3,8 +3,8 @@
 import { i18nRouter } from "next-i18n-router";
 import i18nConfig from "@@/i18nConfig";
 
-import COUNTRYLIST from "./app/config/COUNTRYLIST";
-import LANGUAGES from "./app/config/LANGUAGE";
+import { countryMap } from "./app/config/COUNTRY";
+import { languageMap } from "./app/config/LANGUAGE";
 
 import qs from "qs";
 import parser from "accept-language-parser";
@@ -35,7 +35,7 @@ export function middleware(request) {
       const acceptLanguage = requestHeaders.get("accept-language");
       const areaList = parser.parse(acceptLanguage);
       const index = areaList.find((item) => {
-        if (COUNTRYLIST("map")[item.region?.toLowerCase()]) {
+        if (countryMap[item.region?.toLowerCase()]) {
           area = item.region.toLowerCase();
           return true;
         }
@@ -44,8 +44,8 @@ export function middleware(request) {
       if (index == undefined) {
         // （4）获取language的Cookie
         const cookieLang = locale;
-        if (LANGUAGES("map")[cookieLang]) {
-          area = LANGUAGES("map")[cookieLang].area;
+        if (languageMap[cookieLang]) {
+          area = languageMap[cookieLang].area;
         } else {
           // (5)默认为us
           area = "us";
@@ -54,8 +54,8 @@ export function middleware(request) {
     }
   }
   // 判断area是否合法
-  if (COUNTRYLIST("map")[area]?.language_code) {
-    locale = COUNTRYLIST("map")[area].language_code;
+  if (countryMap[area]?.language_code) {
+    locale = countryMap[area].language_code;
   } else {
     area = "us";
     locale = "en";
@@ -104,5 +104,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: "/((?!service|static|config|.*\\..*|_next).*)",
+  matcher: "/((?!service|static|config|icon|.*\\..*|_next).*)",
 };

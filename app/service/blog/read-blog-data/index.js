@@ -4,9 +4,8 @@ export const fetchCache = "force-cache";
 
 const fs = require("fs");
 import path from "path";
-import getLanguage from "../../../config/LANGUAGE";
+import { languageList } from "../../../config/LANGUAGE";
 
-const languageList = getLanguage("list");
 const localeCache = {};
 
 function updateLocaleCache(lang) {

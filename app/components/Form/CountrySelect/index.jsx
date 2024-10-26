@@ -7,7 +7,7 @@ import ReactDOM from "react-dom";
 import GlobalContext from "../../../[locale]/context";
 
 import { useParams } from "next/navigation";
-import COUNTRYLIST from "../../../config/COUNTRYLIST";
+import { countryList } from "@/config/COUNTRY";
 import Input from "../Input";
 import Link from "next/link";
 import Cookie from "js-cookie";
@@ -37,7 +37,7 @@ function CountryModal({
     const area = Cookie.get("area");
     if (area) {
       try {
-        COUNTRYLIST("list").forEach((item) => {
+        countryList.forEach((item) => {
           const data = item.countries.find((item2) => {
             return item2.country_code === area;
           });
@@ -91,7 +91,7 @@ function CountryModal({
                   {LANG["common.other.contact_us"]}
                 </Link>
               </div>
-              {COUNTRYLIST("list").map((item, index) => {
+              {countryList.map((item, index) => {
                 return (
                   <div className={styles.area_container} key={index}>
                     <h2>{item[locale]}</h2>

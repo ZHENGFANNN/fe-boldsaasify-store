@@ -2,8 +2,8 @@
 
 const chalk = require("chalk");
 const fs = require("fs");
-const LANGUAGES = require("../app/config/LANGUAGE");
 const api = require("./api");
+const { languageList } = require("../app/config/LANGUAGE");
 
 // 处理鸡蛋的产品数据（关联产品）
 function handleAssociateProductList(productList) {
@@ -141,7 +141,7 @@ const fetchConfig = async (times = 1, cookie = "") => {
       });
 
       // 如果这个语言不存在配置就回拿到英文的，一旦配置过任何东西就拿不到
-      LANGUAGES("list").forEach((lang) => {
+      languageList.forEach((lang) => {
         if (!obj[lang.value]) obj[lang.value] = obj["en"];
       });
 

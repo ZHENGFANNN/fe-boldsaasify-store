@@ -591,20 +591,16 @@ const list = [
   },
 ];
 
+const map = {};
+list.forEach((item) => {
+  item.countries.forEach((country) => {
+    map[country.country_code] = country;
+  });
+});
+
 /**
  * @param {list} 列表
  * @param {map} 键值对
  */
-module.exports = (key = "list") => {
-  if (key === "list") {
-    return list;
-  } else if (key === "map") {
-    let obj = {};
-    list.forEach((item) => {
-      item.countries.forEach((country) => {
-        obj[country.country_code] = country;
-      });
-    });
-    return obj;
-  }
-};
+exports.countryList = list;
+exports.countryMap = map;

@@ -1,8 +1,8 @@
 import React from "react";
-import GlobalContext from "../../[locale]/context";
+import GlobalContext from "@/[locale]/context";
 
-import COUNTRYLIST from "../../config/COUNTRYLIST";
-import LANGUAGES from "../../config/LANGUAGE";
+import { countryMap } from "@/config/COUNTRY";
+import { languageMap } from "@/config/LANGUAGE";
 
 import dynamic from "next/dynamic";
 const Modal = dynamic(() => import("./Modal"), { ssr: false });
@@ -12,7 +12,6 @@ import styles from "./index.module.scss";
 function CountryList({ children }) {
   const { area } = React.useContext(GlobalContext);
   const [show, setShow] = React.useState(false);
-  const [value, setValue] = React.useState(null);
   React.useEffect(() => {
     if (show) {
       document.body.style.overflow = "hidden";
@@ -21,22 +20,20 @@ function CountryList({ children }) {
     }
   }, [show]);
 
-  React.useEffect(() => {
-    const text = `${COUNTRYLIST("map")[area]?.country}  ( ${
-      LANGUAGES("map")[COUNTRYLIST("map")[area]?.language_code]?.label
-    } / ${COUNTRYLIST("map")[area]?.currency_symbol}${
-      COUNTRYLIST("map")[area]?.currency
-    } )`;
-    setValue(text);
+  const countryText = React.useMemo(() => {
+    return `${countryMap[area]?.country} (${
+      languageMap[countryMap[area]?.language_code]?.label
+    } / ${countryMap[area]?.currency_symbol}${countryMap[area]?.currency})`;
   }, [area]);
 
   return (
     <>
       <div className={styles.input_item} onClick={() => setShow(true)}>
         {children ? (
-          React.cloneElement(children, { value })
+          React.cloneElement(children, { value: countryText })
         ) : (
           <>
+            {/* <img src="https://cdn.shopify.com/static/images/flags/us.svg?width=20" /> */}
             <svg
               style={{
                 opacity: 0,
@@ -65,16 +62,11 @@ function CountryList({ children }) {
               height={24}
               src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/min-languages.svg`}
             />
-            <div>{value}</div>
+            <div>{countryText}</div>
           </>
         )}
       </div>
-      <Modal
-        languageMap={LANGUAGES("map")}
-        setValue={setValue}
-        setShow={setShow}
-        show={show}
-      />
+      <Modal languageMap={languageMap} setShow={setShow} show={show} />
     </>
   );
 }

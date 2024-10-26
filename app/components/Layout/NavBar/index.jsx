@@ -18,7 +18,6 @@ import tracking from "../tracking";
 import styles from "./index.module.scss";
 
 export default function NavBar() {
-  const pathname = usePathname();
   const { LANG, CONFIG, BLOG, PRODUCT } = React.useContext(GlobalContext);
   const ModalRef = React.useRef(null);
 
@@ -51,7 +50,6 @@ export default function NavBar() {
       document.body.style = "overflow: auto";
     }
   }, [navActive]);
-
   /* 
     屏幕（大于1080）
   */
@@ -81,48 +79,6 @@ export default function NavBar() {
       headerNavContentRef.current.style = `height: 0; opacity: 0;`;
     }
   }, [hoverActiveKey, navItemActive]);
-
-  /**
-   * 监听滚动条
-   * 1、处理top header
-   * 2、处理下拉样式
-   */
-  // React.useEffect(() => {
-  //   function scrollEvent({ firstInit }) {
-  //     // 处理下拉样式
-  //     if (navItemActive && !firstInit) {
-  //       setVavItemActive(false);
-  //     }
-  //     // 处理top header
-  //     // 不展示TOP header
-  //     const hiddenTopHeader = ["/blog"].find((item) => pathname.includes(item));
-  //     if (hiddenTopHeader) {
-  //       document.getElementsByClassName(
-  //         `${styles.container}`
-  //       )[0].style.transform = "translateY(-40px)";
-  //       document.getElementById("app-content").style.marginTop =
-  //         window.innerWidth <= 1080 ? "50px" : "60px";
-  //       return;
-  //     }
-  //     // 展示TOP header
-  //     if (document.documentElement.scrollTop > 40) {
-  //       document.getElementsByClassName(
-  //         `${styles.container}`
-  //       )[0].style.transform = "translateY(-40px)";
-  //     } else {
-  //       document.getElementsByClassName(
-  //         `${styles.container}`
-  //       )[0].style.transform = "translateY(0)";
-  //       document.getElementById("app-content").style.marginTop =
-  //         window.innerWidth <= 1080 ? "90px" : "100px";
-  //     }
-  //   }
-  //   scrollEvent({ firstInit: true });
-  //   window.addEventListener("scroll", scrollEvent);
-  //   return () => {
-  //     window.removeEventListener("scroll", scrollEvent);
-  //   };
-  // }, [navItemActive, pathname]);
 
   return (
     <>

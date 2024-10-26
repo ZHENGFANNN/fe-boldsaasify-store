@@ -2,8 +2,9 @@
 
 const chalk = require("chalk");
 const fs = require("fs");
-const LANGUAGES = require("../app/config/LANGUAGE");
 const api = require("./api");
+
+const { languageList } = require("../app/config/LANGUAGE");
 
 // 获取多语言信息
 const fetchLanguage = async (times = 1, cookie = "") => {
@@ -21,7 +22,7 @@ const fetchLanguage = async (times = 1, cookie = "") => {
     .then((res) => {
       let obj = {};
       res.data.list.forEach((item) => {
-        LANGUAGES("list").forEach((lang) => {
+        languageList.forEach((lang) => {
           if (!obj[lang.value]) obj[lang.value] = {};
           if (item[lang.value] && item[lang.value] !== "null") {
             obj[lang.value][item.code] = item[lang.value];

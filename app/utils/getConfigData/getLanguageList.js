@@ -37,7 +37,7 @@ const filterLanguage = function ({ localeLanguage, languageNameSpace }) {
   return languageObj;
 };
 
-export default async function getLanguageList({
+export default async function getlanguageList({
   locale,
   configList,
   languageNameSpace,

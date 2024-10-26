@@ -2,10 +2,9 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import GlobalContext from "../../[locale]/context";
-
+import GlobalContext from "@/[locale]/context";
 import Link from "next/link";
-import COUNTRYLIST from "../../config/COUNTRYLIST";
+import { countryList } from "@/config/COUNTRY";
 import Cookie from "js-cookie";
 import styles from "./modal.module.scss";
 import { useRouter } from "next/navigation";
@@ -46,7 +45,7 @@ export default function Modal({ show, setShow, languageMap }) {
                     {LANG["common.other.contact_us"]}
                   </Link>
                 </div>
-                {COUNTRYLIST("list").map((item, index) => {
+                {countryList.map((item, index) => {
                   return (
                     <div className={styles.area_container} key={index}>
                       <h2>{item[locale]}</h2>

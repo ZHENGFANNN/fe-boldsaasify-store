@@ -2,8 +2,9 @@
 
 const chalk = require("chalk");
 const fs = require("fs");
-const LANGUAGES = require("../app/config/LANGUAGE");
 const api = require("./api");
+
+const { languageList } = require("../app/config/LANGUAGE");
 
 // 处理关联产品数据
 function handleAProductList(productList) {
@@ -173,7 +174,7 @@ const fetchBlog = async (times = 1, cookie = "") => {
         obj[item.language] = [...obj[item.language], item];
       });
 
-      LANGUAGES("list").forEach((lang) => {
+      languageList.forEach((lang) => {
         if (!obj[lang.value]) obj[lang.value] = obj["en"];
       });
 

@@ -1,7 +1,7 @@
 .container {
   .nav_posity_container {
-    position: fixed;
-    top: 100px;
+    position: sticky;
+    top: 60px;
     height: 48px;
     background-color: #232526;
     left: 0;
@@ -156,7 +156,6 @@
 
 @media screen and (max-width: 1080px) {
   .container {
-    margin-top: 50px;
     .nav_posity_container {
       top: 50px;
       .nav_posity_title {

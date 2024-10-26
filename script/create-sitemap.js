@@ -3,12 +3,13 @@
 const fs = require("fs");
 const { SitemapStream, streamToPromise } = require("sitemap");
 const chalk = require("chalk");
-const LANGUAGES = require("../app/config/LANGUAGE");
 const { join } = require("path");
 const { Readable } = require("stream");
 
 const productPath = require("../public/config/product/sitemap/en.json");
 const blogPath = require("../public/config/blog/sitemap/en.json");
+
+const { languageList } = require("../app/config/LANGUAGE");
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN;
 // 排除路径
@@ -38,7 +39,7 @@ function getNavPath() {
     "/nav/support",
     "/nav/about_us",
   ];
-  LANGUAGES("list").forEach((language) => {
+  languageList.forEach((language) => {
     navList.forEach((nav) => {
       pathList.push(`/${language.value}${nav}`);
     });
@@ -49,7 +50,7 @@ function getNavPath() {
 // 获取博客列表路径
 function getBlogPath() {
   const pathList = [];
-  LANGUAGES("list").forEach((languageMap) => {
+  languageList.forEach((languageMap) => {
     blogPath.forEach((path) => {
       const locale = languageMap.value === "en" ? "" : `/${languageMap.value}`;
       pathList.push(`${locale}${path}`);
@@ -61,7 +62,7 @@ function getBlogPath() {
 // 获取产品列表路径
 function getProductPath() {
   const pathList = [];
-  LANGUAGES("list").forEach((languageMap) => {
+  languageList.forEach((languageMap) => {
     productPath.forEach((path) => {
       const locale = languageMap.value === "en" ? "" : `/${languageMap.value}`;
       pathList.push(`${locale}${path}`);
@@ -72,7 +73,7 @@ function getProductPath() {
 
 // 获取所有页面
 const getAllPages = (dir = "") => {
-  const pagesDir = join(process.cwd(), "src/app", dir);
+  const pagesDir = join(process.cwd(), "app", dir);
   const files = fs.readdirSync(pagesDir);
   let pages = [];
   files.forEach((file) => {
@@ -97,7 +98,7 @@ async function getSitMap(times = 1) {
   console.log(`${chalk.yellow("【开始获取SITEMAP】")}`);
   try {
     // 获取所有可用的 locale
-    const locales = LANGUAGES("list").map((item) => item.value);
+    const locales = languageList.map((item) => item.value);
     // 创建一个 SitemapStream 对象
     const stream = new SitemapStream({ hostname: domain });
 

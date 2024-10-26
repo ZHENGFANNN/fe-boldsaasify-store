@@ -51,19 +51,15 @@ const list = [
   },
 ];
 
+const map = {};
+list.forEach((item) => {
+  map[item.value] = item;
+});
+
 /**
  * key：
  * list: 返回语言列表
  * map: 返回语言映射
  */
-module.exports = (key = "list") => {
-  if (key === "list") {
-    return list;
-  } else if (key === "map") {
-    const map = {};
-    list.forEach((item) => {
-      map[item.value] = item;
-    });
-    return map;
-  }
-};
+exports.languageList = list;
+exports.languageMap = map;
