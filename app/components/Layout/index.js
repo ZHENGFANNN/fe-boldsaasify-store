@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import Api from "../../request";
 import Script from "next/script";
 import CartModal from "./CartModal";
+import AreaModal from "./AreaModal";
 
 export default function Layout({
   locale,
@@ -90,6 +91,10 @@ export default function Layout({
       };
     } catch {}
   }, []);
+  /**
+   * 地区选择器
+   */
+  const areaRef = React.useRef(null);
 
   return (
     <GlobalContext.Provider
@@ -108,14 +113,20 @@ export default function Layout({
         // 购物车数量
         productNum,
         setProductNum,
-        // 展示购物车,
+        // 展示购物车
         showCartModal: () => {
           cartRef.current.show();
+        },
+        // 展示地区选择器
+        showAreaModal: () => {
+          areaRef.current.show();
         },
       }}
     >
       {/* 购物车 */}
       <CartModal ref={cartRef} />
+      {/* 地区选择 */}
+      <AreaModal ref={areaRef} />
       {/* 谷歌GTM */}
       <noscript>
         <iframe

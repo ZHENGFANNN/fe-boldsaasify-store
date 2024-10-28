@@ -7,11 +7,10 @@ import GlobalContext from "@/[locale]/context";
 import NAVFUNC from "../../../config/NAVFUNC";
 import { countryMap } from "@/config/COUNTRY";
 import TipModal from "../../Modal/FunctionTipModal";
-import CountryList from "../../CountrySelect";
 import DropSelect from "../../DropSelect";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import Api from "../api";
 import tracking from "../tracking";
@@ -89,6 +88,20 @@ export default function NavBar() {
       <nav className={styles.nav}>
         <div className={styles.header + ` ${navActive ? styles.active : ""}`}>
           <div className={styles.header_left}>
+            {/* 更多ICON */}
+            <div
+              className={
+                styles.header_mobile +
+                ` ${navActive ? styles.header_mobile_active : ""}`
+              }
+              onClick={() => {
+                setNavActive((value) => !value);
+              }}
+            >
+              <span className={styles.control_icon}></span>
+              <span className={styles.control_icon}></span>
+              <span className={styles.control_icon}></span>
+            </div>
             <div className={styles.header_logo}>
               <Link
                 scroll={true}
@@ -97,12 +110,7 @@ export default function NavBar() {
                   setNavActive(false);
                 }}
               >
-                <img
-                  alt={"logo"}
-                  width={30}
-                  height={30}
-                  src={CONFIG["company.basic.logo"]}
-                />
+                <img alt={"logo"} src={CONFIG["company.basic.logo"]} />
                 <div className={styles.name}>
                   {CONFIG["company.basic.company_name"]}
                 </div>
@@ -316,20 +324,21 @@ function NavSubCommonItem({
 
 function RightArea({ navActive, setNavActive }) {
   const router = useRouter();
-  const { LANG, userInfo, productNum, showCartModal, area } =
+  const { LANG, userInfo, productNum, area, showCartModal, showAreaModal } =
     React.useContext(GlobalContext);
   return (
     <ul className={styles.header_right}>
       <li>
-        <CountryList>
-          <div className={styles.header_country_text}>
-            <img
-              alt={area}
-              src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
-            />
-            {`${countryMap[area].country} · ${countryMap[area].currency_symbol}${countryMap[area].currency}`}
-          </div>
-        </CountryList>
+        <div className={styles.header_country_text} onClick={showAreaModal}>
+          <img
+            alt={area}
+            src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
+          />
+          <div className={styles.t_1}>{`${countryMap[area].country} · `}</div>
+          <div
+            className={styles.t_2}
+          >{`${countryMap[area].currency_symbol}${countryMap[area].currency}`}</div>
+        </div>
       </li>
       {/* 用户ICON */}
       <li className={styles.header_user}>
@@ -389,26 +398,8 @@ function RightArea({ navActive, setNavActive }) {
           ) : null}
           <img
             alt="avatar"
-            width={24}
-            height={24}
             src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/min-cart.svg`}
           />
-        </div>
-      </li>
-      {/* 更多ICON */}
-      <li>
-        <div
-          className={
-            styles.header_mobile +
-            ` ${navActive ? styles.header_mobile_active : ""}`
-          }
-          onClick={() => {
-            setNavActive((value) => !value);
-          }}
-        >
-          <span className={styles.control_icon}></span>
-          <span className={styles.control_icon}></span>
-          <span className={styles.control_icon}></span>
         </div>
       </li>
     </ul>
@@ -417,12 +408,18 @@ function RightArea({ navActive, setNavActive }) {
 
 // 顶部广告位
 function AnnouncementBar() {
-  const { userInfo } = React.useContext(GlobalContext);
-  const router = useRouter();
+  const { area, showAreaModal } = React.useContext(GlobalContext);
   return (
     <div className={styles.announcement_bar}>
       <div className={styles.top_header_container}>
         <TextBanner />
+        <div className={styles.country_select} onClick={showAreaModal}>
+          <img
+            alt={area}
+            src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
+          />
+          <div>{`${countryMap[area].currency_symbol}${countryMap[area].currency}`}</div>
+        </div>
       </div>
     </div>
   );
@@ -466,7 +463,7 @@ function TextBanner() {
   React.useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((state) => state + 1);
-    }, 1000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -476,7 +473,7 @@ function TextBanner() {
         ref={textListRef}
         className={styles.text_list}
         style={{
-          transform: `translateY(-${activeIndex * 48}px)`,
+          transform: `translateY(-${activeIndex * 52}px)`,
         }}
       >
         {[...bannerList, bannerList[0]].map((item, index) => {

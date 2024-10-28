@@ -4,7 +4,7 @@ import GlobalContext from "@/[locale]/context";
 import Link from "next/link";
 import { countryList } from "@/config/COUNTRY";
 import Cookie from "js-cookie";
-import styles from "./modal.module.scss";
+import styles from "./index.module.scss";
 import { languageMap } from "@/config/LANGUAGE";
 import { useRouter } from "next/navigation";
 
@@ -17,13 +17,8 @@ function Modal(_, ref) {
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
-      const $areaModalDom = document.querySelector("[data-role='area-modal']");
-      if ($areaModalDom) {
-        $areaModalDom.setAttribute("data-show", "true");
-      } else {
-        setIsMounted(true);
-        setTimeout(() => setShow(true), 0);
-      }
+      setIsMounted(true);
+      setTimeout(() => setShow(true), 0);
     },
   }));
 

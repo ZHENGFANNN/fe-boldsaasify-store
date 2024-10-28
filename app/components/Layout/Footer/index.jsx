@@ -10,7 +10,9 @@ import React from "react";
 import GlobalContext from "../../../[locale]/context";
 
 import TipModal from "../../Modal/FunctionTipModal";
-import CountryList from "../../CountrySelect";
+
+import { languageMap } from "@/config/LANGUAGE";
+import { countryMap } from "@/config/COUNTRY";
 
 import { isEmail } from "../../../utils/pattern";
 
@@ -22,40 +24,20 @@ import Link from "next/link";
 
 const FULLYEAR = new Date().getFullYear();
 
-function ShowLanguageItem({ value }) {
-  const { area } = React.useContext(GlobalContext);
+function ShowLanguageItem() {
+  const { area, showAreaModal } = React.useContext(GlobalContext);
   return (
-    <div className={styles.show_item}>
+    <div className={styles.show_item} onClick={showAreaModal}>
       <img
         className={styles.icon}
         alt={area}
         src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
       />
-      {/* <svg
-        style={{
-          opacity: 0,
-          position: "fixed",
-          left: "-1000px",
-          top: "-1000px",
-        }}
-      >
-        <defs>
-          <filter id="turnIntoRed">
-            <feFlood floodColor="#8c8c8c" floodOpacity="1" result="color" />
-            <feComposite in="color" in2="SourceGraphic" operator="in" />
-          </filter>
-        </defs>
-      </svg>
-      <img
-        style={{
-          filter: "url('#turnIntoRed')",
-        }}
-        alt="languages"
-        width={24}
-        height={24}
-        src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/min-languages.svg`}
-      /> */}
-      <div>{value}</div>
+      <div>{`${countryMap[area]?.country} (${
+        languageMap[countryMap[area]?.language_code]?.label
+      } / ${countryMap[area]?.currency_symbol}${
+        countryMap[area]?.currency
+      })`}</div>
     </div>
   );
 }
@@ -312,9 +294,7 @@ export default function Footer() {
             {LANG["common.footer.right_reserved"]}
           </div>
           <div className={styles.footer_filing}>
-            <CountryList>
-              <ShowLanguageItem />
-            </CountryList>
+            <ShowLanguageItem />
           </div>
         </div>
       </section>
