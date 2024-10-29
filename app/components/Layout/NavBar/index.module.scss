@@ -16,22 +16,33 @@
     .country_select {
       display: none;
       align-items: center;
-      background: #404244;
+    
       height: 100%;
 
       font-size: 13px;
       color: #afb1b4;
-      padding: 0 10px;
+      
       font-weight: 700;
       letter-spacing: 1px;
-      margin-left: 4px;
-      img {
+      margin-left: 6px;
+      margin-right: 6px;
+
+      .country_content ｛
+            background: #404244;
+            padding: 8px 10px;
+            display: flex;
+            align-item: center;
+            border-radius: 8px
+             img {
         border-radius: 100%;
         margin-right: 6px;
         width: 24px;
         height: 24px;
         object-fit: cover;
       }
+      ｝
+      
+     
     }
     .text_banner {
       width: 100%;
