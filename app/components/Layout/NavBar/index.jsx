@@ -67,7 +67,7 @@ export default function NavBar() {
     if (navItemActive) {
       headerNavWidthRef.current
         .querySelectorAll("[data-src]")
-        .forEach(($imageDom) => {i
+        .forEach(($imageDom) => {
           const src = $imageDom.getAttribute("data-src");
           $imageDom.setAttribute("src", src);
           $imageDom.removeAttribute("data-src");
@@ -328,18 +328,6 @@ function RightArea({ navActive, setNavActive }) {
     React.useContext(GlobalContext);
   return (
     <ul className={styles.header_right}>
-      <li>
-        <div className={styles.header_country_text} onClick={showAreaModal}>
-          <img
-            alt={area}
-            src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
-          />
-          <div className={styles.t_1}>{`${countryMap[area].country} · `}</div>
-          <div
-            className={styles.t_2}
-          >{`${countryMap[area].currency_symbol}${countryMap[area].currency}`}</div>
-        </div>
-      </li>
       {/* 用户ICON */}
       <li className={styles.header_user}>
         <DropSelect
@@ -366,7 +354,7 @@ function RightArea({ navActive, setNavActive }) {
                   },
                 ]
           }
-          tanslatefromX={12}
+          tanslatefromX={-4}
           position="bottom"
           selectValue={async (e) => {
             if (e === "loginOut") {
@@ -402,6 +390,13 @@ function RightArea({ navActive, setNavActive }) {
           />
         </div>
       </li>
+      {/* 国家ICON */}
+      <li className={styles.header_country} onClick={showAreaModal}>
+        <img
+          alt={area}
+          src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
+        />
+      </li>
     </ul>
   );
 }
@@ -415,11 +410,11 @@ function AnnouncementBar() {
         <TextBanner />
         <div className={styles.country_select} onClick={showAreaModal}>
           <div className={styles.country_content}>
-          <img
-            alt={area}
-            src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
-          />
-          <div>{`${countryMap[area].currency_symbol}${countryMap[area].currency}`}</div>
+            <img
+              alt={area}
+              src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
+            />
+            <div>{`${countryMap[area].country} · ${countryMap[area].currency_symbol}${countryMap[area].currency}`}</div>
           </div>
         </div>
       </div>
@@ -475,7 +470,7 @@ function TextBanner() {
         ref={textListRef}
         className={styles.text_list}
         style={{
-          transform: `translateY(-${activeIndex * 52}px)`,
+          transform: `translateY(-${activeIndex * 42}px)`,
         }}
       >
         {[...bannerList, bannerList[0]].map((item, index) => {
