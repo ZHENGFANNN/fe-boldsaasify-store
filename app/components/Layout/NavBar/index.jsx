@@ -414,7 +414,7 @@ function AnnouncementBar() {
       <div className={styles.top_header_container}>
         <TextBanner />
         <div className={styles.country_select} onClick={showAreaModal}>
-          <div claaName={styles.country_content}>
+          <div className={styles.country_content}>
           <img
             alt={area}
             src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}
