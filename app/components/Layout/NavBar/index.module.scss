@@ -27,20 +27,20 @@
       margin-left: 6px;
       margin-right: 6px;
 
-      .country_content ｛
+      .country_content {
             background: #404244;
             padding: 8px 10px;
             display: flex;
             align-item: center;
             border-radius: 8px;
              img {
-        border-radius: 100%;
-        margin-right: 6px;
-        width: 24px;
-        height: 24px;
-        object-fit: cover;
+              border-radius: 100%;
+              margin-right: 6px;
+              width: 24px;
+              height: 24px;
+              object-fit: cover;
+            }
       }
-      ｝
       
      
     }
