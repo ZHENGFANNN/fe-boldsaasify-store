@@ -91,7 +91,7 @@ export default async function RootLayout(props) {
       </head>
       <body>
         <Script
-          defer
+          id="mixdesk"
           dangerouslySetInnerHTML={{
             __html: `
                 (function(a, b, c, d, e, j, s) {
