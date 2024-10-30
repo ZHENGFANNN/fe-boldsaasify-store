@@ -11,6 +11,7 @@ import Layout from "../components/Layout";
 
 import getConfigData from "../utils/getConfigData";
 import { cookies } from "next/headers";
+import Script from "next/script";
 
 // Meta - viewport
 export const viewport = {
@@ -89,6 +90,27 @@ export default async function RootLayout(props) {
         <link rel="icon" href={CONFIG["company.basic.logo"]} />
       </head>
       <body>
+        <Script
+          defer
+          dangerouslySetInnerHTML={{
+            __html: `
+                (function(a, b, c, d, e, j, s) {
+                  a._t = d;
+                  a[d] = a[d] || function() {
+                      (a[d].a = a[d].a || []).push(arguments)
+                  };
+                  j = b.createElement(c),
+                      s = b.getElementsByTagName(c)[0];
+                  j.async = true;
+                  j.charset = 'UTF-8';
+                  j.src = 'https://chat.mixdesk.com/entry.js';
+                  s.parentNode.insertBefore(j, s);
+              })(window, document, 'script', '_MIXDESK');
+              _MIXDESK('entId', 'd9c269e4990f3c64aaaab86285600d5e');
+              _MIXDESK('language', '${locale}');
+          `,
+          }}
+        />
         <Layout
           locale={locale}
           area={area}
