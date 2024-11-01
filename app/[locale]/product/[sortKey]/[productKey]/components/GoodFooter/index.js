@@ -36,20 +36,14 @@ export default function GoodFooter() {
     }
   }, [productOptions]);
 
-  // Footer处理
+  // 弹出时机
   React.useEffect(() => {
     if (!lazyLoading) {
       // 埋点 - 查看次数
       tracking.viewContent({
         productName: productInfo.key,
       });
-
       const $footerDom = $('[data-role="footer-buy"]');
-      // 计算底部位置
-      const height = $footerDom.outerHeight();
-      $("[data-role='footer-info']").css({
-        paddingBottom: height,
-      });
       // 滚动展示底部位置
       const $btnDom = $('[data-role="buy-btn-list"]').eq(0);
       const scrollFunc = debounce(function () {
@@ -73,8 +67,24 @@ export default function GoodFooter() {
       }, 50);
       scrollFunc();
       $(window).on("scroll", scrollFunc);
+      return () => $(window).off("scroll", scrollFunc);
+    }
+  }, [lazyLoading]);
+
+  // 处理底部按钮
+  React.useEffect(() => {
+    if (!lazyLoading) {
+      const $footerDom = $('[data-role="footer-buy"]');
+      function onResizeChange() {
+        // 计算底部位置
+        const height = $footerDom.outerHeight();
+        $("[data-role='footer-info']").css({
+          paddingBottom: height,
+        });
+      }
+      onResizeChange();
+      window.addEventListener("resize", onResizeChange);
       return () => {
-        $(window).off("scroll", scrollFunc);
         $("[data-role='footer-info']").css({
           paddingBottom: 0,
         });

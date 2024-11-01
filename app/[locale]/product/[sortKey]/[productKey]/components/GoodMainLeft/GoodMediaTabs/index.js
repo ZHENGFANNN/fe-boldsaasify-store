@@ -60,6 +60,7 @@ export default function SelectList() {
       });
     }
   }, [productShowType, lazyLoading]);
+
   return (
     <div className={styles.left_content_type_container}>
       <div className={styles.left_content_type}>
