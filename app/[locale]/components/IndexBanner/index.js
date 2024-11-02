@@ -14,12 +14,12 @@ import Link from "next/link";
 export default function Banner() {
   const { CONFIG } = React.useContext(IndexContent);
 
-  const router = useRouter();
   const [splide, setSplide] = React.useState();
   const [active, setActive] = React.useState(0);
   const bannerList = React.useMemo(() => {
     return CONFIG["store.index.banner"];
   }, []);
+
   React.useEffect(() => {
     const splide = new Splide(`.${styles.splide}`, {
       type: "loop",

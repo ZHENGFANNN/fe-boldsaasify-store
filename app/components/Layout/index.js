@@ -129,8 +129,7 @@ export default function Layout({
       <CartModal ref={cartRef} />
       {/* 地区选择 */}
       <AreaModal ref={areaRef} />
-      {/* 谷歌GTM */}
-      <noscript>
+      {/* <noscript>
         <iframe
           src="https://www.googletagmanager.com/ns.html?id=GTM-KPTW2T7S"
           height="0"
@@ -141,7 +140,6 @@ export default function Layout({
           }}
         ></iframe>
       </noscript>
-      {/* Facebook */}
       <noscript>
         <img
           height="1"
@@ -150,7 +148,6 @@ export default function Layout({
           src="https://www.facebook.com/tr?id=391873080113365&ev=PageView&noscript=1"
         />
       </noscript>
-      {/* 谷歌 - GTM */}
       <script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-HXTW7Y9DD3"
@@ -164,7 +161,6 @@ export default function Layout({
           gtag('config', 'G-HXTW7Y9DD3');`,
         }}
       />
-      {/* Facebook - Fixed */}
       <Script
         id="facebook-fixed"
         dangerouslySetInnerHTML={{
@@ -179,9 +175,8 @@ export default function Layout({
             fbq('init', '391873080113365');
             `,
         }}
-      />
+      /> */}
       {children}
-      {/* Customer */}
       <SmartsUpp />
     </GlobalContext.Provider>
   );

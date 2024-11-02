@@ -3,6 +3,7 @@
   background: #f4f4f4;
   padding: 0 24px;
   box-sizing: border-box;
+
   .top_header_container {
     margin: auto;
     height: 42px;
@@ -86,6 +87,9 @@
       .header_mobile {
         display: none;
       } 
+      [data-tracking-click] {
+        background: red;
+      }
       .header_logo {
         position: relative;
         z-index: 1;
@@ -631,3 +635,5 @@
       }
     }
 }
+
+

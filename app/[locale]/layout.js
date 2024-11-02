@@ -1,13 +1,15 @@
 import React from "react";
 
-import "../styles/globals.css";
-import "../styles/reset.css";
+import "@/styles/globals.css";
+import "@/styles/reset.css";
 
-import Layout from "../components/Layout";
-import Navbar from "../components/Layout/NavBar";
-import Footer from "../components/Layout/Footer";
+import Layout from "@/components/Layout";
+import Navbar from "@/components/Layout/NavBar";
+import Footer from "@/components/Layout/Footer";
 
-import getConfigData from "../utils/getConfigData";
+import Head from "@/components/Head";
+
+import getConfigData from "@/utils/getConfigData";
 import { cookies } from "next/headers";
 
 // Meta - viewport
@@ -83,19 +85,9 @@ export default async function RootLayout(props) {
 
   return (
     <html lang={locale}>
-      <head>
-        {/* website Logo */}
-        <link rel="icon" href={CONFIG["company.basic.logo"]} />
-        {/* image loading */}
-        <style>{`
-          img {
-            &[data-src], &[data-loading] {
-              background-image: url('${CONFIG["company.basic.logo"]}');
-            }
-          }
-        `}</style>
-      </head>
+      <Head logoLink={CONFIG["company.basic.logo"]} />
       <body>
+        {/* <GTMNoScript /> */}
         <Layout
           locale={locale}
           area={area}

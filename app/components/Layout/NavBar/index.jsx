@@ -83,6 +83,7 @@ export default function NavBar() {
 
   return (
     <>
+      <div data-tracking-click="nav-logo">Test</div>
       {/* 顶部广告位 */}
       <AnnouncementBar />
       {/* 网页导航栏 */}
@@ -103,7 +104,7 @@ export default function NavBar() {
               <span className={styles.control_icon}></span>
               <span className={styles.control_icon}></span>
             </div>
-            <div className={styles.header_logo}>
+            <div className={styles.header_logo} data-tracking-click="nav-logo">
               <Link
                 scroll={true}
                 href={`/`}
@@ -112,7 +113,7 @@ export default function NavBar() {
                 }}
               >
                 <img alt={"logo"} src={CONFIG["company.basic.logo"]} />
-                <div className={styles.name}>
+                <div className={styles.name} data-tracking-click="nav-logo">
                   {CONFIG["company.basic.company_name"]}
                 </div>
               </Link>
