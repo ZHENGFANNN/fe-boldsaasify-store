@@ -1,17 +1,31 @@
-import commonTracking from "../../utils/commonTracking";
-
 export default {
-  // 点击商城
-  clickNavStoreBtn: () => {
-    commonTracking("ClickNavStoreBtn");
+  clickNavUser: () => {
+    dataLayer.push({
+      event: "custom_click",
+      click_type: "NavUser",
+    });
   },
-  // 进入帐单页
+  clickNavCart: () => {
+    dataLayer.push({
+      event: "custom_click",
+      click_type: "NavCart",
+    });
+  },
+  clickNavArea: () => {
+    dataLayer.push({
+      event: "custom_click",
+      click_type: "NavArea",
+    });
+  },
   enterOrderForm: function ({ currency, value, contents }) {
-    commonTracking("EnterOrderForm", {
-      from: "cart_page",
-      currency,
-      value,
-      contents,
+    dataLayer.push({
+      event: "custom_click",
+      click_type: "CartModalCheckout",
+      click_data: {
+        currency,
+        value,
+        contents,
+      },
     });
   },
 };

@@ -45,7 +45,7 @@ export default async function Order({ params }) {
   const { locale } = await params;
   const cookieStore = await cookies();
   const area = cookieStore.get("area")?.value || "us";
-  const token = cookieStore.get("token")?.value || "us";
+  const token = cookieStore.get("token")?.value;
 
   const { CONFIG, LANG, GOODDISCOUNTFESTIVAL } = await getData({
     locale,

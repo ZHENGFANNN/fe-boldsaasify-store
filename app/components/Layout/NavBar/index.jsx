@@ -103,7 +103,7 @@ export default function NavBar() {
               <span className={styles.control_icon}></span>
               <span className={styles.control_icon}></span>
             </div>
-            <div className={styles.header_logo} data-tracking-click="nav-logo">
+            <div className={styles.header_logo}>
               <Link
                 scroll={true}
                 href={`/`}
@@ -112,7 +112,7 @@ export default function NavBar() {
                 }}
               >
                 <img alt={"logo"} src={CONFIG["company.basic.logo"]} />
-                <div className={styles.name} data-tracking-click="nav-logo">
+                <div className={styles.name}>
                   {CONFIG["company.basic.company_name"]}
                 </div>
               </Link>
@@ -358,6 +358,7 @@ function RightArea({ navActive, setNavActive }) {
           tanslatefromX={-4}
           position="bottom"
           selectValue={async (e) => {
+            tracking.clickNavUser();
             if (e === "loginOut") {
               Api.loginOut();
               location.reload();
@@ -378,6 +379,7 @@ function RightArea({ navActive, setNavActive }) {
       <li
         className={styles.header_cart}
         onClick={() => {
+          tracking.clickNavCart();
           showCartModal();
         }}
       >
@@ -392,7 +394,13 @@ function RightArea({ navActive, setNavActive }) {
         </div>
       </li>
       {/* 国家ICON */}
-      <li className={styles.header_country} onClick={showAreaModal}>
+      <li
+        className={styles.header_country}
+        onClick={() => {
+          showAreaModal();
+          tracking.clickNavArea();
+        }}
+      >
         <img
           alt={area}
           src={`${process.env.NEXT_PUBLIC_FILE}/image/icon/flags/${area}.svg`}

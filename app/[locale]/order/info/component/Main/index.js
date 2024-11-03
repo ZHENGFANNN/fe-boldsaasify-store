@@ -6,13 +6,13 @@ import Api from "../../api";
 import tracking from "../../../tracking";
 import React from "react";
 import Paypal from "../../../component/Paypal";
-import ShowTipModal from "../../../../../components/Modal/ShowTipModal";
 
 import { useRouter } from "next/navigation";
-import Loading from "../../../../../components/Loading";
 import moment from "moment";
 
-import { formatCurrency } from "../../../../../utils";
+import ShowTipModal from "@/components/Modal/ShowTipModal";
+import Loading from "@/components/Loading";
+import { formatCurrency } from "@/utils";
 import Link from "next/link";
 
 export default function Main({ secret, locale, area, LANG, CONFIG }) {
@@ -68,17 +68,6 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
         setLoading(false);
       });
   }, []);
-
-  React.useEffect(() => {
-    if (order) {
-      tracking.enterOrderDetail({
-        currency: `${order.order_list[0].priceSymbol}${order.order_list[0].priceCurrency}`,
-        value: order.total_price,
-        discount: order.discount,
-        contents: order.order_list,
-      });
-    }
-  }, [order]);
 
   const payMap = React.useMemo(() => {
     return {
@@ -384,6 +373,8 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
             {order.pay_key === "payPal" && order.order_status === "status0" ? (
               <div className={styles.btn_container}>
                 <Paypal
+                  LANG={LANG}
+                  CONFIG={CONFIG}
                   area={order.area_code || area}
                   locale={locale}
                   order_number={order.order_number}

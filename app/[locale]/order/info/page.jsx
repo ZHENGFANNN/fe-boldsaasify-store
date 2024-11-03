@@ -28,7 +28,7 @@ export default async function Info({ params, searchParams: { secret } }) {
   const { LANG, CONFIG } = await getConfigData({
     locale,
     configList: ["config", "language"],
-    languageNameSpace: ["store.order_info"],
+    languageNameSpace: ["store.order_info", "store.product.pay_fail"],
     configNameSpace: [
       "company.basic.company_name",
       "company.basic.order_service",

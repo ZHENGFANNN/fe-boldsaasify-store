@@ -2,29 +2,27 @@
 
 "use client";
 
-import styles from "./index.module.scss";
 import React from "react";
+import { useParams, useRouter } from "next/navigation";
+
+import GlobalContext from "@/[locale]/context";
 import PayList from "../PayList";
 import UserInfo from "../UserType";
-import GlobalContext from "@/[locale]/context";
-import OrderContext from "../../context";
-
-import { domesticPay, foreignPay } from "../../const";
-import ShowTipModal from "../../../../components/Modal/ShowTipModal";
 import Api from "../../api";
-import Loading from "../../../../components/Loading";
-
+import tracking from "../../tracking";
+import OrderContext from "../../context";
 import AddressList from "../AddressList";
 import AddressForm from "../AddressForm";
 import NewAddressForm from "../NewAddressForm";
-
-import Advantage from "../../../../components/Layout/Advantage";
-
+import { domesticPay, foreignPay } from "../../const";
 import Paypal from "../Paypal";
-import tracking from "../../tracking";
 
-import { useParams, useRouter } from "next/navigation";
-import { formatCurrency, roundToDecimalPlaces } from "../../../../utils";
+import ShowTipModal from "@/components/Modal/ShowTipModal";
+import Loading from "@/components/Loading";
+import Advantage from "@/components/Layout/Advantage";
+import { formatCurrency, roundToDecimalPlaces } from "@/utils";
+
+import styles from "./index.module.scss";
 
 export default function Main({
   CONFIG,
@@ -240,6 +238,18 @@ export default function Main({
     window.localStorage.removeItem("store_shopping");
   }, []);
 
+  // 埋点
+  const trackingInitiateCheckout = React.useCallback(() => {
+    tracking.initiateCheckout({
+      from: "order_page",
+      currency: orderList[0].priceCurrency,
+      value: totalPrice - discount,
+      discount,
+      type: "payPal",
+      contents: orderList,
+    });
+  }, [orderList, totalPrice, discount]);
+
   const secret = React.useRef();
 
   return (
@@ -438,19 +448,11 @@ export default function Main({
                       order_list: orderList,
                     });
                     if (res.code === 0) {
-                      tracking.initiateCheckout({
-                        from: "order_page",
-                        currency: orderList[0].priceCurrency,
-                        value: totalPrice - discount,
-                        discount,
-                        type: payKey,
-                        contents: orderList,
-                      });
+                      trackingInitiateCheckout();
                       showTip({
                         text: LANG["store.order.create_success"],
                         type: "success",
                       });
-
                       // 保存订单号
                       localStorage.setItem(
                         "order",
@@ -533,14 +535,7 @@ export default function Main({
                           .then((res) => {
                             if (res.code === 0) {
                               secret.current = res.data.secret;
-                              tracking.initiateCheckout({
-                                from: "order_page",
-                                currency: orderList[0].priceCurrency,
-                                value: totalPrice - discount,
-                                discount,
-                                type: "payPal",
-                                contents: orderList,
-                              });
+                              trackingInitiateCheckout();
                               // 保存订单号
                               localStorage.setItem(
                                 "order",
@@ -549,7 +544,6 @@ export default function Main({
                                   time: Date.now(),
                                 })
                               );
-
                               return res.data.id;
                             } else {
                               throw new Error("code !== 0");

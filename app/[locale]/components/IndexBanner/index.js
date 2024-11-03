@@ -6,8 +6,7 @@ import styles from "./index.module.scss";
 import Splide from "@splidejs/splide";
 import "@splidejs/splide/css";
 import React from "react";
-import { useRouter } from "next/navigation";
-import tracking from "../../tracking";
+import tracking from "@/[locale]/tracking";
 import { IndexContent } from "../IndexContext";
 import Link from "next/link";
 

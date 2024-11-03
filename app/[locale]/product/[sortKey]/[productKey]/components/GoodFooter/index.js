@@ -5,9 +5,9 @@ import styles from "./index.module.scss";
 import ProductContext from "../../ProductContext";
 import tracking from "../../tracking";
 import ComboModal from "./components/ComboModal";
-import { formatCurrency } from "../../../../../../utils";
 
-import { debounce } from "../../../../../../utils";
+import { formatCurrency } from "@/utils";
+import { debounce } from "@/utils";
 
 export default function GoodFooter() {
   const {
@@ -102,9 +102,8 @@ export default function GoodFooter() {
               <>
                 <div
                   onClick={() => {
-                    tracking.clickProductFooterBtn({
+                    tracking.clickProductFooterCombo({
                       productName: productInfo.key,
-                      type: "combo",
                     });
                     comboModalRef.current.show();
                   }}
@@ -162,9 +161,8 @@ export default function GoodFooter() {
               <div
                 onClick={() => {
                   comboModalRef.current.show();
-                  tracking.clickProductFooterBtn({
+                  tracking.clickProductFooterBuyBtn({
                     productName: productInfo.key,
-                    type: "buy",
                   });
                 }}
                 className={`${styles.footer_button}`}

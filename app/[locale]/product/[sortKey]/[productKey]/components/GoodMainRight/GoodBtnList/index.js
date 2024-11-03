@@ -89,6 +89,22 @@ function PayButton({
     ];
   }, [productNum, productCurCombo, productInfo, productOptions, locale]);
 
+  const trackingInitiateCheckout = React.useCallback(() => {
+    tracking.initiateCheckout({
+      currency: orderList[0].priceCurrency,
+      value: roundToDecimalPlaces(
+        totalPrice - discount,
+        productCurCombo.areaInfo.currency_unit
+      ),
+      discount: roundToDecimalPlaces(
+        discount,
+        productCurCombo.areaInfo.currency_unit
+      ),
+      type: "payPal",
+      contents: orderList,
+    });
+  }, [orderList, discount, totalPrice, productCurCombo]);
+
   if (isRejected) {
     return (
       <div className={styles.pay_error_container}>
@@ -148,19 +164,7 @@ function PayButton({
                 .then((res) => {
                   if (res.code === 0) {
                     secret.current = res.data.secret;
-                    tracking.initiateCheckout({
-                      currency: orderList[0].priceCurrency,
-                      value: roundToDecimalPlaces(
-                        totalPrice - discount,
-                        productCurCombo.areaInfo.currency_unit
-                      ),
-                      discount: roundToDecimalPlaces(
-                        discount,
-                        productCurCombo.areaInfo.currency_unit
-                      ),
-                      type: "payPal",
-                      contents: orderList,
-                    });
+                    trackingInitiateCheckout();
 
                     // 保存订单号
                     localStorage.setItem(
@@ -216,6 +220,7 @@ function PayButton({
                 });
             }}
             onCancel={(data) => {
+              return;
               if (data.orderID) {
                 showTip({
                   text: LANG["store.product.pay_cancel"],

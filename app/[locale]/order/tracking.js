@@ -1,15 +1,17 @@
-import commonTracking from "../../utils/commonTracking";
-
 export default {
   // 购买转化
   purchase: function ({ currency, value, discount, contents, type, from }) {
-    commonTracking("Purchase", {
-      from,
-      currency,
-      value,
-      contents,
-      discount,
-      type,
+    dataLayer.push({
+      event: "custom_click",
+      click_type: "Purchase",
+      click_data: {
+        from,
+        currency,
+        value,
+        contents,
+        discount,
+        type,
+      },
     });
   },
   // 进入购买流程
@@ -21,22 +23,17 @@ export default {
     type,
     from,
   }) {
-    commonTracking("InitiateCheckout", {
-      from,
-      currency,
-      value,
-      contents,
-      discount,
-      type,
-    });
-  },
-  // 进入订单详情页
-  enterOrderDetail: function ({ currency, value, discount, contents }) {
-    commonTracking("EnterOrderDetail", {
-      currency,
-      value,
-      contents,
-      discount,
+    dataLayer.push({
+      event: "custom_click",
+      click_type: "InitiateCheckout",
+      click_data: {
+        currency,
+        value,
+        discount,
+        contents,
+        type,
+        from,
+      },
     });
   },
 };

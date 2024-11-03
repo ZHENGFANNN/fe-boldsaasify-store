@@ -483,6 +483,7 @@ const CartMain = function ({ handleClose }) {
                     value: totalPrice,
                     contents: cartList,
                   });
+                  return;
                   location.href = `/${locale}/order`;
                 }}
               >
