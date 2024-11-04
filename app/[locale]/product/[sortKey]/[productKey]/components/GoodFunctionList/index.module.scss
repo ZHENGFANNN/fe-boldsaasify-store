@@ -122,6 +122,12 @@
   }
 }
 
+@media screen and (max-width: 1080px) {
+  .function {
+    padding: 0 16px;
+  }
+}
+
 @media screen and (max-width: 780px) {
   .function {
     .function_container {

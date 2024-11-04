@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import styles from "./index.module.scss";
-import Input from "../../../../../components/Form/Input";
+import Input from "../../../../../components/Form/FormInput";
 import ShowTipModal from "../../../../../components/Modal/ShowTipModal";
 import Api from "../../api";
 

@@ -3,10 +3,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import styles from "./index.module.scss";
-import Input from "../../../../../components/Form/Input";
-import { ISPHONE, ISPHONEOBERVER } from "../../../../../utils/pattern";
-import CountryModal from "../../../../../components/Form/CountrySelect";
-import ShowTipModal from "../../../../../components/Modal/ShowTipModal";
+import Input from "@/components/Form/FormInput";
+import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
+import ShowTipModal from "@/components/Modal/ShowTipModal";
+import FormCountryItem from "@/components/Form/FormCountryItem";
+
 import Api from "../../api";
 
 export default function NewAddressForm({ onFinish, LANG }) {
@@ -78,7 +79,7 @@ export default function NewAddressForm({ onFinish, LANG }) {
             className={styles.form_container}
           >
             <div className={styles.form_item}>
-              <CountryModal
+              <FormCountryItem
                 disabled={true}
                 value={watch("area")}
                 setValue={(e) => {

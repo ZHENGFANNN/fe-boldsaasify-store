@@ -3,9 +3,9 @@
 "use client";
 import React from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import GlobalContext from "../../[locale]/context";
+import GlobalContext from "@/[locale]/context";
 import Cookies from "js-cookie";
-import Api from "../../request";
+import Api from "@/request";
 
 import CartModal from "./CartModal";
 import AreaModal from "./AreaModal";

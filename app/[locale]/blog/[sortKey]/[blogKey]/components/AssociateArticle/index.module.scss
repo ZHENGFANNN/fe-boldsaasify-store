@@ -20,15 +20,14 @@
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
         scroll-padding: calc(max((100vw - 1200px) / 2, 24px));
-
         &::-webkit-scrollbar {
             height: 0;
             width: 0;
+            display: none;
         }
         &::-webkit-scrollbar-thumb {
             display: none;
         }
-
         .list_container {
             padding: 0 calc(max((100vw - 1200px) / 2, 24px));
             width: max-content;

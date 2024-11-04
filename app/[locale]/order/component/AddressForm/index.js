@@ -1,19 +1,13 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import Input from "../../../../components/Form/Input";
-import styles from "./index.module.scss";
-import { ISPHONE, ISPHONEOBERVER } from "../../../../utils/pattern";
-
 import React from "react";
+import { useForm } from "react-hook-form";
+import styles from "./index.module.scss";
 
-import dynamic from "next/dynamic";
-const CountryModal = dynamic(
-  () => import("../../../../components/Form/CountrySelect"),
-  {
-    ssr: false,
-  }
-);
+import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
+
+import FormInput from "@/components/Form/FormInput";
+import FormCountryItem from "@/components/Form/FormCountryItem";
 
 function AddressForm({ LANG }, ref) {
   const {
@@ -24,8 +18,8 @@ function AddressForm({ LANG }, ref) {
     formState: { errors },
   } = useForm();
   const formRef = React.useRef();
-  const [areaMap, setAreaMap] = React.useState(null);
   const buttonRef = React.useRef(null);
+  const [areaMap, setAreaMap] = React.useState(null);
   const [addressForm, setAddressForm] = React.useState({});
 
   React.useEffect(() => {
@@ -77,8 +71,7 @@ function AddressForm({ LANG }, ref) {
       className={styles.form_container}
     >
       <div className={styles.form_item}>
-        <CountryModal
-          disabled={true}
+        <FormCountryItem
           value={watch("area")}
           setValue={(e) => {
             setAreaMap(e);
@@ -94,7 +87,7 @@ function AddressForm({ LANG }, ref) {
       </div>
       <div className={styles.form_group_1_1}>
         <div className={styles.form_item}>
-          <Input
+          <FormInput
             label={LANG["store.order.address_form.first_name"]}
             error={errors.first_name?.message}
             focus={addressForm?.first_name}
@@ -107,7 +100,7 @@ function AddressForm({ LANG }, ref) {
           />
         </div>
         <div className={styles.form_item}>
-          <Input
+          <FormInput
             label={LANG["store.order.address_form.last_name"]}
             error={errors.last_name?.message}
             focus={addressForm?.last_name}
@@ -123,7 +116,7 @@ function AddressForm({ LANG }, ref) {
       <div className={styles.form_group_1_2}>
         {areaMap?.area_code === "cn" ? null : (
           <div className={`${styles.form_item} ${styles.form_item_1}`}>
-            <Input
+            <FormInput
               error={errors.short_phone?.message}
               label={LANG["store.order.address_form.area_code"]}
               focus={addressForm.short_phone}
@@ -141,7 +134,7 @@ function AddressForm({ LANG }, ref) {
           </div>
         )}
         <div className={`${styles.form_item} ${styles.form_item_2}`}>
-          <Input
+          <FormInput
             error={errors.phone?.message}
             label={LANG["store.order.address_form.phone"]}
             focus={addressForm.phone}
@@ -159,7 +152,7 @@ function AddressForm({ LANG }, ref) {
         </div>
       </div>
       <div className={styles.form_item}>
-        <Input
+        <FormInput
           error={errors.zip_code?.message}
           label={LANG["store.order.address_form.zip_code"]}
           focus={addressForm.zip_code}
@@ -172,7 +165,7 @@ function AddressForm({ LANG }, ref) {
         />
       </div>
       <div className={styles.form_item}>
-        <Input
+        <FormInput
           error={errors.address1?.message}
           label={LANG["store.order.address_form.address"]}
           focus={addressForm.address1}
@@ -185,7 +178,7 @@ function AddressForm({ LANG }, ref) {
         />
       </div>
       <div className={styles.form_item}>
-        <Input
+        <FormInput
           error={errors.address2?.message}
           required={false}
           label={LANG["store.order.address_form.detail_address"]}

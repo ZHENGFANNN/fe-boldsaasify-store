@@ -6,7 +6,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import GlobalContext from "@/[locale]/context";
 import OrderContext from "../../context";
-import Input from "../../../../components/Form/Input";
+import Input from "../../../../components/Form/FormInput";
 import { useForm } from "react-hook-form";
 import Loading from "../../../../components/Loading";
 import { isEmail } from "../../../../utils/pattern";

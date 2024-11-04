@@ -29,6 +29,14 @@
       &:focus {
         border: 1px solid rgba(0, 0, 0, 0.8);
       }
+      &:disabled {
+        background: #f5f5f5;
+        cursor: not-allowed;
+      }
+    }
+
+    input:disabled + .input_label {
+      z-index: 1;
     }
 
     .input_label {

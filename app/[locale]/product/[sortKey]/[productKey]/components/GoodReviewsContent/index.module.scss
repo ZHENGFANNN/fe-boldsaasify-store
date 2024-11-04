@@ -204,6 +204,12 @@
 
 @media screen and (max-width: 1080px) {
     .reviews {
+      padding: 0 16px;
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    .reviews {
       .reviews_container {
         .review_top {
             .reviews_total {

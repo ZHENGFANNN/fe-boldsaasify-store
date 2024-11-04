@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import Input from "../../../../components/Form/Input";
+import Input from "../../../../components/Form/FormInput";
 import styles from "./index.module.scss";
 import React from "react";
 

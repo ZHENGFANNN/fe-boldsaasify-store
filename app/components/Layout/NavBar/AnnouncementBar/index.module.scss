@@ -1,0 +1,95 @@
+.announcement_bar {
+    width: 100%;
+    background: #f4f4f4;
+    padding: 0 24px;
+    box-sizing: border-box;
+  
+    .top_header_container {
+      margin: auto;
+      height: 42px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      max-width: 1200px;
+  
+      box-sizing: border-box;
+      user-select: none;
+      .text_banner {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        .text_list {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+  
+          transition: all 300ms ease-in-out;
+          .text_container {
+            display: flex;
+            align-items: center;
+            height: 42px;
+            .text {
+              line-height: 42px;
+              color: #fff;
+              font-size: 13px;
+              color: #4b4b4b;
+    
+              box-sizing: border-box;
+    
+              width: 100%;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+    
+              opacity: 0;
+              transition: all 300ms ease-in-out;
+              &[data-active="true"] {
+                opacity: 1;
+              }
+              a {
+                color: #0060ef;
+              }
+            }
+          }
+        }
+      }
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    .announcement_bar {
+      padding: 0 16px;
+    }
+}
+
+
+@media screen and (max-width: 780px) {
+    .announcement_bar {
+      .top_header_container {
+        .text_banner {
+          max-width: 100%;
+          .text_list {
+            height: 100%;
+            .text_container {
+              display: flex;
+              align-items: center;
+              .text {
+                font-size: 12px;
+                line-height: 15px;
+                vertical-align: middle;
+  
+                white-space: pre-line;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+        }
+      }
+    }
+}

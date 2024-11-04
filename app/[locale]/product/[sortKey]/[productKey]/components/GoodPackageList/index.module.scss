@@ -98,6 +98,12 @@
   }
 }
 
+@media screen and (max-width: 1080px) {
+  .package {
+    padding: 0 16px;
+  }
+}
+
 @media screen and (max-width: 1270px) {
   .package {
     .package_container {

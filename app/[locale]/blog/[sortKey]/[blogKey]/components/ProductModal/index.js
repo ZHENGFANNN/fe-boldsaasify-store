@@ -1,10 +1,11 @@
 /** @format */
 "use client";
-import Modal from "../../../../../../components/Modal";
 import React from "react";
 import ProductList from "./ProductList";
 import styles from "./index.module.scss";
-import { debounce } from "../../../../../../utils";
+
+import Modal from "@/components/Modal";
+import { debounce } from "@/utils";
 
 export default function ProductModal({
   LANG,
@@ -16,6 +17,7 @@ export default function ProductModal({
 
   React.useEffect(() => {
     // 每个Blog页面只出现一次弹窗
+    const firstRenderTime = Date.now();
     const storageKey = `blog:show-product:${window.location.pathname}`;
     if (localStorage.getItem(storageKey)) {
       setShowTip(true);
@@ -27,7 +29,15 @@ export default function ProductModal({
     const scrollEvent = debounce(function () {
       const scrollTop =
         document.body.scrollTop || document.documentElement.scrollTop;
-      if (scrollTop + window.innerHeight / 2 > (bodyHeight * 1) / 2) {
+      /**
+       * 同时满足以下条件时显示弹窗：
+       * - 滚动到页面中间位置时
+       * - 页面加载6s后（有相关BUG，Google不允许加载完，立刻有弹窗）
+       */
+      if (
+        scrollTop + window.innerHeight / 2 > (bodyHeight * 1) / 2 &&
+        Date.now() - firstRenderTime > 6000
+      ) {
         modalRef.current.show({
           title: LANG["store.blog_index.related_products"],
         });
