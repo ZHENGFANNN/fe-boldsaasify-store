@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import ReactDOM from "react-dom";
 import GlobalContext from "@/[locale]/context";
 import styles from "./index.module.scss";
 
@@ -16,7 +17,9 @@ function TipModal(_, ref) {
     };
   });
 
-  return (
+  if (typeof window === "undefined") return null;
+
+  return ReactDOM.createPortal(
     <div className={`${styles.modal} ${show ? styles.show : ""}`}>
       <div className={styles.modal_content}>
         <h2>{LANG["common.other.tip"]}</h2>
@@ -30,7 +33,8 @@ function TipModal(_, ref) {
           {LANG["common.other.close"]}
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

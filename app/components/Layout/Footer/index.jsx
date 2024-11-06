@@ -9,7 +9,7 @@
 import React from "react";
 import GlobalContext from "../../../[locale]/context";
 
-import TipModal from "../../Modal/FunctionTipModal";
+import TipModal from "@/components/Modal/FunctionTipModal";
 
 import { languageMap } from "@/config/LANGUAGE";
 import { countryMap } from "@/config/COUNTRY";

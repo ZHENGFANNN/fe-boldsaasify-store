@@ -498,6 +498,7 @@ const CartMain = function ({ handleClose }) {
 
 function ModalCart(_, ref) {
   const { LANG } = React.useContext(GlobalContext);
+  const [changeBodyScroll, setChangeBodyScroll] = React.useState(true);
   /**弹窗逻辑 */
   const [show, setShow] = React.useState(false);
   React.useImperativeHandle(ref, () => {
@@ -519,11 +520,21 @@ function ModalCart(_, ref) {
       clearTimeout(t);
       setFirstLoad(true);
     }
+  }, [show]);
 
-    document.body.style.overflow = show ? "hidden" : "scroll";
-    return () => {
-      document.body.style.overflow = "scroll";
-    };
+  React.useEffect(() => {
+    if (show) {
+      if (document.body.style.overflow === "hidden") {
+        setChangeBodyScroll(false);
+      }
+      document.body.style.overflow = "hidden";
+    } else {
+      if (changeBodyScroll) {
+        document.body.style.overflow = "scroll";
+      } else {
+        setChangeBodyScroll(true);
+      }
+    }
   }, [show]);
 
   return (

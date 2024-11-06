@@ -15,6 +15,7 @@ function Modal(_, ref) {
   const { locale, LANG } = React.useContext(GlobalContext);
   const router = useRouter();
   const [lock, setLock] = React.useState(false);
+  const [changeBodyScroll, setChangeBodyScroll] = React.useState(true);
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
@@ -26,9 +27,16 @@ function Modal(_, ref) {
   React.useEffect(() => {
     if (show) {
       setIsMounted(true);
+      if (document.body.style.overflow === "hidden") {
+        setChangeBodyScroll(false);
+      }
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "scroll";
+      if (changeBodyScroll) {
+        document.body.style.overflow = "scroll";
+      } else {
+        setChangeBodyScroll(true);
+      }
     }
   }, [show]);
 

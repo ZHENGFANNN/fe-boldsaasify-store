@@ -2,6 +2,7 @@ import React from "react";
 import GlobalContext from "@/[locale]/context";
 
 import NAVFUNC from "@/config/NAVFUNC";
+import { countryMap } from "@/config/COUNTRY";
 import TipModal from "@/components/Modal/FunctionTipModal";
 import Link from "next/link";
 
@@ -10,8 +11,14 @@ import { trackingCustomClick } from "@/utils";
 import styles from "./index.module.scss";
 
 export default function LeftArea({ navActive, setNavActive }) {
-  const { LANG, CONFIG, BLOG, PRODUCT } = React.useContext(GlobalContext);
+  const { LANG, CONFIG, BLOG, PRODUCT, showAreaModal, area } =
+    React.useContext(GlobalContext);
   const ModalRef = React.useRef(null);
+
+  const countryText = React.useMemo(() => {
+    const currentArea = countryMap[area];
+    return `${currentArea.country} (${currentArea.language} / ${currentArea.currency_symbol}${currentArea.currency})`;
+  }, []);
 
   const navList = React.useMemo(() => {
     return NAVFUNC({
@@ -28,16 +35,17 @@ export default function LeftArea({ navActive, setNavActive }) {
   React.useEffect(() => {
     if (window.innerWidth > 1080) return;
     if (navActive) {
-      headerNavWidthRef.current
-        .querySelectorAll("[data-src]")
-        .forEach(($imageDom) => {
-          const src = $imageDom.getAttribute("data-src");
-          $imageDom.setAttribute("src", src);
-          $imageDom.removeAttribute("data-src");
-        });
-      headerNavContentRef.current.style = `opacity: 1;`;
       document.body.style = "overflow: hidden";
     } else {
+      const $navListDom = navListRef.current;
+      for (let i = 0; i < $navListDom.children.length; i++) {
+        const $navDom = $navListDom.children[i];
+        const $activeNavContentDom = $navDom.querySelector(
+          `.${styles.nav_item_content}`
+        );
+        $activeNavContentDom.style = ``;
+      }
+      setActiveKey(undefined);
       document.body.style = "overflow: auto";
     }
   }, [navActive]);
@@ -45,172 +53,296 @@ export default function LeftArea({ navActive, setNavActive }) {
   /* 
     屏幕（大于1080）
   */
+  const navListRef = React.useRef(null);
   // 下拉激活
-  const [hoverActiveKey, setHoverActiveKey] =
-    React.useState("product_categories");
+  const [activeKey, setActiveKey] = React.useState();
   // 下拉选项
-  const [navItemActive, setVavItemActive] = React.useState(false);
+  const [navContentActive, setNavContentActive] = React.useState(false);
   // 下拉高度设置
-  const headerNavWidthRef = React.useRef(null);
-  const headerNavContentRef = React.useRef(null);
   React.useEffect(() => {
     if (window.innerWidth <= 1080) return;
-    const height = headerNavWidthRef.current?.clientHeight;
-    if (navItemActive) {
-      headerNavWidthRef.current
+    const $navListDom = navListRef.current;
+    const $activeNav = $navListDom.querySelector(`[data-active="true"]`);
+    if (!$activeNav) return;
+    const $activeNavContentDom = $activeNav.querySelector(
+      `.${styles.nav_item_content}`
+    );
+    const $activeNavContentWrapperDom = $activeNav.querySelector(
+      `.${styles.nav_item_content_wrapper}`
+    );
+    const height = $activeNavContentWrapperDom?.clientHeight;
+
+    const $activeNavContentListDom = $navListDom.querySelectorAll(
+      `.${styles.nav_item_content}`
+    );
+    let defaultHeight = 0;
+    $activeNavContentListDom.forEach(($navContentDom) => {
+      defaultHeight += $navContentDom.clientHeight;
+      $navContentDom.style = `height: 0; opacity: 0;`;
+    });
+
+    if (navContentActive) {
+      $activeNavContentDom
         .querySelectorAll("[data-src]")
         .forEach(($imageDom) => {
           const src = $imageDom.getAttribute("data-src");
           $imageDom.setAttribute("src", src);
           $imageDom.removeAttribute("data-src");
         });
-      headerNavContentRef.current.style = `height: ${
-        height + 60
-      }px; opacity: 1;`;
-    } else {
-      headerNavContentRef.current.style = `height: 0; opacity: 0;`;
+
+      if (defaultHeight) {
+        $activeNavContentDom.style = `transition: none; height: ${
+          height + 60
+        }px; opacity: 1;`;
+      } else {
+        $activeNavContentDom.style = `transition: all 400ms ease-in-out;height: ${
+          height + 60
+        }px; opacity: 1;`;
+      }
     }
-  }, [hoverActiveKey, navItemActive]);
+  }, [activeKey, navContentActive]);
+
+  // 初始化
+  React.useEffect(() => {
+    function onResizeChange() {
+      // 重置 Style 样式
+      const $navListDom = navListRef.current;
+      for (let i = 0; i < $navListDom.children.length; i++) {
+        const $navDom = $navListDom.children[i];
+        const $activeNavContentDom = $navDom.querySelector(
+          `.${styles.nav_item_content}`
+        );
+        $activeNavContentDom.style = ``;
+      }
+
+      setActiveKey(undefined);
+      setNavContentActive(false);
+      setNavActive(false);
+      document.body.style = "overflow: auto";
+    }
+
+    function onScrollChange() {
+      if (window.innerWidth <= 1080) return;
+      setNavContentActive(false);
+    }
+
+    window.addEventListener("scroll", onScrollChange);
+    window.addEventListener("resize", onResizeChange);
+
+    return () => {
+      window.removeEventListener("scroll", onScrollChange);
+      window.removeEventListener("resize", onResizeChange);
+    };
+  }, []);
 
   return (
-    <div className={styles.header_left}>
-      {/* 更多ICON */}
-      <div
-        className={
-          styles.header_mobile +
-          ` ${navActive ? styles.header_mobile_active : ""}`
-        }
-        onClick={() => {
-          setNavActive((value) => !value);
-          trackingCustomClick({ click_type: `NavIcon-MobMore` });
-        }}
-      >
-        <span className={styles.control_icon}></span>
-        <span className={styles.control_icon}></span>
-        <span className={styles.control_icon}></span>
-      </div>
-      <div className={styles.header_logo}>
-        <Link
-          scroll={true}
-          href={`/`}
+    <>
+      <div className={styles.header_left}>
+        {/* 更多ICON */}
+        <div
+          className={
+            styles.header_mobile +
+            ` ${navActive ? styles.header_mobile_active : ""}`
+          }
           onClick={() => {
-            setNavActive(false);
+            setNavActive((value) => !value);
+            trackingCustomClick({ click_type: `NavIcon-MobMore` });
           }}
         >
-          <img alt={"logo"} src={CONFIG["company.basic.logo"]} />
-          <div className={styles.name}>
-            {CONFIG["company.basic.company_name"]}
-          </div>
-        </Link>
-      </div>
-      <div
-        className={
-          styles.header_nav + ` ${navActive ? styles.header_mobile_height : ""}`
-        }
-      >
-        <ul
-          className={styles.header_nav_list}
-          onMouseLeave={() => setVavItemActive(false)}
+          <span className={styles.control_icon}></span>
+          <span className={styles.control_icon}></span>
+          <span className={styles.control_icon}></span>
+        </div>
+        <div className={styles.header_logo}>
+          <Link
+            scroll={true}
+            href={`/`}
+            onClick={() => {
+              setNavActive(false);
+            }}
+          >
+            <img alt={"logo"} src={CONFIG["company.basic.logo"]} />
+            <div className={styles.name}>
+              {CONFIG["company.basic.company_name"]}
+            </div>
+          </Link>
+        </div>
+        <div
+          className={
+            styles.header_nav +
+            ` ${navActive ? styles.header_mobile_height : ""}`
+          }
         >
-          {navList.map((item) => {
-            return (
-              <li key={item.key}>
-                <Link
-                  href={item.href}
-                  onMouseOver={() => {
-                    setVavItemActive(true);
-                    setHoverActiveKey(item.key);
-                  }}
-                  onClick={(e) => {
-                    if (window.innerWidth <= 1080) {
-                      e.preventDefault();
-                    }
-                  }}
-                  className={
-                    (navItemActive || navActive) && hoverActiveKey === item.key
-                      ? styles.nav_item_active
-                      : ""
+          <ul
+            ref={navListRef}
+            className={styles.header_nav_list}
+            onMouseLeave={() => {
+              if (window.innerWidth <= 1080) return;
+              setNavContentActive(false);
+            }}
+          >
+            {navList.map((item, index) => {
+              return (
+                <li
+                  key={item.key}
+                  data-active={
+                    (navContentActive || navActive) && activeKey === item.key
                   }
                 >
-                  {item.title}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-        <div
-          ref={headerNavContentRef}
-          onMouseLeave={() => {
-            setVavItemActive(false);
-          }}
-          onMouseOver={() => {
-            setVavItemActive(true);
-          }}
-          className={styles.header_nav_content}
-        >
-          {/* nav_content */}
-          <div
-            data-list-text={hoverActiveKey === "blog"}
-            ref={headerNavWidthRef}
-            className={styles.header_nav_width}
-          >
-            {navList.map((item) => {
-              return item.list.map((navSubItem, navSubIndex) => {
-                return (
-                  // 性能优化
                   <div
-                    key={navSubIndex}
-                    style={{
-                      display: item.key !== hoverActiveKey ? "none" : "block",
+                    onMouseOver={() => {
+                      if (window.innerWidth > 1080) {
+                        setNavContentActive(true);
+                        setActiveKey(item.key);
+                      }
+                    }}
+                    onClick={() => {
+                      if (window.innerWidth <= 1080) {
+                        const $navListDom = navListRef.current;
+                        if (activeKey === item.key) {
+                          const $navDom = $navListDom.children[index];
+                          const $activeNavContentDom = $navDom.querySelector(
+                            `.${styles.nav_item_content}`
+                          );
+                          setActiveKey(undefined);
+                          $activeNavContentDom.style = `transition: all 400ms ease-in-out;height: 0px; opacity: 1;`;
+                          return;
+                        }
+
+                        for (let i = 0; i < $navListDom.children.length; i++) {
+                          const $navDom = $navListDom.children[i];
+                          const $activeNavContentDom = $navDom.querySelector(
+                            `.${styles.nav_item_content}`
+                          );
+                          $activeNavContentDom.style = `transition: all 400ms ease-in-out;height: 0px; opacity: 1;`;
+                        }
+
+                        const $activeNav = $navListDom.children[index];
+                        setActiveKey(item.key);
+
+                        const $activeNavContentDom = $activeNav.querySelector(
+                          `.${styles.nav_item_content}`
+                        );
+
+                        const $activeNavContentWrapperDom =
+                          $activeNav.querySelector(
+                            `.${styles.nav_item_content_wrapper}`
+                          );
+
+                        const height =
+                          $activeNavContentWrapperDom?.clientHeight;
+
+                        $activeNavContentDom
+                          .querySelectorAll("[data-src]")
+                          .forEach(($imageDom) => {
+                            const src = $imageDom.getAttribute("data-src");
+                            $imageDom.setAttribute("src", src);
+                            $imageDom.removeAttribute("data-src");
+                          });
+
+                        $activeNavContentDom.style = `transition: all 400ms ease-in-out;height: ${height}px; opacity: 1;`;
+                      }
+                    }}
+                    className={styles.nav_item_title}
+                  >
+                    <div>{item.title}</div>
+                    <div className={styles.mobile_icon}></div>
+                  </div>
+                  <div
+                    className={styles.nav_item_content}
+                    onMouseLeave={() => {
+                      setNavContentActive(false);
+                    }}
+                    onMouseOver={() => {
+                      setNavContentActive(true);
                     }}
                   >
-                    {item.key === "blog" ? (
-                      <NavSubTextItem
-                        lastItem={navSubIndex === item.list.length - 1}
-                        href={item.href}
-                        navSubIndex={navSubIndex}
-                        navSubItem={navSubItem}
-                        setVavItemActive={setVavItemActive}
-                        setNavActive={setNavActive}
-                      />
-                    ) : null}
-                    {item.key !== "blog" ? (
-                      <NavSubCommonItem
-                        href={item.href}
-                        navSubIndex={navSubIndex}
-                        navSubItem={navSubItem}
-                        setVavItemActive={setVavItemActive}
-                        setNavActive={setNavActive}
-                        showModal={() => ModalRef.current.showModal()}
-                      />
-                    ) : null}
+                    <div
+                      className={styles.nav_item_content_wrapper}
+                      data-list-text={item.key === "blog"}
+                    >
+                      {item.list.map((navSubItem, navSubIndex) => {
+                        return (
+                          // 性能优化
+                          <div
+                            key={navSubIndex}
+                            data-active={item.key === activeKey}
+                          >
+                            {item.key === "blog" ? (
+                              <>
+                                <NavSubTextItem
+                                  lastItem={
+                                    navSubIndex === item.list.length - 1
+                                  }
+                                  href={item.href}
+                                  navSubIndex={navSubIndex}
+                                  navSubItem={navSubItem}
+                                  setNavContentActive={setNavContentActive}
+                                  setNavActive={setNavActive}
+                                />
+                              </>
+                            ) : null}
+                            {item.key !== "blog" ? (
+                              <>
+                                <NavSubCommonItem
+                                  href={item.href}
+                                  navSubIndex={navSubIndex}
+                                  navSubItem={navSubItem}
+                                  setNavContentActive={setNavContentActive}
+                                  setNavActive={setNavActive}
+                                  showModal={() => ModalRef.current.showModal()}
+                                />
+                              </>
+                            ) : null}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                );
-              });
+                </li>
+              );
             })}
-          </div>
+            <li
+              key="country-select"
+              className={styles.nav_extend_country_select}
+              onClick={() => showAreaModal()}
+            >
+              <div className={styles.nav_item_title}>
+                <img
+                  alt={countryMap[area].country}
+                  src={`${
+                    process.env.NEXT_PUBLIC_FILE
+                  }/image/icon/flags/${countryMap[
+                    area
+                  ].country_code.toLowerCase()}.svg`}
+                />
+                <div>{countryText}</div>
+              </div>
+              <div className={styles.nav_item_content}></div>
+            </li>
+          </ul>
         </div>
       </div>
-      <TipModal LANG={LANG} ref={ModalRef} />
-    </div>
+      <TipModal ref={ModalRef} />
+    </>
   );
 }
 
 // 导航子列表 - Next
-function NavSubNextItem({ setVavItemActive, setNavActive, href, type }) {
+function NavSubNextItem({ setNavContentActive, setNavActive, href, type }) {
   const { LANG } = React.useContext(GlobalContext);
   return (
     <Link
       scroll={true}
       onClick={() => {
-        setVavItemActive(false);
+        setNavContentActive(false);
         setNavActive(false);
       }}
       href={href}
       className={
         type === "img"
-          ? styles.header_nav_items_img
-          : styles.header_nav_items_text_button
+          ? styles.nav_item_content_img
+          : styles.nav_item_content_text_button
       }
     >
       <img
@@ -228,7 +360,7 @@ function NavSubTextItem({
   lastItem,
   navSubItem,
   navSubIndex,
-  setVavItemActive,
+  setNavContentActive,
   setNavActive,
 }) {
   if (navSubIndex > 8) return null;
@@ -237,19 +369,19 @@ function NavSubTextItem({
       <Link
         scroll={true}
         onClick={() => {
-          setVavItemActive(false);
+          setNavContentActive(false);
           setNavActive(false);
         }}
         href={navSubItem.href}
-        className={styles.header_nav_items_text}
+        className={styles.nav_item_content_text}
       >
         {navSubItem.sub_title}
       </Link>
-      {lastItem || navSubIndex === 8 ? (
+      {navSubIndex === 8 ? (
         <NavSubNextItem
           type="text"
           href={href}
-          setVavItemActive={setVavItemActive}
+          setNavContentActive={setNavContentActive}
           setNavActive={setNavActive}
         />
       ) : null}
@@ -262,7 +394,7 @@ function NavSubCommonItem({
   href,
   navSubIndex,
   navSubItem,
-  setVavItemActive,
+  setNavContentActive,
   setNavActive,
   showModal,
 }) {
@@ -272,7 +404,7 @@ function NavSubCommonItem({
       <NavSubNextItem
         type="img"
         href={href}
-        setVavItemActive={setVavItemActive}
+        setNavContentActive={setNavContentActive}
         setNavActive={setNavActive}
       />
     );
@@ -280,7 +412,7 @@ function NavSubCommonItem({
     <Link
       scroll={true}
       onClick={(e) => {
-        setVavItemActive(false);
+        setNavContentActive(false);
         setNavActive(false);
         if (!navSubItem.href) {
           showModal();
@@ -288,7 +420,7 @@ function NavSubCommonItem({
         }
       }}
       href={navSubItem.href}
-      className={styles.header_nav_items_img}
+      className={styles.nav_item_content_img}
     >
       <img
         height={60}
