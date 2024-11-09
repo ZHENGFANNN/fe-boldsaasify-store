@@ -92,6 +92,13 @@ export default function LeftArea({ navActive, setNavActive }) {
     });
 
     if (navContentActive) {
+      $activeNavContentDom
+        .querySelectorAll("[data-src]")
+        .forEach(($imageDom) => {
+          const src = $imageDom.getAttribute("data-src");
+          $imageDom.setAttribute("src", src);
+          $imageDom.removeAttribute("data-src");
+        });
       if (defaultHeight) {
         $activeNavContentDom.style = `transition: none;height: ${
           height + 60

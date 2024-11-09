@@ -2,67 +2,63 @@ import { i18nRouter } from "next-i18n-router";
 import i18nConfig from "@@/i18nConfig";
 
 import { countryMap } from "./app/config/COUNTRY";
-import { languageMap } from "./app/config/LANGUAGE";
 
 import qs from "qs";
 import parser from "accept-language-parser";
 import { NextResponse } from "next/server";
 
-// import maxmind, { Reader } from "maxmind";
+// 判断浏览器设置的地区
+function getAcceptLanguageArea(request) {
+  const requestHeaders = new Headers(request.headers);
+  const acceptLanguage = requestHeaders.get("accept-language");
+  const areaList = parser.parse(acceptLanguage);
+  let area = null;
+  areaList.find((item) => {
+    if (countryMap[item.region?.toLowerCase()]) {
+      area = item.region.toLowerCase();
+      return true;
+    }
+  });
+  return area;
+}
 
-// import fs from "fs";
-// const buffer = fs.readFileSync("@@/public/GeoLite2-Country.mmdb");
-// const lookup = maxmind.open("@@/public/GeoLite2-Country.mmdb");
-// const lookup = new Reader(buffer);
+// 判断URL上是否有参数
+function getUrlAreaCode(request) {
+  const search = request.nextUrl.search.split("?")[1];
+  const { area_code } = qs.parse(search);
+  return area_code;
+}
 
-export function middleware(request) {
+export async function middleware(request) {
   let area = request.cookies.get("area")?.value;
   let locale = request.cookies.get("locale")?.value;
-
-  // requestId({});
-  // const city = lookup.get("8.8.8.8");
-  // console.log("[city]: ", city);
 
   /**
    * 功能：
    *  1、判断地区Cookie是否存在
-   *  2、不存在则通过路径判断
+   *  2、不存在则通过参数判断
    *  3、客户端浏览器再次判断
-   *  4、再通过本地locale判断
-   *  5、默认为us
+   *  4、默认为us
    * 作用：获取地区
    */
   // （1）判断cookie是否存在area（地区）
   if (!area) {
     // （2）判断URL上是否有参数
-    const search = request.nextUrl.search.split("?")[1];
-    const { area_code } = qs.parse(search);
-    if (area_code) {
-      area = area_code;
+    const urlAreaCode = getUrlAreaCode(request);
+    if (urlAreaCode) {
+      area = urlAreaCode;
     } else {
       // （3）判断浏览器设置的地区
-      const requestHeaders = new Headers(request.headers);
-      const acceptLanguage = requestHeaders.get("accept-language");
-      const areaList = parser.parse(acceptLanguage);
-      const index = areaList.find((item) => {
-        if (countryMap[item.region?.toLowerCase()]) {
-          area = item.region.toLowerCase();
-          return true;
-        }
-      });
-      // 浏览器获取不到地区
-      if (index == undefined) {
-        // （4）获取language的Cookie
-        const cookieLang = locale;
-        if (languageMap[cookieLang]) {
-          area = languageMap[cookieLang].area;
-        } else {
-          // (5)默认为us
-          area = "us";
-        }
+      const acceptLanguageAreaCode = getAcceptLanguageArea(request);
+      if (acceptLanguageAreaCode) {
+        area = acceptLanguageAreaCode;
+      } else {
+        // （4）默认为us
+        area = "us";
       }
     }
   }
+
   // 判断area是否合法
   if (countryMap[area]?.language_code) {
     locale = countryMap[area].language_code;
@@ -70,6 +66,7 @@ export function middleware(request) {
     area = "us";
     locale = "en";
   }
+
   // 设置多语言
   request.locale = locale;
   request.area = area;
@@ -87,18 +84,14 @@ export function middleware(request) {
   const curLocale =
     returnOptions.headers.get("x-next-i18n-router-locale") || "en";
   if (curLocale !== locale) {
+    console.log("[curLocale]: ", curLocale, locale);
     let baseUrl;
     // 特殊处理英文
     if (curLocale === "en") {
-      baseUrl = `/${locale}${
-        request.nextUrl.pathname === "/" ? "" : request.nextUrl.pathname
-      }${request.nextUrl.search}`;
+      baseUrl = `/${locale}${request.nextUrl.pathname.replace("/en", "")}${
+        request.nextUrl.search
+      }`;
     } else {
-      // ** BUG修复 ** 全局替换问题
-      // baseUrl = `${request.nextUrl.pathname.split(curLocale).join(locale)}${
-      //   request.nextUrl.search
-      // }`;
-
       baseUrl = `${request.nextUrl.pathname.replace(curLocale, locale)}${
         request.nextUrl.search
       }`;

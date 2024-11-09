@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "create-ip": "mmdbinspect -db ./public/GeoLite2-Country.mmdb ::/0 > geoData.json",
     "fetch-dev": "NODE_ENV=local node ./script",
     "fetch-prod": "NODE_ENV=prod node ./script",
     "dev": " yarn fetch-dev && next dev -p 8080",

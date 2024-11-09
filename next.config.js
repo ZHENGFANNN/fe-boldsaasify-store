@@ -1,5 +1,3 @@
-/** @format */
-
 const path = require("path");
 
 const nextConfig = {
@@ -17,7 +15,6 @@ const nextConfig = {
   images: {
     domains: ["image.sslfly.com", "public.sslfly.com"],
   },
-
   async redirects() {
     return [
       {
