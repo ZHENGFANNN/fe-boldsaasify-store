@@ -21,6 +21,7 @@ function Modal(_, ref) {
     register,
     handleSubmit,
     reset,
+    clearErrors,
     formState: { errors },
   } = useForm();
 
@@ -43,6 +44,7 @@ function Modal(_, ref) {
           });
           setShow(false);
           reset();
+          clearErrors();
         } else {
           throw new Error("code!==0");
         }
@@ -74,6 +76,8 @@ function Modal(_, ref) {
       }
       document.body.style.overflow = "hidden";
     } else {
+      reset();
+      clearErrors();
       if (changeBodyScroll) {
         document.body.style.overflow = "scroll";
       } else {

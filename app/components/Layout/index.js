@@ -8,6 +8,7 @@ import Api from "@/request";
 import CartModal from "./CartModal";
 import AreaModal from "./AreaModal";
 import ContactModal from "./ContactModal";
+import CookieModal from "./CokkieModal";
 
 export default function Layout({
   locale,
@@ -98,6 +99,14 @@ export default function Layout({
    * 联系我们
    */
   const contactRef = React.useRef(null);
+  /**
+   * Cookie Modal
+   */
+  const cookieRef = React.useRef(null);
+
+  // React.useEffect(() => {
+  //   cookieRef.current.showCookieAlert();
+  // }, []);
 
   return (
     <GlobalContext.Provider
@@ -136,6 +145,8 @@ export default function Layout({
       <AreaModal ref={areaRef} />
       {/* Contact Modal */}
       <ContactModal ref={contactRef} />
+      {/* Cookie Modal */}
+      <CookieModal ref={cookieRef} />
       {children}
     </GlobalContext.Provider>
   );
