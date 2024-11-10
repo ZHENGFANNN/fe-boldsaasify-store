@@ -1,0 +1,27 @@
+.form_switch {
+    .switch_container {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      border-radius: 50px;
+      background: #e6e6eb;
+      cursor: pointer;
+      transition: background .3s;
+      &[data-checked="true"] {
+        background: #000;
+        .dot {
+          transform: translateX(20px);
+        }
+      }
+      .dot {
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #fff;
+        transition: transform .2s;
+      }
+    }
+  }

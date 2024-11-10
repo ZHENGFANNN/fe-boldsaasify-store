@@ -12,7 +12,7 @@ import { trackingCustomClick } from "@/utils";
 function Modal(_, ref) {
   const [isMounted, setIsMounted] = React.useState(false);
   const [show, setShow] = React.useState(false);
-  const { locale, LANG } = React.useContext(GlobalContext);
+  const { locale, LANG, showContactModal } = React.useContext(GlobalContext);
   const router = useRouter();
   const [lock, setLock] = React.useState(false);
   const [changeBodyScroll, setChangeBodyScroll] = React.useState(true);
@@ -68,9 +68,9 @@ function Modal(_, ref) {
           <div className={styles.conutry_container}>
             <div className={styles.area_tip}>
               {LANG["common.other.not_area_list"]}{" "}
-              <Link scroll={true} target="_blank" href="/company/contact">
+              <div className={styles.href} onClick={showContactModal}>
                 {LANG["common.other.contact_us"]}
-              </Link>
+              </div>
             </div>
             {countryList.map((item, index) => {
               return (
