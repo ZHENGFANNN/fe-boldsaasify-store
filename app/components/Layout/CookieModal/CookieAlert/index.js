@@ -45,9 +45,11 @@ function CookieSetting({ showCookieSetting }, ref) {
       "cookie_permissions_list"
     );
     if (!cookiePermissionsList && COOKIE_ALERT_REGION_LIST.includes(area)) {
-      trackingCustomClick("cookie-alert-view");
-      setFirstRender(false);
-      setShow(true);
+      setTimeout(() => {
+        trackingCustomClick("cookie-alert-view");
+        setFirstRender(false);
+        setShow(true);
+      }, 3000)
     }
   }, []);
 
