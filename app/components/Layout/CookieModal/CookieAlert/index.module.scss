@@ -44,7 +44,9 @@
                 letter-spacing: -.02em;
                 a {
                     color: #0070d5;
+                    cursor: pointer;
                     text-decoration: none;
+                    user-select: none;
                 }
             }
         }

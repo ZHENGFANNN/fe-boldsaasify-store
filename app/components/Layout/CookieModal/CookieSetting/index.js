@@ -59,7 +59,7 @@ function CookieItem({
   );
 }
 
-function Modal(_, ref) {
+function Modal({ onFinish }, ref) {
   const [isMounted, setIsMounted] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const { locale, LANG } = React.useContext(GlobalContext);
@@ -105,6 +105,26 @@ function Modal(_, ref) {
     }
   }, [show]);
 
+  const contentRef = React.useRef(null);
+  React.useEffect(() => {
+    if (!isMounted && contentRef.current) {
+      const observer = new MutationObserver(() => {
+        const $dom = contentRef.current.querySelector("[data-key]");
+        if ($dom) {
+          $dom.addEventListener("click", () =>
+            trackingCustomClick("cookie-setting-desc-policy")
+          );
+        }
+      });
+
+      observer.observe(contentRef.current, { childList: true, subtree: true });
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, [isMounted, contentRef]);
+
   if (!isMounted) return null;
 
   return ReactDOM.createPortal(
@@ -123,31 +143,45 @@ function Modal(_, ref) {
           }}
         >
           <div className={styles.header}>
-            <div className={styles.title}>Cookie Settings</div>
-            <div className={styles.tip}>
-              Cookies are small files which, when placed on your device, enable
-              us to provide certain features and functionality of websites and
-              online services to you. We use the following types of cookies on
-              our websites. View Cookie Policy for full details.
+            <div className={styles.title}>
+              {LANG["common.cookie.cookie_setting.title"]}
             </div>
+            <div
+              className={styles.tip}
+              ref={contentRef}
+              dangerouslySetInnerHTML={{
+                __html: LANG["common.cookie.cookie_setting.desc"]?.replace(
+                  "$1",
+                  `<a data-key='cookie-policy'>${LANG["common.cookie.cookie_policy"]}</a>`
+                ),
+              }}
+            />
             <div className={styles.close} onClick={() => setShow(false)}>
               ×
             </div>
           </div>
           <div className={styles.content}>
             <CookieItem
-              title="Essential Cookies"
-              content="These cookies are necessary for you to use our website and cannot be switched off in our systems. Essential cookies are required to enable the basic functions of this site and guarantee the security and efficiency of the service required. These cookies are usually set in response to actions made by you which amount to a request for services, such as logging in, requesting website visual elements and pages resources, filling in forms or adding goods to the shopping cart. Without these cookies, services you have asked for cannot be properly provided."
+              title={
+                LANG["common.cookie.cookie_setting.essential_cookies_title"]
+              }
+              content={
+                LANG["common.cookie.cookie_setting.essential_cookies_desc"]
+              }
               cookieKey="essential"
               openList={openList}
               setOpenList={setOpenList}
               checkList={checkList}
               setCheckList={setCheckList}
-              openText={"Always Active"}
+              openText={LANG["common.cookie.cookie_setting.always_active"]}
             />
             <CookieItem
-              title="Functionality Cookies"
-              content="These cookies are used to provide you with enhanced functionality and improve your browsing experience. These cookies may remember certain choices you have made, such as your language preference, your region, your username and password. These cookies may be set by us or by third-party providers who provide services on our pages. If you do not allow these cookies, some of these services may not function properly, and we may not be able to provide you with better personalization on user experience."
+              title={
+                LANG["common.cookie.cookie_setting.functionality_cookies_title"]
+              }
+              content={
+                LANG["common.cookie.cookie_setting.functionality_cookies_desc"]
+              }
               cookieKey="functional"
               openList={openList}
               setOpenList={setOpenList}
@@ -155,8 +189,12 @@ function Modal(_, ref) {
               setCheckList={setCheckList}
             />
             <CookieItem
-              title="Analytical Cookies"
-              content="These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. These cookies may collect information about how you use our websites, such as which page you visit and which link you click on. These cookies help us to know which goods or pages are the most and least popular and see how visitors move around the website. These cookies also help us understand how our services are doing and improve them by developing new features. If you do not allow these cookies, we may not be able to monitor its performance and improve your experience accordingly."
+              title={
+                LANG["common.cookie.cookie_setting.analytical_cookies_title"]
+              }
+              content={
+                LANG["common.cookie.cookie_setting.analytical_cookies_desc"]
+              }
               cookieKey="analytical"
               openList={openList}
               setOpenList={setOpenList}
@@ -164,27 +202,30 @@ function Modal(_, ref) {
               setCheckList={setCheckList}
             />
             <CookieItem
-              title="Marketing Cookies"
-              content="These cookies can track your online activities and are used to make advertisements more relevant to you. These cookies may be set through our website by our advertising partners, which can be used to build a profile of your interests and show you relevant advertisements. If you do not allow these cookies, you will experience less targeted advertising."
+              title={LANG["common.cookie.cookie_setting.marketing_cookies_tip"]}
+              content={
+                LANG["common.cookie.cookie_setting.marketing_cookies_desc"]
+              }
               cookieKey="marketing"
               openList={openList}
               setOpenList={setOpenList}
               checkList={checkList}
               setCheckList={setCheckList}
             />
-            <div className={styles.btn_container}>
-              <div
-                className={styles.btn}
-                onClick={() => {
-                  localStorage.setItem(
-                    "cookie_deny_list",
-                    JSON.stringify(checkList)
-                  );
-                  setShow(false);
-                }}
-              >
-                Save My Settings
-              </div>
+          </div>
+          <div className={styles.btn_container}>
+            <div
+              className={styles.btn}
+              onClick={() => {
+                localStorage.setItem(
+                  "cookie_permissions_list",
+                  JSON.stringify(checkList)
+                );
+                setShow(false);
+                onFinish();
+              }}
+            >
+              {LANG["common.cookie.cookie_setting.save_my_settings"]}
             </div>
           </div>
         </div>

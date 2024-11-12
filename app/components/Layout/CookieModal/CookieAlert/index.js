@@ -13,21 +13,30 @@ function CookieSetting({ showCookieSetting }, ref) {
 
   React.useEffect(() => {
     if (!firstRender && contentRef.current) {
-      const $domList = contentRef.current.querySelectorAll("[data-key]");
-      for (let i = 0; i < $domList.length; i++) {
-        $domList[i].addEventListener("click", (e) => {
-          e.preventDefault();
-          const key = $domList[i].getAttribute("data-key");
-          if (key === "cookie-preferences") {
-            trackingCustomClick("cookie-alert-setting-preferences");
-            showCookieSetting();
-          } else if (key === "cookie-policy") {
-            trackingCustomClick("cookie-alert-setting-policy");
-          }
+      const observer = new MutationObserver(() => {
+        const $domList = contentRef.current.querySelectorAll("[data-key]");
+        $domList.forEach(($dom) => {
+          $dom.addEventListener("click", handleClick);
         });
-      }
+      });
+
+      observer.observe(contentRef.current, { childList: true, subtree: true });
+
+      return () => {
+        observer.disconnect();
+      };
     }
-  }, [firstRender]);
+  }, [firstRender, contentRef]);
+
+  const handleClick = (e) => {
+    const key = e.target.getAttribute("data-key");
+    if (key === "cookie-preferences") {
+      showCookieSetting();
+      trackingCustomClick("cookie-alert-setting-preferences");
+    } else if (key === "cookie-policy") {
+      trackingCustomClick("cookie-alert-setting-policy");
+    }
+  };
 
   const setCookiePermissions = React.useCallback((list) => {
     localStorage.setItem("cookie_permissions_list", JSON.stringify(list));
@@ -37,8 +46,11 @@ function CookieSetting({ showCookieSetting }, ref) {
     show: () => {
       setFirstRender(false);
       setTimeout(() => {
-          setShow(true);
-      }, 0)
+        setShow(true);
+      }, 0);
+    },
+    close: () => {
+      setShow(false);
     },
   }));
 
@@ -52,8 +64,8 @@ function CookieSetting({ showCookieSetting }, ref) {
         setFirstRender(false);
         setTimeout(() => {
           setShow(true);
-        }, 100)
-      }, 3000)
+        }, 100);
+      }, 3000);
     }
   }, []);
 

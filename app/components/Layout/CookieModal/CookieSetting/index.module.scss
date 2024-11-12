@@ -91,6 +91,12 @@
           color: #76767f;
           font-size: 14px;
           line-height: 22px;
+           a {
+              color: #0070d5;
+              cursor: pointer;
+              text-decoration: none;
+              user-select: none;
+           }
         }
 
 
@@ -212,28 +218,26 @@
                 line-height: 22px;
             }
         }
-
-        .btn_container {
-          display: flex;
-          width: 100%;
-          justify-content: flex-end;
-          margin-top: 16px;
-          .btn {
-              flex: none;
-              cursor: pointer;
-              padding: 0 24px;
-              height: 48px;
-              line-height: 48px;
-              border-radius: 100px;
-              background: #000;
-              color: #fff;
-              font-size: 16px;
-              font-weight: 700;
-              letter-spacing: 1px;
-              text-transform: uppercase;
-          }
+      }
+      .btn_container {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 16px;
+        .btn {
+            flex: none;
+            cursor: pointer;
+            padding: 0 24px;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 100px;
+            background: #000;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-
       }
     }
   }

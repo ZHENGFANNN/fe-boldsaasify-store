@@ -1,4 +1,5 @@
 export const COOKIE_ALERT_REGION_LIST = [
+  "us",
   "at", // Austria
   "be", // Belgium
   "bg", // Bulgaria

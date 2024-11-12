@@ -21,7 +21,10 @@ function CookieModal(_, ref) {
         ref={cookieAlertRef}
         showCookieSetting={() => cookieSettingRef.current.show()}
       />
-      <CookieSetting ref={cookieSettingRef} />
+      <CookieSetting
+        ref={cookieSettingRef}
+        onFinish={() => cookieAlertRef.current.close()}
+      />
     </>
   );
 }
