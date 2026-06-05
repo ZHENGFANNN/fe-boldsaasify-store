@@ -5,7 +5,7 @@
   "scripts": {
     "fetch-dev": "NODE_ENV=local node ./script",
     "fetch-prod": "NODE_ENV=prod node ./script",
-    "dev": " yarn fetch-dev && next dev -p 8080",
+    "dev": "yarn fetch-prod && next dev -p 8080",
     "prod": "yarn fetch-prod && next prod -p 8080",
     "start": "next start -p 8080",
     "analyze": "yarn fetch-prod && ANALYZE=true next build",

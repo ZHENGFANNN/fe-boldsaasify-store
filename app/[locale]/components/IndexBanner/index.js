@@ -27,9 +27,9 @@ export default function Banner() {
       autoplay: true,
       arrows: false,
       pagination: false,
-      drag: bannerList.length > 1,
+      drag: bannerList?.length > 1,
       width: "100%",
-      interval: 4000,
+      interval: 4000
     });
     setSplide(splide);
     splide.on("move", (e) => {
@@ -42,14 +42,14 @@ export default function Banner() {
     <section className={`${styles.splide} splide`}>
       <div className="splide__track">
         <ul className="splide__list">
-          {bannerList.map((item, index) => {
+          {bannerList?.map((item, index) => {
             return (
               <li
                 key={index}
                 style={{
                   "--kv-pc": "url(" + item.pc_image + ")",
                   "--kv-ipad": "url(" + item.ipad_image + ")",
-                  "--kv-mob": "url(" + item.mob_image + ")",
+                  "--kv-mob": "url(" + item.mob_image + ")"
                 }}
                 className={`${styles.splide_item} splide__slide`}
                 onClick={() => {
@@ -81,7 +81,7 @@ export default function Banner() {
           })}
         </ul>
       </div>
-      {bannerList.length > 1 ? (
+      {bannerList?.length > 1 ? (
         <div className={styles.splide_progress}>
           <div className={styles.point_list}>
             {bannerList.map((_, index) => {

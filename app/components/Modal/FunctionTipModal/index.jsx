@@ -7,17 +7,19 @@ import styles from "./index.module.scss";
 // 临时功能
 function TipModal(_, ref) {
   const { LANG } = React.useContext(GlobalContext);
+  const [isMounted, setIsMounted] = React.useState(false);
   const [show, setShow] = React.useState(false);
   React.useImperativeHandle(ref, () => {
     return {
       showModal: () => {
+        setIsMounted(true);
         document.body.style.overflow = "hidden";
         setShow(true);
       },
     };
   });
 
-  if (typeof window === "undefined") return null;
+  if (!isMounted) return null;
 
   return ReactDOM.createPortal(
     <div className={`${styles.modal} ${show ? styles.show : ""}`}>

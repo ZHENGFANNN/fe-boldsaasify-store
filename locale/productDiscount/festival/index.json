@@ -1,59 +1,51 @@
 [
   {
     "languages": {
-      "cn": "免费运费 🎉",
-      "de": "Kostenloser Versand 🎉",
-      "en": "Free Shipping 🎉",
-      "es": "envío gratis 🎉",
-      "fr": "livraison gratuite 🎉",
-      "hk": "免運費 🎉",
-      "it": "spedizione gratuita 🎉",
-      "ja": "送料無料 🎉",
-      "ko": "무료 배송 🎉",
-      "ru": "бесплатная доставка 🎉"
+      "cn": "免费运费 📦️",
+      "de": "Kostenloser Versand 📦️",
+      "en": "Free Shipping 📦️111",
+      "es": "envío gratis 📦️",
+      "fr": "livraison gratuite 📦️",
+      "hk": "免運費 📦️",
+      "it": "spedizione gratuita 📦️",
+      "ja": "送料無料 📦️",
+      "ko": "무료 배송 📦️",
+      "ru": "бесплатная доставка 📦️"
     },
-    "start_time": null,
-    "end_time": null,
-    "discount": null,
+    "start_time": 0,
+    "end_time": 0,
+    "discount": 0,
     "enabled": true,
     "long_activity": true
   },
   {
     "languages": {
-      "cn": "周末狂欢🎉",
-      "de": "Wochenendkarneval 🎉",
-      "en": "Weekend carnival 🎉",
-      "es": "Carnaval de fin de semana 🎉",
-      "fr": "Carnaval du week-end 🎉",
-      "hk": "週末狂歡🎉",
-      "it": "Fine settimana di carnevale 🎉",
-      "ja": "週末カーニバル🎉",
-      "ko": "주말 카니발 🎉",
-      "ru": "Карнавал выходного дня 🎉"
+      "cn": "黑五活动！！",
+      "en": "黑五活动！！"
     },
-    "start_time": 1705248016010,
-    "end_time": 1712379600900,
-    "discount": 100,
+    "start_time": 1739203200000,
+    "end_time": 1741363200000,
+    "discount": 0,
     "enabled": true,
     "long_activity": false
   },
   {
     "languages": {
-      "cn": "限时抢购 🎉",
-      "de": "Blitzangebot🎉",
-      "en": "Flash Sale 🎉",
-      "es": "venta express🎉",
-      "fr": "vente flash🎉",
-      "hk": "限時搶購🎉",
-      "it": "vendita lampo🎉",
-      "ja": "フラッシュセール🎉",
-      "ko": "플래시 세일🎉",
-      "ru": "флэш-распродажа🎉"
+      "cn": "春节",
+      "de": "Frühlingsfest",
+      "en": "Spring Festival",
+      "es": "Festival de primavera",
+      "fr": "Fête du Printemps",
+      "hk": "春節",
+      "it": "Festa di Primavera",
+      "ja": "春祭り",
+      "ko": "춘절",
+      "ru": "Праздник весны"
     },
-    "start_time": 1708790400000,
-    "end_time": 1709395199000,
-    "discount": null,
+    "start_time": 0,
+    "end_time": 0,
+    "discount": 0,
     "enabled": true,
-    "long_activity": false
+    "long_activity": true
   }
 ]
