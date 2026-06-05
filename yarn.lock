@@ -21,10 +21,10 @@
   dependencies:
     mime "^3.0.0"
 
-"@cloudflare/next-on-pages@^1.13.2":
-  version "1.13.2"
-  resolved "https://registry.npmjs.org/@cloudflare/next-on-pages/-/next-on-pages-1.13.2.tgz#c82d503ffd920ad877df48d016b42d6279622b30"
-  integrity sha512-lIri+zuxj6SKqIlewOoC9g9dD5+GbUMAXRrkhApmWGekE0PFlEAR7tHHDkbMXix4ctp7K4lPBY/wWUd8oh+VtQ==
+"@cloudflare/next-on-pages@1.13.6":
+  version "1.13.6"
+  resolved "https://registry.npmjs.org/@cloudflare/next-on-pages/-/next-on-pages-1.13.6.tgz#796309b5366510a9eef5bf9022f43fd285b03e0e"
+  integrity sha512-7SrvJ5x5+gKYXRGaKqJU8uE205snzQ07mzYLoauL0+yUQo5AJ6ZdRuwg4OVa+duKdDsoGbaD7pMEn7SDK7XAxg==
   dependencies:
     acorn "^8.8.0"
     ast-types "^0.14.2"
