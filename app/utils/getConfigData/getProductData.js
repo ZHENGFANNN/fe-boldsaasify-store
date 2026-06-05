@@ -1,5 +1,6 @@
 /** @format */
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 
 function handleProductList({ productList, area }) {
   if (Array.isArray(productList) && productList.length > 0) {
@@ -18,6 +19,27 @@ function handleProductList({ productList, area }) {
   return [];
 }
 
+// 通过 Cloudflare Pages 的 ASSETS 绑定读取 public 下的静态 JSON，
+// 避免动态 require 把整个 public/config/product 打进 worker。
+async function loadConfig(nameSpace, locale) {
+  try {
+    const { env } = getRequestContext();
+    const url = new URL(
+      `/config/product/${nameSpace}/${locale}.json`,
+      "https://assets.local"
+    );
+    const res = await env.ASSETS.fetch(url);
+    if (!res.ok) {
+      console.error(`config not found: ${nameSpace}/${locale} (${res.status})`);
+      return null;
+    }
+    return await res.json();
+  } catch (err) {
+    console.error(`loadConfig failed: ${nameSpace}/${locale}`, err?.message);
+    return null;
+  }
+}
+
 // 过滤商品数据
 const localeData = new Map();
 async function getData({ locale, nameSpace }) {
@@ -26,16 +48,8 @@ async function getData({ locale, nameSpace }) {
   const cacheKey = `${locale}:${area}:${nameSpace}`;
   const cachedData = localeData.get(cacheKey);
   if (!cachedData) {
-    // 改为运行时 fetch 静态资源，避免动态 require 把整个 public/config/product 打进 worker
-    const h = await headers();
-    const host = h.get("host");
-    const proto = h.get("x-forwarded-proto") || "https";
-    const res = await fetch(
-      `${proto}://${host}/config/product/${nameSpace}/${locale}.json`,
-      { cache: "force-cache" }
-    );
-    if (!res.ok) return null;
-    let data = await res.json();
+    let data = await loadConfig(nameSpace, locale);
+    if (!data) return null;
 
     if (nameSpace.includes("product:")) {
       data.associateProduct = handleProductList({
