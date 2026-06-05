@@ -11,7 +11,7 @@ export default function Layout({
   CONFIG,
   isMobile,
   productInfo,
-  goodDiscountFestival,
+  goodDiscountFestival
 }) {
   const router = useRouter();
   React.useEffect(() => {
@@ -27,18 +27,22 @@ export default function Layout({
 
   // 商品套餐
   const [productCurCombo, setProductCurCombo] = React.useState(() => {
+    const comboList = Array.isArray(productInfo?.comboList)
+      ? productInfo.comboList
+      : [];
     return (
-      productInfo?.comboList.find((item) => item.areaInfo?.stock) ||
-      productInfo?.comboList[0] ||
-      {}
+      comboList.find((item) => item.areaInfo?.stock) || comboList[0] || {}
     );
   });
 
   // 商品选项
   const [productOptions, setProductOptions] = React.useState(() => {
-    const typeList = productInfo?.typeList;
+    const typeList = Array.isArray(productInfo?.typeList)
+      ? productInfo.typeList
+      : [];
     const formateList = [];
     typeList.forEach((item) => {
+      if (!Array.isArray(item.options) || !item.options[0]) return;
       if (
         !item.associated ||
         (item.combo_keys && item.combo_keys.includes(productCurCombo?.key))
@@ -46,7 +50,7 @@ export default function Layout({
         formateList.push({
           name: item.title,
           value: item.options[0].title,
-          desc: item.options[0].desc,
+          desc: item.options[0].desc
         });
       }
     });
@@ -109,7 +113,7 @@ export default function Layout({
         },
         // 产品展示类型
         productShowType,
-        setProductShowType,
+        setProductShowType
       }}
     >
       {children}

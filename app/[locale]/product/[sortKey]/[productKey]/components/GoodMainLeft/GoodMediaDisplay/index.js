@@ -11,7 +11,10 @@ import { trackingCustomClick } from "@/utils";
 async function getMediaDisplayList({ productInfo, LANG }) {
   if (productInfo) {
     const list = [];
-    if (productInfo.image_list.length > 0) {
+    if (
+      Array.isArray(productInfo.image_list) &&
+      productInfo.image_list.length > 0
+    ) {
       list.push({
         type: "image",
         icon_src: `${process.env.NEXT_PUBLIC_FILE}/image/icon/media-image.svg`,
@@ -51,7 +54,10 @@ export default function GoodMediaDisplay() {
   const mediaDisplayList = React.useMemo(() => {
     if (productInfo) {
       const list = [];
-      if (productInfo.image_list.length > 0) {
+      if (
+        Array.isArray(productInfo.image_list) &&
+        productInfo.image_list.length > 0
+      ) {
         list.push({
           type: "image",
           image_list: productInfo.image_list,

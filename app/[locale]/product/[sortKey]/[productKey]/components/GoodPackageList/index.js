@@ -17,9 +17,11 @@ export default function Package() {
   } = React.useContext(ProductContext);
 
   const imageList = React.useMemo(() => {
+    if (!Array.isArray(packageList)) return [];
     return packageList.filter((item) => item.type === "image");
   }, [packageList]);
   const textList = React.useMemo(() => {
+    if (!Array.isArray(packageList)) return [];
     return packageList.filter((item) => item.type === "text");
   }, [packageList]);
   React.useEffect(() => {
@@ -29,7 +31,7 @@ export default function Package() {
     }
   }, [lazyLoading]);
 
-  if (packageList.length < 1) return null;
+  if (!Array.isArray(packageList) || packageList.length < 1) return null;
   return (
     <section className={`${styles.package}`} id="product_package">
       <div className={styles.package_container}>

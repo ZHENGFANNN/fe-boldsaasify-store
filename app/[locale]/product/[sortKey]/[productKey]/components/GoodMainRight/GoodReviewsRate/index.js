@@ -10,50 +10,50 @@ const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/image/icon/previews_star
 
 export default function GoodReviewsRate({ reviewNum, reviewScore }) {
   const { LANG, productInfo } = React.useContext(ProductContext);
+  const reviewsList = Array.isArray(productInfo.reviewsList)
+    ? productInfo.reviewsList
+    : [];
 
   const number = React.useMemo(() => {
     // 参数为先
     if (reviewNum) {
       return reviewNum;
     } else {
-      return productInfo.reviews_num || productInfo.reviewsList?.length;
+      return productInfo.reviews_num || reviewsList.length;
     }
-  }, []);
+  }, [reviewNum, productInfo.reviews_num, reviewsList.length]);
 
   const score = React.useMemo(() => {
     // 参数为先
     if (reviewScore) {
       return reviewScore;
     } else {
-      const totalScore = productInfo.reviewsList.reduce(
-        (pre, cur) => pre + cur.score,
-        0
-      );
+      const totalScore = reviewsList.reduce((pre, cur) => pre + cur.score, 0);
       return (
         productInfo.reviews_score ||
-        totalScore / productInfo.reviewsList?.length
+        (reviewsList.length > 0 ? totalScore / reviewsList.length : 0)
       );
     }
-  });
+  }, [reviewScore, productInfo.reviews_score, reviewsList]);
 
   const rate = React.useMemo(() => {
     return score / 5;
   }, [number, score]);
 
-  if (!productInfo.reviewsList?.length && !number) return;
+  if (!reviewsList.length && !number) return;
 
   return (
     <div
       className={styles.container}
-      data-disabled={productInfo.reviewsList.length < 1}
+      data-disabled={reviewsList.length < 1}
       onClick={function () {
         trackingCustomClick({ click_type: "ProductReviews" });
-        if (productInfo.reviewsList.length > 0) {
+        if (reviewsList.length > 0) {
           const $dom = document.getElementById("product_reviews");
           if ($dom) {
             $dom.scrollIntoView({
               block: "start",
-              behavior: "smooth",
+              behavior: "smooth"
             });
           }
         }
@@ -69,7 +69,7 @@ export default function GoodReviewsRate({ reviewNum, reviewScore }) {
       <div
         className={styles.active_stars}
         style={{
-          width: 70 * rate,
+          width: 70 * rate
         }}
       >
         <img alt="active_icon" src={active_icon} />

@@ -8,7 +8,7 @@ export default function GoodAccessoriesList() {
     LANG,
     productInfo: { associationsList },
   } = React.useContext(ProductContext);
-  if (associationsList.length < 1) return null;
+  if (!Array.isArray(associationsList) || associationsList.length < 1) return null;
   return (
     <section className={`${styles.accessories}`} id="product_specs">
       <div className={styles.accessories_container}>

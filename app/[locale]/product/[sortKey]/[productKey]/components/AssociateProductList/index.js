@@ -28,7 +28,7 @@ export default function AssociateProductList() {
       });
     }
   }, [lazyLoading]);
-  if (associateProduct.length < 1) return null;
+  if (!Array.isArray(associateProduct) || associateProduct.length < 1) return null;
   return (
     <>
       {device === "pc" ? (

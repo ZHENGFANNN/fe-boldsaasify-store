@@ -6,8 +6,11 @@ import styles from "./index.module.scss";
 import ProductContext from "../../../ProductContext";
 
 function GoodOptionItem({ title = "", options = [], type }) {
-  const { setProductOptions, productOptions, productCurCombo } =
-    React.useContext(ProductContext);
+  const {
+    setProductOptions,
+    productOptions,
+    productCurCombo
+  } = React.useContext(ProductContext);
 
   const onChange = React.useCallback((item) => {
     setProductOptions(item);
@@ -20,7 +23,7 @@ function GoodOptionItem({ title = "", options = [], type }) {
     <div className={styles.container}>
       <h2>{title}</h2>
       <div className={styles.list}>
-        {options.map((item, index) => {
+        {(Array.isArray(options) ? options : []).map((item, index) => {
           if (type === "text") {
             return (
               <div
@@ -34,7 +37,7 @@ function GoodOptionItem({ title = "", options = [], type }) {
                   onChange({
                     name: title,
                     value: item.title,
-                    desc: item.desc,
+                    desc: item.desc
                   });
                 }}
               >
@@ -54,7 +57,7 @@ function GoodOptionItem({ title = "", options = [], type }) {
                   onChange({
                     name: title,
                     value: item.title,
-                    desc: item.desc,
+                    desc: item.desc
                   });
                 }}
               >
@@ -68,7 +71,7 @@ function GoodOptionItem({ title = "", options = [], type }) {
         <div
           className={styles.tip}
           dangerouslySetInnerHTML={{
-            __html: currentItem.desc,
+            __html: currentItem.desc
           }}
         ></div>
       ) : null}
@@ -81,7 +84,7 @@ export default function GoodOptionList() {
     productInfo: { typeList },
     productCurCombo,
     setProductOptions,
-    removeProductOptions,
+    removeProductOptions
   } = React.useContext(ProductContext);
 
   const didMountRef = React.useRef(false);
@@ -92,6 +95,7 @@ export default function GoodOptionList() {
       return;
     }
     // 设置了值，就不剔除
+    if (!Array.isArray(typeList)) return;
     const safeList = [];
     typeList.forEach((item) => {
       // 存在关联套餐的且不包含当前套餐的不显示
@@ -112,16 +116,18 @@ export default function GoodOptionList() {
         // 保存已经设置过的值，就不再清除
         safeList.push(item.title);
 
+        if (!Array.isArray(item.options) || !item.options[0]) return;
         setProductOptions({
           name: item.title,
           value: item.options[0].title,
-          desc: item.options[0].desc,
+          desc: item.options[0].desc
         });
       }
     });
   }, [productCurCombo]);
 
-  if (typeList.length < 1) return null;
+  if (!Array.isArray(typeList) || typeList?.length < 1) return null;
+
   return (
     <>
       {typeList.map((item, index) => {
@@ -137,7 +143,7 @@ export default function GoodOptionList() {
           <GoodOptionItem
             key={index}
             title={item.title}
-            options={item.options}
+            options={Array.isArray(item.options) ? item.options : []}
             type={item.type}
           />
         );

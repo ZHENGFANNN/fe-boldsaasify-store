@@ -11,9 +11,10 @@ export default function GoodFunctionList() {
   const {
     lazyLoading,
     LANG,
-    productInfo: { funcionList },
+    productInfo: { funcionList }
   } = React.useContext(ProductContext);
   const mainFunction = React.useMemo(() => {
+    if (!Array.isArray(funcionList)) return [];
     return funcionList.filter((item) => !!item.image);
   }, [funcionList]);
 
@@ -24,7 +25,8 @@ export default function GoodFunctionList() {
     }
   }, [lazyLoading]);
 
-  if (funcionList.length < 1) return null;
+  if (!Array.isArray(funcionList) || funcionList?.length < 1) return null;
+
   return (
     <section className={`${styles.function}`} id="productfunction">
       <div className={styles.function_container}>

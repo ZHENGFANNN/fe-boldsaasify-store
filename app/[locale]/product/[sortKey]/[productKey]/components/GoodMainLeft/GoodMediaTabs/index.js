@@ -17,7 +17,10 @@ export default function SelectList() {
   const options = React.useMemo(() => {
     if (productInfo) {
       const list = [];
-      if (productInfo.image_list.length > 0) {
+      if (
+        Array.isArray(productInfo.image_list) &&
+        productInfo.image_list.length > 0
+      ) {
         list.push({
           type: "image",
           icon_src: `${process.env.NEXT_PUBLIC_FILE}/image/icon/media-image.svg`,
@@ -66,7 +69,7 @@ export default function SelectList() {
     <div className={styles.left_content_type_container}>
       <div className={styles.left_content_type}>
         <div className={styles.type_container_color}></div>
-        {options.map((item) => {
+        {(Array.isArray(options) ? options : []).map((item) => {
           if (item.type === "3d") return null;
           return (
             <div

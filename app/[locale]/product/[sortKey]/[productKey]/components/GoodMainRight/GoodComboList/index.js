@@ -22,7 +22,7 @@ export default function GoodComboList() {
   React.useEffect(() => {
     setActive(productCurCombo?.key);
   }, [productCurCombo]);
-  if (comboList.length < 1) return null;
+  if (!Array.isArray(comboList) || comboList.length < 1) return null;
   return (
     <div className={styles.container}>
       <h2>{LANG["store.product.combo"]}</h2>

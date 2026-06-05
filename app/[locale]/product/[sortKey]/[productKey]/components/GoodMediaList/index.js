@@ -30,7 +30,7 @@ export default function GoodMediaList() {
     }
   }, [lazyLoading]);
 
-  if (mediaList.length < 1) return null;
+  if (!Array.isArray(mediaList) || mediaList.length < 1) return null;
   return (
     <section className={`${styles.media}`} id="product_overview">
       {mediaList.map((item, index) => {

@@ -40,7 +40,8 @@ function ReviewRate({ scoreRate = 1 }) {
 }
 
 function LoadingReviews({ reviewsList, score }) {
-  const [scoreList, setScoreList] = React.useState(reviewsList);
+  const safeReviewsList = Array.isArray(reviewsList) ? reviewsList : [];
+  const [scoreList, setScoreList] = React.useState(safeReviewsList);
   const [page, setPage] = React.useState(1);
 
   const scoreMap = React.useMemo(() => {
@@ -66,35 +67,37 @@ function LoadingReviews({ reviewsList, score }) {
         list: [],
       },
     };
-    reviewsList.forEach((item) => {
+    safeReviewsList.forEach((item) => {
       map[item.score].num = map[item.score].num + 1;
       map[item.score].push = map[item.score].list.push(item);
     });
     return map;
-  }, [reviewsList]);
+  }, [safeReviewsList]);
 
   const totalScore = React.useMemo(() => {
-    return reviewsList.reduce((pre, cur) => {
+    return safeReviewsList.reduce((pre, cur) => {
       return pre + cur.score;
     }, 0);
-  }, [reviewsList]);
+  }, [safeReviewsList]);
 
   const scoreRate = React.useMemo(() => {
-    return totalScore / reviewsList.length / 5;
-  }, [reviewsList, totalScore]);
+    if (safeReviewsList.length < 1) return 0;
+    return totalScore / safeReviewsList.length / 5;
+  }, [safeReviewsList, totalScore]);
 
   const averageScore = React.useMemo(() => {
-    return (totalScore / reviewsList.length).toFixed(1);
-  }, [reviewsList, totalScore]);
+    if (safeReviewsList.length < 1) return "0.0";
+    return (totalScore / safeReviewsList.length).toFixed(1);
+  }, [safeReviewsList, totalScore]);
 
   React.useEffect(() => {
     setPage(1);
     if (score === "all") {
-      setScoreList(reviewsList);
+      setScoreList(safeReviewsList);
     } else {
       setScoreList(scoreMap[score].list);
     }
-  }, [score, scoreMap]);
+  }, [score, scoreMap, safeReviewsList]);
 
   return { scoreRate, averageScore, scoreMap, scoreList, page, setPage };
 }
@@ -131,7 +134,7 @@ export default function GoodReviewsContent() {
     }
   }, [lazyLoading, scoreList]);
 
-  if (reviewsList.length < 1) return null;
+  if (!Array.isArray(reviewsList) || reviewsList.length < 1) return null;
   return (
     <section className={styles.reviews} id="product_reviews">
       <div className={styles.reviews_container}>

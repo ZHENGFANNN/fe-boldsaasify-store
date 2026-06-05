@@ -8,19 +8,22 @@ export default function GoodNav() {
   const { lazyLoading, productInfo, LANG } = React.useContext(ProductContext);
   const navList = React.useMemo(() => {
     let navList = [];
-    if (productInfo.mediaList?.length > 0) {
+    if (Array.isArray(productInfo.mediaList) && productInfo.mediaList.length > 0) {
       navList.push({
         title: LANG["store.product.nav.overview"],
         href: "#product_overview",
       });
     }
-    if (productInfo.associationsList?.length > 0) {
+    if (
+      Array.isArray(productInfo.associationsList) &&
+      productInfo.associationsList.length > 0
+    ) {
       navList.push({
         title: LANG["store.product.nav.specs"],
         href: "#product_specs",
       });
     }
-    if (productInfo.packageList?.length > 0) {
+    if (Array.isArray(productInfo.packageList) && productInfo.packageList.length > 0) {
       navList.push({
         title: LANG["store.product.nav.package"],
         href: "#product_package",
@@ -30,7 +33,7 @@ export default function GoodNav() {
       title: LANG["store.product.nav.faq"],
       href: "#product_faq",
     });
-    if (productInfo.reviewsList?.length > 0) {
+    if (Array.isArray(productInfo.reviewsList) && productInfo.reviewsList.length > 0) {
       navList.push({
         title: LANG["store.product.nav.reviews"],
         href: "#product_reviews",

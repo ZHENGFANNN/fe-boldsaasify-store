@@ -9,7 +9,8 @@ export default function GoodMainText() {
     <div className={styles.container}>
       <h1>{productInfo.name}</h1>
       {/* 配置的亮点 */}
-      {productInfo.sellingList.length > 0 ? (
+      {Array.isArray(productInfo.sellingList) &&
+      productInfo.sellingList.length > 0 ? (
         <ul className={styles.product_advantage}>
           {productInfo.sellingList.map((item, index) => {
             return (

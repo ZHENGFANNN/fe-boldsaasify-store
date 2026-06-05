@@ -76,7 +76,9 @@ function PayButton({
         stock: productCurCombo.areaInfo.stock,
         // 产品相关
         name: productInfo.name,
-        image: productInfo.image_list[0].src,
+        image: Array.isArray(productInfo.image_list)
+          ? productInfo.image_list[0]?.src
+          : undefined,
         href: `/${locale}/product/${productInfo.sort_key}/${productInfo.key}`,
         sortKey: productInfo.sort_key,
         productKey: productInfo.key,

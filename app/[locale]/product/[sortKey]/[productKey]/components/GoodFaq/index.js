@@ -35,7 +35,7 @@ export default function GoodFaq() {
 
   const list = React.useMemo(() => {
     return [
-      ...faqList,
+      ...(Array.isArray(faqList) ? faqList : []),
       {
         type: "faq",
         question: LANG["store.product.service_agreement.delivery_terms"],
