@@ -86,13 +86,19 @@ export async function middleware(request) {
     let baseUrl;
     // 特殊处理英文
     if (curLocale === "en") {
-      baseUrl = `/${locale}${request.nextUrl.pathname.replace("/en", "")}${
-        request.nextUrl.search
-      }`;
+      // 只去除作为路径首段的 /en 前缀（用 (?=/|$) 锚定段尾），
+      // 否则 /product/engagement-ring 这类路径里的 "/en" 会被误删，
+      // 变成 /productgagement-ring 而 404。
+      baseUrl = `/${locale}${request.nextUrl.pathname.replace(
+        /^\/en(?=\/|$)/,
+        ""
+      )}${request.nextUrl.search}`;
     } else {
-      baseUrl = `${request.nextUrl.pathname.replace(curLocale, locale)}${
-        request.nextUrl.search
-      }`;
+      // 同理，只替换作为首段的当前 locale 前缀，避免命中路径中间的子串。
+      baseUrl = `${request.nextUrl.pathname.replace(
+        new RegExp(`^/${curLocale}(?=/|$)`),
+        `/${locale}`
+      )}${request.nextUrl.search}`;
     }
     const origin = request.nextUrl.origin;
     return NextResponse.redirect(`${origin}${baseUrl}`);
