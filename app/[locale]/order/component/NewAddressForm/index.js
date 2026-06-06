@@ -8,7 +8,7 @@ import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
 import FormCountryItem from "@/components/Form/FormCountryItem";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import GlobalContext from "@/[locale]/context";
-import { locateAndParseAddress, geocodeErrorMessage } from "@/utils/geocode";
+import { getBrowserPosition, geocodeErrorMessage } from "@/utils/geocode";
 import Api from "../../api";
 
 export default function NewAddressForm({ LANG, onFinish }) {
@@ -36,8 +36,16 @@ export default function NewAddressForm({ LANG, onFinish }) {
     if (locating) return;
     setLocating(true);
     try {
-      const addr = await locateAndParseAddress(locale || "en");
-      if (!addr.zip_code && !addr.address1) throw new Error("EMPTY");
+      const { lat, lng } = await getBrowserPosition();
+      const res = await Api.getAddressByLocation({
+        lat: String(lat),
+        lng: String(lng),
+        language: locale || "en",
+      });
+      const addr = res?.data || {};
+      if (res.code !== 0 || (!addr.zip_code && !addr.address1)) {
+        throw new Error("EMPTY");
+      }
       fillField("zip_code", addr.zip_code);
       fillField("address1", addr.address1);
       fillField("address2", addr.address2);

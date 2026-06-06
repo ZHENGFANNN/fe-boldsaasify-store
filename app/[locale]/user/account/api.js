@@ -23,6 +23,10 @@ const request = {
   deleteUserAddress: (data) => {
     return api.post("/user/deleteUserAddress", data);
   },
+  // 经纬度反地理编码（后端代理 Google）
+  getAddressByLocation: (data) => {
+    return api.post("/user/getAddressByLocation", data);
+  },
   // 获取订单列表
   getOrderList: () => {
     return api.post("/pay/getOrderList");

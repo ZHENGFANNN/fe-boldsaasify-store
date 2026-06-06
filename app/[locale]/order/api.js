@@ -13,6 +13,10 @@ const request = {
   getUserAddress: () => {
     return api.get("/user/getUserAddress");
   },
+  // 经纬度反地理编码（后端代理 Google）
+  getAddressByLocation: (data) => {
+    return api.post("/user/getAddressByLocation", data);
+  },
   // Token登录
   tokenLogin: () => {
     return api.get("/user/tokenLogin");
