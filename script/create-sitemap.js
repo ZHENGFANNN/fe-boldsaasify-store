@@ -35,7 +35,6 @@ function getNavPath() {
   const navList = [
     "/nav/product_categories",
     "/nav/product_info",
-    "/nav/where_buy",
     "/nav/support",
     "/nav/about_us",
   ];

@@ -16,21 +16,6 @@ export const contactList = ({ CONFIG, LANG }) => {
       type: "text",
     },
     {
-      title: LANG["www.company_contact.technical_cooperation"],
-      content: "/company/technology",
-      type: "href",
-    },
-    {
-      title: LANG["www.company_contact.market_collaboration"],
-      content: "/company/market",
-      type: "href",
-    },
-    {
-      title: LANG["www.company_contact.supplier_cooperation"],
-      content: "/company/supplier",
-      type: "href",
-    },
-    {
       title: LANG["www.company_contact.company_address"],
       content: CONFIG["company.basic.work_location"],
       type: "text",

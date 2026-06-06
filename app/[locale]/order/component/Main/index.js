@@ -82,16 +82,30 @@ export default function Main({
   const showTip = React.useCallback(({ text, type }) => {
     tipRef.current.show({ text, type });
   }, []);
+  // PayPal 是否对当前地区开放（来自 config_global_settings 的 setting.pay）
+  const paypalEnabled = React.useMemo(() => {
+    const paypal = CONFIG["setting.pay"]?.paypal;
+    return (
+      paypal?.enabled === true &&
+      Array.isArray(paypal?.supportArea) &&
+      paypal.supportArea.includes(area)
+    );
+  }, [CONFIG, area]);
+
   // 选中支付方式
   const [payKey, setPayKey] = React.useState();
   const payWayList = React.useMemo(() => {
-    const pay =
+    const base =
       locale === "cn"
         ? domesticPay({ CONFIG, LANG })
         : foreignPay({ CONFIG, LANG });
-    setPayKey(pay[0].key);
+    // PayPal 受 setting.pay.paypal.enabled + supportArea 门控
+    const pay = base.filter((item) =>
+      item.key === "payPal" ? paypalEnabled : true
+    );
+    setPayKey(pay[0]?.key);
     return pay;
-  }, [locale]);
+  }, [locale, paypalEnabled]);
 
   // 设置销售政策
   React.useEffect(() => {

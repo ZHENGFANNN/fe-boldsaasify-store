@@ -277,6 +277,16 @@ export default function GoodBtnList() {
     return productCurCombo?.areaInfo?.currency || "USD";
   }, [productCurCombo]);
 
+  // PayPal 是否对当前地区开放（来自 config_global_settings 的 setting.pay）
+  const paypalEnabled = React.useMemo(() => {
+    const paypal = CONFIG["setting.pay"]?.paypal;
+    return (
+      paypal?.enabled === true &&
+      Array.isArray(paypal?.supportArea) &&
+      paypal.supportArea.includes(area)
+    );
+  }, [CONFIG, area]);
+
   return (
     <div className={styles.container} data-role="buy-btn-list">
       {/* 库存按钮 */}
@@ -350,29 +360,31 @@ export default function GoodBtnList() {
           >
             {LANG["store.product.add_cart"]}
           </div>
-          {/* Paypal按钮 */}
-          <PayPalScriptProvider
-            options={{
-              clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
-              components: "buttons",
-              currency,
-              locale: `${
-                locale === "hk" || locale === "cn" ? "zh" : locale
-              }_${countryCode}`,
-            }}
-          >
-            <PayButton
-              LANG={LANG}
-              CONFIG={CONFIG}
-              locale={locale}
-              currency={currency}
-              productInfo={productInfo}
-              productCurCombo={productCurCombo}
-              productOptions={productOptions}
-              productNum={productNum}
-              goodDiscountFestival={goodDiscountFestival}
-            />
-          </PayPalScriptProvider>
+          {/* Paypal按钮（受 setting.pay.paypal.enabled + supportArea 门控） */}
+          {paypalEnabled ? (
+            <PayPalScriptProvider
+              options={{
+                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+                components: "buttons",
+                currency,
+                locale: `${
+                  locale === "hk" || locale === "cn" ? "zh" : locale
+                }_${countryCode}`,
+              }}
+            >
+              <PayButton
+                LANG={LANG}
+                CONFIG={CONFIG}
+                locale={locale}
+                currency={currency}
+                productInfo={productInfo}
+                productCurCombo={productCurCombo}
+                productOptions={productOptions}
+                productNum={productNum}
+                goodDiscountFestival={goodDiscountFestival}
+              />
+            </PayPalScriptProvider>
+          ) : null}
         </>
       )}
     </div>

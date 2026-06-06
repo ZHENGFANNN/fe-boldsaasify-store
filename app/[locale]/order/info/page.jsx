@@ -27,14 +27,7 @@ export default async function Info({ params, searchParams: { secret } }) {
     locale,
     configList: ["config", "language"],
     languageNameSpace: ["store.order_info", "common.pay"],
-    configNameSpace: [
-      "company.basic.company_name",
-      "company.basic.order_service",
-      "pay.transfer.name",
-      "pay.transfer.info",
-      "pay.transfer.location",
-      "pay.transfer.code",
-    ],
+    configNameSpace: ["company.basic.company_name"],
   });
   return (
     <Main

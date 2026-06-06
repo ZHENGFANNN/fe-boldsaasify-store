@@ -49,7 +49,6 @@ async function getData({ locale, area }) {
     ],
     configNameSpace: [
       "company.basic",
-      "company.sales_channels.index",
       "company.social_media.index",
       "page.common"
     ],

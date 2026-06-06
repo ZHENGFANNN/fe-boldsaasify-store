@@ -64,20 +64,6 @@ export default function NAVFUNC({ type, LANG, BLOG, CONFIG, PRODUCT }) {
       }))
     ]
   };
-  // 购买方式
-  const navBuyWay = {
-    key: "where_buy",
-    title: LANG["common.nav.where_buy"],
-    href: "/",
-    list: CONFIG["company.sales_channels.index"]?.map((item) => {
-      return {
-        sub_title: item.title,
-        href: item.href,
-        img: item.src
-      };
-    })
-  };
-
   // 网站协议
   const navWebsiteSupport = {
     key: "support",
@@ -98,11 +84,6 @@ export default function NAVFUNC({ type, LANG, BLOG, CONFIG, PRODUCT }) {
         sub_title: LANG["common.footer.user_service"],
         href: "/protocol/user",
         img: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/nav-argeement.svg`
-      },
-      {
-        sub_title: LANG["common.footer.faq"],
-        href: "/protocol/faq",
-        img: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/nav-faq.svg`
       }
     ]
   };
@@ -110,29 +91,9 @@ export default function NAVFUNC({ type, LANG, BLOG, CONFIG, PRODUCT }) {
   // 关于我们
   const navAboutUs = {
     key: "about_us",
-    href: "/company/introduce",
+    href: "/company/contact",
     title: LANG["common.nav.about_us"],
     list: [
-      {
-        sub_title: LANG["common.nav.company_profile"],
-        href: "/company/introduce",
-        img: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/nav-company.svg`
-      },
-      {
-        sub_title: LANG["common.nav.market_collaboration"],
-        href: "/company/market",
-        img: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/nav-market.svg`
-      },
-      {
-        sub_title: LANG["common.nav.technical_cooperation"],
-        href: "/company/technology",
-        img: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/nav-technology.svg`
-      },
-      {
-        sub_title: LANG["common.nav.supplier_cooperation"],
-        href: "/company/supplier",
-        img: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/nav-suppiler.svg`
-      },
       {
         sub_title: LANG["common.nav.contact_us"],
         href: "/company/contact",
@@ -142,18 +103,13 @@ export default function NAVFUNC({ type, LANG, BLOG, CONFIG, PRODUCT }) {
   };
 
   if (type === "nav") {
-    return [
-      navGoodSort,
-      navBlogSortTop,
-      navBuyWay,
-      navWebsiteSupport,
-      navAboutUs
-    ].filter((item) => item.list?.length > 0);
+    return [navGoodSort, navBlogSortTop, navWebsiteSupport, navAboutUs].filter(
+      (item) => item.list?.length > 0
+    );
   } else {
     return [
       navGoodSort,
       navBlogSortBottom,
-      navBuyWay,
       navWebsiteSupport,
       navAboutUs
     ].filter((item) => item.list?.length > 0);

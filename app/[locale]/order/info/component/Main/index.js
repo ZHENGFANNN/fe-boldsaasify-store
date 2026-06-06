@@ -13,7 +13,6 @@ import moment from "moment";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
 import { formatCurrency } from "@/utils";
-import Link from "next/link";
 
 export default function Main({ secret, locale, area, LANG, CONFIG }) {
   const router = useRouter();
@@ -437,64 +436,6 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
               </div>
             ) : null}
           </div>
-          {order.pay_key === "bank" ? (
-            <div className={styles.transfer_container}>
-              <div className={styles.transfer_title}>
-                <h3>{LANG["store.order_info.transfer_pay"]}</h3>
-              </div>
-              <p className={styles.transfer_description}>
-                {LANG["store.order_info.pay_week"]}
-              </p>
-              <div className={styles.transfer_detail}>
-                <h3>{LANG["store.order_info.bank_account"]}</h3>
-                <div className={styles.transfer_detail_list}>
-                  <div className={styles.transfer_detail_item}>
-                    <h3>{LANG["store.order_info.bank_name"]}</h3>
-                    <p>{CONFIG["pay.transfer.name"] || "-"}</p>
-                  </div>
-                  <div className={styles.transfer_detail_item}>
-                    <h3>{LANG["store.order_info.bank_number"]}</h3>
-                    <p>{CONFIG["pay.transfer.info"] || "-"}</p>
-                  </div>
-                  <div className={styles.transfer_detail_item}>
-                    <h3>{LANG["store.order_info.bank_address"]}</h3>
-                    <p>{CONFIG["pay.transfer.location"] || "-"}</p>
-                  </div>
-                  {locale !== "cn" ? (
-                    <div className={styles.transfer_detail_item}>
-                      <h3>{LANG["store.order_info.bank_code"]}</h3>
-                      <p>{CONFIG["pay.transfer.code"] || "-"}</p>
-                    </div>
-                  ) : null}
-                </div>
-                <h3
-                  className={styles.transfer_email}
-                  dangerouslySetInnerHTML={{
-                    __html: LANG["store.order_info.bank_email"]
-                      ?.split("${1}")
-                      .join(CONFIG["company.basic.order_service"]),
-                  }}
-                />
-                <div className={styles.transfer_tip_container}>
-                  <div>{LANG["store.order_info.notice"]}</div>
-                  <div>{LANG["store.order_info.notice_1"]}</div>
-                  <div>{LANG["store.order_info.notice_2"]}</div>
-                  <div>{LANG["store.order_info.notice_3"]}</div>
-                  <div>{LANG["store.order_info.notice_4"]}</div>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: LANG["store.order_info.notice_5"]
-                        ?.split("${1}")
-                        .join(`/company/contact`),
-                    }}
-                  />
-                </div>
-              </div>
-              <Link href="/" className={styles.btn_container}>
-                {LANG["store.order_info.back_store"]}
-              </Link>
-            </div>
-          ) : null}
         </>
       )}
       <ShowTipModal ref={tipRef} />
