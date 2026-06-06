@@ -61,7 +61,7 @@ export default function GoodFaq() {
       },
       {
         type: "link",
-        question: LANG["common.nav.sales_policy"],
+        question: LANG["common.footer.sales_policy"],
         answer: "/protocol/sales",
       },
     ];
