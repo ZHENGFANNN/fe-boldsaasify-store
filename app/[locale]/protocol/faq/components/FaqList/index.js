@@ -3,7 +3,7 @@
 import styles from "../../page.module.scss";
 import React from "react";
 
-export default function FaqList({ CONFIG }) {
+export default function FaqList({ list }) {
   const [activity, setActivity] = React.useState();
   // 处理下拉动画
   React.useEffect(() => {
@@ -31,8 +31,8 @@ export default function FaqList({ CONFIG }) {
     <div className={styles.content_list}>
       <nav className={styles.nav}>
         {/* 导航栏列表 */}
-        {Array.isArray(CONFIG["www.protocol.faq"]) &&
-          CONFIG["www.protocol.faq"].map((item, index) => {
+        {Array.isArray(list) &&
+          list.map((item, index) => {
             return (
               <div key={index} className={styles.nav_list}>
                 <p
