@@ -19,8 +19,9 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function Info({ params, searchParams: { secret } }) {
+export default async function Info({ params, searchParams }) {
   const { locale } = await params;
+  const { secret } = await searchParams;
   const cookieStore = await cookies();
   const area = cookieStore.get("area")?.value || "us";
   const { LANG, CONFIG } = await getConfigData({

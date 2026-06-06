@@ -4,8 +4,8 @@
     "import/resolver": {
       "alias": {
         "map": [["@", "./app"]],
-        "extensions": [".js", ".jsx", ".ts", ".tsx"],
-      },
-    },
-  },
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
 }
