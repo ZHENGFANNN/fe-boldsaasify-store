@@ -8,6 +8,7 @@ import getBlogData from "./getBlogData";
 
 export default async function getConfigData({
   locale,
+  area,
   configList = [],
   configNameSpace = [],
   languageNameSpace = [],
@@ -19,7 +20,7 @@ export default async function getConfigData({
     [
       getConfigList({ locale, configList, configNameSpace }),
       getLanguageList({ locale, configList, languageNameSpace }),
-      getGoodDiscountList({ locale, configList }),
+      getGoodDiscountList({ locale, area, configList }),
       getBlogData({ locale, configList, blogNameSpace }),
       getProductData({ locale, configList, productNameSpace }),
     ]
