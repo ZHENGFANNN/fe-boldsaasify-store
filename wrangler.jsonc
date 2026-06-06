@@ -1,7 +1,7 @@
 {
   // 账号：Zhengfande666@gmail.com's Account
   "account_id": "72b15fa81a48da4b92492a19ead56cf0",
-  "name": "boldradiant-storefront",
+  "name": "fe-boldradient",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-05-05",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -29,6 +29,6 @@
   ],
 
   "services": [
-    { "binding": "WORKER_SELF_REFERENCE", "service": "boldradiant-storefront" }
+    { "binding": "WORKER_SELF_REFERENCE", "service": "fe-boldradient" }
   ]
 }
