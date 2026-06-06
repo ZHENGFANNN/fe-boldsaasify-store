@@ -7,12 +7,50 @@ import Input from "@/components/Form/FormInput";
 import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import FormCountryItem from "@/components/Form/FormCountryItem";
+import GlobalContext from "@/[locale]/context";
+import { locateAndParseAddress, geocodeErrorMessage } from "@/utils/geocode";
 
 import Api from "../../api";
 
 export default function NewAddressForm({ onFinish, LANG }) {
+  const { locale } = React.useContext(GlobalContext);
   const [show, setShow] = React.useState(false);
+  const [locating, setLocating] = React.useState(false);
   const tipRef = React.useRef(null);
+  const formRef = React.useRef(null);
+
+  // 用浏览器定位 + Google 反编码，把值写进对应的输入框。
+  // 通过原生 setter + input 事件触发，既更新 react-hook-form 的值，
+  // 又能让 FormInput 内部状态更新（浮动 label 正确上浮）。
+  const fillField = (name, value) => {
+    const el = formRef.current?.querySelector(`[name="${name}"]`);
+    if (!el || value == null || value === "") return;
+    const setter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      "value"
+    ).set;
+    setter.call(el, value);
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+
+  const handleLocate = async () => {
+    if (locating) return;
+    setLocating(true);
+    try {
+      const addr = await locateAndParseAddress(locale || "en");
+      if (!addr.zip_code && !addr.address1) throw new Error("EMPTY");
+      fillField("zip_code", addr.zip_code);
+      fillField("address1", addr.address1);
+      fillField("address2", addr.address2);
+    } catch (err) {
+      tipRef.current?.show({
+        text: geocodeErrorMessage(err, LANG),
+        type: "error",
+      });
+    } finally {
+      setLocating(false);
+    }
+  };
 
   React.useEffect(() => {
     if (show) {
@@ -75,6 +113,7 @@ export default function NewAddressForm({ onFinish, LANG }) {
         <div className={styles.modal_content}>
           <h2>{LANG["user_account.shipping_address.create_address"]}</h2>
           <form
+            ref={formRef}
             onSubmit={handleSubmit(onSubmit)}
             className={styles.form_container}
           >
@@ -178,6 +217,25 @@ export default function NewAddressForm({ onFinish, LANG }) {
                   }),
                 }}
               />
+            </div>
+            <div
+              className={styles.locate_btn}
+              onClick={handleLocate}
+              style={{
+                cursor: locating ? "default" : "pointer",
+                opacity: locating ? 0.6 : 1,
+                width: "fit-content",
+                fontSize: 12,
+                textDecoration: "underline",
+                margin: "-4px 0 4px",
+              }}
+            >
+              {locating
+                ? LANG["user_account.shipping_address.locating"] || "Locating…"
+                : `📍 ${
+                    LANG["user_account.shipping_address.use_my_location"] ||
+                    "Use my current location"
+                  }`}
             </div>
             <div className={styles.form_item}>
               <Input
