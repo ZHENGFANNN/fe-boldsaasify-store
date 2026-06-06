@@ -36,7 +36,7 @@ export default function OrderInfo({ LANG }) {
     Api.getOrderList()
       .then((res) => {
         if (res.code !== 0) throw new Error("code!==0");
-        setList(res.data.list);
+        setList(res.data?.list ?? []);
         setOrderLoading(false);
       })
       .catch(() => {
