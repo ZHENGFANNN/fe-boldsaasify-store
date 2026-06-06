@@ -43,7 +43,10 @@ instance.interceptors.response.use(
   },
   // 请求失败
   (error) => {
-    const { status } = error.response;
+    // 网络/CORS/超时等错误没有 response，旧代码直接解构会抛 TypeError，
+    // 把真实错误盖成 "Cannot destructure property 'status'"，进而让 PayPal
+    // createOrder 拿不到订单号报 "Expected an order id"。这里做空值保护。
+    const status = error?.response?.status;
     if (status === 403) window.location.href = "/user/login";
     return Promise.reject(error);
   }
