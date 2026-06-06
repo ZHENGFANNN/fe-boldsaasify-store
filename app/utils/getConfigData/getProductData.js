@@ -1,6 +1,6 @@
 /** @format */
 import { cookies } from "next/headers";
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 function handleProductList({ productList, area }) {
   if (Array.isArray(productList) && productList.length > 0) {
@@ -23,7 +23,7 @@ function handleProductList({ productList, area }) {
 // 避免动态 require 把整个 public/config/product 打进 worker。
 async function loadConfig(nameSpace, locale) {
   try {
-    const { env } = getRequestContext();
+    const { env } = getCloudflareContext();
     const url = new URL(
       `/config/product/${nameSpace}/${locale}.json`,
       "https://assets.local"

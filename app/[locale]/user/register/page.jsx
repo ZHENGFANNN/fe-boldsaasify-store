@@ -6,8 +6,6 @@ import React from "react";
 import getConfigData from "../../../utils/getConfigData";
 import RegisterForm from "./components/RegisterForm";
 
-export const runtime = "edge";
-
 async function getData({ locale }) {
   const result = await getConfigData({
     locale,

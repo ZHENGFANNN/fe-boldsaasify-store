@@ -5,8 +5,6 @@ import { cookies } from "next/headers";
 import Main from "./component/Main";
 import getConfigData from "../../utils/getConfigData";
 
-export const runtime = "edge";
-
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   const { LANG, CONFIG } = await getConfigData({

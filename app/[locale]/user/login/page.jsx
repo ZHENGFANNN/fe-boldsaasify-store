@@ -6,8 +6,6 @@ import styles from "./page.module.scss";
 import getConfigData from "../../../utils/getConfigData";
 import LoginForm from "./components/LoginForm";
 
-export const runtime = "edge";
-
 async function getData({ locale }) {
   const result = await getConfigData({
     locale,

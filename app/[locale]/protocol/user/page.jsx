@@ -5,8 +5,6 @@ import StickyTitle from "./components/StickyTitle";
 import getConfigData from "../../../utils/getConfigData";
 import fillTemplate from "../../../utils/fillTemplate";
 
-export const runtime = "edge";
-
 async function getData({ locale }) {
   const result = await getConfigData({
     locale,

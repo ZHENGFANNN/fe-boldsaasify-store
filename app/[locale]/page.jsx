@@ -9,8 +9,6 @@ import IndexContext from "./components/IndexContext";
 
 import { cookies } from "next/headers";
 
-export const runtime = "edge";
-
 /**
  * 获取数据
  */

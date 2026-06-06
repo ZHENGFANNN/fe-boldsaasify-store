@@ -9,8 +9,6 @@ import Link from "./components/Link";
 import Text from "./components/Text";
 import Modal from "./components/Modal";
 
-export const runtime = "edge";
-
 async function getData({ locale }) {
   const result = await getConfigData({
     locale,

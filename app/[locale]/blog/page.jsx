@@ -7,8 +7,6 @@ import BaseLayout from "./components/BaseLayout";
 import Link from "next/link";
 import Banner from "./components/Banner";
 
-export const runtime = "edge";
-
 async function getData({ locale }) {
   const { LANG, BLOG, CONFIG } = await getConfigData({
     locale,

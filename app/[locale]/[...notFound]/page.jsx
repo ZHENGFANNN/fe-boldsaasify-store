@@ -4,8 +4,6 @@ import getConfigData from "../../utils/getConfigData";
 import { cookies } from "next/headers";
 import Main from "./Main";
 
-export const runtime = "edge";
-
 export default async function NotFound({ params }) {
   const { locale } = await params;
   const cookieStore = await cookies();

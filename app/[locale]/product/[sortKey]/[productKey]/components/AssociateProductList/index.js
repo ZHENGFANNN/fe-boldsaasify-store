@@ -19,13 +19,11 @@ export default function AssociateProductList() {
   const [device, setDevice] = React.useState(isMobile ? "mob" : "pc");
   React.useEffect(() => {
     if (!lazyLoading) {
-      $(window).on("resize", () => {
-        if ($(window).width() < 1250) {
-          setDevice("mob");
-        } else {
-          setDevice("pc");
-        }
-      });
+      // 整页静态化后 SSR 不再判设备，挂载时先按实际宽度纠正一次，再监听 resize。
+      const sync = () => setDevice($(window).width() < 1250 ? "mob" : "pc");
+      sync();
+      $(window).on("resize", sync);
+      return () => $(window).off("resize", sync);
     }
   }, [lazyLoading]);
   if (!Array.isArray(associateProduct) || associateProduct.length < 1) return null;

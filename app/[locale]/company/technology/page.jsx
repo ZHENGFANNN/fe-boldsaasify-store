@@ -4,8 +4,6 @@ import Link from "next/link";
 import styles from "./page.module.scss";
 import getConfigData from "../../../utils/getConfigData";
 
-export const runtime = "edge";
-
 async function getData({ locale }) {
   const result = await getConfigData({
     locale,

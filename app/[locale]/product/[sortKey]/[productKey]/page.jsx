@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import { languageList } from "../../../../config/LANGUAGE";
+
 import AssociateProductList from "./components/AssociateProductList/index";
 import GoodPackageList from "./components/GoodPackageList";
 import GoodAccessoriesList from "./components/GoodAccessoriesList";
@@ -19,7 +21,41 @@ import styles from "./page.module.scss";
 import GoodMainLeft from "./components/GoodMainLeft";
 import GoodMainRight from "./components/GoodMainRight";
 
-export const runtime = "edge";
+// 兜底重新验证周期（秒）；实时刷新靠 /api/revalidate 的 on-demand tag。
+export const revalidate = 86400;
+
+// 构建期枚举所有 (locale, sortKey, productKey)，预生成商品页；
+// 未列出的 slug 仍按需 ISR（dynamicParams 默认 true）。
+export async function generateStaticParams() {
+  const fs = await import("node:fs");
+  const path = await import("node:path");
+  const params = [];
+  for (const lang of languageList) {
+    const locale = lang.value;
+    const file = path.join(
+      process.cwd(),
+      "public",
+      "config",
+      "product",
+      "sort",
+      `${locale}.json`
+    );
+    let data;
+    try {
+      data = JSON.parse(fs.readFileSync(file, "utf8"));
+    } catch {
+      continue;
+    }
+    Object.keys(data || {}).forEach((sortKey) => {
+      (data[sortKey]?.goodList || []).forEach((good) => {
+        if (good?.sort_key && good?.key) {
+          params.push({ locale, sortKey: good.sort_key, productKey: good.key });
+        }
+      });
+    });
+  }
+  return params;
+}
 
 export default async function Product() {
   return (

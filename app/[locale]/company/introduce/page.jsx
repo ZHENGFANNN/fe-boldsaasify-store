@@ -8,8 +8,6 @@ import React from "react";
 import getConfigData from "../../../utils/getConfigData";
 // import IntroduceStaff from "./components/IntroduceStaff";
 import CompanyHistory from "./components/CompanyHistory";
-export const runtime = "edge";
-
 async function getData({ locale }) {
   const result = await getConfigData({
     locale,

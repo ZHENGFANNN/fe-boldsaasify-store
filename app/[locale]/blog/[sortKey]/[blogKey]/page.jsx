@@ -14,8 +14,6 @@ import ProductModal from "./components/ProductModal";
 import { cookies } from "next/headers";
 import "@/styles/richtext.scss";
 
-export const runtime = "edge";
-
 const getData = async function ({ area, locale, blogKey, sortKey }) {
   const articleKey = `article:${sortKey}:${blogKey}`;
   const { BLOG, CONFIG, LANG, GOODDISCOUNTFESTIVAL } = await getConfigData({
