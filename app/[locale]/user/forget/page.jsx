@@ -11,7 +11,7 @@ async function getData({ locale }) {
   const result = await getConfigData({
     locale,
     configList: ["config", "language"],
-    languageNameSpace: ["www.forget"],
+    languageNameSpace: ["user_forget"],
     configNameSpace: ["company.basic.company_name", "company.basic.logo"],
   });
   return result;
@@ -23,9 +23,9 @@ export async function generateMetadata({ params }) {
     locale,
   });
   return {
-    title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.forget.title"]}`,
-    description: LANG["www.forget.description"],
-    keywords: LANG["www.forget.keywords"],
+    title: `${CONFIG["company.basic.company_name"]} - ${LANG["user_forget.title"]}`,
+    description: LANG["user_forget.description"],
+    keywords: LANG["user_forget.keywords"],
   };
 }
 
@@ -49,7 +49,7 @@ export default async function Forget({ params }) {
           width={40}
           height={40}
         />
-        <h1 className={styles.title}>{LANG["www.forget.retrieve_password"]}</h1>
+        <h1 className={styles.title}>{LANG["user_forget.retrieve_password"]}</h1>
         <ForgetForm LANG={LANG} />
       </main>
     </div>

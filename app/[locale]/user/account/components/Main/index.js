@@ -35,7 +35,7 @@ export default function Main({ LANG }) {
             className={styles.img_container}
             src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-user.svg`}
           />
-          <span>{LANG["www.account.account_info"]}</span>
+          <span>{LANG["user_account.account_info"]}</span>
         </div>
         <div
           className={`${styles.item} ${
@@ -50,7 +50,7 @@ export default function Main({ LANG }) {
             className={styles.img_container}
             src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-address.svg`}
           />
-          <span>{LANG["www.account.shipping_address"]}</span>
+          <span>{LANG["user_account.shipping_address"]}</span>
         </div>
         <div
           className={`${styles.item} ${
@@ -65,7 +65,7 @@ export default function Main({ LANG }) {
             className={styles.img_container}
             src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-order.svg`}
           />
-          <span>{LANG["www.account.my_order"]}</span>
+          <span>{LANG["user_account.my_order"]}</span>
         </div>
       </div>
       <div className={styles.content}>

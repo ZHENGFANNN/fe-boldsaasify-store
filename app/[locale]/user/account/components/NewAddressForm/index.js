@@ -47,7 +47,7 @@ export default function NewAddressForm({ onFinish, LANG }) {
         reset();
         onFinish();
         tipRef.current.show({
-          text: LANG["www.account.shipping_address.created_success"],
+          text: LANG["user_account.shipping_address.created_success"],
           type: "success",
         });
         setShow(false);
@@ -56,7 +56,7 @@ export default function NewAddressForm({ onFinish, LANG }) {
       }
     } catch (err) {
       tipRef.current.show({
-        text: LANG["www.account.shipping_address.craeted_fail"],
+        text: LANG["user_account.shipping_address.craeted_fail"],
         type: "error",
       });
     } finally {
@@ -68,12 +68,12 @@ export default function NewAddressForm({ onFinish, LANG }) {
     <div className={styles.container}>
       <div className={styles.main_btn}>
         <button onClick={() => setShow(true)}>
-          {LANG["www.account.shipping_address.create_address"]}
+          {LANG["user_account.shipping_address.create_address"]}
         </button>
       </div>
       <div className={`${styles.modal} ${show ? styles.show : ""}`}>
         <div className={styles.modal_content}>
-          <h2>{LANG["www.account.shipping_address.create_address"]}</h2>
+          <h2>{LANG["user_account.shipping_address.create_address"]}</h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className={styles.form_container}
@@ -90,7 +90,7 @@ export default function NewAddressForm({ onFinish, LANG }) {
                 inputProps={{
                   ...register("area", {
                     required:
-                      LANG["www.account.shipping_address.area_required"],
+                      LANG["user_account.shipping_address.area_required"],
                   }),
                 }}
               />
@@ -98,26 +98,26 @@ export default function NewAddressForm({ onFinish, LANG }) {
             <div className={styles.form_group_1_1}>
               <div className={styles.form_item}>
                 <Input
-                  label={LANG["www.account.shipping_address.first_name"]}
+                  label={LANG["user_account.shipping_address.first_name"]}
                   error={errors.first_name?.message}
                   inputProps={{
                     maxLength: 15,
                     ...register("first_name", {
                       required:
-                        LANG["www.account.shipping_address.first_name_require"],
+                        LANG["user_account.shipping_address.first_name_require"],
                     }),
                   }}
                 />
               </div>
               <div className={styles.form_item}>
                 <Input
-                  label={LANG["www.account.shipping_address.last_name"]}
+                  label={LANG["user_account.shipping_address.last_name"]}
                   error={errors.last_name?.message}
                   inputProps={{
                     maxLength: 15,
                     ...register("last_name", {
                       required:
-                        LANG["www.account.shipping_address.last_name_require"],
+                        LANG["user_account.shipping_address.last_name_require"],
                     }),
                   }}
                 />
@@ -128,16 +128,16 @@ export default function NewAddressForm({ onFinish, LANG }) {
                 <div className={`${styles.form_item} ${styles.form_item_1}`}>
                   <Input
                     error={errors.short_phone?.message}
-                    label={LANG["www.account.shipping_address.area_code"]}
+                    label={LANG["user_account.shipping_address.area_code"]}
                     inputProps={{
                       maxLength: 5,
                       ...register("short_phone", {
                         required:
-                          LANG["www.account.shipping_address.code_require"],
+                          LANG["user_account.shipping_address.code_require"],
                         pattern: {
                           value: ISPHONEOBERVER,
                           message:
-                            LANG["www.account.shipping_address.incorrect_ode"],
+                            LANG["user_account.shipping_address.incorrect_ode"],
                         },
                       }),
                     }}
@@ -147,19 +147,19 @@ export default function NewAddressForm({ onFinish, LANG }) {
               <div className={`${styles.form_item} ${styles.form_item_2}`}>
                 <Input
                   error={errors.phone?.message}
-                  label={LANG["www.account.shipping_address.phone"]}
+                  label={LANG["user_account.shipping_address.phone"]}
                   inputProps={{
                     maxLength: 11,
                     ...register("phone", {
                       required:
-                        LANG["www.account.shipping_address.phone_require"],
+                        LANG["user_account.shipping_address.phone_require"],
                       pattern: {
                         value:
                           areaMap?.area_code === "cn"
                             ? ISPHONE
                             : ISPHONEOBERVER,
                         message:
-                          LANG["www.account.shipping_address.incorrect_phone"],
+                          LANG["user_account.shipping_address.incorrect_phone"],
                       },
                     }),
                   }}
@@ -169,12 +169,12 @@ export default function NewAddressForm({ onFinish, LANG }) {
             <div className={styles.form_item}>
               <Input
                 error={errors.zip_code?.message}
-                label={LANG["www.account.shipping_address.zip_code"]}
+                label={LANG["user_account.shipping_address.zip_code"]}
                 inputProps={{
                   maxLength: 20,
                   ...register("zip_code", {
                     required:
-                      LANG["www.account.shipping_address.zip_code_required"],
+                      LANG["user_account.shipping_address.zip_code_required"],
                   }),
                 }}
               />
@@ -182,12 +182,12 @@ export default function NewAddressForm({ onFinish, LANG }) {
             <div className={styles.form_item}>
               <Input
                 error={errors.address1?.message}
-                label={LANG["www.account.shipping_address.address"]}
+                label={LANG["user_account.shipping_address.address"]}
                 inputProps={{
                   maxLength: 500,
                   ...register("address1", {
                     required:
-                      LANG["www.account.shipping_address.address_require"],
+                      LANG["user_account.shipping_address.address_require"],
                   }),
                 }}
               />
@@ -196,7 +196,7 @@ export default function NewAddressForm({ onFinish, LANG }) {
               <Input
                 error={errors.address2?.message}
                 required={false}
-                label={LANG["www.account.shipping_address.detail_address"]}
+                label={LANG["user_account.shipping_address.detail_address"]}
                 inputProps={{
                   maxLength: 500,
                   ...register("address2"),
@@ -211,7 +211,7 @@ export default function NewAddressForm({ onFinish, LANG }) {
                   document.body.style.overflow = "scroll";
                 }}
               >
-                {LANG["www.account.shipping_address.close"]}
+                {LANG["user_account.shipping_address.close"]}
               </div>
               <button
                 type="submit"
@@ -220,7 +220,7 @@ export default function NewAddressForm({ onFinish, LANG }) {
                   document.body.style.overflow = "scroll";
                 }}
               >
-                {LANG["www.account.shipping_address.confirm"]}
+                {LANG["user_account.shipping_address.confirm"]}
               </button>
             </div>
           </form>

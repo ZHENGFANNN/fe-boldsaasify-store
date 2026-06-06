@@ -50,7 +50,7 @@ export default function LoginForm({ LANG }) {
             Cookies.set("token", data.data, { expires: 7 });
           }
           tipRef.current.show({
-            text: LANG["www.user_login.login_success"],
+            text: LANG["user_login.login_success"],
             type: "success",
           });
           setTimeout(() => {
@@ -68,14 +68,14 @@ export default function LoginForm({ LANG }) {
         } else if (data.code === -1) {
           setLoading(false);
           tipRef.current.show({
-            text: LANG["www.user_login.invalid_user"],
+            text: LANG["user_login.invalid_user"],
             type: "error",
           });
           reset();
         } else if (data.code === -2) {
           setLoading(false);
           tipRef.current.show({
-            text: LANG["www.user_login.data_error"],
+            text: LANG["user_login.data_error"],
             type: "info",
           });
         } else {
@@ -84,7 +84,7 @@ export default function LoginForm({ LANG }) {
       } catch (err) {
         setLoading(false);
         tipRef.current.show({
-          text: LANG["www.user_login.server_error"],
+          text: LANG["user_login.server_error"],
           type: "error",
         });
       }
@@ -96,31 +96,31 @@ export default function LoginForm({ LANG }) {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.form_item + " " + styles["mb-16"]}>
-          <h2>{LANG["www.user_login.email"]}</h2>
+          <h2>{LANG["user_login.email"]}</h2>
           <input
             {...register("email", {
-              required: LANG["www.user_login.email_empyt"],
+              required: LANG["user_login.email_empyt"],
               pattern: {
                 value: isEmail,
-                message: LANG["www.user_login.email_error"],
+                message: LANG["user_login.email_error"],
               },
             })}
           />
           <p>{errors.email?.message}</p>
         </div>
         <div className={styles.form_item + " " + styles["mb-16"]}>
-          <h2>{LANG["www.user_login.password"]}</h2>
+          <h2>{LANG["user_login.password"]}</h2>
           <input
             type="password"
             {...register("password", {
-              required: LANG["www.user_login.password_empyt"],
+              required: LANG["user_login.password_empyt"],
               minLength: {
                 value: 8,
-                message: LANG["www.user_login.password_error"],
+                message: LANG["user_login.password_error"],
               },
               maxLength: {
                 value: 20,
-                message: LANG["www.user_login.password_error"],
+                message: LANG["user_login.password_error"],
               },
             })}
           />
@@ -128,18 +128,18 @@ export default function LoginForm({ LANG }) {
         </div>
         <span>
           <Link scroll={true} href={`/user/forget`} className={styles.forget}>
-            {LANG["www.user_login.forget_password"]}
+            {LANG["user_login.forget_password"]}
           </Link>
         </span>
         <button type="submit" disabled={loading} className={styles.button}>
-          {LANG["www.user_login.login_title"]}
+          {LANG["user_login.login_title"]}
         </button>
         <ShowTipModal ref={tipRef} />
       </form>
       <p className={styles.register}>
-        <span>{LANG["www.user_login.new_user"]}</span>
+        <span>{LANG["user_login.new_user"]}</span>
         <Link scroll={true} href={`/user/register${searchStr}`}>
-          {LANG["www.user_login.create_acount"]}
+          {LANG["user_login.create_acount"]}
         </Link>
       </p>
     </>

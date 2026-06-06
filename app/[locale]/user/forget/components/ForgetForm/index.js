@@ -34,7 +34,7 @@ export default function ForgetForm({ LANG }) {
         if (res.code !== 0) throw new Error("code !== 0");
         tipRef.current.show({
           text:
-            LANG["www.forget.reset_link_sent"] ||
+            LANG["user_forget.reset_link_sent"] ||
             "If this email is registered, a password reset link has been sent. Please check your inbox.",
           type: "success",
         });
@@ -44,14 +44,14 @@ export default function ForgetForm({ LANG }) {
         const res = await Api.forgetPassword(data);
         if (res.code !== 0) throw new Error("code !== 0");
         tipRef.current.show({
-          text: LANG["www.forget.submit_success"],
+          text: LANG["user_forget.submit_success"],
           type: "success",
         });
         reset();
       }
     } catch {
       tipRef.current.show({
-        text: LANG["www.forget.tip_service_exception"],
+        text: LANG["user_forget.tip_service_exception"],
         type: "error",
       });
     }
@@ -78,18 +78,18 @@ export default function ForgetForm({ LANG }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-        {tabBtn("self", LANG["www.forget.mode_self"] || "Reset via email")}
-        {tabBtn("manual", LANG["www.forget.mode_manual"] || "Contact support")}
+        {tabBtn("self", LANG["user_forget.mode_self"] || "Reset via email")}
+        {tabBtn("manual", LANG["user_forget.mode_manual"] || "Contact support")}
       </div>
 
       <div className={styles.form_item + " " + styles["mb-16"]}>
-        <h2>{LANG["www.forget.email"]}</h2>
+        <h2>{LANG["user_forget.email"]}</h2>
         <input
           {...register("email", {
-            required: LANG["www.forget.email_empyt"],
+            required: LANG["user_forget.email_empyt"],
             pattern: {
               value: isEmail,
-              message: LANG["www.forget.email_format"],
+              message: LANG["user_forget.email_format"],
             },
           })}
           autoComplete="off"
@@ -99,17 +99,17 @@ export default function ForgetForm({ LANG }) {
 
       {mode === "manual" ? (
         <div className={styles.form_item + " " + styles["mb-16"]}>
-          <h2>{LANG["www.forget.connect_way"]}</h2>
+          <h2>{LANG["user_forget.connect_way"]}</h2>
           <input
             {...register("connect_way", {
-              required: LANG["www.forget.connect_empyt"],
+              required: LANG["user_forget.connect_empyt"],
               minLength: {
                 value: 1,
-                message: LANG["www.forget.connect_error"],
+                message: LANG["user_forget.connect_error"],
               },
               maxLength: {
                 value: 100,
-                message: LANG["www.forget.connect_error"],
+                message: LANG["user_forget.connect_error"],
               },
             })}
             autoComplete="off"
@@ -120,14 +120,14 @@ export default function ForgetForm({ LANG }) {
 
       <div className={styles.tip}>
         {mode === "self"
-          ? LANG["www.forget.reset_tip"] ||
+          ? LANG["user_forget.reset_tip"] ||
             "Enter your account email and we'll send you a link to reset your password."
-          : LANG["www.forget.forget_tip"]}
+          : LANG["user_forget.forget_tip"]}
       </div>
       <button type="submit" className={styles.button}>
         {mode === "self"
-          ? LANG["www.forget.send_reset_link"] || "Send reset link"
-          : LANG["www.forget.submit"]}
+          ? LANG["user_forget.send_reset_link"] || "Send reset link"
+          : LANG["user_forget.submit"]}
       </button>
       <ShowTipModal ref={tipRef} />
     </form>

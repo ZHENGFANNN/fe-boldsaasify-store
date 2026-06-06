@@ -12,7 +12,7 @@ async function getData({ locale }) {
   const result = await getConfigData({
     locale,
     configList: ["config", "language"],
-    languageNameSpace: ["www.user_login"],
+    languageNameSpace: ["user_login"],
     configNameSpace: ["company.basic.company_name", "company.basic.logo"],
   });
   return result;
@@ -24,9 +24,9 @@ export async function generateMetadata({ params }) {
     locale,
   });
   return {
-    title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.user_login.title"]}`,
-    description: LANG["www.user_login.description"],
-    keywords: LANG["www.user_login.keywords"],
+    title: `${CONFIG["company.basic.company_name"]} - ${LANG["user_login.title"]}`,
+    description: LANG["user_login.description"],
+    keywords: LANG["user_login.keywords"],
   };
 }
 
@@ -49,13 +49,13 @@ export default async function Login({ params }) {
           width={40}
           height={40}
         />
-        <h1 className={styles.title}>{LANG["www.user_login.login_title"]}</h1>
+        <h1 className={styles.title}>{LANG["user_login.login_title"]}</h1>
         <LoginForm LANG={LANG} CONFIG={CONFIG} />
 
         {/* TODO： 第三方登录 */}
         {/* <div className={styles.other_login_title}>
             <div className={styles.line}></div>
-            <div className={styles.other_login_text}>{LANG['www.user_login.other_login']}</div>
+            <div className={styles.other_login_text}>{LANG['user_login.other_login']}</div>
             <div className={styles.line}></div>
         </div>
 
@@ -74,19 +74,19 @@ export default async function Login({ params }) {
             </div>
         </div> */}
         <div className={styles.agreen}>
-          <span>{LANG["www.user_login.countinue_agree"]}</span>
+          <span>{LANG["user_login.countinue_agree"]}</span>
           <Link scroll={true} href="/protocol/policy">
-            {LANG["www.user_login.privacy_policy"]}
+            {LANG["user_login.privacy_policy"]}
           </Link>
-          <span>{LANG["www.user_login.and"]}</span>
+          <span>{LANG["user_login.and"]}</span>
           <Link scroll={true} href="/protocol/user">
-            {LANG["www.user_login.user_service"]}
+            {LANG["user_login.user_service"]}
           </Link>
         </div>
         <div className={styles.help}>
-          <span>{LANG["www.user_login.login_help"]}</span>
+          <span>{LANG["user_login.login_help"]}</span>
           <Link scroll={true} href="/company/contact">
-            {LANG["www.user_login.contact_us"]}
+            {LANG["user_login.contact_us"]}
           </Link>
         </div>
       </main>

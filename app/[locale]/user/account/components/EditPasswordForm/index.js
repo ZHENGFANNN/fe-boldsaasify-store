@@ -36,7 +36,7 @@ export default function EditPasswordForm({ LANG }) {
       if (res.code === 0) {
         reset();
         tipRef.current.show({
-          text: LANG["www.account.account_info.success_modified"],
+          text: LANG["user_account.account_info.success_modified"],
           type: "success",
         });
         setShow(false);
@@ -46,7 +46,7 @@ export default function EditPasswordForm({ LANG }) {
     } catch (err) {
       reset();
       tipRef.current.show({
-        text: LANG["www.account.account_info.fail_edits"],
+        text: LANG["user_account.account_info.fail_edit"],
         type: "error",
       });
     } finally {
@@ -58,34 +58,34 @@ export default function EditPasswordForm({ LANG }) {
     <div className={styles.container}>
       <div className={styles.main_btn}>
         <a onClick={() => setShow(true)}>
-          {LANG["www.account.account_info.click_password"]}
+          {LANG["user_account.account_info.click_password"]}
         </a>
       </div>
       <div className={`${styles.modal} ${show ? styles.show : ""}`}>
         <div className={styles.modal_content}>
-          <h2>{LANG["www.account.account_info.change_password"]}</h2>
+          <h2>{LANG["user_account.account_info.change_password"]}</h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className={styles.form_container}
           >
             <div className={styles.form_item}>
               <Input
-                label={LANG["www.account.account_info.old_password"]}
+                label={LANG["user_account.account_info.old_password"]}
                 error={errors.old_password?.message}
                 inputProps={{
                   type: "password",
                   ...register("old_password", {
                     required:
-                      LANG["www.account.account_info.old_password_require"],
+                      LANG["user_account.account_info.old_password_require"],
                     minLength: {
                       value: 8,
                       message:
-                        LANG["www.account.account_info.new_password_length"],
+                        LANG["user_account.account_info.new_password_length"],
                     },
                     maxLength: {
                       value: 20,
                       message:
-                        LANG["www.account.account_info.new_password_length"],
+                        LANG["user_account.account_info.new_password_length"],
                     },
                   }),
                 }}
@@ -93,22 +93,22 @@ export default function EditPasswordForm({ LANG }) {
             </div>
             <div className={styles.form_item}>
               <Input
-                label={LANG["www.account.account_info.new_password"]}
+                label={LANG["user_account.account_info.new_password"]}
                 error={errors.new_password?.message}
                 inputProps={{
                   type: "password",
                   maxLength: 15,
                   ...register("new_password", {
-                    required: LANG["www.account.account_info.new_password"],
+                    required: LANG["user_account.account_info.new_password"],
                     minLength: {
                       value: 8,
                       message:
-                        LANG["www.account.account_info.new_password_length"],
+                        LANG["user_account.account_info.new_password_length"],
                     },
                     maxLength: {
                       value: 20,
                       message:
-                        LANG["www.account.account_info.new_password_length"],
+                        LANG["user_account.account_info.new_password_length"],
                     },
                   }),
                 }}
@@ -116,18 +116,18 @@ export default function EditPasswordForm({ LANG }) {
             </div>
             <div className={styles.form_item}>
               <Input
-                label={LANG["www.account.account_info.confirm_passwrd"]}
+                label={LANG["user_account.account_info.confirm_passwrd"]}
                 error={errors.confirm_password?.message}
                 inputProps={{
                   type: "password",
                   maxLength: 15,
                   ...register("confirm_password", {
                     required:
-                      LANG["www.account.account_info.confirm_password_require"],
+                      LANG["user_account.account_info.confirm_password_require"],
                     validate: (value) => {
                       if (value === watch("new_password")) return true;
                       else
-                        return LANG["www.account.account_info.confirm_error"];
+                        return LANG["user_account.account_info.confirm_error"];
                     },
                   }),
                 }}
@@ -142,7 +142,7 @@ export default function EditPasswordForm({ LANG }) {
                   document.body.style.overflow = "scroll";
                 }}
               >
-                {LANG["www.account.account_info.close"]}
+                {LANG["user_account.account_info.close"]}
               </div>
               <button
                 type="submit"
@@ -151,7 +151,7 @@ export default function EditPasswordForm({ LANG }) {
                   document.body.style.overflow = "scroll";
                 }}
               >
-                {LANG["www.account.account_info.confirm"]}
+                {LANG["user_account.account_info.confirm"]}
               </button>
             </div>
           </form>

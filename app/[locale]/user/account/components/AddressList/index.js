@@ -41,7 +41,7 @@ export default function AddressInfo({ showTip, LANG }) {
         <div className={styles.contaier}>
           <div className={styles.title_container}>
             <div>
-              <span>{LANG["www.account.shipping_address"]}</span>
+              <span>{LANG["user_account.shipping_address"]}</span>
             </div>
             <NewAddressForm LANG={LANG} onFinish={() => getList()} />
           </div>
@@ -66,8 +66,8 @@ export default function AddressInfo({ showTip, LANG }) {
                     </div>
                     <ConfirmModal
                       LANG={LANG}
-                      title={LANG["www.account.shipping_address.tip"]}
-                      content={LANG["www.account.shipping_address.delete_tip"]}
+                      title={LANG["user_account.shipping_address.tip"]}
+                      content={LANG["user_account.shipping_address.delete_tip"]}
                       renderNode={
                         <div className={styles.icon_container}>
                           <img
@@ -86,7 +86,7 @@ export default function AddressInfo({ showTip, LANG }) {
                             showTip({
                               type: "success",
                               text: LANG[
-                                "www.account.shipping_address.success_deleted"
+                                "user_account.shipping_address.success_deleted"
                               ],
                             });
                             getList();
@@ -96,7 +96,7 @@ export default function AddressInfo({ showTip, LANG }) {
                             showTip({
                               type: "error",
                               text: LANG[
-                                "www.account.shipping_address.fail_deleted"
+                                "user_account.shipping_address.fail_deleted"
                               ],
                             });
                             setDeleteLoading(false);

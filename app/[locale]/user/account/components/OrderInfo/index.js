@@ -11,22 +11,22 @@ import Loading from "../../../../../components/Loading";
 export default function OrderInfo({ LANG }) {
   const payMap = React.useMemo(() => {
     return {
-      wechat: LANG["www.account.my_order.wechat"],
-      zhifubao: LANG["www.account.my_order.zhifubao"],
-      bankTransfer: LANG["www.account.my_order.transfer"],
-      creditCard: LANG["www.account.my_order.credit_card"],
-      payPal: LANG["www.account.my_order.paypal"],
-      COD: LANG["www.account.my_order.cod"],
+      wechat: LANG["user_account.my_order.wechat"],
+      zhifubao: LANG["user_account.my_order.zhifubao"],
+      bankTransfer: LANG["user_account.my_order.transfer"],
+      creditCard: LANG["user_account.my_order.credit_card"],
+      payPal: LANG["user_account.my_order.paypal"],
+      COD: LANG["user_account.my_order.cod"],
     };
   }, []);
   const orderStatus = React.useMemo(() => {
     return {
-      status0: LANG["www.account.my_order.await_pay"],
-      status1: LANG["www.account.my_order.await_deliver"],
-      status2: LANG["www.account.my_order.delivered"],
-      status3: LANG["www.account.my_order.finished"],
-      status4: LANG["www.account.my_order.closed"],
-      status5: LANG["www.account.my_order.error"],
+      status0: LANG["user_account.my_order.await_pay"],
+      status1: LANG["user_account.my_order.await_deliver"],
+      status2: LANG["user_account.my_order.delivered"],
+      status3: LANG["user_account.my_order.finished"],
+      status4: LANG["user_account.my_order.closed"],
+      status5: LANG["user_account.my_order.error"],
     };
   }, []);
   const [orderLoading, setOrderLoading] = React.useState(true);
@@ -59,7 +59,7 @@ export default function OrderInfo({ LANG }) {
             `.${styles.order_list} .${styles.expand_icon}`
           ).index(this);
           $expandIcon.each(function (index) {
-            $(this).find("span").text(LANG["www.account.my_order.expand"]);
+            $(this).find("span").text(LANG["user_account.my_order.expand"]);
             $(this).removeClass(styles.active);
             if ($expandContainer.eq(index).height() > 0 && _index !== index) {
               $expandContainer.eq(index).css({
@@ -73,14 +73,14 @@ export default function OrderInfo({ LANG }) {
               height: 0,
             });
             $(this).removeClass(styles.active);
-            $(this).find("span").text(LANG["www.account.my_order.expand"]);
+            $(this).find("span").text(LANG["user_account.my_order.expand"]);
           } else {
             const height = $expandHeight.eq(_index).height();
             $expandContainer.eq(_index).css({
               height: `${height}px`,
             });
             $(this).addClass(styles.active);
-            $(this).find("span").text(LANG["www.account.my_order.collaspe"]);
+            $(this).find("span").text(LANG["user_account.my_order.collaspe"]);
           }
         }
       );
@@ -97,13 +97,13 @@ export default function OrderInfo({ LANG }) {
       ) : (
         <div className={styles.container}>
           <div className={styles.title_container}>
-            <div>{LANG["www.account.my_order"]}</div>
+            <div>{LANG["user_account.my_order"]}</div>
           </div>
           {list.length < 1 ? (
             <Empyt
               LANG={LANG}
               buttonProps={{
-                text: LANG["www.account.my_order.go_to_buy"],
+                text: LANG["user_account.my_order.go_to_buy"],
                 href: "/",
               }}
             />
@@ -116,7 +116,7 @@ export default function OrderInfo({ LANG }) {
                     <div className={styles.order_header}>
                       <div className={styles.header_item}>
                         <div className={styles.order_title}>
-                          {LANG["www.account.my_order.order_number"]}
+                          {LANG["user_account.my_order.order_number"]}
                         </div>
                         <div className={styles.order_value}>
                           {orderItem.order_number}
@@ -124,7 +124,7 @@ export default function OrderInfo({ LANG }) {
                       </div>
                       <div className={styles.header_item}>
                         <div className={styles.order_title}>
-                          {LANG["www.account.my_order.order_time"]}
+                          {LANG["user_account.my_order.order_time"]}
                         </div>
                         <div className={styles.order_value}>
                           {orderItem.order_time}
@@ -133,7 +133,7 @@ export default function OrderInfo({ LANG }) {
                       {orderItem.pay_time ? (
                         <div className={styles.header_item}>
                           <div className={styles.order_title}>
-                            {LANG["www.account.my_order.pay_time"]}
+                            {LANG["user_account.my_order.pay_time"]}
                           </div>
                           <div className={styles.order_value}>
                             {orderItem.pay_time}
@@ -143,7 +143,7 @@ export default function OrderInfo({ LANG }) {
                       {orderItem.deliver_time ? (
                         <div className={styles.header_item}>
                           <div className={styles.order_title}>
-                            {LANG["www.account.my_order.deliver_time"]}
+                            {LANG["user_account.my_order.deliver_time"]}
                           </div>
                           <div className={styles.order_value}>
                             {orderItem.deliver_time}
@@ -154,7 +154,7 @@ export default function OrderInfo({ LANG }) {
                       {orderItem.finish_time ? (
                         <div className={styles.header_item}>
                           <div className={styles.order_title}>
-                            {LANG["www.account.my_order.finish_time"]}
+                            {LANG["user_account.my_order.finish_time"]}
                           </div>
                           <div className={styles.order_value}>
                             {orderItem.finish_time}
@@ -164,7 +164,7 @@ export default function OrderInfo({ LANG }) {
 
                       <div className={styles.header_item}>
                         <div className={styles.order_title}>
-                          {LANG["www.account.my_order.pay_way"]}
+                          {LANG["user_account.my_order.pay_way"]}
                         </div>
                         <div className={styles.order_value}>
                           {payMap[orderItem.pay_key]}
@@ -173,7 +173,7 @@ export default function OrderInfo({ LANG }) {
 
                       <div className={styles.header_item}>
                         <div className={styles.order_title}>
-                          {LANG["www.account.my_order.order_status"]}
+                          {LANG["user_account.my_order.order_status"]}
                         </div>
                         <div
                           className={`
@@ -214,7 +214,7 @@ export default function OrderInfo({ LANG }) {
                         <>
                           <div className={styles.header_item}>
                             <div className={styles.order_title}>
-                              {LANG["www.account.my_order.order_price"]}
+                              {LANG["user_account.my_order.order_price"]}
                             </div>
                             <div
                               className={styles.order_value}
@@ -222,7 +222,7 @@ export default function OrderInfo({ LANG }) {
                           </div>
                           <div className={styles.header_item}>
                             <div className={styles.order_title}>
-                              {LANG["www.account.my_order.discount"]}
+                              {LANG["user_account.my_order.discount"]}
                             </div>
                             <div
                               className={[styles.order_value, styles.red].join(
@@ -236,7 +236,7 @@ export default function OrderInfo({ LANG }) {
                       {orderItem.pay_price ? (
                         <div className={styles.header_item}>
                           <div className={styles.order_title}>
-                            {LANG["www.account.my_order.pay_price"]}
+                            {LANG["user_account.my_order.pay_price"]}
                           </div>
                           <div
                             className={styles.order_value}
@@ -246,7 +246,7 @@ export default function OrderInfo({ LANG }) {
                     </div>
                     <div className={styles.pay_container}>
                       <div className={styles.total_price}>
-                        <b> {LANG["www.account.my_order.total_price"]}</b>
+                        <b> {LANG["user_account.my_order.total_price"]}</b>
                         {`${orderItem.order_list[0].priceCurrency} ${
                           orderItem.total_price - (orderItem.discount ?? 0)
                         }`}
@@ -269,7 +269,7 @@ export default function OrderInfo({ LANG }) {
                           }}
                           className={styles.insta_pay}
                         >
-                          {LANG["www.account.my_order.insta_pay"]}
+                          {LANG["user_account.my_order.insta_pay"]}
                         </div>
                       ) : null}
                     </div>
@@ -277,13 +277,13 @@ export default function OrderInfo({ LANG }) {
                     <div
                       className={styles.tip}
                       dangerouslySetInnerHTML={{
-                        __html: LANG["www.account.my_order.contact_us"],
+                        __html: LANG["user_account.my_order.contact_us"],
                       }}
                     />
                     <div className={styles.expand_container}>
                       <div className={styles.expand_height}>
                         <div className={styles.good_list}>
-                          <h2>{LANG["www.account.my_order.good_list"]}</h2>
+                          <h2>{LANG["user_account.my_order.good_list"]}</h2>
                           {orderItem.order_list.map((goodItem, goodIndex) => {
                             return (
                               <div key={goodIndex} className={styles.good_item}>
@@ -327,7 +327,7 @@ export default function OrderInfo({ LANG }) {
                           })}
                         </div>
                         <div className={styles.user_info}>
-                          <h2>{LANG["www.account.my_order.user_info"]}</h2>
+                          <h2>{LANG["user_account.my_order.user_info"]}</h2>
                           {orderItem.first_name ? (
                             <div
                               className={styles.user_item}
@@ -355,11 +355,11 @@ export default function OrderInfo({ LANG }) {
                         </div>
                         {orderItem.user_remark || orderItem.seller_remark ? (
                           <div className={styles.order_remark}>
-                            <h2>{LANG["www.account.my_order.order_remark"]}</h2>
+                            <h2>{LANG["user_account.my_order.order_remark"]}</h2>
                             {orderItem.user_remark ? (
                               <div className={styles.user_item}>
                                 <b>
-                                  {LANG["www.account.my_order.user_remark"]}{" "}
+                                  {LANG["user_account.my_order.user_remark"]}{" "}
                                 </b>{" "}
                                 {orderItem.user_remark}
                               </div>
@@ -368,7 +368,7 @@ export default function OrderInfo({ LANG }) {
                               <div className={styles.user_item}>
                                 <b>
                                   {" "}
-                                  {LANG["www.account.my_order.saller_remark"]}
+                                  {LANG["user_account.my_order.saller_remark"]}
                                 </b>{" "}
                                 {orderItem.address2}
                               </div>
@@ -379,7 +379,7 @@ export default function OrderInfo({ LANG }) {
                     </div>
 
                     <div className={styles.expand_icon}>
-                      <span>{LANG["www.account.my_order.expand"]}</span>
+                      <span>{LANG["user_account.my_order.expand"]}</span>
                       <div className={styles.arrow_icon}></div>
                     </div>
                   </div>

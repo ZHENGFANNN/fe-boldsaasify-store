@@ -11,7 +11,7 @@ async function getData({ locale }) {
   const result = await getConfigData({
     locale,
     configList: ["config", "language"],
-    languageNameSpace: ["www.account"],
+    languageNameSpace: ["user_account"],
     configNameSpace: ["company.basic.company_name"],
   });
   return result;
@@ -23,9 +23,9 @@ export async function generateMetadata({ params }) {
     locale,
   });
   return {
-    title: `${CONFIG["company.basic.company_name"]} - ${LANG["www.account.page_title"]}`,
-    description: LANG["www.account.page_description"],
-    keywords: LANG["www.account.page_keywords"],
+    title: `${CONFIG["company.basic.company_name"]} - ${LANG["user_account.page_title"]}`,
+    description: LANG["user_account.page_description"],
+    keywords: LANG["user_account.page_keywords"],
   };
 }
 

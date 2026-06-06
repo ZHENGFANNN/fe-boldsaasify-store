@@ -11,7 +11,7 @@ async function getData({ locale }) {
   const result = await getConfigData({
     locale,
     configList: ["config", "language"],
-    languageNameSpace: ["www.forget"],
+    languageNameSpace: ["user_forget"],
     configNameSpace: ["company.basic.company_name", "company.basic.logo"],
   });
   return result;
@@ -22,9 +22,9 @@ export async function generateMetadata({ params }) {
   const { LANG, CONFIG } = await getData({ locale });
   return {
     title: `${CONFIG["company.basic.company_name"]} - ${
-      LANG["www.forget.retrieve_password"] || "Reset password"
+      LANG["user_forget.retrieve_password"] || "Reset password"
     }`,
-    description: LANG["www.forget.description"],
+    description: LANG["user_forget.description"],
   };
 }
 
@@ -46,7 +46,7 @@ export default async function ResetPassword({ params }) {
           height={40}
         />
         <h1 className={styles.title}>
-          {LANG["www.forget.retrieve_password"] || "Reset password"}
+          {LANG["user_forget.retrieve_password"] || "Reset password"}
         </h1>
         <ResetForm LANG={LANG} />
       </main>

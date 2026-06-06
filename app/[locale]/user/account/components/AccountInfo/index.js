@@ -75,7 +75,7 @@ export default function AccountInfo({ showTip, LANG }) {
         })
       ) {
         showTip({
-          text: LANG["www.account.account_info.success_modified"],
+          text: LANG["user_account.account_info.success_modified"],
           type: "success",
         });
         return;
@@ -92,7 +92,7 @@ export default function AccountInfo({ showTip, LANG }) {
             phone: values.phone,
           });
           showTip({
-            text: LANG["www.account.account_info.success_modified"],
+            text: LANG["user_account.account_info.success_modified"],
             type: "success",
           });
         } else {
@@ -100,7 +100,7 @@ export default function AccountInfo({ showTip, LANG }) {
         }
       } catch {
         showTip({
-          text: LANG["www.account.account_info.fail_edit"],
+          text: LANG["user_account.account_info.fail_edit"],
           type: "error",
         });
       }
@@ -118,7 +118,7 @@ export default function AccountInfo({ showTip, LANG }) {
         <div className={styles.all_container}>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.container}>
             <div className={styles.title}>
-              {LANG["www.account.account_info"]}
+              {LANG["user_account.account_info"]}
             </div>
             <div
               className={`${styles.form_group} ${
@@ -129,75 +129,75 @@ export default function AccountInfo({ showTip, LANG }) {
                 inputProps={{
                   ...register("first_name", {
                     required:
-                      LANG["www.account.account_info.first_name_require"],
+                      LANG["user_account.account_info.first_name_require"],
                     maxLength: {
                       value: 15,
                       message:
-                        LANG["www.account.account_info.first_name_length"],
+                        LANG["user_account.account_info.first_name_length"],
                     },
                   }),
                 }}
-                label={LANG["www.account.account_info.first_name"]}
+                label={LANG["user_account.account_info.first_name"]}
                 error={errors.first_name?.message}
               />
               <FormInput
                 inputProps={{
                   ...register("last_name", {
                     required:
-                      LANG["www.account.account_info.last_name_require"],
+                      LANG["user_account.account_info.last_name_require"],
                     maxLength: {
                       value: 15,
                       message:
-                        LANG["www.account.account_info.last_name_length"],
+                        LANG["user_account.account_info.last_name_length"],
                     },
                   }),
                 }}
-                label={LANG["www.account.account_info.last_name"]}
+                label={LANG["user_account.account_info.last_name"]}
                 error={errors.last_name?.message}
               />
             </div>
             <FormInput
               inputProps={{
                 ...register("nickname", {
-                  required: LANG["www.account.account_info.nickname_require"],
+                  required: LANG["user_account.account_info.nickname_require"],
                   maxLength: {
                     value: 15,
-                    message: LANG["www.account.account_info.nickname_length"],
+                    message: LANG["user_account.account_info.nickname_length"],
                   },
                 }),
               }}
-              label={LANG["www.account.account_info.nickname"]}
+              label={LANG["user_account.account_info.nickname"]}
               error={errors.nickname?.message}
             />
             <FormInput
               inputProps={{
                 ...register("email", {
-                  required: LANG["www.account.account_info.email_require"],
+                  required: LANG["user_account.account_info.email_require"],
                   pattern: {
                     value: isEmail,
-                    message: LANG["www.account.account_info.email_incorrect"],
+                    message: LANG["user_account.account_info.email_incorrect"],
                   },
                 }),
                 disabled: true,
               }}
-              label={LANG["www.account.account_info.email"]}
+              label={LANG["user_account.account_info.email"]}
               error={errors.email?.message}
             />
             <FormInput
               inputProps={{
                 maxLength: 20,
                 ...register("phone", {
-                  required: LANG["www.account.account_info.phone_required"],
+                  required: LANG["user_account.account_info.phone_required"],
                 }),
               }}
-              label={LANG["www.account.account_info.phone"]}
+              label={LANG["user_account.account_info.phone"]}
               error={errors.phone?.message}
             />
             <button ref={formRef} type="submit" hidden />
           </form>
           <div className={styles.password_container}>
             <div className={styles.title}>
-              {LANG["www.account.account_info.password"]}
+              {LANG["user_account.account_info.password"]}
               <span>*</span>
             </div>
             <div>
@@ -210,7 +210,7 @@ export default function AccountInfo({ showTip, LANG }) {
             }}
             className={styles.save_btn}
           >
-            {LANG["www.account.account_info.save"]}
+            {LANG["user_account.account_info.save"]}
           </button>
           <button
             onClick={() => {
@@ -220,7 +220,7 @@ export default function AccountInfo({ showTip, LANG }) {
             }}
             className={styles.exit_btn}
           >
-            {LANG["www.account.account_info.login_out"]}
+            {LANG["user_account.account_info.login_out"]}
           </button>
         </div>
       )}
