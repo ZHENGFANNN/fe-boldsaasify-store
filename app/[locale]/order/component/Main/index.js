@@ -96,7 +96,7 @@ export default function Main({
   const [payKey, setPayKey] = React.useState();
   const payWayList = React.useMemo(() => {
     const base =
-      locale === "cn"
+      locale === "zh-cn"
         ? domesticPay({ CONFIG, LANG })
         : foreignPay({ CONFIG, LANG });
     // PayPal 受 setting.pay.paypal.enabled + supportArea 门控

@@ -40,7 +40,7 @@ const list = [
         country_english: "Canada",
         currency: "USD",
         currency_symbol: "$",
-        language_code: "fr",
+        language_code: "en",
         language: "Français",
       },
       {
@@ -133,7 +133,7 @@ const list = [
         currency: "CNY",
         currency_symbol: "¥",
         currency_subunit_to_unit: 100,
-        language_code: "cn",
+        language_code: "zh-cn",
         language: "简体中文",
       },
       {
@@ -145,7 +145,7 @@ const list = [
         currency: "HKD",
         currency_symbol: "$",
         currency_subunit_to_unit: 100,
-        language_code: "hk",
+        language_code: "zh-cn",
         language: "繁体中文",
       },
       {
@@ -181,7 +181,7 @@ const list = [
         currency: "USD",
         currency_symbol: "$",
         currency_subunit_to_unit: 100,
-        language_code: "hk",
+        language_code: "zh-cn",
         language: "繁体中文",
       },
       {
@@ -205,7 +205,7 @@ const list = [
         currency: "USD",
         currency_symbol: "$",
         currency_subunit_to_unit: 1,
-        language_code: "ko",
+        language_code: "en",
         language: "한국어",
       },
       {
@@ -217,7 +217,7 @@ const list = [
         currency: "TWD",
         currency_symbol: "$",
         currency_subunit_to_unit: 100,
-        language_code: "hk",
+        language_code: "zh-cn",
         language: "繁体中文",
       },
       {
@@ -265,7 +265,7 @@ const list = [
         country_english: "Austria",
         currency: "EUR",
         currency_symbol: "€",
-        language_code: "de",
+        language_code: "en",
         language: "Deutsch",
       },
       {
@@ -353,7 +353,7 @@ const list = [
         country_english: "France",
         currency: "EUR",
         currency_symbol: "€",
-        language_code: "fr",
+        language_code: "en",
         language: "Français",
       },
       {
@@ -364,7 +364,7 @@ const list = [
         country_english: "Germany",
         currency: "EUR",
         currency_symbol: "€",
-        language_code: "de",
+        language_code: "en",
         language: "Deutsch",
       },
       {
@@ -408,7 +408,7 @@ const list = [
         country_english: "Italy",
         currency: "EUR",
         currency_symbol: "€",
-        language_code: "it",
+        language_code: "en",
         language: "Italiano",
       },
       {
@@ -430,7 +430,7 @@ const list = [
         country_english: "Liechtenstein",
         currency: "EUR",
         currency_symbol: "€",
-        language_code: "de",
+        language_code: "en",
         language: "Deutsch",
       },
       {
@@ -452,7 +452,7 @@ const list = [
         country_english: "Luxembourg",
         currency: "EUR",
         currency_symbol: "€",
-        language_code: "fr",
+        language_code: "en",
         language: "Français",
       },
       {
@@ -474,7 +474,7 @@ const list = [
         country_english: "Monaco",
         currency: "EUR",
         currency_symbol: "€",
-        language_code: "fr",
+        language_code: "en",
         language: "Français",
       },
       {
@@ -551,7 +551,7 @@ const list = [
         country_english: "Spain",
         currency: "EUR",
         currency_symbol: "€",
-        language_code: "es",
+        language_code: "en",
         language: "Español",
       },
       {

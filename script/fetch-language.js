@@ -4,7 +4,7 @@ const chalk = require("chalk");
 const fs = require("fs");
 const api = require("./api");
 
-const { languageList } = require("../app/config/LANGUAGE");
+const { languageList } = require("../app/config/languageSettings");
 
 // 获取多语言信息
 const fetchLanguage = async (times = 1, cookie = "") => {

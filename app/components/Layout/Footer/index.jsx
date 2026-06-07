@@ -229,7 +229,7 @@ export default function Footer() {
             <span>{LANG["common.footer.work_time"]}：</span>
             <div>{CONFIG["common.base"]?.work_time}</div>
           </time>
-          {locale === "cn" ? (
+          {locale === "zh-cn" ? (
             <div>
               <span>备案信息：</span>
               <span>

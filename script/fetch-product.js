@@ -3,7 +3,7 @@
 const chalk = require("chalk");
 const fs = require("fs");
 const api = require("./api");
-const { languageList } = require("../app/config/LANGUAGE");
+const { languageList } = require("../app/config/languageSettings");
 
 // 处理鸡蛋的产品数据（关联产品）
 function handleAssociateProductList(productList) {

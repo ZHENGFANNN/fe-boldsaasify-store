@@ -122,7 +122,7 @@ export default function AccountInfo({ showTip, LANG }) {
             </div>
             <div
               className={`${styles.form_group} ${
-                locale === "cn" ? "" : styles.flex_reverse
+                locale === "zh-cn" ? "" : styles.flex_reverse
               }`}
             >
               <FormInput

@@ -9,7 +9,7 @@ const { Readable } = require("stream");
 const productPath = require("../public/config/product/sitemap/en.json");
 const blogPath = require("../public/config/blog/sitemap/en.json");
 
-const { languageList } = require("../app/config/LANGUAGE");
+const { languageList } = require("../app/config/languageSettings");
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN;
 // 排除路径

@@ -2,29 +2,19 @@
 
 import { cookies } from "next/headers";
 
-import cnBlogLayout from "@@/public/config/blog/layout/cn.json";
-import hkBlogLayout from "@@/public/config/blog/layout/hk.json";
-import enBlogLayout from "@@/public/config/blog/layout/en.json";
-import esBlogLayout from "@@/public/config/blog/layout/es.json";
-import frBlogLayout from "@@/public/config/blog/layout/fr.json";
-import jaBlogLayout from "@@/public/config/blog/layout/ja.json";
-import koBlogLayout from "@@/public/config/blog/layout/ko.json";
-import ruBlogLayout from "@@/public/config/blog/layout/ru.json";
-import deBlogLayout from "@@/public/config/blog/layout/de.json";
-import itBlogLayout from "@@/public/config/blog/layout/it.json";
+const globalConfig = require("@@/fetch-data/globalConfig/index.json");
+const { toLocale } = require("@@/app/config/languageSettings");
 
-const layoutData = {
-  cn: cnBlogLayout,
-  hk: hkBlogLayout,
-  en: enBlogLayout,
-  es: esBlogLayout,
-  fr: frBlogLayout,
-  ja: jaBlogLayout,
-  ko: koBlogLayout,
-  ru: ruBlogLayout,
-  de: deBlogLayout,
-  it: itBlogLayout,
-};
+const enabledLocales = (globalConfig["setting.language"] ?? [])
+  .filter((item) => item.enabled !== false)
+  .map((item) => toLocale(item.iso_code));
+
+const layoutData = Object.fromEntries(
+  enabledLocales.map((locale) => [
+    locale,
+    require(`@@/public/config/blog/layout/${locale}.json`),
+  ])
+);
 
 const localeData = new Map();
 function handleProductList({ productList, area }) {

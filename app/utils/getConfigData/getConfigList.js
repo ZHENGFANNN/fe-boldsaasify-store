@@ -1,19 +1,18 @@
 /** @format */
 
 const globalConfig = require("@@/fetch-data/globalConfig/index.json");
+const { defaultLocale, toLocale } = require("@@/app/config/languageSettings");
 
-const pageConfigDataList = {
-  cn: require("@@/fetch-data/pageConfig/cn.json"),
-  de: require("@@/fetch-data/pageConfig/de.json"),
-  en: require("@@/fetch-data/pageConfig/en.json"),
-  es: require("@@/fetch-data/pageConfig/es.json"),
-  fr: require("@@/fetch-data/pageConfig/fr.json"),
-  hk: require("@@/fetch-data/pageConfig/hk.json"),
-  it: require("@@/fetch-data/pageConfig/it.json"),
-  ja: require("@@/fetch-data/pageConfig/ja.json"),
-  ko: require("@@/fetch-data/pageConfig/ko.json"),
-  ru: require("@@/fetch-data/pageConfig/ru.json"),
-};
+const enabledLocales = (globalConfig["setting.language"] ?? [])
+  .filter((item) => item.enabled !== false)
+  .map((item) => toLocale(item.iso_code));
+
+const pageConfigDataList = Object.fromEntries(
+  enabledLocales.map((locale) => [
+    locale,
+    require(`@@/fetch-data/pageConfig/${locale}.json`),
+  ])
+);
 
 const filterConfig = ({ merged, configNameSpace }) => {
   const configObj = {};
@@ -33,7 +32,8 @@ export default async function getConfigList({
   configNameSpace,
 }) {
   if (!configList.includes("config")) return null;
-  const pageConfig = pageConfigDataList[locale] || pageConfigDataList.en;
+  const pageConfig =
+    pageConfigDataList[locale] || pageConfigDataList[defaultLocale];
   const merged = { ...pageConfig, ...globalConfig };
   return filterConfig({ merged, configNameSpace });
 }

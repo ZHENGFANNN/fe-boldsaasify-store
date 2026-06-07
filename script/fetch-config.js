@@ -5,16 +5,13 @@ const fs = require("fs");
 const path = require("path");
 const api = require("./api");
 
-const { languageList } = require("../app/config/LANGUAGE");
-
 /**
  * 从两个公开接口拉取配置，按后端 code 原样写入：
  *   fetch-data/pageConfig/<locale>.json  ← /config/getPageSettings
- *   fetch-data/globalConfig/index.json ← /config/getGlobalSettings
+ *   fetch-data/globalConfig/index.json   ← /config/getGlobalSettings
+ *
+ * locale 取自 globalConfig.setting.language 的 iso_code（小写）
  */
-
-const LOCALE_TO_COLUMN = { en: "en", cn: "zh-cn", ja: "ja" };
-const columnForLocale = (locale) => LOCALE_TO_COLUMN[locale] || "en";
 
 const isEmptyCell = (v) => {
   if (v === undefined || v === null) return true;
@@ -30,8 +27,10 @@ const parseCell = (raw) => {
   }
 };
 
+const toLocale = (isoCode) => String(isoCode || "").toLowerCase();
+
 const getPageValue = (item, locale) => {
-  let raw = item[columnForLocale(locale)];
+  let raw = item[locale];
   if (isEmptyCell(raw)) raw = item.en;
   if (isEmptyCell(raw)) return undefined;
   return parseCell(raw);
@@ -62,6 +61,11 @@ const writeJson = (filePath, data) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 0));
 };
 
+const getEnabledLanguages = (globalConfig) =>
+  (globalConfig["setting.language"] ?? []).filter(
+    (item) => item.enabled !== false
+  );
+
 const fetchConfig = async (times = 1, cookie = "") => {
   let error = false;
   const startTime = Date.now();
@@ -75,10 +79,12 @@ const fetchConfig = async (times = 1, cookie = "") => {
 
     const pageList = pageRes?.data?.list || [];
     const globalList = globalRes?.data?.list || [];
+    const globalConfig = buildGlobalConfig(globalList);
 
-    writeJson("./fetch-data/globalConfig/index.json", buildGlobalConfig(globalList));
+    writeJson("./fetch-data/globalConfig/index.json", globalConfig);
 
-    languageList.forEach(({ value: locale }) => {
+    getEnabledLanguages(globalConfig).forEach((item) => {
+      const locale = toLocale(item.iso_code);
       writeJson(
         `./fetch-data/pageConfig/${locale}.json`,
         buildPageConfig(pageList, locale)

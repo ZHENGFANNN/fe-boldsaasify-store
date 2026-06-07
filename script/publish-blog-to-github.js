@@ -19,7 +19,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { languageList } = require("../app/config/LANGUAGE");
+const { languageList } = require("../app/config/languageSettings");
 
 // ---- 配置读取 ----------------------------------------------------------------
 function readEnvHost() {

@@ -5,7 +5,7 @@
 import {
   PayPalScriptProvider,
   PayPalButtons,
-  usePayPalScriptReducer,
+  usePayPalScriptReducer
 } from "@paypal/react-paypal-js";
 import styles from "./index.module.scss";
 import React from "react";
@@ -30,10 +30,12 @@ function PayButton({
   locale,
   LANG,
   CONFIG,
-  currency,
+  currency
 }) {
-  const [{ isPending, isRejected, options }, dispatch] =
-    usePayPalScriptReducer();
+  const [
+    { isPending, isRejected, options },
+    dispatch
+  ] = usePayPalScriptReducer();
   const router = useRouter();
   const tipRef = React.useRef(null);
   const secret = React.useRef();
@@ -85,8 +87,8 @@ function PayButton({
         comboKey: productCurCombo.key,
         // 其他
         productNum,
-        options: productOptions,
-      },
+        options: productOptions
+      }
     ];
   }, [productNum, productCurCombo, productInfo, productOptions, locale]);
 
@@ -102,7 +104,7 @@ function PayButton({
         productCurCombo.areaInfo.currency_unit
       ),
       type: "payPal",
-      contents: orderList,
+      contents: orderList
     });
   }, [orderList, discount, totalPrice, productCurCombo]);
 
@@ -114,7 +116,7 @@ function PayButton({
           onClick={() => {
             dispatch({
               type: "resetOptions",
-              value: options,
+              value: options
             });
           }}
         >
@@ -143,7 +145,7 @@ function PayButton({
             style={{
               layout: "vertical",
               color: "gold",
-              label: "paypal",
+              label: "paypal"
             }}
             forceReRender={[
               productNum,
@@ -151,7 +153,7 @@ function PayButton({
               productInfo,
               locale,
               discount,
-              currency,
+              currency
             ]}
             createOrder={async () => {
               // 处理订单
@@ -159,7 +161,7 @@ function PayButton({
                 pay_key: "payPal",
                 total_price: totalPrice,
                 discount,
-                order_list: orderList,
+                order_list: orderList
               })
                 .then((res) => {
                   if (res.code === 0) {
@@ -171,7 +173,7 @@ function PayButton({
                       "order",
                       JSON.stringify({
                         secret: res.data.secret,
-                        time: Date.now(),
+                        time: Date.now()
                       })
                     );
                     return res.data.id;
@@ -183,7 +185,7 @@ function PayButton({
                   console.log(`[Page Paypal createOrder]: ${error}`);
                   showTip({
                     text: LANG["common.pay.pay_button.create_error"],
-                    type: "error",
+                    type: "error"
                   });
                 });
             }}
@@ -196,11 +198,11 @@ function PayButton({
                       value: res.data.value,
                       discount,
                       type: "payPal",
-                      contents: orderList,
+                      contents: orderList
                     });
                     showTip({
                       text: LANG["common.pay.pay_button.pay_success"],
-                      type: "success",
+                      type: "success"
                     });
                     // 移除订单信息
                     localStorage.removeItem("order");
@@ -215,7 +217,7 @@ function PayButton({
                   console.log(`[Page Paypal onApprove]: ${error}`);
                   showTip({
                     text: LANG["common.pay.pay_button.pay_fail_tip"],
-                    type: "error",
+                    type: "error"
                   });
                 });
             }}
@@ -224,7 +226,7 @@ function PayButton({
               if (data.orderID) {
                 showTip({
                   text: LANG["common.pay.pay_button.pay_cancel"],
-                  type: "error",
+                  type: "error"
                 });
                 setTimeout(() => {
                   router.push(`/order/info?secret=${secret.current}`);
@@ -235,7 +237,7 @@ function PayButton({
               console.log(`[Page Paypal onError]: ${error}`);
               showTip({
                 text: LANG["common.pay.pay_button.pay_error"],
-                type: "error",
+                type: "error"
               });
             }}
           />
@@ -257,7 +259,7 @@ export default function GoodBtnList() {
     area,
     productNum,
     productCurCombo,
-    productOptions,
+    productOptions
   } = React.useContext(ProductContext);
   const countryCode = React.useMemo(() => {
     let countryCode;
@@ -318,8 +320,8 @@ export default function GoodBtnList() {
                   productKey: productInfo.key,
                   comboKey: productCurCombo.key,
                   productNum,
-                  options: productOptions,
-                },
+                  options: productOptions
+                }
               ];
               // 购物车是否存在
               if (cartList?.length > 0) {
@@ -336,7 +338,7 @@ export default function GoodBtnList() {
                     includeCurCombo = true;
                     return {
                       ...item,
-                      productNum: Number(item.productNum) + productNum,
+                      productNum: Number(item.productNum) + productNum
                     };
                   } else {
                     return item;
@@ -368,8 +370,8 @@ export default function GoodBtnList() {
                 components: "buttons",
                 currency,
                 locale: `${
-                  locale === "hk" || locale === "cn" ? "zh" : locale
-                }_${countryCode}`,
+                  locale === "zh-cn" || locale === "zh-hk" ? "zh" : locale
+                }_${countryCode}`
               }}
             >
               <PayButton

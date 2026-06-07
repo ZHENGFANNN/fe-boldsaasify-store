@@ -3,7 +3,7 @@
 import {
   PayPalScriptProvider,
   PayPalButtons,
-  usePayPalScriptReducer,
+  usePayPalScriptReducer
 } from "@paypal/react-paypal-js";
 import React from "react";
 import Loading from "../../../../components/Loading";
@@ -16,10 +16,12 @@ function PayButton({
   onCancel,
   onError,
   LANG,
-  CONFIG,
+  CONFIG
 }) {
-  const [{ isPending, isRejected, options }, dispatch] =
-    usePayPalScriptReducer();
+  const [
+    { isPending, isRejected, options },
+    dispatch
+  ] = usePayPalScriptReducer();
 
   if (isRejected) {
     return (
@@ -29,7 +31,7 @@ function PayButton({
           onClick={() => {
             dispatch({
               type: "resetOptions",
-              value: options,
+              value: options
             });
           }}
         >
@@ -60,7 +62,7 @@ function PayButton({
         layout: "vertical",
         color: "gold",
         label: "paypal",
-        "disable-country-change": "true",
+        "disable-country-change": "true"
       }}
       createOrder={createOrder}
       onApprove={onApprove}
@@ -79,7 +81,7 @@ export default function Paypal({
   onCancel,
   onError,
   LANG,
-  CONFIG,
+  CONFIG
 }) {
   const countryCode = React.useMemo(() => {
     let countryCode = area;
@@ -100,9 +102,9 @@ export default function Paypal({
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
         components: "buttons",
         locale: `${
-          locale === "hk" || locale === "cn" ? "zh" : locale
+          locale === "zh-cn" || "zh-hk" ? "zh" : locale
         }_${countryCode}`,
-        currency,
+        currency
       }}
     >
       <PayButton

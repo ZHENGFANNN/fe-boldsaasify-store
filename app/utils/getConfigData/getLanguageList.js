@@ -1,28 +1,18 @@
 /** @format */
 
-const cn = require("@@/fetch-data/languageList/cn.json");
-const de = require("@@/fetch-data/languageList/de.json");
-const en = require("@@/fetch-data/languageList/en.json");
-const es = require("@@/fetch-data/languageList/es.json");
-const fr = require("@@/fetch-data/languageList/fr.json");
-const hk = require("@@/fetch-data/languageList/hk.json");
-const it = require("@@/fetch-data/languageList/it.json");
-const ja = require("@@/fetch-data/languageList/ja.json");
-const ko = require("@@/fetch-data/languageList/ko.json");
-const ru = require("@@/fetch-data/languageList/ru.json");
+const { defaultLocale, toLocale } = require("@@/app/config/languageSettings");
+const globalConfig = require("@@/fetch-data/globalConfig/index.json");
 
-const languageList = {
-  cn,
-  de,
-  en,
-  es,
-  fr,
-  hk,
-  it,
-  ja,
-  ko,
-  ru,
-};
+const enabledLocales = (globalConfig["setting.language"] ?? [])
+  .filter((item) => item.enabled !== false)
+  .map((item) => toLocale(item.iso_code));
+
+const languageList = Object.fromEntries(
+  enabledLocales.map((locale) => [
+    locale,
+    require(`@@/fetch-data/languageList/${locale}.json`),
+  ])
+);
 
 /**
  * 命名空间兼容映射。
@@ -79,6 +69,7 @@ export default async function getLanguageList({
   languageNameSpace,
 }) {
   if (!configList.includes("language")) return null;
-  const localeLanguage = languageList[locale];
+  const localeLanguage =
+    languageList[locale] || languageList[defaultLocale];
   return filterLanguage({ localeLanguage, languageNameSpace });
 }
