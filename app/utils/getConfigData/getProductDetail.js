@@ -1,7 +1,5 @@
 /** @format */
 
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-
 // 产品详情：按 slug 从后端实时拉取单个商品，并打上缓存 tag。
 // 这样后台改某个商品后，只需 revalidateTag('product:sortKey:productKey')
 // 就能让该商品页在下次访问时重新生成，无需全站重建。
@@ -52,39 +50,6 @@ function buildDetail(item) {
   };
 }
 
-// API 不可用时，从 ASSETS / public 读取 fetch-prod 物化的商品 JSON。
-async function loadProductDetailFromStatic({ locale, sortKey, productKey }) {
-  const nameSpace = `product:${sortKey}:${productKey}`;
-  const assetPath = `/config/product/${nameSpace}/${locale}.json`;
-
-  try {
-    const { env } = getCloudflareContext();
-    const res = await env.ASSETS.fetch(
-      new URL(assetPath, "https://assets.local")
-    );
-    if (res.ok) {
-      const item = await res.json();
-      if (item?.key) return buildDetail(item);
-    }
-  } catch (_) {
-    // ASSETS 在本地 dev 可能不可用，继续走文件回退
-  }
-
-  try {
-    const fs = await import("node:fs/promises");
-    const path = await import("node:path");
-    const filePath = path.join(process.cwd(), "public", assetPath);
-    const item = JSON.parse(await fs.readFile(filePath, "utf8"));
-    if (item?.key) return buildDetail(item);
-  } catch (err) {
-    console.error(
-      `getProductDetail static fallback failed ${nameSpace}/${locale}:`,
-      err?.message
-    );
-  }
-  return null;
-}
-
 export default async function getProductDetail({ locale, sortKey, productKey }) {
   if (!HOST) {
     console.error("getProductDetail: NEXT_PUBLIC_HOST 未配置");
@@ -104,19 +69,19 @@ export default async function getProductDetail({ locale, sortKey, productKey }) 
     });
   } catch (err) {
     console.error(`getProductDetail fetch 失败 ${tag}:`, err?.message);
-    return loadProductDetailFromStatic({ locale, sortKey, productKey });
+    return null;
   }
   if (!res.ok) {
     if (res.status !== 404) {
       console.error(`getProductDetail 异常状态 ${tag}: ${res.status}`);
     }
-    return loadProductDetailFromStatic({ locale, sortKey, productKey });
+    return null;
   }
   const json = await res.json().catch(() => null);
   // 后端响应封套：{ data: <商品对象> }（沿用 /config/getProduct 的 res.data 习惯）
   const item = json?.data ?? null;
   if (!item || !item.key) {
-    return loadProductDetailFromStatic({ locale, sortKey, productKey });
+    return null;
   }
   return buildDetail(item);
 }
