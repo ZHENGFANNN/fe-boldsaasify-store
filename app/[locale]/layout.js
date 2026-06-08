@@ -9,6 +9,8 @@ import Footer from "@/components/Layout/Footer";
 import { GTMNoScript } from "@/components/Head/GTM";
 
 import Head from "@/components/Head";
+import GoogleAuthProvider from "@/components/GoogleAuth";
+import GoogleOneTap from "@/components/GoogleAuth/GoogleOneTap";
 
 import getConfigData from "@/utils/getConfigData";
 import { cookies } from "next/headers";
@@ -91,19 +93,22 @@ export default async function RootLayout(props) {
       <Head logoLink={CONFIG["common.base"]?.logo} />
       <body>
         <GTMNoScript />
-        <Layout
-          locale={locale}
-          area={area}
-          LANG={LANG}
-          BLOG={BLOG}
-          CONFIG={CONFIG}
-          PRODUCT={PRODUCT}
-          goodDiscountFestival={GOODDISCOUNTFESTIVAL}
-        >
-          <Navbar />
-          <div id="app-content">{children}</div>
-          <Footer />
-        </Layout>
+        <GoogleAuthProvider>
+          <GoogleOneTap />
+          <Layout
+            locale={locale}
+            area={area}
+            LANG={LANG}
+            BLOG={BLOG}
+            CONFIG={CONFIG}
+            PRODUCT={PRODUCT}
+            goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+          >
+            <Navbar />
+            <div id="app-content">{children}</div>
+            <Footer />
+          </Layout>
+        </GoogleAuthProvider>
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ import React from "react";
 import styles from "./page.module.scss";
 import getConfigData from "../../../utils/getConfigData";
 import LoginForm from "./components/LoginForm";
+import GoogleLoginPanel from "@/components/GoogleAuth/GoogleLoginPanel";
 
 async function getData({ locale }) {
   const result = await getConfigData({
@@ -50,27 +51,12 @@ export default async function Login({ params }) {
         <h1 className={styles.title}>{LANG["user_login.login_title"]}</h1>
         <LoginForm LANG={LANG} CONFIG={CONFIG} />
 
-        {/* TODO： 第三方登录 */}
-        {/* <div className={styles.other_login_title}>
-            <div className={styles.line}></div>
-            <div className={styles.other_login_text}>{LANG['user_login.other_login']}</div>
-            <div className={styles.line}></div>
-        </div>
-
-        <div className={styles.other_login_content}>
-            <div className={styles.login_items}>
-                <img alt="微信" width={20} height={20} src="https://static.insta360.com/assets/storage/20200417/95c2c0c3f8ffb37a3a88af4eccf633eb/mobiel_footer_ic_socialmedia_bilibili.svg" />
-            </div>
-            <div className={styles.login_items}>
-                <img alt="微信" width={20} height={20} src="https://static.insta360.com/assets/storage/20200417/95c2c0c3f8ffb37a3a88af4eccf633eb/mobiel_footer_ic_socialmedia_bilibili.svg" />
-            </div>
-            <div className={styles.login_items}>
-                <img alt="微信" width={20} height={20} src="https://static.insta360.com/assets/storage/20200417/95c2c0c3f8ffb37a3a88af4eccf633eb/mobiel_footer_ic_socialmedia_bilibili.svg" />
-            </div>
-            <div className={styles.login_items}>
-                <img alt="微信" width={20} height={20} src="https://static.insta360.com/assets/storage/20200417/95c2c0c3f8ffb37a3a88af4eccf633eb/mobiel_footer_ic_socialmedia_bilibili.svg" />
-            </div>
-        </div> */}
+        {/* 第三方登录：Google */}
+        <GoogleLoginPanel
+          label={LANG["user_login.other_login"]}
+          successText={LANG["user_login.login_success"]}
+          errorText={LANG["user_login.server_error"]}
+        />
         <div className={styles.agreen}>
           <span>{LANG["user_login.countinue_agree"]}</span>
           <Link scroll={true} href="/protocol/policy">

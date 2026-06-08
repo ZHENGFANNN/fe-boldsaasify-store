@@ -7,6 +7,10 @@ const request = {
   userRegister: (data) => {
     return api.post(`/user/register`, data);
   },
+  // Google 登录：提交 Google ID Token(credential) + area/language，换取本站登录态
+  userGoogleLogin: (data) => {
+    return api.post(`/user/googleLogin`, data);
+  },
   // 人工找回：提交邮箱 + 联系方式，落库为 ERP 工单由后台处理
   forgetPassword: (data) => {
     return api.post(`/user/forgetPassword`, data);

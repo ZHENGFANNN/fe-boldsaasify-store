@@ -5,6 +5,7 @@ import styles from "./page.module.scss";
 import React from "react";
 import getConfigData from "../../../utils/getConfigData";
 import RegisterForm from "./components/RegisterForm";
+import GoogleLoginPanel from "@/components/GoogleAuth/GoogleLoginPanel";
 
 async function getData({ locale }) {
   const result = await getConfigData({
@@ -51,6 +52,11 @@ export default async function Register({ params }) {
           {LANG["user_register.regsiter_title"]}
         </h1>
         <RegisterForm LANG={LANG} />
+        <GoogleLoginPanel
+          label={LANG["user_register.other_login"]}
+          successText={LANG["user_register.register_success"]}
+          errorText={LANG["user_register.tip_service_exception"]}
+        />
         <p className={styles.register}>
           <span>{LANG["user_register.already_account"]}</span>
           <Link scroll={true} href="/user/login">
