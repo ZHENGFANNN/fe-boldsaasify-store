@@ -12,7 +12,23 @@
 const HOST = process.env.NEXT_PUBLIC_HOST;
 const REVALIDATE_FALLBACK = 86400; // 24h，兜底；实时性靠 on-demand revalidateTag
 
-// 商品卡片精简：算评分/评论数、取主图，保留 comboList(含 areaList) 供客户端选地区价。
+// 从 typeList 聚合出该商品的筛选标签：{ dim: 维度名(如 Metal), value: 取值 }。
+// 客户端筛选用，不参与 SEO。
+function extractTags(typeList) {
+  if (!Array.isArray(typeList)) return [];
+  const tags = [];
+  typeList.forEach((t) => {
+    if (t?.enabled === 0) return;
+    const dim = t?.title;
+    (t?.options || []).forEach((o) => {
+      if (o?.title) tags.push({ dim, value: o.title });
+    });
+  });
+  return tags;
+}
+
+// 商品卡片精简：算评分/评论数、取主图，保留 comboList(含 areaList) 供客户端选地区价，
+// 附带 tags(来自 typeList) 供客户端筛选。
 function toSimpleProduct(item) {
   const { reviewsList, reviews_num, reviews_score, image_list } = item;
   const totalScore = reviewsList?.reduce((pre, cur) => pre + cur.score, 0);
@@ -30,6 +46,7 @@ function toSimpleProduct(item) {
     reviews_num,
     weight: item.weight,
     comboList: Array.isArray(item.comboList) ? item.comboList : [],
+    tags: extractTags(item.typeList),
   };
 }
 
