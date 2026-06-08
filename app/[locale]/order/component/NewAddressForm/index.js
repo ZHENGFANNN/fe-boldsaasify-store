@@ -9,6 +9,8 @@ import FormCountryItem from "@/components/Form/FormCountryItem";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import GlobalContext from "@/[locale]/context";
 import { getBrowserPosition, geocodeErrorMessage } from "@/utils/geocode";
+import AddressAutocomplete from "@/components/Address/AddressAutocomplete";
+import PasteAddressBox from "@/components/Address/PasteAddressBox";
 import Api from "../../api";
 
 export default function NewAddressForm({ LANG, onFinish }) {
@@ -30,6 +32,26 @@ export default function NewAddressForm({ LANG, onFinish }) {
     ).set;
     setter.call(el, value);
     el.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+
+  // 粘贴 AI 解析结果回填。国家锁定跟随 area，故不覆盖国家字段。
+  const handleParsed = (p) => {
+    fillField("first_name", p.first_name);
+    fillField("last_name", p.last_name);
+    fillField("short_phone", p.short_phone);
+    fillField("phone", p.phone);
+    fillField("zip_code", p.zip_code);
+    fillField("address1", p.address1);
+    fillField("address2", p.address2);
+  };
+
+  const handleParseError = () => {
+    tipRef.current?.show({
+      text:
+        LANG["user_account.shipping_address.parse_fail"] ||
+        "Couldn't parse the address. Please enter it manually.",
+      type: "error",
+    });
   };
 
   const handleLocate = async () => {
@@ -124,6 +146,13 @@ export default function NewAddressForm({ LANG, onFinish }) {
             onSubmit={handleSubmit(onSubmit)}
             className={styles.form_container}
           >
+            <PasteAddressBox
+              apiParse={Api.parseAddress}
+              language={locale}
+              onParsed={handleParsed}
+              onError={handleParseError}
+              LANG={LANG}
+            />
             <div className={styles.form_item}>
               <FormCountryItem
                 value={watch("area")}
@@ -240,9 +269,18 @@ export default function NewAddressForm({ LANG, onFinish }) {
                   }`}
             </div>
             <div className={styles.form_item}>
-              <Input
+              <AddressAutocomplete
                 error={errors.address1?.message}
                 label={LANG["user_account.shipping_address.address"]}
+                apiAutocomplete={Api.placeAutocomplete}
+                apiDetail={Api.placeDetail}
+                language={locale}
+                regionCode={areaMap?.area_code}
+                onSelect={(addr) => {
+                  fillField("zip_code", addr.zip_code);
+                  fillField("address1", addr.address1);
+                  fillField("address2", addr.address2);
+                }}
                 inputProps={{
                   maxLength: 500,
                   ...register("address1", {

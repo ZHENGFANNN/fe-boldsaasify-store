@@ -102,7 +102,7 @@ export default function Paypal({
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
         components: "buttons",
         locale: `${
-          locale === "zh-cn" || "zh-hk" ? "zh" : locale
+          locale === "zh-cn" || locale === "zh-hk" ? "zh" : locale
         }_${countryCode}`,
         currency
       }}

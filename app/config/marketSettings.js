@@ -1,6 +1,17 @@
 /** @format */
 
-const globalConfig = require("../../fetch-data/globalConfig/index.json");
+// 构建期时序容错：首次 CI 构建时 globalConfig/index.json 由 fetch-config 写入，
+// 在其生成前本模块（被 middleware import）若直接 require 会 MODULE_NOT_FOUND 致编译失败。
+// 与 languageSettings.ts 的 loadGlobalConfig 一致，缺失时退回空配置（markets=[]、defaultArea=us）。
+const loadGlobalConfig = () => {
+  try {
+    return require("../../fetch-data/globalConfig/index.json");
+  } catch {
+    return {};
+  }
+};
+
+const globalConfig = loadGlobalConfig();
 
 const getSettingMarkets = () =>
   (globalConfig["setting.markets"] ?? []).filter((item) => item.enabled);

@@ -27,6 +27,18 @@ const request = {
   getAddressByLocation: (data) => {
     return api.post("/user/getAddressByLocation", data);
   },
+  // 地址输入联想（后端代理 Google Places New）
+  placeAutocomplete: (data) => {
+    return api.post("/user/placeAutocomplete", data);
+  },
+  // 按 placeId 取结构化地址
+  placeDetail: (data) => {
+    return api.post("/user/placeDetail", data);
+  },
+  // 粘贴文本 AI 解析为结构化地址
+  parseAddress: (data) => {
+    return api.post("/user/parseAddress", data);
+  },
   // 获取订单列表
   getOrderList: () => {
     return api.post("/pay/getOrderList");

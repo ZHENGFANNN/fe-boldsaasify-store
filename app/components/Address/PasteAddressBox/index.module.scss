@@ -1,0 +1,42 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #fafafa;
+  border: 1px dashed #d0d0d0;
+  border-radius: 8px;
+}
+
+.textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  outline: none;
+
+  &:focus {
+    border-color: #999;
+  }
+}
+
+.btn {
+  align-self: flex-end;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: #fff;
+  background: #1a1a1a;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}

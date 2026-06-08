@@ -1,17 +1,21 @@
 /** @format */
 
-const { defaultLocale, toLocale } = require("@@/app/config/languageSettings");
-const globalConfig = require("@@/fetch-data/globalConfig/index.json");
+const { defaultLocale, locales } = require("@@/app/config/languageSettings");
 
-const enabledLocales = (globalConfig["setting.language"] ?? [])
-  .filter((item) => item.enabled !== false)
-  .map((item) => toLocale(item.iso_code));
-
+// 启用 locale 统一复用 languageSettings 的 locales（口径=item.enabled 真值 + en 兜底），
+// 不再用不一致的 `enabled !== false` 自行从 globalConfig 派生——后者会把无 enabled 字段的
+// 语言也算启用，进而去 require 一个 fetch-language 未生成的文案文件 → 构建期 MODULE_NOT_FOUND。
+// 每个 locale 的 require 加 try/catch：文案文件尚未生成/缺失时跳过，不阻断模块加载。
 const languageList = Object.fromEntries(
-  enabledLocales.map((locale) => [
-    locale,
-    require(`@@/fetch-data/languageList/${locale}.json`),
-  ])
+  locales
+    .map((locale) => {
+      try {
+        return [locale, require(`@@/fetch-data/languageList/${locale}.json`)];
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean)
 );
 
 /**

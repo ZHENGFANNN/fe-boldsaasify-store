@@ -39,10 +39,7 @@ const getData = async function ({ locale, blogKey, sortKey }) {
         locale,
         configList: ["blog", "config", "language", "goodDiscountFestival"],
         blogNameSpace: ["sort"],
-        configNameSpace: [
-          "company.basic.company_name",
-          "company.basic.customer_service",
-        ],
+        configNameSpace: ["common.base"],
         languageNameSpace: [
           "store.blog_index.all",
           "store.blog_index.title",
