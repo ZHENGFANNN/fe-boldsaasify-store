@@ -129,5 +129,10 @@ export async function middleware(request) {
 }
 
 export const config = {
+  // @opennextjs/cloudflare 只支持 Edge runtime 的 middleware。
+  // middleware（旧名）支持 edge runtime，而 Next 16 的 proxy 不支持 edge，
+  // 故保留 middleware.js + edge 以打通 Cloudflare 部署。本文件仅用 Edge 兼容 API。
+  // Next 16 要求写 "experimental-edge"（"edge" 会被拒：edge runtime for rendering is experimental）。
+  runtime: "experimental-edge",
   matcher: "/((?!api|service|static|config|icon|.*\\..*|_next).*)"
 };
