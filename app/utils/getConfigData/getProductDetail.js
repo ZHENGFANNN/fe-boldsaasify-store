@@ -30,7 +30,11 @@ function handleAssociateProductList(productList) {
         item.reviewScore = totalScore / reviewsList?.length || reviews_score;
         item.reviewsNum = reviewsList?.length || reviews_num;
         item.image = image_list?.[0]?.src;
-        const { areaList = {} } = comboList?.[0] || {};
+        // areaList 必须是数组：后端在该商品无地区价时可能整字段缺省，
+        // 解构默认值只对 undefined 生效，若误写成 {} 会让下游 (areaList||[]).forEach
+        // 拿到真值对象而抛 "forEach is not a function"。统一兜底成 []。
+        const rawAreaList = comboList?.[0]?.areaList;
+        const areaList = Array.isArray(rawAreaList) ? rawAreaList : [];
         item.comboItem = { areaList };
         return item;
       }

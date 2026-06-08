@@ -9,17 +9,18 @@ import { useRouter } from "next/navigation";
 // 以便商品页整页可静态缓存（同一 URL 不再因地区不同而产生不同 HTML）。
 function resolveArea(productInfo, area) {
   if (!productInfo) return null;
-  const comboList = (productInfo.comboList || []).map(({ areaList, ...combo }) => {
+  const toArray = (v) => (Array.isArray(v) ? v : []);
+  const comboList = toArray(productInfo.comboList).map(({ areaList, ...combo }) => {
     let areaInfo = null;
-    (areaList || []).forEach((item) => {
+    toArray(areaList).forEach((item) => {
       if (item.country_code === area) areaInfo = item;
     });
     return { areaInfo, ...combo };
   });
-  const associateProduct = (productInfo.associateProduct || []).map(
+  const associateProduct = toArray(productInfo.associateProduct).map(
     ({ comboItem, ...item }) => {
       let areaInfo = null;
-      (comboItem?.areaList || []).forEach((a) => {
+      toArray(comboItem?.areaList).forEach((a) => {
         if (a.country_code === area) areaInfo = a;
       });
       return { ...item, areaInfo };
