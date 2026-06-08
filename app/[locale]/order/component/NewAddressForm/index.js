@@ -8,7 +8,6 @@ import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
 import FormCountryItem from "@/components/Form/FormCountryItem";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import GlobalContext from "@/[locale]/context";
-import { getBrowserPosition, geocodeErrorMessage } from "@/utils/geocode";
 import AddressAutocomplete from "@/components/Address/AddressAutocomplete";
 import PasteAddressBox from "@/components/Address/PasteAddressBox";
 import Api from "../../api";
@@ -16,7 +15,6 @@ import Api from "../../api";
 export default function NewAddressForm({ LANG, onFinish }) {
   const { locale } = React.useContext(GlobalContext);
   const [show, setShow] = React.useState(false);
-  const [locating, setLocating] = React.useState(false);
   const tipRef = React.useRef(null);
   const formRef = React.useRef(null);
 
@@ -52,33 +50,6 @@ export default function NewAddressForm({ LANG, onFinish }) {
         "Couldn't parse the address. Please enter it manually.",
       type: "error",
     });
-  };
-
-  const handleLocate = async () => {
-    if (locating) return;
-    setLocating(true);
-    try {
-      const { lat, lng } = await getBrowserPosition();
-      const res = await Api.getAddressByLocation({
-        lat: String(lat),
-        lng: String(lng),
-        language: locale || "en",
-      });
-      const addr = res?.data || {};
-      if (res.code !== 0 || (!addr.zip_code && !addr.address1)) {
-        throw new Error("EMPTY");
-      }
-      fillField("zip_code", addr.zip_code);
-      fillField("address1", addr.address1);
-      fillField("address2", addr.address2);
-    } catch (err) {
-      tipRef.current?.show({
-        text: geocodeErrorMessage(err, LANG),
-        type: "error",
-      });
-    } finally {
-      setLocating(false);
-    }
   };
 
   React.useEffect(() => {
@@ -248,25 +219,6 @@ export default function NewAddressForm({ LANG, onFinish }) {
                   }),
                 }}
               />
-            </div>
-            <div
-              className={styles.locate_btn}
-              onClick={handleLocate}
-              style={{
-                cursor: locating ? "default" : "pointer",
-                opacity: locating ? 0.6 : 1,
-                width: "fit-content",
-                fontSize: 12,
-                textDecoration: "underline",
-                margin: "-4px 0 4px",
-              }}
-            >
-              {locating
-                ? LANG["user_account.shipping_address.locating"] || "Locating…"
-                : `📍 ${
-                    LANG["user_account.shipping_address.use_my_location"] ||
-                    "Use my current location"
-                  }`}
             </div>
             <div className={styles.form_item}>
               <AddressAutocomplete
