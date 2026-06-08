@@ -1,3 +1,10 @@
+/**
+ * i18n / 地区路由拦截。
+ *
+ * Next 16 已将 middleware 重命名为 proxy（固定 Node.js runtime），
+ * 但 @opennextjs/cloudflare 仅支持 Edge middleware，故保留 middleware.js。
+ * 构建时会有弃用警告，CF 部署可正常工作。
+ */
 import { i18nRouter } from "next-i18n-router";
 import i18nConfig from "@@/i18nConfig";
 import {
@@ -78,7 +85,7 @@ function buildLocalizedPath(pathname, fromLocale, toLocale) {
   return `/${toLocale}${path === "/" ? "" : path}`;
 }
 
-export async function proxy(request) {
+export async function middleware(request) {
   const {
     area_code: url_area_code,
     language_code: url_language_code
