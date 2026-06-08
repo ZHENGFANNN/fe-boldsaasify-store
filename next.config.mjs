@@ -18,21 +18,15 @@ const nextConfig = {
   compress: true,
   // 开启ETag
   generateEtags: true,
-  webpack: (config) => {
-    config.resolve.alias["@"] = path.join(__dirname, "app");
-    config.resolve.alias["@@"] = __dirname;
-    // 纯 JS 项目渐进引入 .ts：无扩展名 import 时优先解析 .ts（避免仍找已删除的 .js）
-    config.resolve.extensions = [
-      ".ts",
-      ".tsx",
-      ...(config.resolve.extensions || []),
-    ];
-    config.resolve.extensionAlias = {
-      ".js": [".ts", ".tsx", ".js", ".jsx"],
-      ".mjs": [".mts", ".mjs"],
-      ".cjs": [".cts", ".cjs"],
-    };
-    return config;
+  // 显式锁定文件追踪根到本项目目录，避免 Next 沿目录树向上误判 root。
+  outputFileTracingRoot: __dirname,
+  // Next 16 默认 Turbopack。
+  // @/@@ 路径别名由 tsconfig.json 的 paths 提供（Next/Turbopack 原生读取），
+  // .ts/.tsx/.js 混存由 Turbopack 默认 resolveExtensions 解析，
+  // 故原 webpack 块（resolve.alias + extensionAlias）已无需保留。
+  // root 显式锁定到本目录，与 outputFileTracingRoot 一致。
+  turbopack: {
+    root: __dirname
   }
 };
 

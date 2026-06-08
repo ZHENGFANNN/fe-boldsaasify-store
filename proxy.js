@@ -78,7 +78,7 @@ function buildLocalizedPath(pathname, fromLocale, toLocale) {
   return `/${toLocale}${path === "/" ? "" : path}`;
 }
 
-export async function middleware(request) {
+export async function proxy(request) {
   const {
     area_code: url_area_code,
     language_code: url_language_code

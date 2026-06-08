@@ -53,7 +53,9 @@ export async function POST(request) {
   }
 
   const unique = [...new Set(tags)];
-  unique.forEach((t) => revalidateTag(t));
+  // Next 16：revalidateTag 需第二参数指定 cacheLife profile。
+  // 商品/博客内容允许 stale-while-revalidate，用 "max"。
+  unique.forEach((t) => revalidateTag(t, "max"));
 
   return NextResponse.json({ ok: true, revalidated: unique });
 }

@@ -52,4 +52,4 @@ instance.interceptors.response.use(
   }
 );
 
-module.exports = instance;
+export default instance;
