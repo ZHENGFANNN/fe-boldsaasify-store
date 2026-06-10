@@ -51,7 +51,6 @@ export default async function Layout({ children, params }) {
   });
 
   let productInfo = baseProductInfo;
-  let goodDiscountFestival = false;
   let ldAreaInfo = null;
 
   if (baseProductInfo?.key) {
@@ -63,7 +62,6 @@ export default async function Layout({ children, params }) {
     });
     if (pricing) {
       productInfo = applyProductPricing(baseProductInfo, pricing);
-      goodDiscountFestival = !!pricing.festivalDiscount;
       ldAreaInfo = pricing?.combos?.[0]?.areaInfo || null;
     }
   }
@@ -80,7 +78,6 @@ export default async function Layout({ children, params }) {
       isMobile={false}
       baseProductInfo={baseProductInfo}
       productInfo={productInfo}
-      goodDiscountFestival={goodDiscountFestival}
       pricingLoading={false}
     >
       {children}

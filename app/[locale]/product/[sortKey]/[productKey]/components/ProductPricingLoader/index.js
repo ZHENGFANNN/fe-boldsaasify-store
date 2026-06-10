@@ -23,16 +23,36 @@ export default function ProductPricingLoader({
   const { area, setPricingState, productCurCombo } = ctx;
 
   const comboKeyRef = React.useRef(productCurCombo?.key);
+  const baseProductRef = React.useRef(baseProductInfo);
+  const loadedAreaRef = React.useRef(null);
+  const productSlugRef = React.useRef(`${sortKey}/${productKey}`);
 
   React.useEffect(() => {
     comboKeyRef.current = productCurCombo?.key;
   }, [productCurCombo?.key]);
 
   React.useEffect(() => {
-    if (!baseProductInfo?.key) return;
+    baseProductRef.current = baseProductInfo;
+  }, [baseProductInfo]);
+
+  React.useEffect(() => {
+    const slug = `${sortKey}/${productKey}`;
+    if (productSlugRef.current !== slug) {
+      productSlugRef.current = slug;
+      loadedAreaRef.current = null;
+    }
+  }, [sortKey, productKey]);
+
+  React.useEffect(() => {
+    const base = baseProductRef.current;
+    if (!base?.key) return;
 
     const currentArea = area || Cookies.get("area") || "us";
     if (currentArea === serverArea) {
+      loadedAreaRef.current = serverArea;
+      return;
+    }
+    if (loadedAreaRef.current === currentArea) {
       return;
     }
 
@@ -49,12 +69,12 @@ export default function ProductPricingLoader({
         });
         if (cancelled) return;
 
-        const merged = applyProductPricing(baseProductInfo, pricing);
+        const merged = applyProductPricing(base, pricing);
         const nextCombo = pickCombo(merged.comboList, comboKeyRef.current);
 
+        loadedAreaRef.current = currentArea;
         setPricingState({
           pricingLoading: false,
-          goodDiscountFestival: !!pricing?.festivalDiscount,
           productInfo: merged,
           productCurCombo: nextCombo,
         });
@@ -68,15 +88,7 @@ export default function ProductPricingLoader({
     return () => {
       cancelled = true;
     };
-  }, [
-    area,
-    baseProductInfo,
-    locale,
-    productKey,
-    serverArea,
-    setPricingState,
-    sortKey,
-  ]);
+  }, [area, locale, productKey, serverArea, setPricingState, sortKey]);
 
   return null;
 }

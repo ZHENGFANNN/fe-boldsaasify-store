@@ -2,6 +2,7 @@
 import React from "react";
 import Cookies from "js-cookie";
 import ProductContext from "../../ProductContext";
+import GlobalContext from "@/[locale]/context";
 import { useRouter } from "next/navigation";
 import ProductPricingLoader from "../ProductPricingLoader";
 import { pickCombo } from "@/utils/productPricing";
@@ -18,10 +19,11 @@ export default function Layout({
   isMobile,
   baseProductInfo,
   productInfo: initialProductInfo,
-  goodDiscountFestival: initialFestival = false,
   pricingLoading: initialPricingLoading = false,
 }) {
   const router = useRouter();
+  const { goodDiscountFestival: globalFestival } =
+    React.useContext(GlobalContext) || {};
   React.useEffect(() => {
     if (!initialProductInfo && !baseProductInfo) {
       router.push("/not-found");
@@ -37,8 +39,6 @@ export default function Layout({
 
   const [lazyLoading, setLazyLoading] = React.useState(true);
   const [pricingLoading, setPricingLoading] = React.useState(initialPricingLoading);
-  const [goodDiscountFestival, setGoodDiscountFestival] =
-    React.useState(initialFestival);
   const [productInfo, setProductInfo] = React.useState(initialProductInfo);
   const [productNum, setProductNum] = React.useState(1);
   const [productCurCombo, setProductCurCombo] = React.useState(() =>
@@ -67,23 +67,26 @@ export default function Layout({
   });
   const [productShowType, setProductShowType] = React.useState("image");
 
+  // 仅在切换商品时重置定价状态；勿监听 initialProductInfo 引用，否则会覆盖
+  // ProductPricingLoader 已合并的地区价格，造成价格来回跳动。
+  const productSlugRef = React.useRef("");
   React.useEffect(() => {
+    const slug = `${sortKey}/${productKey}`;
+    if (productSlugRef.current === slug) return;
+    productSlugRef.current = slug;
     setProductInfo(initialProductInfo);
     setProductCurCombo(pickCombo(initialProductInfo?.comboList));
-    setGoodDiscountFestival(initialFestival);
     setPricingLoading(initialPricingLoading);
   }, [
+    sortKey,
+    productKey,
     initialProductInfo,
-    initialFestival,
     initialPricingLoading,
   ]);
 
   const setPricingState = React.useCallback((patch) => {
     if (patch.pricingLoading !== undefined) {
       setPricingLoading(patch.pricingLoading);
-    }
-    if (patch.goodDiscountFestival !== undefined) {
-      setGoodDiscountFestival(patch.goodDiscountFestival);
     }
     if (patch.productInfo !== undefined) {
       setProductInfo(patch.productInfo);
@@ -111,7 +114,7 @@ export default function Layout({
         CONFIG,
         isMobile,
         productInfo,
-        goodDiscountFestival,
+        goodDiscountFestival: globalFestival,
         pricingLoading,
         lazyLoading,
         setLazyLoading,

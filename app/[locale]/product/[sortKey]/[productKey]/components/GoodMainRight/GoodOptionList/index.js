@@ -125,7 +125,7 @@ export default function GoodOptionList() {
         });
       }
     });
-  }, [productCurCombo]);
+  }, [productCurCombo?.key, removeProductOptions, setProductOptions, typeList]);
 
   if (!Array.isArray(typeList) || typeList?.length < 1) return null;
 
