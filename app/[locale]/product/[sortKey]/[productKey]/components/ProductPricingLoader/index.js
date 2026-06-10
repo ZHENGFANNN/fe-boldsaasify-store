@@ -47,7 +47,7 @@ export default function ProductPricingLoader({
     const base = baseProductRef.current;
     if (!base?.key) return;
 
-    const currentArea = area || Cookies.get("area") || "us";
+    const currentArea = Cookies.get("area") || area || "us";
     if (currentArea === serverArea) {
       loadedAreaRef.current = serverArea;
       return;

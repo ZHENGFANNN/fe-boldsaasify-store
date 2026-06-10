@@ -24,6 +24,13 @@ export default function Layout({
   const router = useRouter();
   const { goodDiscountFestival: globalFestival } =
     React.useContext(GlobalContext) || {};
+
+  const initialProductRef = React.useRef(initialProductInfo);
+
+  React.useEffect(() => {
+    initialProductRef.current = initialProductInfo;
+  }, [initialProductInfo]);
+
   React.useEffect(() => {
     if (!initialProductInfo && !baseProductInfo) {
       router.push("/not-found");
@@ -31,14 +38,21 @@ export default function Layout({
   }, [baseProductInfo, initialProductInfo, router]);
 
   const [area, setArea] = React.useState(areaProp || "us");
-  React.useEffect(() => {
-    const real = Cookies.get("area") || "us";
-    if (real !== area) setArea(real);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const [lazyLoading, setLazyLoading] = React.useState(true);
-  const [pricingLoading, setPricingLoading] = React.useState(initialPricingLoading);
+  const [pricingLoading, setPricingLoading] = React.useState(
+    initialPricingLoading
+  );
+
+  // cookie 地区与 ISR 默认地区不一致时，首帧即显示 skeleton，避免先闪 USD 再变当地货币。
+  React.useLayoutEffect(() => {
+    const cookieArea = Cookies.get("area") || "us";
+    if (cookieArea !== area) {
+      setArea(cookieArea);
+    }
+    if (cookieArea !== serverArea) {
+      setPricingLoading(true);
+    }
+  }, [area, serverArea]);
   const [productInfo, setProductInfo] = React.useState(initialProductInfo);
   const [productNum, setProductNum] = React.useState(1);
   const [productCurCombo, setProductCurCombo] = React.useState(() =>
@@ -67,22 +81,19 @@ export default function Layout({
   });
   const [productShowType, setProductShowType] = React.useState("image");
 
-  // 仅在切换商品时重置定价状态；勿监听 initialProductInfo 引用，否则会覆盖
-  // ProductPricingLoader 已合并的地区价格，造成价格来回跳动。
+  // 仅切换商品 slug 时重置；勿监听 initialProductInfo，否则 RSC 重传或
+  // 客户端已合并 cn/hk 定价后会被 serverArea=us 的美元价覆盖。
   const productSlugRef = React.useRef("");
   React.useEffect(() => {
     const slug = `${sortKey}/${productKey}`;
     if (productSlugRef.current === slug) return;
     productSlugRef.current = slug;
-    setProductInfo(initialProductInfo);
-    setProductCurCombo(pickCombo(initialProductInfo?.comboList));
+
+    const seed = initialProductRef.current;
+    setProductInfo(seed);
+    setProductCurCombo(pickCombo(seed?.comboList));
     setPricingLoading(initialPricingLoading);
-  }, [
-    sortKey,
-    productKey,
-    initialProductInfo,
-    initialPricingLoading,
-  ]);
+  }, [sortKey, productKey, initialPricingLoading]);
 
   const setPricingState = React.useCallback((patch) => {
     if (patch.pricingLoading !== undefined) {
