@@ -43,6 +43,7 @@ export async function POST(request) {
   if (Array.isArray(body.tags)) tags.push(...body.tags);
   if (body.sortKey && body.productKey) {
     tags.push(`product:${body.sortKey}:${body.productKey}`);
+    tags.push(`product:page:${body.sortKey}:${body.productKey}`);
   }
 
   if (tags.length === 0) {

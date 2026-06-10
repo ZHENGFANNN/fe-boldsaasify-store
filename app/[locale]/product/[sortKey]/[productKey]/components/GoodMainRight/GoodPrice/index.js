@@ -1,17 +1,21 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import ProductContext from "../../../ProductContext";
 
 import { formatCurrency } from "@/utils";
 import styles from "./index.module.scss";
+import PriceSkeleton from "./PriceSkeleton";
 
-export default function GoodPrice() {
-  const { LANG, productCurCombo, goodDiscountFestival } =
+function GoodPriceContent() {
+  const { LANG, productCurCombo, goodDiscountFestival, pricingLoading } =
     React.useContext(ProductContext);
+
+  if (pricingLoading) {
+    return <PriceSkeleton />;
+  }
 
   return (
     <>
-      {/* 优惠金额 */}
       {goodDiscountFestival && productCurCombo.areaInfo?.product_discount ? (
         <div className={styles.discount_price}>
           {`${LANG["store.product.saved"]} ${
@@ -23,7 +27,6 @@ export default function GoodPrice() {
           )}`}
         </div>
       ) : null}
-      {/* 价格计算 */}
       {productCurCombo.areaInfo?.product_price ? (
         <div className={styles.product_price}>
           {goodDiscountFestival &&
@@ -42,5 +45,13 @@ export default function GoodPrice() {
         </div>
       ) : null}
     </>
+  );
+}
+
+export default function GoodPrice() {
+  return (
+    <Suspense fallback={<PriceSkeleton />}>
+      <GoodPriceContent />
+    </Suspense>
   );
 }

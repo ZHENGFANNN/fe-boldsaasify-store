@@ -259,7 +259,8 @@ export default function GoodBtnList() {
     area,
     productNum,
     productCurCombo,
-    productOptions
+    productOptions,
+    pricingLoading,
   } = React.useContext(ProductContext);
   const countryCode = React.useMemo(() => {
     let countryCode;
@@ -291,8 +292,9 @@ export default function GoodBtnList() {
 
   return (
     <div className={styles.container} data-role="buy-btn-list">
-      {/* 库存按钮 */}
-      {!productCurCombo.areaInfo?.product_price ||
+      {pricingLoading ? (
+        <div className={styles.btn_loading} aria-hidden="true" />
+      ) : !productCurCombo.areaInfo?.product_price ||
       !productCurCombo.areaInfo?.stock ? (
         <div className={styles.btn_stock}>{LANG["store.product.no_stock"]}</div>
       ) : (

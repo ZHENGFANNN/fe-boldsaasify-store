@@ -3,98 +3,48 @@ import React from "react";
 import Cookies from "js-cookie";
 import ProductContext from "../../ProductContext";
 import { useRouter } from "next/navigation";
-
-// 按地区把 comboList / associateProduct 的 areaList 解析成 areaInfo。
-// 这段逻辑原本在服务端 getProductData.getData 里做，现下沉到客户端，
-// 以便商品页整页可静态缓存（同一 URL 不再因地区不同而产生不同 HTML）。
-function resolveArea(productInfo, area) {
-  if (!productInfo) return null;
-  const toArray = (v) => (Array.isArray(v) ? v : []);
-  const comboList = toArray(productInfo.comboList).map(({ areaList, ...combo }) => {
-    let areaInfo = null;
-    toArray(areaList).forEach((item) => {
-      if (item.country_code === area) areaInfo = item;
-    });
-    return { areaInfo, ...combo };
-  });
-  const associateProduct = toArray(productInfo.associateProduct).map(
-    ({ comboItem, ...item }) => {
-      let areaInfo = null;
-      toArray(comboItem?.areaList).forEach((a) => {
-        if (a.country_code === area) areaInfo = a;
-      });
-      return { ...item, areaInfo };
-    }
-  );
-  return { ...productInfo, comboList, associateProduct };
-}
-
-function pickCombo(comboList, prevKey) {
-  const list = Array.isArray(comboList) ? comboList : [];
-  if (prevKey) {
-    const match = list.find((c) => c.key === prevKey);
-    if (match) return match;
-  }
-  return list.find((item) => item.areaInfo?.stock) || list[0] || {};
-}
+import ProductPricingLoader from "../ProductPricingLoader";
+import { pickCombo } from "@/utils/productPricing";
 
 export default function Layout({
   children,
   locale,
+  sortKey,
+  productKey,
   area: areaProp,
   LANG,
   CONFIG,
   isMobile,
-  productInfo,
-  goodDiscountFestival,
+  productInfo: baseProductInfo,
 }) {
   const router = useRouter();
   React.useEffect(() => {
-    if (!productInfo) {
+    if (!baseProductInfo) {
       router.push("/not-found");
     }
-  }, [productInfo]);
+  }, [baseProductInfo, router]);
 
-  // 地区：首屏用服务端传入的默认区(us)，与 SSR 渲染一致避免 hydration 不匹配；
-  // mount 后读取浏览器 area cookie，若不同则切换，触发价格重算。
   const [area, setArea] = React.useState(areaProp || "us");
   React.useEffect(() => {
     const real = Cookies.get("area") || "us";
     if (real !== area) setArea(real);
-    // 仅 mount 时同步一次
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 按当前地区解析出带 areaInfo 的商品数据（下游组件消费的就是它）。
-  const resolvedProductInfo = React.useMemo(
-    () => resolveArea(productInfo, area),
-    [productInfo, area]
-  );
-
   const [lazyLoading, setLazyLoading] = React.useState(true);
-
-  // 商品数量
+  const [pricingLoading, setPricingLoading] = React.useState(true);
+  const [goodDiscountFestival, setGoodDiscountFestival] = React.useState(false);
+  const [productInfo, setProductInfo] = React.useState(baseProductInfo);
   const [productNum, setProductNum] = React.useState(1);
-
-  // 商品套餐
   const [productCurCombo, setProductCurCombo] = React.useState(() =>
-    pickCombo(resolvedProductInfo?.comboList)
+    pickCombo(baseProductInfo?.comboList)
   );
-
-  // 地区变化后，把当前选中套餐重新映射到新地区的价格/库存（按 key 保持选择）。
-  React.useEffect(() => {
-    setProductCurCombo((prev) =>
-      pickCombo(resolvedProductInfo?.comboList, prev?.key)
-    );
-  }, [resolvedProductInfo]);
-
-  // 商品选项
   const [productOptions, setProductOptions] = React.useState(() => {
-    const typeList = Array.isArray(resolvedProductInfo?.typeList)
-      ? resolvedProductInfo.typeList
+    const typeList = Array.isArray(baseProductInfo?.typeList)
+      ? baseProductInfo.typeList
       : [];
     const formateList = [];
-    const curComboKey = pickCombo(resolvedProductInfo?.comboList)?.key;
+    const curComboKey = pickCombo(baseProductInfo?.comboList)?.key;
     typeList.forEach((item) => {
       if (!Array.isArray(item.options) || !item.options[0]) return;
       if (
@@ -110,9 +60,29 @@ export default function Layout({
     });
     return formateList;
   });
-
-  // 商品首页展示类型
   const [productShowType, setProductShowType] = React.useState("image");
+
+  React.useEffect(() => {
+    setProductInfo(baseProductInfo);
+    setProductCurCombo(pickCombo(baseProductInfo?.comboList));
+    setPricingLoading(true);
+    setGoodDiscountFestival(false);
+  }, [baseProductInfo]);
+
+  const setPricingState = React.useCallback((patch) => {
+    if (patch.pricingLoading !== undefined) {
+      setPricingLoading(patch.pricingLoading);
+    }
+    if (patch.goodDiscountFestival !== undefined) {
+      setGoodDiscountFestival(patch.goodDiscountFestival);
+    }
+    if (patch.productInfo !== undefined) {
+      setProductInfo(patch.productInfo);
+    }
+    if (patch.productCurCombo !== undefined) {
+      setProductCurCombo(patch.productCurCombo);
+    }
+  }, []);
 
   React.useEffect(() => {
     import("jquery").then(({ default: $ }) => {
@@ -121,55 +91,51 @@ export default function Layout({
     });
   }, []);
 
-  if (!productInfo) return null;
+  if (!baseProductInfo) return null;
 
   return (
     <ProductContext.Provider
       value={{
-        // 全局数据
         locale,
         area,
         LANG,
         CONFIG,
         isMobile,
-        productInfo: resolvedProductInfo,
+        productInfo,
         goodDiscountFestival,
+        pricingLoading,
         lazyLoading,
         setLazyLoading,
-        /**
-         * 商品状态
-         */
-        // 产品数量
+        setPricingState,
         productNum,
         setProductNum,
-        // 当前产品套餐
         productCurCombo,
         setProductCurCombo,
-        // 当前产品选项
         productOptions,
         removeProductOptions: (name) => {
-          setProductOptions((productOptions) => {
-            return productOptions.filter((item) => item.name !== name);
-          });
+          setProductOptions((prev) => prev.filter((item) => item.name !== name));
         },
         setProductOptions: (newItem) => {
-          setProductOptions((productOptions) => {
-            const findIndex = productOptions.findIndex(
-              (item) => item.name === newItem.name
-            );
+          setProductOptions((prev) => {
+            const findIndex = prev.findIndex((item) => item.name === newItem.name);
             if (findIndex > -1) {
-              productOptions[findIndex] = newItem;
-              return [...productOptions];
-            } else {
-              return [...productOptions, newItem];
+              const next = [...prev];
+              next[findIndex] = newItem;
+              return next;
             }
+            return [...prev, newItem];
           });
         },
-        // 产品展示类型
         productShowType,
         setProductShowType,
       }}
     >
+      <ProductPricingLoader
+        sortKey={sortKey}
+        productKey={productKey}
+        locale={locale}
+        baseProductInfo={baseProductInfo}
+      />
       {children}
     </ProductContext.Provider>
   );
