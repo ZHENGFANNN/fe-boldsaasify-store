@@ -1,5 +1,3 @@
-import React, { Suspense } from "react";
-
 import "@/styles/globals.css";
 import "@/styles/reset.css";
 
@@ -102,9 +100,7 @@ export default async function RootLayout(props) {
       <body>
         <GTMNoScript />
         <GoogleAuthProvider>
-          <Suspense fallback={null}>
-            <GoogleOneTap />
-          </Suspense>
+          <GoogleOneTap />
           <Layout
             locale={locale}
             area={area}
@@ -115,9 +111,7 @@ export default async function RootLayout(props) {
             goodDiscountFestival={GOODDISCOUNTFESTIVAL}
           >
             <Navbar />
-            <div id="app-content">
-              <Suspense fallback={null}>{children}</Suspense>
-            </div>
+            <div id="app-content">{children}</div>
             <Footer />
           </Layout>
         </GoogleAuthProvider>

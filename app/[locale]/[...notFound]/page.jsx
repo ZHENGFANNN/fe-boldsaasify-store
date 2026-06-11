@@ -1,6 +1,5 @@
 /** @format */
 
-import React, { Suspense } from "react";
 import getConfigData from "../../utils/getConfigData";
 import { cookies } from "next/headers";
 import Main from "./Main";
@@ -12,7 +11,7 @@ async function NotFoundContent({ locale }) {
     locale,
     area,
     configList: ["language"],
-    languageNameSpace: ["common.not_found"],
+    languageNameSpace: ["common.not_found"]
   });
 
   return <Main LANG={LANG} />;
@@ -20,9 +19,5 @@ async function NotFoundContent({ locale }) {
 
 export default async function NotFound({ params }) {
   const { locale } = await params;
-  return (
-    <Suspense fallback={null}>
-      <NotFoundContent locale={locale} />
-    </Suspense>
-  );
+  return <NotFoundContent locale={locale} />;
 }

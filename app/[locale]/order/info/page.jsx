@@ -1,7 +1,3 @@
-/** @format */
-
-import React, { Suspense } from "react";
-
 import getConfigData from "../../../utils/getConfigData";
 import Main from "./component/Main";
 import { cookies } from "next/headers";
@@ -12,10 +8,10 @@ export async function generateMetadata({ params }) {
     locale,
     configList: ["config", "language"],
     languageNameSpace: ["store.order_info.order_info"],
-    configNameSpace: ["common.base"],
+    configNameSpace: ["common.base"]
   });
   return {
-    title: `${LANG["store.order_info.order_info"]} - ${CONFIG["common.base"]?.company_name}`,
+    title: `${LANG["store.order_info.order_info"]} - ${CONFIG["common.base"]?.company_name}`
   };
 }
 
@@ -27,7 +23,7 @@ async function OrderInfoContent({ locale, searchParams }) {
     locale,
     configList: ["config", "language"],
     languageNameSpace: ["store.order_info", "common.pay"],
-    configNameSpace: ["common.base"],
+    configNameSpace: ["common.base"]
   });
   return (
     <Main
@@ -42,9 +38,5 @@ async function OrderInfoContent({ locale, searchParams }) {
 
 export default async function Info({ params, searchParams }) {
   const { locale } = await params;
-  return (
-    <Suspense fallback={null}>
-      <OrderInfoContent locale={locale} searchParams={searchParams} />
-    </Suspense>
-  );
+  return <OrderInfoContent locale={locale} searchParams={searchParams} />;
 }
