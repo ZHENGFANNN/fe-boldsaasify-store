@@ -169,6 +169,26 @@ export default function LiveChat({ locale, area }) {
   const lastIdRef = React.useRef(0);
   const visitorKeyRef = React.useRef("");
   const messagesEndRef = React.useRef(null);
+  const isComposingRef = React.useRef(false);
+  const openRef = React.useRef(false);
+  const viewRef = React.useRef("faq");
+  const sessionRef = React.useRef(null);
+  const reconnectBlockedRef = React.useRef(false);
+  const reconnectTimerRef = React.useRef(null);
+  const reconnectAttemptRef = React.useRef(0);
+  const connectWsRef = React.useRef(null);
+
+  React.useEffect(() => {
+    openRef.current = open;
+  }, [open]);
+
+  React.useEffect(() => {
+    viewRef.current = view;
+  }, [view]);
+
+  React.useEffect(() => {
+    sessionRef.current = session;
+  }, [session]);
 
   const isWorkTime = config?.is_work_time !== false;
   const welcomeText = session?.welcome_text || config?.welcome_text || "";
@@ -178,43 +198,126 @@ export default function LiveChat({ locale, area }) {
     messagesEndRef.current?.scrollIntoView?.({ behavior: "smooth" });
   }, []);
 
-  const connectWs = React.useCallback(async (sess) => {
-    if (!sess?.ws_token || !sess?.conversation_id) return;
-    wsRef.current?.close?.();
-    const url = `${getWsBaseUrl()}/ws/visitor?token=${encodeURIComponent(sess.ws_token)}`;
-    const ws = new WebSocket(url);
-    wsRef.current = ws;
-    ws.onmessage = (evt) => {
-      try {
-        const frame = JSON.parse(evt.data);
-        if (frame.type === "message" && frame.data) {
-          setMessages((prev) => upsertMessage(prev, frame.data));
-          if (frame.data.id) {
-            lastIdRef.current = Math.max(lastIdRef.current, Number(frame.data.id));
+  const shouldKeepWsAlive = React.useCallback(() => {
+    const sess = sessionRef.current;
+    return (
+      openRef.current &&
+      viewRef.current === "chat" &&
+      sess?.conversation_id &&
+      sess.status !== "closed" &&
+      !reconnectBlockedRef.current
+    );
+  }, []);
+
+  const clearReconnectTimer = React.useCallback(() => {
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current);
+      reconnectTimerRef.current = null;
+    }
+  }, []);
+
+  const disconnectWs = React.useCallback(
+    (blockReconnect = true) => {
+      if (blockReconnect) {
+        reconnectBlockedRef.current = true;
+      }
+      clearReconnectTimer();
+      const ws = wsRef.current;
+      wsRef.current = null;
+      if (!ws) return;
+      ws.onopen = null;
+      ws.onmessage = null;
+      ws.onerror = null;
+      ws.onclose = null;
+      ws.close();
+    },
+    [clearReconnectTimer]
+  );
+
+  const scheduleWsReconnect = React.useCallback(
+    (sess) => {
+      if (!shouldKeepWsAlive()) return;
+      clearReconnectTimer();
+      const attempt = reconnectAttemptRef.current;
+      const delay = Math.min(30000, 1000 * 2 ** attempt);
+      reconnectTimerRef.current = setTimeout(async () => {
+        reconnectTimerRef.current = null;
+        if (!shouldKeepWsAlive()) return;
+        try {
+          const res = await refreshWsToken({
+            conversation_id: sess.conversation_id,
+            visitor_key: visitorKeyRef.current,
+          });
+          if (!shouldKeepWsAlive()) return;
+          if (res?.code === 0 && res.data?.ws_token) {
+            reconnectAttemptRef.current = attempt + 1;
+            connectWsRef.current?.({ ...sess, ws_token: res.data.ws_token });
+          }
+        } catch (err) {
+          console.warn("[LiveChat] ws reconnect failed", err);
+          if (shouldKeepWsAlive()) {
+            scheduleWsReconnect(sess);
           }
         }
-        if (frame.type === "conversation.updated" && frame.data?.status) {
-          setSession((prev) => (prev ? { ...prev, status: frame.data.status } : prev));
-        }
-      } catch (err) {
-        console.warn("[LiveChat] ws parse failed", err);
+      }, delay);
+    },
+    [clearReconnectTimer, shouldKeepWsAlive]
+  );
+
+  const connectWs = React.useCallback(
+    async (sess) => {
+      if (!sess?.ws_token || !sess?.conversation_id) return;
+
+      reconnectBlockedRef.current = false;
+      clearReconnectTimer();
+
+      const prev = wsRef.current;
+      if (prev) {
+        prev.onopen = null;
+        prev.onmessage = null;
+        prev.onerror = null;
+        prev.onclose = null;
+        prev.close();
       }
-    };
-    ws.onclose = async () => {
-      if (!visitorKeyRef.current || !sess?.conversation_id) return;
-      try {
-        const res = await refreshWsToken({
-          conversation_id: sess.conversation_id,
-          visitor_key: visitorKeyRef.current,
-        });
-        if (res?.code === 0 && res.data?.ws_token) {
-          connectWs({ ...sess, ws_token: res.data.ws_token });
+
+      const url = `${getWsBaseUrl()}/ws/visitor?token=${encodeURIComponent(sess.ws_token)}`;
+      const ws = new WebSocket(url);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        if (wsRef.current !== ws) return;
+        reconnectAttemptRef.current = 0;
+      };
+
+      ws.onmessage = (evt) => {
+        if (wsRef.current !== ws) return;
+        try {
+          const frame = JSON.parse(evt.data);
+          if (frame.type === "message" && frame.data) {
+            setMessages((prev) => upsertMessage(prev, frame.data));
+            if (frame.data.id) {
+              lastIdRef.current = Math.max(lastIdRef.current, Number(frame.data.id));
+            }
+          }
+          if (frame.type === "conversation.updated" && frame.data?.status) {
+            setSession((prev) => (prev ? { ...prev, status: frame.data.status } : prev));
+          }
+        } catch (err) {
+          console.warn("[LiveChat] ws parse failed", err);
         }
-      } catch (err) {
-        console.warn("[LiveChat] ws reconnect failed", err);
-      }
-    };
-  }, []);
+      };
+
+      ws.onclose = () => {
+        if (wsRef.current !== ws) return;
+        wsRef.current = null;
+        if (!shouldKeepWsAlive()) return;
+        scheduleWsReconnect(sess);
+      };
+    },
+    [clearReconnectTimer, scheduleWsReconnect, shouldKeepWsAlive]
+  );
+
+  connectWsRef.current = connectWs;
 
   const loadConfig = React.useCallback(async () => {
     try {
@@ -298,9 +401,9 @@ export default function LiveChat({ locale, area }) {
     loadConfig();
     return () => {
       registerLiveChatOpen(null);
-      wsRef.current?.close?.();
+      disconnectWs(true);
     };
-  }, [loadConfig]);
+  }, [disconnectWs, loadConfig]);
 
   React.useEffect(() => {
     if (!open || view !== "chat" || !session?.conversation_id || !visitorKeyRef.current) {
@@ -381,12 +484,14 @@ export default function LiveChat({ locale, area }) {
   };
 
   const closePanel = () => {
+    disconnectWs(true);
     setOpen(false);
     setView("faq");
     setExpandedFaqId(null);
   };
 
   const goBackToFaq = () => {
+    disconnectWs(true);
     setView("faq");
     setExpandedFaqId(null);
     setOfflineSent(false);
@@ -645,8 +750,17 @@ export default function LiveChat({ locale, area }) {
                   value={input}
                   placeholder={copy.typePlaceholder}
                   onChange={(e) => setInput(e.target.value)}
+                  onCompositionStart={() => {
+                    isComposingRef.current = true;
+                  }}
+                  onCompositionEnd={() => {
+                    isComposingRef.current = false;
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
+                      if (isComposingRef.current || e.nativeEvent.isComposing) {
+                        return;
+                      }
                       e.preventDefault();
                       handleSend();
                     }
