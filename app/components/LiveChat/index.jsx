@@ -15,6 +15,7 @@ import openLiveChat, { registerLiveChatOpen } from "./openLiveChat";
 
 const VISITOR_KEY = "boldradiant_chat_visitor_key";
 const CHAT_END_BODY = "__CHAT_END__";
+const BRAND_NAME = "BoldRadiant";
 
 function getVisitorKey() {
   if (typeof window === "undefined") return "";
@@ -66,6 +67,63 @@ function upsertMessage(list, msg) {
   return [...list, msg];
 }
 
+function formatMsgTime(value) {
+  if (!value) return "";
+  const normalized = String(value).replace(" ", "T");
+  const d = new Date(normalized);
+  if (Number.isNaN(d.getTime())) return value;
+  return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function ChatBubbleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v7A2.5 2.5 0 0 1 17.5 15H9l-4.2 3.15A1 1 0 0 1 3.5 17.3V5.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SendIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 12.5 19 4l-2.5 8.5L11 14l-7 2.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M11 14 19 4" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M7 7l10 10M17 7 7 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M6 12.5 10 16.5 18 7.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function LiveChat({ locale, area }) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -82,10 +140,15 @@ export default function LiveChat({ locale, area }) {
   const wsRef = React.useRef(null);
   const lastIdRef = React.useRef(0);
   const visitorKeyRef = React.useRef("");
+  const messagesEndRef = React.useRef(null);
 
   const isWorkTime = config?.is_work_time !== false;
   const welcomeText = session?.welcome_text || config?.welcome_text || "";
   const closed = session?.status === "closed";
+
+  const scrollToBottom = React.useCallback(() => {
+    messagesEndRef.current?.scrollIntoView?.({ behavior: "smooth" });
+  }, []);
 
   const connectWs = React.useCallback(async (sess) => {
     if (!sess?.ws_token || !sess?.conversation_id) return;
@@ -200,6 +263,12 @@ export default function LiveChat({ locale, area }) {
     return () => clearInterval(timer);
   }, [open, session?.conversation_id]);
 
+  React.useEffect(() => {
+    if (open && isWorkTime) {
+      scrollToBottom();
+    }
+  }, [open, isWorkTime, messages, scrollToBottom]);
+
   const handleSend = async () => {
     const body = input.trim();
     if (!body || !session?.conversation_id || closed) return;
@@ -244,111 +313,222 @@ export default function LiveChat({ locale, area }) {
     }
   };
 
+  const closePanel = () => setOpen(false);
+
+  const renderHeader = (title, statusText, online = true) => (
+    <div className={styles.header}>
+      <div className={styles.headerInner}>
+        <div className={styles.headerAvatar} aria-hidden="true">
+          BR
+        </div>
+        <div className={styles.headerText}>
+          <div className={styles.headerTitle}>{title}</div>
+          <div className={styles.headerStatus}>
+            <span
+              className={`${styles.statusDot} ${online ? "" : styles.statusDotOffline}`}
+            />
+            {statusText}
+          </div>
+        </div>
+        <button
+          type="button"
+          className={styles.headerClose}
+          aria-label="Close chat"
+          onClick={closePanel}
+        >
+          <CloseIcon />
+        </button>
+      </div>
+      <div className={styles.headerWave} aria-hidden="true" />
+    </div>
+  );
+
   if (config && config.enabled === false) return null;
 
   return (
     <div className={styles.wrapper}>
       {open && (
-        <div className={styles.panel}>
-          <div className={styles.header}>Live Chat</div>
+        <div className={styles.panel} role="dialog" aria-label="Live chat">
           {!isWorkTime ? (
-            <div className={styles.hint}>
-              {offlineSent ? (
-                <p>留言已提交，我们会尽快回复您。</p>
-              ) : (
-                <>
-                  <p>当前非在线客服时间，请留下联系方式。</p>
-                  <div className={styles.offlineForm}>
-                    <input
-                      placeholder="Email"
-                      value={offline.email}
-                      onChange={(e) =>
-                        setOffline((s) => ({ ...s, email: e.target.value }))
-                      }
-                    />
-                    <input
-                      placeholder="Phone (optional)"
-                      value={offline.phone}
-                      onChange={(e) =>
-                        setOffline((s) => ({ ...s, phone: e.target.value }))
-                      }
-                    />
-                    <textarea
-                      rows={4}
-                      placeholder="Message"
-                      value={offline.content}
-                      onChange={(e) =>
-                        setOffline((s) => ({ ...s, content: e.target.value }))
-                      }
-                    />
+            <>
+              {renderHeader(
+                "Leave a Message",
+                offlineSent ? "Submitted" : "We will reply soon",
+                false
+              )}
+              <div className={styles.body}>
+                {offlineSent ? (
+                  <div className={styles.successCard}>
+                    <div className={styles.successIcon}>
+                      <CheckIcon />
+                    </div>
+                    <div className={styles.successTitle}>Message received</div>
+                    <div className={styles.successText}>
+                      Thank you. Our team will get back to you as soon as possible.
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className={styles.offlineScroll}>
+                      <p className={styles.offlineIntro}>
+                        We are currently offline. Leave your contact details and we will follow up shortly.
+                      </p>
+                      <div className={styles.offlineForm}>
+                        <div className={styles.formField}>
+                          <label className={styles.formLabel} htmlFor="chat-offline-email">
+                            Email
+                          </label>
+                          <input
+                            id="chat-offline-email"
+                            className={styles.formInput}
+                            placeholder="you@example.com"
+                            value={offline.email}
+                            onChange={(e) =>
+                              setOffline((s) => ({ ...s, email: e.target.value }))
+                            }
+                          />
+                        </div>
+                        <div className={styles.formField}>
+                          <label className={styles.formLabel} htmlFor="chat-offline-phone">
+                            Phone (optional)
+                          </label>
+                          <input
+                            id="chat-offline-phone"
+                            className={styles.formInput}
+                            placeholder="+1 000 000 0000"
+                            value={offline.phone}
+                            onChange={(e) =>
+                              setOffline((s) => ({ ...s, phone: e.target.value }))
+                            }
+                          />
+                        </div>
+                        <div className={styles.formField}>
+                          <label className={styles.formLabel} htmlFor="chat-offline-content">
+                            Message
+                          </label>
+                          <textarea
+                            id="chat-offline-content"
+                            className={styles.formTextarea}
+                            rows={4}
+                            placeholder="How can we help you?"
+                            value={offline.content}
+                            onChange={(e) =>
+                              setOffline((s) => ({ ...s, content: e.target.value }))
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
                     <button
                       type="button"
-                      className={styles.sendBtn}
+                      className={styles.submitBtn}
                       onClick={handleOfflineSubmit}
                     >
                       Submit
                     </button>
-                  </div>
-                </>
-              )}
-            </div>
+                  </>
+                )}
+              </div>
+            </>
           ) : (
             <>
-              <div className={styles.messages}>
-                {welcomeText ? (
-                  <div className={styles.welcome}>{welcomeText}</div>
-                ) : null}
-                {messages.map((msg) => {
-                  const isVisitor = msg.sender_type === "visitor";
-                  const isSystem = msg.msg_type === "system" || msg.body === CHAT_END_BODY;
-                  return (
-                    <div
-                      key={msg.id || msg.client_msg_id}
-                      className={`${styles.msgRow} ${
-                        isVisitor ? styles.msgRowVisitor : styles.msgRowAgent
-                      }`}
-                    >
+              {renderHeader(
+                BRAND_NAME,
+                closed ? "Chat ended" : "Online support",
+                !closed
+              )}
+              <div className={styles.body}>
+                <div className={styles.messages}>
+                  {welcomeText ? (
+                    <div className={styles.welcome}>{welcomeText}</div>
+                  ) : null}
+                  {messages.map((msg) => {
+                    const isVisitor = msg.sender_type === "visitor";
+                    const isSystem =
+                      msg.msg_type === "system" || msg.body === CHAT_END_BODY;
+                    if (isSystem) {
+                      return (
+                        <div
+                          key={msg.id || msg.client_msg_id}
+                          className={`${styles.msgRow} ${styles.msgRowAgent}`}
+                        >
+                          <div className={`${styles.bubble} ${styles.bubbleSystem}`}>
+                            <div className={styles.systemLine}>
+                              {msg.body === CHAT_END_BODY ? "Chat ended" : msg.body}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
                       <div
-                        className={`${styles.bubble} ${
-                          isVisitor ? styles.bubbleVisitor : styles.bubbleAgent
+                        key={msg.id || msg.client_msg_id}
+                        className={`${styles.msgRow} ${
+                          isVisitor ? styles.msgRowVisitor : styles.msgRowAgent
                         }`}
                       >
-                        {isSystem ? "Chat ended" : msg.body}
-                        {msg.created_time ? (
-                          <div className={styles.time}>{msg.created_time}</div>
+                        {!isVisitor ? (
+                          <div className={styles.agentAvatar} aria-hidden="true">
+                            BR
+                          </div>
                         ) : null}
+                        <div
+                          className={`${styles.bubble} ${
+                            isVisitor ? styles.bubbleVisitor : styles.bubbleAgent
+                          }`}
+                        >
+                          {msg.body}
+                          {msg.created_time ? (
+                            <div className={styles.time}>
+                              {formatMsgTime(msg.created_time)}
+                            </div>
+                          ) : null}
+                        </div>
                       </div>
+                    );
+                  })}
+                  {loading ? (
+                    <div className={styles.hint}>
+                      <span className={styles.loadingDots} aria-label="Loading">
+                        <span />
+                        <span />
+                        <span />
+                      </span>
                     </div>
-                  );
-                })}
-                {loading ? <div className={styles.hint}>Loading...</div> : null}
-              </div>
-              <div className={styles.footer}>
-                {closed ? (
-                  <div className={styles.hint}>会话已结束</div>
-                ) : (
-                  <div className={styles.inputRow}>
-                    <input
-                      className={styles.input}
-                      value={input}
-                      placeholder="Type a message..."
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && !e.shiftKey) {
-                          e.preventDefault();
-                          handleSend();
-                        }
-                      }}
-                    />
-                    <button
-                      type="button"
-                      className={styles.sendBtn}
-                      onClick={handleSend}
-                    >
-                      Send
-                    </button>
-                  </div>
-                )}
+                  ) : null}
+                  <div ref={messagesEndRef} />
+                </div>
+                <div className={styles.footer}>
+                  {closed ? (
+                    <div className={styles.hint}>This conversation has ended.</div>
+                  ) : (
+                    <div className={styles.inputWrap}>
+                      <div className={styles.inputBox}>
+                        <input
+                          className={styles.input}
+                          value={input}
+                          placeholder="Type a message..."
+                          onChange={(e) => setInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && !e.shiftKey) {
+                              e.preventDefault();
+                              handleSend();
+                            }
+                          }}
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className={styles.sendBtnRound}
+                        aria-label="Send message"
+                        disabled={!input.trim()}
+                        onClick={handleSend}
+                      >
+                        <SendIcon />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </>
           )}
@@ -356,14 +536,19 @@ export default function LiveChat({ locale, area }) {
       )}
       <button
         type="button"
-        className={styles.toggle}
-        aria-label="Open live chat"
+        className={`${styles.toggle} ${open ? styles.toggleOpen : ""}`}
+        aria-label={open ? "Close live chat" : "Open live chat"}
+        aria-expanded={open}
         onClick={() => {
-          setOpen((v) => !v);
-          if (!open) bootstrap();
+          if (open) {
+            closePanel();
+            return;
+          }
+          setOpen(true);
+          bootstrap();
         }}
       >
-        Chat
+        <ChatBubbleIcon />
       </button>
     </div>
   );
