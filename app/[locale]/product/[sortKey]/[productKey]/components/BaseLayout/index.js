@@ -2,7 +2,9 @@
 import React from "react";
 import ProductContext from "../../ProductContext";
 import GlobalContext from "@/[locale]/context";
-import { pickCombo } from "@/utils/productPricing";
+import { pickCombo, applyProductPricing } from "@/utils/productPricing";
+import readClientArea from "@/utils/readClientArea";
+import getProductPricing from "@/service/product/get-pricing";
 
 export default function BaseLayout({
   children,
@@ -63,6 +65,33 @@ export default function BaseLayout({
     setProductInfo(seed);
     setProductCurCombo(pickCombo(seed?.comboList));
   }, [sortKey, productKey]);
+
+  // 客户端价格补差：首屏种子是默认 area=us 价；若用户实际 area 非 us，
+  // 挂载后（及切换商品后）拉对应地区定价并合并，保持当前所选 combo。
+  React.useEffect(() => {
+    const area = readClientArea();
+    if (area === "us") return;
+
+    let cancelled = false;
+    (async () => {
+      const pricing = await getProductPricing({
+        sortKey,
+        productKey,
+        area,
+        locale,
+      });
+      if (cancelled || !pricing) return;
+      const seed = initialProductRef.current;
+      const priced = applyProductPricing(seed, pricing);
+      if (!priced) return;
+      setProductInfo(priced);
+      setProductCurCombo((prev) => pickCombo(priced.comboList, prev?.key));
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [locale, sortKey, productKey]);
 
   const removeProductOptions = React.useCallback((name) => {
     setProductOptions((prev) => prev.filter((item) => item.name !== name));

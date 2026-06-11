@@ -1,20 +1,21 @@
 /** @format */
 
-import readProductArea from "@/utils/readProductArea";
 import getPricedProduct from "@/utils/getConfigData/getPricedProduct";
 import { getProductPage } from "@/utils/getConfigData/getProductPage";
 import { formatCurrency } from "@/utils";
 import { pickCombo } from "@/utils/productPricing";
 import Script from "next/script";
 
+// JSON-LD 价格用默认 area=us（纯 SSG，不读 cookie，避免页面变动态）。
+const DEFAULT_AREA = "us";
+
 /**
- * 商品 JSON-LD（独立 Suspense 边界，不阻塞首屏 HTML）。
+ * 商品 JSON-LD（server component，纯静态，无 Suspense）。
  */
 export default async function ProductLdJson({ locale, sortKey, productKey }) {
-  const area = await readProductArea();
   const [{ CONFIG, productInfo }, pricedProductInfo] = await Promise.all([
     getProductPage({ locale, sortKey, productKey }),
-    getPricedProduct({ locale, sortKey, productKey, area }),
+    getPricedProduct({ locale, sortKey, productKey, area: DEFAULT_AREA }),
   ]);
 
   if (!productInfo?.key) {

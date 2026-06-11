@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Suspense } from "react";
+import React from "react";
 
 import AssociateProductList from "./components/AssociateProductList/index";
 import ProductLdJson from "./components/ProductLdJson";
@@ -19,7 +19,6 @@ import GoodNav from "./components/GoodNav";
 import styles from "./page.module.scss";
 import GoodMainLeft from "./components/GoodMainLeft";
 import GoodMainRight from "./components/GoodMainRight";
-import PricedProductBoundary from "./components/PricedProductBoundary";
 import getProductPaths from "../../../../utils/getConfigData/getProductPaths";
 
 export async function generateStaticParams() {
@@ -36,30 +35,14 @@ export default async function Product({ params }) {
         {/* 首屏信息配置 */}
         <section className={styles.main_content}>
           <div className={styles.left_content}>
-            <GoodMainLeft
-              locale={locale}
-              sortKey={sortKey}
-              productKey={productKey}
-            />
+            <GoodMainLeft />
           </div>
           <div className={styles.right_content}>
-            <GoodMainRight
-              locale={locale}
-              sortKey={sortKey}
-              productKey={productKey}
-            />
+            <GoodMainRight />
           </div>
         </section>
-        {/* 关联产品列表（独立 Suspense，不阻塞首屏） */}
-        <Suspense fallback={null}>
-          <PricedProductBoundary
-            locale={locale}
-            sortKey={sortKey}
-            productKey={productKey}
-          >
-            <AssociateProductList />
-          </PricedProductBoundary>
-        </Suspense>
+        {/* 关联产品列表 */}
+        <AssociateProductList />
         <GoodNav />
         {/* 产品媒体列表 */}
         <GoodMediaList />
@@ -74,28 +57,18 @@ export default async function Product({ params }) {
         {/* 产品评论 */}
         <GoodReviewsContent />
         {/* 产品底部 */}
-        <Suspense fallback={null}>
-          <PricedProductBoundary
-            locale={locale}
-            sortKey={sortKey}
-            productKey={productKey}
-          >
-            <GoodFooter />
-          </PricedProductBoundary>
-        </Suspense>
+        <GoodFooter />
         {/* <Script
             id="product-3d-script"
             defer
             type="module"
             src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"
           ></Script> */}
-        <Suspense fallback={null}>
-          <ProductLdJson
-            locale={locale}
-            sortKey={sortKey}
-            productKey={productKey}
-          />
-        </Suspense>
+        <ProductLdJson
+          locale={locale}
+          sortKey={sortKey}
+          productKey={productKey}
+        />
       </>
     </div>
   );

@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import { cacheLife, cacheTag } from "next/cache";
 
 import "@/styles/globals.css";
 import "@/styles/reset.css";
@@ -17,7 +16,7 @@ import getConfigData from "@/utils/getConfigData";
 import languageSettings from "@/config/languageSettings";
 // import { cookies } from "next/headers";
 
-// cacheComponents 要求 [locale] 段在构建期可枚举
+// [locale] 段在构建期可枚举，配合 generateStaticParams 完全预渲染
 export function generateStaticParams() {
   return languageSettings.locales.map((locale) => ({ locale }));
 }
@@ -33,11 +32,10 @@ export const viewport = {
 };
 
 /**
- * 获取数据（Cache Component，避免 cacheComponents 下 Date.now 等限制）
+ * 获取布局数据。传统 ISR：不再用 'use cache'，
+ * 缓存语义下沉到 getConfigData 内各 fetch 的 next:{tags,revalidate}。
  */
 async function getData({ locale, area }) {
-  "use cache";
-  cacheTag(`layout:${locale}`);
   const result = await getConfigData({
     locale,
     area,

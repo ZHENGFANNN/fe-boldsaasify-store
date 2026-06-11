@@ -54,9 +54,10 @@ export async function POST(request) {
   }
 
   const unique = [...new Set(tags)];
-  // Next 16：revalidateTag 需第二参数指定 cacheLife profile。
-  // 商品/博客内容允许 stale-while-revalidate，用 "max"。
-  unique.forEach((t) => revalidateTag(t, "max"));
+  // 传统 ISR（已移除 cacheComponents）：revalidateTag 只接受 tag 字符串。
+  // tag 由各 fetch 的 next.tags 注册（getProductPage / getProductPricing /
+  // getProductDetail / getProductData / getBlogData）。
+  unique.forEach((t) => revalidateTag(t));
 
   return NextResponse.json({ ok: true, revalidated: unique });
 }
