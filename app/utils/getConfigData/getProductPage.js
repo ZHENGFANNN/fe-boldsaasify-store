@@ -1,19 +1,18 @@
 /** @format */
 
-import { cacheLife, cacheTag } from "next/cache";
 import getConfigData from "./index";
 
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
+// 兜底 revalidate（秒）。真正实时性靠后台 on-demand revalidateTag，
+// 长周期只防 tag 漏触发时数据长期陈旧。
+const REVALIDATE_FALLBACK = 86400; // 24h
+
 /**
  * 商品详情页聚合数据（不含地区价格）。
- * Next 16 Cache Components：'use cache' + cacheTag + cacheLife('max') → ISR。
+ * 传统 ISR：fetch 打 tag，由 /api/revalidate 按 tag 触发重建。
  */
 export async function getProductPage({ locale, sortKey, productKey }) {
-  "use cache";
-  cacheTag(`product:page:${sortKey}:${productKey}`);
-  cacheLife("max");
-
   if (!HOST) {
     console.error("getProductPage: NEXT_PUBLIC_HOST 未配置");
     return { productInfo: null, LANG: null, CONFIG: null };
@@ -28,7 +27,16 @@ export async function getProductPage({ locale, sortKey, productKey }) {
   let productInfo = null;
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(15000),
+      next: {
+        tags: [
+          `product:page:${sortKey}:${productKey}`,
+          `product:${sortKey}:${productKey}`,
+        ],
+        revalidate: REVALIDATE_FALLBACK,
+      },
+    });
     if (res.ok) {
       const json = await res.json().catch(() => null);
       productInfo = json?.data?.product ?? null;

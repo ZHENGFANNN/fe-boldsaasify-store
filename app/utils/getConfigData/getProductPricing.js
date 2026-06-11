@@ -1,19 +1,16 @@
 /** @format */
 
-import { cacheLife, cacheTag } from "next/cache";
-
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
+// 兜底 revalidate（秒）。实时性靠后台 on-demand revalidateTag。
+const REVALIDATE_FALLBACK = 86400; // 24h
+
 /**
- * 商品地区价格（ISR Cache Components）。
+ * 商品地区价格（传统 ISR）。
  * tag: product:pricing:{sortKey}:{productKey}:{area} + product:pricing:{sortKey}:{productKey}
+ *      + product:{sortKey}:{productKey}（与后台 revalidate 对齐）
  */
 export async function getProductPricing({ sortKey, productKey, area, locale }) {
-  "use cache";
-  cacheTag(`product:pricing:${sortKey}:${productKey}:${area}`);
-  cacheTag(`product:pricing:${sortKey}:${productKey}`);
-  cacheLife("max");
-
   if (!HOST) {
     console.error("getProductPricing: NEXT_PUBLIC_HOST 未配置");
     return null;
@@ -27,7 +24,16 @@ export async function getProductPricing({ sortKey, productKey, area, locale }) {
     `&language=${encodeURIComponent(locale)}`;
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      next: {
+        tags: [
+          `product:pricing:${sortKey}:${productKey}:${area}`,
+          `product:pricing:${sortKey}:${productKey}`,
+          `product:${sortKey}:${productKey}`,
+        ],
+        revalidate: REVALIDATE_FALLBACK,
+      },
+    });
     if (!res.ok) {
       if (res.status !== 404) {
         console.error(

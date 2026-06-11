@@ -8,8 +8,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Next 16 Cache Components：商品页 getProductPage / getProductPricing 使用 'use cache'
-  cacheComponents: true,
   // 构建ID
   generateBuildId: () => {
     return "official:" + new Date().getTime();
