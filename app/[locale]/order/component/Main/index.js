@@ -212,18 +212,29 @@ export default function Main({ CONFIG, LANG, area, token }) {
   const [previewLoading, setPreviewLoading] = React.useState(false);
   const [previewData, setPreviewData] = React.useState(null);
   const [previewError, setPreviewError] = React.useState(null);
+  const [previewRegion, setPreviewRegion] = React.useState("");
+
+  React.useEffect(() => {
+    if (addressInfo?.state) {
+      setPreviewRegion(addressInfo.state);
+    }
+  }, [addressInfo]);
 
   const fetchOrderPreview = React.useCallback(
-    async (codes) => {
+    async (codes, region) => {
       if (!orderList.length) return null;
       setPreviewLoading(true);
       try {
-        const res = await Api.previewOrder({
+        const payload = {
           area_code: area,
           discount_codes: codes,
           include_automatic: true,
           order_list: orderList,
-        });
+        };
+        if (region) {
+          payload.shipping_address = { country: area, state: region };
+        }
+        const res = await Api.previewOrder(payload);
         if (res.code !== 0) {
           const message =
             typeof res.data === "string"
@@ -234,6 +245,9 @@ export default function Main({ CONFIG, LANG, area, token }) {
         }
         const data = {
           total_price: parsePreviewAmount(res.data.total_price),
+          shipping_fee: parsePreviewAmount(res.data.shipping_fee),
+          shipping_discount: parsePreviewAmount(res.data.shipping_discount),
+          shipping_pay: parsePreviewAmount(res.data.shipping_pay),
           discount: parsePreviewAmount(res.data.discount),
           pay_price: parsePreviewAmount(res.data.pay_price),
           discount_breakdown: res.data.discount_breakdown,
@@ -255,18 +269,23 @@ export default function Main({ CONFIG, LANG, area, token }) {
 
   React.useEffect(() => {
     if (!orderList.length) return;
-    fetchOrderPreview(discountCodes).catch(() => {});
-  }, [orderList, discountCodes, fetchOrderPreview]);
+    fetchOrderPreview(discountCodes, previewRegion).catch(() => {});
+  }, [orderList, discountCodes, previewRegion, fetchOrderPreview]);
 
   const priceUnit = orderList[0]?.priceUnit;
   const priceSymbol = orderList[0]?.priceSymbol;
 
   const orderPricing = React.useMemo(() => {
     const total_price = previewData?.total_price ?? subtotalPrice;
+    const shipping_fee = previewData?.shipping_fee ?? 0;
+    const shipping_pay = previewData?.shipping_pay ?? 0;
     const discount = previewData?.discount ?? 0;
-    const pay_price = previewData?.pay_price ?? subtotalPrice;
+    const pay_price =
+      previewData?.pay_price ?? roundToDecimalPlaces(subtotalPrice + shipping_pay, priceUnit);
     return {
       total_price: roundToDecimalPlaces(total_price, priceUnit),
+      shipping_fee: roundToDecimalPlaces(shipping_fee, priceUnit),
+      shipping_pay: roundToDecimalPlaces(shipping_pay, priceUnit),
       discount: roundToDecimalPlaces(discount, priceUnit),
       pay_price: roundToDecimalPlaces(pay_price, priceUnit),
       preview_token: previewData?.preview_token,
@@ -279,7 +298,9 @@ export default function Main({ CONFIG, LANG, area, token }) {
         ...userInfo,
         pay_key: payKey,
         total_price: orderPricing.total_price,
+        shipping_fee: orderPricing.shipping_fee,
         discount: orderPricing.discount,
+        pay_price: orderPricing.pay_price,
         order_list: orderList,
       };
       if (discountCodes.length) {
@@ -307,7 +328,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
       return;
     }
     try {
-      await fetchOrderPreview([...discountCodes, code]);
+      await fetchOrderPreview([...discountCodes, code], previewRegion);
       setDiscountCodes((prev) => [...prev, code]);
       setDiscountCodeInput("");
     } catch (err) {
@@ -527,7 +548,11 @@ export default function Main({ CONFIG, LANG, area, token }) {
                       }}
                     />
                   ) : (
-                    <AddressForm LANG={LANG} ref={addressRef} />
+                    <AddressForm
+                      LANG={LANG}
+                      ref={addressRef}
+                      onStateChange={setPreviewRegion}
+                    />
                   )}
                 </>
               )}
@@ -697,7 +722,18 @@ export default function Main({ CONFIG, LANG, area, token }) {
                   ) : null}
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.express_price"]}</h3>
-                    <span>{LANG["store.order.express_free"]}</span>
+                    <span>
+                      {previewLoading ? (
+                        "..."
+                      ) : orderPricing.shipping_pay > 0 ? (
+                        `${priceSymbol}${formatCurrency(
+                          orderPricing.shipping_pay,
+                          priceUnit
+                        )}`
+                      ) : (
+                        LANG["store.order.express_free"]
+                      )}
+                    </span>
                   </div>
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.tax"]}</h3>

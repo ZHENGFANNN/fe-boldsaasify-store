@@ -100,6 +100,7 @@ function PayButton({
         if (res.code !== 0) throw new Error("preview failed");
         setPreviewData({
           total_price: parsePreviewAmount(res.data.total_price),
+          shipping_fee: parsePreviewAmount(res.data.shipping_fee),
           discount: parsePreviewAmount(res.data.discount),
           pay_price: parsePreviewAmount(res.data.pay_price)
         });
@@ -118,10 +119,12 @@ function PayButton({
   const orderPricing = React.useMemo(() => {
     const unit = productCurCombo.areaInfo.currency_unit;
     const total_price = previewData?.total_price ?? subtotalPrice;
+    const shipping_fee = previewData?.shipping_fee ?? 0;
     const discount = previewData?.discount ?? 0;
-    const pay_price = previewData?.pay_price ?? subtotalPrice;
+    const pay_price = previewData?.pay_price ?? subtotalPrice + shipping_fee;
     return {
       total_price: roundToDecimalPlaces(total_price, unit),
+      shipping_fee: roundToDecimalPlaces(shipping_fee, unit),
       discount: roundToDecimalPlaces(discount, unit),
       pay_price: roundToDecimalPlaces(pay_price, unit)
     };
@@ -188,7 +191,9 @@ function PayButton({
               return Api.createOrder({
                 pay_key: "payPal",
                 total_price: orderPricing.total_price,
+                shipping_fee: orderPricing.shipping_fee,
                 discount: orderPricing.discount,
+                pay_price: orderPricing.pay_price,
                 pricing_area_code: area,
                 order_list: orderList
               })

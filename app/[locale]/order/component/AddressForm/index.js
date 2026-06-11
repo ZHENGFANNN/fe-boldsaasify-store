@@ -8,8 +8,9 @@ import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
 
 import FormInput from "@/components/Form/FormInput";
 import FormCountryItem from "@/components/Form/FormCountryItem";
+import { US_STATE_OPTIONS } from "@/config/usStates";
 
-function AddressForm({ LANG }, ref) {
+function AddressForm({ LANG, onStateChange }, ref) {
   const {
     register,
     handleSubmit,
@@ -21,6 +22,11 @@ function AddressForm({ LANG }, ref) {
   const buttonRef = React.useRef(null);
   const [areaMap, setAreaMap] = React.useState(null);
   const [addressForm, setAddressForm] = React.useState({});
+  const stateValue = watch("state");
+
+  React.useEffect(() => {
+    onStateChange?.(stateValue || "");
+  }, [stateValue, onStateChange]);
 
   React.useEffect(() => {
     try {
@@ -34,6 +40,7 @@ function AddressForm({ LANG }, ref) {
         "phone",
         "short_phone",
         "zip_code",
+        "state",
       ];
       Object.keys(address_form).forEach((item) => {
         if (filedList.includes(item)) {
@@ -49,7 +56,9 @@ function AddressForm({ LANG }, ref) {
       const formData = new FormData(formRef.current);
       const formValues = Object.fromEntries(formData.entries());
       const isCorrect = Object.keys(formValues).every((item) => {
-        return formValues[item] || item === "address2";
+        if (item === "address2") return true;
+        if (item === "state" && areaMap?.area_code !== "us") return true;
+        return formValues[item];
       });
       if (isCorrect) {
         return {
@@ -85,6 +94,32 @@ function AddressForm({ LANG }, ref) {
           }}
         />
       </div>
+      {areaMap?.area_code === "us" ? (
+        <div className={styles.form_item}>
+          <div className={styles.select_container}>
+            <select
+              className={styles.state_select}
+              {...register("state", {
+                required:
+                  LANG["user_account.shipping_address.state_required"] ||
+                  "Please select a state",
+              })}
+            >
+              <option value="">
+                {LANG["user_account.shipping_address.state"] || "State"}
+              </option>
+              {US_STATE_OPTIONS.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+            {errors.state?.message ? (
+              <div className={styles.select_error}>{errors.state.message}</div>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
       <div className={styles.form_group_1_1}>
         <div className={styles.form_item}>
           <FormInput
