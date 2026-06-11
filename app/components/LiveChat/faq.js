@@ -9,6 +9,9 @@ export const FAQ_COPY = {
     backToFaq: "Back to FAQ",
     offlineIntro:
       "Our team is currently offline. Leave your contact details and we will reply by email as soon as possible.",
+    offlineBanner:
+      "Our agents are currently offline. You can leave a message and we will reply by email.",
+    offlineThreadPlaceholder: "Type your message...",
     offlineSuccessTitle: "Message received",
     offlineSuccessText:
       "Thank you. Our customer service team will get back to you by email shortly.",
@@ -31,6 +34,8 @@ export const FAQ_COPY = {
     backToFaq: "返回常见问题",
     offlineIntro:
       "当前客服不在，可留下联系方式，后续客服会通过邮箱回复您。",
+    offlineBanner: "当前为非营业时间，客服离线，您可以留言，我们会通过邮件回复。",
+    offlineThreadPlaceholder: "输入留言…",
     offlineSuccessTitle: "留言已提交",
     offlineSuccessText: "感谢您的留言，客服会通过邮箱尽快回复您。",
     email: "邮箱",

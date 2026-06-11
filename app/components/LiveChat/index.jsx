@@ -5,8 +5,10 @@ import Cookies from "js-cookie";
 import styles from "./index.module.scss";
 import {
   createChatSession,
+  createOfflineSession,
   getChatConfig,
   getChatMessages,
+  getOfflineThread,
   refreshWsToken,
   sendChatMessage,
   sendOfflineMessage,
@@ -57,15 +59,31 @@ function uuid() {
 }
 
 function upsertMessage(list, msg) {
-  if (!msg?.id) return list;
+  if (!msg) return list;
   const idx = list.findIndex(
     (item) =>
-      String(item.id) === String(msg.id) ||
+      (msg.id && String(item.id) === String(msg.id)) ||
       (msg.client_msg_id && item.client_msg_id === msg.client_msg_id)
   );
   if (idx >= 0) {
     const next = [...list];
-    next[idx] = { ...next[idx], ...msg };
+    next[idx] = { ...next[idx], ...msg, isInflight: false };
+    return next;
+  }
+  if (!msg.id && !msg.client_msg_id) return list;
+  return [...list, msg];
+}
+
+function upsertOfflineMessage(list, msg) {
+  if (!msg) return list;
+  const idx = list.findIndex(
+    (item) =>
+      (msg.id && String(item.id) === String(msg.id)) ||
+      (msg.client_msg_id && item.client_msg_id === msg.client_msg_id)
+  );
+  if (idx >= 0) {
+    const next = [...list];
+    next[idx] = { ...next[idx], ...msg, isInflight: false };
     return next;
   }
   return [...list, msg];
@@ -164,8 +182,12 @@ export default function LiveChat({ locale, area }) {
     phone: "",
     content: "",
   });
+  const [offlineSession, setOfflineSession] = React.useState(null);
+  const [offlineMessages, setOfflineMessages] = React.useState([]);
+  const [offlineThreadReady, setOfflineThreadReady] = React.useState(false);
   const [offlineSent, setOfflineSent] = React.useState(false);
   const wsRef = React.useRef(null);
+  const pingTimerRef = React.useRef(null);
   const lastIdRef = React.useRef(0);
   const visitorKeyRef = React.useRef("");
   const messagesEndRef = React.useRef(null);
@@ -191,7 +213,9 @@ export default function LiveChat({ locale, area }) {
   }, [session]);
 
   const isWorkTime = config?.is_work_time !== false;
-  const welcomeText = session?.welcome_text || config?.welcome_text || "";
+  const showOfflineBanner = !isWorkTime;
+  const welcomeText =
+    !showOfflineBanner && (session?.welcome_text || config?.welcome_text || "");
   const closed = session?.status === "closed";
 
   const scrollToBottom = React.useCallback(() => {
@@ -216,12 +240,20 @@ export default function LiveChat({ locale, area }) {
     }
   }, []);
 
+  const clearPingTimer = React.useCallback(() => {
+    if (pingTimerRef.current) {
+      clearInterval(pingTimerRef.current);
+      pingTimerRef.current = null;
+    }
+  }, []);
+
   const disconnectWs = React.useCallback(
     (blockReconnect = true) => {
       if (blockReconnect) {
         reconnectBlockedRef.current = true;
       }
       clearReconnectTimer();
+      clearPingTimer();
       const ws = wsRef.current;
       wsRef.current = null;
       if (!ws) return;
@@ -231,7 +263,7 @@ export default function LiveChat({ locale, area }) {
       ws.onclose = null;
       ws.close();
     },
-    [clearReconnectTimer]
+    [clearPingTimer, clearReconnectTimer]
   );
 
   const scheduleWsReconnect = React.useCallback(
@@ -310,6 +342,12 @@ export default function LiveChat({ locale, area }) {
       ws.onopen = () => {
         if (wsRef.current !== ws) return;
         reconnectAttemptRef.current = 0;
+        clearPingTimer();
+        pingTimerRef.current = setInterval(() => {
+          if (wsRef.current === ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ type: "ping" }));
+          }
+        }, 30000);
         fetchMissedMessages(sess.conversation_id);
       };
 
@@ -338,7 +376,7 @@ export default function LiveChat({ locale, area }) {
         scheduleWsReconnect(sess);
       };
     },
-    [clearReconnectTimer, fetchMissedMessages, scheduleWsReconnect, shouldKeepWsAlive]
+    [clearPingTimer, clearReconnectTimer, fetchMissedMessages, scheduleWsReconnect, shouldKeepWsAlive]
   );
 
   connectWsRef.current = connectWs;
@@ -393,6 +431,51 @@ export default function LiveChat({ locale, area }) {
     return startLiveChat();
   }, [startLiveChat]);
 
+  const loadOfflineThread = React.useCallback(async (conversationId) => {
+    if (!conversationId || !visitorKeyRef.current) return;
+    try {
+      const res = await getOfflineThread({
+        conversation_id: conversationId,
+        visitor_key: visitorKeyRef.current,
+      });
+      if (res?.code === 0 && Array.isArray(res.data)) {
+        setOfflineMessages(res.data);
+        setOfflineThreadReady(true);
+      }
+    } catch (err) {
+      console.warn("[LiveChat] load offline thread failed", err);
+    }
+  }, []);
+
+  const ensureOfflineSession = React.useCallback(async (email, phone) => {
+    const visitorKey = getVisitorKey();
+    visitorKeyRef.current = visitorKey;
+    try {
+      const res = await createOfflineSession({
+        visitor_key: visitorKey,
+        email: email.trim(),
+        phone: phone.trim(),
+        locale: locale || "en",
+        area: area || Cookies.get("area") || "us",
+        page_url: typeof window !== "undefined" ? window.location.href : "",
+      });
+      if (res?.code !== 0) return null;
+      const sess = res.data;
+      setOfflineSession(sess);
+      setOfflineMessages(Array.isArray(sess.messages) ? sess.messages : []);
+      const hasThread =
+        !!sess.conversation_id || (Array.isArray(sess.messages) && sess.messages.length > 0);
+      setOfflineThreadReady(hasThread);
+      if (sess.conversation_id) {
+        await loadOfflineThread(sess.conversation_id);
+      }
+      return sess;
+    } catch (err) {
+      console.warn("[LiveChat] create offline session failed", err);
+      return null;
+    }
+  }, [area, loadOfflineThread, locale]);
+
   const handleTransferToAgent = React.useCallback(async () => {
     let cfg = config;
     if (!cfg) {
@@ -419,7 +502,10 @@ export default function LiveChat({ locale, area }) {
     }
     setView("offline");
     setOfflineSent(false);
-  }, [config, session, startLiveChat]);
+    if (offline.email.trim()) {
+      await ensureOfflineSession(offline.email, offline.phone);
+    }
+  }, [config, ensureOfflineSession, offline.email, offline.phone, session, startLiveChat]);
 
   const handleTransferRef = React.useRef(handleTransferToAgent);
   handleTransferRef.current = handleTransferToAgent;
@@ -467,10 +553,10 @@ export default function LiveChat({ locale, area }) {
   }, [open, session?.conversation_id, view]);
 
   React.useEffect(() => {
-    if (open && view === "chat") {
+    if (open && (view === "chat" || view === "offline")) {
       scrollToBottom();
     }
-  }, [open, view, messages, scrollToBottom]);
+  }, [open, view, messages, offlineMessages, scrollToBottom]);
 
   const handleSend = async () => {
     const body = input.trim();
@@ -481,6 +567,13 @@ export default function LiveChat({ locale, area }) {
       if (!activeSession?.conversation_id) return;
     }
     const clientMsgId = uuid();
+    const optimistic = {
+      client_msg_id: clientMsgId,
+      sender_type: "visitor",
+      body,
+      isInflight: true,
+    };
+    setMessages((prev) => upsertMessage(prev, optimistic));
     setInput("");
     try {
       const res = await sendChatMessage({
@@ -490,13 +583,78 @@ export default function LiveChat({ locale, area }) {
         client_msg_id: clientMsgId,
       });
       if (res?.code === 0) {
-        setMessages((prev) => upsertMessage(prev, res.data));
+        setMessages((prev) => upsertMessage(prev, { ...res.data, client_msg_id: clientMsgId }));
         if (res.data?.id) {
           lastIdRef.current = Math.max(lastIdRef.current, Number(res.data.id));
         }
+      } else {
+        setMessages((prev) =>
+          prev.filter((m) => m.client_msg_id !== clientMsgId)
+        );
       }
     } catch (err) {
+      setMessages((prev) =>
+        prev.filter((m) => m.client_msg_id !== clientMsgId)
+      );
       console.warn("[LiveChat] send failed", err);
+    }
+  };
+
+  const handleOfflineSend = async () => {
+    const content = offline.content.trim();
+    if (!content) return;
+    const email = offline.email.trim();
+    if (!email) return;
+
+    let sess = offlineSession;
+    if (!sess) {
+      sess = await ensureOfflineSession(email, offline.phone);
+      if (!sess) return;
+    }
+
+    const clientMsgId = uuid();
+    const optimistic = {
+      client_msg_id: clientMsgId,
+      sender_type: "visitor",
+      body: content,
+      isInflight: true,
+    };
+    setOfflineMessages((prev) => upsertOfflineMessage(prev, optimistic));
+    setOffline((s) => ({ ...s, content: "" }));
+    setOfflineThreadReady(true);
+
+    try {
+      const res = await sendOfflineMessage({
+        conversation_id: sess.conversation_id || undefined,
+        visitor_key: visitorKeyRef.current,
+        email,
+        phone: offline.phone.trim(),
+        content,
+        client_msg_id: clientMsgId,
+        locale: locale || "en",
+        area: area || Cookies.get("area") || "us",
+        page_url: typeof window !== "undefined" ? window.location.href : "",
+      });
+      if (res?.code === 0) {
+        setOfflineMessages((prev) =>
+          upsertOfflineMessage(prev, { ...res.data, client_msg_id: clientMsgId })
+        );
+        if (res.data?.conversation_id) {
+          setOfflineSession((prev) => ({
+            ...(prev || sess),
+            conversation_id: res.data.conversation_id,
+          }));
+        }
+      } else {
+        setOfflineMessages((prev) =>
+          prev.filter((m) => m.client_msg_id !== clientMsgId)
+        );
+      }
+    } catch (err) {
+      setOfflineMessages((prev) =>
+        prev.filter((m) => m.client_msg_id !== clientMsgId)
+      );
+      console.warn("[LiveChat] offline send failed", err);
     }
   };
 
@@ -504,24 +662,8 @@ export default function LiveChat({ locale, area }) {
     const email = offline.email.trim();
     const content = offline.content.trim();
     if (!email || !content) return;
-    const visitorKey = getVisitorKey();
-    visitorKeyRef.current = visitorKey;
-    try {
-      const res = await sendOfflineMessage({
-        visitor_key: visitorKey,
-        email,
-        phone: offline.phone.trim(),
-        content,
-        locale: locale || "en",
-        area: area || Cookies.get("area") || "us",
-        page_url: typeof window !== "undefined" ? window.location.href : "",
-      });
-      if (res?.code === 0) {
-        setOfflineSent(true);
-      }
-    } catch (err) {
-      console.warn("[LiveChat] offline submit failed", err);
-    }
+    await ensureOfflineSession(email, offline.phone);
+    await handleOfflineSend();
   };
 
   const closePanel = () => {
@@ -536,6 +678,9 @@ export default function LiveChat({ locale, area }) {
     setView("faq");
     setExpandedFaqId(null);
     setOfflineSent(false);
+    setOfflineThreadReady(false);
+    setOfflineSession(null);
+    setOfflineMessages([]);
   };
 
   const openPanel = () => {
@@ -635,12 +780,79 @@ export default function LiveChat({ locale, area }) {
     <>
       {renderHeader(
         copy.panelTitle,
-        offlineSent ? copy.offlineSuccessTitle : copy.panelStatusOffline,
+        offlineThreadReady ? copy.panelStatusOffline : offlineSent ? copy.offlineSuccessTitle : copy.panelStatusOffline,
         false,
         true
       )}
       <div className={styles.body}>
-        {offlineSent ? (
+        {offlineThreadReady ? (
+          <>
+            <div className={styles.messages}>
+              <div className={styles.offlineBanner}>{copy.offlineBanner}</div>
+              {offlineMessages.map((msg) => {
+                const isVisitor = msg.sender_type === "visitor";
+                return (
+                  <div
+                    key={msg.id || msg.client_msg_id}
+                    className={`${styles.msgRow} ${
+                      isVisitor ? styles.msgRowVisitor : styles.msgRowAgent
+                    }`}
+                  >
+                    {!isVisitor ? (
+                      <div className={styles.agentAvatar} aria-hidden="true">
+                        BR
+                      </div>
+                    ) : null}
+                    <div
+                      className={`${styles.bubble} ${
+                        isVisitor ? styles.bubbleVisitor : styles.bubbleAgent
+                      }`}
+                    >
+                      {msg.body}
+                      {msg.created_time && !msg.isInflight ? (
+                        <div className={styles.time}>
+                          {formatMsgTime(msg.created_time)}
+                        </div>
+                      ) : (
+                        <div className={styles.time}>&nbsp;</div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+              <div ref={messagesEndRef} />
+            </div>
+            <div className={styles.footer}>
+              <div className={styles.inputWrap}>
+                <div className={styles.inputBox}>
+                  <input
+                    className={styles.input}
+                    value={offline.content}
+                    placeholder={copy.offlineThreadPlaceholder}
+                    onChange={(e) =>
+                      setOffline((s) => ({ ...s, content: e.target.value }))
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleOfflineSend();
+                      }
+                    }}
+                  />
+                </div>
+                <button
+                  type="button"
+                  className={styles.sendBtnRound}
+                  aria-label="Send offline message"
+                  disabled={!offline.content.trim()}
+                  onClick={handleOfflineSend}
+                >
+                  <SendIcon />
+                </button>
+              </div>
+            </div>
+          </>
+        ) : offlineSent ? (
           <div className={styles.successCard}>
             <div className={styles.successIcon}>
               <CheckIcon />
@@ -721,6 +933,9 @@ export default function LiveChat({ locale, area }) {
       )}
       <div className={styles.body}>
         <div className={styles.messages}>
+          {showOfflineBanner ? (
+            <div className={styles.offlineBanner}>{copy.offlineBanner}</div>
+          ) : null}
           {welcomeText ? (
             <div className={styles.welcome}>{welcomeText}</div>
           ) : null}
@@ -760,10 +975,12 @@ export default function LiveChat({ locale, area }) {
                   }`}
                 >
                   {msg.body}
-                  {msg.created_time ? (
+                  {msg.created_time && !msg.isInflight ? (
                     <div className={styles.time}>
                       {formatMsgTime(msg.created_time)}
                     </div>
+                  ) : msg.isInflight ? (
+                    <div className={styles.time}>&nbsp;</div>
                   ) : null}
                 </div>
               </div>
