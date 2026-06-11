@@ -32,12 +32,16 @@ function getVisitorKey() {
 function getWsBaseUrl() {
   const envUrl = process.env.NEXT_PUBLIC_CHAT_WS_URL;
   if (envUrl) return envUrl.replace(/\/$/, "");
+  const apiHost = process.env.NEXT_PUBLIC_HOST;
+  if (apiHost) {
+    return apiHost.replace(/^http:\/\//i, "ws://").replace(/^https:\/\//i, "wss://").replace(/\/$/, "");
+  }
   if (typeof window !== "undefined") {
     const { protocol, hostname } = window.location;
     const wsProtocol = protocol === "https:" ? "wss:" : "ws:";
-    return `${wsProtocol}//${hostname}:40000`;
+    return `${wsProtocol}//${hostname}:10000`;
   }
-  return "ws://127.0.0.1:40000";
+  return "ws://127.0.0.1:10000";
 }
 
 function uuid() {
