@@ -14,7 +14,7 @@ import OrderContext from "../../context";
 import AddressList from "../AddressList";
 import AddressForm from "../AddressForm";
 import NewAddressForm from "../NewAddressForm";
-import { domesticPay, foreignPay } from "../../const";
+import { domesticPay, foreignPay, isPayAreaSupported } from "../../const";
 import Paypal from "../Paypal";
 import StripePay from "../StripePay";
 
@@ -87,8 +87,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
     const paypal = CONFIG["setting.pay"]?.paypal;
     return (
       paypal?.enabled === true &&
-      Array.isArray(paypal?.supportArea) &&
-      paypal.supportArea.includes(area)
+      isPayAreaSupported(paypal?.supportArea, area)
     );
   }, [CONFIG, area]);
 
@@ -96,8 +95,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
     const stripe = CONFIG["setting.pay"]?.stripe;
     return (
       stripe?.enabled === true &&
-      Array.isArray(stripe?.supportArea) &&
-      stripe.supportArea.includes(area)
+      isPayAreaSupported(stripe?.supportArea, area)
     );
   }, [CONFIG, area]);
 
@@ -109,14 +107,20 @@ export default function Main({ CONFIG, LANG, area, token }) {
         ? domesticPay({ CONFIG, LANG })
         : foreignPay({ CONFIG, LANG });
     // PayPal / Stripe 受 setting.pay 门控
-    const pay = base.filter((item) => {
+    return base.filter((item) => {
       if (item.key === "payPal") return paypalEnabled;
       if (item.key === "stripe") return stripeEnabled;
       return true;
     });
-    setPayKey(pay[0]?.key);
-    return pay;
   }, [locale, paypalEnabled, stripeEnabled, CONFIG, LANG]);
+
+  React.useEffect(() => {
+    if (!payWayList.length) return;
+    setPayKey((prev) => {
+      if (prev && payWayList.some((item) => item.key === prev)) return prev;
+      return payWayList[0]?.key;
+    });
+  }, [payWayList]);
 
   // 设置销售政策
   React.useEffect(() => {
@@ -760,9 +764,10 @@ export default function Main({ CONFIG, LANG, area, token }) {
             <div
               className={styles.sales_content}
               dangerouslySetInnerHTML={{
-                __html: LANG["store.order.order_policy"]
-                  .split("${1}")
-                  .join(CONFIG["common.base"]?.company_name),
+                __html:
+                  LANG["store.order.order_policy"]
+                    ?.split("${1}")
+                    .join(CONFIG["common.base"]?.company_name || "") || "",
               }}
             />
             {/* 银行支付方式 */}

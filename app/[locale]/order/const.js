@@ -1,3 +1,12 @@
+/** area cookie 为小写（如 us），ERP setting.pay.supportArea 为大写 ISO（如 US） */
+export function isPayAreaSupported(supportArea, area) {
+  if (!Array.isArray(supportArea) || !area) return false;
+  const normalized = String(area).toLowerCase();
+  return supportArea.some(
+    (code) => String(code).toLowerCase() === normalized
+  );
+}
+
 export const domesticPay = function ({ CONFIG, LANG }) {
   return [
     // {

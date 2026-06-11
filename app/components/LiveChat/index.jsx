@@ -11,6 +11,7 @@ import {
   sendChatMessage,
   sendOfflineMessage,
 } from "./api";
+import { getFaqCopy, getFaqItems } from "./faq";
 import openLiveChat, { registerLiveChatOpen } from "./openLiveChat";
 
 const VISITOR_KEY = "boldradiant_chat_visitor_key";
@@ -35,7 +36,10 @@ function getWsBaseUrl() {
   if (envUrl) return envUrl.replace(/\/$/, "");
   const apiHost = process.env.NEXT_PUBLIC_HOST;
   if (apiHost) {
-    return apiHost.replace(/^http:\/\//i, "ws://").replace(/^https:\/\//i, "wss://").replace(/\/$/, "");
+    return apiHost
+      .replace(/^http:\/\//i, "ws://")
+      .replace(/^https:\/\//i, "wss://")
+      .replace(/\/$/, "");
   }
   if (typeof window !== "undefined") {
     const { protocol, hostname } = window.location;
@@ -124,8 +128,32 @@ function CheckIcon() {
   );
 }
 
+function ChevronIcon({ open }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      className={open ? styles.faqChevronOpen : styles.faqChevron}
+    >
+      <path
+        d="M8 10l4 4 4-4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function LiveChat({ locale, area }) {
+  const copy = React.useMemo(() => getFaqCopy(locale), [locale]);
+  const faqItems = React.useMemo(() => getFaqItems(locale), [locale]);
+
   const [open, setOpen] = React.useState(false);
+  const [view, setView] = React.useState("faq");
+  const [expandedFaqId, setExpandedFaqId] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [config, setConfig] = React.useState(null);
   const [session, setSession] = React.useState(null);
@@ -188,16 +216,19 @@ export default function LiveChat({ locale, area }) {
     };
   }, []);
 
-  const bootstrap = React.useCallback(async () => {
-    setLoading(true);
+  const loadConfig = React.useCallback(async () => {
     try {
       const cfgRes = await getChatConfig();
       if (cfgRes?.code !== 0) return;
       setConfig(cfgRes.data);
-      if (!cfgRes.data?.enabled) return;
+    } catch (err) {
+      console.warn("[LiveChat] load config failed", err);
+    }
+  }, []);
 
-      if (!cfgRes.data?.is_work_time) return;
-
+  const startLiveChat = React.useCallback(async () => {
+    setLoading(true);
+    try {
       const visitorKey = getVisitorKey();
       visitorKeyRef.current = visitorKey;
       const areaCode = area || Cookies.get("area") || "us";
@@ -217,28 +248,64 @@ export default function LiveChat({ locale, area }) {
           0
         );
       }
+      setView("chat");
       await connectWs(sess);
     } catch (err) {
-      console.warn("[LiveChat] bootstrap failed", err);
+      console.warn("[LiveChat] start live chat failed", err);
     } finally {
       setLoading(false);
     }
   }, [area, connectWs, locale]);
 
+  const handleTransferToAgent = React.useCallback(async () => {
+    let cfg = config;
+    if (!cfg) {
+      try {
+        const cfgRes = await getChatConfig();
+        if (cfgRes?.code !== 0) return;
+        cfg = cfgRes.data;
+        setConfig(cfg);
+      } catch (err) {
+        console.warn("[LiveChat] load config failed", err);
+        return;
+      }
+    }
+    if (!cfg?.enabled) return;
+
+    const online = cfg.is_work_time !== false;
+    if (online) {
+      if (session?.conversation_id && session.status !== "closed") {
+        setView("chat");
+        return;
+      }
+      await startLiveChat();
+      return;
+    }
+    setView("offline");
+    setOfflineSent(false);
+  }, [config, session, startLiveChat]);
+
+  const handleTransferRef = React.useRef(handleTransferToAgent);
+  handleTransferRef.current = handleTransferToAgent;
+
   React.useEffect(() => {
     registerLiveChatOpen((forceOpen) => {
       setOpen(true);
-      if (forceOpen) bootstrap();
+      if (forceOpen) {
+        handleTransferRef.current();
+      }
     });
-    bootstrap();
+    loadConfig();
     return () => {
       registerLiveChatOpen(null);
       wsRef.current?.close?.();
     };
-  }, [bootstrap]);
+  }, [loadConfig]);
 
   React.useEffect(() => {
-    if (!open || !session?.conversation_id || !visitorKeyRef.current) return;
+    if (!open || view !== "chat" || !session?.conversation_id || !visitorKeyRef.current) {
+      return;
+    }
     const timer = setInterval(async () => {
       try {
         const res = await getChatMessages({
@@ -261,13 +328,13 @@ export default function LiveChat({ locale, area }) {
       }
     }, 30000);
     return () => clearInterval(timer);
-  }, [open, session?.conversation_id]);
+  }, [open, session?.conversation_id, view]);
 
   React.useEffect(() => {
-    if (open && isWorkTime) {
+    if (open && view === "chat") {
       scrollToBottom();
     }
-  }, [open, isWorkTime, messages, scrollToBottom]);
+  }, [open, view, messages, scrollToBottom]);
 
   const handleSend = async () => {
     const body = input.trim();
@@ -313,11 +380,38 @@ export default function LiveChat({ locale, area }) {
     }
   };
 
-  const closePanel = () => setOpen(false);
+  const closePanel = () => {
+    setOpen(false);
+    setView("faq");
+    setExpandedFaqId(null);
+  };
 
-  const renderHeader = (title, statusText, online = true) => (
+  const goBackToFaq = () => {
+    setView("faq");
+    setExpandedFaqId(null);
+    setOfflineSent(false);
+  };
+
+  const openPanel = () => {
+    setOpen(true);
+    setView("faq");
+    setExpandedFaqId(null);
+    loadConfig();
+  };
+
+  const renderHeader = (title, statusText, online = true, showBack = false) => (
     <div className={styles.header}>
       <div className={styles.headerInner}>
+        {showBack ? (
+          <button
+            type="button"
+            className={styles.headerBack}
+            aria-label={copy.backToFaq}
+            onClick={goBackToFaq}
+          >
+            ‹
+          </button>
+        ) : null}
         <div className={styles.headerAvatar} aria-hidden="true">
           BR
         </div>
@@ -343,195 +437,247 @@ export default function LiveChat({ locale, area }) {
     </div>
   );
 
+  const renderFaqView = () => (
+    <>
+      {renderHeader(
+        copy.panelTitle,
+        isWorkTime ? copy.panelStatusOnline : copy.panelStatusOffline,
+        isWorkTime
+      )}
+      <div className={styles.body}>
+        <div className={styles.faqScroll}>
+          <p className={styles.faqIntro}>{copy.intro}</p>
+          <ul className={styles.faqList}>
+            {faqItems.map((item) => {
+              const expanded = expandedFaqId === item.id;
+              return (
+                <li key={item.id} className={styles.faqItem}>
+                  <button
+                    type="button"
+                    className={styles.faqQuestion}
+                    aria-expanded={expanded}
+                    onClick={() =>
+                      setExpandedFaqId(expanded ? null : item.id)
+                    }
+                  >
+                    <span>{item.question}</span>
+                    <ChevronIcon open={expanded} />
+                  </button>
+                  {expanded ? (
+                    <div className={styles.faqAnswer}>{item.answer}</div>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className={styles.faqFooter}>
+          <button
+            type="button"
+            className={styles.transferBtn}
+            disabled={loading || config?.enabled === false}
+            onClick={handleTransferToAgent}
+          >
+            {copy.transferBtn}
+          </button>
+        </div>
+      </div>
+    </>
+  );
+
+  const renderOfflineView = () => (
+    <>
+      {renderHeader(
+        copy.panelTitle,
+        offlineSent ? copy.offlineSuccessTitle : copy.panelStatusOffline,
+        false,
+        true
+      )}
+      <div className={styles.body}>
+        {offlineSent ? (
+          <div className={styles.successCard}>
+            <div className={styles.successIcon}>
+              <CheckIcon />
+            </div>
+            <div className={styles.successTitle}>{copy.offlineSuccessTitle}</div>
+            <div className={styles.successText}>{copy.offlineSuccessText}</div>
+          </div>
+        ) : (
+          <>
+            <div className={styles.offlineScroll}>
+              <p className={styles.offlineIntro}>{copy.offlineIntro}</p>
+              <div className={styles.offlineForm}>
+                <div className={styles.formField}>
+                  <label className={styles.formLabel} htmlFor="chat-offline-email">
+                    {copy.email}
+                  </label>
+                  <input
+                    id="chat-offline-email"
+                    className={styles.formInput}
+                    placeholder="you@example.com"
+                    value={offline.email}
+                    onChange={(e) =>
+                      setOffline((s) => ({ ...s, email: e.target.value }))
+                    }
+                  />
+                </div>
+                <div className={styles.formField}>
+                  <label className={styles.formLabel} htmlFor="chat-offline-phone">
+                    {copy.phone}
+                  </label>
+                  <input
+                    id="chat-offline-phone"
+                    className={styles.formInput}
+                    placeholder="+1 000 000 0000"
+                    value={offline.phone}
+                    onChange={(e) =>
+                      setOffline((s) => ({ ...s, phone: e.target.value }))
+                    }
+                  />
+                </div>
+                <div className={styles.formField}>
+                  <label className={styles.formLabel} htmlFor="chat-offline-content">
+                    {copy.message}
+                  </label>
+                  <textarea
+                    id="chat-offline-content"
+                    className={styles.formTextarea}
+                    rows={4}
+                    placeholder=""
+                    value={offline.content}
+                    onChange={(e) =>
+                      setOffline((s) => ({ ...s, content: e.target.value }))
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              className={styles.submitBtn}
+              onClick={handleOfflineSubmit}
+            >
+              {copy.submit}
+            </button>
+          </>
+        )}
+      </div>
+    </>
+  );
+
+  const renderChatView = () => (
+    <>
+      {renderHeader(
+        BRAND_NAME,
+        closed ? copy.chatEnded : copy.chatOnline,
+        !closed,
+        true
+      )}
+      <div className={styles.body}>
+        <div className={styles.messages}>
+          {welcomeText ? (
+            <div className={styles.welcome}>{welcomeText}</div>
+          ) : null}
+          {messages.map((msg) => {
+            const isVisitor = msg.sender_type === "visitor";
+            const isSystem =
+              msg.msg_type === "system" || msg.body === CHAT_END_BODY;
+            if (isSystem) {
+              return (
+                <div
+                  key={msg.id || msg.client_msg_id}
+                  className={`${styles.msgRow} ${styles.msgRowAgent}`}
+                >
+                  <div className={`${styles.bubble} ${styles.bubbleSystem}`}>
+                    <div className={styles.systemLine}>
+                      {msg.body === CHAT_END_BODY ? copy.chatEnded : msg.body}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+            return (
+              <div
+                key={msg.id || msg.client_msg_id}
+                className={`${styles.msgRow} ${
+                  isVisitor ? styles.msgRowVisitor : styles.msgRowAgent
+                }`}
+              >
+                {!isVisitor ? (
+                  <div className={styles.agentAvatar} aria-hidden="true">
+                    BR
+                  </div>
+                ) : null}
+                <div
+                  className={`${styles.bubble} ${
+                    isVisitor ? styles.bubbleVisitor : styles.bubbleAgent
+                  }`}
+                >
+                  {msg.body}
+                  {msg.created_time ? (
+                    <div className={styles.time}>
+                      {formatMsgTime(msg.created_time)}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            );
+          })}
+          {loading ? (
+            <div className={styles.hint}>
+              <span className={styles.loadingDots} aria-label="Loading">
+                <span />
+                <span />
+                <span />
+              </span>
+            </div>
+          ) : null}
+          <div ref={messagesEndRef} />
+        </div>
+        <div className={styles.footer}>
+          {closed ? (
+            <div className={styles.hint}>{copy.chatEndedHint}</div>
+          ) : (
+            <div className={styles.inputWrap}>
+              <div className={styles.inputBox}>
+                <input
+                  className={styles.input}
+                  value={input}
+                  placeholder={copy.typePlaceholder}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSend();
+                    }
+                  }}
+                />
+              </div>
+              <button
+                type="button"
+                className={styles.sendBtnRound}
+                aria-label="Send message"
+                disabled={!input.trim()}
+                onClick={handleSend}
+              >
+                <SendIcon />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+
   if (config && config.enabled === false) return null;
 
   return (
     <div className={styles.wrapper}>
       {open && (
         <div className={styles.panel} role="dialog" aria-label="Live chat">
-          {!isWorkTime ? (
-            <>
-              {renderHeader(
-                "Leave a Message",
-                offlineSent ? "Submitted" : "We will reply soon",
-                false
-              )}
-              <div className={styles.body}>
-                {offlineSent ? (
-                  <div className={styles.successCard}>
-                    <div className={styles.successIcon}>
-                      <CheckIcon />
-                    </div>
-                    <div className={styles.successTitle}>Message received</div>
-                    <div className={styles.successText}>
-                      Thank you. Our team will get back to you as soon as possible.
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className={styles.offlineScroll}>
-                      <p className={styles.offlineIntro}>
-                        We are currently offline. Leave your contact details and we will follow up shortly.
-                      </p>
-                      <div className={styles.offlineForm}>
-                        <div className={styles.formField}>
-                          <label className={styles.formLabel} htmlFor="chat-offline-email">
-                            Email
-                          </label>
-                          <input
-                            id="chat-offline-email"
-                            className={styles.formInput}
-                            placeholder="you@example.com"
-                            value={offline.email}
-                            onChange={(e) =>
-                              setOffline((s) => ({ ...s, email: e.target.value }))
-                            }
-                          />
-                        </div>
-                        <div className={styles.formField}>
-                          <label className={styles.formLabel} htmlFor="chat-offline-phone">
-                            Phone (optional)
-                          </label>
-                          <input
-                            id="chat-offline-phone"
-                            className={styles.formInput}
-                            placeholder="+1 000 000 0000"
-                            value={offline.phone}
-                            onChange={(e) =>
-                              setOffline((s) => ({ ...s, phone: e.target.value }))
-                            }
-                          />
-                        </div>
-                        <div className={styles.formField}>
-                          <label className={styles.formLabel} htmlFor="chat-offline-content">
-                            Message
-                          </label>
-                          <textarea
-                            id="chat-offline-content"
-                            className={styles.formTextarea}
-                            rows={4}
-                            placeholder="How can we help you?"
-                            value={offline.content}
-                            onChange={(e) =>
-                              setOffline((s) => ({ ...s, content: e.target.value }))
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      className={styles.submitBtn}
-                      onClick={handleOfflineSubmit}
-                    >
-                      Submit
-                    </button>
-                  </>
-                )}
-              </div>
-            </>
-          ) : (
-            <>
-              {renderHeader(
-                BRAND_NAME,
-                closed ? "Chat ended" : "Online support",
-                !closed
-              )}
-              <div className={styles.body}>
-                <div className={styles.messages}>
-                  {welcomeText ? (
-                    <div className={styles.welcome}>{welcomeText}</div>
-                  ) : null}
-                  {messages.map((msg) => {
-                    const isVisitor = msg.sender_type === "visitor";
-                    const isSystem =
-                      msg.msg_type === "system" || msg.body === CHAT_END_BODY;
-                    if (isSystem) {
-                      return (
-                        <div
-                          key={msg.id || msg.client_msg_id}
-                          className={`${styles.msgRow} ${styles.msgRowAgent}`}
-                        >
-                          <div className={`${styles.bubble} ${styles.bubbleSystem}`}>
-                            <div className={styles.systemLine}>
-                              {msg.body === CHAT_END_BODY ? "Chat ended" : msg.body}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return (
-                      <div
-                        key={msg.id || msg.client_msg_id}
-                        className={`${styles.msgRow} ${
-                          isVisitor ? styles.msgRowVisitor : styles.msgRowAgent
-                        }`}
-                      >
-                        {!isVisitor ? (
-                          <div className={styles.agentAvatar} aria-hidden="true">
-                            BR
-                          </div>
-                        ) : null}
-                        <div
-                          className={`${styles.bubble} ${
-                            isVisitor ? styles.bubbleVisitor : styles.bubbleAgent
-                          }`}
-                        >
-                          {msg.body}
-                          {msg.created_time ? (
-                            <div className={styles.time}>
-                              {formatMsgTime(msg.created_time)}
-                            </div>
-                          ) : null}
-                        </div>
-                      </div>
-                    );
-                  })}
-                  {loading ? (
-                    <div className={styles.hint}>
-                      <span className={styles.loadingDots} aria-label="Loading">
-                        <span />
-                        <span />
-                        <span />
-                      </span>
-                    </div>
-                  ) : null}
-                  <div ref={messagesEndRef} />
-                </div>
-                <div className={styles.footer}>
-                  {closed ? (
-                    <div className={styles.hint}>This conversation has ended.</div>
-                  ) : (
-                    <div className={styles.inputWrap}>
-                      <div className={styles.inputBox}>
-                        <input
-                          className={styles.input}
-                          value={input}
-                          placeholder="Type a message..."
-                          onChange={(e) => setInput(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" && !e.shiftKey) {
-                              e.preventDefault();
-                              handleSend();
-                            }
-                          }}
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        className={styles.sendBtnRound}
-                        aria-label="Send message"
-                        disabled={!input.trim()}
-                        onClick={handleSend}
-                      >
-                        <SendIcon />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </>
-          )}
+          {view === "faq" ? renderFaqView() : null}
+          {view === "offline" ? renderOfflineView() : null}
+          {view === "chat" ? renderChatView() : null}
         </div>
       )}
       <button
@@ -544,11 +690,14 @@ export default function LiveChat({ locale, area }) {
             closePanel();
             return;
           }
-          setOpen(true);
-          bootstrap();
+          openPanel();
         }}
       >
         <ChatBubbleIcon />
+        <span
+          className={`${styles.toggleDot} ${!isWorkTime ? styles.toggleDotOffline : ""}`}
+          aria-hidden="true"
+        />
       </button>
     </div>
   );

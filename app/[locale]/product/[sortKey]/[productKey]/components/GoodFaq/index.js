@@ -46,13 +46,9 @@ export default function GoodFaq() {
       {
         type: "faq",
         question: LANG["store.product.service_agreement.produc_guarantee"],
-        answer:
-          LANG[
-            "store.product.service_agreement.product_guarantee_detail"?.replace(
-              "$email",
-              CONFIG["common.base"]?.customer_service
-            )
-          ],
+        answer: LANG[
+          "store.product.service_agreement.product_guarantee_detail"
+        ]?.replace("$email", CONFIG["common.base"]?.customer_service),
       },
       {
         type: "faq",
