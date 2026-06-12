@@ -4,6 +4,10 @@ export function getChatConfig() {
   return Api.get("/chat/config");
 }
 
+export function getChatFaq(locale) {
+  return Api.get("/chat/faq", { params: { locale } });
+}
+
 export function createChatSession(body) {
   return Api.post("/chat/session", body);
 }

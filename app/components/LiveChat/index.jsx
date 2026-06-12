@@ -6,6 +6,7 @@ import styles from "./index.module.scss";
 import {
   createChatSession,
   getChatConfig,
+  getChatFaq,
   getChatMessages,
   refreshWsToken,
   sendChatMessage,
@@ -16,8 +17,27 @@ import openLiveChat, { registerLiveChatOpen } from "./openLiveChat";
 
 const VISITOR_KEY = "boldradiant_chat_visitor_key";
 const LEAD_KEY = "boldradiant_chat_lead";
+const CONV_KEY = "boldradiant_chat_conversation_id";
+const UNREAD_KEY = "boldradiant_chat_last_read_id";
 const CHAT_END_BODY = "__CHAT_END__";
 const BRAND_NAME = "BoldRadiant";
+
+function getStoredConversationId() {
+  if (typeof window === "undefined") return 0;
+  const raw = localStorage.getItem(CONV_KEY);
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
+function setStoredConversationId(id) {
+  if (typeof window === "undefined") return;
+  try {
+    if (id) localStorage.setItem(CONV_KEY, String(id));
+    else localStorage.removeItem(CONV_KEY);
+  } catch (err) {
+    // ignore quota
+  }
+}
 
 function getVisitorKey() {
   if (typeof window === "undefined") return "";
@@ -184,7 +204,35 @@ function ChevronIcon({ open }) {
 
 export default function LiveChat({ locale, area }) {
   const copy = React.useMemo(() => getFaqCopy(locale), [locale]);
-  const faqItems = React.useMemo(() => getFaqItems(locale), [locale]);
+  // FAQ 优先用后端配置，拉取失败/为空时回退写死兜底，前台永不空白
+  const fallbackFaq = React.useMemo(() => getFaqItems(locale), [locale]);
+  const [faqItems, setFaqItems] = React.useState(fallbackFaq);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    getChatFaq(locale)
+      .then((res) => {
+        if (cancelled) return;
+        const list = res?.data;
+        if (Array.isArray(list) && list.length > 0) {
+          setFaqItems(
+            list.map((it) => ({
+              id: it.key,
+              question: it.question,
+              answer: it.answer,
+            }))
+          );
+        } else {
+          setFaqItems(fallbackFaq);
+        }
+      })
+      .catch(() => {
+        // 接口失败保持兜底，不打断
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [locale, fallbackFaq]);
 
   const [open, setOpen] = React.useState(false);
   const [view, setView] = React.useState("faq");
@@ -201,6 +249,9 @@ export default function LiveChat({ locale, area }) {
   });
   const [offlineSent, setOfflineSent] = React.useState(false);
   const [offlineSubmitting, setOfflineSubmitting] = React.useState(false);
+  // 未读消息数（面板未开或不在 chat 视图时累计，客服来消息时亮红点）
+  const [unread, setUnread] = React.useState(0);
+  const lastReadIdRef = React.useRef(0);
   // 进入人工客服前收集的访客身份（姓名 + 邮箱）
   const [lead, setLead] = React.useState(() => loadLead());
   const [leadForm, setLeadForm] = React.useState(
@@ -385,6 +436,11 @@ export default function LiveChat({ locale, area }) {
             setMessages((prev) => upsertMessage(prev, frame.data));
             if (frame.data.id) {
               lastIdRef.current = Math.max(lastIdRef.current, Number(frame.data.id));
+              // ws 仅在 chat 视图存活，收到即视为已读
+              if (openRef.current && viewRef.current === "chat") {
+                lastReadIdRef.current = lastIdRef.current;
+                setUnread(0);
+              }
             }
           }
           if (frame.type === "conversation.updated" && frame.data?.status) {
@@ -435,6 +491,7 @@ export default function LiveChat({ locale, area }) {
       if (sessRes?.code !== 0) return;
       const sess = sessRes.data;
       setSession(sess);
+      setStoredConversationId(sess.conversation_id);
       setMessages(Array.isArray(sess.messages) ? sess.messages : []);
       if (sess.messages?.length) {
         lastIdRef.current = Math.max(
@@ -444,6 +501,8 @@ export default function LiveChat({ locale, area }) {
       } else {
         lastIdRef.current = 0;
       }
+      lastReadIdRef.current = lastIdRef.current;
+      setUnread(0);
       setView("chat");
       await connectWs(sess);
       return sess;
@@ -459,6 +518,52 @@ export default function LiveChat({ locale, area }) {
     reconnectBlockedRef.current = false;
     return startLiveChat();
   }, [startLiveChat]);
+
+  // 恢复历史会话：用存储的 conversation_id 拉消息，直接进 chat 视图（含已关闭会话看历史）
+  const resumeChat = React.useCallback(async (conversationId) => {
+    const visitorKey = getVisitorKey();
+    visitorKeyRef.current = visitorKey;
+    try {
+      const res = await getChatMessages({
+        conversation_id: conversationId,
+        visitor_key: visitorKey,
+        after_id: 0,
+      });
+      if (res?.code !== 0 || !Array.isArray(res.data)) return false;
+      const msgs = res.data;
+      const maxId = msgs.reduce((m, x) => Math.max(m, Number(x.id) || 0), 0);
+      // 历史里出现结束系统消息则视为已关闭，展示"开始新会话"
+      const ended = msgs.some(
+        (m) => m.msg_type === "system" || m.body === CHAT_END_BODY
+      );
+      const sess = {
+        conversation_id: conversationId,
+        visitor_key: visitorKey,
+        status: ended ? "closed" : "active",
+        messages: msgs,
+      };
+      setSession(sess);
+      setMessages(msgs);
+      lastIdRef.current = maxId;
+      lastReadIdRef.current = maxId;
+      setUnread(0);
+      setView("chat");
+      reconnectBlockedRef.current = false;
+      // 已关闭会话不必连 ws
+      if (ended) return true;
+      const tokenRes = await refreshWsToken({
+        conversation_id: conversationId,
+        visitor_key: visitorKey,
+      });
+      if (tokenRes?.code === 0 && tokenRes.data?.ws_token) {
+        await connectWs({ ...sess, ws_token: tokenRes.data.ws_token });
+      }
+      return true;
+    } catch (err) {
+      console.warn("[LiveChat] resume chat failed", err);
+      return false;
+    }
+  }, [connectWs]);
 
   const proceedToAgent = React.useCallback(async () => {
     let cfg = config;
@@ -537,33 +642,56 @@ export default function LiveChat({ locale, area }) {
     };
   }, [disconnectWs, loadConfig]);
 
+  // 会话存在期间持续轮询新消息：面板关闭/不在 chat 视图时累计未读并亮红点；
+  // 正在看 chat 时直接并入消息并推进已读位。
   React.useEffect(() => {
-    if (!open || view !== "chat" || !session?.conversation_id || !visitorKeyRef.current) {
+    const convId = session?.conversation_id || getStoredConversationId();
+    if (!convId || closed) {
       return;
     }
-    const timer = setInterval(async () => {
+    const poll = async () => {
+      if (!visitorKeyRef.current) {
+        visitorKeyRef.current = getVisitorKey();
+      }
       try {
         const res = await getChatMessages({
-          conversation_id: session.conversation_id,
+          conversation_id: convId,
           visitor_key: visitorKeyRef.current,
           after_id: lastIdRef.current,
         });
-        if (res?.code === 0 && Array.isArray(res.data)) {
-          setMessages((prev) => {
-            let next = prev;
-            res.data.forEach((msg) => {
-              next = upsertMessage(next, msg);
-              lastIdRef.current = Math.max(lastIdRef.current, Number(msg.id) || 0);
-            });
-            return next;
+        if (res?.code !== 0 || !Array.isArray(res.data) || res.data.length === 0) {
+          return;
+        }
+        const viewingChat = openRef.current && viewRef.current === "chat";
+        let agentIncoming = 0;
+        res.data.forEach((msg) => {
+          const mid = Number(msg.id) || 0;
+          lastIdRef.current = Math.max(lastIdRef.current, mid);
+          if (msg.sender_type === "agent" && mid > lastReadIdRef.current) {
+            agentIncoming += 1;
+          }
+        });
+        setMessages((prev) => {
+          let next = prev;
+          res.data.forEach((msg) => {
+            next = upsertMessage(next, msg);
           });
+          return next;
+        });
+        if (viewingChat) {
+          lastReadIdRef.current = lastIdRef.current;
+          setUnread(0);
+        } else if (agentIncoming > 0) {
+          setUnread((n) => n + agentIncoming);
         }
       } catch (err) {
         // ignore polling errors
       }
-    }, 30000);
+    };
+    const interval = openRef.current && viewRef.current === "chat" ? 15000 : 20000;
+    const timer = setInterval(poll, interval);
     return () => clearInterval(timer);
-  }, [open, session?.conversation_id, view]);
+  }, [open, session?.conversation_id, view, closed]);
 
   React.useEffect(() => {
     if (open && view === "chat") {
@@ -658,9 +786,22 @@ export default function LiveChat({ locale, area }) {
 
   const openPanel = () => {
     setOpen(true);
-    setView("faq");
     setExpandedFaqId(null);
     loadConfig();
+    // 进入过客服（有历史会话）则直接进聊天页看历史，否则展示 FAQ
+    const convId = session?.conversation_id || getStoredConversationId();
+    if (convId) {
+      if (session?.conversation_id && messages.length > 0) {
+        setView("chat");
+        setUnread(0);
+        lastReadIdRef.current = lastIdRef.current;
+        reconnectBlockedRef.current = false;
+      } else {
+        resumeChat(convId);
+      }
+      return;
+    }
+    setView("faq");
   };
 
   const renderHeader = (title, statusText, online = true, showBack = false) => (
@@ -1073,6 +1214,11 @@ export default function LiveChat({ locale, area }) {
           className={`${styles.toggleDot} ${!isWorkTime ? styles.toggleDotOffline : ""}`}
           aria-hidden="true"
         />
+        {!open && unread > 0 ? (
+          <span className={styles.unreadBadge} aria-label={`${unread} unread messages`}>
+            {unread > 99 ? "99+" : unread}
+          </span>
+        ) : null}
       </button>
     </div>
   );
