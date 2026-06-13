@@ -7,28 +7,22 @@ import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import getCategoryProducts, {
   getAllCategories
 } from "@/config/Api/getCategoryProducts";
+import getProductPaths from "@/config/Api/getProductPaths";
 
 import CategoryList from "./components/CategoryList";
 
 // 构建期枚举所有 (locale, sortKey)，预生成分类页；
-// 数据源同商品详情页的 getProductPaths，去重到分类粒度。
-// 未列出的 sortKey 仍按需生成（dynamicParams 默认 true）。
+// 数据源同商品详情页的 getProductPaths（已内部容错，失败返回 []），去重到分类粒度。
+// 后端抖动 → 空数组 → 全部分类页按需生成（dynamicParams 默认 true），不整垮构建。
 export async function generateStaticParams() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/config/getProductPaths`
-  );
-  if (!res.ok) {
-    throw new Error(`getProductPaths 失败: HTTP ${res.status}`);
-  }
-  const json = await res.json();
   const seen = new Set();
   const params = [];
-  (json?.data?.list || []).forEach(({ locale, sortKey }) => {
+  for (const { locale, sortKey } of await getProductPaths()) {
     const k = `${locale}:${sortKey}`;
-    if (seen.has(k)) return;
+    if (seen.has(k)) continue;
     seen.add(k);
     params.push({ locale, sortKey });
-  });
+  }
   return params;
 }
 
