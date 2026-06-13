@@ -3,6 +3,7 @@
 import React from "react";
 import GlobalContext from "@/[locale]/context";
 
+import Skeleton from "@/components/Skeleton";
 import { countryMap } from "@/config/marketSettings";
 import { trackingCustomClick } from "@/utils";
 
@@ -11,7 +12,18 @@ import styles from "./index.module.scss";
 const FULLYEAR = new Date().getFullYear();
 
 function ShowLanguageItem() {
-  const { area, showAreaModal } = React.useContext(GlobalContext);
+  const { area, areaReady, showAreaModal } = React.useContext(GlobalContext);
+  const resolvedArea = area || "us";
+
+  if (!areaReady) {
+    return (
+      <div className={styles.show_item} aria-hidden="true">
+        <Skeleton variant="circular" className={styles.area_loading_flag} />
+        <Skeleton variant="text" className={styles.area_loading_text} />
+      </div>
+    );
+  }
+
   return (
     <div
       className={styles.show_item}
@@ -22,10 +34,10 @@ function ShowLanguageItem() {
     >
       <img
         className={styles.icon}
-        alt={area}
-        src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/flags/${area}.svg`}
+        alt={resolvedArea}
+        src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/flags/${resolvedArea}.svg`}
       />
-      <div>{`${countryMap[area]?.country} (${countryMap[area]?.currency_symbol}${countryMap[area]?.currency})`}</div>
+      <div>{`${countryMap[resolvedArea]?.country} (${countryMap[resolvedArea]?.currency_symbol}${countryMap[resolvedArea]?.currency})`}</div>
     </div>
   );
 }

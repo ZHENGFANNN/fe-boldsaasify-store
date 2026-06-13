@@ -1,0 +1,40 @@
+.root {
+  display: inline-block;
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.03) 50%,
+    rgba(0, 0, 0, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
+}
+
+.text {
+  border-radius: 2px;
+}
+
+.rect {
+  border-radius: 4px;
+}
+
+.circular {
+  border-radius: 50%;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    animation: none;
+    background: rgba(0, 0, 0, 0.05);
+  }
+}

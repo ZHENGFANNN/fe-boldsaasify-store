@@ -271,6 +271,23 @@
               overflow: visible;
               width: 100%;
               height: auto;
+
+              .area_loading {
+                display: inline-flex;
+                align-items: center;
+              }
+
+              .area_loading_flag {
+                width: 24px;
+                height: 24px;
+                margin-right: 12px;
+              }
+
+              .area_loading_text {
+                width: 128px;
+                height: 14px;
+              }
+
               img {
                 width: 24px;
                 height: 24px;

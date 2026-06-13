@@ -1,7 +1,7 @@
 /** @format */
 
-import { getProductPage } from "./getProductPage";
-import { getProductPricing } from "./getProductPricing";
+import { getProductPage } from "@/config/Api/getProductPage";
+import { getProductPricing } from "@/config/Api/getProductPricing";
 import { applyProductPricing } from "../productPricing";
 
 /**

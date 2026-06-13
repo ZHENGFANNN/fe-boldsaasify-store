@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import BaseLayout from "./components/BaseLayout";
-import { getProductPage } from "../../../../utils/getConfigData/getProductPage";
+import { getProductPage } from "@/config/Api/getProductPage";
 import getPricedProduct from "../../../../utils/getConfigData/getPricedProduct";
 
 // 首屏统一用默认 area=us 价格做纯 SSG 预渲染（不读 cookie，避免动态/流式）。

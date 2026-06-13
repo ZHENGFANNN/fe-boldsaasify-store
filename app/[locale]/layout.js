@@ -36,7 +36,6 @@ export const viewport = {
 async function getData({ locale, area }) {
   const result = await getConfigData({
     locale,
-    area,
     configList: [
       "config",
       "language",
@@ -103,7 +102,6 @@ export default async function RootLayout(props) {
           <GoogleOneTap />
           <Layout
             locale={locale}
-            area={area}
             LANG={LANG}
             BLOG={BLOG}
             CONFIG={CONFIG}

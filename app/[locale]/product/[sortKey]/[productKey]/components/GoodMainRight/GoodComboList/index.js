@@ -13,9 +13,8 @@ export default function GoodComboList() {
     productCurCombo,
     setProductCurCombo,
     goodDiscountFestival,
-    productInfo: { comboList },
+    productInfo: { comboList }
   } = React.useContext(ProductContext);
-  // console.log("[comboList]: ", comboList);
   const [active, setActive] = React.useState(() => {
     return productCurCombo?.key;
   });

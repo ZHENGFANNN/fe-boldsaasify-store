@@ -24,6 +24,11 @@
           object-fit: cover;
           border-radius: 100%;
         }
+
+        .country_loading {
+          width: 24px;
+          height: 24px;
+        }
       }
       &.header_user {
         position: static;

@@ -36,6 +36,17 @@
         height: 48px;
         cursor: pointer;
 
+        .area_loading_flag {
+          width: 18px;
+          height: 18px;
+          margin-right: 6px;
+        }
+
+        .area_loading_text {
+          width: 128px;
+          height: 12px;
+        }
+
         .icon {
           width: 18px;
           height: 18px;

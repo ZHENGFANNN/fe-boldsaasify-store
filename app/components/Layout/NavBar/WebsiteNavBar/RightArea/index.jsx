@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import GlobalContext from "@/[locale]/context";
 import { trackingCustomClick } from "@/utils";
 
+import Skeleton from "@/components/Skeleton";
 import DropSelect from "@/components/DropSelect";
 import Api from "@/components/Layout/api";
 import styles from "./index.module.scss";
@@ -11,8 +12,9 @@ import Cookies from "js-cookie";
 
 export default function RightArea() {
   const router = useRouter();
-  const { LANG, productNum, area, showCartModal, showAreaModal } =
+  const { LANG, productNum, area, areaReady, showCartModal, showAreaModal } =
     React.useContext(GlobalContext);
+  const resolvedArea = area || "us";
 
   const [isLogin, setIsLogin] = React.useState(false);
   React.useEffect(() => {
@@ -97,15 +99,24 @@ export default function RightArea() {
       {/* 国家ICON */}
       <li
         className={styles.header_country}
-        onClick={() => {
-          showAreaModal();
-          trackingCustomClick({ click_type: `NavIcon-Area` });
-        }}
+        onClick={
+          areaReady
+            ? () => {
+                showAreaModal();
+                trackingCustomClick({ click_type: `NavIcon-Area` });
+              }
+            : undefined
+        }
+        aria-busy={!areaReady}
       >
-        <img
-          alt={area}
-          src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/flags/${area}.svg`}
-        />
+        {areaReady ? (
+          <img
+            alt={resolvedArea}
+            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/flags/${resolvedArea}.svg`}
+          />
+        ) : (
+          <Skeleton variant="circular" className={styles.country_loading} />
+        )}
       </li>
     </ul>
   );

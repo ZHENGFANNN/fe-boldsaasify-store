@@ -21,6 +21,7 @@ const CONV_KEY = "boldradiant_chat_conversation_id";
 const UNREAD_KEY = "boldradiant_chat_last_read_id";
 const CHAT_END_BODY = "__CHAT_END__";
 const BRAND_NAME = "BoldRadiant";
+const MOBILE_PANEL_CLOSE_MS = 280;
 
 function getStoredConversationId() {
   if (typeof window === "undefined") return 0;
@@ -235,6 +236,7 @@ export default function LiveChat({ locale, area }) {
   }, [locale, fallbackFaq]);
 
   const [open, setOpen] = React.useState(false);
+  const [panelClosing, setPanelClosing] = React.useState(false);
   const [view, setView] = React.useState("faq");
   const [expandedFaqId, setExpandedFaqId] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -272,6 +274,7 @@ export default function LiveChat({ locale, area }) {
   const reconnectTimerRef = React.useRef(null);
   const reconnectAttemptRef = React.useRef(0);
   const connectWsRef = React.useRef(null);
+  const closePanelTimerRef = React.useRef(null);
 
   React.useEffect(() => {
     openRef.current = open;
@@ -639,6 +642,9 @@ export default function LiveChat({ locale, area }) {
     return () => {
       registerLiveChatOpen(null);
       disconnectWs(true);
+      if (closePanelTimerRef.current) {
+        clearTimeout(closePanelTimerRef.current);
+      }
     };
   }, [disconnectWs, loadConfig]);
 
@@ -770,12 +776,36 @@ export default function LiveChat({ locale, area }) {
     }
   };
 
-  const closePanel = () => {
+  const finishClosePanel = React.useCallback(() => {
+    if (closePanelTimerRef.current) {
+      clearTimeout(closePanelTimerRef.current);
+      closePanelTimerRef.current = null;
+    }
     disconnectWs(true);
     setOpen(false);
+    setPanelClosing(false);
     setView("faq");
     setExpandedFaqId(null);
-  };
+  }, [disconnectWs]);
+
+  const closePanel = React.useCallback(() => {
+    if (panelClosing) return;
+
+    const isMobile =
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 779px)").matches;
+
+    if (!isMobile || !open) {
+      finishClosePanel();
+      return;
+    }
+
+    setPanelClosing(true);
+    closePanelTimerRef.current = setTimeout(() => {
+      closePanelTimerRef.current = null;
+      finishClosePanel();
+    }, MOBILE_PANEL_CLOSE_MS);
+  }, [finishClosePanel, open, panelClosing]);
 
   const goBackToFaq = () => {
     disconnectWs(true);
@@ -785,6 +815,11 @@ export default function LiveChat({ locale, area }) {
   };
 
   const openPanel = () => {
+    if (closePanelTimerRef.current) {
+      clearTimeout(closePanelTimerRef.current);
+      closePanelTimerRef.current = null;
+    }
+    setPanelClosing(false);
     setOpen(true);
     setExpandedFaqId(null);
     loadConfig();
@@ -1189,12 +1224,24 @@ export default function LiveChat({ locale, area }) {
   return (
     <div className={styles.wrapper}>
       {open && (
-        <div className={styles.panel} role="dialog" aria-label="Live chat">
-          {view === "faq" ? renderFaqView() : null}
-          {view === "lead" ? renderLeadView() : null}
-          {view === "offline" ? renderOfflineView() : null}
-          {view === "chat" ? renderChatView() : null}
-        </div>
+        <>
+          <button
+            type="button"
+            className={`${styles.overlay} ${panelClosing ? styles.overlayClosing : ""}`}
+            aria-label="Close live chat"
+            onClick={closePanel}
+          />
+          <div
+            className={`${styles.panel} ${panelClosing ? styles.panelClosing : ""}`}
+            role="dialog"
+            aria-label="Live chat"
+          >
+            {view === "faq" ? renderFaqView() : null}
+            {view === "lead" ? renderLeadView() : null}
+            {view === "offline" ? renderOfflineView() : null}
+            {view === "chat" ? renderChatView() : null}
+          </div>
+        </>
       )}
       <button
         type="button"

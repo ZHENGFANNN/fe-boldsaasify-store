@@ -19,7 +19,7 @@ import GoodNav from "./components/GoodNav";
 import styles from "./page.module.scss";
 import GoodMainLeft from "./components/GoodMainLeft";
 import GoodMainRight from "./components/GoodMainRight";
-import getProductPaths from "../../../../utils/getConfigData/getProductPaths";
+import getProductPaths from "@/config/Api/getProductPaths";
 
 export async function generateStaticParams() {
   return getProductPaths();

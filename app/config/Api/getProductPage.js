@@ -1,6 +1,11 @@
 /** @format */
 
-import getConfigData from "./index";
+// ============================================================
+// 远程数据 API · GET ${HOST}/config/getProductPage（经 getConfigData 聚合）
+// app/config/Api 远程数据接口层：运行时从后端拉取数据。
+// ============================================================
+
+import getConfigData from "@/utils/getConfigData";
 
 const HOST = process.env.NEXT_PUBLIC_HOST;
 

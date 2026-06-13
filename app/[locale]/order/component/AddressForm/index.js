@@ -8,7 +8,7 @@ import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
 
 import FormInput from "@/components/Form/FormInput";
 import FormCountryItem from "@/components/Form/FormCountryItem";
-import { US_STATE_OPTIONS } from "@/config/usStates";
+import { US_STATE_OPTIONS } from "@/const/usStates";
 
 function AddressForm({ LANG, onStateChange }, ref) {
   const {

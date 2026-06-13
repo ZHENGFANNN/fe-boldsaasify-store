@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
 import GlobalContext from "@/[locale]/context";
-import Cookies from "js-cookie";
-import Api from "@/request";
+import { useArea } from "@/hooks/useArea";
 
 import CartModal from "./CartModal";
 import AreaModal from "./AreaModal";
@@ -13,7 +12,6 @@ import openLiveChat from "@/components/LiveChat/openLiveChat";
 
 export default function Layout({
   locale,
-  area,
   BLOG,
   LANG,
   CONFIG,
@@ -21,6 +19,7 @@ export default function Layout({
   goodDiscountFestival,
   children,
 }) {
+  const { area, areaReady } = useArea();
   /**
    * 处理购物车数量
    */
@@ -59,6 +58,7 @@ export default function Layout({
         // Config
         locale,
         area,
+        areaReady,
         LANG,
         BLOG,
         CONFIG,
@@ -94,7 +94,7 @@ export default function Layout({
       {/* Cookie Modal */}
       <CookieModal />
       {/* Live Chat */}
-      <LiveChat locale={locale} area={area} />
+      <LiveChat locale={locale} area={areaReady ? area || "us" : "us"} />
       {children}
     </GlobalContext.Provider>
   );

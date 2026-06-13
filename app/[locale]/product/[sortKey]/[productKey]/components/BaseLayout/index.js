@@ -27,6 +27,9 @@ export default function BaseLayout({
   }, [initialProductInfo]);
 
   const [lazyLoading, setLazyLoading] = React.useState(true);
+  // 地区价格补差 loading：非 us 地区在拉到真实地区价之前为 true，
+  // 期间价格区展示骨架（首屏种子价是 us，对非 us 用户不可信）。
+  const [priceLoading, setPriceLoading] = React.useState(false);
   const [productInfo, setProductInfo] = React.useState(initialProductInfo);
   const [productNum, setProductNum] = React.useState(1);
   const [productCurCombo, setProductCurCombo] = React.useState(() =>
@@ -70,9 +73,13 @@ export default function BaseLayout({
   // 挂载后（及切换商品后）拉对应地区定价并合并，保持当前所选 combo。
   React.useEffect(() => {
     const area = readClientArea();
-    if (area === "us") return;
+    if (area === "us") {
+      setPriceLoading(false);
+      return;
+    }
 
     let cancelled = false;
+    setPriceLoading(true);
     (async () => {
       const pricing = await getProductPricing({
         sortKey,
@@ -80,12 +87,15 @@ export default function BaseLayout({
         area,
         locale,
       });
-      if (cancelled || !pricing) return;
+      if (cancelled) return;
       const seed = initialProductRef.current;
-      const priced = applyProductPricing(seed, pricing);
-      if (!priced) return;
-      setProductInfo(priced);
-      setProductCurCombo((prev) => pickCombo(priced.comboList, prev?.key));
+      const priced = pricing ? applyProductPricing(seed, pricing) : null;
+      if (priced) {
+        setProductInfo(priced);
+        setProductCurCombo((prev) => pickCombo(priced.comboList, prev?.key));
+      }
+      // 拿到地区价（或失败退回 us 种子价）后结束 loading，展示价格。
+      setPriceLoading(false);
     })();
 
     return () => {
@@ -127,6 +137,7 @@ export default function BaseLayout({
         goodDiscountFestival: globalFestival,
         lazyLoading,
         setLazyLoading,
+        priceLoading,
         productNum,
         setProductNum,
         productCurCombo,

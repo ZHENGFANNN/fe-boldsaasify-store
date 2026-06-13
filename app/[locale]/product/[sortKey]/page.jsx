@@ -2,10 +2,11 @@
 
 import { notFound } from "next/navigation";
 
-import getConfigData from "@/utils/getConfigData";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import getCategoryProducts, {
-  getAllCategories,
-} from "@/utils/getConfigData/getCategoryProducts";
+  getAllCategories
+} from "@/config/Api/getCategoryProducts";
 
 import CategoryList from "./components/CategoryList";
 
@@ -13,7 +14,9 @@ import CategoryList from "./components/CategoryList";
 // 数据源同商品详情页的 getProductPaths，去重到分类粒度。
 // 未列出的 sortKey 仍按需生成（dynamicParams 默认 true）。
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/config/getProductPaths`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/config/getProductPaths`
+  );
   if (!res.ok) {
     throw new Error(`getProductPaths 失败: HTTP ${res.status}`);
   }
@@ -29,20 +32,21 @@ export async function generateStaticParams() {
   return params;
 }
 
-// 不读 cookie，保持本路由可静态化（ISR）：LANG/CONFIG/折扣走 getConfigData，
-// 分类商品走 getCategoryProducts（自带 product:list tag）。
+// 多语言/页面配置改走独立按命名空间接口（后端整形+TTL 缓存，前端开箱即用）：
+//   - LANG    ← /config/getLanguageByNamespace（store.index / common.nav / store.product_category）
+//   - CONFIG  ← /config/getPageConfigByNamespace（common.base）
+// 分类商品走 getCategoryProducts（自带 product:list tag），不读 cookie，保持本路由可静态化（ISR）。
 async function getData({ locale, sortKey }) {
-  const [config, category, categories] = await Promise.all([
-    getConfigData({
+  const [LANG, CONFIG, category, categories] = await Promise.all([
+    getRemoteLanguage({
       locale,
-      configList: ["config", "language", "goodDiscountFestival"],
-      languageNameSpace: ["store.index", "common.nav", "store.product_category"],
-      configNameSpace: ["common.base"],
+      nameSpace: ["store.index", "common.nav", "store.product_category"]
     }),
+    getRemoteConfig({ locale, nameSpace: ["common.base"] }),
     getCategoryProducts({ locale, sortKey }),
-    getAllCategories({ locale }),
+    getAllCategories({ locale })
   ]);
-  return { ...config, category, categories };
+  return { CONFIG, LANG, category, categories };
 }
 
 export async function generateMetadata({ params }) {
@@ -55,7 +59,9 @@ export async function generateMetadata({ params }) {
   const title = `${category.category.name}${company ? ` - ${company}` : ""}`;
   const description =
     category.category.description ||
-    `Shop our ${category.category.name} collection at ${company || "our store"}.`;
+    `Shop our ${category.category.name} collection at ${
+      company || "our store"
+    }.`;
   return {
     title,
     description,
@@ -68,16 +74,16 @@ export async function generateMetadata({ params }) {
         : category.goodList
             .slice(0, 4)
             .map((p) => ({ url: p.image }))
-            .filter((i) => i.url),
-    },
+            .filter((i) => i.url)
+    }
   };
 }
 
 export default async function ProductCategory({ params }) {
   const { locale, sortKey } = await params;
-  const { LANG, GOODDISCOUNTFESTIVAL, category, categories } = await getData({
+  const { LANG, category, categories } = await getData({
     locale,
-    sortKey,
+    sortKey
   });
 
   // 分类不存在 / 该分类下无商品 → 404
@@ -92,7 +98,7 @@ export default async function ProductCategory({ params }) {
       categories={categories}
       sortKey={sortKey}
       LANG={LANG}
-      goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+      goodDiscountFestival={undefined}
     />
   );
 }

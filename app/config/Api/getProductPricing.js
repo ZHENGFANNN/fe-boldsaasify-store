@@ -1,5 +1,10 @@
 /** @format */
 
+// ============================================================
+// 远程数据 API · GET ${HOST}/config/getProductPricing
+// app/config/Api 远程数据接口层：运行时从后端拉取数据。
+// ============================================================
+
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
 // 兜底 revalidate（秒）。实时性靠后台 on-demand revalidateTag。

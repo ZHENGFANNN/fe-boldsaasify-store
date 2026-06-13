@@ -5,25 +5,12 @@
   gap: 10px;
 }
 
-.block {
+.price {
   width: 88px;
   height: 24px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, #ececec 25%, #f5f5f5 50%, #ececec 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.2s ease-in-out infinite;
 }
 
-.blockWide {
+.priceSub {
   width: 120px;
   height: 20px;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
 }

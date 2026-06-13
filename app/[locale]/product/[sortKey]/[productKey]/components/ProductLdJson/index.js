@@ -1,7 +1,7 @@
 /** @format */
 
 import getPricedProduct from "@/utils/getConfigData/getPricedProduct";
-import { getProductPage } from "@/utils/getConfigData/getProductPage";
+import { getProductPage } from "@/config/Api/getProductPage";
 import { formatCurrency } from "@/utils";
 import { pickCombo } from "@/utils/productPricing";
 import Script from "next/script";
