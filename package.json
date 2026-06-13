@@ -54,9 +54,6 @@
     "yarn": "^1.22.21",
     "zustand": "^4.4.6"
   },
-  "resolutions": {
-    "esbuild": "0.27.3"
-  },
   "devDependencies": {
     "@types/node": "25.9.3",
     "@types/react": "^19.2.17",
