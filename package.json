@@ -9,7 +9,7 @@
     "prod": "yarn fetch-prod && next prod -p 8080",
     "start": "next start -p 8080",
     "analyze": "yarn fetch-prod && ANALYZE=true next build",
-    "build": "next build",
+    "build": "next build --webpack",
     "cf-build": "opennextjs-cloudflare build",
     "cf-preview": "opennextjs-cloudflare preview",
     "cf-deploy": "opennextjs-cloudflare deploy -- --keep-vars",
