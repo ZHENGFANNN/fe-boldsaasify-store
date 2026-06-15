@@ -1,5 +1,3 @@
-/** @format */
-
 /** 将定价接口数据合并进商品对象（注入 comboList / associateProduct 的 areaInfo）。 */
 export function applyProductPricing(productInfo, pricing) {
   if (!productInfo || !pricing) return productInfo;
@@ -9,18 +7,18 @@ export function applyProductPricing(productInfo, pricing) {
   );
   const comboList = (productInfo.comboList || []).map((combo) => ({
     ...combo,
-    areaInfo: comboMap[combo.key] ?? null,
+    areaInfo: comboMap[combo.key] ?? null
   }));
 
   const assocMap = Object.fromEntries(
     (pricing.associateProducts || []).map((a) => [
       a.productKey,
-      a.areaInfo || null,
+      a.areaInfo || null
     ])
   );
   const associateProduct = (productInfo.associateProduct || []).map((item) => ({
     ...item,
-    areaInfo: assocMap[item.key] ?? null,
+    areaInfo: assocMap[item.key] ?? null
   }));
 
   return { ...productInfo, comboList, associateProduct };
@@ -34,4 +32,3 @@ export function pickCombo(comboList, prevKey) {
   }
   return list.find((item) => item.areaInfo?.stock) || list[0] || {};
 }
-

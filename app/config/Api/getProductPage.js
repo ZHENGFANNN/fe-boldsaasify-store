@@ -1,11 +1,12 @@
 /** @format */
 
 // ============================================================
-// 远程数据 API · GET ${HOST}/config/getProductPage（经 getConfigData 聚合）
+// 远程数据 API · GET ${HOST}/config/getProductPage
 // app/config/Api 远程数据接口层：运行时从后端拉取数据。
+//
+// 只负责拉商品本身（productInfo）。多语言/页面配置由各调用方
+// 按命名空间独立走 getRemoteLanguage / getRemoteConfig，各接口互不耦合。
 // ============================================================
-
-import getConfigData from "@/utils/getConfigData";
 
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
@@ -14,13 +15,13 @@ const HOST = process.env.NEXT_PUBLIC_HOST;
 const REVALIDATE_FALLBACK = 86400; // 24h
 
 /**
- * 商品详情页聚合数据（不含地区价格）。
+ * 商品详情数据（不含地区价格、不含多语言/配置）。
  * 传统 ISR：fetch 打 tag，由 /api/revalidate 按 tag 触发重建。
  */
 export async function getProductPage({ locale, sortKey, productKey }) {
   if (!HOST) {
     console.error("getProductPage: NEXT_PUBLIC_HOST 未配置");
-    return { productInfo: null, LANG: null, CONFIG: null };
+    return { productInfo: null };
   }
 
   const url =
@@ -61,18 +62,7 @@ export async function getProductPage({ locale, sortKey, productKey }) {
     throw err;
   }
 
-  const { LANG, CONFIG } = await getConfigData({
-    locale,
-    configList: ["config", "language"],
-    languageNameSpace: [
-      "store.product",
-      "common.pay",
-      "common.footer.sales_policy"
-    ],
-    configNameSpace: ["common.base", "setting.pay"]
-  });
-
-  return { productInfo, LANG, CONFIG };
+  return { productInfo };
 }
 
 export default getProductPage;

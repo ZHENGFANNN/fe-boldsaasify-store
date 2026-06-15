@@ -57,6 +57,12 @@ export async function POST(request) {
   // 传统 ISR（已移除 cacheComponents）：revalidateTag 只接受 tag 字符串。
   // tag 由各 fetch 的 next.tags 注册（getProductPage / getProductPricing /
   // getProductDetail / getProductData / getBlogData）。
+  //
+  // 多语言/页面配置 tag 与 (locale, nameSpace) 强关联，后端可按需选粒度：
+  //   - "config:language" / "config:page"                       全量刷新
+  //   - "config:language:<locale>" / "config:page:<locale>"     按地区
+  //   - "config:language:<locale>:<ns>" / "config:page:<locale>:<ns>"
+  //                                                             按 (地区, 命名空间)
   unique.forEach((t) => revalidateTag(t));
 
   return NextResponse.json({ ok: true, revalidated: unique });

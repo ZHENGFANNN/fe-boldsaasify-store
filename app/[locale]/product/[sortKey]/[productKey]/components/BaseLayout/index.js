@@ -27,9 +27,9 @@ export default function BaseLayout({
   }, [initialProductInfo]);
 
   const [lazyLoading, setLazyLoading] = React.useState(true);
-  // 地区价格补差 loading：非 us 地区在拉到真实地区价之前为 true，
-  // 期间价格区展示骨架（首屏种子价是 us，对非 us 用户不可信）。
-  const [priceLoading, setPriceLoading] = React.useState(false);
+  // 地区价格补差 loading：服务端种子无价，挂载后拉真实地区价之前恒为 true，
+  // 期间价格区展示骨架（首屏种子不含任何 areaInfo）。
+  const [priceLoading, setPriceLoading] = React.useState(true);
   const [productInfo, setProductInfo] = React.useState(initialProductInfo);
   const [productNum, setProductNum] = React.useState(1);
   const [productCurCombo, setProductCurCombo] = React.useState(() =>
@@ -69,14 +69,11 @@ export default function BaseLayout({
     setProductCurCombo(pickCombo(seed?.comboList));
   }, [sortKey, productKey]);
 
-  // 客户端价格补差：首屏种子是默认 area=us 价；若用户实际 area 非 us，
-  // 挂载后（及切换商品后）拉对应地区定价并合并，保持当前所选 combo。
+  // 客户端价格补差：服务端种子已无价（areaInfo 全空），
+  // 挂载后（及切换商品后）按真实 area 拉对应地区定价并合并；
+  // us 不再走服务端预渲染，因此这里对所有地区（含 us）一律拉取。
   React.useEffect(() => {
     const area = readClientArea();
-    if (area === "us") {
-      setPriceLoading(false);
-      return;
-    }
 
     let cancelled = false;
     setPriceLoading(true);
@@ -94,7 +91,7 @@ export default function BaseLayout({
         setProductInfo(priced);
         setProductCurCombo((prev) => pickCombo(priced.comboList, prev?.key));
       }
-      // 拿到地区价（或失败退回 us 种子价）后结束 loading，展示价格。
+      // 拿到地区价（或失败退回无价种子）后结束 loading，展示价格。
       setPriceLoading(false);
     })();
 
