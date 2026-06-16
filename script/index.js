@@ -13,6 +13,7 @@ const fetchLanguage = require("./fetch-language.js");
 
 // 注意：product / blog 不再构建期物化，改为运行时从后端拉取 + ISR。
 // 节日折扣（getFestivalDiscount）已下线，后端表与接口已移除，不再构建期拉取。
+// sitemap 改用 Next 原生 app/sitemap.js（构建期生成 /sitemap.xml），不再走脚本。
 // 这里只保留仍需物化的 config / language。
 async function getData() {
   // 顺序约束：fetchConfig 先写入 globalConfig（语言列表派生自它），
@@ -21,8 +22,6 @@ async function getData() {
   await Promise.all([
     fetchLanguage(),
   ]);
-  const createSitemap = require("./create-sitemap.js");
-  await createSitemap();
 }
 getData();
 

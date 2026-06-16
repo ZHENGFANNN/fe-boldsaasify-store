@@ -6,6 +6,7 @@ import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import { getBlogCategory } from "@/config/Api/getRemoteBlogList";
 import getBlogDetail from "@/config/Api/getBlogDetail";
+import getBlogPaths from "@/config/Api/getBlogPaths";
 import Banner from "./components/Banner";
 import ArticleInfo from "./components/ArticleInfo";
 import ArticleNav from "./components/ArticleNav";
@@ -17,19 +18,10 @@ import ProductModal from "./components/ProductModal";
 import { buildAlternates } from "@/config/seo";
 import "@/styles/richtext.scss";
 
-// 构建期枚举所有 (locale, sortKey, blogKey) 预生成文章页；
-// 接口失败则构建失败；未列出的 slug 仍按需生成（dynamicParams 默认 true）。
+// 构建期枚举所有 (locale, sortKey, blogKey) 预生成文章页（与产品页 getProductPaths 同模式）；
+// 接口失败返回空数组（getBlogPaths 内部已容错），未列出的 slug 仍按需生成（dynamicParams 默认 true）。
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/config/getBlogPaths`);
-  if (!res.ok) {
-    throw new Error(`getBlogPaths 失败: HTTP ${res.status}`);
-  }
-  const json = await res.json();
-  return (json?.data?.list || []).map(({ locale, sortKey, blogKey }) => ({
-    locale,
-    sortKey,
-    blogKey,
-  }));
+  return getBlogPaths();
 }
 
 // 文章详情走 getBlogDetail（按 slug fetch + tag）；language/config 走独立远程接口；
