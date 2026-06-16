@@ -7,6 +7,7 @@ import tracking from "../../tracking";
 import ComboModal from "./components/ComboModal";
 import { formatCurrency } from "@/utils";
 import { debounce } from "@/utils";
+import { recordRecentlyViewed } from "@/components/LiveChat/recentlyViewed";
 
 export default function GoodFooter() {
   const {
@@ -41,6 +42,17 @@ export default function GoodFooter() {
       // 埋点 - 查看次数
       tracking.viewContent({
         productName: productInfo.key,
+      });
+      // 记录最近浏览，供客服聊天窗「分享商品」选择器读取（纯客户端）
+      const pathname = window.location.pathname;
+      recordRecentlyViewed({
+        productKey: productInfo.key,
+        sortKey: pathname.split("/")[3] || "",
+        title: productInfo.name,
+        image: productInfo.image_list?.[0]?.src || "",
+        symbol: productCurCombo?.areaInfo?.currency_symbol || "",
+        price: productCurCombo?.areaInfo?.product_price ?? "",
+        href: pathname,
       });
       const $footerDom = $('[data-role="footer-buy"]');
       // 滚动展示底部位置

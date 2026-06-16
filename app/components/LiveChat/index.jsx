@@ -19,6 +19,8 @@ import {
 import { getFaqCopy, getFaqItems } from "./faq";
 import openLiveChat, { registerLiveChatOpen } from "./openLiveChat";
 import OrderPicker, { getOrderStatusText } from "./orderPicker";
+import ProductPicker from "./productPicker";
+import GlobalContext from "@/[locale]/context";
 
 const VISITOR_KEY = "boldradiant_chat_visitor_key";
 const LEAD_KEY = "boldradiant_chat_lead";
@@ -232,6 +234,25 @@ function OrderIcon() {
   );
 }
 
+function ProductIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M5 8h14l-1 11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 8Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 8a3 3 0 0 1 6 0"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function CloseIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -275,6 +296,9 @@ function ChevronIcon({ open }) {
 
 export default function LiveChat({ locale, area }) {
   const copy = React.useMemo(() => getFaqCopy(locale), [locale]);
+  // 商品分享：全量商品目录来自布局注入的 GlobalContext.PRODUCT.cart（购物车关联/搜索全部均读它）
+  const globalCtx = React.useContext(GlobalContext);
+  const products = globalCtx?.PRODUCT?.cart || [];
   // FAQ 优先用后端配置，拉取失败/为空时回退写死兜底，前台永不空白
   const fallbackFaq = React.useMemo(() => getFaqItems(locale), [locale]);
   const [faqItems, setFaqItems] = React.useState(fallbackFaq);
@@ -327,6 +351,8 @@ export default function LiveChat({ locale, area }) {
   // Phase 2 订单分享：登录态（token cookie）决定入口可见，picker 控制选择器开关
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [orderPickerOpen, setOrderPickerOpen] = React.useState(false);
+  // 商品分享选择器（购物车/最近浏览/搜索三来源，全客户端，无需登录）
+  const [productPickerOpen, setProductPickerOpen] = React.useState(false);
   // 切片3 满意度评价：rated 已评价态、rating 选中分值(1~5)、feedback 反馈文本
   const [evaluation, setEvaluation] = React.useState({
     rated: false,
@@ -1091,6 +1117,66 @@ export default function LiveChat({ locale, area }) {
     setOrderPickerOpen(true);
   };
 
+  // 商品分享：发送一条 msg_type=product 消息，携带商品最小快照（标题/首图/价格/详情页链接）。
+  // 商品为公开信息，后端不做归属校验；前端仅乐观渲染，关闭态自动开新会话续聊（对标订单分享）。
+  const sendProductMessage = async (picked) => {
+    if (!picked?.productKey) return;
+    let activeSession = session;
+    if (!activeSession?.conversation_id) {
+      activeSession = await handleStartNewChat();
+      if (!activeSession?.conversation_id) return;
+    } else if (closed) {
+      activeSession = await reopenClosedChat(activeSession);
+      if (!activeSession?.conversation_id) return;
+    }
+    const snapshot = {
+      product_key: picked.productKey,
+      sort_key: picked.sortKey,
+      title: picked.title,
+      image: picked.image,
+      symbol: picked.symbol,
+      price: picked.price === undefined ? "" : String(picked.price),
+      href: picked.href,
+    };
+    const snapshotStr = JSON.stringify(snapshot);
+    const clientMsgId = uuid();
+    const optimistic = {
+      client_msg_id: clientMsgId,
+      sender_type: "visitor",
+      body: "",
+      msg_type: "product",
+      product_snapshot: snapshotStr,
+      isInflight: true,
+    };
+    setMessages((prev) => upsertMessage(prev, optimistic));
+    try {
+      const res = await sendChatMessage({
+        conversation_id: activeSession.conversation_id,
+        visitor_key: visitorKeyRef.current,
+        client_msg_id: clientMsgId,
+        product_snapshot: snapshotStr,
+      });
+      if (res?.code === 0) {
+        setMessages((prev) =>
+          upsertMessage(prev, { ...res.data, client_msg_id: clientMsgId })
+        );
+        if (res.data?.id) {
+          lastIdRef.current = Math.max(lastIdRef.current, Number(res.data.id));
+        }
+      } else {
+        setMessages((prev) => prev.filter((m) => m.client_msg_id !== clientMsgId));
+      }
+    } catch (err) {
+      setMessages((prev) => prev.filter((m) => m.client_msg_id !== clientMsgId));
+      console.warn("[LiveChat] send product failed", err);
+    }
+  };
+
+  const handlePickProduct = async (picked) => {
+    setProductPickerOpen(false);
+    await sendProductMessage(picked);
+  };
+
   const handlePickFile = () => {
     // 关闭态也允许选文件：sendMediaMessage 会自动开新会话续聊（对标 herodash）
     if (uploading) return;
@@ -1166,10 +1252,59 @@ export default function LiveChat({ locale, area }) {
     );
   };
 
-  // 消息气泡内容：订单卡片 > 媒体消息（图片/文件）> 文本
+  // 商品分享卡片：解析 product_snapshot（JSON 文本），解析失败兜底空对象，勿崩会话流。
+  // 「View product」跳商品详情页（snapshot.href 为站内相对路径）。
+  const renderProductCard = (msg) => {
+    let snap = {};
+    try {
+      snap =
+        typeof msg.product_snapshot === "string"
+          ? JSON.parse(msg.product_snapshot || "{}")
+          : msg.product_snapshot || {};
+    } catch (err) {
+      snap = {};
+    }
+    const hasPrice = snap.price !== undefined && snap.price !== "";
+    return (
+      <div className={styles.productCard}>
+        <div className={styles.productCardTop}>
+          {snap.image ? (
+            <img
+              className={styles.productCardThumb}
+              src={snap.image}
+              alt={snap.title || ""}
+            />
+          ) : (
+            <span className={styles.productCardThumb} />
+          )}
+          <div className={styles.productCardInfo}>
+            {snap.title ? (
+              <div className={styles.productCardName}>{snap.title}</div>
+            ) : null}
+            {hasPrice ? (
+              <div className={styles.productCardPrice}>
+                {snap.symbol}
+                {snap.price}
+              </div>
+            ) : null}
+          </div>
+        </div>
+        {snap.href ? (
+          <a className={styles.productCardBtn} href={snap.href}>
+            {copy.viewProduct || "View product"}
+          </a>
+        ) : null}
+      </div>
+    );
+  };
+
+  // 消息气泡内容：订单卡片 > 商品卡片 > 媒体消息（图片/文件）> 文本
   const renderBubbleContent = (msg) => {
     if (msg.msg_type === "order") {
       return renderOrderCard(msg);
+    }
+    if (msg.msg_type === "product") {
+      return renderProductCard(msg);
     }
     if (msg.media_url) {
       if (msg.media_type === "image") {
@@ -1821,6 +1956,15 @@ export default function LiveChat({ locale, area }) {
                 <OrderIcon />
               </button>
             ) : null}
+            <button
+              type="button"
+              className={styles.attachBtn}
+              aria-label={copy.shareProduct}
+              title={copy.shareProduct}
+              onClick={() => setProductPickerOpen(true)}
+            >
+              <ProductIcon />
+            </button>
             <div className={styles.inputBox}>
               <input
                 className={styles.input}
@@ -1891,6 +2035,15 @@ export default function LiveChat({ locale, area }) {
                 copy={copy}
                 onPick={handlePickOrder}
                 onClose={() => setOrderPickerOpen(false)}
+              />
+            ) : null}
+            {productPickerOpen ? (
+              <ProductPicker
+                copy={copy}
+                locale={locale}
+                products={products}
+                onPick={handlePickProduct}
+                onClose={() => setProductPickerOpen(false)}
               />
             ) : null}
           </div>
