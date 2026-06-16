@@ -1,35 +1,38 @@
 /** @format */
 
 import React from "react";
-import getConfigData from "../../../utils/getConfigData";
+import { notFound } from "next/navigation";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import { getBlogCategory } from "@/config/Api/getRemoteBlogList";
 import styles from "./page.module.scss";
 import ArticleCard from "../components/ArticleCard";
 import BaseLayout from "../components/BaseLayout";
 import { buildAlternates } from "@/config/seo";
 
-async function getData({ locale }) {
-  const { LANG, BLOG } = await getConfigData({
-    locale,
-    configList: ["blog", "language"],
-    blogNameSpace: ["sort"],
-    languageNameSpace: ["store.blog_index.all", "store.blog_index.title"],
-  });
-  return { LANG, BLOG };
+// language 走远程接口；分类 + 该类文章 + 导航列表走 getBlogCategory（单独接口）。
+async function getData({ locale, sortKey }) {
+  const [LANG, blog] = await Promise.all([
+    getRemoteLanguage({
+      locale,
+      nameSpace: ["store.blog_index.all", "store.blog_index.title"],
+    }),
+    getBlogCategory({ locale, sortKey }),
+  ]);
+  return { LANG, ...blog };
 }
 
 export async function generateMetadata({ params }) {
   const { locale, sortKey } = await params;
-  const {
-    BLOG: { sort },
-  } = await getData({ locale });
-  const currentBlogSort = sort[sortKey];
-  const title = currentBlogSort.name;
+  const { category, blogList } = await getData({ locale, sortKey });
+  if (!category) {
+    return { title: "" };
+  }
+  const title = category.name;
   let descriptionList = [],
     twitterImageList = [],
-    openGraphImageList = [],
-    description = null;
+    openGraphImageList = [];
 
-  currentBlogSort.blogList.forEach((item) => {
+  blogList.forEach((item) => {
     descriptionList.push(item.title);
     twitterImageList.push(item.image);
     openGraphImageList.push({
@@ -38,7 +41,7 @@ export async function generateMetadata({ params }) {
       height: 420,
     });
   });
-  description = descriptionList.join(",");
+  const description = descriptionList.join(",");
   return {
     title,
     description,
@@ -58,12 +61,12 @@ export async function generateMetadata({ params }) {
   };
 }
 
-function BlogArticleCard({ blogSort, locale }) {
+function BlogArticleCard({ category, blogList, locale }) {
   return (
     <div className={styles.sort_container}>
-      <h2 className={styles.sort_title}>{blogSort.name}</h2>
+      <h2 className={styles.sort_title}>{category.name}</h2>
       <div className={styles.article_container}>
-        {blogSort.blogList.map((item, index) => {
+        {blogList.map((item, index) => {
           return <ArticleCard item={item} locale={locale} key={index} />;
         })}
       </div>
@@ -73,27 +76,28 @@ function BlogArticleCard({ blogSort, locale }) {
 
 export default async function BlogSort({ params }) {
   const { locale, sortKey } = await params;
-  const {
-    LANG,
-    BLOG: { sort: blogSortMap },
-  } = await getData({ locale });
-  const blogSortList = Object.keys(blogSortMap)
-    .map((item) => {
-      const blogSort = blogSortMap[item];
-      return {
-        weight: blogSort.weight,
-        key: blogSort.key,
-        name: blogSort.name,
-      };
-    })
-    .sort((a, b) => b.weight - a.weight);
-  const currentBlogSort = blogSortMap[sortKey];
+  const { LANG, category, blogList, categories } = await getData({
+    locale,
+    sortKey,
+  });
+
+  // 分类不存在 → 404
+  if (!category) {
+    notFound();
+  }
+
+  // 顶部导航列表（按 weight 降序，仅 key/name/weight）
+  const blogSortList = [...categories].sort((a, b) => b.weight - a.weight);
 
   return (
     <>
       <BaseLayout blogSortList={blogSortList} sortKey={sortKey} LANG={LANG} />
       <div className={styles.container}>
-        <BlogArticleCard blogSort={currentBlogSort} locale={locale} />
+        <BlogArticleCard
+          category={category}
+          blogList={blogList}
+          locale={locale}
+        />
       </div>
     </>
   );

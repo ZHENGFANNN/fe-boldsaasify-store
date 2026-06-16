@@ -2,7 +2,9 @@
 
 import React from "react";
 import styles from "./page.module.scss";
-import getConfigData from "../../../../utils/getConfigData";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import getRemoteConfig from "@/config/Api/getRemoteConfig";
+import { getBlogCategory } from "@/config/Api/getRemoteBlogList";
 import getBlogDetail from "@/config/Api/getBlogDetail";
 import Banner from "./components/Banner";
 import ArticleInfo from "./components/ArticleInfo";
@@ -30,39 +32,36 @@ export async function generateStaticParams() {
   }));
 }
 
-// 文章详情走 getBlogDetail（按 slug fetch + tag），与全站 config/language 解耦。
-// blogSortList 用于顶部 BaseLayout，来自 getBlogData 的 "sort" 命名空间。
+// 文章详情走 getBlogDetail（按 slug fetch + tag）；language/config 走独立远程接口；
+// 顶部 BaseLayout 的分类导航走 getBlogCategory 的 categories。
 // 不再读取 area cookie —— 关联商品保留完整 areaList，选价下沉到客户端 ProductModal。
 const getData = async function ({ locale, blogKey, sortKey }) {
-  const [{ BLOG, CONFIG, LANG }, blogArticle] =
-    await Promise.all([
-      getConfigData({
-        locale,
-        configList: ["blog", "config", "language"],
-        blogNameSpace: ["sort"],
-        configNameSpace: ["common.base"],
-        languageNameSpace: [
-          "store.blog_index.all",
-          "store.blog_index.title",
-          "store.blog_index.related_products",
-          "store.product.off",
-          "store.product.no_stock",
-          "store.product.reviews",
-        ],
-      }),
-      getBlogDetail({ locale, sortKey, blogKey }),
-    ]);
+  const [LANG, CONFIG, blog, blogArticle] = await Promise.all([
+    getRemoteLanguage({
+      locale,
+      nameSpace: [
+        "store.blog_index.all",
+        "store.blog_index.title",
+        "store.blog_index.related_products",
+        "store.product.off",
+        "store.product.no_stock",
+        "store.product.reviews",
+      ],
+    }),
+    getRemoteConfig({ locale, nameSpace: ["common.base"] }),
+    getBlogCategory({ locale, sortKey }),
+    getBlogDetail({ locale, sortKey, blogKey }),
+  ]);
 
-  const blogSortList = Object.keys(BLOG?.sort || {})
-    .map((key) => BLOG.sort[key])
-    .sort((a, b) => b.weight - a.weight);
+  const blogSortList = [...(blog.categories || [])].sort(
+    (a, b) => b.weight - a.weight
+  );
 
   return {
     blogSortList,
     blogArticle,
     CONFIG,
     LANG,
-    // GOODDISCOUNTFESTIVAL,
   };
 };
 

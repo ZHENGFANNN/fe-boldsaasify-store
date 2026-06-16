@@ -66,6 +66,8 @@ export default function LeftArea({ navActive, setNavActive }) {
         const $activeNavContentDom = $navDom.querySelector(
           `.${styles.nav_item_content}`
         );
+        // 直链项（type:"link"）无 nav_item_content 子节点，跳过
+        if (!$activeNavContentDom) continue;
         $activeNavContentDom.style = ``;
       }
       setActiveKey(undefined);
@@ -138,6 +140,8 @@ export default function LeftArea({ navActive, setNavActive }) {
         const $activeNavContentDom = $navDom.querySelector(
           `.${styles.nav_item_content}`
         );
+        // 直链项（type:"link"）无 nav_item_content 子节点，跳过
+        if (!$activeNavContentDom) continue;
         $activeNavContentDom.style = ``;
       }
       setActiveKey(undefined);
@@ -260,6 +264,7 @@ export default function LeftArea({ navActive, setNavActive }) {
                         const $activeNavContentDom = $navDom.querySelector(
                           `.${styles.nav_item_content}`
                         );
+                        if (!$activeNavContentDom) continue;
                         $activeNavContentDom.style = `transition: all 400ms ease-in-out;height: 0px; opacity: 1;`;
                       }
 

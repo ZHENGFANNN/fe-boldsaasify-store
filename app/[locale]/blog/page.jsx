@@ -1,6 +1,8 @@
 /** @format */
 import React from "react";
-import getConfigData from "../../utils/getConfigData";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import getRemoteConfig from "@/config/Api/getRemoteConfig";
+import { getBlogList } from "@/config/Api/getRemoteBlogList";
 import getRemoteBlogBanner from "@/config/Api/getRemoteBlogBanner";
 import styles from "./page.module.scss";
 import ArticleCard from "./components/ArticleCard";
@@ -9,42 +11,32 @@ import Link from "next/link";
 import Banner from "./components/Banner";
 import { buildAlternates } from "@/config/seo";
 
+// language / config / blog 列表 / banner 各走独立远程接口（不再经 getConfigData 聚合）。
 async function getData({ locale }) {
-  const [{ LANG, BLOG, CONFIG }, banner] = await Promise.all([
-    getConfigData({
+  const [LANG, CONFIG, blogSortList, banner] = await Promise.all([
+    getRemoteLanguage({
       locale,
-      configList: ["blog", "config", "language"],
-      configNameSpace: ["common.base"],
-      blogNameSpace: ["sort"],
-      languageNameSpace: [
+      nameSpace: [
         "store.blog_index.view_all",
         "store.blog_index.all",
         "store.blog_index.title",
       ],
     }),
+    getRemoteConfig({ locale, nameSpace: ["common.base"] }),
+    getBlogList({ locale }),
     getRemoteBlogBanner({ locale }),
   ]);
 
-  // banner 改独立接口取（不再混进 getConfigData / 布局聚合）
-  BLOG.banner = banner;
-
-  // 处理Blog
-  const { sort: blogSort } = BLOG;
-  const blogSortList = Object.keys(blogSort)
-    .map((key) => blogSort[key])
-    .sort((a, b) => b.weight - a.weight);
-  BLOG.blogSortList = blogSortList;
-
-  return { LANG, BLOG, CONFIG };
+  return { LANG, CONFIG, blogSortList, banner };
 }
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
-  const { LANG, CONFIG, BLOG } = await getData({ locale });
+  const { LANG, CONFIG, blogSortList, banner } = await getData({ locale });
 
   let twitterImageList = [],
     openGraphImageList = [];
-  BLOG.banner.forEach((item) => {
+  banner.forEach((item) => {
     twitterImageList.push(item.image);
     openGraphImageList.push({
       url: item.image,
@@ -54,7 +46,7 @@ export async function generateMetadata({ params }) {
   });
 
   const title = `${CONFIG["common.base"]?.company_name} ${LANG["store.blog_index.title"]}`;
-  const description = BLOG.blogSortList.map((item) => item.name).join(",");
+  const description = blogSortList.map((item) => item.name).join(",");
 
   return {
     title,
@@ -102,13 +94,13 @@ function BlogArticleCard({ blogSort, locale, LANG }) {
 
 export default async function BlogSort({ params }) {
   const { locale } = await params;
-  const { LANG, BLOG } = await getData({ locale });
+  const { LANG, blogSortList, banner } = await getData({ locale });
   return (
     <>
-      <BaseLayout blogSortList={BLOG.blogSortList} LANG={LANG} />
-      {BLOG.banner.length > 0 ? <Banner list={BLOG.banner} /> : null}
+      <BaseLayout blogSortList={blogSortList} LANG={LANG} />
+      {banner.length > 0 ? <Banner list={banner} /> : null}
       <div className={styles.container}>
-        {BLOG.blogSortList.map((item, index) => {
+        {blogSortList.map((item, index) => {
           return (
             <BlogArticleCard
               LANG={LANG}

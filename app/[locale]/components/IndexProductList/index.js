@@ -14,6 +14,18 @@ import tracking from "@/[locale]/tracking";
 const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
 const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_icon.svg`;
 
+// 把单个商品的 comboList[].areaList 按地区解析成 areaInfo（取首个有该地区价的套餐）。
+// 与分类页 CategoryList.resolveAreaInfo 一致：服务端不再预解析，客户端按 area cookie 实时算。
+function resolveAreaInfo(comboList, area) {
+  const list = Array.isArray(comboList) ? comboList : [];
+  for (const combo of list) {
+    const areaList = Array.isArray(combo?.areaList) ? combo.areaList : [];
+    const hit = areaList.find((a) => a.country_code === area);
+    if (hit) return hit;
+  }
+  return null;
+}
+
 function ReviewRate({ LANG, reviewScore, reviewsNum }) {
   return (
     <div className={styles.stars_container}>
@@ -47,10 +59,11 @@ function ReviewRate({ LANG, reviewScore, reviewsNum }) {
 function ProductItem({ goodList }) {
   // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
   const goodDiscountFestival = false;
-  const { CONFIG, LANG } = React.useContext(IndexContent);
+  const { CONFIG, LANG, area } = React.useContext(IndexContent);
   return (
     <section className={styles.goods_container}>
       {goodList.map((product, productIndex) => {
+        const areaInfo = resolveAreaInfo(product.comboList, area);
         return (
           <React.Fragment key={productIndex}>
             <Link
@@ -94,33 +107,33 @@ function ProductItem({ goodList }) {
                 {/* 产品名称 */}
                 <h3 className={styles.product_name}>{product.name}</h3>
                 {/* 产品优惠 */}
-                {goodDiscountFestival && product.areaInfo?.product_discount ? (
+                {goodDiscountFestival && areaInfo?.product_discount ? (
                   <div className={styles.good_discount_container}>
                     <div className={styles.off}>{LANG["store.index.off"]}</div>
                     <div className={styles.discount}>
-                      {100 - product.areaInfo?.product_discount}%
+                      {100 - areaInfo?.product_discount}%
                     </div>
                   </div>
                 ) : null}
                 {/* 产品价格 */}
-                {!product.areaInfo?.selling_price ? (
+                {!areaInfo?.selling_price ? (
                   <div className={styles.product_stock_container}>
                     {LANG["store.index.no_stock"]}
                   </div>
                 ) : (
                   <div className={styles.product_price_container}>
                     {goodDiscountFestival &&
-                    product.areaInfo?.product_discount ? (
+                    areaInfo?.product_discount ? (
                       <div>{`${
-                        product.areaInfo?.currency_symbol
+                        areaInfo?.currency_symbol
                       }${formatCurrency(
-                        product.areaInfo?.selling_price,
-                        product.areaInfo?.currency_unit
+                        areaInfo?.selling_price,
+                        areaInfo?.currency_unit
                       )}`}</div>
                     ) : null}
-                    <div>{`${product.areaInfo?.currency_symbol}${formatCurrency(
-                      product.areaInfo?.product_price,
-                      product.areaInfo?.currency_unit
+                    <div>{`${areaInfo?.currency_symbol}${formatCurrency(
+                      areaInfo?.product_price,
+                      areaInfo?.currency_unit
                     )}`}</div>
                   </div>
                 )}
@@ -141,10 +154,10 @@ function ProductItem({ goodList }) {
                       "@type": "Offer",
                       price:
                         formatCurrency(
-                          product.areaInfo?.selling_price,
-                          product.areaInfo?.currency_unit
+                          areaInfo?.selling_price,
+                          areaInfo?.currency_unit
                         ) ?? 99999,
-                      priceCurrency: product.areaInfo?.currency ?? "USD",
+                      priceCurrency: areaInfo?.currency ?? "USD",
                     },
                     sku: CONFIG["common.base"]?.company_name,
                     mpn: product.key,
