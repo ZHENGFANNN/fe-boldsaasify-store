@@ -45,7 +45,9 @@ function ReviewRate({ LANG, reviewScore, reviewsNum }) {
 }
 
 function ProductItem({ goodList }) {
-  const { CONFIG, LANG, goodDiscountFestival } = React.useContext(IndexContent);
+  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
+  const goodDiscountFestival = false;
+  const { CONFIG, LANG } = React.useContext(IndexContent);
   return (
     <section className={styles.goods_container}>
       {goodList.map((product, productIndex) => {

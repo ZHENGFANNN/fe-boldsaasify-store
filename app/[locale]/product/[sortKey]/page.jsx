@@ -94,7 +94,7 @@ export default async function ProductCategory({ params }) {
       categories={categories}
       sortKey={sortKey}
       LANG={LANG}
-      goodDiscountFestival={undefined}
+      // goodDiscountFestival={undefined}
     />
   );
 }

@@ -9,7 +9,9 @@ import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 import ProductReviewsRate from "../ProductReviewsRate";
 
-export default function ProductList({ products, goodDiscountFestival, LANG }) {
+export default function ProductList({ products, LANG }) {
+  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
+  const goodDiscountFestival = false;
   const initSplide = React.useCallback(() => {
     const splide = new Splide(`.${styles.splide}`, {
       pagination: false,

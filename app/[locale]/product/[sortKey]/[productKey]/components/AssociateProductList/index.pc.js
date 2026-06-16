@@ -14,9 +14,11 @@ import GoodReviewsRate from "../GoodMainRight/GoodReviewsRate";
 
 export default function PcProductList({
   LANG,
-  goodDiscountFestival,
+  // goodDiscountFestival,
   products,
 }) {
+  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
+  const goodDiscountFestival = false;
   const { lazyLoading } = React.useContext(ProductContext);
   const [active, setActive] = React.useState(0);
   const [showArrow, setShowArrow] = React.useState(true);

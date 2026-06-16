@@ -8,11 +8,13 @@ import ProductContext from "../../../ProductContext";
 import { formatCurrency } from "@/utils";
 
 export default function GoodComboList() {
+  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
+  const goodDiscountFestival = false;
   const {
     LANG,
     productCurCombo,
     setProductCurCombo,
-    goodDiscountFestival,
+    // goodDiscountFestival,
     productInfo: { comboList }
   } = React.useContext(ProductContext);
   const [active, setActive] = React.useState(() => {

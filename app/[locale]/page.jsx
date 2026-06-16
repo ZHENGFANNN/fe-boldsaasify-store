@@ -12,7 +12,7 @@ async function getData({ locale, area }) {
   const result = await getConfigData({
     locale,
     area,
-    configList: ["config", "language", "product", "goodDiscountFestival"],
+    configList: ["config", "language", "product"],
     productNameSpace: ["sort"],
     languageNameSpace: [
       "store.index",
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }) {
 async function HomeContent({ locale }) {
   const cookieStore = await cookies();
   const area = cookieStore.get("area")?.value || "us";
-  const { CONFIG, LANG, GOODDISCOUNTFESTIVAL, PRODUCT } = await getData({
+  const { CONFIG, LANG, PRODUCT } = await getData({
     locale,
     area
   });
@@ -66,7 +66,7 @@ async function HomeContent({ locale }) {
       <IndexContext
         CONFIG={CONFIG}
         LANG={LANG}
-        goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+        // goodDiscountFestival={GOODDISCOUNTFESTIVAL}
         goodSortList={PRODUCT.sort}
         locale={locale}
         area={area}

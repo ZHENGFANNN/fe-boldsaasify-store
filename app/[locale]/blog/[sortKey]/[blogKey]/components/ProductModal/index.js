@@ -24,7 +24,7 @@ function resolveAreaList(productList, area) {
 export default function ProductModal({
   LANG,
   productList,
-  goodDiscountFestival,
+  // goodDiscountFestival,
 }) {
   const modalRef = React.useRef(null);
   const [showTip, setShowTip] = React.useState(false);
@@ -91,7 +91,7 @@ export default function ProductModal({
         <ProductList
           products={resolvedProductList}
           LANG={LANG}
-          goodDiscountFestival={goodDiscountFestival}
+          // goodDiscountFestival={goodDiscountFestival}
         />
       </Modal>
       <div

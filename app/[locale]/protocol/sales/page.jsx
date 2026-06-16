@@ -1,19 +1,18 @@
 /** @format */
 
 import styles from "./page.module.scss";
-import getConfigData from "../../../utils/getConfigData";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import fillTemplate from "../../../utils/fillTemplate";
 import { buildAlternates } from "@/config/seo";
 import StickyTitle from "./components/StickyTitle";
 
 async function getData({ locale }) {
-  const result = await getConfigData({
-    locale,
-    configList: ["config", "language"],
-    languageNameSpace: ["www.sales_policy"],
-    configNameSpace: ["common.base", "protocol.sales"],
-  });
-  return result;
+  const [LANG, CONFIG] = await Promise.all([
+    getRemoteLanguage({ locale, nameSpace: ["www.sales_policy"] }),
+    getRemoteConfig({ locale, nameSpace: ["common.base", "protocol.sales"] }),
+  ]);
+  return { LANG, CONFIG };
 }
 
 export async function generateMetadata({ params }) {

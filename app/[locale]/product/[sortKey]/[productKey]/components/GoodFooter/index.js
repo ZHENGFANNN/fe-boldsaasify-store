@@ -10,9 +10,11 @@ import { debounce } from "@/utils";
 import { recordRecentlyViewed } from "@/components/LiveChat/recentlyViewed";
 
 export default function GoodFooter() {
+  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
+  const goodDiscountFestival = false;
   const {
     LANG,
-    goodDiscountFestival,
+    // goodDiscountFestival,
     productInfo,
     productNum,
     productCurCombo,

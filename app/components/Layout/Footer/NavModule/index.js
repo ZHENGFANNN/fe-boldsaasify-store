@@ -5,31 +5,21 @@ import GlobalContext from "@/[locale]/context";
 import Link from "next/link";
 
 import TipModal from "@/components/Modal/FunctionTipModal";
-import NAVFUNC from "@/config/NAVFUNC";
 
 import styles from "./index.module.scss";
 
 function useFooterConfig() {
-  const { LANG, CONFIG, BLOG, PRODUCT } = React.useContext(GlobalContext);
+  const { CONFIG } = React.useContext(GlobalContext);
   const { title, content, footerList: configFooterList } =
     CONFIG["common.footer_nav"] || {};
 
+  // 页脚导航全面配置化：只读 CONFIG["common.footer_nav"].footerList，未配置则为空。
   const footerList = React.useMemo(() => {
     if (Array.isArray(configFooterList) && configFooterList.length > 0) {
       return configFooterList.filter((item) => item.title);
     }
-
-    return NAVFUNC({
-      BLOG,
-      LANG,
-      CONFIG,
-      PRODUCT,
-      type: "footer",
-    }).map((item) => ({
-      title: item.title,
-      children: item.list,
-    }));
-  }, [configFooterList, BLOG, LANG, CONFIG, PRODUCT]);
+    return [];
+  }, [configFooterList]);
 
   return { title, content, footerList };
 }

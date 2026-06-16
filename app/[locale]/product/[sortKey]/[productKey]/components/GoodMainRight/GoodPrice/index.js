@@ -7,7 +7,9 @@ import PriceSkeleton from "./PriceSkeleton";
 import styles from "./index.module.scss";
 
 export default function GoodPrice() {
-  const { LANG, productCurCombo, goodDiscountFestival, priceLoading } =
+  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
+  const goodDiscountFestival = false;
+  const { LANG, productCurCombo, priceLoading } =
     React.useContext(ProductContext);
 
   // 非 us 地区拉取地区价期间：种子价(us)不可信，用骨架占位。

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ProductContext from "../../ProductContext";
-import GlobalContext from "@/[locale]/context";
+// import GlobalContext from "@/[locale]/context"; // 节日折扣停用后不再使用
 import { pickCombo, applyProductPricing } from "@/utils/productPricing";
 import readClientArea from "@/utils/readClientArea";
 import getProductPricing from "@/service/product/get-pricing";
@@ -17,8 +17,9 @@ export default function BaseLayout({
   baseProductInfo,
   productInfo: initialProductInfo
 }) {
-  const { goodDiscountFestival: globalFestival } =
-    React.useContext(GlobalContext) || {};
+  // 节日折扣已停用：不再从 GlobalContext 取 goodDiscountFestival。
+  // const { goodDiscountFestival: globalFestival } =
+  //   React.useContext(GlobalContext) || {};
 
   const initialProductRef = React.useRef(initialProductInfo);
 
@@ -131,7 +132,7 @@ export default function BaseLayout({
         CONFIG,
         isMobile,
         productInfo,
-        goodDiscountFestival: globalFestival,
+        // goodDiscountFestival: globalFestival,
         lazyLoading,
         setLazyLoading,
         priceLoading,

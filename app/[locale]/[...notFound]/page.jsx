@@ -1,17 +1,12 @@
 /** @format */
 
-import getConfigData from "../../utils/getConfigData";
-import { cookies } from "next/headers";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import Main from "./Main";
 
 async function NotFoundContent({ locale }) {
-  const cookieStore = await cookies();
-  const area = cookieStore.get("area")?.value || "us";
-  const { LANG } = await getConfigData({
+  const LANG = await getRemoteLanguage({
     locale,
-    area,
-    configList: ["language"],
-    languageNameSpace: ["common.not_found"]
+    nameSpace: ["common.not_found"]
   });
 
   return <Main LANG={LANG} />;

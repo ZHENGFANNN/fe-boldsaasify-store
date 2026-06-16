@@ -12,11 +12,8 @@ import openLiveChat from "@/components/LiveChat/openLiveChat";
 
 export default function Layout({
   locale,
-  BLOG,
   LANG,
   CONFIG,
-  PRODUCT,
-  goodDiscountFestival,
   children,
 }) {
   const { area, areaReady } = useArea();
@@ -60,10 +57,7 @@ export default function Layout({
         area,
         areaReady,
         LANG,
-        BLOG,
         CONFIG,
-        PRODUCT,
-        goodDiscountFestival,
         // ProductNum
         productNum,
         setProductNum,

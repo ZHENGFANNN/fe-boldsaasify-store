@@ -2,13 +2,21 @@
 
 import { cookies } from "next/headers";
 import Main from "./component/Main";
-import getConfigData from "../../utils/getConfigData";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import getRemoteConfig from "@/config/Api/getRemoteConfig";
+
+async function getData({ locale, languageNameSpace, configNameSpace }) {
+  const [LANG, CONFIG] = await Promise.all([
+    getRemoteLanguage({ locale, nameSpace: languageNameSpace }),
+    getRemoteConfig({ locale, nameSpace: configNameSpace })
+  ]);
+  return { LANG, CONFIG };
+}
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
-  const { LANG, CONFIG } = await getConfigData({
+  const { LANG, CONFIG } = await getData({
     locale,
-    configList: ["config", "language"],
     languageNameSpace: ["store.order"],
     configNameSpace: ["common.base"]
   });
@@ -20,22 +28,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-async function getData({
-  locale,
-  area,
-  configList,
-  languageNameSpace,
-  configNameSpace
-}) {
-  return getConfigData({
-    locale,
-    area,
-    configList,
-    languageNameSpace,
-    configNameSpace
-  });
-}
-
 async function OrderContent({ locale }) {
   const cookieStore = await cookies();
   const area = cookieStore.get("area")?.value || "us";
@@ -43,8 +35,6 @@ async function OrderContent({ locale }) {
 
   const { CONFIG, LANG } = await getData({
     locale,
-    area,
-    configList: ["config", "language"],
     languageNameSpace: [
       "store.order",
       "common.pay",

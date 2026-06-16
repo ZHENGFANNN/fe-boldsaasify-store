@@ -42,7 +42,9 @@ function updateCountdown(endTime) {
 }
 
 export default function Countdown() {
-  const { lazyLoading, productCurCombo, goodDiscountFestival, LANG } =
+  // 节日折扣已停用：恒为 false，倒计时整体不渲染（源码保留以备复用）。
+  const goodDiscountFestival = false;
+  const { lazyLoading, productCurCombo, LANG } =
     React.useContext(ProductContext);
   React.useEffect(() => {
     if (!lazyLoading && !goodDiscountFestival?.long_activity) {

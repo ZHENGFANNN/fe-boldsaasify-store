@@ -12,7 +12,7 @@ export default function AssociateProductList() {
   const {
     LANG,
     productInfo: { associateProduct },
-    goodDiscountFestival,
+    // goodDiscountFestival,
     isMobile,
     lazyLoading,
   } = React.useContext(ProductContext);
@@ -32,13 +32,13 @@ export default function AssociateProductList() {
       {device === "pc" ? (
         <PcProductList
           LANG={LANG}
-          goodDiscountFestival={goodDiscountFestival}
+          // goodDiscountFestival={goodDiscountFestival}
           products={associateProduct}
         />
       ) : (
         <MobProductList
           LANG={LANG}
-          goodDiscountFestival={goodDiscountFestival}
+          // goodDiscountFestival={goodDiscountFestival}
           products={associateProduct}
         />
       )}

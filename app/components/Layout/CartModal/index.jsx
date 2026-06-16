@@ -8,6 +8,7 @@ import tracking from "../tracking";
 
 import GlobalContext from "../../../[locale]/context";
 import { formatCurrency } from "../../../utils";
+import resolveCartFromApi from "../cartClient";
 
 import { useRouter } from "next/navigation";
 
@@ -66,7 +67,9 @@ const EmptyCart = function ({ handleClose }) {
 };
 
 const CartMain = function ({ handleClose }) {
-  const { locale, LANG, PRODUCT, goodDiscountFestival, setProductNum } =
+  // 节日折扣已停用：恒为 false，下方倒计时/折扣 UI 自然隐藏（源码保留以备复用）。
+  const goodDiscountFestival = false;
+  const { locale, LANG, area, areaReady, setProductNum } =
     React.useContext(GlobalContext);
   const [cartList, setCartList] = React.useState([]);
   const [hours, setHours] = React.useState("00");
@@ -90,71 +93,41 @@ const CartMain = function ({ handleClose }) {
   }, [goodDiscountFestival]);
 
   React.useEffect(() => {
-    // 处理购物车
-    let localStoreList = window.localStorage.getItem("store_shopping");
-    try {
-      localStoreList = JSON.parse(localStoreList ?? []);
-      const list = [];
-      localStoreList.forEach((item) => {
-        let comboInfo;
-        // 查找该语言的商品
-        const product = PRODUCT.cart.find(
-          (product) =>
-            item.productKey === product.key && item.sortKey === product.sort_key
-        );
-        if (product) {
-          // 查找当前语言的套餐
-          comboInfo = product.comboList.find(
-            (combo) => combo.key === item.comboKey
-          );
-        }
-        // 处理选项
-        let options;
-        try {
-          if (typeof item.options === "object") {
-            options = item.options;
-          } else {
-            options = JSON.parse(item.options);
-          }
-        } catch {
-          options = [];
-        }
-
-        if (comboInfo?.areaInfo && comboInfo && product) {
-          // 库存存在，才放入列表
-          if (comboInfo.areaInfo.stock) {
-            list.push({
-              // 套餐相关
-              id: comboInfo.id,
-              comboName: comboInfo.title,
-              // 地区相关
-              currency: comboInfo.areaInfo.currency,
-              currency_unit: comboInfo.areaInfo.currency_unit,
-              priceSymbol: comboInfo.areaInfo.currency_symbol,
-              product_price: comboInfo.areaInfo.product_price,
-              selling_price: comboInfo.areaInfo.selling_price,
-              product_discount: comboInfo.areaInfo.product_discount,
-              stock: comboInfo.areaInfo.stock,
-              // 产品相关
-              name: product.name,
-              image: product.image,
-              href: `/${locale}/product/${product.sort_key}/${product.key}`,
-              sortKey: product.sort_key,
-              productKey: product.key,
-              comboKey: comboInfo.key,
-              // 其他
-              productNum: item.productNum,
-              options,
-            });
-          }
-        }
-      });
+    // 地区就绪后再取价（价格随 area 实时，走 /api/cart）。
+    if (!areaReady) return;
+    let cancelled = false;
+    (async () => {
+      const rows = await resolveCartFromApi({ area, language: locale });
+      if (cancelled) return;
+      const list = rows.map((row) => ({
+        // 套餐相关
+        id: row.id,
+        comboName: row.comboName,
+        // 地区相关
+        currency: row.areaInfo.currency,
+        currency_unit: row.areaInfo.currency_unit,
+        priceSymbol: row.areaInfo.currency_symbol,
+        product_price: row.areaInfo.product_price,
+        selling_price: row.areaInfo.selling_price,
+        product_discount: row.areaInfo.product_discount,
+        stock: row.areaInfo.stock,
+        // 产品相关
+        name: row.name,
+        image: row.image,
+        href: `/${locale}/product/${row.sortKey}/${row.productKey}`,
+        sortKey: row.sortKey,
+        productKey: row.productKey,
+        comboKey: row.comboKey,
+        // 其他
+        productNum: row.productNum,
+        options: row.options,
+      }));
       setCartList(list);
-    } catch (err) {
-      console.warn("【购物列表解析失败】", err);
-      localStorage.setItem("store_shopping", JSON.stringify([]));
-    }
-  }, []);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [areaReady, area, locale]);
 
   const [totalPrice, setTotalPrice] = React.useState(0);
   React.useEffect(() => {

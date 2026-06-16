@@ -10,11 +10,9 @@ import Head from "@/components/Head";
 import GoogleAuthProvider from "@/components/GoogleAuth";
 import GoogleOneTap from "@/components/GoogleAuth/GoogleOneTap";
 
-import getConfigData from "@/utils/getConfigData";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import languageSettings from "@/config/languageSettings";
-// import { cookies } from "next/headers";
 
 // [locale] 段在构建期可枚举，配合 generateStaticParams 完全预渲染
 export function generateStaticParams() {
@@ -44,6 +42,7 @@ const CONFIG_NAMESPACE = [
   "common.base",
   "common.social",
   "common.top_bar",
+  "common.top_nav",
   "common.footer_nav"
 ];
 
@@ -51,53 +50,23 @@ const CONFIG_NAMESPACE = [
  * 获取布局数据。传统 ISR：不再用 'use cache'，
  * 缓存语义下沉到各 fetch 的 next:{tags,revalidate}。
  *
- * LANG / CONFIG 改走独立按命名空间接口（getRemoteLanguage / getRemoteConfig，
- * 后端整形 + TTL，前端开箱即用），不再经 getConfigData 转发；
- * BLOG / PRODUCT / 折扣节仍由 getConfigData 聚合。
+ * 导航全面配置化：导航栏读 CONFIG["common.top_nav"]、页脚读 CONFIG["common.footer_nav"]，
+ * 不再依赖商品/博客分类聚合数据（旧 NAVFUNC + PRODUCT/BLOG layout 已下线）。
+ * 购物车改 /api/cart 实时取价；博客 banner 由 blog 首页独立调用。
+ *   - LANG / CONFIG：getRemoteLanguage / getRemoteConfig（按 nameSpace + locale）
  */
-async function getData({ locale, area }) {
-  const [LANG, CONFIG, rest] = await Promise.all([
+async function getData({ locale }) {
+  const [LANG, CONFIG] = await Promise.all([
     getRemoteLanguage({ locale, nameSpace: LANG_NAMESPACE }),
-    getRemoteConfig({ locale, nameSpace: CONFIG_NAMESPACE }),
-    getConfigData({
-      locale,
-      configList: ["goodSort", "blog", "good", "product"],
-      blogNameSpace: ["layout"],
-      productNameSpace: ["layout", "sort"]
-    })
+    getRemoteConfig({ locale, nameSpace: CONFIG_NAMESPACE })
   ]);
-
-  const { BLOG, PRODUCT, GOODDISCOUNTFESTIVAL } = rest;
-
-  const productList = [];
-
-  PRODUCT.sort.forEach((item) => {
-    return productList.push(...item.goodList);
-  });
-
-  PRODUCT.cart = productList.map((item) => ({
-    key: item.key,
-    name: item.name,
-    sort_key: item.sort_key,
-    image: item.image,
-    comboList: item.comboList.map(
-      ({ img_list, smart_img, description, ...combo }) => combo
-    )
-  }));
-
-  return { LANG, CONFIG, BLOG, PRODUCT, GOODDISCOUNTFESTIVAL };
+  return { LANG, CONFIG };
 }
 
 export default async function RootLayout(props) {
   const { children, params } = props;
   const { locale } = await params;
-  // const cookieStore = await cookies();
-  // const area = cookieStore.get("area")?.value || "us";
-  const area = "us";
-  const { CONFIG, LANG, GOODDISCOUNTFESTIVAL, BLOG, PRODUCT } = await getData({
-    locale,
-    area
-  });
+  const { CONFIG, LANG } = await getData({ locale });
 
   return (
     <html lang={locale}>
@@ -106,14 +75,7 @@ export default async function RootLayout(props) {
         <GTMNoScript />
         <GoogleAuthProvider>
           <GoogleOneTap />
-          <Layout
-            locale={locale}
-            LANG={LANG}
-            BLOG={BLOG}
-            CONFIG={CONFIG}
-            PRODUCT={PRODUCT}
-            goodDiscountFestival={GOODDISCOUNTFESTIVAL}
-          >
+          <Layout locale={locale} LANG={LANG} CONFIG={CONFIG}>
             <Navbar />
             <div id="app-content">{children}</div>
             <Footer />

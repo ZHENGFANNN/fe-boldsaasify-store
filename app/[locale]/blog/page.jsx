@@ -1,6 +1,7 @@
 /** @format */
 import React from "react";
 import getConfigData from "../../utils/getConfigData";
+import getRemoteBlogBanner from "@/config/Api/getRemoteBlogBanner";
 import styles from "./page.module.scss";
 import ArticleCard from "./components/ArticleCard";
 import BaseLayout from "./components/BaseLayout";
@@ -9,17 +10,23 @@ import Banner from "./components/Banner";
 import { buildAlternates } from "@/config/seo";
 
 async function getData({ locale }) {
-  const { LANG, BLOG, CONFIG } = await getConfigData({
-    locale,
-    configList: ["blog", "config", "language"],
-    configNameSpace: ["common.base"],
-    blogNameSpace: ["banner", "sort"],
-    languageNameSpace: [
-      "store.blog_index.view_all",
-      "store.blog_index.all",
-      "store.blog_index.title",
-    ],
-  });
+  const [{ LANG, BLOG, CONFIG }, banner] = await Promise.all([
+    getConfigData({
+      locale,
+      configList: ["blog", "config", "language"],
+      configNameSpace: ["common.base"],
+      blogNameSpace: ["sort"],
+      languageNameSpace: [
+        "store.blog_index.view_all",
+        "store.blog_index.all",
+        "store.blog_index.title",
+      ],
+    }),
+    getRemoteBlogBanner({ locale }),
+  ]);
+
+  // banner 改独立接口取（不再混进 getConfigData / 布局聚合）
+  BLOG.banner = banner;
 
   // 处理Blog
   const { sort: blogSort } = BLOG;

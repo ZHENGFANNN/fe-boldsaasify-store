@@ -3,18 +3,17 @@
 import Link from "next/link";
 import styles from "./page.module.scss";
 import React from "react";
-import getConfigData from "../../../utils/getConfigData";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import RegisterForm from "./components/RegisterForm";
 import GoogleLoginPanel from "@/components/GoogleAuth/GoogleLoginPanel";
 
 async function getData({ locale }) {
-  const result = await getConfigData({
-    locale,
-    configList: ["config", "language"],
-    languageNameSpace: ["user_register"],
-    configNameSpace: ["common.base"],
-  });
-  return result;
+  const [LANG, CONFIG] = await Promise.all([
+    getRemoteLanguage({ locale, nameSpace: ["user_register"] }),
+    getRemoteConfig({ locale, nameSpace: ["common.base"] }),
+  ]);
+  return { LANG, CONFIG };
 }
 
 export async function generateMetadata({ params }) {

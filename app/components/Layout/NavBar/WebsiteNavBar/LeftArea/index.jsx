@@ -1,7 +1,8 @@
 import React from "react";
 import GlobalContext from "@/[locale]/context";
 
-import NAVFUNC from "@/config/NAVFUNC";
+import Skeleton from "@/components/Skeleton";
+import { countryMap } from "@/config/marketSettings";
 import TipModal from "@/components/Modal/FunctionTipModal";
 import Link from "next/link";
 
@@ -10,22 +11,45 @@ import { trackingCustomClick } from "@/utils";
 import styles from "./index.module.scss";
 
 export default function LeftArea({ navActive, setNavActive }) {
-  const { LANG, CONFIG, BLOG, PRODUCT } = React.useContext(GlobalContext);
+  const { LANG, CONFIG, showAreaModal, area, areaReady } =
+    React.useContext(GlobalContext);
+  const resolvedArea = area || "us";
   const ModalRef = React.useRef(null);
   // Nav Content
   const navListContainerRef = React.useRef(null);
   // 下拉激活
   const [activeKey, setActiveKey] = React.useState();
 
+  const countryText = React.useMemo(() => {
+    const currentArea = countryMap[resolvedArea];
+    if (!currentArea) return "";
+    return `${currentArea.country} (${currentArea.currency_symbol}${currentArea.currency})`;
+  }, [resolvedArea]);
+
+  // 导航配置化：读 CONFIG["common.top_nav"]（ERP 后台配置），未配置则不渲染导航项。
+  //   - type:"link"  → 直链项（无下拉）
+  //   - type:"list"  → 下拉项，children:[{sub_title,href,img}]；item_type 决定文本/图片样式
   const navList = React.useMemo(() => {
-    return NAVFUNC({
-      LANG,
-      BLOG,
-      CONFIG,
-      PRODUCT,
-      type: "nav"
-    });
-  }, [LANG, CONFIG, PRODUCT, BLOG]);
+    const topNav = CONFIG["common.top_nav"];
+    if (!Array.isArray(topNav)) return [];
+    return topNav
+      .filter((item) => item.title)
+      .map((item) => ({
+        key: item.id,
+        type: item.type,
+        item_type: item.item_type,
+        title: item.title,
+        href: item.href,
+        list: Array.isArray(item.children)
+          ? item.children.map((c) => ({
+              key: c.id,
+              sub_title: c.sub_title,
+              href: c.href,
+              img: c.img
+            }))
+          : []
+      }));
+  }, [CONFIG]);
 
   // 逻辑处理
   // 展开导航栏屏幕（小于1080）
@@ -186,6 +210,22 @@ export default function LeftArea({ navActive, setNavActive }) {
             }}
           >
             {navList.map((item, index) => {
+              // 直链项（无下拉）：标题即链接
+              if (item.type === "link") {
+                return (
+                  <li key={item.key}>
+                    <Link
+                      scroll={true}
+                      href={item.href || "/"}
+                      className={styles.nav_item_title}
+                      onClick={() => setNavActive(false)}
+                    >
+                      <div>{item.title}</div>
+                    </Link>
+                  </li>
+                );
+              }
+              const isText = item.item_type === "text";
               return (
                 <li
                   key={item.key}
@@ -265,7 +305,7 @@ export default function LeftArea({ navActive, setNavActive }) {
                   >
                     <div
                       className={styles.nav_item_content_wrapper}
-                      data-list-text={item.key === "blog"}
+                      data-list-text={isText}
                     >
                       {item.list.map((navSubItem, navSubIndex) => {
                         return (
@@ -274,7 +314,7 @@ export default function LeftArea({ navActive, setNavActive }) {
                             key={navSubIndex}
                             data-active={item.key === activeKey}
                           >
-                            {item.key === "blog" ? (
+                            {isText ? (
                               <>
                                 <NavSubTextItem
                                   lastItem={
@@ -288,7 +328,7 @@ export default function LeftArea({ navActive, setNavActive }) {
                                 />
                               </>
                             ) : null}
-                            {item.key !== "blog" ? (
+                            {!isText ? (
                               <>
                                 <NavSubCommonItem
                                   href={item.href}

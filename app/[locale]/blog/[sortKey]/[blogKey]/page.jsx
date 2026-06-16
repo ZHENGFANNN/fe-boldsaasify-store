@@ -34,11 +34,11 @@ export async function generateStaticParams() {
 // blogSortList 用于顶部 BaseLayout，来自 getBlogData 的 "sort" 命名空间。
 // 不再读取 area cookie —— 关联商品保留完整 areaList，选价下沉到客户端 ProductModal。
 const getData = async function ({ locale, blogKey, sortKey }) {
-  const [{ BLOG, CONFIG, LANG, GOODDISCOUNTFESTIVAL }, blogArticle] =
+  const [{ BLOG, CONFIG, LANG }, blogArticle] =
     await Promise.all([
       getConfigData({
         locale,
-        configList: ["blog", "config", "language", "goodDiscountFestival"],
+        configList: ["blog", "config", "language"],
         blogNameSpace: ["sort"],
         configNameSpace: ["common.base"],
         languageNameSpace: [
@@ -62,7 +62,7 @@ const getData = async function ({ locale, blogKey, sortKey }) {
     blogArticle,
     CONFIG,
     LANG,
-    GOODDISCOUNTFESTIVAL,
+    // GOODDISCOUNTFESTIVAL,
   };
 };
 
@@ -103,7 +103,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Article({ params }) {
   const { locale, blogKey, sortKey } = await params;
-  const { CONFIG, LANG, blogSortList, blogArticle, GOODDISCOUNTFESTIVAL } =
+  const { CONFIG, LANG, blogSortList, blogArticle } =
     await getData({ locale, blogKey, sortKey });
 
   if (!blogArticle) return null;
@@ -142,7 +142,7 @@ export default async function Article({ params }) {
         <ProductModal
           LANG={LANG}
           locale={locale}
-          goodDiscountFestival={GOODDISCOUNTFESTIVAL}
+          // goodDiscountFestival={GOODDISCOUNTFESTIVAL}
           productList={blogArticle.associateProduct}
         />
       ) : null}

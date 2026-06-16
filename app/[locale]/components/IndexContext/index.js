@@ -7,7 +7,7 @@ export default function IndexContext({
   children,
   CONFIG,
   LANG,
-  goodDiscountFestival,
+  // goodDiscountFestival,
   goodSortList,
   locale,
   area,
@@ -17,7 +17,7 @@ export default function IndexContext({
       value={{
         CONFIG,
         LANG,
-        goodDiscountFestival,
+        // goodDiscountFestival,
         goodSortList,
         locale,
         area,

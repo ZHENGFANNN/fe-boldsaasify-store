@@ -3,16 +3,15 @@
 import styles from "../forget/page.module.scss";
 import React from "react";
 
-import getConfigData from "../../../utils/getConfigData";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import ResetForm from "./components/ResetForm";
 async function getData({ locale }) {
-  const result = await getConfigData({
-    locale,
-    configList: ["config", "language"],
-    languageNameSpace: ["user_forget"],
-    configNameSpace: ["common.base"],
-  });
-  return result;
+  const [LANG, CONFIG] = await Promise.all([
+    getRemoteLanguage({ locale, nameSpace: ["user_forget"] }),
+    getRemoteConfig({ locale, nameSpace: ["common.base"] }),
+  ]);
+  return { LANG, CONFIG };
 }
 
 export async function generateMetadata({ params }) {

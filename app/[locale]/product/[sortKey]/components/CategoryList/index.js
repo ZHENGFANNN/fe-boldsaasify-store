@@ -60,7 +60,9 @@ function getDisplayPrice(product, area) {
 
 const PAGE_SIZE = 10;
 
-function ProductCard({ product, LANG, goodDiscountFestival, area }) {
+function ProductCard({ product, LANG, area }) {
+  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
+  const goodDiscountFestival = false;
   const areaInfo = resolveAreaInfo(product.comboList, area);
   const discount = areaInfo?.product_discount;
   return (
@@ -141,7 +143,7 @@ export default function CategoryList({
   categories = [],
   sortKey,
   LANG,
-  goodDiscountFestival,
+  // goodDiscountFestival,
 }) {
   const t = makeT(LANG);
 
@@ -314,7 +316,7 @@ export default function CategoryList({
               key={product.key}
               product={product}
               LANG={LANG}
-              goodDiscountFestival={goodDiscountFestival}
+              // goodDiscountFestival={goodDiscountFestival}
               area={area}
             />
           ))}

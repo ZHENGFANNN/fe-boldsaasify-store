@@ -2,7 +2,8 @@ import React from "react";
 import { contactList } from "./config";
 import { isEmail } from "../../../utils/pattern";
 import styles from "./page.module.scss";
-import getConfigData from "../../../utils/getConfigData";
+import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
+import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import { buildAlternates } from "@/config/seo";
 import GlobalContext from "@/[locale]/context";
 import Email from "./components/Email";
@@ -11,16 +12,11 @@ import Text from "./components/Text";
 import Modal from "./components/Modal";
 
 async function getData({ locale }) {
-  const result = await getConfigData({
-    locale,
-    configList: ["config", "language"],
-    languageNameSpace: ["www.company_contact"],
-    configNameSpace: [
-      "common.base",
-      "common.social",
-    ],
-  });
-  return result;
+  const [LANG, CONFIG] = await Promise.all([
+    getRemoteLanguage({ locale, nameSpace: ["www.company_contact"] }),
+    getRemoteConfig({ locale, nameSpace: ["common.base", "common.social"] }),
+  ]);
+  return { LANG, CONFIG };
 }
 
 export async function generateMetadata({ params }) {

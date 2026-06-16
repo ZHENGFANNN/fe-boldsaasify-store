@@ -5,7 +5,7 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 
-import GlobalContext from "@/[locale]/context";
+import resolveCartFromApi from "@/components/Layout/cartClient";
 import PayList from "../PayList";
 import UserInfo from "../UserType";
 import Api from "../../api";
@@ -34,7 +34,6 @@ function parsePreviewAmount(value) {
 export default function Main({ CONFIG, LANG, area, token }) {
   const router = useRouter();
   const { locale } = useParams();
-  const { PRODUCT } = React.useContext(GlobalContext);
   const [userInfo, setUserInfo] = React.useState();
   const [orderLoading, setOrderLoading] = React.useState(false);
   // 订单备注
@@ -133,76 +132,44 @@ export default function Main({ CONFIG, LANG, area, token }) {
   // 订单列表
   const [orderList, setOrderList] = React.useState([]);
   React.useEffect(() => {
-    // 获取购物车列表
-    let localStoreList = window.localStorage.getItem("store_shopping");
-    try {
-      localStoreList = JSON.parse(localStoreList ?? []);
-      const list = [];
-      localStoreList.forEach((item) => {
-        let comboInfo;
-        const product = PRODUCT.cart.find(
-          (product) =>
-            item.productKey === product.key && item.sortKey === product.sort_key
-        );
-        if (product) {
-          comboInfo = product.comboList.find(
-            (combo) => combo.key === item.comboKey
-          );
-        }
-
-        // 处理选项
-        let options;
-        try {
-          if (typeof item.options === "object") {
-            options = item.options;
-          } else {
-            options = JSON.parse(item.options);
-          }
-        } catch {
-          options = [];
-        }
-
-        if (
-          comboInfo?.areaInfo &&
-          comboInfo &&
-          product &&
-          comboInfo?.areaInfo?.stock
-        ) {
-          const itemData = {
-            // 套餐相关
-            id: comboInfo.id,
-            comboName: comboInfo.title,
-            // 地区相关
-            priceSymbol: comboInfo.areaInfo.currency_symbol,
-            priceCurrency: comboInfo.areaInfo.currency,
-            priceUnit: comboInfo.areaInfo.currency_unit,
-            productPrice: comboInfo.areaInfo.product_price,
-            sellingPrice: comboInfo.areaInfo.selling_price,
-            productDiscount: comboInfo.areaInfo.product_discount,
-            stock: comboInfo.areaInfo.stock,
-            // 产品相关
-            name: product.name,
-            image: product.image,
-            href: `/${locale}/product/${product.sort_key}/${product.key}`,
-            sortKey: product.sort_key,
-            productKey: product.key,
-            comboKey: comboInfo.key,
-            // 其他
-            productNum: item.productNum,
-            options,
-          };
-          list.push(itemData);
-        }
-      });
+    // 获取购物车列表（价格随 area 实时，走 /api/cart）
+    let cancelled = false;
+    (async () => {
+      const rows = await resolveCartFromApi({ area, language: locale });
+      if (cancelled) return;
+      const list = rows.map((row) => ({
+        // 套餐相关
+        id: row.id,
+        comboName: row.comboName,
+        // 地区相关
+        priceSymbol: row.areaInfo.currency_symbol,
+        priceCurrency: row.areaInfo.currency,
+        priceUnit: row.areaInfo.currency_unit,
+        productPrice: row.areaInfo.product_price,
+        sellingPrice: row.areaInfo.selling_price,
+        productDiscount: row.areaInfo.product_discount,
+        stock: row.areaInfo.stock,
+        // 产品相关
+        name: row.name,
+        image: row.image,
+        href: `/${locale}/product/${row.sortKey}/${row.productKey}`,
+        sortKey: row.sortKey,
+        productKey: row.productKey,
+        comboKey: row.comboKey,
+        // 其他
+        productNum: row.productNum,
+        options: row.options,
+      }));
       if (list.length === 0) {
         location.href = `/${locale}`;
+        return;
       }
       setOrderList(list);
-    } catch (err) {
-      localStorage.setItem("store_shopping", JSON.stringify([]));
-      console.log("【购物列表解析失败】", err);
-    }
-  }, [payKey]);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [payKey, area, locale]);
 
   // 商品小计（标价 product_price，仅作 preview 未返回时的兜底）
   const subtotalPrice = React.useMemo(() => {
