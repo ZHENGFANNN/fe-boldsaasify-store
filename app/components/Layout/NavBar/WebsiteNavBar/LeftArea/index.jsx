@@ -1,9 +1,7 @@
 import React from "react";
 import GlobalContext from "@/[locale]/context";
 
-import Skeleton from "@/components/Skeleton";
 import NAVFUNC from "@/config/NAVFUNC";
-import { countryMap } from "@/config/marketSettings";
 import TipModal from "@/components/Modal/FunctionTipModal";
 import Link from "next/link";
 
@@ -12,20 +10,12 @@ import { trackingCustomClick } from "@/utils";
 import styles from "./index.module.scss";
 
 export default function LeftArea({ navActive, setNavActive }) {
-  const { LANG, CONFIG, BLOG, PRODUCT, showAreaModal, area, areaReady } =
-    React.useContext(GlobalContext);
-  const resolvedArea = area || "us";
+  const { LANG, CONFIG, BLOG, PRODUCT } = React.useContext(GlobalContext);
   const ModalRef = React.useRef(null);
   // Nav Content
   const navListContainerRef = React.useRef(null);
   // 下拉激活
   const [activeKey, setActiveKey] = React.useState();
-
-  const countryText = React.useMemo(() => {
-    const currentArea = countryMap[resolvedArea];
-    if (!currentArea) return "";
-    return `${currentArea.country} (${currentArea.currency_symbol}${currentArea.currency})`;
-  }, [resolvedArea]);
 
   const navList = React.useMemo(() => {
     return NAVFUNC({
@@ -318,37 +308,6 @@ export default function LeftArea({ navActive, setNavActive }) {
                 </li>
               );
             })}
-            <li
-              key="country-select"
-              className={styles.nav_extend_country_select}
-              onClick={areaReady ? () => showAreaModal() : undefined}
-              aria-busy={!areaReady}
-            >
-              <div className={styles.nav_item_title}>
-                {areaReady ? (
-                  <>
-                    <img
-                      alt={countryMap[resolvedArea]?.country}
-                      src={`${
-                        process.env.NEXT_PUBLIC_FILE
-                      }/common/image/icon/flags/${countryMap[
-                        resolvedArea
-                      ]?.country_code?.toLowerCase()}.svg`}
-                    />
-                    <div>{countryText}</div>
-                  </>
-                ) : (
-                  <span className={styles.area_loading}>
-                    <Skeleton
-                      variant="circular"
-                      className={styles.area_loading_flag}
-                    />
-                    <Skeleton variant="text" className={styles.area_loading_text} />
-                  </span>
-                )}
-              </div>
-              <div className={styles.nav_item_content}></div>
-            </li>
           </ul>
         </div>
       </div>
