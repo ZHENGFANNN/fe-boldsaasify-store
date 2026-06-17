@@ -11,9 +11,13 @@
 const HOST = process.env.NEXT_PUBLIC_HOST;
 const REVALIDATE = 86400; // 24h
 
-const memo = new Map();
+import type { BlogBannerItem, LocaleArg } from "./types";
 
-export default async function getRemoteBlogBanner({ locale }) {
+const memo = new Map<string, BlogBannerItem[]>();
+
+export default async function getRemoteBlogBanner({
+  locale,
+}: LocaleArg): Promise<BlogBannerItem[]> {
   if (!HOST) {
     console.error("getRemoteBlogBanner: NEXT_PUBLIC_HOST 未配置");
     return [];
@@ -32,7 +36,7 @@ export default async function getRemoteBlogBanner({ locale }) {
         revalidate: REVALIDATE,
       },
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("getRemoteBlogBanner fetch 失败:", err?.message);
     return [];
   }

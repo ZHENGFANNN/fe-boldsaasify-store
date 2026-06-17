@@ -17,21 +17,25 @@ import { locales, defaultLocale } from "@/config/languageSettings";
 const DOMAIN = String(process.env.NEXT_PUBLIC_DOMAIN || "").replace(/\/$/, "");
 
 /** 给定无前缀路径与目标 locale，返回该语言版本的绝对 URL */
-function localizedUrl(path, locale) {
+function localizedUrl(path: string, locale: string): string {
   const clean = !path || path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
   const prefix = locale === defaultLocale ? "" : `/${locale}`;
   return `${DOMAIN}${prefix}${clean}` || `${DOMAIN}/`;
 }
 
+export interface Alternates {
+  canonical: string;
+  languages: Record<string, string>;
+}
+
 /**
  * 生成 metadata.alternates。
- * @param {string} path   无 locale 前缀的页面路径，如 "/blog/news"
- * @param {string} locale 当前页面 locale（canonical 指向它）
- * @returns {{canonical: string, languages: Record<string, string>}}
+ * @param path   无 locale 前缀的页面路径，如 "/blog/news"
+ * @param locale 当前页面 locale（canonical 指向它）
  */
-export function buildAlternates(path, locale) {
-  const languages = {};
-  locales.forEach((loc) => {
+export function buildAlternates(path: string, locale: string): Alternates {
+  const languages: Record<string, string> = {};
+  locales.forEach((loc: string) => {
     languages[loc] = localizedUrl(path, loc);
   });
   // x-default 指向默认语言版本，供未匹配语言的用户兜底

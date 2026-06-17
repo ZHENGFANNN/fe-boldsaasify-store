@@ -16,9 +16,14 @@ const HOST = process.env.NEXT_PUBLIC_HOST;
 const REVALIDATE = 86400; // 24h
 
 // 商品卡片精简（复刻 getProductData.js handleSimpleProductList，但保留 comboList 全量地区价）。
-function toSimpleProduct(item) {
+import type { LocaleArg, SimpleProduct, ProductSort } from "./types";
+
+function toSimpleProduct(item: any): SimpleProduct {
   const { reviewsList, reviews_num, reviews_score, image_list } = item;
-  const totalScore = reviewsList?.reduce((pre, cur) => pre + cur.score, 0);
+  const totalScore = reviewsList?.reduce(
+    (pre: number, cur: any) => pre + cur.score,
+    0
+  );
   return {
     key: item.key,
     sort_key: item.sort_key,
@@ -38,7 +43,9 @@ function toSimpleProduct(item) {
 }
 
 // 首页：返回排序好的 goodSortList（仅 enabled 分类，按 weight 降序；每类含 goodList）。
-export default async function getRemoteProductList({ locale }) {
+export default async function getRemoteProductList({
+  locale,
+}: LocaleArg): Promise<ProductSort[]> {
   if (!HOST) {
     console.error("getRemoteProductList: NEXT_PUBLIC_HOST 未配置");
     return [];
@@ -51,7 +58,7 @@ export default async function getRemoteProductList({ locale }) {
         revalidate: REVALIDATE,
       },
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("getRemoteProductList fetch 失败:", err?.message);
     return [];
   }
@@ -62,15 +69,15 @@ export default async function getRemoteProductList({ locale }) {
 
   const json = await res.json().catch(() => null);
   const list = json?.data?.list || [];
-  const byLang = {};
-  list.forEach((item) => {
+  const byLang: Record<string, any[]> = {};
+  list.forEach((item: any) => {
     (byLang[item.language] ||= []).push(item);
   });
   const localeList = byLang[locale] || byLang["en"] || [];
 
   // 按 sort_key 聚合（仅 goodSort[0].enabled），构造分类 + goodList。
-  const sortMap = {};
-  localeList.forEach((item) => {
+  const sortMap: Record<string, ProductSort> = {};
+  localeList.forEach((item: any) => {
     const sortInfo = item.goodSort?.[0];
     if (!sortInfo?.enabled) return;
     const simple = toSimpleProduct(item);
@@ -88,5 +95,7 @@ export default async function getRemoteProductList({ locale }) {
     }
   });
 
-  return Object.values(sortMap).sort((a, b) => (b.weight || 0) - (a.weight || 0));
+  return Object.values(sortMap).sort(
+    (a, b) => (b.weight || 0) - (a.weight || 0)
+  );
 }

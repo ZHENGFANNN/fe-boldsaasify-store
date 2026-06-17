@@ -20,10 +20,10 @@
 const HOST = process.env.NEXT_PUBLIC_HOST;
 const REVALIDATE = 86400; // 24h
 
-const memo = new Map();
+const memo = new Map<string, Record<string, string>>();
 
 // 由 (locale, nameSpace[]) 推导分层缓存 tag：全量 → 按地区 → 按 (地区, 命名空间)。
-function buildTags(locale, list) {
+function buildTags(locale: string, list: string[]): string[] {
   const tags = ["config:language", `config:language:${locale}`];
   for (const ns of list) {
     tags.push(`config:language:${locale}:${ns}`);
@@ -31,7 +31,13 @@ function buildTags(locale, list) {
   return tags;
 }
 
-export default async function getRemoteLanguage({ locale, nameSpace = [] }) {
+export default async function getRemoteLanguage({
+  locale,
+  nameSpace = [],
+}: {
+  locale: string;
+  nameSpace?: string | string[];
+}): Promise<Record<string, string>> {
   const list = Array.isArray(nameSpace) ? nameSpace : [nameSpace];
   if (!list.length) return {};
   if (!HOST) {
@@ -52,7 +58,7 @@ export default async function getRemoteLanguage({ locale, nameSpace = [] }) {
     res = await fetch(url, {
       next: { tags: buildTags(locale, list), revalidate: REVALIDATE }
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("getRemoteLanguage fetch 失败:", err?.message);
     return {};
   }

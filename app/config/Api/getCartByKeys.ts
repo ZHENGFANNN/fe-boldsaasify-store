@@ -11,9 +11,15 @@
 
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
+import type { CartByKeysArg, CartLine } from "./types";
+
 // items: [{ sortKey, productKey, comboKey }]
 // 返回: [{ id, comboName, comboKey, name, image, sortKey, productKey, areaInfo }]
-export default async function getCartByKeys({ area, language, items }) {
+export default async function getCartByKeys({
+  area,
+  language,
+  items,
+}: CartByKeysArg): Promise<CartLine[]> {
   if (!HOST) {
     console.error("getCartByKeys: NEXT_PUBLIC_HOST 未配置");
     return [];
@@ -28,7 +34,7 @@ export default async function getCartByKeys({ area, language, items }) {
       body: JSON.stringify({ area, language, items }),
       cache: "no-store",
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("getCartByKeys fetch 失败:", err?.message);
     return [];
   }

@@ -18,7 +18,15 @@ const REVALIDATE_FALLBACK = 86400; // 24h
  * 商品详情数据（不含地区价格、不含多语言/配置）。
  * 传统 ISR：fetch 打 tag，由 /api/revalidate 按 tag 触发重建。
  */
-export async function getProductPage({ locale, sortKey, productKey }) {
+export async function getProductPage({
+  locale,
+  sortKey,
+  productKey,
+}: {
+  locale: string;
+  sortKey: string;
+  productKey: string;
+}): Promise<{ productInfo: any }> {
   if (!HOST) {
     console.error("getProductPage: NEXT_PUBLIC_HOST 未配置");
     return { productInfo: null };
@@ -56,7 +64,7 @@ export async function getProductPage({ locale, sortKey, productKey }) {
         `getProductPage HTTP ${res.status}: ${sortKey}/${productKey}`
       );
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error(`getProductPage fetch 失败:`, err?.message);
     // 网络/超时错误不吞掉，避免 use cache 把 null 缓存成「永久 404」
     throw err;
@@ -64,5 +72,3 @@ export async function getProductPage({ locale, sortKey, productKey }) {
 
   return { productInfo };
 }
-
-export default getProductPage;

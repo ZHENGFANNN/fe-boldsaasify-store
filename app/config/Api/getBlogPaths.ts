@@ -7,11 +7,13 @@
 
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
+import type { BlogPathItem } from "./types";
+
 /**
  * 构建期枚举所有 (locale, sortKey, blogKey)，供 generateStaticParams 预生成文章页。
  * 接口失败时返回空数组，避免开发环境网络抖动导致整页 500。
  */
-export async function getBlogPaths() {
+export async function getBlogPaths(): Promise<BlogPathItem[]> {
   if (!HOST) {
     console.error("getBlogPaths: NEXT_PUBLIC_HOST 未配置");
     return [];
@@ -25,12 +27,14 @@ export async function getBlogPaths() {
     }
 
     const json = await res.json();
-    return (json?.data?.list || []).map(({ locale, sortKey, blogKey }) => ({
-      locale,
-      sortKey,
-      blogKey,
-    }));
-  } catch (err) {
+    return (json?.data?.list || []).map(
+      ({ locale, sortKey, blogKey }: BlogPathItem) => ({
+        locale,
+        sortKey,
+        blogKey,
+      })
+    );
+  } catch (err: any) {
     console.error("getBlogPaths fetch 失败:", err?.message);
     return [];
   }

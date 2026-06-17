@@ -22,7 +22,7 @@ const REVALIDATE_FALLBACK = 86400; // 24h
 
 // 关联商品整形：复刻 fetch-blog.js handleAProductList。
 // 保留完整 comboItem（含 areaList），客户端再按 area 选价。
-function handleAProductList(productList) {
+function handleAProductList(productList: any[]) {
   if (Array.isArray(productList) && productList.length > 0) {
     return productList.map(
       ({
@@ -33,7 +33,10 @@ function handleAProductList(productList) {
         comboList,
         ...item
       }) => {
-        const totalScore = reviewsList?.reduce((pre, cur) => pre + cur.score, 0);
+        const totalScore = reviewsList?.reduce(
+          (pre: number, cur: any) => pre + cur.score,
+          0
+        );
         item.reviewScore = totalScore / reviewsList?.length || reviews_score;
         item.reviewsNum = reviewsList?.length || reviews_num;
         item.image = image_list?.[0]?.src;
@@ -47,18 +50,18 @@ function handleAProductList(productList) {
 }
 
 // 生成文章内标题 id（复刻 fetch-blog.js getHeadTitleId）
-function getHeadTitleId(title) {
+function getHeadTitleId(title: string) {
   return title
     .toLowerCase()
-    .replace(/<.*?>(.*?)<.*?>/gis, "$1")
+    .replace(/<[\s\S]*?>([\s\S]*?)<[\s\S]*?>/gi, "$1")
     .replace(/[\'\"?:\.]/g, "")
     .trim()
     .replace(/\s+/g, "-");
 }
 
 // 解析 h2/h3 标题列表，供 ArticleNav 使用（复刻 fetch-blog.js getHeadTitleList）
-function getHeadTitleList(html) {
-  const headerRegex = /<h([23])[^>]*>(.*?)<\/h\1>/gis;
+function getHeadTitleList(html: string) {
+  const headerRegex = /<h([23])[^>]*>([\s\S]*?)<\/h\1>/gi;
   const tagRegex = /<\/?[^>]+(>|$)/g;
   const matches = [];
   let match;
@@ -73,8 +76,8 @@ function getHeadTitleList(html) {
 }
 
 // 给正文 h2/h3 注入 id（复刻 fetch-blog.js addHeadTitleId）
-function addHeadTitleId(html) {
-  const headerRegex = /<h([23])[^>]*>(.*?)<\/h\1>/gis;
+function addHeadTitleId(html: string) {
+  const headerRegex = /<h([23])[^>]*>([\s\S]*?)<\/h\1>/gi;
   let match;
   while ((match = headerRegex.exec(html)) !== null) {
     const contentWithTags = match[0];
@@ -91,7 +94,7 @@ function addHeadTitleId(html) {
 
 // 把后端原始文章对象整形成详情页所需结构。
 // 等价于 fetch-blog.js 里 obj[`article:sort:key`] 的构造。
-function buildArticle(raw) {
+function buildArticle(raw: any) {
   const { sortInfo, id, created_time, language, ...item } = raw;
   const blogSortInfo = sortInfo?.[0];
   item.blogSortInfo = blogSortInfo;
@@ -102,7 +105,15 @@ function buildArticle(raw) {
   return item;
 }
 
-export default async function getBlogDetail({ locale, sortKey, blogKey }) {
+export default async function getBlogDetail({
+  locale,
+  sortKey,
+  blogKey,
+}: {
+  locale: string;
+  sortKey: string;
+  blogKey: string;
+}): Promise<any | null> {
   if (!HOST) {
     console.error("getBlogDetail: NEXT_PUBLIC_HOST 未配置");
     return null;
@@ -119,7 +130,7 @@ export default async function getBlogDetail({ locale, sortKey, blogKey }) {
     res = await fetch(url, {
       next: { tags: [tag], revalidate: REVALIDATE_FALLBACK },
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error(`getBlogDetail fetch 失败 ${tag}:`, err?.message);
     return null;
   }

@@ -17,22 +17,38 @@
 const HOST = process.env.NEXT_PUBLIC_HOST;
 const REVALIDATE_FALLBACK = 86400; // 24h，兜底；实时性靠 on-demand revalidateTag
 
+import type { SimpleProduct, CategoryNav } from "./types";
+
+interface CategoryProductsResult {
+  category: {
+    key: string;
+    name: string;
+    description?: string;
+    image_src?: string;
+    weight?: number;
+  };
+  goodList: SimpleProduct[];
+}
+
 // 解析商品标签：读后端 /config/getProduct 返回的真实标签字段（tagList）。
 // tagList 元素为 { key, name, language, ... }，统一取 name 成字符串数组；
 // 无标签时返回 []（该商品在筛选里不命中任何标签）。
-function resolveTags(item) {
+function resolveTags(item: any): string[] {
   const real = item.tagList || item.tags || null;
   if (!Array.isArray(real)) return [];
   return real
-    .map((t) => (typeof t === "string" ? t : t?.name || t?.title))
+    .map((t: any) => (typeof t === "string" ? t : t?.name || t?.title))
     .filter(Boolean);
 }
 
 // 商品卡片精简：算评分/评论数、取主图，保留 comboList(含 areaList) 供客户端选地区价，
 // 附带 tags（商品标签）供客户端筛选。
-function toSimpleProduct(item) {
+function toSimpleProduct(item: any): SimpleProduct {
   const { reviewsList, reviews_num, reviews_score, image_list } = item;
-  const totalScore = reviewsList?.reduce((pre, cur) => pre + cur.score, 0);
+  const totalScore = reviewsList?.reduce(
+    (pre: number, cur: any) => pre + cur.score,
+    0
+  );
   return {
     key: item.key,
     sort_key: item.sort_key,
@@ -56,7 +72,13 @@ function toSimpleProduct(item) {
  *   category: { key, name, description, image_src, weight }，sortKey 无对应分类时为 null
  *   找不到该分类（无商品 / 接口失败）时整体返回 null，页面据此走 notFound。
  */
-export default async function getCategoryProducts({ locale, sortKey }) {
+export default async function getCategoryProducts({
+  locale,
+  sortKey,
+}: {
+  locale: string;
+  sortKey: string;
+}): Promise<CategoryProductsResult | null> {
   if (!HOST) {
     console.error("getCategoryProducts: NEXT_PUBLIC_HOST 未配置");
     return null;
@@ -67,7 +89,7 @@ export default async function getCategoryProducts({ locale, sortKey }) {
     res = await fetch(`${HOST}/config/getProduct`, {
       next: { tags: ["product:list"], revalidate: REVALIDATE_FALLBACK },
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("getCategoryProducts fetch 失败:", err?.message);
     return null;
   }
@@ -80,15 +102,15 @@ export default async function getCategoryProducts({ locale, sortKey }) {
   const list = json?.data?.list || [];
 
   // 按 locale 过滤（无该语言回退英文），再按 sortKey 收敛到当前分类。
-  const byLang = {};
-  list.forEach((item) => {
+  const byLang: Record<string, any[]> = {};
+  list.forEach((item: any) => {
     (byLang[item.language] ||= []).push(item);
   });
   const localeList = byLang[locale] || byLang["en"] || [];
 
-  let category = null;
-  const goodList = [];
-  localeList.forEach((item) => {
+  let category: CategoryProductsResult["category"] | null = null;
+  const goodList: SimpleProduct[] = [];
+  localeList.forEach((item: any) => {
     if (item.sort_key !== sortKey) return;
     const sortInfo = item.goodSort?.[0];
     if (!sortInfo?.enabled) return; // 分类未启用 → 跳过
@@ -111,7 +133,11 @@ export default async function getCategoryProducts({ locale, sortKey }) {
 }
 
 // 供分类导航/面包屑用：返回全部启用分类（去重、按权重降序）。
-export async function getAllCategories({ locale }) {
+export async function getAllCategories({
+  locale,
+}: {
+  locale: string;
+}): Promise<CategoryNav[]> {
   if (!HOST) return [];
   let res;
   try {
@@ -124,14 +150,14 @@ export async function getAllCategories({ locale }) {
   if (!res.ok) return [];
   const json = await res.json().catch(() => null);
   const list = json?.data?.list || [];
-  const byLang = {};
-  list.forEach((item) => {
+  const byLang: Record<string, any[]> = {};
+  list.forEach((item: any) => {
     (byLang[item.language] ||= []).push(item);
   });
   const localeList = byLang[locale] || byLang["en"] || [];
 
-  const map = {};
-  localeList.forEach((item) => {
+  const map: Record<string, CategoryNav> = {};
+  localeList.forEach((item: any) => {
     const s = item.goodSort?.[0];
     if (!s?.enabled || map[s.key]) return;
     map[s.key] = { key: s.key, name: s.name, weight: s.weight };

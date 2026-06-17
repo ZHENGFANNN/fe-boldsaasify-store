@@ -15,7 +15,17 @@ const REVALIDATE_FALLBACK = 86400; // 24h
  * tag: product:pricing:{sortKey}:{productKey}:{area} + product:pricing:{sortKey}:{productKey}
  *      + product:{sortKey}:{productKey}（与后台 revalidate 对齐）
  */
-export async function getProductPricing({ sortKey, productKey, area, locale }) {
+export async function getProductPricing({
+  sortKey,
+  productKey,
+  area,
+  locale,
+}: {
+  sortKey: string;
+  productKey: string;
+  area: string;
+  locale: string;
+}): Promise<any | null> {
   if (!HOST) {
     console.error("getProductPricing: NEXT_PUBLIC_HOST 未配置");
     return null;
@@ -52,10 +62,8 @@ export async function getProductPricing({ sortKey, productKey, area, locale }) {
       return null;
     }
     return json.data ?? null;
-  } catch (err) {
+  } catch (err: any) {
     console.error(`getProductPricing fetch 失败:`, err?.message);
     return null;
   }
 }
-
-export default getProductPricing;

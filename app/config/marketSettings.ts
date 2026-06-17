@@ -3,9 +3,37 @@
 // 构建期时序容错：首次 CI 构建时 globalConfig/index.json 由 fetch-config 写入，
 // 在其生成前本模块（被 middleware import）若直接 require 会 MODULE_NOT_FOUND 致编译失败。
 // 与 languageSettings.ts 的 loadGlobalConfig 一致，缺失时退回空配置（markets=[]、defaultArea=us）。
-const loadGlobalConfig = () => {
+
+/** ERP setting.markets 单条原始记录 */
+export interface SettingMarket {
+  market_id?: string | number;
+  market_name?: string;
+  enabled?: boolean;
+  countries?: Array<string | number>;
+  currency?: { iso_code?: string; symbol?: string };
+}
+
+/** 派生后的国家/地区项 */
+export interface CountryItem {
+  country_code: string;
+  continent_code: string;
+  country: string;
+  country_cn: string;
+  country_english: string;
+  currency: string;
+  currency_symbol: string;
+  market_id?: string | number;
+  market_name?: string;
+}
+
+interface GlobalConfig {
+  "setting.markets"?: SettingMarket[];
+  [key: string]: unknown;
+}
+
+const loadGlobalConfig = (): GlobalConfig => {
   try {
-    return require("../../fetch-data/globalConfig/index.json");
+    return require("../../fetch-data/globalConfig/index.json") as GlobalConfig;
   } catch {
     return {};
   }
@@ -13,22 +41,26 @@ const loadGlobalConfig = () => {
 
 const globalConfig = loadGlobalConfig();
 
-const getSettingMarkets = () =>
+export const getSettingMarkets = (): SettingMarket[] =>
   (globalConfig["setting.markets"] ?? []).filter((item) => item.enabled);
 
-const getCountryName = (code, locale) => {
+const getCountryName = (code: string, locale: string): string => {
   try {
-    return new Intl.DisplayNames([locale], { type: "region" }).of(
-      String(code).toUpperCase()
+    return (
+      new Intl.DisplayNames([locale], { type: "region" }).of(
+        String(code).toUpperCase()
+      ) || String(code).toUpperCase()
     );
   } catch {
     return String(code).toUpperCase();
   }
 };
 
-const buildCountryData = (markets) => {
-  const countryMap = {};
-  const countryList = [];
+const buildCountryData = (
+  markets: SettingMarket[]
+): { countryList: CountryItem[]; countryMap: Record<string, CountryItem> } => {
+  const countryMap: Record<string, CountryItem> = {};
+  const countryList: CountryItem[] = [];
 
   markets.forEach((market) => {
     (market.countries || []).forEach((code) => {
@@ -36,7 +68,7 @@ const buildCountryData = (markets) => {
       if (countryMap[country_code]) return;
 
       const upperCode = String(code).toUpperCase();
-      const countryItem = {
+      const countryItem: CountryItem = {
         country_code,
         continent_code: "",
         country: getCountryName(upperCode, "en"),
@@ -76,15 +108,25 @@ const buildMarketSettings = () => {
 
 const settings = buildMarketSettings();
 
-const resolveArea = (area) => {
+// 具名导出（与原 module.exports 字段一致，供 ESM 具名导入）
+export const markets: SettingMarket[] = settings.markets;
+export const supportedAreas: string[] = settings.supportedAreas;
+export const defaultArea: string = settings.defaultArea;
+export const countryList: CountryItem[] = settings.countryList;
+export const countryMap: Record<string, CountryItem> = settings.countryMap;
+
+export const resolveArea = (area?: string | null): string => {
   const normalized = String(area || "").toLowerCase();
-  return settings.supportedAreas.includes(normalized)
-    ? normalized
-    : settings.defaultArea;
+  return supportedAreas.includes(normalized) ? normalized : defaultArea;
 };
 
-module.exports = {
-  ...settings,
+export default {
+  markets,
+  supportedAreas,
+  defaultArea,
+  countryList,
+  countryMap,
   getSettingMarkets,
   resolveArea,
 };
+
