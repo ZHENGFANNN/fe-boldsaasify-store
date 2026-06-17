@@ -4,10 +4,18 @@ import React from "react";
 import { notFound } from "next/navigation";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import { getBlogCategory } from "@/config/Api/getRemoteBlogList";
+import getBlogCategoryPaths from "@/config/Api/getBlogCategoryPaths";
 import styles from "./page.module.scss";
 import ArticleCard from "../components/ArticleCard";
 import BaseLayout from "../components/BaseLayout";
 import { buildAlternates } from "@/config/seo";
+
+// 构建期枚举所有 (locale, sortKey) 预生成分类页（与文章页 getBlogPaths 同模式）；
+// 接口失败返回空数组（getBlogCategoryPaths 内部已容错），未列出的 sortKey 仍按需生成
+// （dynamicParams 默认 true），不整垮构建。
+export async function generateStaticParams() {
+  return getBlogCategoryPaths();
+}
 
 // language 走远程接口；分类 + 该类文章 + 导航列表走 getBlogCategory（单独接口）。
 async function getData({ locale, sortKey }) {

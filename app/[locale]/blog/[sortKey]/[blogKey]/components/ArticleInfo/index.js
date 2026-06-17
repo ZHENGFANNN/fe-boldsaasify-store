@@ -1,13 +1,10 @@
 import React from "react";
 import styles from "./index.module.scss";
 import { formateTime } from "../../../../utils";
-import { headers } from "next/headers";
 import ShareIconList from "../../../../../../components/ShareIconList";
 import Link from "next/link";
 
-export default async function ArticleInfo({ article, locale }) {
-  const headersList = await headers();
-  const currentUrl = headersList.get("x-request-url");
+export default function ArticleInfo({ article, locale }) {
   return (
     <div className={styles.container}>
       <div className={styles.left_container}>
@@ -23,7 +20,7 @@ export default async function ArticleInfo({ article, locale }) {
         </div>
       </div>
       <div className={styles.right_container}>
-        <ShareIconList url={currentUrl} text={article.title} />
+        <ShareIconList text={article.title} />
       </div>
     </div>
   );

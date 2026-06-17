@@ -60,7 +60,12 @@ const GLOBAL_CONFIG_PATH = "../../fetch-data/globalConfig/index.json";
  */
 const loadGlobalConfig = (): GlobalConfig => {
   try {
-    return require(GLOBAL_CONFIG_PATH) as GlobalConfig;
+    // 必须用字面量路径 require：webpack 仅对字面量参数静态内联 JSON 模块；
+    // 用变量（GLOBAL_CONFIG_PATH）会被编译成 require-context 运行时查找，
+    // 打包后的 server bundle 里查不到文件 → 回退空配置 → locales 退化为 ["en"]
+    // （sitemap / [locale] layout 的 generateStaticParams 因此只生成 en）。
+    // 对照 app/config/marketSettings.js 同样用字面量 require 才能读到数据。
+    return require("../../fetch-data/globalConfig/index.json") as GlobalConfig;
   } catch {
     return {};
   }

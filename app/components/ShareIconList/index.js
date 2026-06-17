@@ -4,8 +4,13 @@ import React from "react";
 import styles from "./index.module.scss";
 import ShowTipModal from "../Modal/ShowTipModal";
 
-export default function ShareIconList({ url, text }) {
+export default function ShareIconList({ text }) {
   const tipRef = React.useRef(null);
+  // URL 在客户端挂载后从 window.location 读取（避免服务端 headers() 让页面退出 SSG）。
+  const [url, setUrl] = React.useState("");
+  React.useEffect(() => {
+    setUrl(window.location.href);
+  }, []);
   const { FB_LINK_FORMAT, TW_LINK_FORMAT, IN_LINK_FORMAT, MAIL_LINK_FORMAT } =
     React.useMemo(() => {
       const FB_LINK_FORMAT = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -26,7 +31,7 @@ export default function ShareIconList({ url, text }) {
         IN_LINK_FORMAT,
         MAIL_LINK_FORMAT,
       };
-    }, []);
+    }, [url, text]);
   return (
     <div className={styles.container}>
       <div className={styles.share_list}>
