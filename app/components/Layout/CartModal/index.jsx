@@ -9,6 +9,7 @@ import tracking from "../tracking";
 import GlobalContext from "../../../[locale]/context";
 import { formatCurrency } from "../../../utils";
 import resolveCartFromApi from "../cartClient";
+import Skeleton from "@/components/Skeleton";
 
 import { useRouter } from "next/navigation";
 
@@ -66,12 +67,72 @@ const EmptyCart = function ({ handleClose }) {
   );
 };
 
+// 加载中骨架：根据 localStorage 中保存的购物车商品数渲染对应行数（最多 3 行），
+// 与真实 table_body_item 同结构（图片 80×80 + 名称/规格/价格 + 数量+删除占位）。
+const CartSkeleton = function ({ rowCount }) {
+  const rows = Math.max(1, Math.min(rowCount || 1, 3));
+  return (
+    <div className={styles.table_body}>
+      {Array.from({ length: rows }).map((_, idx) => (
+        <section key={idx} className={styles.table_body_item}>
+          <div className={styles.table_body_goods}>
+            <div className={styles.good_item}>
+              <div className={styles.body_goods_img}>
+                <Skeleton variant="rect" width={80} height={80} />
+              </div>
+              <div className={styles.product_info}>
+                <div className={styles.product_content}>
+                  <div className={styles.title}>
+                    <Skeleton variant="text" width="80%" height={16} />
+                  </div>
+                  <div className={styles.content_combo}>
+                    <Skeleton variant="text" width={120} height={12} />
+                  </div>
+                  <div className={styles.plan_goods}>
+                    <Skeleton variant="text" width={80} height={12} />
+                  </div>
+                </div>
+                <div className={styles.table_body_price}>
+                  <div className={styles.price}>
+                    <Skeleton variant="text" width={64} height={16} />
+                  </div>
+                </div>
+                <div className={styles.table_num_delete_container}>
+                  <Skeleton variant="rect" width={96} height={28} />
+                  <Skeleton variant="rect" width={24} height={24} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+};
+
+// 估算购物车本地缓存条数，用于决定骨架行数；解析失败 / 无缓存时返回 0。
+function readCachedCartCount() {
+  if (typeof window === "undefined") return 0;
+  try {
+    const raw = window.localStorage.getItem("store_shopping");
+    if (!raw) return 0;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 const CartMain = function ({ handleClose }) {
   // 节日折扣已停用：恒为 false，下方倒计时/折扣 UI 自然隐藏（源码保留以备复用）。
   const goodDiscountFestival = false;
   const { locale, LANG, area, areaReady, setProductNum } =
     React.useContext(GlobalContext);
   const [cartList, setCartList] = React.useState([]);
+  // cartReady：购物车数据加载完成（含为空的"已确认空"语义），区分骨架与 EmptyCart。
+  const [cartReady, setCartReady] = React.useState(false);
+  // 估算骨架行数：弹窗打开瞬间从 localStorage 取一次，cartReady 后不再使用。
+  const [skeletonRows] = React.useState(() => readCachedCartCount());
   const [hours, setHours] = React.useState("00");
   const [minutes, setMinutes] = React.useState("00");
   const [seconds, setSeconds] = React.useState("00");
@@ -123,6 +184,7 @@ const CartMain = function ({ handleClose }) {
         options: row.options,
       }));
       setCartList(list);
+      setCartReady(true);
     })();
     return () => {
       cancelled = true;
@@ -148,7 +210,9 @@ const CartMain = function ({ handleClose }) {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.top_content}>
-          {!cartList || cartList.length === 0 ? (
+          {!cartReady && skeletonRows > 0 ? (
+            <CartSkeleton rowCount={skeletonRows} />
+          ) : !cartList || cartList.length === 0 ? (
             <EmptyCart LANG={LANG} handleClose={handleClose} />
           ) : (
             <>
@@ -434,7 +498,7 @@ const CartMain = function ({ handleClose }) {
             </>
           )}
         </div>
-        {cartList && cartList.length > 0 ? (
+        {cartReady && cartList && cartList.length > 0 ? (
           <div className={styles.bottom_content}>
             <div className={styles.total_price}>
               <div className={styles.total_price_title}>
