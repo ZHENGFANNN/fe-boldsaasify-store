@@ -6,6 +6,47 @@
 // 与单商品版本 getProductPricing.ts 对称：
 //   - tag: product:pricing:list:{area} + product:pricing:list（与现有 product:pricing:* 体系平行）
 //   - revalidate fallback 24h，由后台 on-demand revalidateTag 主动失效。
+//
+// ----- 返回数据结构（后端 → 前端透传，未做整形）-----
+// {
+//   code: 0,                              // 0 成功；-1 失败 / 参数错误（错误码 10058）
+//   message: "",
+//   data: {
+//     area: "cn",                         // 实际生效的地区码（缺省 us）
+//     list: [
+//       {
+//         sortKey: "engagement-ring",
+//         productKey: "1-52ct-...",
+//         combos: [
+//           {
+//             comboKey: "...",
+//             associate_country_key: "...",
+//             areaInfo: ErpCountriesConfig | null   // 该 area 的价格条；查不到为 null
+//           }, ...
+//         ],
+//         associateProducts: [
+//           { productKey: "...", areaInfo: ErpCountriesConfig | null }, ...
+//         ]
+//       }, ...
+//     ]
+//   }
+// }
+//
+// ErpCountriesConfig（对应 sslfly.erp_countries_config 表，
+// 来源 be-user-service/internal/app/models/catalog.go:151）：
+//   {
+//     id, country, country_code, language_code,
+//     currency, currency_symbol, currency_unit,    // 金额 = raw / currency_unit（通常 100）
+//     product_price, selling_price,                // 「分」级整数，需除 currency_unit
+//     product_discount,                            // 节日折扣已停用，恒为 0
+//     stock,                                       // 库存
+//     good_sort_key, good_key, combo_key, associate_country_key,
+//     created_time, updated_time
+//   }
+//
+// 客户端用法：拿到 data.list 后建 pricingMap[`${sortKey}:${productKey}`]，渲染时
+// 用 pickAreaInfo（取首个 combos[i].areaInfo 非空）作为该卡片的展示价；
+// areaInfo == null 时走「缺货」分支。
 // ============================================================
 
 const HOST = process.env.NEXT_PUBLIC_HOST;
