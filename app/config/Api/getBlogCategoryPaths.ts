@@ -7,12 +7,14 @@
 
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
+import type { BlogCategoryPathItem } from "./types";
+
 /**
  * 构建期枚举所有 (locale, sortKey)，供分类页 generateStaticParams 预生成。
  * 接口失败时返回空数组，避免开发环境网络抖动导致整页 500；
  * 未列出的 sortKey 仍按需生成（dynamicParams 默认 true）。
  */
-export async function getBlogCategoryPaths() {
+export async function getBlogCategoryPaths(): Promise<BlogCategoryPathItem[]> {
   if (!HOST) {
     console.error("getBlogCategoryPaths: NEXT_PUBLIC_HOST 未配置");
     return [];
@@ -26,11 +28,13 @@ export async function getBlogCategoryPaths() {
     }
 
     const json = await res.json();
-    return (json?.data?.list || []).map(({ locale, sortKey }) => ({
-      locale,
-      sortKey,
-    }));
-  } catch (err) {
+    return (json?.data?.list || []).map(
+      ({ locale, sortKey }: BlogCategoryPathItem) => ({
+        locale,
+        sortKey,
+      })
+    );
+  } catch (err: any) {
     console.error("getBlogCategoryPaths fetch 失败:", err?.message);
     return [];
   }

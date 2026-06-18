@@ -24,6 +24,12 @@ export interface BlogPathItem {
   blogKey: string;
 }
 
+/** 博客分类路径项（getBlogCategoryPaths） */
+export interface BlogCategoryPathItem {
+  locale: string;
+  sortKey: string;
+}
+
 /** 购物车定位三元组（getCartByKeys 入参 items） */
 export interface CartItemKey {
   sortKey: string;

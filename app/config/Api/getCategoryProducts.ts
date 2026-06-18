@@ -7,9 +7,9 @@
 
 // 产品分类页数据：按 locale + sortKey 从后端拉取该分类下的商品列表。
 //
-// 与 getProductData.js 的区别：那个文件读 area cookie → 强制动态渲染，
-// 分类页要整页 SSG，所以这里**不读 cookie**，保留每个商品 comboList[].areaList
-// 的完整地区价，由客户端按 area cookie 解析（与商品详情页 BaseLayout 思路一致）。
+// SSG 阶段不返回价格：每个商品的 comboList 只保留 (key, associate_country_key) 元数据，
+// 价格由客户端按 area cookie 调 /api/products-pricing 批量取齐（避免货币闪动）。
+// JSON-LD 走 server 子组件 SSG 以默认 us 兜底。
 //
 // 数据源与 getProductData 共用 /config/getProduct + tag('product:list')，
 // 后台改商品调用 revalidateTag('product:list') 即可让分类页下次访问重建。
@@ -41,7 +41,8 @@ function resolveTags(item: any): string[] {
     .filter(Boolean);
 }
 
-// 商品卡片精简：算评分/评论数、取主图，保留 comboList(含 areaList) 供客户端选地区价，
+// 商品卡片精简：算评分/评论数、取主图，
+// comboList 只保留 (key, associate_country_key) 供客户端按 area 批量取价；
 // 附带 tags（商品标签）供客户端筛选。
 function toSimpleProduct(item: any): SimpleProduct {
   const { reviewsList, reviews_num, reviews_score, image_list } = item;
@@ -62,7 +63,12 @@ function toSimpleProduct(item: any): SimpleProduct {
     reviews_score,
     reviews_num,
     weight: item.weight,
-    comboList: Array.isArray(item.comboList) ? item.comboList : [],
+    comboList: Array.isArray(item.comboList)
+      ? item.comboList.map((c: any) => ({
+          key: c?.key,
+          associate_country_key: c?.associate_country_key,
+        }))
+      : [],
     tags: resolveTags(item),
   };
 }

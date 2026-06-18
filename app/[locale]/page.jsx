@@ -4,6 +4,7 @@ import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import getRemoteProductList from "@/config/Api/getRemoteProductList";
 
 import IndexProductList from "./components/IndexProductList";
+import IndexProductLdJson from "./components/IndexProductLdJson";
 import IndexBanner from "./components/IndexBanner";
 import IndexContext from "./components/IndexContext";
 
@@ -12,8 +13,9 @@ import { buildAlternates } from "@/config/seo";
 // 多语言/页面配置/产品列表各走独立远程接口（后端整形 + TTL，前端开箱即用）：
 //   - LANG    ← /config/getLanguageByNamespace
 //   - CONFIG  ← /config/getPageConfigByNamespace（home.banner / common.base）
-//   - 产品列表 ← getRemoteProductList（保留 comboList[].areaList，价格客户端按 area 解析）
-// 不读 area cookie → 首页整页可静态化（SSG），价格在 IndexProductList mount 后客户端算。
+//   - 产品列表 ← getRemoteProductList（comboList 仅含 key + associate_country_key，
+//               价格由客户端 IndexProductList 按 area cookie 调 /api/products-pricing 批量取齐）
+// 不读 area cookie → 首页整页可静态化（SSG）；JSON-LD 走 IndexProductLdJson server 子组件以 us 兜底。
 async function getData({ locale }) {
   const [LANG, CONFIG, goodSortList] = await Promise.all([
     getRemoteLanguage({
@@ -60,6 +62,12 @@ export default async function Home({ params }) {
         <IndexProductList />
         <Advantage LANG={LANG} />
       </IndexContext>
+      {/* JSON-LD 走 server 子组件（爬虫不执行 JS），SSG 阶段以默认 us 价兜底。 */}
+      <IndexProductLdJson
+        goodSortList={goodSortList}
+        locale={locale}
+        companyName={CONFIG["common.base"]?.company_name}
+      />
     </main>
   );
 }

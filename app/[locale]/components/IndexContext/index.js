@@ -1,13 +1,10 @@
 "use client";
 import React from "react";
-import Cookies from "js-cookie";
 
 export const IndexContent = React.createContext(null);
 
-// 首屏用默认地区 us 渲染（保证整页可静态化 / hydration 一致），
-// mount 后读 area cookie 切到真实地区，IndexProductList 据此重算价格。
-const DEFAULT_AREA = "us";
-
+// area 不再放进 context：消费方（IndexProductList 等）直接 useArea() 读 cookie，
+// areaReady=false 时各组件自行渲染占位，避免 us→cn 货币闪动。
 export default function IndexContext({
   children,
   CONFIG,
@@ -15,11 +12,6 @@ export default function IndexContext({
   goodSortList,
   locale,
 }) {
-  const [area, setArea] = React.useState(DEFAULT_AREA);
-  React.useEffect(() => {
-    setArea(Cookies.get("area") || DEFAULT_AREA);
-  }, []);
-
   return (
     <IndexContent.Provider
       value={{
@@ -27,7 +19,6 @@ export default function IndexContext({
         LANG,
         goodSortList,
         locale,
-        area,
       }}
     >
       {children}

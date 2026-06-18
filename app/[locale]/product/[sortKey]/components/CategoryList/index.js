@@ -4,24 +4,22 @@
 
 import React from "react";
 import Link from "next/link";
-import Cookies from "js-cookie";
 
 import { formatCurrency, fillOssImage } from "@/utils";
+import useArea from "@/hooks/useArea";
+import Skeleton from "@/components/Skeleton";
+import getProductsPricing from "@/service/product/get-products-pricing";
 import styles from "./index.module.scss";
 
 const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
 const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_icon.svg`;
 
-// 默认地区：SSR 用 us 渲染保证整页可静态化，mount 后读 area cookie 重算价格。
-const DEFAULT_AREA = "us";
-
-// 把单个商品的 comboList[].areaList 按地区解析成 areaInfo（取首个有该地区价的套餐）。
-function resolveAreaInfo(comboList, area) {
-  const list = Array.isArray(comboList) ? comboList : [];
-  for (const combo of list) {
-    const areaList = Array.isArray(combo?.areaList) ? combo.areaList : [];
-    const hit = areaList.find((a) => a.country_code === area);
-    if (hit) return hit;
+// 从批量取价结果挑出当前商品的 areaInfo：取首个有 areaInfo 的 combo（与原 resolveAreaInfo 行为对齐）。
+function pickAreaInfo(pricingItem) {
+  if (!pricingItem) return null;
+  const combos = Array.isArray(pricingItem.combos) ? pricingItem.combos : [];
+  for (const c of combos) {
+    if (c?.areaInfo) return c.areaInfo;
   }
   return null;
 }
@@ -47,9 +45,10 @@ function ReviewRate({ LANG, reviewScore, reviewsNum }) {
   );
 }
 
-// 取商品在当前地区的「展示价」(原价)，用于价格范围筛选；无价时返回 null。
-function getDisplayPrice(product, area) {
-  const areaInfo = resolveAreaInfo(product.comboList, area);
+// 取商品当前地区的展示价（用于价格区间筛选）；pricing 未就绪 / 无价时返回 null。
+function getDisplayPrice(product, pricingMap) {
+  const item = pricingMap?.[`${product.sort_key}:${product.key}`];
+  const areaInfo = pickAreaInfo(item);
   if (!areaInfo) return null;
   const raw = areaInfo.selling_price ?? areaInfo.product_price;
   if (raw == null) return null;
@@ -60,10 +59,12 @@ function getDisplayPrice(product, area) {
 
 const PAGE_SIZE = 10;
 
-function ProductCard({ product, LANG, area }) {
+function ProductCard({ product, LANG, pricingMap, pricingReady }) {
   // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
   const goodDiscountFestival = false;
-  const areaInfo = resolveAreaInfo(product.comboList, area);
+  const areaInfo = pricingReady
+    ? pickAreaInfo(pricingMap?.[`${product.sort_key}:${product.key}`])
+    : null;
   const discount = areaInfo?.product_discount;
   return (
     <Link
@@ -98,7 +99,11 @@ function ProductCard({ product, LANG, area }) {
             <div className={styles.discount}>{100 - discount}%</div>
           </div>
         ) : null}
-        {!areaInfo?.selling_price ? (
+        {!pricingReady ? (
+          <div className={styles.product_price_container}>
+            <Skeleton variant="rect" width={80} height={16} />
+          </div>
+        ) : !areaInfo?.selling_price ? (
           <div className={styles.product_stock_container}>
             {LANG?.["store.index.no_stock"] ?? "Out of stock"}
           </div>
@@ -142,21 +147,46 @@ export default function CategoryList({
   goodList,
   categories = [],
   sortKey,
+  locale,
   LANG,
   // goodDiscountFestival,
 }) {
   const t = makeT(LANG);
 
-  // 首屏用默认地区，避免 SSR / 客户端首帧 hydration 不一致；mount 后切到真实 area。
-  const [area, setArea] = React.useState(DEFAULT_AREA);
-  // mounted：SSR 与首帧只渲染前 PAGE_SIZE 条且不带筛选，保证「构建期/首屏有内容」、
-  // 且 hydration 一致；mount 后才启用筛选 UI 与分页交互。
-  const [mounted, setMounted] = React.useState(false);
+  const { area, areaReady } = useArea();
+  // pricingMap = null 代表未就绪（首屏 + 取价中）；获取后变 {key: pricingItem}。
+  const [pricingMap, setPricingMap] = React.useState(null);
+  const pricingReady = pricingMap !== null;
+
+  // 全部 (sortKey, productKey) 集合（一次批量取价的输入）。
+  const allKeys = React.useMemo(
+    () =>
+      goodList
+        .filter((p) => p.sort_key && p.key)
+        .map((p) => ({ sortKey: p.sort_key, productKey: p.key })),
+    [goodList]
+  );
 
   React.useEffect(() => {
-    setArea(Cookies.get("area") || DEFAULT_AREA);
-    setMounted(true);
-  }, []);
+    if (!areaReady) return;
+    let cancelled = false;
+    const effectiveArea = area || "us";
+    getProductsPricing({
+      area: effectiveArea,
+      locale,
+      keys: allKeys,
+    }).then((data) => {
+      if (cancelled) return;
+      const map = {};
+      (data?.list || []).forEach((item) => {
+        map[`${item.sortKey}:${item.productKey}`] = item;
+      });
+      setPricingMap(map);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [areaReady, area, locale, allKeys]);
 
   // 筛选状态：selectedTags = Set(已选商品标签)；价格区间字符串（受控输入）。
   const [selectedTags, setSelectedTags] = React.useState(() => new Set());
@@ -169,8 +199,9 @@ export default function CategoryList({
     selectedTags.size > 0 || minPrice !== "" || maxPrice !== "";
 
   // 筛选：商品标签按 OR 匹配（选中任一标签即命中）；价格按当前地区展示价落在 [min,max]。
+  // pricing 未就绪时不启用筛选（保留首屏列表，避免没价时把所有商品过滤光）。
   const filtered = React.useMemo(() => {
-    if (!mounted) return goodList; // 首屏不筛选
+    if (!pricingReady) return goodList;
     const min = minPrice === "" ? -Infinity : Number(minPrice);
     const max = maxPrice === "" ? Infinity : Number(maxPrice);
     return goodList.filter((p) => {
@@ -179,13 +210,13 @@ export default function CategoryList({
         if (!tags.some((tg) => selectedTags.has(tg))) return false;
       }
       if (min !== -Infinity || max !== Infinity) {
-        const price = getDisplayPrice(p, area);
+        const price = getDisplayPrice(p, pricingMap);
         if (price == null) return false; // 设了价格区间但该商品无价 → 不展示
         if (price < min || price > max) return false;
       }
       return true;
     });
-  }, [mounted, goodList, selectedTags, minPrice, maxPrice, area]);
+  }, [pricingReady, goodList, selectedTags, minPrice, maxPrice, pricingMap]);
 
   // 任一筛选条件变化时，分页重置回第一页。
   React.useEffect(() => {
@@ -243,8 +274,8 @@ export default function CategoryList({
         </div>
       ) : null}
 
-      {/* 筛选区：纯客户端，mount 后渲染（SSR 不输出，避免影响首屏/SEO） */}
-      {mounted ? (
+      {/* 筛选区：纯客户端，pricing 就绪后渲染（SSR 不输出，避免影响首屏/SEO） */}
+      {pricingReady ? (
         <div className={styles.filter_bar}>
           {/* 商品标签筛选 */}
           {tagList.length > 0 ? (
@@ -316,8 +347,8 @@ export default function CategoryList({
               key={product.key}
               product={product}
               LANG={LANG}
-              // goodDiscountFestival={goodDiscountFestival}
-              area={area}
+              pricingMap={pricingMap}
+              pricingReady={pricingReady}
             />
           ))}
         </section>
@@ -358,7 +389,7 @@ export default function CategoryList({
             >
               {t("store.product_category.load_more", "Load more")}
             </button>
-          ) : mounted ? (
+          ) : pricingReady ? (
             <div className={styles.all_loaded}>
               {t("store.product_category.all_loaded", "All products loaded")}
             </div>

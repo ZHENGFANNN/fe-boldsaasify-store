@@ -4,9 +4,9 @@
 // 远程数据 API · GET ${HOST}/config/getProduct
 // 首页产品列表数据层（运行时从后端拉取，按 locale 过滤 + sort 分类整形）。
 //
-// 与 getProductData.js 的区别：那个读 area cookie 在服务端预解析 areaInfo → 强制动态。
-// 首页要整页 SSG，所以这里**不读 cookie、不解析 areaInfo**，每个商品保留完整
-// comboList[].areaList，由客户端 IndexProductList 按 area cookie 解析（与分类页一致）。
+// SSG 阶段不返回价格：每个商品的 comboList 只保留 (key, associate_country_key) 元数据，
+// 价格由客户端按 area cookie 调 /api/products-pricing 批量取齐（避免 us→cn 货币闪动）。
+// JSON-LD（爬虫不执行 JS）走单独的 server 子组件 SSG 阶段以默认 us 取价兜底。
 //
 // 数据源与 getCategoryProducts 共用 /config/getProduct + tag('product:list')，
 // 后台改商品调用 revalidateTag('product:list') 即可让首页下次访问重建。
@@ -15,7 +15,8 @@
 const HOST = process.env.NEXT_PUBLIC_HOST;
 const REVALIDATE = 86400; // 24h
 
-// 商品卡片精简（复刻 getProductData.js handleSimpleProductList，但保留 comboList 全量地区价）。
+// 商品卡片精简（复刻 getProductData.js handleSimpleProductList，
+// comboList 只保留客户端取价需要的 key + associate_country_key 元数据）。
 import type { LocaleArg, SimpleProduct, ProductSort } from "./types";
 
 function toSimpleProduct(item: any): SimpleProduct {
@@ -37,8 +38,13 @@ function toSimpleProduct(item: any): SimpleProduct {
     reviews_score,
     reviews_num,
     weight: item.weight,
-    // 保留完整 comboList（含 areaList），客户端按 area 选价。
-    comboList: Array.isArray(item.comboList) ? item.comboList : [],
+    // 仅保留 combo 标识与 area 关联键，价格客户端按 area 批量取（不再写入 areaList，缩 SSG 体积）。
+    comboList: Array.isArray(item.comboList)
+      ? item.comboList.map((c: any) => ({
+          key: c?.key,
+          associate_country_key: c?.associate_country_key,
+        }))
+      : [],
   };
 }
 

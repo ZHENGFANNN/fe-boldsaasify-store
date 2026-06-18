@@ -10,6 +10,7 @@ import getCategoryProducts, {
 import getProductPaths from "@/config/Api/getProductPaths";
 
 import CategoryList from "./components/CategoryList";
+import CategoryListLdJson from "./components/CategoryListLdJson";
 import { buildAlternates } from "@/config/seo";
 
 // 构建期枚举所有 (locale, sortKey)，预生成分类页；
@@ -77,7 +78,7 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductCategory({ params }) {
   const { locale, sortKey } = await params;
-  const { LANG, category, categories } = await getData({
+  const { CONFIG, LANG, category, categories } = await getData({
     locale,
     sortKey
   });
@@ -88,13 +89,22 @@ export default async function ProductCategory({ params }) {
   }
 
   return (
-    <CategoryList
-      category={category.category}
-      goodList={category.goodList}
-      categories={categories}
-      sortKey={sortKey}
-      LANG={LANG}
-      // goodDiscountFestival={undefined}
-    />
+    <>
+      <CategoryList
+        category={category.category}
+        goodList={category.goodList}
+        categories={categories}
+        sortKey={sortKey}
+        locale={locale}
+        LANG={LANG}
+        // goodDiscountFestival={undefined}
+      />
+      {/* JSON-LD 走 server 子组件（爬虫不执行 JS），SSG 阶段以默认 us 价兜底。 */}
+      <CategoryListLdJson
+        goodList={category.goodList}
+        locale={locale}
+        companyName={CONFIG?.["common.base"]?.company_name}
+      />
+    </>
   );
 }
