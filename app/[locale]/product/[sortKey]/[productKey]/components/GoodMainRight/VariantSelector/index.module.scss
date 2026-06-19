@@ -1,8 +1,8 @@
 .container {
-  margin: 16px 0;
+  margin: 20px 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .axis {
@@ -12,19 +12,25 @@
 }
 
 .axis_head {
-  font-size: 14px;
+  font-size: 13px;
   color: #1a1a1a;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .axis_name {
   font-weight: 600;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #6b6b6b;
 }
 
 .axis_value {
-  margin-left: 8px;
-  color: #6b6b6b;
-  font-weight: 400;
+  color: #1a1a1a;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .value_list {
@@ -33,17 +39,19 @@
   gap: 10px;
 }
 
-/* 文本胶囊 */
+/* ---------- 文本胶囊 ---------- */
 .value_item {
   cursor: pointer;
-  border: 1px solid #d8d8d8;
+  border: 1px solid #dcdcdc;
   background: #fff;
   color: #1a1a1a;
-  border-radius: 999px;
-  padding: 9px 18px;
+  border-radius: 8px;
+  min-width: 56px;
+  padding: 11px 18px;
   font-size: 14px;
   line-height: 1;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-weight: 500;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
   outline: none;
 }
 .value_item:hover {
@@ -51,50 +59,97 @@
 }
 .value_item.active {
   border-color: #1a1a1a;
-  box-shadow: inset 0 0 0 1px #1a1a1a;
-  font-weight: 600;
+  background: #1a1a1a;
+  color: #fff;
 }
 .value_item.unavailable {
-  opacity: 0.4;
-  text-decoration: line-through;
+  color: #bcbcbc;
+  border-color: #ededed;
   cursor: not-allowed;
+  position: relative;
+  overflow: hidden;
+}
+.value_item.unavailable::after {
+  content: "";
+  position: absolute;
+  left: -10%;
+  top: 50%;
+  width: 120%;
+  height: 1px;
+  background: #d0d0d0;
+  transform: rotate(-12deg);
 }
 
-/* 颜色块 */
+/* ---------- 颜色块 ---------- */
+.value_list[data-variant="color"] {
+  gap: 14px;
+}
 .value_list[data-variant="color"] .value_item {
+  border: none;
   border-radius: 50%;
-  padding: 0;
+  padding: 3px; /* 选中环与色块之间留白 */
+  min-width: 0;
   width: 34px;
   height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px transparent;
+}
+.value_list[data-variant="color"] .value_item:hover {
+  box-shadow: inset 0 0 0 1.5px #c9c9c9;
 }
 .value_list[data-variant="color"] .value_item.active {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1a1a1a;
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px #1a1a1a;
 }
 .swatch_color {
-  width: 26px;
-  height: 26px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   display: block;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+.value_list[data-variant="color"] .value_item.unavailable {
+  opacity: 0.35;
+}
+.value_list[data-variant="color"] .value_item.unavailable::after {
+  display: none;
 }
 
-/* 图片块 */
+/* ---------- 图片块 ---------- */
+.value_list[data-variant="image"] {
+  gap: 12px;
+}
 .value_list[data-variant="image"] .value_item {
-  border-radius: 8px;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
   padding: 0;
-  width: 56px;
-  height: 56px;
+  min-width: 0;
+  width: 68px;
+  height: 68px;
   overflow: hidden;
+  background: #f7f7f7;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.value_list[data-variant="image"] .value_item:hover {
+  border-color: #b5b5b5;
 }
 .value_list[data-variant="image"] .value_item.active {
-  box-shadow: inset 0 0 0 2px #1a1a1a;
+  border-color: #1a1a1a;
+  box-shadow: 0 0 0 1px #1a1a1a;
 }
 .swatch_image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+.value_list[data-variant="image"] .value_item.unavailable {
+  opacity: 0.4;
+}
+.value_list[data-variant="image"] .value_item.unavailable::after {
+  display: none;
 }
