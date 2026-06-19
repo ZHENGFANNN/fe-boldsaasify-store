@@ -86,6 +86,10 @@ export default function GoodMediaDisplay() {
 
   React.useEffect(() => {
     if (!lazyLoading) {
+      // 图片总数 = 套餐图 + 产品图(见下方轮播渲染)。只有一张时无需左右切换箭头。
+      const totalSlides =
+        (productCurCombo.img_list?.length || 0) +
+        (productInfo.image_list?.length || 0);
       // 初始化Splide
       const splide = new Splide(".splide", {
         type: "fade",
@@ -93,7 +97,7 @@ export default function GoodMediaDisplay() {
         interval: 3000,
         pagination: false,
         autoplay: true,
-        arrows: true,
+        arrows: totalSlides > 1,
         pauseOnHover: true,
         classes: {
           arrow: `splide__arrow ${styles.splide__arrow}`,
