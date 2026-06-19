@@ -182,6 +182,10 @@ export default function Main({ CONFIG, LANG, area, token }) {
         // 其他
         productNum: row.productNum,
         options: row.options,
+        // 定制字段（随每个购物车行带入 order_list，最终提交 createOrder）
+        customize_data: Array.isArray(row.customize_data)
+          ? row.customize_data
+          : [],
       }));
       if (list.length === 0) {
         location.href = `/${locale}`;

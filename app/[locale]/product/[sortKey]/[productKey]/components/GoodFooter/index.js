@@ -18,25 +18,24 @@ export default function GoodFooter() {
     productInfo,
     productNum,
     productCurCombo,
-    productOptions,
+    optionAxes,
+    optionSelection,
     lazyLoading,
   } = React.useContext(ProductContext);
   const comboModalRef = React.useRef(null);
 
-  // 处理选项Options
+  // 已选变体摘要（V2）：由选中的轴值派生 "轴名: 值名" 串，展示在底部购买栏。
   const optionString = React.useMemo(() => {
-    let optString = "";
-    if (Object.keys(productOptions).length > 0) {
-      Object.keys(productOptions).forEach((key) => {
-        optString =
-          optString +
-          `  ${productOptions[key].name}: ${productOptions[key].value}`;
-      });
-      return optString.trimStart();
-    } else {
-      return null;
-    }
-  }, [productOptions]);
+    const parts = (optionAxes || [])
+      .map((axis) => {
+        const code = optionSelection?.[axis.axis_code];
+        const val = axis.values.find((v) => v.value_code === code);
+        if (!val?.value_label) return null;
+        return `${axis.axis_name}: ${val.value_label}`;
+      })
+      .filter(Boolean);
+    return parts.length > 0 ? parts.join("  ") : null;
+  }, [optionAxes, optionSelection]);
 
   // 弹出时机
   React.useEffect(() => {

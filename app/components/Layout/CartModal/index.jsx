@@ -174,6 +174,9 @@ const CartMain = function ({ handleClose }) {
         // 其他
         productNum: row.productNum,
         options: row.options,
+        customize_data: Array.isArray(row.customize_data)
+          ? row.customize_data
+          : [],
       }));
       setCartList(list);
       setCartReady(true);
@@ -416,6 +419,7 @@ const CartMain = function ({ handleClose }) {
                                             productKey,
                                             productNum,
                                             sortKey,
+                                            customize_data = [],
                                           }) => {
                                             return {
                                               comboKey,
@@ -423,6 +427,7 @@ const CartMain = function ({ handleClose }) {
                                               productKey,
                                               productNum,
                                               sortKey,
+                                              customize_data,
                                             };
                                           }
                                         )
@@ -467,6 +472,7 @@ const CartMain = function ({ handleClose }) {
                                             productKey,
                                             productNum,
                                             sortKey,
+                                            customize_data = [],
                                           }) => {
                                             return {
                                               comboKey,
@@ -474,6 +480,7 @@ const CartMain = function ({ handleClose }) {
                                               productKey,
                                               productNum,
                                               sortKey,
+                                              customize_data,
                                             };
                                           }
                                         )
@@ -511,6 +518,7 @@ const CartMain = function ({ handleClose }) {
                                             productKey,
                                             productNum,
                                             sortKey,
+                                            customize_data = [],
                                           }) => {
                                             return {
                                               comboKey,
@@ -518,6 +526,7 @@ const CartMain = function ({ handleClose }) {
                                               productKey,
                                               productNum,
                                               sortKey,
+                                              customize_data,
                                             };
                                           }
                                         )
@@ -551,6 +560,7 @@ const CartMain = function ({ handleClose }) {
                                             productKey,
                                             productNum,
                                             sortKey,
+                                            customize_data = [],
                                           }) => {
                                             return {
                                               comboKey,
@@ -558,6 +568,7 @@ const CartMain = function ({ handleClose }) {
                                               productKey,
                                               productNum,
                                               sortKey,
+                                              customize_data,
                                             };
                                           }
                                         )

@@ -36,7 +36,8 @@ function PayButton({
   LANG,
   CONFIG,
   currency,
-  area
+  area,
+  customizeRef
 }) {
   const [
     { isPending, isRejected, options },
@@ -77,7 +78,10 @@ function PayButton({
         productKey: productInfo.key,
         comboKey: productCurCombo.key,
         productNum,
-        options: productOptions
+        options: productOptions,
+        customize_data: customizeRef?.current?.getData
+          ? customizeRef.current.getData()
+          : []
       }
     ];
   }, [productNum, productCurCombo, productInfo, productOptions, locale]);
@@ -188,6 +192,13 @@ function PayButton({
               currency
             ]}
             createOrder={async () => {
+              // 定制字段必填校验：未通过则内联报错并阻断下单（PayPal 合约需 reject）
+              if (
+                customizeRef?.current?.validate &&
+                !customizeRef.current.validate()
+              ) {
+                throw new Error("customize validate failed");
+              }
               return Api.createOrder({
                 pay_key: "payPal",
                 total_price: orderPricing.total_price,
@@ -279,14 +290,12 @@ export default function GoodBtnList() {
     locale,
     productNum,
     productCurCombo,
-    productOptions,
-    hasV2Options,
     optionAxes,
-    optionSelection
+    optionSelection,
+    customizeRef
   } = React.useContext(ProductContext);
-  // V2：购物车 options 由选中的轴值派生（axis_name→value_label）；否则用 V1 productOptions。
+  // 购物车 options 由选中的变体轴值派生（axis_name→value_label）；无选项轴则为空。
   const cartOptions = React.useMemo(() => {
-    if (!hasV2Options) return productOptions;
     return (optionAxes || []).map((axis) => {
       const code = optionSelection?.[axis.axis_code];
       const val = axis.values.find((v) => v.value_code === code);
@@ -296,7 +305,7 @@ export default function GoodBtnList() {
         desc: ""
       };
     });
-  }, [hasV2Options, optionAxes, optionSelection, productOptions]);
+  }, [optionAxes, optionSelection]);
   const area = readClientArea();
   const countryCode = React.useMemo(() => {
     let countryCode;
@@ -340,6 +349,14 @@ export default function GoodBtnList() {
               )
                 return;
 
+              // 定制字段必填校验：未通过则由 CustomizationFields 内联报错并阻断加购
+              if (customizeRef?.current?.validate && !customizeRef.current.validate()) {
+                return;
+              }
+              const customizeData = customizeRef?.current?.getData
+                ? customizeRef.current.getData()
+                : [];
+
               let cartList = window.localStorage.getItem("store_shopping");
               try {
                 cartList = JSON.parse(cartList) ?? [];
@@ -352,11 +369,13 @@ export default function GoodBtnList() {
                   productKey: productInfo.key,
                   comboKey: productCurCombo.key,
                   productNum,
-                  options: cartOptions
+                  options: cartOptions,
+                  customize_data: customizeData
                 }
               ];
               if (cartList?.length > 0) {
                 let includeCurCombo = false;
+                const customizeKey = JSON.stringify(customizeData);
                 const returnCart = cartList.map((item) => {
                   if (
                     item.sortKey === productInfo.sort_key &&
@@ -364,7 +383,8 @@ export default function GoodBtnList() {
                     item.comboKey === productCurCombo.key &&
                     (typeof item.options === "object"
                       ? JSON.stringify(item.options)
-                      : item.options) === JSON.stringify(cartOptions)
+                      : item.options) === JSON.stringify(cartOptions) &&
+                    JSON.stringify(item.customize_data || []) === customizeKey
                   ) {
                     includeCurCombo = true;
                     return {
@@ -413,6 +433,7 @@ export default function GoodBtnList() {
                 productCurCombo={productCurCombo}
                 productOptions={cartOptions}
                 productNum={productNum}
+                customizeRef={customizeRef}
               />
             </PayPalScriptProvider>
           ) : null}

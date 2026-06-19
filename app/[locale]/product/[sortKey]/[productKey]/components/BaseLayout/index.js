@@ -38,27 +38,6 @@ export default function BaseLayout({
   const [productCurCombo, setProductCurCombo] = React.useState(() =>
     pickCombo(initialProductInfo?.comboList)
   );
-  const [productOptions, setProductOptions] = React.useState(() => {
-    const typeList = Array.isArray(initialProductInfo?.typeList)
-      ? initialProductInfo.typeList
-      : [];
-    const formateList = [];
-    const curComboKey = pickCombo(initialProductInfo?.comboList)?.key;
-    typeList.forEach((item) => {
-      if (!Array.isArray(item.options) || !item.options[0]) return;
-      if (
-        !item.associated ||
-        (item.combo_keys && item.combo_keys.includes(curComboKey))
-      ) {
-        formateList.push({
-          name: item.title,
-          value: item.options[0].title,
-          desc: item.options[0].desc
-        });
-      }
-    });
-    return formateList;
-  });
   const [productShowType, setProductShowType] = React.useState("image");
 
   // ---------- V2 选项体系 ----------
@@ -107,6 +86,13 @@ export default function BaseLayout({
     setOptionSelection((prev) => ({ ...prev, [axisCode]: valueCode }));
   }, []);
 
+  // ---------- 商品定制字段 ----------
+  // CustomizationFields 挂载时把 { getData, validate } 注册进此 ref：
+  //   getData() → 组装好的 customize_data 数组（frozen shape），供加购/下单读取
+  //   validate() → 必填校验，未通过时由 CustomizationFields 自行展示内联错误并返回 false
+  // 加购按钮（GoodBtnList）在点击时同步读取，无字段/未挂载时为默认空实现。
+  const customizeRef = React.useRef({ getData: () => [], validate: () => true });
+
   const productSlugRef = React.useRef(`${sortKey}/${productKey}`);
   React.useEffect(() => {
     const slug = `${sortKey}/${productKey}`;
@@ -149,22 +135,6 @@ export default function BaseLayout({
     };
   }, [locale, sortKey, productKey]);
 
-  const removeProductOptions = React.useCallback((name) => {
-    setProductOptions((prev) => prev.filter((item) => item.name !== name));
-  }, []);
-
-  const upsertProductOption = React.useCallback((newItem) => {
-    setProductOptions((prev) => {
-      const findIndex = prev.findIndex((item) => item.name === newItem.name);
-      if (findIndex > -1) {
-        const next = [...prev];
-        next[findIndex] = newItem;
-        return next;
-      }
-      return [...prev, newItem];
-    });
-  }, []);
-
   React.useEffect(() => {
     import("jquery").then(({ default: $ }) => {
       window.$ = $;
@@ -187,9 +157,6 @@ export default function BaseLayout({
         setProductNum,
         productCurCombo,
         setProductCurCombo,
-        productOptions,
-        removeProductOptions,
-        setProductOptions: upsertProductOption,
         productShowType,
         setProductShowType,
         // V2 选项体系
@@ -197,7 +164,11 @@ export default function BaseLayout({
         optionVariants: variants,
         hasV2Options,
         optionSelection,
-        setOptionValue
+        setOptionValue,
+        // 商品定制字段：CustomizationFields 注册取数/校验，加购时读取
+        sortKey,
+        productKey,
+        customizeRef
       }}
     >
       {children}

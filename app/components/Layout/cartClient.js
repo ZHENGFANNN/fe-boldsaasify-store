@@ -64,6 +64,10 @@ export default async function resolveCartFromApi({ area, language }) {
       ...row,
       productNum: local.productNum,
       options: parseOptions(local.options),
+      // 后端实时取价不含定制数据，从本地购物车行带回，避免下单时丢失
+      customize_data: Array.isArray(local.customize_data)
+        ? local.customize_data
+        : [],
     });
   });
   return out;
