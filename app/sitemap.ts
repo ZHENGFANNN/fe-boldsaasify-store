@@ -22,8 +22,8 @@ const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN || "";
 const STATIC_PATHS = [
   "", // 首页
   "/support/after-sale",
-  "/blog",
   "/support/contact",
+  "/blog",
   "/protocol/policy",
   "/protocol/sales",
   "/protocol/user",

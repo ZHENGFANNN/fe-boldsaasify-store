@@ -35,7 +35,7 @@
 // ErpCountriesConfig（对应 sslfly.erp_countries_config 表，
 // 来源 be-user-service/internal/app/models/catalog.go:151）：
 //   {
-//     id, country, country_code, language_code,
+//     id, country, country_code,
 //     currency, currency_symbol, currency_unit,    // 金额 = raw / currency_unit（通常 100）
 //     product_price, selling_price,                // 「分」级整数，需除 currency_unit
 //     product_discount,                            // 节日折扣已停用，恒为 0

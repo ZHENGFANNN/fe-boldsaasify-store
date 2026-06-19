@@ -13,7 +13,7 @@ import Link from "next/link";
 export default function Banner() {
   const { CONFIG } = React.useContext(IndexContent);
 
-  const [splide, setSplide] = React.useState();
+  const [splide, setSplide] = React.useState<Splide | undefined>(undefined);
   const [active, setActive] = React.useState(0);
   const bannerList = React.useMemo(() => {
     return CONFIG["home.banner"];
@@ -91,9 +91,8 @@ export default function Banner() {
                   onClick={() => {
                     splide.go(index);
                   }}
-                  className={`${styles.point_item} ${
-                    index === active ? styles.active : ""
-                  }`}
+                  className={`${styles.point_item} ${index === active ? styles.active : ""
+                    }`}
                 ></div>
               );
             })}
