@@ -38,6 +38,7 @@ const LANG_NAMESPACE = [
   "common.contact",
   "common.cookie"
 ];
+
 const CONFIG_NAMESPACE = [
   "common.base",
   "common.social",

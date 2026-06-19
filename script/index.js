@@ -9,19 +9,15 @@ const envFile = `.env${env}`;
 dotenv.config({ path: envFile });
 
 const fetchConfig = require("./fetch-config.js");
-const fetchLanguage = require("./fetch-language.js");
 
 // 注意：product / blog 不再构建期物化，改为运行时从后端拉取 + ISR。
+// 文案（language）已改为运行时按命名空间从后端拉取（app/config/Api/getRemoteLanguage.ts）+ ISR，
+//   不再构建期物化到 fetch-data/languageList，故 fetchLanguage 已移除。
 // 节日折扣（getFestivalDiscount）已下线，后端表与接口已移除，不再构建期拉取。
 // sitemap 改用 Next 原生 app/sitemap.js（构建期生成 /sitemap.xml），不再走脚本。
-// 这里只保留仍需物化的 config / language。
+// 这里只保留仍需物化的 config。
 async function getData() {
-  // 顺序约束：fetchConfig 先写入 globalConfig（语言列表派生自它），
-  // 之后 fetchLanguage 才能 reload 到正确的 languageList，否则会读到空配置。
   await fetchConfig();
-  await Promise.all([
-    fetchLanguage(),
-  ]);
 }
 getData();
 

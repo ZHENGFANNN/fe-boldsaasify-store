@@ -6,7 +6,7 @@
  *
  * 使用约定：
  * - Next 运行时（middleware、i18n、页面）：直接 import 本模块的导出字段。
- * - 构建脚本（`script/fetch-language.js` 等）：在 `fetch-config` 写盘后调用 `reload()` 刷新快照。
+ * - 构建脚本：在 `fetch-config` 写盘后可调用 `reload()` 刷新快照（当前无构建脚本依赖，保留为兜底 API）。
  *
  * 容错：首次 CI 构建时 globalConfig 可能尚不存在，load 失败时退回空配置 + 默认 `en`，
  * 避免模块加载即崩溃；`fetch-config` 完成后通过 `reload()` 读到真实语言列表。
@@ -139,7 +139,7 @@ export const resolveLocale = (locale?: string | null): string => {
 
 /**
  * 构建期专用：清除 require 缓存并重新从磁盘读取 globalConfig。
- * `script/index.js` 在 `fetch-config` 之后、`fetch-language` 之前依赖此调用。
+ * 在 `fetch-config` 写盘之后调用可读到真实语言列表（当前无调用方，保留为兜底 API）。
  */
 export function reload(): LanguageSettingsSnapshot {
   try {
