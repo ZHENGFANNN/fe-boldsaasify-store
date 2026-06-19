@@ -3,6 +3,7 @@
 import { notFound } from "next/navigation";
 import BaseLayout from "./components/BaseLayout";
 import { getProductPage } from "@/config/Api/getProductPage";
+import { getProductOptions } from "@/config/Api/getProductOptions";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import { buildAlternates } from "@/config/seo";
@@ -51,13 +52,15 @@ export async function generateMetadata({ params }) {
 
 export default async function Layout({ children, params }) {
   const { locale, sortKey, productKey } = await params;
-  // 商品本身 / 多语言 / 页面配置 三路独立并发；价格不在服务端取。
+  // 商品本身 / 选项树 / 多语言 / 页面配置 四路独立并发；价格不在服务端取。
   // 商品详情直接走 getProductPage，不再经 getConfigData 转发。
-  const [{ productInfo: baseProductInfo }, LANG, CONFIG] = await Promise.all([
-    getProductPage({ locale, sortKey, productKey }),
-    getRemoteLanguage({ locale, nameSpace: LANG_NAMESPACE }),
-    getRemoteConfig({ locale, nameSpace: CONFIG_NAMESPACE })
-  ]);
+  const [{ productInfo: baseProductInfo }, productOptions, LANG, CONFIG] =
+    await Promise.all([
+      getProductPage({ locale, sortKey, productKey }),
+      getProductOptions({ locale, sortKey, productKey }),
+      getRemoteLanguage({ locale, nameSpace: LANG_NAMESPACE }),
+      getRemoteConfig({ locale, nameSpace: CONFIG_NAMESPACE })
+    ]);
 
   if (!baseProductInfo?.key) {
     notFound();
@@ -74,6 +77,7 @@ export default async function Layout({ children, params }) {
       isMobile={false}
       baseProductInfo={baseProductInfo}
       productInfo={baseProductInfo}
+      productOptions={productOptions}
     >
       {children}
     </BaseLayout>

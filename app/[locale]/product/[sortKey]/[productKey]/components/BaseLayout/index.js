@@ -3,6 +3,7 @@ import React from "react";
 import ProductContext from "../../ProductContext";
 // import GlobalContext from "@/[locale]/context"; // 节日折扣停用后不再使用
 import { pickCombo, applyProductPricing } from "@/utils/productPricing";
+import { resolveVariant, defaultSelection } from "@/utils/resolveVariant";
 import readClientArea from "@/utils/readClientArea";
 import getProductPricing from "@/service/product/get-pricing";
 
@@ -15,7 +16,8 @@ export default function BaseLayout({
   CONFIG,
   isMobile,
   baseProductInfo,
-  productInfo: initialProductInfo
+  productInfo: initialProductInfo,
+  productOptions: initialProductOptions
 }) {
   // 节日折扣已停用：不再从 GlobalContext 取 goodDiscountFestival。
   // const { goodDiscountFestival: globalFestival } =
@@ -58,6 +60,44 @@ export default function BaseLayout({
     return formateList;
   });
   const [productShowType, setProductShowType] = React.useState("image");
+
+  // ---------- V2 选项体系 ----------
+  // axes/variants 与地区无关，来自服务端 props；selection = {axis_code: value_code}。
+  const axes = React.useMemo(
+    () => (Array.isArray(initialProductOptions?.axes) ? initialProductOptions.axes : []),
+    [initialProductOptions]
+  );
+  const variants = React.useMemo(
+    () =>
+      Array.isArray(initialProductOptions?.variants)
+        ? initialProductOptions.variants
+        : [],
+    [initialProductOptions]
+  );
+  const hasV2Options = axes.length > 0 && variants.length > 0;
+  const [optionSelection, setOptionSelection] = React.useState(() =>
+    defaultSelection(variants, axes)
+  );
+
+  // 选值变化 → 解析命中的变体 → 切 productCurCombo（价格随之刷新）。
+  React.useEffect(() => {
+    if (!hasV2Options) return;
+    const variant = resolveVariant(variants, optionSelection, axes);
+    if (!variant) return;
+    setProductCurCombo((prev) => {
+      // 从已合并价格的 productInfo.comboList 取带 areaInfo 的同 key combo；
+      // 找不到（价格未到）就先用变体壳，待价格补差后 pickCombo 会再对齐。
+      const priced = (productInfo?.comboList || []).find(
+        (c) => c.key === variant.combo_key
+      );
+      return priced || { key: variant.combo_key, title: variant.title, areaInfo: prev?.areaInfo };
+    });
+  }, [optionSelection, hasV2Options, variants, axes, productInfo]);
+
+  const setOptionValue = React.useCallback((axisCode, valueCode) => {
+    setOptionSelection((prev) => ({ ...prev, [axisCode]: valueCode }));
+  }, []);
+
 
   const productSlugRef = React.useRef(`${sortKey}/${productKey}`);
   React.useEffect(() => {
@@ -144,7 +184,13 @@ export default function BaseLayout({
         removeProductOptions,
         setProductOptions: upsertProductOption,
         productShowType,
-        setProductShowType
+        setProductShowType,
+        // V2 选项体系
+        optionAxes: axes,
+        optionVariants: variants,
+        hasV2Options,
+        optionSelection,
+        setOptionValue
       }}
     >
       {children}

@@ -135,3 +135,35 @@ export interface ProductSort {
   weight?: number;
   goodList: SimpleProduct[];
 }
+
+/** V2 选项值（商详页渲染色块/图片/文本） */
+export interface OptionValue {
+  value_code: string;
+  value_label: string;
+  swatch_color?: string;
+  swatch_image?: string;
+  weight?: number;
+}
+
+/** V2 选项轴（含其值）。axis_type: text|color|image|swatch */
+export interface OptionAxis {
+  axis_code: string;
+  axis_name: string;
+  axis_type: string;
+  weight?: number;
+  values: OptionValue[];
+}
+
+/** V2 变体：option_value_map(轴→值) 映射唯一 combo_key */
+export interface OptionVariant {
+  combo_key: string;
+  title?: string;
+  sku?: string;
+  option_value_map: Record<string, string>;
+}
+
+/** getProductOptions 返回 */
+export interface ProductOptions {
+  axes: OptionAxis[];
+  variants: OptionVariant[];
+}

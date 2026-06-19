@@ -279,8 +279,24 @@ export default function GoodBtnList() {
     locale,
     productNum,
     productCurCombo,
-    productOptions
+    productOptions,
+    hasV2Options,
+    optionAxes,
+    optionSelection
   } = React.useContext(ProductContext);
+  // V2：购物车 options 由选中的轴值派生（axis_name→value_label）；否则用 V1 productOptions。
+  const cartOptions = React.useMemo(() => {
+    if (!hasV2Options) return productOptions;
+    return (optionAxes || []).map((axis) => {
+      const code = optionSelection?.[axis.axis_code];
+      const val = axis.values.find((v) => v.value_code === code);
+      return {
+        name: axis.axis_name,
+        value: val?.value_label || "",
+        desc: ""
+      };
+    });
+  }, [hasV2Options, optionAxes, optionSelection, productOptions]);
   const area = readClientArea();
   const countryCode = React.useMemo(() => {
     let countryCode;
@@ -336,7 +352,7 @@ export default function GoodBtnList() {
                   productKey: productInfo.key,
                   comboKey: productCurCombo.key,
                   productNum,
-                  options: productOptions
+                  options: cartOptions
                 }
               ];
               if (cartList?.length > 0) {
@@ -348,7 +364,7 @@ export default function GoodBtnList() {
                     item.comboKey === productCurCombo.key &&
                     (typeof item.options === "object"
                       ? JSON.stringify(item.options)
-                      : item.options) === JSON.stringify(productOptions)
+                      : item.options) === JSON.stringify(cartOptions)
                   ) {
                     includeCurCombo = true;
                     return {
@@ -395,7 +411,7 @@ export default function GoodBtnList() {
                 area={area}
                 productInfo={productInfo}
                 productCurCombo={productCurCombo}
-                productOptions={productOptions}
+                productOptions={cartOptions}
                 productNum={productNum}
               />
             </PayPalScriptProvider>

@@ -85,7 +85,8 @@ export default function GoodOptionList() {
     productInfo: { typeList },
     productCurCombo,
     setProductOptions,
-    removeProductOptions
+    removeProductOptions,
+    hasV2Options
   } = React.useContext(ProductContext);
 
   const didMountRef = React.useRef(false);
@@ -127,6 +128,8 @@ export default function GoodOptionList() {
     });
   }, [productCurCombo?.key, removeProductOptions, setProductOptions, typeList]);
 
+  // V2 选项体系接管时，隐藏 V1 typeList 选项（VariantSelector 渲染）。
+  if (hasV2Options) return null;
   if (!Array.isArray(typeList) || typeList?.length < 1) return null;
 
   return (

@@ -14,6 +14,7 @@ export default function GoodComboList() {
     LANG,
     productCurCombo,
     setProductCurCombo,
+    hasV2Options,
     // goodDiscountFestival,
     productInfo: { comboList }
   } = React.useContext(ProductContext);
@@ -23,6 +24,8 @@ export default function GoodComboList() {
   React.useEffect(() => {
     setActive(productCurCombo?.key);
   }, [productCurCombo?.key]);
+  // V2 选项体系接管选择时，隐藏 V1 combo 列表（VariantSelector 渲染）。
+  if (hasV2Options) return null;
   if (!Array.isArray(comboList) || comboList.length < 1) return null;
   return (
     <div className={styles.container}>
