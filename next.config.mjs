@@ -30,6 +30,32 @@ const nextConfig = {
   // root 显式锁定到本目录，与 outputFileTracingRoot 一致。
   turbopack: {
     root: __dirname
+  },
+  // 旧路由 301 永久跳转到 /support 下（保留已被收录 URL 的权重）。
+  // 兼容带/不带 locale 前缀两种形式（默认语言 en 无前缀）。
+  async redirects() {
+    return [
+      {
+        source: "/after-sale",
+        destination: "/support/after-sale",
+        permanent: true
+      },
+      {
+        source: "/:locale/after-sale",
+        destination: "/:locale/support/after-sale",
+        permanent: true
+      },
+      {
+        source: "/company/contact",
+        destination: "/support/contact",
+        permanent: true
+      },
+      {
+        source: "/:locale/company/contact",
+        destination: "/:locale/support/contact",
+        permanent: true
+      }
+    ];
   }
 };
 

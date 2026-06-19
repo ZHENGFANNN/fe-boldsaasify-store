@@ -74,7 +74,7 @@ export default async function Register({ params }) {
         </div>
         <div className={styles.help}>
           <span>{LANG["user_register.help_registration"]}</span>
-          <Link scroll={true} href="/company/contact">
+          <Link scroll={true} href="/support/contact">
             {LANG["user_register.contact_us"]}
           </Link>
         </div>

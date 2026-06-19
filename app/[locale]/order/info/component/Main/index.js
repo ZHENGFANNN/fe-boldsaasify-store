@@ -127,7 +127,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
               dangerouslySetInnerHTML={{
                 __html: LANG["store.order_info.contact_us"]
                   ?.split("${1}")
-                  .join(`/company/contact`),
+                  .join(`/support/contact`),
               }}
             />
             <div className={styles.copy_container}>

@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
     title: `${company} - After-Sales Service`,
     description:
       "Submit a return, refund, exchange or repair request. Our team is here to help with your order.",
-    alternates: buildAlternates("/after-sale", locale),
+    alternates: buildAlternates("/support/after-sale", locale),
   };
 }
 

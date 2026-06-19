@@ -68,7 +68,7 @@ export default async function Login({ params }) {
         </div>
         <div className={styles.help}>
           <span>{LANG["user_login.login_help"]}</span>
-          <Link scroll={true} href="/company/contact">
+          <Link scroll={true} href="/support/contact">
             {LANG["user_login.contact_us"]}
           </Link>
         </div>

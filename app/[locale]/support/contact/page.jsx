@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
     title: `${CONFIG["common.base"]?.company_name} - ${LANG["www.company_contact.title"]}`,
     description: LANG["www.company_contact.description"],
     keywords: LANG["www.company_contact.keywords"],
-    alternates: buildAlternates("/company/contact", locale),
+    alternates: buildAlternates("/support/contact", locale),
   };
 }
 

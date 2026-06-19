@@ -83,7 +83,7 @@ export default function AfterSaleClient({ LANG }) {
               "Please log in to submit and track your after-sales requests."
             )}
           </p>
-          <Link href="/user/login?redirect=/after-sale">
+          <Link href="/user/login?redirect=/support/after-sale">
             {T(LANG, "common.nav.log_in", "Log In")}
           </Link>
         </div>
