@@ -50,7 +50,7 @@ export default function Banner() {
                   "--kv-pc": "url(" + item.pc_image + ")",
                   "--kv-ipad": "url(" + item.ipad_image + ")",
                   "--kv-mob": "url(" + item.mob_image + ")"
-                }}
+                } as React.CSSProperties}
                 className={`${styles.splide_item} splide__slide`}
                 onClick={() => {
                   tracking.clickBannerLink({ link: item.href });

@@ -64,7 +64,10 @@ export default function BaseLayout({
   // ---------- V2 选项体系 ----------
   // axes/variants 与地区无关，来自服务端 props；selection = {axis_code: value_code}。
   const axes = React.useMemo(
-    () => (Array.isArray(initialProductOptions?.axes) ? initialProductOptions.axes : []),
+    () =>
+      Array.isArray(initialProductOptions?.axes)
+        ? initialProductOptions.axes
+        : [],
     [initialProductOptions]
   );
   const variants = React.useMemo(
@@ -90,14 +93,19 @@ export default function BaseLayout({
       const priced = (productInfo?.comboList || []).find(
         (c) => c.key === variant.combo_key
       );
-      return priced || { key: variant.combo_key, title: variant.title, areaInfo: prev?.areaInfo };
+      return (
+        priced || {
+          key: variant.combo_key,
+          title: variant.title,
+          areaInfo: prev?.areaInfo
+        }
+      );
     });
   }, [optionSelection, hasV2Options, variants, axes, productInfo]);
 
   const setOptionValue = React.useCallback((axisCode, valueCode) => {
     setOptionSelection((prev) => ({ ...prev, [axisCode]: valueCode }));
   }, []);
-
 
   const productSlugRef = React.useRef(`${sortKey}/${productKey}`);
   React.useEffect(() => {
@@ -123,7 +131,7 @@ export default function BaseLayout({
         sortKey,
         productKey,
         area,
-        locale,
+        locale
       });
       if (cancelled) return;
       const seed = initialProductRef.current;
@@ -172,7 +180,6 @@ export default function BaseLayout({
         CONFIG,
         isMobile,
         productInfo,
-        // goodDiscountFestival: globalFestival,
         lazyLoading,
         setLazyLoading,
         priceLoading,
