@@ -57,14 +57,22 @@ function ReviewRate({ LANG, reviewScore, reviewsNum }) {
 }
 
 function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
-  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
-  const goodDiscountFestival = false;
   return (
     <section className={styles.goods_container}>
       {goodList.map((product, productIndex) => {
         const areaInfo = pricingReady
           ? pickAreaInfo(pricingMap?.[`${product.sort_key}:${product.key}`])
           : null;
+        // 数据驱动判定：selling_price < product_price 时按折扣商品展示。
+        const hasDiscount =
+          !!areaInfo?.selling_price &&
+          !!areaInfo?.product_price &&
+          Number(areaInfo.selling_price) < Number(areaInfo.product_price);
+        const discountPercent = hasDiscount
+          ? Math.round(
+              (1 - Number(areaInfo.selling_price) / Number(areaInfo.product_price)) * 100
+            )
+          : 0;
         return (
           <Link
             key={productIndex}
@@ -107,12 +115,12 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
               ) : null}
               {/* 产品名称 */}
               <h3 className={styles.product_name}>{product.name}</h3>
-              {/* 产品优惠 */}
-              {goodDiscountFestival && areaInfo?.product_discount ? (
+              {/* 产品折扣百分比角标 */}
+              {hasDiscount && discountPercent > 0 ? (
                 <div className={styles.good_discount_container}>
-                  <div className={styles.off}>{LANG["store.index.off"]}</div>
+                  <div className={styles.off}>{LANG["store.index.off"] || "OFF"}</div>
                   <div className={styles.discount}>
-                    {100 - areaInfo?.product_discount}%
+                    {discountPercent}%
                   </div>
                 </div>
               ) : null}
@@ -127,16 +135,25 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
                 </div>
               ) : (
                 <div className={styles.product_price_container}>
-                  {goodDiscountFestival && areaInfo?.product_discount ? (
-                    <div>{`${areaInfo?.currency_symbol}${formatCurrency(
-                      areaInfo?.selling_price,
-                      areaInfo?.currency_unit
+                  {hasDiscount ? (
+                    <>
+                      {/* 折后价：第 1 个 div，沿用 product_price_container 默认黑色字 */}
+                      <div>{`${areaInfo.currency_symbol}${formatCurrency(
+                        areaInfo.selling_price,
+                        areaInfo.currency_unit
+                      )}`}</div>
+                      {/* 划线原价：第 2 个 div，命中 div:nth-child(2) 的灰色+line-through 样式 */}
+                      <div>{`${areaInfo.currency_symbol}${formatCurrency(
+                        areaInfo.product_price,
+                        areaInfo.currency_unit
+                      )}`}</div>
+                    </>
+                  ) : (
+                    <div>{`${areaInfo.currency_symbol}${formatCurrency(
+                      areaInfo.product_price,
+                      areaInfo.currency_unit
                     )}`}</div>
-                  ) : null}
-                  <div>{`${areaInfo?.currency_symbol}${formatCurrency(
-                    areaInfo?.product_price,
-                    areaInfo?.currency_unit
-                  )}`}</div>
+                  )}
                 </div>
               )}
             </div>

@@ -26,6 +26,29 @@ import { formatCurrency, roundToDecimalPlaces } from "@/utils";
 import styles from "./index.module.scss";
 import Cookies from "js-cookie";
 
+// localStorage key：购物车 Drawer 应用的折扣码集合，结算页进入时自动回填初始 discountCodes，
+// 应用/移除后双向同步。两端共用同一 key（CartModal 也读写它）。
+const DISCOUNT_CODES_STORAGE_KEY = "store_shopping_discount_codes";
+
+function readStoredDiscountCodes() {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(DISCOUNT_CODES_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeStoredDiscountCodes(codes) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(DISCOUNT_CODES_STORAGE_KEY, JSON.stringify(codes));
+  } catch {}
+}
+
 function parsePreviewAmount(value) {
   if (typeof value === "number") return value;
   return parseFloat(value) || 0;
@@ -179,7 +202,9 @@ export default function Main({ CONFIG, LANG, area, token }) {
   }, [orderList]);
 
   const [discountCodeInput, setDiscountCodeInput] = React.useState("");
-  const [discountCodes, setDiscountCodes] = React.useState([]);
+  const [discountCodes, setDiscountCodes] = React.useState(() =>
+    readStoredDiscountCodes()
+  );
   const [previewLoading, setPreviewLoading] = React.useState(false);
   const [previewData, setPreviewData] = React.useState(null);
   const [previewError, setPreviewError] = React.useState(null);
@@ -300,7 +325,11 @@ export default function Main({ CONFIG, LANG, area, token }) {
     }
     try {
       await fetchOrderPreview([...discountCodes, code], previewRegion);
-      setDiscountCodes((prev) => [...prev, code]);
+      setDiscountCodes((prev) => {
+        const next = [...prev, code];
+        writeStoredDiscountCodes(next);
+        return next;
+      });
       setDiscountCodeInput("");
     } catch (err) {
       showTip({
@@ -312,7 +341,11 @@ export default function Main({ CONFIG, LANG, area, token }) {
 
   const handleRemoveDiscountCode = React.useCallback(
     (code) => {
-      setDiscountCodes((prev) => prev.filter((item) => item !== code));
+      setDiscountCodes((prev) => {
+        const next = prev.filter((item) => item !== code);
+        writeStoredDiscountCodes(next);
+        return next;
+      });
     },
     []
   );
@@ -397,6 +430,8 @@ export default function Main({ CONFIG, LANG, area, token }) {
   const clearOrderList = React.useCallback(() => {
     // 获取购物车列表
     window.localStorage.removeItem("store_shopping");
+    // 清空购物车 Drawer 持久化的折扣码，防止下次进购物车残留旧码（已用过的码再次提交会被后端拒）
+    writeStoredDiscountCodes([]);
   }, []);
 
   // 埋点

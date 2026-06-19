@@ -9,39 +9,38 @@ import tracking from "../tracking";
 import GlobalContext from "../../../[locale]/context";
 import { formatCurrency } from "../../../utils";
 import resolveCartFromApi from "../cartClient";
+import api from "../../../request";
 import Skeleton from "@/components/Skeleton";
 
 import { useRouter } from "next/navigation";
 
-// 格式化时间，保证显示为两位数
-function formatTime(time) {
-  return time.toString().padStart(2, "0");
+// localStorage key：购物车已应用的折扣码集合，结算页进入时自动回填初始 discountCodes。
+const DISCOUNT_CODES_STORAGE_KEY = "store_shopping_discount_codes";
+
+function readStoredDiscountCodes() {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(DISCOUNT_CODES_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
 }
 
-function updateCountdown(endTime) {
-  if (!endTime) return;
-  // 获取当前时间
-  const currentTime = Date.now();
-  // 计算剩余时间
-  const milliseconds = endTime - currentTime;
-  if (milliseconds < 0) {
-    location.reload();
-    return;
-  }
+function writeStoredDiscountCodes(codes) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(DISCOUNT_CODES_STORAGE_KEY, JSON.stringify(codes));
+  } catch {}
+}
 
-  const seconds = Math.floor(milliseconds / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-
-  return {
-    hours: Math.max(formatTime(hours), 0).toString().padStart(2, "0"),
-    minutes: Math.max(formatTime(minutes % 60), 0)
-      .toString()
-      .padStart(2, "0"),
-    seconds: Math.max(formatTime(seconds % 60), 0)
-      .toString()
-      .padStart(2, "0"),
-  };
+// 解析 previewOrder 返回的金额字符串/数字 → number。
+function parseAmount(v) {
+  if (v === null || v === undefined) return 0;
+  const n = typeof v === "number" ? v : Number(v);
+  return Number.isFinite(n) ? n : 0;
 }
 
 const EmptyCart = function ({ handleClose }) {
@@ -124,8 +123,6 @@ function readCachedCartCount() {
 }
 
 const CartMain = function ({ handleClose }) {
-  // 节日折扣已停用：恒为 false，下方倒计时/折扣 UI 自然隐藏（源码保留以备复用）。
-  const goodDiscountFestival = false;
   const { locale, LANG, area, areaReady, setProductNum } =
     React.useContext(GlobalContext);
   const [cartList, setCartList] = React.useState([]);
@@ -133,25 +130,20 @@ const CartMain = function ({ handleClose }) {
   const [cartReady, setCartReady] = React.useState(false);
   // 估算骨架行数：弹窗打开瞬间从 localStorage 取一次，cartReady 后不再使用。
   const [skeletonRows] = React.useState(() => readCachedCartCount());
-  const [hours, setHours] = React.useState("00");
-  const [minutes, setMinutes] = React.useState("00");
-  const [seconds, setSeconds] = React.useState("00");
   const router = useRouter();
 
-  React.useEffect(() => {
-    if (!goodDiscountFestival || goodDiscountFestival.long_activity) return;
-    const t = setInterval(() => {
-      const { hours, minutes, seconds } = updateCountdown(
-        goodDiscountFestival?.end_time
-      );
-      setHours(hours);
-      setMinutes(minutes);
-      setSeconds(seconds);
-    }, 500);
-    return () => {
-      clearInterval(t);
-    };
-  }, [goodDiscountFestival]);
+  // ==========================================================================
+  // 折扣码状态机：输入 → 调 previewOrder 试算 → 显示折扣行 + applied_rules。
+  // 已应用 codes 写入 localStorage，结算页 Main 进入时自动回填，体验闭环。
+  // 不传 shipping_address：后端只算商品折扣，不算运费折扣（购物车里 OK）。
+  // ==========================================================================
+  const [discountCodeInput, setDiscountCodeInput] = React.useState("");
+  const [discountCodes, setDiscountCodes] = React.useState(() =>
+    readStoredDiscountCodes()
+  );
+  const [previewLoading, setPreviewLoading] = React.useState(false);
+  const [previewData, setPreviewData] = React.useState(null);
+  const [previewError, setPreviewError] = React.useState(null);
 
   React.useEffect(() => {
     // 地区就绪后再取价（价格随 area 实时，走 /api/cart）。
@@ -196,15 +188,126 @@ const CartMain = function ({ handleClose }) {
     let productNum = 0;
     const price = cartList.reduce((pre, cur) => {
       productNum = productNum + cur.productNum;
-      if (goodDiscountFestival && cur.product_discount) {
-        return pre + cur.selling_price * cur.productNum;
-      } else {
-        return pre + cur.product_price * cur.productNum;
-      }
+      // effective price：商品本身有折扣（selling_price < product_price）时，按折后价合计；
+      // 否则按原价。展示与结算口径一致。
+      const hasItemDiscount =
+        Number(cur.selling_price) > 0 &&
+        Number(cur.selling_price) < Number(cur.product_price);
+      const unit = hasItemDiscount ? cur.selling_price : cur.product_price;
+      return pre + unit * cur.productNum;
     }, 0);
     setProductNum(productNum > 99 ? "99+" : productNum);
     setTotalPrice(formatCurrency(price));
-  }, [cartList, goodDiscountFestival]);
+  }, [cartList, setProductNum]);
+
+  // ==========================================================================
+  // 调 previewOrder 试算折扣（仅 area_code + order_list + discount_codes，不传地址）。
+  // 触发条件：cartList 就绪 + 已有 codes（无 codes 时不调，省一次空请求）。
+  // 输出：previewData.discount / .applied_rules 供 UI 展示。
+  // ==========================================================================
+  const buildPreviewOrderList = React.useCallback(() => {
+    return cartList.map((it) => ({
+      sortKey: it.sortKey,
+      productKey: it.productKey,
+      comboKey: it.comboKey,
+      productNum: it.productNum,
+      // 复刻结算页字段：options 透传给后端做 BXGY/范围匹配
+      options: it.options,
+    }));
+  }, [cartList]);
+
+  const fetchPreview = React.useCallback(
+    async (codes) => {
+      if (!cartList.length) {
+        setPreviewData(null);
+        return null;
+      }
+      setPreviewLoading(true);
+      try {
+        const payload = {
+          area_code: area || "us",
+          discount_codes: codes,
+          include_automatic: true,
+          order_list: buildPreviewOrderList(),
+        };
+        const res = await api.post("/pay/previewOrder", payload);
+        if (res.code !== 0) {
+          const msg =
+            typeof res.data === "string"
+              ? res.data
+              : LANG["store.order.discount_code_invalid"] ||
+                "Invalid discount code";
+          throw new Error(msg);
+        }
+        const data = {
+          total_price: parseAmount(res.data.total_price),
+          discount: parseAmount(res.data.discount),
+          pay_price: parseAmount(res.data.pay_price),
+          applied_rules: res.data.applied_rules || [],
+        };
+        setPreviewData(data);
+        setPreviewError(null);
+        return data;
+      } catch (err) {
+        setPreviewError(err?.message || "Preview failed");
+        throw err;
+      } finally {
+        setPreviewLoading(false);
+      }
+    },
+    [cartList, area, buildPreviewOrderList, LANG]
+  );
+
+  // 购物车就绪 / area 切换 / codes 变化时自动重算（仅当 codes 非空才请求）。
+  React.useEffect(() => {
+    if (!cartReady || !cartList.length) return;
+    if (!discountCodes.length) {
+      setPreviewData(null);
+      setPreviewError(null);
+      return;
+    }
+    fetchPreview(discountCodes).catch(() => {});
+  }, [cartReady, cartList, discountCodes, area, fetchPreview]);
+
+  const persistDiscountCodes = React.useCallback((codes) => {
+    setDiscountCodes(codes);
+    writeStoredDiscountCodes(codes);
+  }, []);
+
+  const handleApplyDiscountCode = React.useCallback(async () => {
+    const code = discountCodeInput.trim().toUpperCase();
+    if (!code) return;
+    if (discountCodes.includes(code)) {
+      setPreviewError(
+        LANG["store.order.discount_code_applied"] ||
+          "Discount code already applied"
+      );
+      return;
+    }
+    const next = [...discountCodes, code];
+    try {
+      await fetchPreview(next);
+      persistDiscountCodes(next);
+      setDiscountCodeInput("");
+    } catch {
+      // fetchPreview 已 setPreviewError，UI 会展示
+    }
+  }, [
+    discountCodeInput,
+    discountCodes,
+    fetchPreview,
+    persistDiscountCodes,
+    LANG,
+  ]);
+
+  const handleRemoveDiscountCode = React.useCallback(
+    (code) => {
+      const next = discountCodes.filter((c) => c !== code);
+      persistDiscountCodes(next);
+      setPreviewError(null);
+    },
+    [discountCodes, persistDiscountCodes]
+  );
 
   return (
     <div className={styles.container}>
@@ -216,43 +319,15 @@ const CartMain = function ({ handleClose }) {
             <EmptyCart LANG={LANG} handleClose={handleClose} />
           ) : (
             <>
-              <div
-                className={styles.shipping_free}
-                data-discount={!!goodDiscountFestival}
-              >
+              <div className={styles.shipping_free} data-discount={false}>
                 {LANG["common.cart.free_shipping"]}
               </div>
-              {goodDiscountFestival ? (
-                <div className={styles.festival_discount_container}>
-                  <div className={styles.festival_discount}>
-                    <div className={styles.festival_discount_title}>
-                      {goodDiscountFestival.title}
-                    </div>
-                    <div className={styles.festival_discount_tip}>
-                      {LANG["common.cart.festival_tip"]}
-                    </div>
-                    {!goodDiscountFestival.long_activity ? (
-                      <div className={styles.countdown}>
-                        <div className={styles.countdown_time}>
-                          <div className={styles.countdown_item}>
-                            <div>{hours}</div>
-                          </div>
-                          <div className={styles.countdown_symbol}>:</div>
-                          <div className={styles.countdown_item}>
-                            <div>{minutes}</div>
-                          </div>
-                          <div className={styles.countdown_symbol}>:</div>
-                          <div className={styles.countdown_item}>
-                            <div>{seconds}</div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              ) : null}
               <div className={styles.table_body}>
                 {cartList.map((item, index) => {
+                  // 商品级折扣：selling_price < product_price 时按折后价 + 划线原价展示。
+                  const hasItemDiscount =
+                    Number(item.selling_price) > 0 &&
+                    Number(item.selling_price) < Number(item.product_price);
                   return (
                     <section key={index} className={styles.table_body_item}>
                       <div className={styles.table_body_goods}>
@@ -288,17 +363,25 @@ const CartMain = function ({ handleClose }) {
                             </div>
                             <div className={styles.table_body_price}>
                               <div className={styles.price}>
-                                {goodDiscountFestival &&
-                                item.product_discount ? (
+                                {hasItemDiscount ? (
+                                  <>
+                                    {/* 折后价：第 1 个 div */}
+                                    <div>{`${item.priceSymbol}${formatCurrency(
+                                      item.selling_price * item.productNum,
+                                      item.currency_unit
+                                    )}`}</div>
+                                    {/* 划线原价：第 2 个 div，命中既有 nth-child(2) 划线灰色样式 */}
+                                    <div>{`${item.priceSymbol}${formatCurrency(
+                                      item.product_price * item.productNum,
+                                      item.currency_unit
+                                    )}`}</div>
+                                  </>
+                                ) : (
                                   <div>{`${item.priceSymbol}${formatCurrency(
-                                    item.selling_price * item.productNum,
+                                    item.product_price * item.productNum,
                                     item.currency_unit
                                   )}`}</div>
-                                ) : null}
-                                <div>{`${item.priceSymbol}${formatCurrency(
-                                  item.product_price * item.productNum,
-                                  item.currency_unit
-                                )}`}</div>
+                                )}
                               </div>
                             </div>
                             <div className={styles.table_num_delete_container}>
@@ -500,6 +583,57 @@ const CartMain = function ({ handleClose }) {
         </div>
         {cartReady && cartList && cartList.length > 0 ? (
           <div className={styles.bottom_content}>
+            {/* 折扣码输入区：调 previewOrder 试算，显示折扣行；持久化到 localStorage 让结算页自动回填 */}
+            <div className={styles.promo_code_container}>
+              <div className={styles.promo_code_input_row}>
+                <input
+                  type="text"
+                  className={styles.promo_code_input}
+                  value={discountCodeInput}
+                  placeholder={
+                    LANG["store.order.discount_code_placeholder"] ||
+                    "Promo code"
+                  }
+                  onChange={(e) => setDiscountCodeInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleApplyDiscountCode();
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  className={styles.promo_code_apply_btn}
+                  disabled={previewLoading || !discountCodeInput.trim()}
+                  onClick={handleApplyDiscountCode}
+                >
+                  {LANG["store.order.discount_code_apply"] || "Apply"}
+                </button>
+              </div>
+              {discountCodes.length ? (
+                <div className={styles.promo_code_tags}>
+                  {discountCodes.map((code) => (
+                    <div key={code} className={styles.promo_code_tag}>
+                      <span>{code}</span>
+                      <button
+                        type="button"
+                        aria-label={
+                          LANG["store.order.discount_code_remove"] || "Remove"
+                        }
+                        onClick={() => handleRemoveDiscountCode(code)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              {previewError && !previewLoading ? (
+                <div className={styles.promo_code_error}>{previewError}</div>
+              ) : null}
+            </div>
+
             <div className={styles.total_price}>
               <div className={styles.total_price_title}>
                 {LANG["common.cart.subtotal"]}
@@ -508,6 +642,19 @@ const CartMain = function ({ handleClose }) {
                 {`${cartList[0]?.priceSymbol}${totalPrice}`}
               </div>
             </div>
+            {previewData?.discount > 0 ? (
+              <div className={styles.discount_row}>
+                <div>
+                  {LANG["store.order.discount_amount"] || "Discount"}
+                </div>
+                <div
+                  className={styles.discount_value}
+                >{`-${cartList[0]?.priceSymbol}${formatCurrency(
+                  previewData.discount,
+                  cartList[0]?.currency_unit
+                )}`}</div>
+              </div>
+            ) : null}
             <div className={styles.checkout_tip}>
               {LANG["common.cart.checkout_tip"]}
             </div>
