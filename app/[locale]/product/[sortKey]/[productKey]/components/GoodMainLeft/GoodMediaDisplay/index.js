@@ -5,6 +5,7 @@ import React from "react";
 import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 import ProductContext from "../../../ProductContext";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { trackingCustomClick } from "@/utils";
 
 // 获取类型
@@ -236,8 +237,8 @@ export default function GoodMediaDisplay() {
                                 key={item.src}
                                 className={`splide__slide ${styles.splide__slide}`}
                               >
-                                <img
-                                  data-loading={true}
+                                <ImageWithSkeleton
+                                  wrapClassName={styles.media_img_wrap}
                                   alt={productInfo.name}
                                   src={item.src}
                                 />
@@ -253,8 +254,8 @@ export default function GoodMediaDisplay() {
                                 key={index}
                                 className={`splide__slide ${styles.splide__slide}`}
                               >
-                                <img
-                                  data-loading={true}
+                                <ImageWithSkeleton
+                                  wrapClassName={styles.media_img_wrap}
                                   alt={productInfo.name}
                                   src={item.src}
                                 />

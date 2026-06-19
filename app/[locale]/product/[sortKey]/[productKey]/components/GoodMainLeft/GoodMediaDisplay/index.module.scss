@@ -131,12 +131,22 @@
             }
             img {
               object-fit: cover;
-  
+
               position: absolute;
               left: 0;
               top: 0;
               bottom: 0;
               right: 0;
+              width: 100%;
+              height: 100%;
+            }
+            /* ImageWithSkeleton 包裹层：撑满 slide，让内部绝对定位 img/skeleton 正确铺满 */
+            .media_img_wrap {
+              position: absolute;
+              left: 0;
+              top: 0;
+              right: 0;
+              bottom: 0;
               width: 100%;
               height: 100%;
             }

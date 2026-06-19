@@ -2,6 +2,7 @@
 import React from "react";
 import ProductContext from "../../../ProductContext";
 import { isValueAvailable } from "@/utils/resolveVariant";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import styles from "./index.module.scss";
 
 /**
@@ -87,7 +88,7 @@ export default function VariantSelector() {
                       aria-pressed={active}
                       onClick={() => setOptionValue(axis.axis_code, val.value_code)}
                     >
-                      <img
+                      <ImageWithSkeleton
                         className={styles.swatch_image}
                         src={val.swatch_image}
                         alt={val.value_label}
