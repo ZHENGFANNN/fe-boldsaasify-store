@@ -9,7 +9,7 @@ import Main from "./components/Main";
 async function getData({ locale }) {
   const [LANG, CONFIG] = await Promise.all([
     getRemoteLanguage({ locale, nameSpace: ["user_account"] }),
-    getRemoteConfig({ locale, nameSpace: ["common.base"] }),
+    getRemoteConfig({ locale, nameSpace: ["common.base"] })
   ]);
   return { LANG, CONFIG };
 }
@@ -17,19 +17,17 @@ async function getData({ locale }) {
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   const { LANG, CONFIG } = await getData({
-    locale,
+    locale
   });
   return {
     title: `${CONFIG["common.base"]?.company_name} - ${LANG["user_account.page_title"]}`,
     description: LANG["user_account.page_description"],
-    keywords: LANG["user_account.page_keywords"],
+    keywords: LANG["user_account.page_keywords"]
   };
 }
 
 export default async function Account({ params }) {
   const { locale } = await params;
-  const { LANG } = await getData({
-    locale,
-  });
+  const { LANG } = await getData({ locale });
   return <Main LANG={LANG} />;
 }
