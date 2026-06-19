@@ -7,15 +7,11 @@ import CartModal from "./CartModal";
 import AreaModal from "./AreaModal";
 import ContactModal from "./ContactModal";
 import CookieModal from "./CookieModal";
+import WelcomePopup from "./WelcomePopup";
 import LiveChat from "@/components/LiveChat";
 import openLiveChat from "@/components/LiveChat/openLiveChat";
 
-export default function Layout({
-  locale,
-  LANG,
-  CONFIG,
-  children,
-}) {
+export default function Layout({ locale, LANG, CONFIG, children }) {
   const { area, areaReady } = useArea();
   /**
    * 处理购物车数量
@@ -76,7 +72,7 @@ export default function Layout({
         // Open live chat widget
         showLiveChat: (forceOpen = true) => {
           openLiveChat(forceOpen);
-        },
+        }
       }}
     >
       {/* Cart Modal */}
@@ -87,6 +83,8 @@ export default function Layout({
       <ContactModal ref={contactRef} />
       {/* Cookie Modal */}
       <CookieModal />
+      {/* Welcome popup：首次访问 5s 后弹出，订阅成功自动应用 Welcome 折扣码到购物车 */}
+      <WelcomePopup />
       {/* Live Chat */}
       <LiveChat locale={locale} area={areaReady ? area || "us" : "us"} />
       {children}

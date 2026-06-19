@@ -7,6 +7,7 @@ import IndexProductList from "./components/IndexProductList";
 import IndexProductLdJson from "./components/IndexProductLdJson";
 import IndexBanner from "./components/IndexBanner";
 import IndexContext from "./components/IndexContext";
+import IndexSale from "./components/IndexSale";
 
 import { buildAlternates } from "@/config/seo";
 
@@ -59,6 +60,8 @@ export default async function Home({ params }) {
         locale={locale}
       >
         <IndexBanner />
+        {/* Sale 模块：自动展示当前价格有折扣的商品（数据驱动，无折扣商品时整块隐藏） */}
+        <IndexSale limit={8} />
         <IndexProductList />
         <Advantage LANG={LANG} />
       </IndexContext>
