@@ -52,6 +52,8 @@ export default function VariantSelector() {
                   val.value_code,
                   axes
                 );
+                // 不可命中的候选值置灰并禁止点击（active 值始终保持可点，避免卡死无法切换）。
+                const disabled = !available && !active;
                 const cls = [
                   styles.value_item,
                   active ? styles.active : "",
@@ -59,16 +61,22 @@ export default function VariantSelector() {
                 ]
                   .filter(Boolean)
                   .join(" ");
+                const handleClick = () => {
+                  if (disabled) return;
+                  setOptionValue(axis.axis_code, val.value_code);
+                };
                 if (isColor) {
                   return (
                     <button
                       type="button"
                       key={val.value_code}
                       className={cls}
+                      disabled={disabled}
                       title={val.value_label}
                       aria-label={val.value_label}
                       aria-pressed={active}
-                      onClick={() => setOptionValue(axis.axis_code, val.value_code)}
+                      aria-disabled={disabled}
+                      onClick={handleClick}
                     >
                       <span
                         className={styles.swatch_color}
@@ -83,10 +91,12 @@ export default function VariantSelector() {
                       type="button"
                       key={val.value_code}
                       className={cls}
+                      disabled={disabled}
                       title={val.value_label}
                       aria-label={val.value_label}
                       aria-pressed={active}
-                      onClick={() => setOptionValue(axis.axis_code, val.value_code)}
+                      aria-disabled={disabled}
+                      onClick={handleClick}
                     >
                       <ImageWithSkeleton
                         className={styles.swatch_image}
@@ -101,8 +111,10 @@ export default function VariantSelector() {
                     type="button"
                     key={val.value_code}
                     className={cls}
+                    disabled={disabled}
                     aria-pressed={active}
-                    onClick={() => setOptionValue(axis.axis_code, val.value_code)}
+                    aria-disabled={disabled}
+                    onClick={handleClick}
                   >
                     {val.value_label}
                   </button>

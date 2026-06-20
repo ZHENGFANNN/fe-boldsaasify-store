@@ -82,6 +82,13 @@ export default function BaseLayout({
     });
   }, [optionSelection, hasV2Options, variants, axes, productInfo]);
 
+  // 当前选值是否命中真实变体：V2 选项下，未命中（无对应 combo）则视为不可购买，
+  // 据此屏蔽加购/支付，避免「禁用组合仍带着上一次价格被买走」。无 V2 选项恒为 true。
+  const variantResolved = React.useMemo(() => {
+    if (!hasV2Options) return true;
+    return !!resolveVariant(variants, optionSelection, axes);
+  }, [hasV2Options, variants, optionSelection, axes]);
+
   const setOptionValue = React.useCallback((axisCode, valueCode) => {
     setOptionSelection((prev) => ({ ...prev, [axisCode]: valueCode }));
   }, []);
@@ -165,6 +172,7 @@ export default function BaseLayout({
         hasV2Options,
         optionSelection,
         setOptionValue,
+        variantResolved,
         // 商品定制字段：CustomizationFields 注册取数/校验，加购时读取
         sortKey,
         productKey,

@@ -312,6 +312,7 @@ export default function GoodBtnList() {
     productCurCombo,
     optionAxes,
     optionSelection,
+    variantResolved,
     customizeRef
   } = React.useContext(ProductContext);
   // 购物车 options 由选中的变体轴值派生（axis_name→value_label）；无选项轴则为空。
@@ -356,7 +357,8 @@ export default function GoodBtnList() {
 
   return (
     <div className={styles.container} data-role="buy-btn-list">
-      {!productCurCombo.areaInfo?.product_price ||
+      {!variantResolved ||
+      !productCurCombo.areaInfo?.product_price ||
       !productCurCombo.areaInfo?.stock ? (
         <div className={styles.btn_stock}>{LANG["store.product.no_stock"]}</div>
       ) : (
@@ -364,6 +366,7 @@ export default function GoodBtnList() {
           <div
             onClick={() => {
               if (
+                !variantResolved ||
                 !productCurCombo?.areaInfo?.product_price ||
                 !productCurCombo?.areaInfo?.stock
               )
