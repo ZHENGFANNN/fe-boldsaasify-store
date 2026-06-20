@@ -7,6 +7,7 @@ import tracking from "../../tracking";
 import ComboModal from "./components/ComboModal";
 import { formatCurrency } from "@/utils";
 import { debounce } from "@/utils";
+import { effectivePrice } from "@/utils/productPricing";
 import { recordRecentlyViewed } from "@/components/LiveChat/recentlyViewed";
 
 export default function GoodFooter() {
@@ -148,7 +149,7 @@ export default function GoodFooter() {
                 <div>{`${
                   productCurCombo.areaInfo.currency_symbol
                 }${formatCurrency(
-                  productCurCombo.areaInfo.selling_price * productNum,
+                  effectivePrice(productCurCombo.areaInfo) * productNum,
                   productCurCombo.areaInfo?.currency_unit
                 )}`}</div>
               </div>

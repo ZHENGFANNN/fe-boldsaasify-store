@@ -32,3 +32,18 @@ export function pickCombo(comboList, prevKey) {
   }
   return list.find((item) => item.areaInfo?.stock) || list[0] || {};
 }
+
+/**
+ * 有效单价口径（全站统一）：商品本身有折扣（selling_price > 0 且 < product_price）
+ * 时取折后价 selling_price，否则取原价 product_price。
+ * GoodPrice(主区)、CartModal(购物车)、GoodFooter(底部栏) 必须用同一口径，
+ * 避免出现「底部栏无条件用 selling_price → 无折扣时显示 0/错价」之类的不一致。
+ * @param {object} areaInfo - 含 product_price / selling_price 的地区定价对象
+ * @returns {number} 有效单价（取不到时为 0）
+ */
+export function effectivePrice(areaInfo) {
+  const product = Number(areaInfo?.product_price) || 0;
+  const selling = Number(areaInfo?.selling_price) || 0;
+  const hasDiscount = selling > 0 && selling < product;
+  return hasDiscount ? selling : product;
+}

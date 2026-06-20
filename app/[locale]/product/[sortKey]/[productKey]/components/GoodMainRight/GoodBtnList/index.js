@@ -27,6 +27,26 @@ function parsePreviewAmount(value) {
   return parseFloat(value) || 0;
 }
 
+// 选项规范化：按 name 排序后再 stringify，使去重比对与轴顺序无关。
+// 后台调整变体轴顺序后，旧购物车行(options 顺序不同)仍能与新行判为同一项而合并，
+// 不再产生「同商品同变体却多出一条重复行」。
+function normalizeOptionsKey(options) {
+  let arr;
+  if (typeof options === "object" && options !== null) {
+    arr = Array.isArray(options) ? options : [];
+  } else {
+    try {
+      arr = JSON.parse(options) || [];
+    } catch {
+      arr = [];
+    }
+  }
+  const sorted = [...arr].sort((a, b) =>
+    String(a?.name ?? "").localeCompare(String(b?.name ?? ""))
+  );
+  return JSON.stringify(sorted);
+}
+
 function PayButton({
   productInfo,
   productCurCombo,
@@ -376,14 +396,13 @@ export default function GoodBtnList() {
               if (cartList?.length > 0) {
                 let includeCurCombo = false;
                 const customizeKey = JSON.stringify(customizeData);
+                const cartOptionsKey = normalizeOptionsKey(cartOptions);
                 const returnCart = cartList.map((item) => {
                   if (
                     item.sortKey === productInfo.sort_key &&
                     item.productKey === productInfo.key &&
                     item.comboKey === productCurCombo.key &&
-                    (typeof item.options === "object"
-                      ? JSON.stringify(item.options)
-                      : item.options) === JSON.stringify(cartOptions) &&
+                    normalizeOptionsKey(item.options) === cartOptionsKey &&
                     JSON.stringify(item.customize_data || []) === customizeKey
                   ) {
                     includeCurCombo = true;
