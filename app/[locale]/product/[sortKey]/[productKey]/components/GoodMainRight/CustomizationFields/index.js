@@ -15,9 +15,21 @@ import {
  *   - 把 { getData, validate } 注册进 ProductContext.customizeRef，
  *     加购（GoodBtnList）点击时同步读取并校验必填。
  *
+ * max_length 语义：文本类=最大字数；file=最多文件数；0/缺省 → 套默认上限。
+ *
  * FILLED VALUE SHAPE（与后端约定，勿改）：
  *   [{ field_code, field_label, field_type, value, files:[{url,name,type}] }]
  */
+
+// 默认上限：文本 200 字，文件 5 个（后端 max_length=0 时套用）。
+const DEFAULT_TEXT_MAX = 200;
+const DEFAULT_FILE_MAX = 5;
+
+const textLimitOf = (field) =>
+  field.max_length > 0 ? field.max_length : DEFAULT_TEXT_MAX;
+const fileLimitOf = (field) =>
+  field.max_length > 0 ? field.max_length : DEFAULT_FILE_MAX;
+
 export default function CustomizationFields() {
   const { locale, sortKey, productKey, customizeRef, LANG } =
     React.useContext(ProductContext);
@@ -29,6 +41,8 @@ export default function CustomizationFields() {
   const [uploading, setUploading] = React.useState({});
   // 校验错误：{ [field_code]: true }
   const [errors, setErrors] = React.useState({});
+  // 文件相关提示（超限/失败）：{ [field_code]: string }
+  const [notice, setNotice] = React.useState({});
 
   // 拉取定制字段。locale 直接作为 language（与 getProductOptions 一致）。
   React.useEffect(() => {
@@ -66,16 +80,31 @@ export default function CustomizationFields() {
     setErrors((prev) => (prev[code] ? { ...prev, [code]: false } : prev));
   }, []);
 
-  const handleFileSelect = React.useCallback(async (code, fileList) => {
-    const files = Array.from(fileList || []);
-    if (!files.length) return;
+  const handleFileSelect = React.useCallback(async (field, fileList) => {
+    const code = field.field_code;
+    const limit = fileLimitOf(field);
+    const incoming = Array.from(fileList || []);
+    if (!incoming.length) return;
+
+    // 已有 + 新增不得超过上限；超出部分截断并提示。
+    const existing = values[code]?.files || [];
+    const room = Math.max(0, limit - existing.length);
+    if (room <= 0) {
+      setNotice((prev) => ({ ...prev, [code]: `最多上传 ${limit} 个文件` }));
+      return;
+    }
+    const files = incoming.slice(0, room);
+    const truncated = incoming.length > room;
+
     setUploading((prev) => ({ ...prev, [code]: true }));
     try {
       const uploaded = [];
       for (const file of files) {
         const res = await uploadCustomizeFile(file);
-        if (res?.url) {
-          uploaded.push({ url: res.url, name: res.name, type: res.type });
+        // 响应拦截器返回的是 body：{ code, message, data:{ url, name, type, size } }
+        const data = res?.data || res;
+        if (data?.url) {
+          uploaded.push({ url: data.url, name: data.name, type: data.type });
         }
       }
       if (uploaded.length) {
@@ -88,12 +117,17 @@ export default function CustomizationFields() {
         }));
         setErrors((prev) => (prev[code] ? { ...prev, [code]: false } : prev));
       }
+      setNotice((prev) => ({
+        ...prev,
+        [code]: truncated ? `最多上传 ${limit} 个文件，已忽略多余文件` : ""
+      }));
     } catch (err) {
       console.error("uploadCustomizeFile 失败:", err?.message);
+      setNotice((prev) => ({ ...prev, [code]: "上传失败，请重试" }));
     } finally {
       setUploading((prev) => ({ ...prev, [code]: false }));
     }
-  }, []);
+  }, [values]);
 
   const removeFile = React.useCallback((code, index) => {
     setValues((prev) => {
@@ -153,6 +187,11 @@ export default function CustomizationFields() {
         const v = values[field.field_code] || { value: "", files: [] };
         const hasError = errors[field.field_code];
         const isUploading = uploading[field.field_code];
+        const isText = field.field_type !== "file";
+        const textMax = textLimitOf(field);
+        const fileMax = fileLimitOf(field);
+        const fileFull = (v.files || []).length >= fileMax;
+        const fileNote = notice[field.field_code];
         return (
           <div className={styles.field} key={field.field_code}>
             <label className={styles.label}>
@@ -163,42 +202,55 @@ export default function CustomizationFields() {
             </label>
 
             {field.field_type === "input" ? (
-              <input
-                type="text"
-                className={`${styles.input} ${hasError ? styles.input_error : ""}`}
-                placeholder={field.placeholder || ""}
-                value={v.value}
-                onChange={(e) =>
-                  setTextValue(field.field_code, e.target.value)
-                }
-              />
+              <>
+                <input
+                  type="text"
+                  className={`${styles.input} ${hasError ? styles.input_error : ""}`}
+                  placeholder={field.placeholder || ""}
+                  value={v.value}
+                  maxLength={textMax}
+                  onChange={(e) =>
+                    setTextValue(field.field_code, e.target.value.slice(0, textMax))
+                  }
+                />
+                <div className={styles.counter}>
+                  {(v.value || "").length}/{textMax}
+                </div>
+              </>
             ) : null}
 
             {field.field_type === "textarea" ? (
-              <textarea
-                className={`${styles.textarea} ${hasError ? styles.input_error : ""}`}
-                placeholder={field.placeholder || ""}
-                value={v.value}
-                maxLength={1000}
-                onChange={(e) =>
-                  setTextValue(field.field_code, e.target.value)
-                }
-              />
+              <>
+                <textarea
+                  className={`${styles.textarea} ${hasError ? styles.input_error : ""}`}
+                  placeholder={field.placeholder || ""}
+                  value={v.value}
+                  maxLength={textMax}
+                  onChange={(e) =>
+                    setTextValue(field.field_code, e.target.value.slice(0, textMax))
+                  }
+                />
+                <div className={styles.counter}>
+                  {(v.value || "").length}/{textMax}
+                </div>
+              </>
             ) : null}
 
             {field.field_type === "file" ? (
               <div className={styles.file_block}>
                 <label
-                  className={`${styles.file_picker} ${hasError ? styles.input_error : ""}`}
+                  className={`${styles.file_picker} ${hasError ? styles.input_error : ""} ${
+                    isUploading || fileFull ? styles.file_picker_disabled : ""
+                  }`}
                 >
                   <input
                     type="file"
                     accept="image/*,video/*"
                     multiple
                     className={styles.file_input}
-                    disabled={isUploading}
+                    disabled={isUploading || fileFull}
                     onChange={(e) => {
-                      handleFileSelect(field.field_code, e.target.files);
+                      handleFileSelect(field, e.target.files);
                       e.target.value = "";
                     }}
                   />
@@ -211,11 +263,25 @@ export default function CustomizationFields() {
                         "Upload file"}
                   </span>
                 </label>
+                <div className={styles.counter}>
+                  {(v.files || []).length}/{fileMax}
+                </div>
+                {fileNote ? (
+                  <div className={styles.error_text}>{fileNote}</div>
+                ) : null}
                 {v.files.length ? (
                   <ul className={styles.file_list}>
                     {v.files.map((f, i) => (
                       <li key={`${f.url}-${i}`} className={styles.file_item}>
-                        <span className={styles.file_name}>{f.name}</span>
+                        <a
+                          className={styles.file_name}
+                          href={f.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={f.name}
+                        >
+                          {f.name}
+                        </a>
                         <button
                           type="button"
                           className={styles.file_remove}

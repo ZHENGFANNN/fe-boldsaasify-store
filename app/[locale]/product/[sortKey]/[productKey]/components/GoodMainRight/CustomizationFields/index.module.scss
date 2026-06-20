@@ -62,6 +62,13 @@
   line-height: 1.3;
 }
 
+.counter {
+  align-self: flex-end;
+  font-size: 11px;
+  color: #9b9b9b;
+  letter-spacing: 0.2px;
+}
+
 /* ---------- 文件上传 ---------- */
 .file_block {
   display: flex;
@@ -87,6 +94,12 @@
 .file_picker:hover {
   border-color: #1a1a1a;
   background: #f3f3f3;
+}
+
+.file_picker_disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .file_input {
@@ -120,6 +133,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.file_name:hover {
+  color: #d0021b;
 }
 
 .file_remove {
