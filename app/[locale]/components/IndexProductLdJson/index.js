@@ -19,19 +19,19 @@ function pickAreaInfo(item) {
 
 /**
  * 首页商品 JSON-LD（server component，纯静态）。
- * @param goodSortList 同 IndexProductList，源自 getRemoteProductList。
+ * @param goodsSortList 同 IndexProductList，源自 getRemoteProductList。
  * @param locale       当前 locale，用于后端语言回退。
  * @param companyName  CONFIG["common.base"]?.company_name，作为 sku/brand 名称。
  */
 export default async function IndexProductLdJson({
-  goodSortList,
+  goodsSortList,
   locale,
   companyName,
 }) {
-  if (!Array.isArray(goodSortList) || goodSortList.length === 0) return null;
+  if (!Array.isArray(goodsSortList) || goodsSortList.length === 0) return null;
 
   const products = [];
-  goodSortList.forEach((sort) => {
+  goodsSortList.forEach((sort) => {
     (sort.goodList || []).forEach((p) => {
       if (p?.sort_key && p?.key) products.push(p);
     });
