@@ -25,29 +25,10 @@ import { formatCurrency, roundToDecimalPlaces } from "@/utils";
 
 import styles from "./index.module.scss";
 import Cookies from "js-cookie";
-
-// localStorage key：购物车 Drawer 应用的折扣码集合，结算页进入时自动回填初始 discountCodes，
-// 应用/移除后双向同步。两端共用同一 key（CartModal 也读写它）。
-const DISCOUNT_CODES_STORAGE_KEY = "store_shopping_discount_codes";
-
-function readStoredDiscountCodes() {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(DISCOUNT_CODES_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === "string") : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeStoredDiscountCodes(codes) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(DISCOUNT_CODES_STORAGE_KEY, JSON.stringify(codes));
-  } catch {}
-}
+import {
+  readStoredDiscountCodes,
+  writeStoredDiscountCodes,
+} from "@/utils/discount-codes";
 
 function parsePreviewAmount(value) {
   if (typeof value === "number") return value;
@@ -279,6 +260,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
     const total_price = previewData?.total_price ?? subtotalPrice;
     const shipping_fee = previewData?.shipping_fee ?? 0;
     const shipping_pay = previewData?.shipping_pay ?? 0;
+    const shipping_discount = previewData?.shipping_discount ?? 0;
     const discount = previewData?.discount ?? 0;
     const pay_price =
       previewData?.pay_price ?? roundToDecimalPlaces(subtotalPrice + shipping_pay, priceUnit);
@@ -286,6 +268,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
       total_price: roundToDecimalPlaces(total_price, priceUnit),
       shipping_fee: roundToDecimalPlaces(shipping_fee, priceUnit),
       shipping_pay: roundToDecimalPlaces(shipping_pay, priceUnit),
+      shipping_discount: roundToDecimalPlaces(shipping_discount, priceUnit),
       discount: roundToDecimalPlaces(discount, priceUnit),
       pay_price: roundToDecimalPlaces(pay_price, priceUnit),
       preview_token: previewData?.preview_token,
@@ -696,28 +679,34 @@ export default function Main({ CONFIG, LANG, area, token }) {
                       priceUnit
                     )}`}</span>
                   </div>
-                  {previewData?.applied_rules?.length ? (
+                  {previewData?.applied_rules?.filter(
+                    (r) => !String(r.type || "").includes("shipping")
+                  ).length ? (
                     <div className={styles.applied_rules_list}>
-                      {previewData.applied_rules.map((rule) => (
-                        <div
-                          key={`${rule.rule_id}-${rule.code || rule.method}`}
-                          className={styles.price_item}
-                        >
-                          <h3>
-                            {rule.code ||
-                              rule.title ||
-                              (rule.method === "automatic"
-                                ? LANG["store.order.automatic_discount"] ||
-                                  "Promotion"
-                                : LANG["store.order.discount_amount"] ||
-                                  "Discount")}
-                          </h3>
-                          <span className={styles.discount_value}>{`-${priceSymbol}${formatCurrency(
-                            parsePreviewAmount(rule.amount),
-                            priceUnit
-                          )}`}</span>
-                        </div>
-                      ))}
+                      {previewData.applied_rules
+                        .filter(
+                          (r) => !String(r.type || "").includes("shipping")
+                        )
+                        .map((rule) => (
+                          <div
+                            key={`${rule.rule_id}-${rule.code || rule.method}`}
+                            className={styles.price_item}
+                          >
+                            <h3>
+                              {rule.code ||
+                                rule.title ||
+                                (rule.method === "automatic"
+                                  ? LANG["store.order.automatic_discount"] ||
+                                    "Promotion"
+                                  : LANG["store.order.discount_amount"] ||
+                                    "Discount")}
+                            </h3>
+                            <span className={styles.discount_value}>{`-${priceSymbol}${formatCurrency(
+                              parsePreviewAmount(rule.amount),
+                              priceUnit
+                            )}`}</span>
+                          </div>
+                        ))}
                     </div>
                   ) : orderPricing.discount > 0 ? (
                     <div className={styles.price_item}>
@@ -745,6 +734,18 @@ export default function Main({ CONFIG, LANG, area, token }) {
                       )}
                     </span>
                   </div>
+                  {orderPricing.shipping_discount > 0 ? (
+                    <div className={styles.price_item}>
+                      <h3>
+                        {LANG["store.order.shipping_discount"] ||
+                          "Shipping discount"}
+                      </h3>
+                      <span className={styles.discount_value}>{`-${priceSymbol}${formatCurrency(
+                        orderPricing.shipping_discount,
+                        priceUnit
+                      )}`}</span>
+                    </div>
+                  ) : null}
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.tax"]}</h3>
                     <span>{LANG["store.order.tax_include"]}</span>

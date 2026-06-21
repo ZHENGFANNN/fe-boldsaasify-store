@@ -18,7 +18,7 @@ import { buildAlternates } from "@/config/seo";
 //               价格由客户端 IndexProductList 按 area cookie 调 /api/products-pricing 批量取齐）
 // 不读 area cookie → 首页整页可静态化（SSG）；JSON-LD 走 IndexProductLdJson server 子组件以 us 兜底。
 async function getData({ locale }) {
-  const [LANG, CONFIG, goodSortList] = await Promise.all([
+  const [LANG, CONFIG, goodsSortList] = await Promise.all([
     getRemoteLanguage({
       locale,
       nameSpace: [
@@ -33,7 +33,7 @@ async function getData({ locale }) {
     getRemoteProductList({ locale })
   ]);
 
-  return { LANG, CONFIG, goodSortList };
+  return { LANG, CONFIG, goodsSortList };
 }
 
 export async function generateMetadata({ params }) {
@@ -49,14 +49,14 @@ export async function generateMetadata({ params }) {
 
 export default async function Home({ params }) {
   const { locale } = await params;
-  const { CONFIG, LANG, goodSortList } = await getData({ locale });
+  const { CONFIG, LANG, goodsSortList } = await getData({ locale });
 
   return (
     <main>
       <IndexContext
         CONFIG={CONFIG}
         LANG={LANG}
-        goodSortList={goodSortList}
+        goodsSortList={goodsSortList}
         locale={locale}
       >
         <IndexBanner />
@@ -67,7 +67,7 @@ export default async function Home({ params }) {
       </IndexContext>
       {/* JSON-LD 走 server 子组件（爬虫不执行 JS），SSG 阶段以默认 us 价兜底。 */}
       <IndexProductLdJson
-        goodSortList={goodSortList}
+        goodsSortList={goodsSortList}
         locale={locale}
         companyName={CONFIG["common.base"]?.company_name}
       />

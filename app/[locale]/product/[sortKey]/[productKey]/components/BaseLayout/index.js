@@ -6,6 +6,7 @@ import { pickCombo, applyProductPricing } from "@/utils/productPricing";
 import { resolveVariant, defaultSelection } from "@/utils/resolveVariant";
 import readClientArea from "@/utils/readClientArea";
 import getProductPricing from "@/service/product/get-pricing";
+import getProductDiscounts from "@/service/product/get-product-discounts";
 
 export default function BaseLayout({
   children,
@@ -39,6 +40,32 @@ export default function BaseLayout({
     pickCombo(initialProductInfo?.comboList)
   );
   const [productShowType, setProductShowType] = React.useState("image");
+
+  // 自动规则折扣（限时促销）：挂载/切商品/切地区时调接口 A 取当前单商品的促销，
+  // 命中且未过期则注入 ProductContext，驱动 Countdown 限时倒计时展示。
+  const [autoDiscount, setAutoDiscount] = React.useState(null);
+
+  React.useEffect(() => {
+    const area = readClientArea();
+    let cancelled = false;
+    (async () => {
+      const { map } = await getProductDiscounts({
+        area_code: area,
+        product_list: [{ product_key: productKey, sort_key: sortKey }],
+      });
+      if (cancelled) return;
+      const hit = map?.[productKey] || null;
+      // 仅保留未过期（ends_at > now）的折扣，过期/无命中则置空。
+      if (hit && hit.ends_at && Number(hit.ends_at) > Date.now()) {
+        setAutoDiscount(hit);
+      } else {
+        setAutoDiscount(null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [sortKey, productKey]);
 
   // ---------- V2 选项体系 ----------
   // axes/variants 与地区无关，来自服务端 props；selection = {axis_code: value_code}。
@@ -166,6 +193,9 @@ export default function BaseLayout({
         setProductCurCombo,
         productShowType,
         setProductShowType,
+        // 自动规则折扣（限时促销），驱动 Countdown；setter 供倒计时到点局部隐藏
+        autoDiscount,
+        setAutoDiscount,
         // V2 选项体系
         optionAxes: axes,
         optionVariants: variants,

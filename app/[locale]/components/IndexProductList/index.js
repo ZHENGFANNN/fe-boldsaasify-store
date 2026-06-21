@@ -39,7 +39,7 @@ function ReviewRate({ LANG, reviewScore, reviewsNum }) {
       <div
         className={styles.active_stars}
         style={{
-          width: 90 * (reviewScore / 5),
+          width: 90 * (reviewScore / 5)
         }}
       >
         <img alt="active_icon" src={active_icon} />
@@ -70,7 +70,10 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
           Number(areaInfo.selling_price) < Number(areaInfo.product_price);
         const discountPercent = hasDiscount
           ? Math.round(
-              (1 - Number(areaInfo.selling_price) / Number(areaInfo.product_price)) * 100
+              (1 -
+                Number(areaInfo.selling_price) /
+                  Number(areaInfo.product_price)) *
+                100
             )
           : 0;
         return (
@@ -79,7 +82,7 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
             scroll={true}
             onClick={() => {
               tracking.clickIndexProduct({
-                productName: product.key,
+                productName: product.key
               });
             }}
             href={`/product/${product.sort_key}/${product.key}`}
@@ -118,10 +121,10 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
               {/* 产品折扣百分比角标 */}
               {hasDiscount && discountPercent > 0 ? (
                 <div className={styles.good_discount_container}>
-                  <div className={styles.off}>{LANG["store.index.off"] || "OFF"}</div>
-                  <div className={styles.discount}>
-                    {discountPercent}%
+                  <div className={styles.off}>
+                    {LANG["store.index.off"] || "OFF"}
                   </div>
+                  <div className={styles.discount}>{discountPercent}%</div>
                 </div>
               ) : null}
               {/* 产品价格：pricing 未就绪显示骨架；就绪后无 selling_price 显示缺货；否则真实价格 */}
@@ -165,13 +168,13 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
 }
 
 export default function ProductList() {
-  const { LANG, goodSortList, locale } = React.useContext(IndexContent);
+  const { LANG, goodsSortList, locale } = React.useContext(IndexContent);
   const { area, areaReady } = useArea();
 
   // 全部 (sortKey, productKey) 集合（一次批量取价的输入）。
   const allKeys = React.useMemo(() => {
     const keys = [];
-    goodSortList.forEach((sort) => {
+    goodsSortList.forEach((sort) => {
       (sort.goodList || []).forEach((p) => {
         if (p.sort_key && p.key) {
           keys.push({ sortKey: p.sort_key, productKey: p.key });
@@ -179,7 +182,7 @@ export default function ProductList() {
       });
     });
     return keys;
-  }, [goodSortList]);
+  }, [goodsSortList]);
 
   // pricingMap: { "{sortKey}:{productKey}": ProductsPricingItem } —— null 表示未就绪。
   const [pricingMap, setPricingMap] = React.useState(null);
@@ -191,7 +194,7 @@ export default function ProductList() {
     getProductsPricing({
       area: effectiveArea,
       locale,
-      keys: allKeys,
+      keys: allKeys
     }).then((data) => {
       if (cancelled) return;
       const map = {};
@@ -209,7 +212,7 @@ export default function ProductList() {
 
   return (
     <div className={styles.container}>
-      {goodSortList.map((item, index) => {
+      {goodsSortList.map((item, index) => {
         return (
           <div className={styles.sort_container} key={index} id={item.key}>
             <div className={styles.sort_header}>

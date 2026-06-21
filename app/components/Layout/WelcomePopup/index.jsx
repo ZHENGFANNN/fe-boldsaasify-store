@@ -7,35 +7,26 @@ import GlobalContext from "@/[locale]/context";
 
 import { isEmail } from "@/utils/pattern";
 import Api from "@/components/Layout/api";
+import {
+  readStoredDiscountCodes,
+  writeStoredDiscountCodes,
+} from "@/utils/discount-codes";
 import styles from "./index.module.scss";
 
 const STORAGE_KEY_SHOWN = "welcome_popup_shown";
-const STORAGE_KEY_DISCOUNT_CODES = "store_shopping_discount_codes";
 const SHOW_DELAY_MS = 5000;
 
 // 商家在 ERP 创建对应 code 后，把码值写到环境变量 NEXT_PUBLIC_WELCOME_DISCOUNT_CODE。
 // 默认 'WELCOME10'。当字段为空时不展示码（仅展示订阅成功）。
 const WELCOME_CODE = (process.env.NEXT_PUBLIC_WELCOME_DISCOUNT_CODE || "WELCOME10").trim();
 
-function readStoredCodes() {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY_DISCOUNT_CODES);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
 // 把 Welcome 折扣码写入购物车共享 localStorage，购物车/结算页自动应用。
 function autoApplyWelcomeCode(code) {
   if (!code) return;
   try {
-    const existing = readStoredCodes();
+    const existing = readStoredDiscountCodes();
     if (existing.includes(code)) return;
-    const next = [...existing, code];
-    window.localStorage.setItem(STORAGE_KEY_DISCOUNT_CODES, JSON.stringify(next));
+    writeStoredDiscountCodes([...existing, code]);
   } catch {}
 }
 

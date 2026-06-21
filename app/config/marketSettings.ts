@@ -9,6 +9,7 @@ export interface SettingMarket {
   market_id?: string | number;
   market_name?: string;
   enabled?: boolean;
+  is_default?: boolean;
   countries?: Array<string | number>;
   currency?: { iso_code?: string; symbol?: string };
 }
@@ -89,6 +90,34 @@ const buildCountryData = (
   return { countryList, countryMap };
 };
 
+/**
+ * 解析默认地区，与 ERP「默认市场」对齐，逐级兜底：
+ * ① ERP 标记 is_default 的(已启用)市场的首个国家
+ * ② 兼容历史固定 market_id === 'default' 的市场首个国家
+ * ③ 支持地区里有 us 用 us
+ * ④ 退到首个支持地区
+ * ⑤ 兜底 "us"
+ */
+const resolveDefaultArea = (
+  markets: SettingMarket[],
+  supportedAreas: string[]
+): string => {
+  const pickFirstCountry = (m?: SettingMarket): string | undefined => {
+    const code = (m?.countries || [])[0];
+    return code ? String(code).toLowerCase() : undefined;
+  };
+
+  const explicitDefault =
+    pickFirstCountry(markets.find((m) => m.is_default)) ||
+    pickFirstCountry(markets.find((m) => m.market_id === "default"));
+  if (explicitDefault && supportedAreas.includes(explicitDefault)) {
+    return explicitDefault;
+  }
+
+  if (supportedAreas.includes("us")) return "us";
+  return supportedAreas[0] || "us";
+};
+
 const buildMarketSettings = () => {
   const markets = getSettingMarkets();
   const supportedAreas = [
@@ -98,9 +127,7 @@ const buildMarketSettings = () => {
       )
     ),
   ];
-  const defaultArea = supportedAreas.includes("us")
-    ? "us"
-    : supportedAreas[0] || "us";
+  const defaultArea = resolveDefaultArea(markets, supportedAreas);
   const { countryList, countryMap } = buildCountryData(markets);
 
   return { markets, supportedAreas, defaultArea, countryList, countryMap };

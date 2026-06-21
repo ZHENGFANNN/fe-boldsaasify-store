@@ -11,30 +11,12 @@ import { formatCurrency } from "../../../utils";
 import resolveCartFromApi from "../cartClient";
 import api from "../../../request";
 import Skeleton from "@/components/Skeleton";
+import {
+  readStoredDiscountCodes,
+  writeStoredDiscountCodes,
+} from "@/utils/discount-codes";
 
 import { useRouter } from "next/navigation";
-
-// localStorage key：购物车已应用的折扣码集合，结算页进入时自动回填初始 discountCodes。
-const DISCOUNT_CODES_STORAGE_KEY = "store_shopping_discount_codes";
-
-function readStoredDiscountCodes() {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(DISCOUNT_CODES_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === "string") : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeStoredDiscountCodes(codes) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(DISCOUNT_CODES_STORAGE_KEY, JSON.stringify(codes));
-  } catch {}
-}
 
 // 解析 previewOrder 返回的金额字符串/数字 → number。
 function parseAmount(v) {
@@ -323,7 +305,12 @@ const CartMain = function ({ handleClose }) {
           ) : (
             <>
               <div className={styles.shipping_free} data-discount={false}>
-                {LANG["common.cart.free_shipping"]}
+                {previewData?.applied_rules?.some(
+                  (r) => r.type === "free_shipping"
+                )
+                  ? LANG["common.cart.free_shipping_eligible"] ||
+                    "You qualify for free shipping"
+                  : LANG["common.cart.free_shipping"]}
               </div>
               <div className={styles.table_body}>
                 {cartList.map((item, index) => {
@@ -696,7 +683,36 @@ const CartMain = function ({ handleClose }) {
                 {`${cartList[0]?.priceSymbol}${totalPrice}`}
               </div>
             </div>
-            {previewData?.discount > 0 ? (
+            {previewData?.applied_rules?.filter(
+              (r) => r.type !== "free_shipping"
+            ).length ? (
+              <div className={styles.applied_rules_list}>
+                {previewData.applied_rules
+                  .filter((r) => r.type !== "free_shipping")
+                  .map((rule) => (
+                    <div
+                      key={`${rule.rule_id}-${rule.code || rule.method}`}
+                      className={styles.discount_row}
+                    >
+                      <div>
+                        {rule.code ||
+                          rule.title ||
+                          (rule.method === "automatic"
+                            ? LANG["store.order.automatic_discount"] ||
+                              "Promotion"
+                            : LANG["store.order.discount_amount"] ||
+                              "Discount")}
+                      </div>
+                      <div
+                        className={styles.discount_value}
+                      >{`-${cartList[0]?.priceSymbol}${formatCurrency(
+                        parseAmount(rule.amount),
+                        cartList[0]?.currency_unit
+                      )}`}</div>
+                    </div>
+                  ))}
+              </div>
+            ) : previewData?.discount > 0 ? (
               <div className={styles.discount_row}>
                 <div>
                   {LANG["store.order.discount_amount"] || "Discount"}

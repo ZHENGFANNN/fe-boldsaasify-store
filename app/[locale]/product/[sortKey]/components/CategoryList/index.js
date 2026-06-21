@@ -9,6 +9,7 @@ import { formatCurrency, fillOssImage } from "@/utils";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import getProductsPricing from "@/service/product/get-products-pricing";
+import getProductDiscounts from "@/service/product/get-product-discounts";
 import styles from "./index.module.scss";
 
 const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
@@ -59,13 +60,70 @@ function getDisplayPrice(product, pricingMap) {
 
 const PAGE_SIZE = 10;
 
-function ProductCard({ product, LANG, pricingMap, pricingReady }) {
+// 两位补零
+function pad2(n) {
+  return Math.max(0, n).toString().padStart(2, "0");
+}
+
+// 列表卡片限时倒计时：自管 setInterval（不依赖 jQuery），ends_at 为毫秒戳。
+// 过期后自动隐藏（剩余 ≤ 0 时返回 null）。
+function CardCountdown({ endsAt }) {
+  // 初始 0：挂载后由 effect 立即算出真实剩余（避免在 render 内调用 Date.now 这类非纯函数）。
+  const [remain, setRemain] = React.useState(0);
+  React.useEffect(() => {
+    const tick = () => setRemain(Math.max(0, Number(endsAt) - Date.now()));
+    tick();
+    const t = setInterval(tick, 1000);
+    return () => clearInterval(t);
+  }, [endsAt]);
+  if (remain <= 0) return null;
+  const seconds = Math.floor(remain / 1000);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  return (
+    <div className={styles.discount_countdown}>
+      <span>{pad2(hours)}</span>
+      <i>:</i>
+      <span>{pad2(minutes)}</span>
+      <i>:</i>
+      <span>{pad2(secs)}</span>
+    </div>
+  );
+}
+
+// 命中自动折扣（限时促销）：未过期才返回，过期/无折扣返回 null。
+function pickAutoDiscount(product, discountMap) {
+  const d = discountMap?.[product.key];
+  if (!d || !d.ends_at || Number(d.ends_at) <= Date.now()) return null;
+  return d;
+}
+
+// 折扣标签文案：percent → "X% OFF"，fixed → "-金额"（带币种，无价时退回裸数值）。
+// NaN 防御：value 缺省时归一化为 0，避免渲染出 $NaN。
+function formatDiscountLabel(discount, areaInfo, LANG) {
+  const value = Number(discount.value) || 0;
+  if (discount.value_type === "percent") {
+    return `${value}% ${LANG?.["store.index.off"] || "OFF"}`;
+  }
+  if (areaInfo) {
+    return `-${areaInfo.currency_symbol}${formatCurrency(
+      value,
+      areaInfo.currency_unit
+    )}`;
+  }
+  return `-${value}`;
+}
+
+function ProductCard({ product, LANG, pricingMap, pricingReady, discountMap }) {
   // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
   const goodDiscountFestival = false;
   const areaInfo = pricingReady
     ? pickAreaInfo(pricingMap?.[`${product.sort_key}:${product.key}`])
     : null;
   const discount = areaInfo?.product_discount;
+  // 自动规则折扣（限时促销）：与商品级折扣叠加展示的额外促销标签。
+  const autoDiscount = pickAutoDiscount(product, discountMap);
   return (
     <Link
       scroll={true}
@@ -84,6 +142,15 @@ function ProductCard({ product, LANG, pricingMap, pricingReady }) {
             alt={product.name}
             src={fillOssImage(product.image_scenes)}
           />
+        ) : null}
+        {/* 限时折扣标签 + 倒计时：命中自动规则折扣且未过期时展示（叠加促销） */}
+        {autoDiscount ? (
+          <div className={styles.limit_discount_tag}>
+            <span className={styles.limit_discount_label}>
+              {formatDiscountLabel(autoDiscount, areaInfo, LANG)}
+            </span>
+            <CardCountdown endsAt={Number(autoDiscount.ends_at)} />
+          </div>
         ) : null}
       </div>
       <div className={styles.content_container}>
@@ -157,6 +224,8 @@ export default function CategoryList({
   // pricingMap = null 代表未就绪（首屏 + 取价中）；获取后变 {key: pricingItem}。
   const [pricingMap, setPricingMap] = React.useState(null);
   const pricingReady = pricingMap !== null;
+  // discountMap：按 product_key 索引的自动规则折扣（限时促销），未就绪为 {}。
+  const [discountMap, setDiscountMap] = React.useState({});
 
   // 全部 (sortKey, productKey) 集合（一次批量取价的输入）。
   const allKeys = React.useMemo(
@@ -187,6 +256,27 @@ export default function CategoryList({
       cancelled = true;
     };
   }, [areaReady, area, locale, allKeys]);
+
+  // 并行批量取自动折扣（限时促销）：传当前 area + 全部商品 {product_key, sort_key}。
+  // 与定价取价相互独立，互不阻塞；命中按 product_key 建 map 供卡片渲染。
+  React.useEffect(() => {
+    if (!areaReady) return;
+    let cancelled = false;
+    const effectiveArea = area || "us";
+    getProductDiscounts({
+      area_code: effectiveArea,
+      product_list: allKeys.map((k) => ({
+        product_key: k.productKey,
+        sort_key: k.sortKey,
+      })),
+    }).then((res) => {
+      if (cancelled) return;
+      setDiscountMap(res?.map || {});
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [areaReady, area, allKeys]);
 
   // 筛选状态：selectedTags = Set(已选商品标签)；价格区间字符串（受控输入）。
   const [selectedTags, setSelectedTags] = React.useState(() => new Set());
@@ -349,6 +439,7 @@ export default function CategoryList({
               LANG={LANG}
               pricingMap={pricingMap}
               pricingReady={pricingReady}
+              discountMap={discountMap}
             />
           ))}
         </section>

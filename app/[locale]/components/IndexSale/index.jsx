@@ -27,7 +27,7 @@ function pickAreaInfo(pricingItem) {
 /**
  * IndexSale 折扣商品横向列表。
  *
- * 数据驱动：直接读 IndexContent.goodSortList 平铺商品 → 调 getProductsPricing 批量取价 →
+ * 数据驱动：直接读 IndexContent.goodsSortList 平铺商品 → 调 getProductsPricing 批量取价 →
  * 过滤 selling_price < product_price 的商品。
  *
  * 用法：
@@ -35,13 +35,13 @@ function pickAreaInfo(pricingItem) {
  *   - Sale 落地页：`<IndexSale limit={Infinity} title="..." />`
  */
 export default function IndexSale({ limit = 8, title, viewAllHref = "/sale" }) {
-  const { LANG, goodSortList, locale } = React.useContext(IndexContent);
+  const { LANG, goodsSortList, locale } = React.useContext(IndexContent);
   const { area, areaReady } = useArea();
 
   // 平铺所有 sort 下的商品
   const flatProducts = React.useMemo(() => {
     const out = [];
-    goodSortList.forEach((sort) => {
+    goodsSortList.forEach((sort) => {
       (sort.goodList || []).forEach((p) => {
         if (p.sort_key && p.key) {
           out.push(p);
@@ -49,7 +49,7 @@ export default function IndexSale({ limit = 8, title, viewAllHref = "/sale" }) {
       });
     });
     return out;
-  }, [goodSortList]);
+  }, [goodsSortList]);
 
   const allKeys = React.useMemo(
     () => flatProducts.map((p) => ({ sortKey: p.sort_key, productKey: p.key })),
@@ -65,7 +65,7 @@ export default function IndexSale({ limit = 8, title, viewAllHref = "/sale" }) {
     getProductsPricing({
       area: effectiveArea,
       locale,
-      keys: allKeys,
+      keys: allKeys
     }).then((data) => {
       if (cancelled) return;
       const map = {};
@@ -86,9 +86,12 @@ export default function IndexSale({ limit = 8, title, viewAllHref = "/sale" }) {
     if (!pricingReady) return [];
     const out = [];
     for (const product of flatProducts) {
-      const areaInfo = pickAreaInfo(pricingMap[`${product.sort_key}:${product.key}`]);
+      const areaInfo = pickAreaInfo(
+        pricingMap[`${product.sort_key}:${product.key}`]
+      );
       if (!areaInfo?.product_price || !areaInfo?.selling_price) continue;
-      if (Number(areaInfo.selling_price) >= Number(areaInfo.product_price)) continue;
+      if (Number(areaInfo.selling_price) >= Number(areaInfo.product_price))
+        continue;
       out.push({ product, areaInfo });
       if (out.length >= limit) break;
     }
@@ -111,7 +114,9 @@ export default function IndexSale({ limit = 8, title, viewAllHref = "/sale" }) {
         </div>
         <section className={listStyles.goods_container}>
           {!pricingReady
-            ? Array.from({ length: Math.min(limit === Infinity ? 6 : limit, 6) }).map((_, i) => (
+            ? Array.from({
+                length: Math.min(limit === Infinity ? 6 : limit, 6)
+              }).map((_, i) => (
                 <div key={i} className={listStyles.goods_item}>
                   <div className={listStyles.image_container}>
                     <Skeleton variant="rect" width="100%" height={280} />
@@ -124,7 +129,10 @@ export default function IndexSale({ limit = 8, title, viewAllHref = "/sale" }) {
               ))
             : saleProducts.map(({ product, areaInfo }, productIndex) => {
                 const discountPercent = Math.round(
-                  (1 - Number(areaInfo.selling_price) / Number(areaInfo.product_price)) * 100
+                  (1 -
+                    Number(areaInfo.selling_price) /
+                      Number(areaInfo.product_price)) *
+                    100
                 );
                 return (
                   <Link
@@ -156,13 +164,17 @@ export default function IndexSale({ limit = 8, title, viewAllHref = "/sale" }) {
                       ) : null}
                     </div>
                     <div className={listStyles.content_container}>
-                      <h3 className={listStyles.product_name}>{product.name}</h3>
+                      <h3 className={listStyles.product_name}>
+                        {product.name}
+                      </h3>
                       {discountPercent > 0 ? (
                         <div className={listStyles.good_discount_container}>
                           <div className={listStyles.off}>
                             {LANG?.["store.index.off"] || "OFF"}
                           </div>
-                          <div className={listStyles.discount}>{discountPercent}%</div>
+                          <div className={listStyles.discount}>
+                            {discountPercent}%
+                          </div>
                         </div>
                       ) : null}
                       <div className={listStyles.product_price_container}>

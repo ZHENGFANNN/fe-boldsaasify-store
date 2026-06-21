@@ -3,10 +3,11 @@
 import Script from "next/script";
 import { formatCurrency } from "@/utils";
 import getProductsPricing from "@/config/Api/getProductsPricing";
+import { defaultArea as DEFAULT_AREA } from "@/config/marketSettings";
 
-// SSG 阶段以默认 us 价批量取齐首页商品定价，逐商品输出 JSON-LD 给爬虫。
+// SSG 阶段以默认 area 价批量取齐首页商品定价，逐商品输出 JSON-LD 给爬虫。
+// 默认地区跟随 ERP「默认市场」配置，逐级兜底到 us（见 marketSettings.resolveDefaultArea）。
 // 客户端实际显示走 IndexProductList 的 useArea + 批量取价路径。
-const DEFAULT_AREA = "us";
 
 function pickAreaInfo(item) {
   const combos = Array.isArray(item?.combos) ? item.combos : [];

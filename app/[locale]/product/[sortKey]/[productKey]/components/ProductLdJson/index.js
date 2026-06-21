@@ -1,14 +1,15 @@
 import { getProductPage } from "@/config/Api/getProductPage";
 import { getProductPricing } from "@/config/Api/getProductPricing";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
+import { defaultArea as DEFAULT_AREA } from "@/config/marketSettings";
 import { formatCurrency } from "@/utils";
 import { pickCombo } from "@/utils/productPricing";
 import Script from "next/script";
 
-// JSON-LD 价格用默认 area=us（纯 SSG，不读 cookie，避免页面变动态）。
+// JSON-LD 价格用默认 area（纯 SSG，不读 cookie，避免页面变动态）。
+// 默认地区跟随 ERP「默认市场」配置，逐级兜底到 us（见 marketSettings.resolveDefaultArea）。
 // 爬虫不执行客户端 JS，故此处价格仍需服务端取（直接 getProductPricing，
 // 不经 applyProductPricing 合并进 productInfo）。
-const DEFAULT_AREA = "us";
 
 /**
  * 商品 JSON-LD（server component，纯静态，无 Suspense）。

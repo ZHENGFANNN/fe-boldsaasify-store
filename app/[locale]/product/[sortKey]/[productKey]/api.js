@@ -4,6 +4,12 @@ const request = {
   previewOrder: (data) => {
     return api.post("/pay/previewOrder", data);
   },
+  // 校验折扣码对当前商品是否适用（接口B）
+  // 入参 { code, product_key, sort_key, combo_key, area_code, quantity }
+  // 出参 data:{ valid, applicable, discount_amount, currency, error_code }
+  validateDiscountCode: (data) => {
+    return api.post("/pay/validateDiscountCode", data);
+  },
   // 支付
   createOrder: (data) => {
     return api.post("/pay/createOrder", data);

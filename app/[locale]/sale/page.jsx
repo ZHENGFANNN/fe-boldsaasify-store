@@ -13,7 +13,7 @@ import { buildAlternates } from "@/config/seo";
 // 不限商品数量（IndexSale limit=Infinity），用户可在此一站浏览所有当前促销商品。
 // 与首页一样为 SSG（不读 area cookie），价格客户端动态取（按 area）。
 async function getData({ locale }) {
-  const [LANG, CONFIG, goodSortList] = await Promise.all([
+  const [LANG, CONFIG, goodsSortList] = await Promise.all([
     getRemoteLanguage({
       locale,
       nameSpace: [
@@ -27,14 +27,16 @@ async function getData({ locale }) {
     getRemoteConfig({ locale, nameSpace: ["common.base"] }),
     getRemoteProductList({ locale })
   ]);
-  return { LANG, CONFIG, goodSortList };
+  return { LANG, CONFIG, goodsSortList };
 }
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   const { LANG, CONFIG } = await getData({ locale });
   return {
-    title: `${LANG?.["store.sale.title"] || "Sale"} - ${CONFIG["common.base"]?.company_name || ""}`,
+    title: `${LANG?.["store.sale.title"] || "Sale"} - ${
+      CONFIG["common.base"]?.company_name || ""
+    }`,
     description:
       LANG?.["store.sale.description"] ||
       "Discover our latest sale items — discounted prices on lab-grown diamond engagement rings, wedding bands and fine jewelry.",
@@ -44,14 +46,14 @@ export async function generateMetadata({ params }) {
 
 export default async function SalePage({ params }) {
   const { locale } = await params;
-  const { CONFIG, LANG, goodSortList } = await getData({ locale });
+  const { CONFIG, LANG, goodsSortList } = await getData({ locale });
 
   return (
     <main>
       <IndexContext
         CONFIG={CONFIG}
         LANG={LANG}
-        goodSortList={goodSortList}
+        goodsSortList={goodsSortList}
         locale={locale}
       >
         <IndexSale

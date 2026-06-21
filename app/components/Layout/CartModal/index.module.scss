@@ -529,6 +529,13 @@
                 }
             }
             // 折扣行
+            .applied_rules_list {
+                display: flex;
+                flex-direction: column;
+                .discount_row {
+                    margin-bottom: 6px;
+                }
+            }
             .discount_row {
                 display: flex;
                 align-items: center;
