@@ -7,13 +7,16 @@ import styles from "./index.module.scss";
 import {
   createChatSession,
   evaluateChat,
-  getChatConfig,
+  fetchChatConfig,
   getChatEvaluation,
   getChatFaq,
   getChatMessages,
+  peekChatConfig,
   refreshWsToken,
   sendChatMessage,
   sendOfflineMessage,
+  startChatApiKeepalive,
+  stopChatApiKeepalive,
   uploadChatFile,
 } from "./api";
 import { getFaqCopy, getFaqItems } from "./faq";
@@ -650,9 +653,10 @@ export default function LiveChat({ locale, area }) {
 
   connectWsRef.current = connectWs;
 
-  const loadConfig = React.useCallback(async () => {
+  const loadConfig = React.useCallback(async (options = {}) => {
+    const { force = false } = options;
     try {
-      const cfgRes = await getChatConfig();
+      const cfgRes = await fetchChatConfig({ force });
       if (cfgRes?.code !== 0) return;
       setConfig(cfgRes.data);
     } catch (err) {
@@ -791,7 +795,7 @@ export default function LiveChat({ locale, area }) {
     let cfg = config;
     if (!cfg) {
       try {
-        const cfgRes = await getChatConfig();
+        const cfgRes = await fetchChatConfig();
         if (cfgRes?.code !== 0) return;
         cfg = cfgRes.data;
         setConfig(cfg);
@@ -865,8 +869,10 @@ export default function LiveChat({ locale, area }) {
       }
     });
     loadConfig();
+    startChatApiKeepalive();
     return () => {
       registerLiveChatOpen(null);
+      stopChatApiKeepalive();
       disconnectWs(true);
       if (closePanelTimerRef.current) {
         clearTimeout(closePanelTimerRef.current);
@@ -1477,7 +1483,13 @@ export default function LiveChat({ locale, area }) {
     setPanelClosing(false);
     setOpen(true);
     setExpandedFaqId(null);
-    loadConfig();
+    // 已有 config（state 或模块缓存）时跳过网络，避免 idle 后 stale connection Stalled
+    const cachedCfg = config || peekChatConfig();
+    if (cachedCfg) {
+      if (!config) setConfig(cachedCfg);
+    } else {
+      loadConfig();
+    }
     // 进入过客服（有历史会话）则直接进聊天页看历史，否则展示 FAQ
     const convId = session?.conversation_id || getStoredConversationId();
     if (convId) {
