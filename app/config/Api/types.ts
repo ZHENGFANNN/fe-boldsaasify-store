@@ -160,6 +160,8 @@ export interface OptionVariant {
   title?: string;
   sku?: string;
   option_value_map: Record<string, string>;
+  /** 默认选中变体；后端已排到 variants[0]，defaultSelection 显式识别 */
+  is_default?: boolean;
 }
 
 /** getProductOptions 返回 */

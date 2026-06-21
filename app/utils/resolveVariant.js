@@ -46,13 +46,17 @@ export function isValueAvailable(variants, selection, axisCode, valueCode, axes)
   });
 }
 
-/** 由首个有库存(或第一个)变体反推默认 selection。 */
+/**
+ * 反推默认 selection：优先取后端标记的默认变体(is_default)，否则降级首个变体。
+ * 后端(user-service)已按 is_default DESC 排序，variants[0] 通常即默认；
+ * 这里再显式 find 一次，避免将来变体顺序变化导致默认项漂移。
+ */
 export function defaultSelection(variants, axes) {
   const axisCodes = (axes || []).map((a) => a.axis_code);
   if (axisCodes.length === 0 || !Array.isArray(variants) || !variants.length) {
     return {};
   }
-  const first = variants[0];
+  const first = variants.find((v) => v.is_default) || variants[0];
   const map = first.option_value_map || {};
   const sel = {};
   axisCodes.forEach((c) => {
