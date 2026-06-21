@@ -3,14 +3,12 @@
 import React from "react";
 import styles from "./index.module.scss";
 import ProductContext from "../../../ProductContext";
-import {
-  getCustomizeFields,
-  uploadCustomizeFile
-} from "@/service/customize";
+import { uploadCustomizeFile } from "@/service/customize";
 
 /**
  * 商品定制字段（客户端）。
- *   - 挂载时按 productInfo.key / sort_key + locale 拉「已启用」字段（按 weight 排序）。
+ *   - 字段配置随商品详情服务端下发（ProductContext.customizeFields，
+ *     仅「已启用」按 weight 升序），不再客户端单独拉 order-service。
  *   - input/textarea → value 字符串；file → 上传到 /chat/upload，value="" + files[]。
  *   - 把 { getData, validate } 注册进 ProductContext.customizeRef，
  *     加购（GoodBtnList）点击时同步读取并校验必填。
@@ -31,10 +29,15 @@ const fileLimitOf = (field) =>
   field.max_length > 0 ? field.max_length : DEFAULT_FILE_MAX;
 
 export default function CustomizationFields() {
-  const { locale, sortKey, productKey, customizeRef, LANG } =
+  const { customizeRef, customizeFields, LANG } =
     React.useContext(ProductContext);
 
-  const [fields, setFields] = React.useState([]);
+  // 字段配置来自服务端（context），仅取已启用且形状合法的项。
+  const fields = React.useMemo(
+    () => (Array.isArray(customizeFields) ? customizeFields : []),
+    [customizeFields]
+  );
+
   // values: { [field_code]: { value: string, files: [{url,name,type}] } }
   const [values, setValues] = React.useState({});
   // 上传中的字段集合（用于禁用/提示）
@@ -44,33 +47,22 @@ export default function CustomizationFields() {
   // 文件相关提示（超限/失败）：{ [field_code]: string }
   const [notice, setNotice] = React.useState({});
 
-  // 拉取定制字段。locale 直接作为 language（与 getProductOptions 一致）。
-  React.useEffect(() => {
-    if (!sortKey || !productKey) return;
-    let cancelled = false;
-    getCustomizeFields({
-      good_key: productKey,
-      good_sort_key: sortKey,
-      language: locale
-    })
-      .then((res) => {
-        if (cancelled) return;
-        const list = res?.code === 0 && Array.isArray(res.data) ? res.data : [];
-        setFields(list);
-        // 初始化 values
-        const init = {};
-        list.forEach((f) => {
-          init[f.field_code] = { value: "", files: [] };
-        });
-        setValues(init);
-      })
-      .catch(() => {
-        if (!cancelled) setFields([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [sortKey, productKey, locale]);
+  // 字段集变化（切商品 → context 下发新字段）时,在渲染期重置 values/错误/提示。
+  // 用 React 官方「props 变更时调整 state」模式:用 state 记上一次签名,
+  // 渲染期直接 setState(非 effect、不碰 ref),React 会立即重渲染,无级联开销。
+  const fieldsSig = fields.map((f) => f.field_code).join("|");
+  const [prevSig, setPrevSig] = React.useState(null);
+  if (prevSig !== fieldsSig) {
+    setPrevSig(fieldsSig);
+    const init = {};
+    fields.forEach((f) => {
+      init[f.field_code] = { value: "", files: [] };
+    });
+    setValues(init);
+    setErrors({});
+    setNotice({});
+    setUploading({});
+  }
 
   const setTextValue = React.useCallback((code, value) => {
     setValues((prev) => ({

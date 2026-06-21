@@ -17,6 +17,10 @@ const REVALIDATE_FALLBACK = 86400; // 24h
 /**
  * 商品详情数据（不含地区价格、不含多语言/配置）。
  * 传统 ISR：fetch 打 tag，由 /api/revalidate 按 tag 触发重建。
+ *
+ * customizeFields：商品定制字段配置（仅 enabled，后端按 weight 升序），
+ * 与 product 平级返回；定制字段下沉 user-service 后随详情一并下发，
+ * 前端不再单独调用 order-service /pay/getCustomizeFields。
  */
 export async function getProductPage({
   locale,
@@ -26,10 +30,10 @@ export async function getProductPage({
   locale: string;
   sortKey: string;
   productKey: string;
-}): Promise<{ productInfo: any }> {
+}): Promise<{ productInfo: any; customizeFields: any[] }> {
   if (!HOST) {
     console.error("getProductPage: NEXT_PUBLIC_HOST 未配置");
-    return { productInfo: null };
+    return { productInfo: null, customizeFields: [] };
   }
 
   const url =
@@ -39,6 +43,7 @@ export async function getProductPage({
     `&language=${encodeURIComponent(locale)}`;
 
   let productInfo = null;
+  let customizeFields: any[] = [];
 
   try {
     const res = await fetch(url, {
@@ -57,6 +62,11 @@ export async function getProductPage({
       if (productInfo && !productInfo.key) {
         productInfo = null;
       }
+      // 定制字段与 product 平级；商品无效时不下发字段。
+      if (productInfo) {
+        const fields = json?.data?.customizeFields;
+        customizeFields = Array.isArray(fields) ? fields : [];
+      }
     } else if (res.status === 404) {
       productInfo = null;
     } else {
@@ -70,5 +80,5 @@ export async function getProductPage({
     throw err;
   }
 
-  return { productInfo };
+  return { productInfo, customizeFields };
 }

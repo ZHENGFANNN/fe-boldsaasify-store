@@ -54,13 +54,18 @@ export default async function Layout({ children, params }) {
   const { locale, sortKey, productKey } = await params;
   // 商品本身 / 选项树 / 多语言 / 页面配置 四路独立并发；价格不在服务端取。
   // 商品详情直接走 getProductPage，不再经 getConfigData 转发。
-  const [{ productInfo: baseProductInfo }, productOptions, LANG, CONFIG] =
-    await Promise.all([
-      getProductPage({ locale, sortKey, productKey }),
-      getProductOptions({ locale, sortKey, productKey }),
-      getRemoteLanguage({ locale, nameSpace: LANG_NAMESPACE }),
-      getRemoteConfig({ locale, nameSpace: CONFIG_NAMESPACE })
-    ]);
+  // 定制字段随 getProductPage 一并下发（customizeFields），不再单独客户端拉。
+  const [
+    { productInfo: baseProductInfo, customizeFields },
+    productOptions,
+    LANG,
+    CONFIG
+  ] = await Promise.all([
+    getProductPage({ locale, sortKey, productKey }),
+    getProductOptions({ locale, sortKey, productKey }),
+    getRemoteLanguage({ locale, nameSpace: LANG_NAMESPACE }),
+    getRemoteConfig({ locale, nameSpace: CONFIG_NAMESPACE })
+  ]);
 
   if (!baseProductInfo?.key) {
     notFound();
@@ -78,6 +83,7 @@ export default async function Layout({ children, params }) {
       baseProductInfo={baseProductInfo}
       productInfo={baseProductInfo}
       productOptions={productOptions}
+      customizeFields={customizeFields}
     >
       {children}
     </BaseLayout>

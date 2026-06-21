@@ -18,7 +18,8 @@ export default function BaseLayout({
   isMobile,
   baseProductInfo,
   productInfo: initialProductInfo,
-  productOptions: initialProductOptions
+  productOptions: initialProductOptions,
+  customizeFields = []
 }) {
   // 节日折扣已停用：不再从 GlobalContext 取 goodDiscountFestival。
   // const { goodDiscountFestival: globalFestival } =
@@ -203,10 +204,12 @@ export default function BaseLayout({
         optionSelection,
         setOptionValue,
         variantResolved,
-        // 商品定制字段：CustomizationFields 注册取数/校验，加购时读取
+        // 商品定制字段：CustomizationFields 注册取数/校验，加购时读取。
+        // customizeFields 随商品详情服务端下发，经 context 透传给 CustomizationFields。
         sortKey,
         productKey,
-        customizeRef
+        customizeRef,
+        customizeFields
       }}
     >
       {children}
