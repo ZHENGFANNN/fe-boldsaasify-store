@@ -9,7 +9,7 @@ export default function IndexContext({
   children,
   CONFIG,
   LANG,
-  goodSortList,
+  goodsSortList,
   locale,
 }) {
   return (
@@ -17,7 +17,7 @@ export default function IndexContext({
       value={{
         CONFIG,
         LANG,
-        goodSortList,
+        goodsSortList,
         locale,
       }}
     >
