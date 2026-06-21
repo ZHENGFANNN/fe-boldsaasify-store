@@ -2144,11 +2144,6 @@
   dependencies:
     undici-types ">=7.24.0 <7.24.7"
 
-"@types/node@^17.0.5":
-  version "17.0.45"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-17.0.45.tgz"
-  integrity sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==
-
 "@types/node@^18.11.18":
   version "18.19.130"
   resolved "https://registry.npmjs.org/@types/node/-/node-18.19.130.tgz"
@@ -2167,13 +2162,6 @@
   integrity sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==
   dependencies:
     csstype "^3.2.2"
-
-"@types/sax@^1.2.1":
-  version "1.2.7"
-  resolved "https://registry.npmmirror.com/@types/sax/-/sax-1.2.7.tgz"
-  integrity sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==
-  dependencies:
-    "@types/node" "*"
 
 "@typescript-eslint/eslint-plugin@8.60.1":
   version "8.60.1"
@@ -2364,11 +2352,6 @@ anymatch@~3.1.2:
   dependencies:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
-
-arg@^5.0.0:
-  version "5.0.2"
-  resolved "https://registry.npmmirror.com/arg/-/arg-5.0.2.tgz"
-  integrity sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==
 
 argparse@^2.0.1:
   version "2.0.1"
@@ -5978,11 +5961,6 @@ sass@^1.69.5:
     immutable "^4.0.0"
     source-map-js ">=0.6.2 <2.0.0"
 
-sax@^1.2.4:
-  version "1.3.0"
-  resolved "https://registry.npmmirror.com/sax/-/sax-1.3.0.tgz"
-  integrity sha512-0s+oAmw9zLl1V1cS9BtZN7JAd0cW5e0QH4W3LWEK6a4LaLEA2OTpGYWDY+6XasBLtz6wkm3u1xRw95mRuJ59WA==
-
 scheduler@^0.27.0:
   version "0.27.0"
   resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz"
@@ -6199,16 +6177,6 @@ signal-exit@^4.0.1:
   version "4.1.0"
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-4.1.0.tgz"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
-
-sitemap@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.npmmirror.com/sitemap/-/sitemap-7.1.1.tgz"
-  integrity sha512-mK3aFtjz4VdJN0igpIJrinf3EO8U8mxOPsTBzSsy06UtjZQJ3YY3o3Xa7zSc5nMqcMrRwlChHZ18Kxg0caiPBg==
-  dependencies:
-    "@types/node" "^17.0.5"
-    "@types/sax" "^1.2.1"
-    arg "^5.0.0"
-    sax "^1.2.4"
 
 "source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.2:
   version "1.0.2"
