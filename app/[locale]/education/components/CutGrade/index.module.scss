@@ -1,0 +1,166 @@
+$accent: #8a7355;
+$border: #e6e3dd;
+$ink: #2c2a27;
+$muted: #6c6a66;
+
+.wrap {
+  width: 100%;
+}
+
+.gradeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.gradeBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1;
+  color: $muted;
+  background: #fff;
+  border: 1px solid $border;
+  border-radius: 999px;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: all 200ms ease;
+
+  &:hover {
+    border-color: rgba($accent, 0.5);
+    color: $ink;
+  }
+}
+
+.gradeActive {
+  color: #fff;
+  background: $accent;
+  border-color: $accent;
+
+  .dot {
+    background: #fff;
+  }
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: $accent;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.stage {
+  flex: 0 0 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.diamond {
+  width: 240px;
+  height: 240px;
+  display: block;
+
+  circle {
+    transition: opacity 320ms ease, r 320ms ease;
+  }
+}
+
+.brightLabel {
+  font-size: 12px;
+  color: $muted;
+  letter-spacing: 0.02em;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.infoHead {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.infoTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: $ink;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $accent;
+  border: 1px solid rgba($accent, 0.4);
+  background: rgba($accent, 0.06);
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+.infoDesc {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: $muted;
+}
+
+.note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: $accent;
+  padding-left: 12px;
+  border-left: 2px solid rgba($accent, 0.4);
+}
+
+@media screen and (max-width: 1440px) {
+  .detail {
+    gap: 28px;
+  }
+  .stage {
+    flex-basis: 200px;
+  }
+  .diamond {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 779px) {
+  .detail {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .stage {
+    flex-basis: auto;
+  }
+  .diamond {
+    width: 180px;
+    height: 180px;
+  }
+  .info {
+    width: 100%;
+  }
+  .infoTitle {
+    font-size: 18px;
+  }
+}
