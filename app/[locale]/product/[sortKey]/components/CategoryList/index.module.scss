@@ -223,6 +223,13 @@
     width: 100%;
     padding-top: 100%;
     position: relative;
+    // 收藏红心：右上角浮层，层级高于商品图与折扣标签。
+    .wishlist_btn {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      z-index: 3;
+    }
     .scenes_image {
       opacity: 0;
       z-index: 1;

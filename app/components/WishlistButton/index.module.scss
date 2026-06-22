@@ -1,0 +1,48 @@
+// 收藏（红心）按钮：圆形半透明底，悬浮在商品卡片右上角。
+// --wl-size 可由 style 覆盖（默认 36px）。
+
+.btn {
+  --wl-size: 36px;
+  width: var(--wl-size);
+  height: var(--wl-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:hover {
+  background: #fff;
+  transform: scale(1.06);
+}
+
+.btn:active {
+  transform: scale(0.94);
+}
+
+.heart {
+  width: calc(var(--wl-size) * 0.55);
+  height: calc(var(--wl-size) * 0.55);
+  // 未选中：描边空心。
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 1.6;
+  transition: fill 160ms ease, stroke 160ms ease, transform 160ms ease;
+}
+
+// 选中：实心红心。
+.btn[data-active="true"] .heart {
+  fill: #e1424c;
+  stroke: #e1424c;
+}
+
+.btn[data-active="true"] {
+  background: #fff;
+}

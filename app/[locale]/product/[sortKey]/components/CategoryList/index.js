@@ -8,6 +8,7 @@ import Link from "next/link";
 import { formatCurrency, fillOssImage } from "@/utils";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
+import WishlistButton from "@/components/WishlistButton";
 import getProductsPricing from "@/service/product/get-products-pricing";
 import getProductDiscounts from "@/service/product/get-product-discounts";
 import styles from "./index.module.scss";
@@ -131,6 +132,12 @@ function ProductCard({ product, LANG, pricingMap, pricingReady, discountMap }) {
       className={styles.goods_item}
     >
       <div className={styles.image_container} data-scenes={!!product.image_scenes}>
+        <WishlistButton
+          className={styles.wishlist_btn}
+          sortKey={product.sort_key}
+          productKey={product.key}
+          LANG={LANG}
+        />
         <img
           className={styles.product_image}
           alt={product.name}

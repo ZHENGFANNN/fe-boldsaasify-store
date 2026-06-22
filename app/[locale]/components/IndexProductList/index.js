@@ -11,6 +11,7 @@ import { formatCurrency, fillOssImage } from "@/utils";
 import tracking from "@/[locale]/tracking";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
+import WishlistButton from "@/components/WishlistButton";
 import getProductsPricing from "@/service/product/get-products-pricing";
 
 const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
@@ -92,6 +93,12 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
               className={styles.image_container}
               data-scenes={!!product.image_scenes}
             >
+              <WishlistButton
+                className={styles.wishlist_btn}
+                sortKey={product.sort_key}
+                productKey={product.key}
+                LANG={LANG}
+              />
               <img
                 data-loading
                 className={styles.product_image}
