@@ -164,3 +164,22 @@ $muted: #6c6a66;
     font-size: 18px;
   }
 }
+
+// 嵌入模式（商品详情页 Modal 等窄容器）：强制纵向堆叠
+.embedded {
+  .detail {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .stage {
+    flex-basis: auto;
+  }
+  .diamond {
+    width: 200px;
+    height: 200px;
+  }
+  .info {
+    width: 100%;
+  }
+}

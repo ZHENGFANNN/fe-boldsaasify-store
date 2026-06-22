@@ -13,7 +13,7 @@ import {
   COLOR_DEFAULT
 } from "../data.js";
 
-export default function ColorScale({ LANG }) {
+export default function ColorScale({ LANG, embedded }) {
   const [selected, setSelected] = React.useState(COLOR_DEFAULT);
   const trackRef = React.useRef(null);
   const draggingRef = React.useRef(false);
@@ -68,7 +68,10 @@ export default function ColorScale({ LANG }) {
   }
 
   return (
-    <div className={styles.wrap} data-role="education-color-scale">
+    <div
+      className={`${styles.wrap} ${embedded ? styles.embedded : ""}`}
+      data-role="education-color-scale"
+    >
       <div className={styles.scaleArea}>
         <div className={styles.scaleScroll}>
           <div

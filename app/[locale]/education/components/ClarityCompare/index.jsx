@@ -33,7 +33,7 @@ function buildInclusions(count) {
   return spots;
 }
 
-export default function ClarityCompare({ LANG }) {
+export default function ClarityCompare({ LANG, embedded }) {
   const [selected, setSelected] = React.useState(CLARITY_DEFAULT);
   // 唯一渐变 id：同页多实例（如 PDP 复用）时避免 url(#id) 撞车。
   const gradId = `clarityFacet-${React.useId().replace(/[^a-zA-Z0-9]/g, "")}`;
@@ -45,7 +45,10 @@ export default function ClarityCompare({ LANG }) {
   );
 
   return (
-    <div className={styles.wrap} data-role="education-clarity-compare">
+    <div
+      className={`${styles.wrap} ${embedded ? styles.embedded : ""}`}
+      data-role="education-clarity-compare"
+    >
       <div className={styles.gradeRow} role="tablist">
         {CLARITY_GRADES.map((g) => (
           <button

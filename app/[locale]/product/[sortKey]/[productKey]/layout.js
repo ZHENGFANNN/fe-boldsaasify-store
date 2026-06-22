@@ -15,7 +15,8 @@ import { buildAlternates } from "@/config/seo";
 const LANG_NAMESPACE = [
   "store.product",
   "common.pay",
-  "common.footer.sales_policy"
+  "common.footer.sales_policy",
+  "store.education"
 ];
 const CONFIG_NAMESPACE = ["common.base", "setting.pay"];
 

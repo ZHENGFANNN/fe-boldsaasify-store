@@ -13,7 +13,7 @@ const VB = 240;
 const C = VB / 2;
 const R = 96;
 
-export default function CutGrade({ LANG }) {
+export default function CutGrade({ LANG, embedded }) {
   const [selected, setSelected] = React.useState(CUT_DEFAULT);
   const grade = CUT_GRADES.find((g) => g.key === selected) || CUT_GRADES[0];
   // 唯一渐变 id：同页多实例（如 PDP 复用）时避免 url(#id) 撞车。
@@ -37,7 +37,10 @@ export default function CutGrade({ LANG }) {
   const leakOpacity = leakage * 0.55;
 
   return (
-    <div className={styles.wrap} data-role="education-cut-grade">
+    <div
+      className={`${styles.wrap} ${embedded ? styles.embedded : ""}`}
+      data-role="education-cut-grade"
+    >
       <div className={styles.gradeRow} role="tablist">
         {CUT_GRADES.map((g) => (
           <button

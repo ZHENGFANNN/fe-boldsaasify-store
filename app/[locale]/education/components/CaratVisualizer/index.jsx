@@ -20,7 +20,7 @@ const C = VB / 2;
 const PX_PER_MM = 14.7; // 6.5mm * 14.7 ≈ 95.5px
 const MAX_R = (VB / 2) * 0.92;
 
-export default function CaratVisualizer({ LANG }) {
+export default function CaratVisualizer({ LANG, embedded }) {
   const [carat, setCarat] = React.useState(CARAT_DEFAULT);
   // 唯一渐变 id：同页多实例（如 PDP 复用）时避免 url(#id) 撞车。
   const gradId = `caratBody-${React.useId().replace(/[^a-zA-Z0-9]/g, "")}`;
@@ -28,7 +28,10 @@ export default function CaratVisualizer({ LANG }) {
   const radius = Math.min(MAX_R, (mm * PX_PER_MM) / 2);
 
   return (
-    <div className={styles.wrap} data-role="education-carat-visualizer">
+    <div
+      className={`${styles.wrap} ${embedded ? styles.embedded : ""}`}
+      data-role="education-carat-visualizer"
+    >
       <div className={styles.detail}>
         <div className={styles.stage}>
           <svg
