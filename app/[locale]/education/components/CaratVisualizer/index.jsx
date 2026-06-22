@@ -22,6 +22,8 @@ const MAX_R = (VB / 2) * 0.92;
 
 export default function CaratVisualizer({ LANG }) {
   const [carat, setCarat] = React.useState(CARAT_DEFAULT);
+  // 唯一渐变 id：同页多实例（如 PDP 复用）时避免 url(#id) 撞车。
+  const gradId = `caratBody-${React.useId().replace(/[^a-zA-Z0-9]/g, "")}`;
   const mm = caratToMm(carat);
   const radius = Math.min(MAX_R, (mm * PX_PER_MM) / 2);
 
@@ -38,7 +40,7 @@ export default function CaratVisualizer({ LANG }) {
             )} mm diameter`}
           >
             <defs>
-              <radialGradient id="caratBody" cx="40%" cy="34%" r="72%">
+              <radialGradient id={gradId} cx="40%" cy="34%" r="72%">
                 <stop offset="0%" stopColor="#ffffff" />
                 <stop offset="58%" stopColor="#eef2f6" />
                 <stop offset="100%" stopColor="#d4dde5" />
@@ -59,7 +61,7 @@ export default function CaratVisualizer({ LANG }) {
               cx={C}
               cy={C}
               r={radius}
-              fill="url(#caratBody)"
+              fill={`url(#${gradId})`}
               stroke="#c7cdd4"
               strokeWidth="1.5"
               className={styles.gem}

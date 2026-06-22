@@ -16,6 +16,8 @@ const R = 96;
 export default function CutGrade({ LANG }) {
   const [selected, setSelected] = React.useState(CUT_DEFAULT);
   const grade = CUT_GRADES.find((g) => g.key === selected) || CUT_GRADES[0];
+  // 唯一渐变 id：同页多实例（如 PDP 复用）时避免 url(#id) 撞车。
+  const gradId = `cutBody-${React.useId().replace(/[^a-zA-Z0-9]/g, "")}`;
 
   const { brightness, rays, leakage } = grade;
   // 放射光线：等角分布，长度/不透明度随 brightness。
@@ -63,7 +65,7 @@ export default function CutGrade({ LANG }) {
             aria-label={`${grade.label} cut brilliance`}
           >
             <defs>
-              <radialGradient id="cutBody" cx="42%" cy="36%" r="72%">
+              <radialGradient id={gradId} cx="42%" cy="36%" r="72%">
                 <stop offset="0%" stopColor="#ffffff" />
                 <stop
                   offset="60%"
@@ -80,7 +82,7 @@ export default function CutGrade({ LANG }) {
               cx={C}
               cy={C}
               r={R}
-              fill="url(#cutBody)"
+              fill={`url(#${gradId})`}
               stroke="#c7cdd4"
               strokeWidth="1.5"
             />

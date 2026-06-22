@@ -35,6 +35,8 @@ function buildInclusions(count) {
 
 export default function ClarityCompare({ LANG }) {
   const [selected, setSelected] = React.useState(CLARITY_DEFAULT);
+  // 唯一渐变 id：同页多实例（如 PDP 复用）时避免 url(#id) 撞车。
+  const gradId = `clarityFacet-${React.useId().replace(/[^a-zA-Z0-9]/g, "")}`;
   const grade =
     CLARITY_GRADES.find((g) => g.key === selected) || CLARITY_GRADES[0];
   const inclusions = React.useMemo(
@@ -70,7 +72,7 @@ export default function ClarityCompare({ LANG }) {
             aria-label={`${grade.name} clarity`}
           >
             <defs>
-              <radialGradient id="clarityFacet" cx="38%" cy="32%" r="75%">
+              <radialGradient id={gradId} cx="38%" cy="32%" r="75%">
                 <stop offset="0%" stopColor="#ffffff" />
                 <stop offset="55%" stopColor="#eef2f6" />
                 <stop offset="100%" stopColor="#d9e1e8" />
@@ -81,7 +83,7 @@ export default function ClarityCompare({ LANG }) {
               cx={C}
               cy={C}
               r={R}
-              fill="url(#clarityFacet)"
+              fill={`url(#${gradId})`}
               stroke="#c7cdd4"
               strokeWidth="1.5"
             />
