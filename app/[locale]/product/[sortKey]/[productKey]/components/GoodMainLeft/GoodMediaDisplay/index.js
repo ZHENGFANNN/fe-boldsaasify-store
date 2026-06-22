@@ -7,6 +7,8 @@ import Splide from "@splidejs/splide";
 import ProductContext from "../../../ProductContext";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { trackingCustomClick } from "@/utils";
+import SpinViewer from "./SpinViewer";
+import { useSpinFrames } from "../spinDemo";
 
 // 获取类型
 async function getMediaDisplayList({ productInfo, LANG }) {
@@ -51,6 +53,7 @@ export default function GoodMediaDisplay() {
   const { lazyLoading, productInfo, productShowType, productCurCombo } =
     React.useContext(ProductContext);
   const [progress, setProgress] = React.useState(0);
+  const spinFrames = useSpinFrames(productInfo);
 
   const mediaDisplayList = React.useMemo(() => {
     if (productInfo) {
@@ -78,11 +81,14 @@ export default function GoodMediaDisplay() {
           three_d_background: productInfo.three_d_background,
         });
       }
+      if (spinFrames && spinFrames.length > 0) {
+        list.push({ type: "spin", frames: spinFrames });
+      }
       return list;
     } else {
       return null;
     }
-  }, []);
+  }, [spinFrames]);
 
   React.useEffect(() => {
     if (!lazyLoading) {
@@ -288,6 +294,14 @@ export default function GoodMediaDisplay() {
                 style={{
                   display: productShowType === "video" ? "block" : "none",
                 }}
+              />
+            );
+          } else if (item.type === "spin") {
+            return (
+              <SpinViewer
+                key={item.type}
+                frames={item.frames}
+                active={productShowType === "spin"}
               />
             );
           }

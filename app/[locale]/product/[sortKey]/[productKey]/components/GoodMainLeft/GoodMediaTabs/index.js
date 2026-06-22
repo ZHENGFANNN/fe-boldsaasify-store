@@ -4,6 +4,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import ProductContext from "../../../ProductContext";
 import { trackingCustomClick } from "@/utils";
+import { useSpinFrames } from "../spinDemo";
 
 export default function SelectList() {
   const {
@@ -13,6 +14,7 @@ export default function SelectList() {
     productInfo,
     lazyLoading,
   } = React.useContext(ProductContext);
+  const spinFrames = useSpinFrames(productInfo);
 
   const options = React.useMemo(() => {
     if (productInfo) {
@@ -41,11 +43,18 @@ export default function SelectList() {
           text: "3D",
         });
       }
+      if (spinFrames && spinFrames.length > 0) {
+        list.push({
+          type: "spin",
+          icon_src: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-three-3d.svg`,
+          text: "360°",
+        });
+      }
       return list;
     } else {
       return null;
     }
-  }, []);
+  }, [spinFrames]);
 
   React.useEffect(() => {
     if (!lazyLoading) {
@@ -57,6 +66,8 @@ export default function SelectList() {
       let transformX = 0;
       !!(productShowType === "video") && (transformX = imageWidth + 4);
       !!(productShowType === "3d") &&
+        (transformX = videoWidth + imageWidth + 8);
+      !!(productShowType === "spin") &&
         (transformX = videoWidth + imageWidth + 8);
       $typeColor.css({
         transform: `translate3d(${transformX}px, 0px, 0px)`,
