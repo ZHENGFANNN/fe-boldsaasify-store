@@ -45,13 +45,40 @@ export default function CountryPickerList({
 
   return (
     <>
-      <input
-        type="search"
-        className={styles.search_input}
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        placeholder={searchPlaceholderMap[locale] || searchPlaceholderMap.en}
-      />
+      <div className={styles.search_box}>
+        <svg
+          className={styles.search_icon}
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="search"
+          className={styles.search_input}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder={searchPlaceholderMap[locale] || searchPlaceholderMap.en}
+        />
+        {keyword ? (
+          <button
+            type="button"
+            className={styles.search_clear}
+            aria-label="clear"
+            onClick={() => setKeyword("")}
+          >
+            ×
+          </button>
+        ) : null}
+      </div>
       <div className={styles.country_panel}>
         <div className={styles.country_list}>
           {filteredCountries.map((countryItem) => (

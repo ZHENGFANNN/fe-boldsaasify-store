@@ -17,7 +17,7 @@ const areaSectionTitleMap = {
 function Modal(_, ref) {
   const [isMounted, setIsMounted] = React.useState(false);
   const [show, setShow] = React.useState(false);
-  const { LANG, locale, showContactModal } = React.useContext(GlobalContext);
+  const { LANG, locale } = React.useContext(GlobalContext);
   const [lock, setLock] = React.useState(false);
   const [changeBodyScroll, setChangeBodyScroll] = React.useState(true);
 
@@ -90,12 +90,6 @@ function Modal(_, ref) {
             <div className={styles.section_divider} />
             <div className={styles.area_section_title}>
               {areaSectionTitleMap[locale] || areaSectionTitleMap.en}
-            </div>
-            <div className={styles.area_tip}>
-              {LANG["common.other.not_area_list"]}{" "}
-              <div className={styles.href} onClick={showContactModal}>
-                {LANG["common.other.contact_us"]}
-              </div>
             </div>
             <CountryPickerList
               countries={countryList}

@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import GlobalContext from "@/[locale]/context";
-import Link from "next/link";
 import { countryList } from "@/config/marketSettings";
 import CountryPickerList from "./CountryPickerList";
 import Cookie from "js-cookie";
@@ -76,12 +75,6 @@ function Modal(_, ref) {
             </div>
           </div>
           <div className={styles.conutry_container}>
-            <div className={styles.tip}>
-              {LANG["common.other.not_area_list"]}{" "}
-              <Link scroll={true} target="_blank" href="/support/contact">
-                {LANG["common.other.contact_us"]}
-              </Link>
-            </div>
             <CountryPickerList
               countries={countryList}
               onSelect={handleSelectCountry}
