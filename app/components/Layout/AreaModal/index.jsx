@@ -3,14 +3,21 @@ import ReactDOM from "react-dom";
 import GlobalContext from "@/[locale]/context";
 import { countryList } from "@/config/marketSettings";
 import CountryPickerList from "@/components/CountrySelect/CountryPickerList";
+import LanguagePicker from "@/components/LanguagePicker";
 import Cookie from "js-cookie";
 import styles from "./index.module.scss";
 import { trackingCustomClick } from "@/utils";
 
+const areaSectionTitleMap = {
+  en: "Country / Region",
+  "zh-cn": "国家 / 地区",
+  ja: "国 / 地域",
+};
+
 function Modal(_, ref) {
   const [isMounted, setIsMounted] = React.useState(false);
   const [show, setShow] = React.useState(false);
-  const { LANG, showContactModal } = React.useContext(GlobalContext);
+  const { LANG, locale, showContactModal } = React.useContext(GlobalContext);
   const [lock, setLock] = React.useState(false);
   const [changeBodyScroll, setChangeBodyScroll] = React.useState(true);
 
@@ -79,6 +86,11 @@ function Modal(_, ref) {
             </div>
           </div>
           <div className={styles.conutry_container}>
+            <LanguagePicker onAfterSelect={() => setShow(false)} />
+            <div className={styles.section_divider} />
+            <div className={styles.area_section_title}>
+              {areaSectionTitleMap[locale] || areaSectionTitleMap.en}
+            </div>
             <div className={styles.area_tip}>
               {LANG["common.other.not_area_list"]}{" "}
               <div className={styles.href} onClick={showContactModal}>
