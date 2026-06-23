@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Cookie from "js-cookie";
 
 import GlobalContext from "@/[locale]/context";
@@ -58,7 +58,6 @@ function buildLocalizedPath(pathname, fromLocale, toLocale) {
 
 export default function LanguagePicker({ onAfterSelect }) {
   const { locale } = React.useContext(GlobalContext);
-  const router = useRouter();
   const pathname = usePathname();
   const [lock, setLock] = React.useState(false);
 
@@ -77,7 +76,10 @@ export default function LanguagePicker({ onAfterSelect }) {
     const nextPath = buildLocalizedPath(pathname, currentLocale, target.value);
 
     if (typeof onAfterSelect === "function") onAfterSelect();
-    router.push(nextPath);
+    // 硬导航：对齐站内既有切语言写法（order/Main location.href、地区选择 location.reload）。
+    // 语言文案在 server layout 按 locale 异步拉取，软导航(router.push)命中 Router Cache
+    // 不会重跑 layout → LANG 不刷新 → 页面语言不变。故必须整页重载。
+    window.location.href = nextPath || "/";
   };
 
   return (
