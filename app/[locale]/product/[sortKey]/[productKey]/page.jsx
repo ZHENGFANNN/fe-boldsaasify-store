@@ -1,6 +1,7 @@
 /** @format */
 
 import React from "react";
+import Script from "next/script";
 
 import AssociateProductList from "./components/AssociateProductList/index";
 import ProductLdJson from "./components/ProductLdJson";
@@ -58,12 +59,12 @@ export default async function Product({ params }) {
         <GoodReviewsContent />
         {/* 产品底部 */}
         <GoodFooter />
-        {/* <Script
-            id="product-3d-script"
-            defer
-            type="module"
-            src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"
-          ></Script> */}
+        <Script
+          id="product-3d-script"
+          defer
+          type="module"
+          src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"
+        ></Script>
         <ProductLdJson
           locale={locale}
           sortKey={sortKey}
