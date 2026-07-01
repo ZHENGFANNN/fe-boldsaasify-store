@@ -30,6 +30,13 @@ export interface BlogCategoryPathItem {
   sortKey: string;
 }
 
+/** 文章 slug 路径项（getArticlePaths） */
+export interface ArticlePathItem {
+  locale: string;
+  sortKey: string;
+  articleKey: string;
+}
+
 /** 购物车定位三元组（getCartByKeys 入参 items） */
 export interface CartItemKey {
   sortKey: string;
