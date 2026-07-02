@@ -28,6 +28,7 @@ import Cookies from "js-cookie";
 import {
   readStoredDiscountCodes,
   writeStoredDiscountCodes,
+  formatRejectedCodeMessage,
 } from "@/utils/discount-codes";
 
 function parsePreviewAmount(value) {
@@ -233,6 +234,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
           pay_price: parsePreviewAmount(res.data.pay_price),
           discount_breakdown: res.data.discount_breakdown,
           applied_rules: res.data.applied_rules || [],
+          rejected_codes: res.data.rejected_codes || [],
           preview_token: res.data.preview_token,
         };
         setPreviewData(data);
@@ -248,10 +250,39 @@ export default function Main({ CONFIG, LANG, area, token }) {
     [orderList, area, LANG]
   );
 
+  // Shopify 式坏码自愈：previewOrder 返回的 rejected_codes 从已应用列表剔除并落盘，
+  // 逐码原因用 showTip 提示。返回被拒码集合供 handleApply 判断新码是否被拒。
+  const reconcileRejected = React.useCallback(
+    (data) => {
+      const rejected = data?.rejected_codes || [];
+      if (!rejected.length) return new Set();
+      const rejectedSet = new Set(rejected.map((r) => r.code));
+      setDiscountCodes((prev) => {
+        const next = prev.filter((c) => !rejectedSet.has(c));
+        if (next.length !== prev.length) writeStoredDiscountCodes(next);
+        return next;
+      });
+      const text = rejected
+        .map((r) => formatRejectedCodeMessage(r, LANG))
+        .join("；");
+      showTip({ text, type: "error" });
+      return rejectedSet;
+    },
+    [LANG, showTip]
+  );
+
   React.useEffect(() => {
     if (!orderList.length) return;
-    fetchOrderPreview(discountCodes, previewRegion).catch(() => {});
-  }, [orderList, discountCodes, previewRegion, fetchOrderPreview]);
+    fetchOrderPreview(discountCodes, previewRegion)
+      .then((data) => reconcileRejected(data))
+      .catch(() => {});
+  }, [
+    orderList,
+    discountCodes,
+    previewRegion,
+    fetchOrderPreview,
+    reconcileRejected,
+  ]);
 
   const priceUnit = orderList[0]?.priceUnit;
   const priceSymbol = orderList[0]?.priceSymbol;
@@ -311,12 +342,17 @@ export default function Main({ CONFIG, LANG, area, token }) {
       return;
     }
     try {
-      await fetchOrderPreview([...discountCodes, code], previewRegion);
-      setDiscountCodes((prev) => {
-        const next = [...prev, code];
-        writeStoredDiscountCodes(next);
-        return next;
-      });
+      const next = [...discountCodes, code];
+      const data = await fetchOrderPreview(next, previewRegion);
+      const rejectedSet = reconcileRejected(data);
+      // 新码被后端拒绝：不写入，提示已由 reconcileRejected 给出。
+      if (rejectedSet.has(code)) {
+        setDiscountCodeInput("");
+        return;
+      }
+      const accepted = next.filter((c) => !rejectedSet.has(c));
+      setDiscountCodes(accepted);
+      writeStoredDiscountCodes(accepted);
       setDiscountCodeInput("");
     } catch (err) {
       showTip({
@@ -324,7 +360,15 @@ export default function Main({ CONFIG, LANG, area, token }) {
         type: "error",
       });
     }
-  }, [discountCodeInput, discountCodes, fetchOrderPreview, showTip, LANG]);
+  }, [
+    discountCodeInput,
+    discountCodes,
+    fetchOrderPreview,
+    reconcileRejected,
+    previewRegion,
+    showTip,
+    LANG,
+  ]);
 
   const handleRemoveDiscountCode = React.useCallback(
     (code) => {

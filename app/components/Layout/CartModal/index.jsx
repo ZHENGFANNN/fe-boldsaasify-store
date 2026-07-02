@@ -14,6 +14,7 @@ import Skeleton from "@/components/Skeleton";
 import {
   readStoredDiscountCodes,
   writeStoredDiscountCodes,
+  formatRejectedCodeMessage,
 } from "@/utils/discount-codes";
 
 import { useRouter } from "next/navigation";
@@ -126,6 +127,9 @@ const CartMain = function ({ handleClose }) {
   const [previewLoading, setPreviewLoading] = React.useState(false);
   const [previewData, setPreviewData] = React.useState(null);
   const [previewError, setPreviewError] = React.useState(null);
+  // rejectionNotice：坏码被自动剔除的逐码原因提示，独立于 previewError（硬错误），
+  // 不被后续成功重算清除，直到用户下一次操作。
+  const [rejectionNotice, setRejectionNotice] = React.useState(null);
 
   React.useEffect(() => {
     // 地区就绪后再取价（价格随 area 实时，走 /api/cart）。
@@ -229,6 +233,7 @@ const CartMain = function ({ handleClose }) {
           discount: parseAmount(res.data.discount),
           pay_price: parseAmount(res.data.pay_price),
           applied_rules: res.data.applied_rules || [],
+          rejected_codes: res.data.rejected_codes || [],
         };
         setPreviewData(data);
         setPreviewError(null);
@@ -243,6 +248,28 @@ const CartMain = function ({ handleClose }) {
     [cartList, area, buildPreviewOrderList, LANG]
   );
 
+  // Shopify 式坏码自愈：previewOrder 返回的 rejected_codes 从已应用列表剔除并落盘，
+  // 避免坏码残留反复报错；同时把逐码原因合成提示展示给用户。
+  // 返回被拒码集合（供 handleApply 判断新码是否被拒）。
+  const reconcileRejected = React.useCallback(
+    (data) => {
+      const rejected = data?.rejected_codes || [];
+      if (!rejected.length) return new Set();
+      const rejectedSet = new Set(rejected.map((r) => r.code));
+      setDiscountCodes((prev) => {
+        const next = prev.filter((c) => !rejectedSet.has(c));
+        if (next.length !== prev.length) writeStoredDiscountCodes(next);
+        return next;
+      });
+      const text = rejected
+        .map((r) => formatRejectedCodeMessage(r, LANG))
+        .join("；");
+      setRejectionNotice(text);
+      return rejectedSet;
+    },
+    [LANG]
+  );
+
   // 购物车就绪 / area 切换 / codes 变化时自动重算（仅当 codes 非空才请求）。
   React.useEffect(() => {
     if (!cartReady || !cartList.length) return;
@@ -251,8 +278,10 @@ const CartMain = function ({ handleClose }) {
       setPreviewError(null);
       return;
     }
-    fetchPreview(discountCodes).catch(() => {});
-  }, [cartReady, cartList, discountCodes, area, fetchPreview]);
+    fetchPreview(discountCodes)
+      .then((data) => reconcileRejected(data))
+      .catch(() => {});
+  }, [cartReady, cartList, discountCodes, area, fetchPreview, reconcileRejected]);
 
   const persistDiscountCodes = React.useCallback((codes) => {
     setDiscountCodes(codes);
@@ -262,6 +291,7 @@ const CartMain = function ({ handleClose }) {
   const handleApplyDiscountCode = React.useCallback(async () => {
     const code = discountCodeInput.trim().toUpperCase();
     if (!code) return;
+    setRejectionNotice(null);
     if (discountCodes.includes(code)) {
       setPreviewError(
         LANG["store.order.discount_code_applied"] ||
@@ -271,8 +301,16 @@ const CartMain = function ({ handleClose }) {
     }
     const next = [...discountCodes, code];
     try {
-      await fetchPreview(next);
-      persistDiscountCodes(next);
+      const data = await fetchPreview(next);
+      const rejectedSet = reconcileRejected(data);
+      // 新码若被后端拒绝：不写入已应用列表，提示已由 reconcileRejected 展示。
+      if (rejectedSet.has(code)) {
+        setDiscountCodeInput("");
+        return;
+      }
+      // 新码有效：持久化（reconcileRejected 已剔除本轮其他坏码）。
+      const accepted = next.filter((c) => !rejectedSet.has(c));
+      persistDiscountCodes(accepted);
       setDiscountCodeInput("");
     } catch {
       // fetchPreview 已 setPreviewError，UI 会展示
@@ -281,6 +319,7 @@ const CartMain = function ({ handleClose }) {
     discountCodeInput,
     discountCodes,
     fetchPreview,
+    reconcileRejected,
     persistDiscountCodes,
     LANG,
   ]);
@@ -290,6 +329,7 @@ const CartMain = function ({ handleClose }) {
       const next = discountCodes.filter((c) => c !== code);
       persistDiscountCodes(next);
       setPreviewError(null);
+      setRejectionNotice(null);
     },
     [discountCodes, persistDiscountCodes]
   );
@@ -672,6 +712,9 @@ const CartMain = function ({ handleClose }) {
               ) : null}
               {previewError && !previewLoading ? (
                 <div className={styles.promo_code_error}>{previewError}</div>
+              ) : null}
+              {rejectionNotice && !previewLoading ? (
+                <div className={styles.promo_code_error}>{rejectionNotice}</div>
               ) : null}
             </div>
 

@@ -97,7 +97,7 @@ export default function GoodDiscountCode() {
       )}`;
       const text = (
         LANG["store.product.discount_code_applied"] ||
-        "Applied — save ${amount} on this product"
+        "Saved — code will apply at checkout (save ${amount} on this product)"
       ).replace("${amount}", amountText);
       setMessage({ type: "success", text });
       showTip({ text, type: "success" });
