@@ -68,28 +68,43 @@ export function roundToDecimalPlaces(value, unit = 100) {
 }
 
 /**
- * @desc 分割金额
+ * @desc 由 currency_unit(精度因子) 推导应保留的小数位数
+ *       unit 语义：10^n 的因子 —— 100 => 2 位小数, 10 => 1 位, 1 => 0 位(整数)
+ * @param unit 精度因子(currency_unit)，默认 100
+ * @returns 小数位数(>=0 的整数)
+ */
+export function currencyDecimals(unit = 100) {
+  if (typeof unit !== "number" || !isFinite(unit) || unit <= 0) {
+    unit = 100;
+  }
+  return Math.max(0, Math.round(Math.log10(unit)));
+}
+
+/**
+ * @desc 分割金额：按 currency_unit 配置的精度固定小数位并加千位分隔符
+ *       - unit=100 => 始终 2 位小数(如 1200 => "1,200.00")
+ *       - unit=1   => 整数(如 180000 => "180,000")
  * @param value 值
- * @param unit 小数位
+ * @param unit 精度因子(currency_unit)
  */
 export function formatCurrency(value, unit = 100) {
   // 确保输入是数字类型
   if (typeof value !== "number") {
     value = parseFloat(value);
   }
-  if (typeof unit !== "number") {
-    unit = unit || 100;
+  if (!isFinite(value)) {
+    value = 0;
   }
 
-  // 使用 toFixed 方法保留两位小数并转换为字符串
-  let formattedAmount = new String(roundToDecimalPlaces(value, unit));
+  const decimals = currencyDecimals(unit);
 
-  // 添加千位分隔符
-  formattedAmount = formattedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // 按配置的小数位固定精度(toFixed 会保留末尾的 0)
+  let formattedAmount = value.toFixed(decimals);
 
-  // 添加货币符号等其他格式化需求
-  // 例如，如果需要添加货币符号，可以这样处理：
-  // formattedAmount = '$' + formattedAmount;
+  // 仅对整数部分添加千位分隔符，保留小数部分不动
+  const [intPart, decPart] = formattedAmount.split(".");
+  const withSeparator = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  formattedAmount = decPart !== undefined ? `${withSeparator}.${decPart}` : withSeparator;
 
   return formattedAmount;
 }

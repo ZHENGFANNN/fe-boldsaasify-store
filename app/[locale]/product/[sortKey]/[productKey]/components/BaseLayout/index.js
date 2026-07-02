@@ -121,6 +121,16 @@ export default function BaseLayout({
     setOptionSelection((prev) => ({ ...prev, [axisCode]: valueCode }));
   }, []);
 
+  // 各变体 combo 的库存标记：{ combo_key: 是否有库存 }。价格补差后 comboList 才带 areaInfo，
+  // 价格未到（priceLoading）时为空 → VariantSelector 不显示缺货虚框，避免误标。
+  const stockByCombo = React.useMemo(() => {
+    const map = {};
+    (productInfo?.comboList || []).forEach((c) => {
+      if (c?.key) map[c.key] = !!c.areaInfo?.stock;
+    });
+    return map;
+  }, [productInfo]);
+
   // ---------- 商品定制字段 ----------
   // CustomizationFields 挂载时把 { getData, validate } 注册进此 ref：
   //   getData() → 组装好的 customize_data 数组（frozen shape），供加购/下单读取
@@ -204,6 +214,8 @@ export default function BaseLayout({
         optionSelection,
         setOptionValue,
         variantResolved,
+        // 各 combo 库存标记，驱动 VariantSelector 缺货虚框（缺货可选不禁用）
+        stockByCombo,
         // 商品定制字段：CustomizationFields 注册取数/校验，加购时读取。
         // customizeFields 随商品详情服务端下发，经 context 透传给 CustomizationFields。
         sortKey,

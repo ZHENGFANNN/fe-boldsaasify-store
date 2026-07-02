@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ProductContext from "../../../ProductContext";
-import { isValueAvailable } from "@/utils/resolveVariant";
+import { isValueAvailable, isValueInStock } from "@/utils/resolveVariant";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import styles from "./index.module.scss";
 
@@ -18,7 +18,9 @@ export default function VariantSelector() {
     optionVariants: variants,
     hasV2Options,
     optionSelection,
-    setOptionValue
+    setOptionValue,
+    stockByCombo,
+    priceLoading
   } = React.useContext(ProductContext);
 
   if (!hasV2Options) return null;
@@ -52,12 +54,26 @@ export default function VariantSelector() {
                   val.value_code,
                   axes
                 );
+                // 缺货：变体存在(available)但命中变体均无库存。价格未到(priceLoading)时不判缺货，避免误标。
+                const outOfStock =
+                  available &&
+                  !priceLoading &&
+                  !isValueInStock(
+                    variants,
+                    optionSelection,
+                    axis.axis_code,
+                    val.value_code,
+                    axes,
+                    stockByCombo
+                  );
                 // 不可命中的候选值置灰并禁止点击（active 值始终保持可点，避免卡死无法切换）。
+                // 缺货但存在的候选值仍可选中（仅加虚框标记），不禁用。
                 const disabled = !available && !active;
                 const cls = [
                   styles.value_item,
                   active ? styles.active : "",
-                  available ? "" : styles.unavailable
+                  available ? "" : styles.unavailable,
+                  outOfStock ? styles.outofstock : ""
                 ]
                   .filter(Boolean)
                   .join(" ");

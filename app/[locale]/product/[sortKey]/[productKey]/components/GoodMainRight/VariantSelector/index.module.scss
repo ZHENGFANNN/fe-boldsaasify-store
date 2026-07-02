@@ -80,6 +80,16 @@
   transform: rotate(-12deg);
 }
 
+/* ---------- 缺货但可选：虚框标记（不置灰、不禁用） ---------- */
+.value_item.outofstock {
+  border-style: dashed;
+  border-color: #b5b5b5;
+}
+.value_item.outofstock.active {
+  /* 选中态保留深底，虚框仍显示以提示缺货 */
+  border-color: #fff;
+}
+
 /* ---------- 颜色块 ---------- */
 .value_list[data-variant="color"] {
   gap: 14px;
@@ -118,6 +128,12 @@
 .value_list[data-variant="color"] .value_item.unavailable::after {
   display: none;
 }
+/* 色块缺货：外圈虚线环（色块本身用 box-shadow 做环，虚框改用 outline） */
+.value_list[data-variant="color"] .value_item.outofstock {
+  border: none;
+  outline: 1.5px dashed #b5b5b5;
+  outline-offset: -1.5px;
+}
 
 /* ---------- 图片块 ---------- */
 .value_list[data-variant="image"] {
@@ -152,4 +168,9 @@
 }
 .value_list[data-variant="image"] .value_item.unavailable::after {
   display: none;
+}
+/* 图片块缺货：虚线边框（覆盖默认实线边框，选中态仍加深色描边） */
+.value_list[data-variant="image"] .value_item.outofstock {
+  border-style: dashed;
+  border-color: #b5b5b5;
 }
