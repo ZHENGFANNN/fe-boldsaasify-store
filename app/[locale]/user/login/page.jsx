@@ -58,11 +58,11 @@ export default async function Login({ params }) {
         />
         <div className={styles.agreen}>
           <span>{LANG["user_login.countinue_agree"]}</span>
-          <Link scroll={true} href="/protocol/policy">
+          <Link scroll={true} href="/article/legal/privacy-policy">
             {LANG["user_login.privacy_policy"]}
           </Link>
           <span>{LANG["user_login.and"]}</span>
-          <Link scroll={true} href="/protocol/user">
+          <Link scroll={true} href="/article/legal/user-agreement">
             {LANG["user_login.user_service"]}
           </Link>
         </div>

@@ -129,7 +129,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
   React.useEffect(() => {
     const $dom = document.getElementsByClassName(styles.sales_content)[0];
     const $aTags = $dom.getElementsByTagName("a")[0];
-    $aTags?.setAttribute("href", `/protocol/sales`);
+    $aTags?.setAttribute("href", `/article/legal/sales-policy`);
     $aTags?.setAttribute("target", "_blank");
   }, []);
 

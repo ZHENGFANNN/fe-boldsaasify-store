@@ -58,7 +58,7 @@ export default function GoodFaq() {
       {
         type: "link",
         question: LANG["common.footer.sales_policy"],
-        answer: "/protocol/sales",
+        answer: "/article/legal/sales-policy",
       },
     ];
   });

@@ -14,6 +14,7 @@
 import { locales } from "@/config/languageSettings";
 import getProductPaths from "@/config/Api/getProductPaths";
 import getBlogPaths from "@/config/Api/getBlogPaths";
+import getArticlePaths from "@/config/Api/getArticlePaths";
 
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN || "";
 
@@ -25,9 +26,6 @@ const STATIC_PATHS = [
   "/support/after-sale",
   "/support/contact",
   "/blog",
-  "/protocol/policy",
-  "/protocol/sales",
-  "/protocol/user",
   "/user/login",
   "/user/register",
   "/user/reset-password"
@@ -59,9 +57,10 @@ export default async function sitemap() {
   }
 
   // 商品 / 博客（详情 + 所属分类），按 path 自身 locale 生成
-  const [productPaths, blogPaths] = await Promise.all([
+  const [productPaths, blogPaths, articlePaths] = await Promise.all([
     getProductPaths(),
-    getBlogPaths()
+    getBlogPaths(),
+    getArticlePaths()
   ]);
 
   productPaths.forEach(({ locale, sortKey, productKey }) => {
@@ -72,6 +71,11 @@ export default async function sitemap() {
   blogPaths.forEach(({ locale, sortKey, blogKey }) => {
     push(toUrl(locale, `/blog/${sortKey}`));
     push(toUrl(locale, `/blog/${sortKey}/${blogKey}`));
+  });
+
+  // 文章配置（政策/协议等，取代已下线的 /protocol 静态页）
+  articlePaths.forEach(({ locale, sortKey, articleKey }) => {
+    push(toUrl(locale, `/article/${sortKey}/${articleKey}`));
   });
 
   return entries;

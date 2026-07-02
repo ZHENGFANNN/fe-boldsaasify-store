@@ -64,11 +64,11 @@ export default async function Register({ params }) {
         </p>
         <div className={styles.agreen}>
           <span>{LANG["user_register.contiuning_agree"]}</span>
-          <Link scroll={true} href="/protocol/policy">
+          <Link scroll={true} href="/article/legal/privacy-policy">
             {LANG["user_register.privacy_policy"]}
           </Link>
           <span>{LANG["user_register.and"]}</span>
-          <Link scroll={true} href="/protocol/user">
+          <Link scroll={true} href="/article/legal/user-agreement">
             {LANG["user_register.user_service"]}
           </Link>
         </div>
