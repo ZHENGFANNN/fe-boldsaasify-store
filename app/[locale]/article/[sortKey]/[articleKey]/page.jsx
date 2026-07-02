@@ -6,7 +6,6 @@ import getArticleDetail from "@/config/Api/getArticleDetail";
 import getArticlePaths from "@/config/Api/getArticlePaths";
 import { buildAlternates } from "@/config/seo";
 import { formateTime } from "../../../blog/utils";
-import StickyTitle from "./components/StickyTitle";
 import "@/styles/richtext.scss";
 
 // 构建期枚举所有 (locale, sortKey, articleKey) 预生成文章页（对齐 blog getBlogPaths）；
@@ -42,7 +41,6 @@ export default async function ArticlePage({ params }) {
 
   return (
     <div className={styles.container}>
-      <StickyTitle title={article.title} />
       <div className={styles.content_container}>
         <div className={styles.content_title}>{article.title}</div>
         <div className={styles.meta}>
