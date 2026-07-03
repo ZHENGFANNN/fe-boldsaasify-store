@@ -647,6 +647,47 @@ export default function Main({ CONFIG, LANG, area, token }) {
                               );
                             })}
                           </div>
+                          {/* 定制字段：文本显示值，文件显示文件名(可点开)。与购物车/详情页同口径展示。 */}
+                          {Array.isArray(item.customize_data) &&
+                          item.customize_data.length > 0 ? (
+                            <div className={styles.item_option}>
+                              {item.customize_data.map((field, fi) => {
+                                const isFile =
+                                  field.field_type === "file" ||
+                                  (Array.isArray(field.files) &&
+                                    field.files.length > 0);
+                                if (isFile) {
+                                  const files = Array.isArray(field.files)
+                                    ? field.files
+                                    : [];
+                                  if (!files.length) return null;
+                                  return (
+                                    <div key={fi}>
+                                      {`${field.field_label}: `}
+                                      {files.map((f, idx) => (
+                                        <a
+                                          key={`${f.url}-${idx}`}
+                                          href={f.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          title={f.name}
+                                        >
+                                          {f.name}
+                                          {idx < files.length - 1 ? ", " : ""}
+                                        </a>
+                                      ))}
+                                    </div>
+                                  );
+                                }
+                                if (!field.value) return null;
+                                return (
+                                  <div
+                                    key={fi}
+                                  >{`${field.field_label}: ${field.value}`}</div>
+                                );
+                              })}
+                            </div>
+                          ) : null}
                           <div className={styles.item_num}>
                             <span>×</span> {item.productNum}
                           </div>
