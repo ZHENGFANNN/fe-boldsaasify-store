@@ -10,21 +10,29 @@
         justify-content: center;
 
         height: 55px;
-        border: 1px solid #0092d9;
-        color: #0092d9;
+        border: 1px solid #1a1a1a;
+        color: #1a1a1a;
         border-radius: 4px;
 
         margin-bottom: 17px;
 
     }
     .btn_buy_now {
-        background: #0092d9;
+        background: #1a1a1a;
         color: #fff;
         font-weight: 600;
         letter-spacing: 1px;
         transition: background 0.2s;
         &:hover {
-            background: #007cb8;
+            background: #000;
+        }
+    }
+    .btn_add_to_cart {
+        background: #fff;
+        transition: all 0.2s;
+        &:hover {
+            background: #1a1a1a;
+            color: #fff;
         }
     }
     .btn_stock {

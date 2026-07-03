@@ -21,7 +21,6 @@ import GlobalContext from "@/[locale]/context";
 
 import { roundToDecimalPlaces } from "@/utils";
 import { readClientArea } from "@/utils/readClientArea";
-import BuyNowDrawer from "./BuyNowDrawer";
 
 function parsePreviewAmount(value) {
   if (typeof value === "number") return value;
@@ -304,6 +303,7 @@ function PayButton({
 
 export default function GoodBtnList() {
   const { showCartModal } = React.useContext(GlobalContext);
+  const router = useRouter();
   const {
     LANG,
     CONFIG,
@@ -362,17 +362,39 @@ export default function GoodBtnList() {
     !!productCurCombo.areaInfo?.product_price &&
     !!productCurCombo.areaInfo?.stock;
 
-  // 立即购买抽屉开合。
-  const [buyNowOpen, setBuyNowOpen] = React.useState(false);
+  // 立即购买：把当前所选套餐（含变体 options + 定制字段）作为单行写入购物车缓存，
+  // 直接跳转结算页，不再打开弹窗。已应用折扣码经 localStorage 自动带入结算页。
   const openBuyNow = React.useCallback(() => {
     if (!buyable) return;
-    // 定制字段必填校验：未通过则由 CustomizationFields 内联报错并阻断打开
+    // 定制字段必填校验：未通过则由 CustomizationFields 内联报错并阻断跳转
     if (customizeRef?.current?.validate && !customizeRef.current.validate()) {
       return;
     }
+    const customizeData = customizeRef?.current?.getData
+      ? customizeRef.current.getData()
+      : [];
+    const line = {
+      sortKey: productInfo.sort_key,
+      productKey: productInfo.key,
+      comboKey: productCurCombo.key,
+      productNum,
+      options: cartOptions,
+      customize_data: customizeData
+    };
+    // 立即购买语义：结算页只结算当前商品，直接以单行覆盖购物车缓存。
+    window.localStorage.setItem("store_shopping", JSON.stringify([line]));
     tracking.initiateCheckout?.({ productName: productInfo.name });
-    setBuyNowOpen(true);
-  }, [buyable, customizeRef, productInfo]);
+    router.push(`/${locale}/order`);
+  }, [
+    buyable,
+    customizeRef,
+    productInfo,
+    productCurCombo,
+    productNum,
+    cartOptions,
+    locale,
+    router
+  ]);
 
   return (
     <div className={styles.container} data-role="buy-btn-list">
@@ -484,22 +506,6 @@ export default function GoodBtnList() {
           ) : null}
         </>
       )}
-      <BuyNowDrawer
-        open={buyNowOpen}
-        onClose={() => setBuyNowOpen(false)}
-        LANG={LANG}
-        CONFIG={CONFIG}
-        locale={locale}
-        area={area}
-        currency={currency}
-        countryCode={countryCode}
-        paypalEnabled={paypalEnabled}
-        productInfo={productInfo}
-        productCurCombo={productCurCombo}
-        productNum={productNum}
-        cartOptions={cartOptions}
-        customizeRef={customizeRef}
-      />
     </div>
   );
 }
