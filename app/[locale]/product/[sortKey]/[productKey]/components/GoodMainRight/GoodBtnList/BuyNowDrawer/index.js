@@ -392,6 +392,44 @@ export default function BuyNowDrawer({
     return true;
   }, [customizeRef]);
 
+  // 保底快捷入口：把当前商品写入购物车缓存并跳结算页（已应用折扣码经 localStorage 自动带过去）。
+  // PayPal 不可用地区仍能一键进入下单流程，是「让用户快速购买」的兜底路径。
+  const router = useRouter();
+  const handleCheckout = React.useCallback(() => {
+    if (!validateCustomize()) return;
+    const customizeData = customizeRef?.current?.getData
+      ? customizeRef.current.getData()
+      : [];
+    const line = {
+      sortKey: productInfo.sort_key,
+      productKey: productInfo.key,
+      comboKey: productCurCombo.key,
+      productNum,
+      options: cartOptions,
+      customize_data: customizeData
+    };
+    // 立即购买语义：结算页只结算当前商品，故直接以单行覆盖购物车缓存。
+    window.localStorage.setItem("store_shopping", JSON.stringify([line]));
+    tracking.enterOrderForm?.({
+      currency: productCurCombo.areaInfo?.currency,
+      value: orderPricing.pay_price,
+      contents: [line]
+    });
+    onClose?.();
+    router.push(`/${locale}/order`);
+  }, [
+    validateCustomize,
+    customizeRef,
+    productInfo,
+    productCurCombo,
+    productNum,
+    cartOptions,
+    orderPricing,
+    locale,
+    onClose,
+    router
+  ]);
+
   if (!mounted) return null;
 
   return ReactDOM.createPortal(
@@ -534,35 +572,39 @@ export default function BuyNowDrawer({
             previewLoading ? (
               <Loading height={108} />
             ) : (
-              <PayPalScriptProvider
-                options={{
-                  clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
-                  components: "buttons",
-                  currency,
-                  locale: `${
-                    locale === "zh-cn" || locale === "zh-hk" ? "zh" : locale
-                  }_${countryCode}`
-                }}
-              >
-                <DrawerPayButton
-                  LANG={LANG}
-                  CONFIG={CONFIG}
-                  locale={locale}
-                  area={area}
-                  orderList={orderList}
-                  orderPricing={orderPricing}
-                  discountCodes={discountCodes}
-                  customizeRef={customizeRef}
-                  onValidate={validateCustomize}
-                />
-              </PayPalScriptProvider>
+              <div className={styles.paypal_box}>
+                <PayPalScriptProvider
+                  options={{
+                    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+                    components: "buttons",
+                    currency,
+                    locale: `${
+                      locale === "zh-cn" || locale === "zh-hk" ? "zh" : locale
+                    }_${countryCode}`
+                  }}
+                >
+                  <DrawerPayButton
+                    LANG={LANG}
+                    CONFIG={CONFIG}
+                    locale={locale}
+                    area={area}
+                    orderList={orderList}
+                    orderPricing={orderPricing}
+                    discountCodes={discountCodes}
+                    customizeRef={customizeRef}
+                    onValidate={validateCustomize}
+                  />
+                </PayPalScriptProvider>
+              </div>
             )
-          ) : (
-            <div className={styles.pay_disabled}>
-              {LANG["store.product.buy_now_pay_unavailable"] ||
-                "Express checkout is unavailable in your region"}
-            </div>
-          )}
+          ) : null}
+          {/* 保底快捷入口：直达结算页（PayPal 不可用地区的唯一快捷购买路径，
+              PayPal 可用时作为「更多支付方式」的补充入口）。 */}
+          <div className={styles.checkout_btn} onClick={handleCheckout}>
+            {paypalEnabled
+              ? LANG["store.product.buy_now_more_pay"] || "More payment options"
+              : LANG["common.cart.checkout"] || "Checkout"}
+          </div>
         </div>
       </div>
     </div>,

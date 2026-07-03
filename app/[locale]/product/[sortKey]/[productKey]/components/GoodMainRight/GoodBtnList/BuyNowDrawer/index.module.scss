@@ -45,8 +45,8 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 460px;
-  max-width: 90vw;
+  width: 600px;
+  max-width: 80vw;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -253,12 +253,34 @@
   padding: 16px;
   border-top: 1px solid #f0f1f3;
   background: #fff;
-  .pay_disabled {
+  .paypal_box {
+    margin-bottom: 12px;
+  }
+  .checkout_btn {
+    width: 100%;
+    box-sizing: border-box;
+    background: #363634;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 90px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: 400;
     text-align: center;
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.45);
-    line-height: 1.4;
-    padding: 12px 0;
+    cursor: pointer;
+    transition: all 0.25s;
+    user-select: none;
+    &:hover {
+      background: #50504e;
+    }
+    &:active {
+      background: #000;
+    }
   }
 }
 
@@ -300,12 +322,6 @@
   }
 }
 
-@media screen and (max-width: 561px) {
-  .drawer {
-    width: 100vw;
-    max-width: 100vw;
-  }
-}
-
+/* 宽度与购物车弹窗(CartModal)完全一致：600px / 80vw，不额外做移动端全屏覆盖。 */
 
 
