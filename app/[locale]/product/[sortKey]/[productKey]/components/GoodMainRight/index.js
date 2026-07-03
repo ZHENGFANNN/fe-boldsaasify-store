@@ -7,7 +7,6 @@ import VariantSelector from "./VariantSelector";
 import CustomizationFields from "./CustomizationFields";
 import GoodNumber from "./GoodNumber";
 import GoodBtnList from "./GoodBtnList";
-import GoodDiscountCode from "./GoodDiscountCode";
 import GoodContent from "./GoodContent";
 import GoodEducation4C from "./GoodEducation4C";
 import GoodGuarantee from "./GoodGuarantee";
@@ -26,7 +25,6 @@ export default function GoodMainRight() {
       <CustomizationFields />
       <GoodNumber />
       <GoodBtnList />
-      <GoodDiscountCode />
       <GoodContent />
       <GoodEducation4C />
       <GoodGuarantee />

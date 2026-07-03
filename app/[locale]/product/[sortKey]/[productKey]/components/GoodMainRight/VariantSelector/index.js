@@ -66,9 +66,9 @@ export default function VariantSelector() {
                     axes,
                     stockByCombo
                   );
-                // 不可命中的候选值置灰并禁止点击（active 值始终保持可点，避免卡死无法切换）。
-                // 缺货但存在的候选值仍可选中（仅加虚框标记），不禁用。
-                const disabled = !available && !active;
+                // 缺货/不可命中的候选值仍可选中（仅虚框 + 半透明 0.85 标记，不划掉、不禁用）。
+                // 命中失败时由 GoodBtnList 依据 variantResolved/stock 屏蔽加购。
+                const disabled = false;
                 const cls = [
                   styles.value_item,
                   active ? styles.active : "",
@@ -78,7 +78,6 @@ export default function VariantSelector() {
                   .filter(Boolean)
                   .join(" ");
                 const handleClick = () => {
-                  if (disabled) return;
                   setOptionValue(axis.axis_code, val.value_code);
                 };
                 if (isColor) {

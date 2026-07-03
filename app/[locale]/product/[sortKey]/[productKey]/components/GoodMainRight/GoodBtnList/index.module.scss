@@ -1,6 +1,6 @@
 .container {
     margin-top: 24px;
-    .btn_add_to_cart, .btn_stock {
+    .btn_buy_now, .btn_add_to_cart, .btn_stock {
         user-select: none;
         cursor: pointer;
 
@@ -15,7 +15,17 @@
         border-radius: 4px;
 
         margin-bottom: 17px;
-        
+
+    }
+    .btn_buy_now {
+        background: #0092d9;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: background 0.2s;
+        &:hover {
+            background: #007cb8;
+        }
     }
     .btn_stock {
         border: 1px solid rgb(175, 177, 180);
@@ -33,32 +43,32 @@
 
 @media screen and (max-width: 1250px) {
     .container {
-        .btn_add_to_cart, .btn_stock {
+        .btn_buy_now, .btn_add_to_cart, .btn_stock {
             height: 45px;
             margin-bottom: 14px;
         }
     }
-    
+
 }
 
 @media screen and (max-width: 820px) {
     .container {
-        .btn_add_to_cart, .btn_stock {
+        .btn_buy_now, .btn_add_to_cart, .btn_stock {
             height: 55px;
             margin-bottom: 17px;
         }
     }
-    
+
 }
 
 @media screen and (max-width: 561px) {
     .container {
-        .btn_add_to_cart, .btn_stock {
+        .btn_buy_now, .btn_add_to_cart, .btn_stock {
             height: 45px;
             margin-bottom: 14px;
         }
     }
-    
+
 }
 
 

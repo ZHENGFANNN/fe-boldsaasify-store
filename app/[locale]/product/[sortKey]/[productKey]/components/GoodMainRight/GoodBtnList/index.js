@@ -21,6 +21,7 @@ import GlobalContext from "@/[locale]/context";
 
 import { roundToDecimalPlaces } from "@/utils";
 import { readClientArea } from "@/utils/readClientArea";
+import BuyNowDrawer from "./BuyNowDrawer";
 
 function parsePreviewAmount(value) {
   if (typeof value === "number") return value;
@@ -355,14 +356,36 @@ export default function GoodBtnList() {
     );
   }, [CONFIG, area]);
 
+  // 可购买判定：变体命中 + 有价 + 有库存。加购/立即购买共用。
+  const buyable =
+    variantResolved &&
+    !!productCurCombo.areaInfo?.product_price &&
+    !!productCurCombo.areaInfo?.stock;
+
+  // 立即购买抽屉开合。
+  const [buyNowOpen, setBuyNowOpen] = React.useState(false);
+  const openBuyNow = React.useCallback(() => {
+    if (!buyable) return;
+    // 定制字段必填校验：未通过则由 CustomizationFields 内联报错并阻断打开
+    if (customizeRef?.current?.validate && !customizeRef.current.validate()) {
+      return;
+    }
+    tracking.initiateCheckout?.({ productName: productInfo.name });
+    setBuyNowOpen(true);
+  }, [buyable, customizeRef, productInfo]);
+
   return (
     <div className={styles.container} data-role="buy-btn-list">
-      {!variantResolved ||
-      !productCurCombo.areaInfo?.product_price ||
-      !productCurCombo.areaInfo?.stock ? (
+      {!buyable ? (
         <div className={styles.btn_stock}>{LANG["store.product.no_stock"]}</div>
       ) : (
         <>
+          <div
+            onClick={openBuyNow}
+            className={styles.btn_buy_now}
+          >
+            {LANG["store.product.buy_now"] || "Buy Now"}
+          </div>
           <div
             onClick={() => {
               if (
@@ -461,6 +484,22 @@ export default function GoodBtnList() {
           ) : null}
         </>
       )}
+      <BuyNowDrawer
+        open={buyNowOpen}
+        onClose={() => setBuyNowOpen(false)}
+        LANG={LANG}
+        CONFIG={CONFIG}
+        locale={locale}
+        area={area}
+        currency={currency}
+        countryCode={countryCode}
+        paypalEnabled={paypalEnabled}
+        productInfo={productInfo}
+        productCurCombo={productCurCombo}
+        productNum={productNum}
+        cartOptions={cartOptions}
+        customizeRef={customizeRef}
+      />
     </div>
   );
 }

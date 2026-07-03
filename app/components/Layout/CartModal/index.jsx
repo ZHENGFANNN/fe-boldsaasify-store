@@ -344,14 +344,6 @@ const CartMain = function ({ handleClose }) {
             <EmptyCart LANG={LANG} handleClose={handleClose} />
           ) : (
             <>
-              <div className={styles.shipping_free} data-discount={false}>
-                {previewData?.applied_rules?.some(
-                  (r) => r.type === "free_shipping"
-                )
-                  ? LANG["common.cart.free_shipping_eligible"] ||
-                    "You qualify for free shipping"
-                  : LANG["common.cart.free_shipping"]}
-              </div>
               <div className={styles.table_body}>
                 {cartList.map((item, index) => {
                   // 商品级折扣：selling_price < product_price 时按折后价 + 划线原价展示。
