@@ -61,7 +61,7 @@ function UserInfo({ LANG, token }, ref) {
     >
       <div
         className={`
-            ${styles.tabs} 
+            ${styles.tabs}
             ${
               userType === "user" ? styles.user_active : styles.tourists_active
             }`}
@@ -74,7 +74,7 @@ function UserInfo({ LANG, token }, ref) {
             userType === "tourists" ? styles.active : ""
           }`}
         >
-          {LANG["store.order.user_type.tourists_order"]}
+          {LANG["store.order.user_type.tourists_order"] || "Guest Checkout"}
         </div>
         <div
           onClick={() => {
@@ -84,7 +84,7 @@ function UserInfo({ LANG, token }, ref) {
             userType === "user" ? styles.active : ""
           }`}
         >
-          {LANG["store.order.user_type.user_order"]}
+          {LANG["store.order.user_type.user_order"] || "Sign In"}
         </div>
       </div>
       {userType === "tourists" ? (

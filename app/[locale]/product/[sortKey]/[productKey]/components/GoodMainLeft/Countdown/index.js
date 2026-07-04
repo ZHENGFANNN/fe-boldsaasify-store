@@ -49,16 +49,18 @@ export default function Countdown() {
   const { lazyLoading, productCurCombo, LANG, autoDiscount, setAutoDiscount } =
     React.useContext(ProductContext);
 
-  // 守卫：有 ends_at 才视为有效限时折扣（BaseLayout 注入前已过滤掉过期项，
-  // 运行期过期由 updateCountdown 检测到剩余<0 时调 onExpire 局部隐藏）。在 render 内
-  // 不调用 Date.now() 这类非纯函数，过期判断交给 effect。
-  const active = !!autoDiscount && !!autoDiscount.ends_at;
+  // 显示条件：只要有商品自动折扣就展示模块；ends_at 仅决定是否渲染倒计时。
+  const active = !!autoDiscount;
+  const hasCountdown = active && !!autoDiscount.ends_at;
 
   React.useEffect(() => {
-    if (lazyLoading || !active) return;
+    if (lazyLoading || !hasCountdown) return;
     const endTime = Number(autoDiscount.ends_at);
     const onExpire = () => {
-      if (typeof setAutoDiscount === "function") setAutoDiscount(null);
+      // 到点：清空 ends_at 以隐藏倒计时，但保留 autoDiscount 让模块继续显示（无倒计时形态）。
+      if (typeof setAutoDiscount === "function") {
+        setAutoDiscount({ ...autoDiscount, ends_at: 0 });
+      }
     };
     // 进入即刷一次，避免首帧停留 00:00:00
     updateCountdown(endTime, onExpire);
@@ -68,9 +70,9 @@ export default function Countdown() {
     return () => {
       clearInterval(t);
     };
-  }, [lazyLoading, active, autoDiscount?.ends_at, setAutoDiscount]);
+  }, [lazyLoading, hasCountdown, autoDiscount, setAutoDiscount]);
 
-  // 无折扣：不渲染（过期由 updateCountdown 调 onExpire 局部隐藏）。
+  // 无折扣：不渲染
   if (!active) {
     return null;
   }
@@ -110,21 +112,23 @@ export default function Countdown() {
       </div>
       <div className={styles.countdown}>
         <div className={styles.countdown_description}>
-          {LANG["store.product.limit_time_discount"]}
+          {LANG["store.product.limit_time_discount"] || "限时促销"}
         </div>
-        <div className={styles.countdown_time}>
-          <div className={styles.countdown_item}>
-            <div id="countdown-hours">00</div>
+        {hasCountdown ? (
+          <div className={styles.countdown_time}>
+            <div className={styles.countdown_item}>
+              <div id="countdown-hours">00</div>
+            </div>
+            <div className={styles.countdown_symbol}>:</div>
+            <div className={styles.countdown_item}>
+              <div id="countdown-minutes">00</div>
+            </div>
+            <div className={styles.countdown_symbol}>:</div>
+            <div className={styles.countdown_item}>
+              <div id="countdown-seconds">00</div>
+            </div>
           </div>
-          <div className={styles.countdown_symbol}>:</div>
-          <div className={styles.countdown_item}>
-            <div id="countdown-minutes">00</div>
-          </div>
-          <div className={styles.countdown_symbol}>:</div>
-          <div className={styles.countdown_item}>
-            <div id="countdown-seconds">00</div>
-          </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );

@@ -56,8 +56,9 @@ export default function BaseLayout({
       });
       if (cancelled) return;
       const hit = map?.[productKey] || null;
-      // 仅保留未过期（ends_at > now）的折扣，过期/无命中则置空。
-      if (hit && hit.ends_at && Number(hit.ends_at) > Date.now()) {
+      // 有命中就注入：无 ends_at 视为无限期促销（Countdown 内部只在有 ends_at 时才渲染倒计时）；
+      // 有 ends_at 但已过期的丢弃。
+      if (hit && (!hit.ends_at || Number(hit.ends_at) > Date.now())) {
         setAutoDiscount(hit);
       } else {
         setAutoDiscount(null);

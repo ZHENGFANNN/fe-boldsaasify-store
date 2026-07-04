@@ -26,6 +26,17 @@ function parseAmount(v) {
   return Number.isFinite(n) ? n : 0;
 }
 
+// 判定两购物车行是否为「同一行」：同 combo + 同 options + 同 customize_data。
+// 同一商品同变体但定制字段不同的行应视为独立行（数量增减/删除仅命中当前行）。
+function isSameRow(a, b) {
+  return (
+    a.id === b.id &&
+    JSON.stringify(a.options) === JSON.stringify(b.options) &&
+    JSON.stringify(a.customize_data || []) ===
+      JSON.stringify(b.customize_data || [])
+  );
+}
+
 const EmptyCart = function ({ handleClose }) {
   const { LANG } = React.useContext(GlobalContext);
   return (
@@ -457,11 +468,7 @@ const CartMain = function ({ handleClose }) {
                                     if (number > 99998) number = 99999;
                                     else if (number < 2) number = 1;
                                     const newCart = cartList.map((item2) => {
-                                      if (
-                                        item.id === item2.id &&
-                                        JSON.stringify(item.options) ===
-                                          JSON.stringify(item2.options)
-                                      ) {
+                                      if (isSameRow(item, item2)) {
                                         return {
                                           ...item2,
                                           productNum: number,
@@ -509,11 +516,7 @@ const CartMain = function ({ handleClose }) {
                                     if (number > 99998) number = 99999;
                                     else if (number < 2) number = 1;
                                     const newCart = cartList.map((item2) => {
-                                      if (
-                                        item.id === item2.id &&
-                                        JSON.stringify(item.options) ===
-                                          JSON.stringify(item2.options)
-                                      ) {
+                                      if (isSameRow(item, item2)) {
                                         return {
                                           ...item2,
                                           productNum: number,
@@ -556,11 +559,7 @@ const CartMain = function ({ handleClose }) {
                                     if (number > 99998) number = 99999;
                                     else if (number < 2) number = 1;
                                     const newCart = cartList.map((item2) => {
-                                      if (
-                                        item.id === item2.id &&
-                                        JSON.stringify(item.options) ===
-                                          JSON.stringify(item2.options)
-                                      ) {
+                                      if (isSameRow(item, item2)) {
                                         return {
                                           ...item2,
                                           productNum: number,
@@ -605,11 +604,7 @@ const CartMain = function ({ handleClose }) {
                                 <img
                                   onClick={() => {
                                     const newCart = cartList.filter((item2) => {
-                                      return !(
-                                        item.id === item2.id &&
-                                        JSON.stringify(item.options) ===
-                                          JSON.stringify(item2.options)
-                                      );
+                                      return !isSameRow(item, item2);
                                     });
                                     setCartList(newCart);
                                     window.localStorage.setItem(
