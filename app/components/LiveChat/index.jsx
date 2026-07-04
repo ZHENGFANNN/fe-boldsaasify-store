@@ -57,6 +57,25 @@ function setStoredConversationId(id) {
   }
 }
 
+// 未读读游标：持久化到 localStorage，刷新后 seed lastReadIdRef，
+// 避免未读徽标把全部历史客服消息重新计一遍。
+function getStoredLastReadId() {
+  if (typeof window === "undefined") return 0;
+  const raw = localStorage.getItem(UNREAD_KEY);
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
+function setStoredLastReadId(id) {
+  if (typeof window === "undefined") return;
+  try {
+    if (id) localStorage.setItem(UNREAD_KEY, String(id));
+    else localStorage.removeItem(UNREAD_KEY);
+  } catch (err) {
+    // ignore quota/privacy errors
+  }
+}
+
 function getVisitorKey() {
   if (typeof window === "undefined") return "";
   let key = localStorage.getItem(VISITOR_KEY);
@@ -65,7 +84,12 @@ function getVisitorKey() {
       typeof crypto !== "undefined" && crypto.randomUUID
         ? crypto.randomUUID()
         : `v_${Date.now()}_${Math.random().toString(16).slice(2)}`;
-    localStorage.setItem(VISITOR_KEY, key);
+    // 隐私/禁存储模式下 setItem 会抛错，try/catch 保证会话不中断（对齐 saveLead 写法）
+    try {
+      localStorage.setItem(VISITOR_KEY, key);
+    } catch (err) {
+      // ignore quota/privacy errors — 本次会话内存持有该 key 即可
+    }
   }
   return key;
 }
@@ -128,6 +152,16 @@ function uuid() {
   return `m_${Date.now()}_${Math.random().toString(16).slice(2)}`;
 }
 
+// 排序键：优先真实 id（升序），无 id 的乐观消息（刚发出、isInflight）排到末尾并保持插入顺序。
+// 无 id 但有 created_time 的用时间戳兜底。
+function msgSortKey(m) {
+  const id = Number(m?.id) || 0;
+  if (id) return id;
+  const ts = m?.created_time ? Date.parse(String(m.created_time).replace(" ", "T")) : NaN;
+  if (Number.isFinite(ts)) return ts;
+  return Number.MAX_SAFE_INTEGER;
+}
+
 function upsertMessage(list, msg) {
   if (!msg) return list;
   const idx = list.findIndex(
@@ -135,18 +169,29 @@ function upsertMessage(list, msg) {
       (msg.id && String(item.id) === String(msg.id)) ||
       (msg.client_msg_id && item.client_msg_id === msg.client_msg_id)
   );
+  let next;
   if (idx >= 0) {
-    const next = [...list];
+    next = [...list];
     next[idx] = { ...next[idx], ...msg, isInflight: false };
-    return next;
+  } else {
+    if (!msg.id && !msg.client_msg_id) return list;
+    next = [...list, msg];
   }
-  if (!msg.id && !msg.client_msg_id) return list;
-  return [...list, msg];
+  // poll/WS 交错到达可能乱序（如 [8,11,9,10]），upsert 后按 id 稳定升序排序再渲染。
+  // Array.prototype.sort 在现代引擎稳定，相等键保持原插入顺序。
+  next.sort((a, b) => msgSortKey(a) - msgSortKey(b));
+  return next;
 }
 
 function formatMsgTime(value) {
   if (!value) return "";
-  const normalized = String(value).replace(" ", "T");
+  let normalized = String(value).trim().replace(" ", "T");
+  // 服务端返回的是无时区偏移的北京(+08)裸时间字符串（如 "2026-07-04T15:30:00"）。
+  // 直接 new Date 会被浏览器当本地时间解析 → 美区访客偏 ~13h。
+  // 已带时区标记（Z 或 ±HH:MM / ±HHMM）的字符串保持原样，其余按 +08:00 归一后再本地化展示。
+  if (!/(?:[zZ]|[+-]\d{2}:?\d{2})$/.test(normalized)) {
+    normalized += "+08:00";
+  }
   const d = new Date(normalized);
   if (Number.isNaN(d.getTime())) return value;
   return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -410,6 +455,12 @@ export default function LiveChat({ locale, area }) {
     leadRef.current = lead;
   }, [lead]);
 
+  // mount 时 seed 已读游标：刷新后未读徽标从上次已读位起算，
+  // 而非把全部历史客服消息重新计一遍。
+  React.useEffect(() => {
+    lastReadIdRef.current = getStoredLastReadId();
+  }, []);
+
   // 登录态：token cookie 存在即视为已登录（与站内 RightArea/AfterSale 同口径）；
   // 面板打开时刷新一次，覆盖打开聊天前刚登录/登出的情况。
   React.useEffect(() => {
@@ -548,6 +599,13 @@ export default function LiveChat({ locale, area }) {
           if (res?.code === 0 && res.data?.ws_token) {
             reconnectAttemptRef.current = attempt + 1;
             connectWsRef.current?.({ ...sess, ws_token: res.data.ws_token });
+          } else {
+            // 业务错误（code≠0，如 token 暂时签发失败）不静默永停，
+            // 递增退避后继续重试，否则 WS 会永久断线只能靠轮询兜底。
+            reconnectAttemptRef.current = attempt + 1;
+            if (shouldKeepWsAlive()) {
+              scheduleWsReconnect(sess);
+            }
           }
         } catch (err) {
           console.warn("[LiveChat] ws reconnect failed", err);
@@ -626,6 +684,7 @@ export default function LiveChat({ locale, area }) {
               // ws 仅在 chat 视图存活，收到即视为已读
               if (openRef.current && viewRef.current === "chat") {
                 lastReadIdRef.current = lastIdRef.current;
+                setStoredLastReadId(lastReadIdRef.current);
                 setUnread(0);
               }
             }
@@ -693,6 +752,7 @@ export default function LiveChat({ locale, area }) {
         lastIdRef.current = 0;
       }
       lastReadIdRef.current = lastIdRef.current;
+      setStoredLastReadId(lastReadIdRef.current);
       setUnread(0);
       setView("chat");
       await connectWs(sess);
@@ -741,6 +801,7 @@ export default function LiveChat({ locale, area }) {
       setMessages(msgs);
       lastIdRef.current = maxId;
       lastReadIdRef.current = maxId;
+      setStoredLastReadId(lastReadIdRef.current);
       setUnread(0);
       setView("chat");
       reconnectBlockedRef.current = false;
@@ -814,6 +875,12 @@ export default function LiveChat({ locale, area }) {
         return;
       }
       await startLiveChat();
+      return;
+    }
+    // 非工作时段：进行中会话（未关闭）仍回聊天视图续聊，勿丢进留言表单（对齐 online 分支）。
+    if (session?.conversation_id && session.status !== "closed") {
+      setView("chat");
+      ensureWsConnected(session);
       return;
     }
     setView("offline");
@@ -890,6 +957,7 @@ export default function LiveChat({ locale, area }) {
     if (!convId || closed) {
       return;
     }
+    let timer = null;
     const poll = async () => {
       if (!visitorKeyRef.current) {
         visitorKeyRef.current = getVisitorKey();
@@ -921,17 +989,32 @@ export default function LiveChat({ locale, area }) {
         });
         if (viewingChat) {
           lastReadIdRef.current = lastIdRef.current;
+          setStoredLastReadId(lastReadIdRef.current);
           setUnread(0);
         } else if (agentIncoming > 0) {
           setUnread((n) => n + agentIncoming);
+        }
+        // 会话已结束（历史含结束系统消息）且当前无活跃会话（session=null，
+        // 此时 closed 恒为 false 无法拦截）→ 停止无谓轮询，避免死轮询已关闭会话。
+        const sess = sessionRef.current;
+        const ended = res.data.some(
+          (m) => m.msg_type === "system" || m.body === CHAT_END_BODY
+        );
+        if (ended && (!sess || sess.status === "closed")) {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
         }
       } catch (err) {
         // ignore polling errors
       }
     };
     const interval = openRef.current && viewRef.current === "chat" ? 15000 : 20000;
-    const timer = setInterval(poll, interval);
-    return () => clearInterval(timer);
+    timer = setInterval(poll, interval);
+    return () => {
+      if (timer) clearInterval(timer);
+    };
   }, [open, session?.conversation_id, view, closed]);
 
   React.useEffect(() => {
@@ -1497,6 +1580,7 @@ export default function LiveChat({ locale, area }) {
         setView("chat");
         setUnread(0);
         lastReadIdRef.current = lastIdRef.current;
+        setStoredLastReadId(lastReadIdRef.current);
         reconnectBlockedRef.current = false;
         ensureWsConnected(session);
       } else {

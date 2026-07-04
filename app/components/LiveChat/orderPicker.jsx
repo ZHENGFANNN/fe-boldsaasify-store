@@ -124,7 +124,9 @@ export default function OrderPicker({ copy, onPick, onClose }) {
               {list.map((order, idx) => {
                 const first = firstItemOf(order);
                 const orderId = decodeOrderIdFromSecret(order?.secret);
-                const total = order?.total_price - (order?.discount ?? 0);
+                // 与共享卡片/快照(buildOrderSnapshot)同口径：用原价 total_price，勿减折扣，
+                // 否则选择器显示折后价、分享出去的卡片显示原价，金额对不上。
+                const total = order?.total_price;
                 const currency = first?.priceCurrency || "";
                 return (
                   <li
@@ -159,7 +161,7 @@ export default function OrderPicker({ copy, onPick, onClose }) {
                           <span className={styles.orderPickerStatus}>
                             {getOrderStatusText(copy, order?.order_status)}
                           </span>
-                          {Number.isFinite(total) ? (
+                          {total !== undefined && total !== "" ? (
                             <span className={styles.orderPickerPrice}>
                               {`${currency} ${total}`}
                             </span>
