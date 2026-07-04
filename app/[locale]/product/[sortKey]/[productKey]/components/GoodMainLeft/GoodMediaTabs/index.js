@@ -58,21 +58,17 @@ export default function SelectList() {
 
   React.useEffect(() => {
     if (!lazyLoading) {
-      // 初始化类型按钮
+      // 高亮胶囊定位：直接读激活 tab 的真实位置/宽度，
+      // 不依赖固定的 image→video→3d/spin 顺序（缺某个 tab 时累加宽度会算出 NaN，
+      // 胶囊无法滑动、停在首个 tab 上盖住其文字）
       const $typeColor = $(`.${styles.type_container_color}`);
-      const imageWidth = $('[role="image"]').innerWidth();
-      const videoWidth = $('[role="video"]').innerWidth();
-      const activeWidth = $(`.${styles.type_active}`).innerWidth();
-      let transformX = 0;
-      !!(productShowType === "video") && (transformX = imageWidth + 4);
-      !!(productShowType === "3d") &&
-        (transformX = videoWidth + imageWidth + 8);
-      !!(productShowType === "spin") &&
-        (transformX = videoWidth + imageWidth + 8);
-      $typeColor.css({
-        transform: `translate3d(${transformX}px, 0px, 0px)`,
-        width: `${activeWidth}px`,
-      });
+      const activeEl = $(`.${styles.type_active}`).get(0);
+      if (activeEl) {
+        $typeColor.css({
+          transform: `translate3d(${activeEl.offsetLeft}px, 0px, 0px)`,
+          width: `${activeEl.offsetWidth}px`,
+        });
+      }
     }
   }, [productShowType, lazyLoading]);
 

@@ -16,7 +16,6 @@ function genFrameSvg(i, n) {
   const dw = 78 * Math.abs(Math.cos(a)) + 7; // 主钻半宽，随视角压缩
   const rRx = 70 * Math.abs(Math.sin(a)) + 9; // 戒圈水平半径，与钻不同相位
   const markX = Math.cos(a) >= 0 ? cx + dw * 0.55 : cx - dw * 0.55; // 朝向标记
-  const deg = Math.round((i / n) * 360);
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="320" viewBox="0 0 400 320">` +
     `<rect width="400" height="320" fill="#ffffff"/>` +
@@ -27,7 +26,6 @@ function genFrameSvg(i, n) {
     `<line x1="${cx}" y1="${cyD - 62}" x2="${cx}" y2="${cyD + 70}" stroke="#8cc3d6" stroke-width="1"/>` +
     `<line x1="${cx - dw * 0.5}" y1="${cyD - 31}" x2="${cx + dw * 0.5}" y2="${cyD - 31}" stroke="#8cc3d6" stroke-width="1"/>` +
     `<circle cx="${markX}" cy="${cyD - 10}" r="5" fill="#e0556b"/>` +
-    `<text x="200" y="304" text-anchor="middle" font-family="Arial" font-size="13" fill="#b3a682">frame ${i + 1} / ${n}  ·  ${deg}°</text>` +
     `</svg>`;
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 }
