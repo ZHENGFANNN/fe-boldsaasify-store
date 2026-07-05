@@ -5,6 +5,7 @@ import Layout from "@/components/Layout";
 import Navbar from "@/components/Layout/NavBar";
 import Footer from "@/components/Layout/Footer";
 import { GTMNoScript } from "@/components/Head/GTM";
+import { AnalyticsNoScript } from "@/components/Head/Analytics";
 
 import Head from "@/components/Head";
 import GoogleAuthProvider from "@/components/GoogleAuth";
@@ -74,6 +75,7 @@ export default async function RootLayout(props) {
       <Head logoLink={CONFIG["common.base"]?.logo} />
       <body>
         <GTMNoScript />
+        <AnalyticsNoScript />
         <GoogleAuthProvider>
           <GoogleOneTap />
           <Layout locale={locale} LANG={LANG} CONFIG={CONFIG}>
