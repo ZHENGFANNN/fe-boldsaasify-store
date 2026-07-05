@@ -274,14 +274,10 @@ const CartMain = function ({ handleClose }) {
     [LANG]
   );
 
-  // 购物车就绪 / area 切换 / codes 变化时自动重算（仅当 codes 非空才请求）。
+  // 购物车就绪 / area 切换 / codes 变化时自动重算：
+  // 即使无手动折扣码也调 previewOrder（include_automatic:true），确保自动折扣（如 NINHAO）落到购物车。
   React.useEffect(() => {
     if (!cartReady || !cartList.length) return;
-    if (!discountCodes.length) {
-      setPreviewData(null);
-      setPreviewError(null);
-      return;
-    }
     fetchPreview(discountCodes)
       .then((data) => reconcileRejected(data))
       .catch(() => {});
@@ -671,7 +667,7 @@ const CartMain = function ({ handleClose }) {
                   ))}
                 </div>
               ) : null}
-              {previewError && !previewLoading ? (
+              {previewError && !previewLoading && discountCodes.length ? (
                 <div className={styles.promo_code_error}>{previewError}</div>
               ) : null}
               {rejectionNotice && !previewLoading ? (
@@ -684,7 +680,21 @@ const CartMain = function ({ handleClose }) {
                 {LANG["common.cart.subtotal"]}
               </div>
               <div className={styles.total_price_num}>
-                {`${cartList[0]?.priceSymbol}${totalPrice}`}
+                {previewData?.discount > 0 ? (
+                  <>
+                    <span className={styles.subtotal_discounted}>
+                      {`${cartList[0]?.priceSymbol}${formatCurrency(
+                        previewData.pay_price,
+                        cartList[0]?.currency_unit
+                      )}`}
+                    </span>
+                    <span className={styles.subtotal_original}>
+                      {`${cartList[0]?.priceSymbol}${totalPrice}`}
+                    </span>
+                  </>
+                ) : (
+                  `${cartList[0]?.priceSymbol}${totalPrice}`
+                )}
               </div>
             </div>
             {previewData?.applied_rules?.filter(

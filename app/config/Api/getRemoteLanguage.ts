@@ -53,6 +53,8 @@ export default async function getRemoteLanguage({
     locale
   )}&nameSpace=${encodeURIComponent(ns)}`;
 
+  console.log("===> URL :", url);
+
   let res;
   try {
     res = await fetch(url, {

@@ -18,6 +18,7 @@ import ProductContext from "../../../ProductContext";
 import tracking from "../../../tracking";
 import Api from "../../../api";
 import GlobalContext from "@/[locale]/context";
+import BtnListSkeleton from "./BtnListSkeleton";
 
 import { roundToDecimalPlaces } from "@/utils";
 import { readClientArea } from "@/utils/readClientArea";
@@ -312,6 +313,7 @@ export default function GoodBtnList() {
     optionAxes,
     optionSelection,
     variantResolved,
+    priceLoading,
     customizeRef
   } = React.useContext(ProductContext);
   // 购物车 options 由选中的变体轴值派生（axis_name→value_label）；无选项轴则为空。
@@ -393,6 +395,11 @@ export default function GoodBtnList() {
     locale,
     router
   ]);
+
+  // 地区价补差期间：价格/库存未定，用骨架占位加购按钮，避免早展示 OUT OF STOCK。
+  if (priceLoading) {
+    return <BtnListSkeleton />;
+  }
 
   return (
     <div className={styles.container} data-role="buy-btn-list">

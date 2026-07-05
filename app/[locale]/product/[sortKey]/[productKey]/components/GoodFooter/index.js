@@ -5,6 +5,7 @@ import styles from "./index.module.scss";
 import ProductContext from "../../ProductContext";
 import tracking from "../../tracking";
 import ComboModal from "./components/ComboModal";
+import Skeleton from "@/components/Skeleton";
 import { formatCurrency } from "@/utils";
 import { debounce } from "@/utils";
 import { discountedUnitPrice, savedUnitAmount } from "@/utils/productPricing";
@@ -19,6 +20,7 @@ export default function GoodFooter() {
     optionAxes,
     optionSelection,
     lazyLoading,
+    priceLoading,
     autoDiscount,
   } = React.useContext(ProductContext);
   const comboModalRef = React.useRef(null);
@@ -142,32 +144,40 @@ export default function GoodFooter() {
         </div>
         <div className={styles.footer_right}>
           <div className={styles.footer_price}>
-            {productCurCombo.areaInfo?.product_price ? (
-              <div className={styles.price}>
-                <div>{`${
-                  productCurCombo.areaInfo.currency_symbol
-                }${formatCurrency(
-                  discountedUnitPrice(productCurCombo.areaInfo, autoDiscount) *
-                    productNum,
-                  productCurCombo.areaInfo?.currency_unit
-                )}`}</div>
-              </div>
-            ) : null}
-            {autoDiscount &&
-            savedUnitAmount(productCurCombo.areaInfo, autoDiscount) > 0 ? (
-              <div className={styles.save_price}>
-                {`${LANG?.["store.product.saved"] || "Saved"} ${
-                  productCurCombo.areaInfo.currency_symbol
-                }${formatCurrency(
-                  savedUnitAmount(productCurCombo.areaInfo, autoDiscount) *
-                    productNum,
-                  productCurCombo.areaInfo?.currency_unit
-                )}`}
-              </div>
-            ) : null}
+            {priceLoading ? (
+              <Skeleton variant="rect" className={styles.price_loading} />
+            ) : (
+              <>
+                {productCurCombo.areaInfo?.product_price ? (
+                  <div className={styles.price}>
+                    <div>{`${
+                      productCurCombo.areaInfo.currency_symbol
+                    }${formatCurrency(
+                      discountedUnitPrice(productCurCombo.areaInfo, autoDiscount) *
+                        productNum,
+                      productCurCombo.areaInfo?.currency_unit
+                    )}`}</div>
+                  </div>
+                ) : null}
+                {autoDiscount &&
+                savedUnitAmount(productCurCombo.areaInfo, autoDiscount) > 0 ? (
+                  <div className={styles.save_price}>
+                    {`${LANG?.["store.product.saved"] || "Saved"} ${
+                      productCurCombo.areaInfo.currency_symbol
+                    }${formatCurrency(
+                      savedUnitAmount(productCurCombo.areaInfo, autoDiscount) *
+                        productNum,
+                      productCurCombo.areaInfo?.currency_unit
+                    )}`}
+                  </div>
+                ) : null}
+              </>
+            )}
           </div>
-          {productCurCombo?.areaInfo?.product_price &&
-          productCurCombo?.areaInfo?.stock ? (
+          {priceLoading ? (
+            <Skeleton variant="rect" className={styles.footer_button_loading} />
+          ) : productCurCombo?.areaInfo?.product_price &&
+            productCurCombo?.areaInfo?.stock ? (
             <>
               <div
                 onClick={() => {

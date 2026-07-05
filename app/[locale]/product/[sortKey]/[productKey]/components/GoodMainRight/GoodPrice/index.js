@@ -33,13 +33,7 @@ export default function GoodPrice() {
 
   return (
     <>
-      <div className={styles.product_price}>
-        <div>{`${symbol}${formatCurrency(discountedPrice, unit)}`}</div>
-        {hasAutoDiscount && savedAmount > 0 ? (
-          <div>{`${symbol}${formatCurrency(areaInfo.product_price, unit)}`}</div>
-        ) : null}
-      </div>
-      {hasAutoDiscount && savedAmount > 0 ? (
+    {hasAutoDiscount && savedAmount > 0 ? (
         <div className={styles.saved}>
           {`${LANG?.["store.product.saved"] || "Saved"} ${symbol}${formatCurrency(
             savedAmount,
@@ -47,6 +41,12 @@ export default function GoodPrice() {
           )}`}
         </div>
       ) : null}
+      <div className={styles.product_price}>
+        <div>{`${symbol}${formatCurrency(discountedPrice, unit)}`}</div>
+        {hasAutoDiscount && savedAmount > 0 ? (
+          <div>{`${symbol}${formatCurrency(areaInfo.product_price, unit)}`}</div>
+        ) : null}
+      </div>
     </>
   );
 }

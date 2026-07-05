@@ -565,6 +565,18 @@
                     font-size: 16px;
                     color: #1b1b1b;
                     font-weight: 400;
+                    display: flex;
+                    align-items: baseline;
+                    gap: 8px;
+                    .subtotal_discounted {
+                        color: #e3585a;
+                        font-weight: 700;
+                    }
+                    .subtotal_original {
+                        color: #999;
+                        text-decoration: line-through;
+                        font-size: 14px;
+                    }
                 }
              
             }

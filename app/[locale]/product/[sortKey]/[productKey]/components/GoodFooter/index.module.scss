@@ -124,6 +124,18 @@
             cursor: not-allowed;
           }
         }
+        .footer_button_loading {
+          display: block;
+          width: 200px;
+          height: 50px;
+          border-radius: 90px;
+        }
+        .price_loading {
+          display: block;
+          width: 96px;
+          height: 24px;
+          border-radius: 4px;
+        }
       }
     }
   }
@@ -250,6 +262,13 @@
               padding: 10px 16px;
               font-size: 12px;
               font-weight: 700;
+            }
+            .footer_button_loading {
+              display: none;
+            }
+            .price_loading {
+              width: 72px;
+              height: 22px;
             }
           }
         }
