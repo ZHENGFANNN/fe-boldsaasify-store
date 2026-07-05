@@ -86,8 +86,6 @@ function PayButton({
         priceCurrency: productCurCombo.areaInfo.currency,
         priceUnit: productCurCombo.areaInfo.currency_unit,
         productPrice: productCurCombo.areaInfo.product_price,
-        sellingPrice: productCurCombo.areaInfo.selling_price,
-        productDiscount: productCurCombo.areaInfo.product_discount || 0,
         stock: productCurCombo.areaInfo.stock,
         name: productInfo.name,
         image: Array.isArray(productInfo.image_list)

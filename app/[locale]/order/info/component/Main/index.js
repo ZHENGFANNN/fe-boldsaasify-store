@@ -35,9 +35,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 priceSymbol,
                 priceCurrency,
                 priceUnit,
-                sellingPrice,
                 productPrice,
-                productDiscount,
                 options,
                 image,
               } = item;
@@ -48,9 +46,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 priceSymbol,
                 priceCurrency,
                 priceUnit,
-                sellingPrice,
                 productPrice,
-                productDiscount,
                 options,
                 image,
                 customize_data: Array.isArray(item.customize_data)
@@ -374,14 +370,6 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                         </div>
                       </div>
                       <div className={styles.product_number}>
-                        {goodItem.productDiscount ? (
-                          <div className={styles.good_price}>{`${
-                            goodItem.priceSymbol
-                          }${formatCurrency(
-                            goodItem.sellingPrice * goodItem.productNum,
-                            order.order_list[0].priceUnit
-                          )}`}</div>
-                        ) : null}
                         <div className={styles.good_price}>{`${
                           goodItem.priceSymbol
                         }${formatCurrency(

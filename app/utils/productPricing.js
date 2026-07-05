@@ -34,16 +34,42 @@ export function pickCombo(comboList, prevKey) {
 }
 
 /**
- * 有效单价口径（全站统一）：商品本身有折扣（selling_price > 0 且 < product_price）
- * 时取折后价 selling_price，否则取原价 product_price。
- * GoodPrice(主区)、CartModal(购物车)、GoodFooter(底部栏) 必须用同一口径，
- * 避免出现「底部栏无条件用 selling_price → 无折扣时显示 0/错价」之类的不一致。
- * @param {object} areaInfo - 含 product_price / selling_price 的地区定价对象
+ * 有效单价口径（全站统一）：直接取原价 product_price。
+ * 商品级 selling_price/product_discount 已下线，所有优惠统一由折扣规则在结算链路上处理。
+ * GoodPrice(主区)、CartModal(购物车)、GoodFooter(底部栏) 保持同一入口，便于后续换算。
+ * @param {object} areaInfo - 含 product_price 的地区定价对象
  * @returns {number} 有效单价（取不到时为 0）
  */
 export function effectivePrice(areaInfo) {
-  const product = Number(areaInfo?.product_price) || 0;
-  const selling = Number(areaInfo?.selling_price) || 0;
-  const hasDiscount = selling > 0 && selling < product;
-  return hasDiscount ? selling : product;
+  return Number(areaInfo?.product_price) || 0;
+}
+
+/**
+ * 根据自动折扣规则 + 原价，算出单件折后价（正数、"分"级；无折扣或无价时返回原价）。
+ * 供详情页价格区、Footer、Countdown 复用，保证 3 处口径一致。
+ * @param {object} areaInfo   - 含 product_price / currency_unit
+ * @param {object} autoDiscount - { value_type: "percent"|"fixed", value: number }
+ * @returns {number} 折后单价（≥ 0）
+ */
+export function discountedUnitPrice(areaInfo, autoDiscount) {
+  const original = Number(areaInfo?.product_price) || 0;
+  if (!original || !autoDiscount) return original;
+  const value = Number(autoDiscount.value) || 0;
+  if (autoDiscount.value_type === "percent") {
+    return Math.max(0, original * (1 - value / 100));
+  }
+  return Math.max(0, original - value);
+}
+
+/**
+ * 一件商品可省金额（原价 - 折后价，"分"级；无折扣或无价时返回 0）。
+ * 结算前的展示口径，不做地区、税、运费换算。
+ * @param {object} areaInfo   - 含 product_price
+ * @param {object} autoDiscount - 同 discountedUnitPrice
+ * @returns {number} 单件节省（≥ 0）
+ */
+export function savedUnitAmount(areaInfo, autoDiscount) {
+  const original = Number(areaInfo?.product_price) || 0;
+  if (!original || !autoDiscount) return 0;
+  return Math.max(0, original - discountedUnitPrice(areaInfo, autoDiscount));
 }

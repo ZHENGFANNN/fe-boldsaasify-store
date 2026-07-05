@@ -56,7 +56,7 @@ export default async function CategoryListLdJson({
           offers: {
             "@type": "Offer",
             price:
-              formatCurrency(areaInfo?.selling_price, areaInfo?.currency_unit) ??
+              formatCurrency(areaInfo?.product_price, areaInfo?.currency_unit) ??
               99999,
             priceCurrency: areaInfo?.currency ?? "USD",
           },

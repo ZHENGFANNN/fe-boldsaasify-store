@@ -18,7 +18,7 @@ function parseOptions(raw) {
 
 // 返回: [{ id, comboName, comboKey, name, image, sortKey, productKey,
 //          areaInfo:{currency,currency_symbol,currency_unit,product_price,
-//          selling_price,product_discount,stock}, productNum, options }]
+//          stock}, productNum, options }]
 export default async function resolveCartFromApi({ area, language }) {
   let localStoreList;
   try {

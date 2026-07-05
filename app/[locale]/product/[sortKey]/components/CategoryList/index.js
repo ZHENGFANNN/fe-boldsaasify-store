@@ -6,6 +6,7 @@ import React from "react";
 import Link from "next/link";
 
 import { formatCurrency, fillOssImage } from "@/utils";
+import { discountedUnitPrice, savedUnitAmount } from "@/utils/productPricing";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import WishlistButton from "@/components/WishlistButton";
@@ -52,9 +53,9 @@ function getDisplayPrice(product, pricingMap) {
   const item = pricingMap?.[`${product.sort_key}:${product.key}`];
   const areaInfo = pickAreaInfo(item);
   if (!areaInfo) return null;
-  const raw = areaInfo.selling_price ?? areaInfo.product_price;
+  const raw = areaInfo.product_price;
   if (raw == null) return null;
-  // selling_price/product_price 是「分」级整数，currency_unit 为换算基数(如 100)。
+  // product_price 是「分」级整数，currency_unit 为换算基数(如 100)。
   const unit = areaInfo.currency_unit || 100;
   return raw / unit;
 }
@@ -117,14 +118,15 @@ function formatDiscountLabel(discount, areaInfo, LANG) {
 }
 
 function ProductCard({ product, LANG, pricingMap, pricingReady, discountMap }) {
-  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
-  const goodDiscountFestival = false;
   const areaInfo = pricingReady
     ? pickAreaInfo(pricingMap?.[`${product.sort_key}:${product.key}`])
     : null;
-  const discount = areaInfo?.product_discount;
-  // 自动规则折扣（限时促销）：与商品级折扣叠加展示的额外促销标签。
+  // 命中自动规则折扣：驱动"折后价 + 划线原价 + Saved"渲染，同时保留限时倒计时标签。
   const autoDiscount = pickAutoDiscount(product, discountMap);
+  const savedAmount = autoDiscount ? savedUnitAmount(areaInfo, autoDiscount) : 0;
+  const discountedPrice = autoDiscount
+    ? discountedUnitPrice(areaInfo, autoDiscount)
+    : areaInfo?.product_price;
   return (
     <Link
       scroll={true}
@@ -150,7 +152,7 @@ function ProductCard({ product, LANG, pricingMap, pricingReady, discountMap }) {
             src={fillOssImage(product.image_scenes)}
           />
         ) : null}
-        {/* 限时折扣标签 + 倒计时：命中自动规则折扣且未过期时展示（叠加促销） */}
+        {/* 限时折扣标签 + 倒计时：命中自动规则折扣且未过期时展示 */}
         {autoDiscount ? (
           <div className={styles.limit_discount_tag}>
             <span className={styles.limit_discount_label}>
@@ -167,28 +169,35 @@ function ProductCard({ product, LANG, pricingMap, pricingReady, discountMap }) {
           reviewsNum={product.reviewsNum}
         />
         <h3 className={styles.product_name}>{product.name}</h3>
-        {goodDiscountFestival && discount ? (
-          <div className={styles.good_discount_container}>
-            <div className={styles.off}>{LANG?.["store.index.off"] ?? "OFF"}</div>
-            <div className={styles.discount}>{100 - discount}%</div>
-          </div>
-        ) : null}
         {!pricingReady ? (
           <div className={styles.product_price_container}>
             <Skeleton variant="rect" width={80} height={16} />
           </div>
-        ) : !areaInfo?.selling_price ? (
+        ) : !areaInfo?.product_price ? (
           <div className={styles.product_stock_container}>
             {LANG?.["store.index.no_stock"] ?? "Out of stock"}
           </div>
-        ) : (
-          <div className={styles.product_price_container}>
-            {goodDiscountFestival && discount ? (
+        ) : autoDiscount && savedAmount > 0 ? (
+          <>
+            <div className={styles.product_price_container}>
               <div>{`${areaInfo?.currency_symbol}${formatCurrency(
-                areaInfo?.selling_price,
+                discountedPrice,
                 areaInfo?.currency_unit
               )}`}</div>
-            ) : null}
+              <div>{`${areaInfo?.currency_symbol}${formatCurrency(
+                areaInfo?.product_price,
+                areaInfo?.currency_unit
+              )}`}</div>
+            </div>
+            <div className={styles.saved_tag}>
+              {`${LANG?.["store.index.saved"] || "Saved"} ${areaInfo?.currency_symbol}${formatCurrency(
+                savedAmount,
+                areaInfo?.currency_unit
+              )}`}
+            </div>
+          </>
+        ) : (
+          <div className={styles.product_price_container}>
             <div>{`${areaInfo?.currency_symbol}${formatCurrency(
               areaInfo?.product_price,
               areaInfo?.currency_unit

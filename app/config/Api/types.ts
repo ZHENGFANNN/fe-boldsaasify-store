@@ -57,8 +57,6 @@ export interface AreaInfo {
   currency_symbol?: string;
   currency_unit?: number;
   product_price?: number;
-  selling_price?: number;
-  product_discount?: number;
   stock?: boolean;
   country_code?: string;
   [key: string]: unknown;

@@ -7,21 +7,19 @@ import tracking from "../../tracking";
 import ComboModal from "./components/ComboModal";
 import { formatCurrency } from "@/utils";
 import { debounce } from "@/utils";
-import { effectivePrice } from "@/utils/productPricing";
+import { discountedUnitPrice, savedUnitAmount } from "@/utils/productPricing";
 import { recordRecentlyViewed } from "@/components/LiveChat/recentlyViewed";
 
 export default function GoodFooter() {
-  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
-  const goodDiscountFestival = false;
   const {
     LANG,
-    // goodDiscountFestival,
     productInfo,
     productNum,
     productCurCombo,
     optionAxes,
     optionSelection,
     lazyLoading,
+    autoDiscount,
   } = React.useContext(ProductContext);
   const comboModalRef = React.useRef(null);
 
@@ -149,19 +147,19 @@ export default function GoodFooter() {
                 <div>{`${
                   productCurCombo.areaInfo.currency_symbol
                 }${formatCurrency(
-                  effectivePrice(productCurCombo.areaInfo) * productNum,
+                  discountedUnitPrice(productCurCombo.areaInfo, autoDiscount) *
+                    productNum,
                   productCurCombo.areaInfo?.currency_unit
                 )}`}</div>
               </div>
             ) : null}
-            {goodDiscountFestival &&
-            productCurCombo.areaInfo?.product_discount ? (
+            {autoDiscount &&
+            savedUnitAmount(productCurCombo.areaInfo, autoDiscount) > 0 ? (
               <div className={styles.save_price}>
-                {`${LANG["store.product.saved"]} ${
+                {`${LANG?.["store.product.saved"] || "Saved"} ${
                   productCurCombo.areaInfo.currency_symbol
                 }${formatCurrency(
-                  (productCurCombo.areaInfo.product_price -
-                    productCurCombo.areaInfo.selling_price) *
+                  savedUnitAmount(productCurCombo.areaInfo, autoDiscount) *
                     productNum,
                   productCurCombo.areaInfo?.currency_unit
                 )}`}

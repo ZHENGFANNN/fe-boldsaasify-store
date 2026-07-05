@@ -99,34 +99,13 @@ export default function MobProductList({
                       ) : null}
                       {/* 产品名称 */}
                       <div className={styles.product_name}>{item.name}</div>
-                      {/* 产品优惠 */}
-                      {goodDiscountFestival &&
-                      item.areaInfo?.product_discount ? (
-                        <div className={styles.good_discount_container}>
-                          <div className={styles.off}>
-                            {LANG["store.product.off"]}
-                          </div>
-                          <div className={styles.discount}>
-                            {100 - item.areaInfo?.product_discount}%
-                          </div>
-                        </div>
-                      ) : null}
-                      {/* 产品价格 */}
-                      {!item.areaInfo?.selling_price ? (
+                      {/* 产品价格：商品级折扣已下线，只展示原价，是否缺货由 product_price 判定 */}
+                      {!item.areaInfo?.product_price ? (
                         <div className={styles.product_stock_container}>
                           {LANG["store.product.no_stock"]}
                         </div>
                       ) : (
                         <div className={styles.product_price_container}>
-                          {goodDiscountFestival &&
-                          item.areaInfo?.product_discount ? (
-                            <div>{`${
-                              item.areaInfo?.currency_symbol
-                            }${formatCurrency(
-                              item.areaInfo?.selling_price,
-                              item.areaInfo?.currency_unit
-                            )}`}</div>
-                          ) : null}
                           <div>{`${
                             item.areaInfo?.currency_symbol
                           }${formatCurrency(

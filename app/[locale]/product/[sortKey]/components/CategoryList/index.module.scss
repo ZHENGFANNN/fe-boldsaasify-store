@@ -345,6 +345,18 @@
         font-size: 14px;
       }
     }
+    .saved_tag {
+      display: inline-block;
+      position: absolute;
+      left: 24px;
+      bottom: 8px;
+      padding: 2px 8px;
+      background: #fef2ef;
+      color: #e3585a;
+      font-size: 12px;
+      line-height: 16px;
+      border-radius: 4px;
+    }
   }
 }
 

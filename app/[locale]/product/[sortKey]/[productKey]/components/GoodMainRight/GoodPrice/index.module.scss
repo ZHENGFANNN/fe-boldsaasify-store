@@ -16,7 +16,7 @@
   color: #1a0000;
   letter-spacing: 1.2px;
 
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   div:nth-child(2) {
@@ -25,6 +25,16 @@
     margin-left: 8px;
     text-decoration: line-through;
   }
+}
+.saved {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #fef2ef;
+  color: #e3585a;
+  font-size: 12px;
+  line-height: 18px;
+  border-radius: 4px;
+  margin-bottom: 16px;
 }
 
 @media screen and (max-width: 1080px) {

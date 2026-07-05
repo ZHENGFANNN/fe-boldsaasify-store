@@ -173,7 +173,7 @@ export default function WishlistClient({ LANG, locale, catalog }) {
                     <div className={styles.price}>
                       <Skeleton variant="rect" width={80} height={16} />
                     </div>
-                  ) : !areaInfo?.selling_price ? (
+                  ) : !areaInfo?.product_price ? (
                     <div className={styles.stock}>
                       {t("store.index.no_stock", "Out of stock")}
                     </div>

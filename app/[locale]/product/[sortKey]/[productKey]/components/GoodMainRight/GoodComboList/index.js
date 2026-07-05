@@ -8,14 +8,11 @@ import ProductContext from "../../../ProductContext";
 import { formatCurrency } from "@/utils";
 
 export default function GoodComboList() {
-  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
-  const goodDiscountFestival = false;
   const {
     LANG,
     productCurCombo,
     setProductCurCombo,
     hasV2Options,
-    // goodDiscountFestival,
     productInfo: { comboList }
   } = React.useContext(ProductContext);
   const [active, setActive] = React.useState(() => {
@@ -34,10 +31,7 @@ export default function GoodComboList() {
         {comboList.map((item) => {
           return (
             <div
-              data-padding={
-                !!(goodDiscountFestival && item.areaInfo?.product_discount) ||
-                !!(!item.areaInfo?.product_price || !item.areaInfo?.stock)
-              }
+              data-padding={!!(!item.areaInfo?.product_price || !item.areaInfo?.stock)}
               data-img={!!item.smart_img}
               className={`${styles.list} ${
                 active === item.key ? styles.active : ""
@@ -55,17 +49,7 @@ export default function GoodComboList() {
                     <div className={styles.stock_tip}>
                       {LANG["store.product.no_stock"]}
                     </div>
-                  ) : (
-                    <>
-                      {goodDiscountFestival &&
-                      item.areaInfo?.product_discount ? (
-                        <div className={styles.discount_tip}>
-                          {LANG["store.product.off"]}{" "}
-                          {100 - item.areaInfo?.product_discount}%
-                        </div>
-                      ) : null}
-                    </>
-                  )}
+                  ) : null}
 
                   {/* 套餐缩略图/标题 */}
                   <div className={styles.top_container_left}>
@@ -80,20 +64,12 @@ export default function GoodComboList() {
                   {/* 套餐价格 */}
                   {item.areaInfo?.product_price ? (
                     <div className={styles.top_container_right}>
-                      {goodDiscountFestival &&
-                      item.areaInfo?.product_discount ? (
-                        <div>{`${item.areaInfo.currency_symbol}${formatCurrency(
-                          item.areaInfo?.selling_price,
-                          item.areaInfo?.currency_unit
-                        )}`}</div>
-                      ) : (
-                        <div>{`${
-                          item.areaInfo?.currency_symbol
-                        }${formatCurrency(
-                          item.areaInfo?.product_price,
-                          item.areaInfo?.currency_unit
-                        )}`}</div>
-                      )}
+                      <div>{`${
+                        item.areaInfo?.currency_symbol
+                      }${formatCurrency(
+                        item.areaInfo?.product_price,
+                        item.areaInfo?.currency_unit
+                      )}`}</div>
                     </div>
                   ) : null}
                 </div>

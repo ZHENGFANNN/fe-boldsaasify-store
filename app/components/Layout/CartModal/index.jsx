@@ -158,8 +158,6 @@ const CartMain = function ({ handleClose }) {
         currency_unit: row.areaInfo.currency_unit,
         priceSymbol: row.areaInfo.currency_symbol,
         product_price: row.areaInfo.product_price,
-        selling_price: row.areaInfo.selling_price,
-        product_discount: row.areaInfo.product_discount,
         stock: row.areaInfo.stock,
         // 产品相关
         name: row.name,
@@ -188,13 +186,8 @@ const CartMain = function ({ handleClose }) {
     let productNum = 0;
     const price = cartList.reduce((pre, cur) => {
       productNum = productNum + cur.productNum;
-      // effective price：商品本身有折扣（selling_price < product_price）时，按折后价合计；
-      // 否则按原价。展示与结算口径一致。
-      const hasItemDiscount =
-        Number(cur.selling_price) > 0 &&
-        Number(cur.selling_price) < Number(cur.product_price);
-      const unit = hasItemDiscount ? cur.selling_price : cur.product_price;
-      return pre + unit * cur.productNum;
+      // 商品级 selling_price/product_discount 已下线，购物车合计一律取原价，折扣由 previewOrder 试算。
+      return pre + Number(cur.product_price || 0) * cur.productNum;
     }, 0);
     setProductNum(productNum > 99 ? "99+" : productNum);
     setTotalPrice(formatCurrency(price));
@@ -357,10 +350,6 @@ const CartMain = function ({ handleClose }) {
             <>
               <div className={styles.table_body}>
                 {cartList.map((item, index) => {
-                  // 商品级折扣：selling_price < product_price 时按折后价 + 划线原价展示。
-                  const hasItemDiscount =
-                    Number(item.selling_price) > 0 &&
-                    Number(item.selling_price) < Number(item.product_price);
                   return (
                     <section key={index} className={styles.table_body_item}>
                       <div className={styles.table_body_goods}>
@@ -439,25 +428,10 @@ const CartMain = function ({ handleClose }) {
                             </div>
                             <div className={styles.table_body_price}>
                               <div className={styles.price}>
-                                {hasItemDiscount ? (
-                                  <>
-                                    {/* 折后价：第 1 个 div */}
-                                    <div>{`${item.priceSymbol}${formatCurrency(
-                                      item.selling_price * item.productNum,
-                                      item.currency_unit
-                                    )}`}</div>
-                                    {/* 划线原价：第 2 个 div，命中既有 nth-child(2) 划线灰色样式 */}
-                                    <div>{`${item.priceSymbol}${formatCurrency(
-                                      item.product_price * item.productNum,
-                                      item.currency_unit
-                                    )}`}</div>
-                                  </>
-                                ) : (
-                                  <div>{`${item.priceSymbol}${formatCurrency(
-                                    item.product_price * item.productNum,
-                                    item.currency_unit
-                                  )}`}</div>
-                                )}
+                                <div>{`${item.priceSymbol}${formatCurrency(
+                                  item.product_price * item.productNum,
+                                  item.currency_unit
+                                )}`}</div>
                               </div>
                             </div>
                             <div className={styles.table_num_delete_container}>

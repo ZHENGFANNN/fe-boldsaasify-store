@@ -317,7 +317,7 @@ export default function OrderInfo({ LANG }) {
                                 <div className={styles.product_number}>
                                   <div
                                     className={styles.good_price}
-                                  >{`${goodItem.priceSymbol}${goodItem.priceCurrency} ${goodItem.selling_price}`}</div>
+                                  >{`${goodItem.priceSymbol}${goodItem.priceCurrency} ${goodItem.productPrice}`}</div>
                                   <div className={styles.good_number}>
                                     × {goodItem.productNum}
                                   </div>

@@ -47,7 +47,7 @@ export default async function ProductLdJson({ locale, sortKey, productKey }) {
     offers: {
       "@type": "Offer",
       price:
-        formatCurrency(ldAreaInfo?.selling_price, ldAreaInfo?.currency_unit) ??
+        formatCurrency(ldAreaInfo?.product_price, ldAreaInfo?.currency_unit) ??
         99999,
       priceCurrency: ldAreaInfo?.currency ?? "USD"
     },

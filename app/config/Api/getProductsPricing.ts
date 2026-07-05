@@ -37,8 +37,7 @@
 //   {
 //     id, country, country_code,
 //     currency, currency_symbol, currency_unit,    // 金额 = raw / currency_unit（通常 100）
-//     product_price, selling_price,                // 「分」级整数，需除 currency_unit
-//     product_discount,                            // 节日折扣已停用，恒为 0
+//     product_price,                               // 「分」级整数，需除 currency_unit
 //     stock,                                       // 库存
 //     good_sort_key, good_key, combo_key, associate_country_key,
 //     created_time, updated_time

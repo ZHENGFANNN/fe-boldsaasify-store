@@ -4,6 +4,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import ProductContext from "../../../ProductContext";
 import { formatCurrency } from "@/utils";
+import { discountedUnitPrice } from "@/utils/productPricing";
 
 // 格式化时间，保证显示为两位数
 function formatTime(time) {
@@ -91,13 +92,16 @@ export default function Countdown() {
         )}`
       : `-${discountValue}`;
 
+  // 折后价与详情页价格区/Footer 保持同一口径（见 utils/productPricing.discountedUnitPrice）。
+  const discountedPrice = discountedUnitPrice(areaInfo, autoDiscount);
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         {areaInfo?.product_price ? (
           <div className={styles.price}>
             <div>{`${areaInfo.currency_symbol}${formatCurrency(
-              areaInfo.selling_price,
+              discountedPrice,
               areaInfo.currency_unit
             )}`}</div>
             <div>{`${areaInfo.currency_symbol}${formatCurrency(

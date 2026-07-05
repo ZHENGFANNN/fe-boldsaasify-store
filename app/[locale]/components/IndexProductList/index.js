@@ -64,19 +64,6 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
         const areaInfo = pricingReady
           ? pickAreaInfo(pricingMap?.[`${product.sort_key}:${product.key}`])
           : null;
-        // 数据驱动判定：selling_price < product_price 时按折扣商品展示。
-        const hasDiscount =
-          !!areaInfo?.selling_price &&
-          !!areaInfo?.product_price &&
-          Number(areaInfo.selling_price) < Number(areaInfo.product_price);
-        const discountPercent = hasDiscount
-          ? Math.round(
-              (1 -
-                Number(areaInfo.selling_price) /
-                  Number(areaInfo.product_price)) *
-                100
-            )
-          : 0;
         return (
           <Link
             key={productIndex}
@@ -125,45 +112,21 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
               ) : null}
               {/* 产品名称 */}
               <h3 className={styles.product_name}>{product.name}</h3>
-              {/* 产品折扣百分比角标 */}
-              {hasDiscount && discountPercent > 0 ? (
-                <div className={styles.good_discount_container}>
-                  <div className={styles.off}>
-                    {LANG["store.index.off"] || "OFF"}
-                  </div>
-                  <div className={styles.discount}>{discountPercent}%</div>
-                </div>
-              ) : null}
-              {/* 产品价格：pricing 未就绪显示骨架；就绪后无 selling_price 显示缺货；否则真实价格 */}
+              {/* 产品价格：pricing 未就绪显示骨架；就绪后无 product_price 显示缺货；否则原价 */}
               {!pricingReady ? (
                 <div className={styles.product_price_container}>
                   <Skeleton variant="rect" width={80} height={16} />
                 </div>
-              ) : !areaInfo?.selling_price ? (
+              ) : !areaInfo?.product_price ? (
                 <div className={styles.product_stock_container}>
                   {LANG["store.index.no_stock"]}
                 </div>
               ) : (
                 <div className={styles.product_price_container}>
-                  {hasDiscount ? (
-                    <>
-                      {/* 折后价：第 1 个 div，沿用 product_price_container 默认黑色字 */}
-                      <div>{`${areaInfo.currency_symbol}${formatCurrency(
-                        areaInfo.selling_price,
-                        areaInfo.currency_unit
-                      )}`}</div>
-                      {/* 划线原价：第 2 个 div，命中 div:nth-child(2) 的灰色+line-through 样式 */}
-                      <div>{`${areaInfo.currency_symbol}${formatCurrency(
-                        areaInfo.product_price,
-                        areaInfo.currency_unit
-                      )}`}</div>
-                    </>
-                  ) : (
-                    <div>{`${areaInfo.currency_symbol}${formatCurrency(
-                      areaInfo.product_price,
-                      areaInfo.currency_unit
-                    )}`}</div>
-                  )}
+                  <div>{`${areaInfo.currency_symbol}${formatCurrency(
+                    areaInfo.product_price,
+                    areaInfo.currency_unit
+                  )}`}</div>
                 </div>
               )}
             </div>

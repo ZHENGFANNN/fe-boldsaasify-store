@@ -151,8 +151,6 @@ export default function Main({ CONFIG, LANG, area, token }) {
         priceCurrency: row.areaInfo.currency,
         priceUnit: row.areaInfo.currency_unit,
         productPrice: row.areaInfo.product_price,
-        sellingPrice: row.areaInfo.selling_price,
-        productDiscount: row.areaInfo.product_discount,
         stock: row.areaInfo.stock,
         // 产品相关
         name: row.name,
