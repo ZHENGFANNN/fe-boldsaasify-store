@@ -10,6 +10,7 @@ import { AnalyticsNoScript } from "@/components/Head/Analytics";
 import Head from "@/components/Head";
 import GoogleAuthProvider from "@/components/GoogleAuth";
 import GoogleOneTap from "@/components/GoogleAuth/GoogleOneTap";
+import ChunkErrorReloader from "@/components/ChunkErrorReloader";
 
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
@@ -74,6 +75,7 @@ export default async function RootLayout(props) {
     <html lang={locale}>
       <Head logoLink={CONFIG["common.base"]?.logo} />
       <body>
+        <ChunkErrorReloader />
         <GTMNoScript />
         <AnalyticsNoScript />
         <GoogleAuthProvider>
