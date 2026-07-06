@@ -262,6 +262,22 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 </>
               ) : null}
 
+              {Number(order.shipping_fee) > 0 ? (
+                <li>
+                  <h3 className={styles.flex_2}>
+                    {LANG["store.order_info.express_price"] ||
+                      LANG["store.order.express_price"] ||
+                      "Shipping"}
+                  </h3>
+                  <p className={styles.flex_3}>{`${
+                    order.order_list[0].priceSymbol
+                  }${formatCurrency(
+                    order.shipping_fee,
+                    order.order_list[0].priceUnit
+                  )}`}</p>
+                </li>
+              ) : null}
+
               {order.pay_price ? (
                 <li>
                   <h3 className={styles.flex_2}>
