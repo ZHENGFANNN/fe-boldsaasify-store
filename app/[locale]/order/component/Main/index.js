@@ -536,7 +536,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
       }}
     >
       <div className={styles.container}>
-        <h1>{LANG["store.order.confirm_order"]}</h1>
+        <h1>{LANG["store.order.confirm_order"] || "Confirm Order"}</h1>
         <div className={styles.content_container}>
           <div className={styles.submit_container}>
             <div className={styles.user_container}>
@@ -831,7 +831,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
                   ) : null}
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.tax"]}</h3>
-                    <span>{LANG["store.order.tax_include"]}</span>
+                    <span>{LANG["store.order.tax_include"] || "Included"}</span>
                   </div>
                 </div>
                 <div className={styles.price_total}>
@@ -904,7 +904,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
                   }
                 }}
               >
-                {LANG["store.order.submit_order"]}
+                {LANG["store.order.submit_order"] || "Submit Order"}
               </div>
             ) : null}
             {/* Paypal支付方式 */}
@@ -1042,7 +1042,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
                   >
                     {stripeLoading
                       ? "..."
-                      : LANG["store.order.submit_order"]}
+                      : LANG["store.order.submit_order"] || "Submit Order"}
                   </div>
                 ) : (
                   <StripePay
