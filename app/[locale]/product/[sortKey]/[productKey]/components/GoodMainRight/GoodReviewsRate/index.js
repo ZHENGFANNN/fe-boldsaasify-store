@@ -3,7 +3,6 @@
 import React from "react";
 import ProductContext from "../../../ProductContext";
 import styles from "./index.module.scss";
-import { trackingCustomClick } from "@/utils";
 
 const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
 const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_icon.svg`;
@@ -46,8 +45,8 @@ export default function GoodReviewsRate({ reviewNum, reviewScore }) {
     <div
       className={styles.container}
       data-disabled={reviewsList.length < 1}
+      data-event="ProductReviews"
       onClick={function () {
-        trackingCustomClick({ click_type: "ProductReviews" });
         if (reviewsList.length > 0) {
           const $dom = document.getElementById("product_reviews");
           if ($dom) {

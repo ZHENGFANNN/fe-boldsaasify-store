@@ -4,8 +4,8 @@ import "@/styles/reset.css";
 import Layout from "@/components/Layout";
 import Navbar from "@/components/Layout/NavBar";
 import Footer from "@/components/Layout/Footer";
-import { GTMNoScript } from "@/components/Head/GTM";
 import { AnalyticsNoScript } from "@/components/Head/Analytics";
+import TrackingRoot from "@/components/TrackingRoot";
 
 import Head from "@/components/Head";
 import GoogleAuthProvider from "@/components/GoogleAuth";
@@ -76,8 +76,8 @@ export default async function RootLayout(props) {
       <Head logoLink={CONFIG["common.base"]?.logo} />
       <body>
         <ChunkErrorReloader />
-        <GTMNoScript />
         <AnalyticsNoScript />
+        <TrackingRoot />
         <GoogleAuthProvider>
           <GoogleOneTap />
           <Layout locale={locale} LANG={LANG} CONFIG={CONFIG}>

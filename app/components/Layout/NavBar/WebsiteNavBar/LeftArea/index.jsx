@@ -6,7 +6,6 @@ import { countryMap } from "@/config/marketSettings";
 import TipModal from "@/components/Modal/FunctionTipModal";
 import Link from "next/link";
 
-import { trackingCustomClick } from "@/utils";
 
 import styles from "./index.module.scss";
 
@@ -173,9 +172,9 @@ export default function LeftArea({ navActive, setNavActive }) {
             styles.header_mobile +
             ` ${navActive ? styles.header_mobile_active : ""}`
           }
+          data-event="NavIcon-MobMore"
           onClick={() => {
             setNavActive((value) => !value);
-            trackingCustomClick({ click_type: `NavIcon-MobMore` });
           }}
         >
           <span className={styles.control_icon}></span>

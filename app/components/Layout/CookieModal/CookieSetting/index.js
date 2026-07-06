@@ -5,7 +5,6 @@ import Link from "next/link";
 import Cookie from "js-cookie";
 import styles from "./index.module.scss";
 import { useRouter } from "next/navigation";
-import { trackingCustomClick } from "@/utils";
 import { FormSwitch } from "@/components/Form";
 
 function CookieItem({
@@ -104,24 +103,7 @@ function Modal({ onFinish }, ref) {
   }, [show]);
 
   const contentRef = React.useRef(null);
-  React.useEffect(() => {
-    if (!isMounted && contentRef.current) {
-      const observer = new MutationObserver(() => {
-        const $dom = contentRef.current.querySelector("[data-key]");
-        if ($dom) {
-          $dom.addEventListener("click", () =>
-            trackingCustomClick("cookie-setting-desc-policy")
-          );
-        }
-      });
-
-      observer.observe(contentRef.current, { childList: true, subtree: true });
-
-      return () => {
-        observer.disconnect();
-      };
-    }
-  }, [isMounted, contentRef]);
+  // 上报已通过 dangerouslySetInnerHTML 里的 data-event 属性走冒泡；此处仅保留结构。
 
   if (!isMounted) return null;
 
@@ -150,7 +132,7 @@ function Modal({ onFinish }, ref) {
               dangerouslySetInnerHTML={{
                 __html: LANG["common.cookie.cookie_setting.desc"]?.replace(
                   "$1",
-                  `<a data-key='cookie-policy'>${LANG["common.cookie.cookie_policy"]}</a>`
+                  `<a data-key='cookie-policy' data-event='cookie-setting-desc-policy'>${LANG["common.cookie.cookie_policy"]}</a>`
                 ),
               }}
             />

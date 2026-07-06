@@ -3,7 +3,6 @@
 import React from "react";
 import styles from "./index.module.scss";
 import ProductContext from "../../../ProductContext";
-import { trackingCustomClick } from "@/utils";
 import { useSpinFrames } from "../spinDemo";
 
 export default function SelectList() {
@@ -85,11 +84,10 @@ export default function SelectList() {
                 styles.type_container +
                 ` ${productShowType === item.type ? styles.type_active : ""}`
               }
+              data-event="ProductMediaTypeTabs"
+              data-ev-type={item.type}
               onClick={() => {
                 setProductShowType(item.type);
-                trackingCustomClick({
-                  click_type: `ProductMediaTypeTabs-${item.type}`,
-                });
               }}
             >
               <svg

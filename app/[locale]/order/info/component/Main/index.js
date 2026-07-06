@@ -3,7 +3,7 @@
 import styles from "../../page.module.scss";
 import Api from "../../api";
 
-import tracking from "../../../tracking";
+import { track } from "@/utils/analytics";
 import React from "react";
 import Paypal from "../../../component/Paypal";
 
@@ -453,7 +453,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                     })
                       .then((res) => {
                         if (res.code === 0) {
-                          tracking.purchase({
+                          track("Purchase", {
                             from: "order_info_page",
                             currency: res.data.currency_code,
                             value: res.data.value,

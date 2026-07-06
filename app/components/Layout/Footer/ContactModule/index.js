@@ -3,7 +3,6 @@
 import React from "react";
 import GlobalContext from "@/[locale]/context";
 
-import { trackingCustomClick } from "@/utils";
 import { isEmail } from "@/utils/pattern";
 import Api from "../../api";
 
@@ -65,11 +64,8 @@ export default function ContactModule() {
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
-                      onClick={() =>
-                        trackingCustomClick({
-                          click_type: `FooterSocialMedia-${item.alt}`,
-                        })
-                      }
+                      data-event="FooterSocialMedia"
+                      data-ev-alt={item.alt}
                     >
                       <img
                         alt={item.alt}

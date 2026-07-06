@@ -2,7 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import GlobalContext from "@/[locale]/context";
-import { trackingCustomClick } from "@/utils";
+import { track } from "@/utils/analytics";
 
 import Skeleton from "@/components/Skeleton";
 import DropSelect from "@/components/DropSelect";
@@ -58,7 +58,7 @@ export default function RightArea() {
           tanslatefromX={-4}
           position="bottom"
           selectValue={async (e) => {
-            trackingCustomClick({ click_type: `NavIcon-User` });
+            track("NavIcon-User");
             if (e === "loginOut") {
               Api.loginOut();
               Cookies.remove("token");
@@ -81,8 +81,8 @@ export default function RightArea() {
       {/* 购物车ICON */}
       <li
         className={styles.header_cart}
+        data-event="NavIcon-Cart"
         onClick={() => {
-          trackingCustomClick({ click_type: `NavIcon-Cart` });
           showCartModal();
         }}
       >
@@ -99,11 +99,11 @@ export default function RightArea() {
       {/* 国家ICON */}
       <li
         className={styles.header_country}
+        data-event={areaReady ? "NavIcon-Area" : undefined}
         onClick={
           areaReady
             ? () => {
                 showAreaModal();
-                trackingCustomClick({ click_type: `NavIcon-Area` });
               }
             : undefined
         }

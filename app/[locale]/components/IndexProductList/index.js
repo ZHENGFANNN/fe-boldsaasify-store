@@ -14,7 +14,6 @@ import {
   pickAutoDiscount,
   formatDiscountLabel,
 } from "@/utils/productPricing";
-import tracking from "@/[locale]/tracking";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import WishlistButton from "@/components/WishlistButton";
@@ -114,11 +113,8 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady, discountMap }) 
           <Link
             key={productIndex}
             scroll={true}
-            onClick={() => {
-              tracking.clickIndexProduct({
-                productName: product.key
-              });
-            }}
+            data-event="IndexProductItem"
+            data-ev-product-name={product.key}
             href={`/product/${product.sort_key}/${product.key}`}
             className={styles.goods_item}
           >

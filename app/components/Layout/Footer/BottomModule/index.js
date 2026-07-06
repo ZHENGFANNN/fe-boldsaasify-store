@@ -5,7 +5,6 @@ import GlobalContext from "@/[locale]/context";
 
 import Skeleton from "@/components/Skeleton";
 import { countryMap } from "@/config/marketSettings";
-import { trackingCustomClick } from "@/utils";
 
 import styles from "./index.module.scss";
 
@@ -27,9 +26,9 @@ function ShowLanguageItem() {
   return (
     <div
       className={styles.show_item}
+      data-event="FooterArea"
       onClick={() => {
         showAreaModal();
-        trackingCustomClick({ click_type: "FooterArea" });
       }}
     >
       <img

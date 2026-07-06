@@ -6,7 +6,7 @@ import CountryPickerList from "@/components/CountrySelect/CountryPickerList";
 import LanguagePicker from "@/components/LanguagePicker";
 import Cookie from "js-cookie";
 import styles from "./index.module.scss";
-import { trackingCustomClick } from "@/utils";
+import { track } from "@/utils/analytics";
 
 const areaSectionTitleMap = {
   en: "Country / Region",
@@ -47,9 +47,7 @@ function Modal(_, ref) {
   const handleSelectCountry = (countryItem) => {
     if (lock) return;
     setLock(true);
-    trackingCustomClick({
-      click_type: `AreaModal-${countryItem.country_code}`,
-    });
+    track("AreaModal", { countryCode: countryItem.country_code });
     const expires = new Date(Date.now() + 720 * 24 * 60 * 60 * 1000);
     Cookie.set("area", countryItem.country_code, {
       path: "/",

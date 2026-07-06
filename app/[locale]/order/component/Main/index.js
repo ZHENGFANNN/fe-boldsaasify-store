@@ -9,7 +9,7 @@ import resolveCartFromApi from "@/components/Layout/cartClient";
 import PayList from "../PayList";
 import UserInfo from "../UserType";
 import Api from "../../api";
-import tracking from "../../tracking";
+import { track } from "@/utils/analytics";
 import OrderContext from "../../context";
 import AddressList from "../AddressList";
 import AddressForm from "../AddressForm";
@@ -465,7 +465,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
 
   // 埋点
   const trackingInitiateCheckout = React.useCallback(() => {
-    tracking.initiateCheckout({
+    track("InitiateCheckout", {
       from: "order_page",
       currency: orderList[0].priceCurrency,
       value: orderPricing.pay_price,
@@ -998,7 +998,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
                         })
                           .then((res) => {
                             if (res.code === 0) {
-                              tracking.purchase({
+                              track("Purchase", {
                                 from: "order_page",
                                 currency: res.data.currency_code,
                                 value: res.data.value,
@@ -1057,7 +1057,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
                       });
                     }}
                     onSuccess={() => {
-                      tracking.purchase({
+                      track("Purchase", {
                         from: "order_page",
                         currency: orderList[0].priceCurrency,
                         value: orderPricing.pay_price,

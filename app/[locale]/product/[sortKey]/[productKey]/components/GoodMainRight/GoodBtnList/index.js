@@ -15,7 +15,7 @@ import ShowTipModal from "@/components/Modal/ShowTipModal";
 import { useRouter } from "next/navigation";
 
 import ProductContext from "../../../ProductContext";
-import tracking from "../../../tracking";
+import { track } from "@/utils/analytics";
 import Api from "../../../api";
 import GlobalContext from "@/[locale]/context";
 import BtnListSkeleton from "./BtnListSkeleton";
@@ -154,12 +154,13 @@ function PayButton({
   }, [previewData, subtotalPrice, productCurCombo]);
 
   const trackingInitiateCheckout = React.useCallback(() => {
-    tracking.initiateCheckout({
+    track("InitiateCheckout", {
       currency: orderList[0].priceCurrency,
       value: orderPricing.pay_price,
       discount: orderPricing.discount,
       type: "payPal",
-      contents: orderList
+      contents: orderList,
+      from: "product_page",
     });
   }, [orderList, orderPricing]);
 
@@ -256,12 +257,13 @@ function PayButton({
               return Api.confirmPaypal({ id: data.orderID })
                 .then((res) => {
                   if (res.code === 0) {
-                    tracking.purchase({
+                    track("Purchase", {
                       currency: res.data.currency_code,
                       value: res.data.value,
                       discount: orderPricing.discount,
                       type: "payPal",
-                      contents: orderList
+                      contents: orderList,
+                      from: "product_page",
                     });
                     showTip({
                       text: LANG["common.pay.pay_button.pay_success"],
@@ -383,7 +385,7 @@ export default function GoodBtnList() {
     };
     // 立即购买语义：结算页只结算当前商品，直接以单行覆盖购物车缓存。
     window.localStorage.setItem("store_shopping", JSON.stringify([line]));
-    tracking.initiateCheckout?.({ productName: productInfo.name });
+    track("InitiateCheckout", { productName: productInfo.name, from: "product_page" });
     router.push(`/${locale}/order`);
   }, [
     buyable,
@@ -473,7 +475,7 @@ export default function GoodBtnList() {
                   newCart = [...newCart, ...returnCart];
                 }
               }
-              tracking.addToCart({ productName: productInfo.name });
+              track("AddToCart", { productName: productInfo.name });
               window.localStorage.setItem(
                 "store_shopping",
                 JSON.stringify(newCart)

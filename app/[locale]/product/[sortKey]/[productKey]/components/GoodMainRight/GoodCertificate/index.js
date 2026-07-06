@@ -10,7 +10,7 @@ import React from "react";
 
 import Modal from "@/components/Modal";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
-import { fillOssImage, getJsonData, trackingCustomClick } from "@/utils";
+import { fillOssImage, getJsonData } from "@/utils";
 import ProductContext from "../../../ProductContext";
 
 import styles from "./index.module.scss";
@@ -56,9 +56,6 @@ export default function GoodCertificate() {
 
   function open(cert) {
     setActiveCert(cert);
-    trackingCustomClick({
-      click_type: `Certificate-${cert?.lab || "unknown"}`
-    });
     modalRef.current.show({
       title: cert?.lab
         ? `${cert.lab} ${
@@ -87,6 +84,8 @@ export default function GoodCertificate() {
               <div
                 key={cert?.report_id || `${cert?.lab || "cert"}-${idx}`}
                 className={styles.item}
+                data-event="Certificate"
+                data-ev-lab={cert?.lab || "unknown"}
                 onClick={() => open(cert)}
               >
                 <div className={styles.left_content}>

@@ -1,5 +1,4 @@
 import Analytics from "./Analytics";
-import { GTM } from "./GTM";
 
 export default function Head({ logoLink }) {
   const apiOrigin = process.env.NEXT_PUBLIC_HOST?.replace(/\/$/, "");
@@ -15,8 +14,6 @@ export default function Head({ logoLink }) {
           <link rel="preconnect" href={apiOrigin} crossOrigin="anonymous" />
         </>
       ) : null}
-      {/* Google GTM — 容器 ID 来自 NEXT_PUBLIC_GTM，加载 googletagmanager.com 线上配置 */}
-      <GTM />
       {/* GA4 / Facebook Pixel — 由 ERP 全局管理 → 埋点管理配置，构建期物化到 fetch-data */}
       <Analytics />
     </head>

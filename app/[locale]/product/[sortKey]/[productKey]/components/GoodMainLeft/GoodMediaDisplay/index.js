@@ -6,7 +6,7 @@ import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 import ProductContext from "../../../ProductContext";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
-import { trackingCustomClick } from "@/utils";
+import { track } from "@/utils/analytics";
 import SpinViewer from "./SpinViewer";
 import { useSpinFrames } from "../spinDemo";
 
@@ -128,7 +128,7 @@ export default function GoodMediaDisplay() {
       });
       // 点击轮播图
       $domList.on("click", function () {
-        trackingCustomClick({ click_type: "ProductMediaCoverItem" });
+        track("ProductMediaCoverItem");
         splide.go($(this).index());
       });
       // 选项跳转

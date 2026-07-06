@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import GlobalContext from "@/[locale]/context";
 import { COOKIE_ALERT_REGION_LIST } from "@/components/Layout/CookieModal/const";
-import { trackingCustomClick } from "@/utils";
+import { track } from "@/utils/analytics";
 
 function CookieSetting({ showCookieSetting }, ref) {
   const { LANG, area } = React.useContext(GlobalContext);
@@ -32,10 +32,8 @@ function CookieSetting({ showCookieSetting }, ref) {
     const key = e.target.getAttribute("data-key");
     if (key === "cookie-preferences") {
       showCookieSetting();
-      trackingCustomClick("cookie-alert-setting-preferences");
-    } else if (key === "cookie-policy") {
-      trackingCustomClick("cookie-alert-setting-policy");
     }
+    // 上报走 data-event 冒泡，见 dangerouslySetInnerHTML 内的属性
   };
 
   const setCookiePermissions = React.useCallback((list) => {
@@ -60,7 +58,7 @@ function CookieSetting({ showCookieSetting }, ref) {
     );
     if (!cookiePermissionsList && COOKIE_ALERT_REGION_LIST.includes(area)) {
       setTimeout(() => {
-        trackingCustomClick("cookie-alert-view");
+        track("cookie-alert-view");
         setFirstRender(false);
         setTimeout(() => {
           setShow(true);
@@ -85,11 +83,11 @@ function CookieSetting({ showCookieSetting }, ref) {
               __html: LANG["common.cookie.cookie_alert.content"]
                 ?.replace(
                   "$1",
-                  `<a data-key='cookie-preferences'>${LANG["common.cookie.cookie_perferences"]}</a>`
+                  `<a data-key='cookie-preferences' data-event='cookie-alert-setting-preferences'>${LANG["common.cookie.cookie_perferences"]}</a>`
                 )
                 ?.replace(
                   "$2",
-                  `<a data-key='cookie-policy'>${LANG["common.cookie.cookie_policy"]}</a>`
+                  `<a data-key='cookie-policy' data-event='cookie-alert-setting-policy'>${LANG["common.cookie.cookie_policy"]}</a>`
                 ),
             }}
           />
@@ -97,9 +95,9 @@ function CookieSetting({ showCookieSetting }, ref) {
         <div className={styles.btn_container}>
           <div
             className={[styles.required_btn, styles.btn].join(" ")}
+            data-event="cookie-alert-btn-required-only"
             onClick={() => {
               setShow(false);
-              trackingCustomClick("cookie-alert-btn-required-only");
               setCookiePermissions([]);
             }}
           >
@@ -107,9 +105,9 @@ function CookieSetting({ showCookieSetting }, ref) {
           </div>
           <div
             className={[styles.accept_btn, styles.btn].join(" ")}
+            data-event="cookie-alert-btn-accept-all"
             onClick={() => {
               setShow(false);
-              trackingCustomClick("cookie-alert-btn-accept-all");
               setCookiePermissions(["functional", "analytical", "marketing"]);
             }}
           >

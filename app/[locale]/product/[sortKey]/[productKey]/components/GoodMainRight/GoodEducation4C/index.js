@@ -7,7 +7,6 @@
 import React from "react";
 
 import Modal from "@/components/Modal";
-import { trackingCustomClick } from "@/utils";
 import ProductContext from "../../../ProductContext";
 
 import CutGrade from "@/[locale]/education/components/CutGrade";
@@ -50,7 +49,6 @@ export default function GoodEducation4C() {
 
   function open(item) {
     setActive(item.key);
-    trackingCustomClick({ click_type: `Education4C-${item.key}` });
     modalRef.current.show({ title: item.label });
   }
 
@@ -64,6 +62,8 @@ export default function GoodEducation4C() {
           <div
             key={item.key}
             className={styles.item}
+            data-event="Education4C"
+            data-ev-key={item.key}
             onClick={() => open(item)}
           >
             <div className={styles.text}>{item.label}</div>

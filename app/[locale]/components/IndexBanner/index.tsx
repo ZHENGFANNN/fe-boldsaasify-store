@@ -6,7 +6,6 @@ import styles from "./index.module.scss";
 import Splide from "@splidejs/splide";
 import "@splidejs/splide/css";
 import React from "react";
-import tracking from "@/[locale]/tracking";
 import { IndexContent } from "../IndexContext";
 import Link from "next/link";
 
@@ -52,9 +51,8 @@ export default function Banner() {
                   "--kv-mob": "url(" + item.mob_image + ")"
                 } as React.CSSProperties}
                 className={`${styles.splide_item} splide__slide`}
-                onClick={() => {
-                  tracking.clickBannerLink({ link: item.href });
-                }}
+                data-event="IndexBannerItem"
+                data-ev-link={item.href}
               >
                 {item.href.startsWith("http") ? (
                   <a rel="noreferrer" target="_blank" href={item.href}></a>

@@ -3,7 +3,7 @@
 import React from "react";
 import styles from "./index.module.scss";
 import ProductContext from "../../ProductContext";
-import tracking from "../../tracking";
+import { track } from "@/utils/analytics";
 import ComboModal from "./components/ComboModal";
 import Skeleton from "@/components/Skeleton";
 import { formatCurrency } from "@/utils";
@@ -41,8 +41,8 @@ export default function GoodFooter() {
   // 弹出时机
   React.useEffect(() => {
     if (!lazyLoading) {
-      // 埋点 - 查看次数
-      tracking.viewContent({
+      // 埋点 - 查看次数（FB 标准事件 ViewContent，走别名映射）
+      track("ViewProduct", {
         productName: productInfo.key,
       });
       // 记录最近浏览，供客服聊天窗「分享商品」选择器读取（纯客户端）
@@ -114,10 +114,9 @@ export default function GoodFooter() {
             {productCurCombo?.title || optionString ? (
               <>
                 <div
+                  data-event="ProductFooterCombo"
+                  data-ev-product-name={productInfo.key}
                   onClick={() => {
-                    tracking.clickProductFooterCombo({
-                      productName: productInfo.key,
-                    });
                     comboModalRef.current.show();
                   }}
                   className={styles.combo_name}
@@ -180,11 +179,10 @@ export default function GoodFooter() {
             productCurCombo?.areaInfo?.stock ? (
             <>
               <div
+                data-event="ProductFooterBuy"
+                data-ev-product-name={productInfo.key}
                 onClick={() => {
                   comboModalRef.current.show();
-                  tracking.clickProductFooterBuyBtn({
-                    productName: productInfo.key,
-                  });
                 }}
                 className={`${styles.footer_button}`}
               >

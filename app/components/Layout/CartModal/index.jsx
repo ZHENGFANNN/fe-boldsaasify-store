@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import styles from "./index.module.scss";
 
-import tracking from "../tracking";
+import { track } from "@/utils/analytics";
 
 import GlobalContext from "../../../[locale]/context";
 import { formatCurrency } from "../../../utils";
@@ -806,7 +806,7 @@ const CartMain = function ({ handleClose }) {
               <div
                 className={styles.checkout_btn}
                 onClick={() => {
-                  tracking.enterOrderForm({
+                  track("CartModalCheckout", {
                     currency: cartList[0]?.currency,
                     value: totalPrice,
                     contents: cartList,

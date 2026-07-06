@@ -7,7 +7,6 @@ import ProductGuarantee from "./components/ProductGuarantee";
 import ViewOrder from "./components/ViewOrder";
 
 import ProductContext from "../../../ProductContext";
-import { trackingCustomClick } from "@/utils";
 import GlobalContext from "@/[locale]/context";
 
 export default function GoodGuarantee() {
@@ -23,10 +22,8 @@ export default function GoodGuarantee() {
       <div className={styles.list}>
         <div
           className={styles.item}
+          data-event="ProductGuarantee-DeliveryTerms"
           onClick={() => {
-            trackingCustomClick({
-              click_type: "ProductGuarantee-DeliveryTerms",
-            });
             DeliveryTermsModalRef.current.show();
           }}
         >
@@ -44,10 +41,8 @@ export default function GoodGuarantee() {
           <div className={styles.arrow_icon}></div>
         </div>
         <div
+          data-event="ProductGuarantee-ProductGuarantee"
           onClick={() => {
-            trackingCustomClick({
-              click_type: "ProductGuarantee-ProductGuarantee",
-            });
             ProductGuaranteeRef.current.show();
           }}
           className={styles.item}
@@ -66,8 +61,8 @@ export default function GoodGuarantee() {
           <div className={styles.arrow_icon}></div>
         </div>
         <div
+          data-event="ProductGuarantee-ViewOrder"
           onClick={() => {
-            trackingCustomClick({ click_type: "ProductGuarantee-ViewOrder" });
             ViewOrderRef.current.show();
           }}
           className={styles.item}
@@ -88,9 +83,9 @@ export default function GoodGuarantee() {
       </div>
       <div
         className={styles.email_question_container}
+        data-event="ProductGuarantee-Email"
         onClick={() => {
           showContactModal();
-          trackingCustomClick({ click_type: "ProductGuarantee-Email" });
         }}
       >
         <img

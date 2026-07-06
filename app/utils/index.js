@@ -133,14 +133,3 @@ export function getJsonData(data) {
     return [];
   }
 }
-
-/**
- * @desc tracking Data
- */
-export function trackingCustomClick({ click_type, click_data }) {
-  dataLayer.push({
-    event: "custom_click",
-    click_type,
-    click_data,
-  });
-}

@@ -7,9 +7,6 @@ import Script from "next/script";
  * 由 script/fetch-config.js 在构建期物化到 fetch-data/globalConfig/index.json。
  * 保存后需重新构建/部署商城才会生效（不做 ISR 主动失效，head 脚本走 build-time require）。
  *
- * 与 Head/GTM 并存：GTM 走环境变量 NEXT_PUBLIC_GTM 加载独立容器；GA4/Pixel 由本组件直接注入。
- * 两者不冲突，客户可同时使用（若在 GTM 容器里也配了 GA4/Pixel，会两次上报，请二选一）。
- *
  * XSS 兜底：ID 只以字符串插入，前后端各正则一次；非法值一律不渲染。
  */
 
