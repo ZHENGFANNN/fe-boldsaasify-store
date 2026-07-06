@@ -3,6 +3,7 @@
 import {
   PayPalScriptProvider,
   PayPalButtons,
+  FUNDING,
   usePayPalScriptReducer
 } from "@paypal/react-paypal-js";
 import React from "react";
@@ -58,6 +59,7 @@ function PayButton({
 
   return (
     <PayPalButtons
+      fundingSource={FUNDING.PAYPAL}
       style={{
         layout: "vertical",
         color: "gold",
