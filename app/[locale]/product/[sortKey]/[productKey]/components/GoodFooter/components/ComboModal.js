@@ -3,6 +3,7 @@ import Modal from "@/components/Modal";
 import ProductContext from "../../../ProductContext";
 
 import GoodNumber from "../../GoodMainRight/GoodNumber";
+import GoodPrice from "../../GoodMainRight/GoodPrice";
 import VariantSelector from "../../GoodMainRight/VariantSelector";
 import CustomizationFields from "../../GoodMainRight/CustomizationFields";
 import GoodBtnList from "../../GoodMainRight/GoodBtnList";
@@ -25,6 +26,8 @@ function ComboModal(_, ref) {
   return (
     <Modal ref={modalRef}>
       <div className={styles.container}>
+        {/* 当前选中套餐/变体的价格（与主区 GoodPrice 同源，切变体自动跟随 productCurCombo） */}
+        <GoodPrice />
         {/* 产品变体选项 */}
         <VariantSelector />
         {/* 自定义字段选择（与主区共享状态） */}
