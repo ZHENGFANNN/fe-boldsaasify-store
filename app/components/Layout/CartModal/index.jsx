@@ -16,6 +16,8 @@ import {
   writeStoredDiscountCodes,
   formatRejectedCodeMessage,
 } from "@/utils/discount-codes";
+import getProductDiscounts from "@/service/product/get-product-discounts";
+import { discountedUnitPrice, savedUnitAmount } from "@/utils/productPricing";
 
 import { useRouter } from "next/navigation";
 
@@ -194,6 +196,41 @@ const CartMain = function ({ handleClose }) {
   }, [cartList, setProductNum]);
 
   // ==========================================================================
+  // 行级商品折扣（product_amount_off 自动折扣）展示：与商品详情页 GoodPrice 同源，
+  // 复用 getProductDiscounts + discountedUnitPrice/savedUnitAmount，让购物车每行也看到折后价。
+  // 仅用于「展示」；结算最终价仍以 previewOrder 的 pay_price 为准（后端唯一真相，已含自动折扣）。
+  // 后端只返回符合资格的折扣（含永不过期），无需前端再判 ends_at。
+  // ==========================================================================
+  const [discountMap, setDiscountMap] = React.useState({});
+  React.useEffect(() => {
+    if (!cartReady || !cartList.length) {
+      setDiscountMap({});
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      // 按 (sortKey, productKey) 去重后批量查询（service 内存缓存 60s，数量变化命中缓存不回源）。
+      const seen = new Set();
+      const product_list = [];
+      cartList.forEach((it) => {
+        const key = `${it.sortKey}:${it.productKey}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        product_list.push({ product_key: it.productKey, sort_key: it.sortKey });
+      });
+      const { map } = await getProductDiscounts({
+        area_code: area || "us",
+        product_list,
+      });
+      if (cancelled) return;
+      setDiscountMap(map || {});
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [cartReady, cartList, area]);
+
+  // ==========================================================================
   // 调 previewOrder 试算折扣（仅 area_code + order_list + discount_codes，不传地址）。
   // 触发条件：cartList 就绪 + 已有 codes（无 codes 时不调，省一次空请求）。
   // 输出：previewData.discount / .applied_rules 供 UI 展示。
@@ -346,6 +383,16 @@ const CartMain = function ({ handleClose }) {
             <>
               <div className={styles.table_body}>
                 {cartList.map((item, index) => {
+                  // 行级商品折扣：item 自带 product_price/currency_unit，可直接当 areaInfo 传入工具函数。
+                  const lineDiscount = discountMap[item.productKey];
+                  const savedUnit = lineDiscount
+                    ? savedUnitAmount(item, lineDiscount)
+                    : 0;
+                  const hasLineDiscount = !!lineDiscount && savedUnit > 0;
+                  const lineOriginal = item.product_price * item.productNum;
+                  const lineDiscounted = hasLineDiscount
+                    ? discountedUnitPrice(item, lineDiscount) * item.productNum
+                    : lineOriginal;
                   return (
                     <section key={index} className={styles.table_body_item}>
                       <div className={styles.table_body_goods}>
@@ -424,10 +471,23 @@ const CartMain = function ({ handleClose }) {
                             </div>
                             <div className={styles.table_body_price}>
                               <div className={styles.price}>
-                                <div>{`${item.priceSymbol}${formatCurrency(
-                                  item.product_price * item.productNum,
-                                  item.currency_unit
-                                )}`}</div>
+                                {hasLineDiscount ? (
+                                  <>
+                                    <div>{`${item.priceSymbol}${formatCurrency(
+                                      lineDiscounted,
+                                      item.currency_unit
+                                    )}`}</div>
+                                    <div>{`${item.priceSymbol}${formatCurrency(
+                                      lineOriginal,
+                                      item.currency_unit
+                                    )}`}</div>
+                                  </>
+                                ) : (
+                                  <div>{`${item.priceSymbol}${formatCurrency(
+                                    lineOriginal,
+                                    item.currency_unit
+                                  )}`}</div>
+                                )}
                               </div>
                             </div>
                             <div className={styles.table_num_delete_container}>
