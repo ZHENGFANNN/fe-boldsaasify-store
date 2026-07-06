@@ -4,6 +4,7 @@ import ProductContext from "../../../ProductContext";
 
 import GoodNumber from "../../GoodMainRight/GoodNumber";
 import VariantSelector from "../../GoodMainRight/VariantSelector";
+import CustomizationFields from "../../GoodMainRight/CustomizationFields";
 import GoodBtnList from "../../GoodMainRight/GoodBtnList";
 
 import styles from "./index.module.scss";
@@ -18,15 +19,16 @@ function ComboModal(_, ref) {
       },
     };
   });
-  // 变体选项（V2）与主区共享同一 ProductContext，选中状态天然同步。
-  // 注：定制字段 CustomizationFields 只在主区渲染——它会向 ProductContext.customizeRef
-  // 注册取数/校验，若此处再渲染一份会双注册冲突、覆盖主区已填值。本弹窗内的加购按钮
-  // 仍通过共享 customizeRef 读到主区填写的定制数据，无需重复渲染。
+  // 变体选项（V2）与定制字段均与主区共享同一 ProductContext，选中/填写状态天然同步。
+  // 定制字段状态集中在 useCustomizeFields（BaseLayout 单例），CustomizationFields 为纯展示，
+  // 因此可与主区同时渲染：两处共用同一份填写值、只注册一次 getData/validate，无双注册冲突。
   return (
     <Modal ref={modalRef}>
       <div className={styles.container}>
         {/* 产品变体选项 */}
         <VariantSelector />
+        {/* 自定义字段选择（与主区共享状态） */}
+        <CustomizationFields />
         <GoodNumber />
         <GoodBtnList />
       </div>

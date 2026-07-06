@@ -7,6 +7,7 @@ import { resolveVariant, defaultSelection } from "@/utils/resolveVariant";
 import readClientArea from "@/utils/readClientArea";
 import getProductPricing from "@/service/product/get-pricing";
 import getProductDiscounts from "@/service/product/get-product-discounts";
+import useCustomizeFields from "../GoodMainRight/CustomizationFields/useCustomizeFields";
 
 export default function BaseLayout({
   children,
@@ -139,6 +140,10 @@ export default function BaseLayout({
   // 加购按钮（GoodBtnList）在点击时同步读取，无字段/未挂载时为默认空实现。
   const customizeRef = React.useRef({ getData: () => [], validate: () => true });
 
+  // 定制字段状态中枢（单例）：主区与 footer 弹窗的 CustomizationFields 共享此状态，
+  // 且只在这里注册一次 getData/validate 到 customizeRef，避免多实例双注册覆盖。
+  const customize = useCustomizeFields(customizeFields, customizeRef);
+
   const productSlugRef = React.useRef(`${sortKey}/${productKey}`);
   React.useEffect(() => {
     const slug = `${sortKey}/${productKey}`;
@@ -222,7 +227,9 @@ export default function BaseLayout({
         sortKey,
         productKey,
         customizeRef,
-        customizeFields
+        customizeFields,
+        // 定制字段状态与回调（单例），供主区与 footer 弹窗的 CustomizationFields 共享消费
+        customize
       }}
     >
       {children}
