@@ -160,24 +160,16 @@ function ProductCard({ product, LANG, pricingMap, pricingReady, discountMap }) {
             {LANG?.["store.index.no_stock"] ?? "Out of stock"}
           </div>
         ) : autoDiscount && savedAmount > 0 ? (
-          <>
-            <div className={styles.product_price_container}>
-              <div>{`${areaInfo?.currency_symbol}${formatCurrency(
-                discountedPrice,
-                areaInfo?.currency_unit
-              )}`}</div>
-              <div>{`${areaInfo?.currency_symbol}${formatCurrency(
-                areaInfo?.product_price,
-                areaInfo?.currency_unit
-              )}`}</div>
-            </div>
-            <div className={styles.saved_tag}>
-              {`${LANG?.["store.index.saved"] || "Saved"} ${areaInfo?.currency_symbol}${formatCurrency(
-                savedAmount,
-                areaInfo?.currency_unit
-              )}`}
-            </div>
-          </>
+          <div className={styles.product_price_container}>
+            <div>{`${areaInfo?.currency_symbol}${formatCurrency(
+              discountedPrice,
+              areaInfo?.currency_unit
+            )}`}</div>
+            <div>{`${areaInfo?.currency_symbol}${formatCurrency(
+              areaInfo?.product_price,
+              areaInfo?.currency_unit
+            )}`}</div>
+          </div>
         ) : (
           <div className={styles.product_price_container}>
             <div>{`${areaInfo?.currency_symbol}${formatCurrency(
