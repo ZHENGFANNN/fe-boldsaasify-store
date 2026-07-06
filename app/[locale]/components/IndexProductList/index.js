@@ -8,11 +8,18 @@ import Link from "next/link";
 import { IndexContent } from "../IndexContext";
 
 import { formatCurrency, fillOssImage } from "@/utils";
+import {
+  discountedUnitPrice,
+  savedUnitAmount,
+  pickAutoDiscount,
+  formatDiscountLabel,
+} from "@/utils/productPricing";
 import tracking from "@/[locale]/tracking";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import WishlistButton from "@/components/WishlistButton";
 import getProductsPricing from "@/service/product/get-products-pricing";
+import getProductDiscounts from "@/service/product/get-product-discounts";
 
 const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
 const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_icon.svg`;
@@ -25,6 +32,37 @@ function pickAreaInfo(pricingItem) {
     if (c?.areaInfo) return c.areaInfo;
   }
   return null;
+}
+
+// 两位补零
+function pad2(n) {
+  return Math.max(0, n).toString().padStart(2, "0");
+}
+
+// 列表卡片限时倒计时：自管 setInterval（不依赖 jQuery），ends_at 为毫秒戳。
+// 剩余 ≤ 0（含永不过期 ends_at=0）时返回 null，仅展示折扣标签、不展示倒计时。
+function CardCountdown({ endsAt }) {
+  const [remain, setRemain] = React.useState(0);
+  React.useEffect(() => {
+    const tick = () => setRemain(Math.max(0, Number(endsAt) - Date.now()));
+    tick();
+    const t = setInterval(tick, 1000);
+    return () => clearInterval(t);
+  }, [endsAt]);
+  if (remain <= 0) return null;
+  const seconds = Math.floor(remain / 1000);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  return (
+    <div className={styles.discount_countdown}>
+      <span>{pad2(hours)}</span>
+      <i>:</i>
+      <span>{pad2(minutes)}</span>
+      <i>:</i>
+      <span>{pad2(secs)}</span>
+    </div>
+  );
 }
 
 function ReviewRate({ LANG, reviewScore, reviewsNum }) {
@@ -57,13 +95,21 @@ function ReviewRate({ LANG, reviewScore, reviewsNum }) {
   );
 }
 
-function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
+function ProductItem({ goodList, LANG, pricingMap, pricingReady, discountMap }) {
   return (
     <section className={styles.goods_container}>
       {goodList.map((product, productIndex) => {
         const areaInfo = pricingReady
           ? pickAreaInfo(pricingMap?.[`${product.sort_key}:${product.key}`])
           : null;
+        // 命中自动折扣（限时促销）→ 折后价 + 划线原价 + Saved + 限时标签/倒计时。
+        const autoDiscount = pickAutoDiscount(product, discountMap);
+        const savedAmount = autoDiscount
+          ? savedUnitAmount(areaInfo, autoDiscount)
+          : 0;
+        const discountedPrice = autoDiscount
+          ? discountedUnitPrice(areaInfo, autoDiscount)
+          : areaInfo?.product_price;
         return (
           <Link
             key={productIndex}
@@ -100,6 +146,15 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
                   src={fillOssImage(product.image_scenes)}
                 />
               ) : null}
+              {/* 限时折扣标签 + 倒计时：命中自动规则折扣时展示（永不过期则仅标签、无倒计时） */}
+              {autoDiscount ? (
+                <div className={styles.limit_discount_tag}>
+                  <span className={styles.limit_discount_label}>
+                    {formatDiscountLabel(autoDiscount, areaInfo, LANG)}
+                  </span>
+                  <CardCountdown endsAt={Number(autoDiscount.ends_at)} />
+                </div>
+              ) : null}
             </div>
             <div className={styles.content_container}>
               {/* 产品评分 */}
@@ -121,6 +176,25 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady }) {
                 <div className={styles.product_stock_container}>
                   {LANG["store.index.no_stock"]}
                 </div>
+              ) : autoDiscount && savedAmount > 0 ? (
+                <>
+                  <div className={styles.product_price_container}>
+                    <div>{`${areaInfo.currency_symbol}${formatCurrency(
+                      discountedPrice,
+                      areaInfo.currency_unit
+                    )}`}</div>
+                    <div>{`${areaInfo.currency_symbol}${formatCurrency(
+                      areaInfo.product_price,
+                      areaInfo.currency_unit
+                    )}`}</div>
+                  </div>
+                  <div className={styles.saved_tag}>
+                    {`${LANG["store.index.saved"] || "Saved"} ${areaInfo.currency_symbol}${formatCurrency(
+                      savedAmount,
+                      areaInfo.currency_unit
+                    )}`}
+                  </div>
+                </>
               ) : (
                 <div className={styles.product_price_container}>
                   <div>{`${areaInfo.currency_symbol}${formatCurrency(
@@ -156,6 +230,8 @@ export default function ProductList() {
 
   // pricingMap: { "{sortKey}:{productKey}": ProductsPricingItem } —— null 表示未就绪。
   const [pricingMap, setPricingMap] = React.useState(null);
+  // discountMap：按 product_key 索引的自动规则折扣（限时促销），未就绪为 {}。
+  const [discountMap, setDiscountMap] = React.useState({});
 
   React.useEffect(() => {
     if (!areaReady) return;
@@ -178,6 +254,26 @@ export default function ProductList() {
     };
   }, [areaReady, area, locale, allKeys]);
 
+  // 并行批量取自动折扣（限时促销）：与定价独立互不阻塞，命中按 product_key 建 map。
+  React.useEffect(() => {
+    if (!areaReady) return;
+    let cancelled = false;
+    const effectiveArea = area || "us";
+    getProductDiscounts({
+      area_code: effectiveArea,
+      product_list: allKeys.map((k) => ({
+        product_key: k.productKey,
+        sort_key: k.sortKey
+      }))
+    }).then((res) => {
+      if (cancelled) return;
+      setDiscountMap(res?.map || {});
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [areaReady, area, allKeys]);
+
   const pricingReady = pricingMap !== null;
 
   return (
@@ -194,6 +290,7 @@ export default function ProductList() {
               LANG={LANG}
               pricingMap={pricingMap}
               pricingReady={pricingReady}
+              discountMap={discountMap}
             />
           </div>
         );

@@ -90,6 +90,44 @@
                     object-fit: cover;
                     transition: opacity 1.5s cubic-bezier(.22,1,.36,1),transform 1.5s cubic-bezier(.22,1,.36,1);
                 }
+                // 限时折扣标签 + 倒计时：覆盖在商品图左上角（自动规则折扣）
+                .limit_discount_tag {
+                    position: absolute;
+                    left: 12px;
+                    top: 12px;
+                    z-index: 2;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 6px 10px;
+                    border-radius: 12px;
+                    background: #e3585a;
+                    color: #fff;
+                    font-size: 12px;
+                    line-height: 1;
+                    .limit_discount_label {
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.4px;
+                    }
+                    .discount_countdown {
+                        display: inline-flex;
+                        align-items: center;
+                        font-variant-numeric: tabular-nums;
+                        span {
+                            display: inline-block;
+                            min-width: 18px;
+                            padding: 2px 3px;
+                            border-radius: 4px;
+                            text-align: center;
+                            background: rgba(255, 255, 255, 0.28);
+                        }
+                        i {
+                            margin: 0 2px;
+                            font-style: normal;
+                        }
+                    }
+                }
             }
             .content_container {
                 display: flex;
@@ -154,6 +192,19 @@
                         margin-left: 12px;
                         font-size: 14px;
                     }
+                }
+                // 单件可省金额提示（命中自动折扣时展示于价格下方）
+                .saved_tag {
+                    display: inline-block;
+                    position: absolute;
+                    left: 24px;
+                    bottom: 8px;
+                    padding: 2px 8px;
+                    background: #fef2ef;
+                    color: #e3585a;
+                    font-size: 12px;
+                    line-height: 16px;
+                    border-radius: 4px;
                 }
             }
          

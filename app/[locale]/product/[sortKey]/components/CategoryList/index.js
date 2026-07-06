@@ -6,7 +6,12 @@ import React from "react";
 import Link from "next/link";
 
 import { formatCurrency, fillOssImage } from "@/utils";
-import { discountedUnitPrice, savedUnitAmount } from "@/utils/productPricing";
+import {
+  discountedUnitPrice,
+  savedUnitAmount,
+  pickAutoDiscount,
+  formatDiscountLabel,
+} from "@/utils/productPricing";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import WishlistButton from "@/components/WishlistButton";
@@ -92,29 +97,6 @@ function CardCountdown({ endsAt }) {
       <span>{pad2(secs)}</span>
     </div>
   );
-}
-
-// 命中自动折扣（限时促销）：未过期才返回，过期/无折扣返回 null。
-function pickAutoDiscount(product, discountMap) {
-  const d = discountMap?.[product.key];
-  if (!d || !d.ends_at || Number(d.ends_at) <= Date.now()) return null;
-  return d;
-}
-
-// 折扣标签文案：percent → "X% OFF"，fixed → "-金额"（带币种，无价时退回裸数值）。
-// NaN 防御：value 缺省时归一化为 0，避免渲染出 $NaN。
-function formatDiscountLabel(discount, areaInfo, LANG) {
-  const value = Number(discount.value) || 0;
-  if (discount.value_type === "percent") {
-    return `${value}% ${LANG?.["store.index.off"] || "OFF"}`;
-  }
-  if (areaInfo) {
-    return `-${areaInfo.currency_symbol}${formatCurrency(
-      value,
-      areaInfo.currency_unit
-    )}`;
-  }
-  return `-${value}`;
 }
 
 function ProductCard({ product, LANG, pricingMap, pricingReady, discountMap }) {
