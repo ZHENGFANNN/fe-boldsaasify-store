@@ -184,12 +184,6 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady, discountMap }) 
                       areaInfo.currency_unit
                     )}`}</div>
                   </div>
-                  <div className={styles.saved_tag}>
-                    {`${LANG["store.index.saved"] || "Saved"} ${areaInfo.currency_symbol}${formatCurrency(
-                      savedAmount,
-                      areaInfo.currency_unit
-                    )}`}
-                  </div>
                 </>
               ) : (
                 <div className={styles.product_price_container}>

@@ -28,13 +28,15 @@
 }
 .saved {
   display: inline-block;
-  padding: 2px 8px;
-  background: #fef2ef;
-  color: #e3585a;
+  padding: 3px 10px;
+  background: #fd6651;
+  color: #fff;
   font-size: 12px;
-  line-height: 18px;
+  font-weight: 600;
+  line-height: 16px;
   border-radius: 4px;
   margin-bottom: 8px;
+  letter-spacing: 0.4px;
 }
 
 @media screen and (max-width: 1080px) {

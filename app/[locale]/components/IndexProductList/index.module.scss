@@ -193,19 +193,6 @@
                         font-size: 14px;
                     }
                 }
-                // 单件可省金额提示（命中自动折扣时展示于价格下方）
-                .saved_tag {
-                    display: inline-block;
-                    position: absolute;
-                    left: 24px;
-                    bottom: 8px;
-                    padding: 2px 8px;
-                    background: #fef2ef;
-                    color: #e3585a;
-                    font-size: 12px;
-                    line-height: 16px;
-                    border-radius: 4px;
-                }
             }
          
         }
