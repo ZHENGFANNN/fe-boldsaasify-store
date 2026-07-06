@@ -8,7 +8,6 @@ import CustomizationFields from "./CustomizationFields";
 import GoodNumber from "./GoodNumber";
 import GoodBtnList from "./GoodBtnList";
 import GoodContent from "./GoodContent";
-import GoodEducation4C from "./GoodEducation4C";
 import GoodGuarantee from "./GoodGuarantee";
 import GoodCertificate from "./GoodCertificate";
 import styles from "./index.module.scss";
@@ -26,7 +25,6 @@ export default function GoodMainRight() {
       <GoodNumber />
       <GoodBtnList />
       <GoodContent />
-      <GoodEducation4C />
       <GoodGuarantee />
       <GoodCertificate />
     </div>
