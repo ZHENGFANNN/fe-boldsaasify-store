@@ -1050,6 +1050,10 @@ export default function Main({ CONFIG, LANG, area, token }) {
                     locale={locale}
                     LANG={LANG}
                     returnUrl={stripeReturnUrl}
+                    amountLabel={`${priceSymbol}${formatCurrency(
+                      orderPricing.pay_price,
+                      priceUnit
+                    )}`}
                     onError={() => {
                       showTip({
                         text: LANG["common.pay.pay_button.pay_error"],
