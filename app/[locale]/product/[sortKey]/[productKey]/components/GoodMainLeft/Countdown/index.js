@@ -47,11 +47,22 @@ export default function Countdown() {
   // 自动规则折扣（限时促销），来自 ProductContext：
   //   { value, value_type, ends_at(毫秒戳), title }
   // 由 BaseLayout 调接口 A getProductDiscounts(单商品) 注入；setAutoDiscount 供到点局部隐藏。
-  const { lazyLoading, productCurCombo, LANG, autoDiscount, setAutoDiscount } =
-    React.useContext(ProductContext);
+  const {
+    lazyLoading,
+    productCurCombo,
+    LANG,
+    autoDiscount,
+    setAutoDiscount,
+    priceLoading,
+  } = React.useContext(ProductContext);
 
-  // 显示条件：只要有商品自动折扣就展示模块；ends_at 仅决定是否渲染倒计时。
-  const active = !!autoDiscount;
+  // 价格是否已就绪：与 GoodPrice 同一口径（priceLoading 期间是骨架、无价时不渲染）。
+  // 折扣数据与地区价是两条独立异步链，折扣先返回时会出现「折扣条已显示、价格还是骨架」，
+  // 故折扣条必须等价格就绪后再显示，避免优惠条先于价格出现。
+  const priceReady = !priceLoading && !!productCurCombo?.areaInfo?.product_price;
+
+  // 显示条件：有商品自动折扣且价格已就绪才展示模块；ends_at 仅决定是否渲染倒计时。
+  const active = !!autoDiscount && priceReady;
   const hasCountdown = active && !!autoDiscount.ends_at;
 
   React.useEffect(() => {
