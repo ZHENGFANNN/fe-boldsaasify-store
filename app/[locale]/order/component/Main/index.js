@@ -802,9 +802,11 @@ export default function Main({ CONFIG, LANG, area, token }) {
                     <span>
                       {previewLoading ? (
                         "..."
-                      ) : orderPricing.shipping_pay > 0 ? (
+                      ) : orderPricing.shipping_fee > 0 ? (
+                        // 始终展示原运费；运费折扣（free_shipping code）由下方独立折扣行体现，
+                        // 不在此处直接抹成「免费」，避免藏掉原价 + 与折扣行重复表达。
                         `${priceSymbol}${formatCurrency(
-                          orderPricing.shipping_pay,
+                          orderPricing.shipping_fee,
                           priceUnit
                         )}`
                       ) : (
