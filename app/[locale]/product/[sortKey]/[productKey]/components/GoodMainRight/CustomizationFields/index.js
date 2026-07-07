@@ -4,6 +4,8 @@ import React from "react";
 import styles from "./index.module.scss";
 import ProductContext from "../../../ProductContext";
 import { textLimitOf, fileLimitOf } from "./useCustomizeFields";
+import { acceptForFileType } from "@/utils/customizeFile";
+import CustomizeFileLink from "@/components/CustomizeFileLink";
 
 /**
  * 商品定制字段（纯展示）。
@@ -90,7 +92,7 @@ export default function CustomizationFields() {
                 >
                   <input
                     type="file"
-                    accept="image/*,video/*"
+                    accept={acceptForFileType(field.file_type)}
                     multiple
                     className={styles.file_input}
                     disabled={isUploading || fileFull}
@@ -118,15 +120,7 @@ export default function CustomizationFields() {
                   <ul className={styles.file_list}>
                     {v.files.map((f, i) => (
                       <li key={`${f.url}-${i}`} className={styles.file_item}>
-                        <a
-                          className={styles.file_name}
-                          href={f.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title={f.name}
-                        >
-                          {f.name}
-                        </a>
+                        <CustomizeFileLink className={styles.file_name} file={f} />
                         <button
                           type="button"
                           className={styles.file_remove}

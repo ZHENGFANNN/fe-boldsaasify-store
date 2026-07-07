@@ -2,6 +2,7 @@
 
 import React from "react";
 import { uploadCustomizeFile } from "@/service/customize";
+import { isFileAllowedForType, fileTypeLabel } from "@/utils/customizeFile";
 
 /**
  * 商品定制字段状态中枢（单例 hook）。
@@ -78,6 +79,20 @@ export default function useCustomizeFields(customizeFields, customizeRef) {
       const incoming = Array.from(fileList || []);
       if (!incoming.length) return;
 
+      // 按运营配置的 file_type 兜底校验（accept 已在选择框限制大部分，个别系统仍可能选到）。
+      let candidates = incoming;
+      if (field.file_type) {
+        const allowed = incoming.filter((f) => isFileAllowedForType(f, field.file_type));
+        if (allowed.length < incoming.length) {
+          setNotice((prev) => ({
+            ...prev,
+            [code]: `仅支持上传${fileTypeLabel(field.file_type)}`
+          }));
+        }
+        candidates = allowed;
+      }
+      if (!candidates.length) return;
+
       // 已有 + 新增不得超过上限；超出部分截断并提示。
       const existing = values[code]?.files || [];
       const room = Math.max(0, limit - existing.length);
@@ -85,8 +100,8 @@ export default function useCustomizeFields(customizeFields, customizeRef) {
         setNotice((prev) => ({ ...prev, [code]: `最多上传 ${limit} 个文件` }));
         return;
       }
-      const files = incoming.slice(0, room);
-      const truncated = incoming.length > room;
+      const files = candidates.slice(0, room);
+      const truncated = candidates.length > room;
 
       setUploading((prev) => ({ ...prev, [code]: true }));
       try {

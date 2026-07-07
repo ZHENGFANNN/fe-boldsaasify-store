@@ -6,6 +6,7 @@ import React from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import resolveCartFromApi from "@/components/Layout/cartClient";
+import CustomizeFileLink from "@/components/CustomizeFileLink";
 import PayList from "../PayList";
 import UserInfo from "../UserType";
 import Api from "../../api";
@@ -663,16 +664,10 @@ export default function Main({ CONFIG, LANG, area, token }) {
                                     <div key={fi}>
                                       {`${field.field_label}: `}
                                       {files.map((f, idx) => (
-                                        <a
-                                          key={`${f.url}-${idx}`}
-                                          href={f.url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          title={f.name}
-                                        >
-                                          {f.name}
+                                        <React.Fragment key={`${f.url}-${idx}`}>
+                                          <CustomizeFileLink file={f} />
                                           {idx < files.length - 1 ? ", " : ""}
-                                        </a>
+                                        </React.Fragment>
                                       ))}
                                     </div>
                                   );

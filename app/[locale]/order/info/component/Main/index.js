@@ -12,6 +12,7 @@ import moment from "moment";
 
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
+import CustomizeFileLink from "@/components/CustomizeFileLink";
 import { formatCurrency } from "@/utils";
 
 export default function Main({ secret, locale, area, LANG, CONFIG }) {
@@ -357,16 +358,10 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                                     <div key={fi}>
                                       {`${field.field_label}: `}
                                       {files.map((f, idx) => (
-                                        <a
-                                          key={`${f.url}-${idx}`}
-                                          href={f.url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          title={f.name}
-                                        >
-                                          {f.name}
+                                        <React.Fragment key={`${f.url}-${idx}`}>
+                                          <CustomizeFileLink file={f} />
                                           {idx < files.length - 1 ? ", " : ""}
-                                        </a>
+                                        </React.Fragment>
                                       ))}
                                     </div>
                                   );

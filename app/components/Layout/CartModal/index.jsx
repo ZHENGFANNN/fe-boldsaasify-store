@@ -18,6 +18,7 @@ import {
 } from "@/utils/discount-codes";
 import getProductDiscounts from "@/service/product/get-product-discounts";
 import { discountedUnitPrice, savedUnitAmount } from "@/utils/productPricing";
+import CustomizeFileLink from "@/components/CustomizeFileLink";
 
 import { useRouter } from "next/navigation";
 
@@ -443,18 +444,10 @@ const CartMain = function ({ handleClose }) {
                                         <div key={fi}>
                                           {`${field.field_label}: `}
                                           {files.map((f, idx) => (
-                                            <a
-                                              key={`${f.url}-${idx}`}
-                                              href={f.url}
-                                              target="_blank"
-                                              rel="noopener noreferrer"
-                                              title={f.name}
-                                            >
-                                              {f.name}
-                                              {idx < files.length - 1
-                                                ? ", "
-                                                : ""}
-                                            </a>
+                                            <React.Fragment key={`${f.url}-${idx}`}>
+                                              <CustomizeFileLink file={f} />
+                                              {idx < files.length - 1 ? ", " : ""}
+                                            </React.Fragment>
                                           ))}
                                         </div>
                                       );
