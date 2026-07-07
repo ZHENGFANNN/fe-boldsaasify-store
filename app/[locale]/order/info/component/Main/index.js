@@ -234,64 +234,130 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 )}`}</p>
               </li>
 
-              {order.discount ? (
-                <>
-                  <li>
-                    <h3 className={styles.flex_2}>
-                      {LANG["store.order_info.discount_price"]}
-                    </h3>
-                    <p className={styles.flex_3}>
-                      <span className={styles.red}>{`- ${
-                        order.order_list[0].priceSymbol
-                      }${formatCurrency(
-                        order.discount,
-                        order.order_list[0].priceUnit
-                      )}`}</span>
-                    </p>
-                  </li>
-                  <li>
-                    <h3 className={styles.flex_2}>
-                      {LANG["store.order_info.real_price"]}
-                    </h3>
-                    <p className={styles.flex_3}>{`${
-                      order.order_list[0].priceSymbol
-                    }${formatCurrency(
-                      order.total_price - order.discount,
-                      order.order_list[0].priceUnit
-                    )}`}</p>
-                  </li>
-                </>
-              ) : null}
+              {(() => {
+                const symbol = order.order_list[0].priceSymbol;
+                const unit = order.order_list[0].priceUnit;
+                const money = (v) => `${symbol}${formatCurrency(v, unit)}`;
+                // 逐项折扣明细（后端随订单下发；老订单为空 → 回退聚合展示）。
+                let applied = [];
+                try {
+                  applied = Array.isArray(order.applied_discounts)
+                    ? order.applied_discounts
+                    : order.applied_discounts
+                    ? JSON.parse(order.applied_discounts)
+                    : [];
+                } catch {
+                  applied = [];
+                }
+                const shipDiscounts = applied.filter(
+                  (d) => d.type === "free_shipping"
+                );
+                const itemDiscounts = applied.filter(
+                  (d) => d.type !== "free_shipping"
+                );
+                const discountLabel = (d) =>
+                  d.code ||
+                  d.title ||
+                  LANG["store.order_info.discount_price"] ||
+                  "Discount";
+                const shippingLabel =
+                  LANG["store.order_info.express_price"] ||
+                  LANG["store.order.express_price"] ||
+                  "Shipping";
 
-              {Number(order.shipping_fee) > 0 ? (
-                <li>
-                  <h3 className={styles.flex_2}>
-                    {LANG["store.order_info.express_price"] ||
-                      LANG["store.order.express_price"] ||
-                      "Shipping"}
-                  </h3>
-                  <p className={styles.flex_3}>{`${
-                    order.order_list[0].priceSymbol
-                  }${formatCurrency(
-                    order.shipping_fee,
-                    order.order_list[0].priceUnit
-                  )}`}</p>
-                </li>
-              ) : null}
+                // 有逐项明细：每个折扣（含运费折扣）单独成行，运费折扣紧跟运费展示。
+                if (applied.length > 0) {
+                  return (
+                    <>
+                      {itemDiscounts.map((d, i) => (
+                        <li key={`disc-${i}`}>
+                          <h3 className={styles.flex_2}>{discountLabel(d)}</h3>
+                          <p className={styles.flex_3}>
+                            <span className={styles.red}>{`- ${money(
+                              Number(d.amount) || 0
+                            )}`}</span>
+                          </p>
+                        </li>
+                      ))}
+                      {Number(order.shipping_fee) > 0 ? (
+                        <li>
+                          <h3 className={styles.flex_2}>{shippingLabel}</h3>
+                          <p className={styles.flex_3}>
+                            {money(order.shipping_fee)}
+                          </p>
+                        </li>
+                      ) : null}
+                      {shipDiscounts.map((d, i) => (
+                        <li key={`ship-${i}`}>
+                          <h3 className={styles.flex_2}>
+                            {LANG["store.order_info.shipping_discount"] ||
+                              "Shipping discount"}
+                          </h3>
+                          <p className={styles.flex_3}>
+                            <span className={styles.red}>{`- ${money(
+                              Number(d.amount) || 0
+                            )}`}</span>
+                          </p>
+                        </li>
+                      ))}
+                      {order.pay_price ? (
+                        <li>
+                          <h3 className={styles.flex_2}>
+                            {LANG["store.order_info.pay_price"]}
+                          </h3>
+                          <p className={styles.flex_3}>
+                            {money(order.pay_price)}
+                          </p>
+                        </li>
+                      ) : null}
+                    </>
+                  );
+                }
 
-              {order.pay_price ? (
-                <li>
-                  <h3 className={styles.flex_2}>
-                    {LANG["store.order_info.pay_price"]}
-                  </h3>
-                  <p className={styles.flex_3}>{`${
-                    order.order_list[0].priceSymbol
-                  }${formatCurrency(
-                    order.pay_price,
-                    order.order_list[0].priceUnit
-                  )}`}</p>
-                </li>
-              ) : null}
+                // 无逐项明细（老订单）：回退聚合展示（与原逻辑一致）。
+                return (
+                  <>
+                    {order.discount ? (
+                      <>
+                        <li>
+                          <h3 className={styles.flex_2}>
+                            {LANG["store.order_info.discount_price"]}
+                          </h3>
+                          <p className={styles.flex_3}>
+                            <span className={styles.red}>{`- ${money(
+                              order.discount
+                            )}`}</span>
+                          </p>
+                        </li>
+                        <li>
+                          <h3 className={styles.flex_2}>
+                            {LANG["store.order_info.real_price"]}
+                          </h3>
+                          <p className={styles.flex_3}>
+                            {money(order.total_price - order.discount)}
+                          </p>
+                        </li>
+                      </>
+                    ) : null}
+                    {Number(order.shipping_fee) > 0 ? (
+                      <li>
+                        <h3 className={styles.flex_2}>{shippingLabel}</h3>
+                        <p className={styles.flex_3}>
+                          {money(order.shipping_fee)}
+                        </p>
+                      </li>
+                    ) : null}
+                    {order.pay_price ? (
+                      <li>
+                        <h3 className={styles.flex_2}>
+                          {LANG["store.order_info.pay_price"]}
+                        </h3>
+                        <p className={styles.flex_3}>{money(order.pay_price)}</p>
+                      </li>
+                    ) : null}
+                  </>
+                );
+              })()}
 
               {order.express_link ? (
                 <li>
