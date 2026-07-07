@@ -1,7 +1,10 @@
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  // 站内 nav/footer 用 99999999、购物车等弹窗更高（浏览器把超过 2147483647 的值钳到该上限）。
+  // 预览层取 int32 上限压过 nav/footer；与被钳到上限的弹窗持平时，靠本层 portal 到 body、后挂载的
+  // DOM 顺序胜出，保证图片/视频预览始终在最上层。
+  z-index: 2147483647;
   display: flex;
   align-items: center;
   justify-content: center;
