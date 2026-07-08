@@ -7,6 +7,7 @@ import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 
 import { formatCurrency, fillOssImage } from "../../../../../../utils";
+import { discountedUnitPrice, pickAutoDiscount } from "@/utils/productPricing";
 
 import ProductContext from "../../ProductContext";
 import { lazyLoadImages } from "../../../../../../utils/optimization";
@@ -23,7 +24,7 @@ export default function MobProductList({
 }) {
   // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
   const goodDiscountFestival = false;
-  const { lazyLoading } = React.useContext(ProductContext);
+  const { lazyLoading, discountMap } = React.useContext(ProductContext);
   const initSplide = React.useCallback(() => {
     const splide = new Splide(`.${styles["splide-mobile"]}`, {
       pagination: false,
@@ -75,7 +76,10 @@ export default function MobProductList({
       <div className={`splide ${styles["splide-mobile"]}`}>
         <div className="splide__track">
           <ul className="splide__list">
-            {products.map((item, index) => (
+            {products.map((item, index) => {
+              // 每个推荐产品命中自身自动折扣 → 折后价 + 划线原价，与主商品同口径。
+              const itemDiscount = pickAutoDiscount(item, discountMap);
+              return (
               <li className="splide__slide" key={index}>
                 <Link
                   scroll={true}
@@ -99,7 +103,7 @@ export default function MobProductList({
                       ) : null}
                       {/* 产品名称 */}
                       <div className={styles.product_name}>{item.name}</div>
-                      {/* 产品价格：商品级折扣已下线，只展示原价，是否缺货由 product_price 判定 */}
+                      {/* 产品价格：命中自动折扣则展示折后价 + 划线原价；无价则判缺货 */}
                       {!item.areaInfo?.product_price ? (
                         <div className={styles.product_stock_container}>
                           {LANG["store.product.no_stock"]}
@@ -109,16 +113,27 @@ export default function MobProductList({
                           <div>{`${
                             item.areaInfo?.currency_symbol
                           }${formatCurrency(
-                            item.areaInfo?.product_price,
+                            itemDiscount
+                              ? discountedUnitPrice(item.areaInfo, itemDiscount)
+                              : item.areaInfo?.product_price,
                             item.areaInfo?.currency_unit
                           )}`}</div>
+                          {itemDiscount ? (
+                            <div>{`${
+                              item.areaInfo?.currency_symbol
+                            }${formatCurrency(
+                              item.areaInfo?.product_price,
+                              item.areaInfo?.currency_unit
+                            )}`}</div>
+                          ) : null}
                         </div>
                       )}
                     </div>
                   </div>
                 </Link>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
         {products.length > 1 ? (

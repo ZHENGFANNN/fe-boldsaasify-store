@@ -3,6 +3,7 @@
 import React from "react";
 
 import { formatCurrency, fillOssImage } from "../../../../../../utils";
+import { discountedUnitPrice, pickAutoDiscount } from "@/utils/productPricing";
 import ProductContext from "../../ProductContext";
 import styles from "./index.module.scss";
 import Link from "next/link";
@@ -19,7 +20,7 @@ export default function PcProductList({
 }) {
   // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
   const goodDiscountFestival = false;
-  const { lazyLoading } = React.useContext(ProductContext);
+  const { lazyLoading, discountMap } = React.useContext(ProductContext);
   const [active, setActive] = React.useState(0);
   const [showArrow, setShowArrow] = React.useState(true);
 
@@ -90,7 +91,10 @@ export default function PcProductList({
       <div className={styles.title}>{LANG["store.product.maybe_you_like"]}</div>
       <div className={styles.splide_container}>
         <ul className={styles.list_container}>
-          {products.map((item, index) => (
+          {products.map((item, index) => {
+            // 每个推荐产品命中自身自动折扣（限时促销）→ 折后价 + 划线原价，与主商品同口径。
+            const itemDiscount = pickAutoDiscount(item, discountMap);
+            return (
             <React.Fragment key={index}>
               <li className={styles.list_item}>
                 <Link
@@ -125,7 +129,7 @@ export default function PcProductList({
                     ) : null}
                     {/* 产品名称 */}
                     <div className={styles.product_name}>{item.name}</div>
-                    {/* 产品价格：商品级折扣已下线，只展示原价，是否缺货由 product_price 判定 */}
+                    {/* 产品价格：命中自动折扣则展示折后价 + 划线原价；无价则判缺货 */}
                     {!item.areaInfo?.product_price ? (
                       <div className={styles.product_stock_container}>
                         {LANG["store.product.no_stock"]}
@@ -135,16 +139,27 @@ export default function PcProductList({
                         <div>{`${
                           item.areaInfo?.currency_symbol
                         }${formatCurrency(
-                          item.areaInfo?.product_price,
+                          itemDiscount
+                            ? discountedUnitPrice(item.areaInfo, itemDiscount)
+                            : item.areaInfo?.product_price,
                           item.areaInfo?.currency_unit
                         )}`}</div>
+                        {itemDiscount ? (
+                          <div>{`${
+                            item.areaInfo?.currency_symbol
+                          }${formatCurrency(
+                            item.areaInfo?.product_price,
+                            item.areaInfo?.currency_unit
+                          )}`}</div>
+                        ) : null}
                       </div>
                     )}
                   </div>
                 </Link>
               </li>
             </React.Fragment>
-          ))}
+            );
+          })}
         </ul>
         {/* 箭头按钮 */}
         <div

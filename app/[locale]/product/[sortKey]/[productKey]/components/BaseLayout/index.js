@@ -46,16 +46,30 @@ export default function BaseLayout({
   // 自动规则折扣（限时促销）：挂载/切商品/切地区时调接口 A 取当前单商品的促销，
   // 命中且未过期则注入 ProductContext，驱动 Countdown 限时倒计时展示。
   const [autoDiscount, setAutoDiscount] = React.useState(null);
+  // 主商品 + 推荐产品(associateProduct) 的折扣命中表（按 product_key 索引），
+  // 下发 context 供 AssociateProductList 各卡片算折后价，与主商品同一折扣口径。
+  const [discountMap, setDiscountMap] = React.useState({});
 
   React.useEffect(() => {
     const area = readClientArea();
     let cancelled = false;
     (async () => {
+      // 接口 A 本就支持 product_list 批量：一次把主商品 + 全部推荐产品带上，
+      // 避免推荐列表再单独发请求。种子(associateProduct)在服务端即已下发，挂载时可读。
+      const seed = initialProductRef.current;
+      const productList = [{ product_key: productKey, sort_key: sortKey }];
+      (seed?.associateProduct || []).forEach((p) => {
+        if (p?.key && p?.sort_key) {
+          productList.push({ product_key: p.key, sort_key: p.sort_key });
+        }
+      });
       const { map } = await getProductDiscounts({
         area_code: area,
-        product_list: [{ product_key: productKey, sort_key: sortKey }],
+        product_list: productList,
       });
       if (cancelled) return;
+      // 整表下发（过期过滤由消费方 pickAutoDiscount 逐项处理）。
+      setDiscountMap(map || {});
       const hit = map?.[productKey] || null;
       // 有命中就注入：无 ends_at 视为无限期促销（Countdown 内部只在有 ends_at 时才渲染倒计时）；
       // 有 ends_at 但已过期的丢弃。
@@ -213,6 +227,8 @@ export default function BaseLayout({
         // 自动规则折扣（限时促销），驱动 Countdown；setter 供倒计时到点局部隐藏
         autoDiscount,
         setAutoDiscount,
+        // 主商品 + 推荐产品的折扣命中表，供 AssociateProductList 各卡片算折后价
+        discountMap,
         // V2 选项体系
         optionAxes: axes,
         optionVariants: variants,
