@@ -666,24 +666,26 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                     />
                   )
                 ) : null}
-                <ConfirmModal
-                  title={
-                    LANG["store.order_info.cancel_order"] || "Cancel Order"
-                  }
-                  content={
-                    LANG["store.order_info.cancel_order_confirm"] ||
-                    "Are you sure you want to cancel this order? This cannot be undone."
-                  }
-                  onOk={handleCancelOrder}
-                  renderNode={
-                    <div className={styles.cancel_btn}>
-                      {cancelLoading
-                        ? "..."
-                        : LANG["store.order_info.cancel_order"] ||
-                          "Cancel Order"}
-                    </div>
-                  }
-                />
+                <div className={styles.cancel_wrap}>
+                  <ConfirmModal
+                    title={
+                      LANG["store.order_info.cancel_order"] || "Cancel Order"
+                    }
+                    content={
+                      LANG["store.order_info.cancel_order_confirm"] ||
+                      "Are you sure you want to cancel this order? This cannot be undone."
+                    }
+                    onOk={handleCancelOrder}
+                    renderNode={
+                      <div className={styles.cancel_btn}>
+                        {cancelLoading
+                          ? "..."
+                          : LANG["store.order_info.cancel_order"] ||
+                            "Cancel Order"}
+                      </div>
+                    }
+                  />
+                </div>
               </div>
             ) : null}
           </div>

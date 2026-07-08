@@ -291,21 +291,31 @@
     }
   }
 
-  .cancel_btn {
+  // ConfirmModal 外层是 flex，包一层把触发按钮撑到全宽
+  .cancel_wrap {
+    width: 100%;
     margin-top: 12px;
+    > div {
+      width: 100%;
+      > div:first-child {
+        width: 100%;
+      }
+    }
+  }
+
+  .cancel_btn {
     width: 100%;
     height: 48px;
-    line-height: 46px;
+    line-height: 48px;
     text-align: center;
-    box-sizing: border-box;
-    background: #ffffff;
-    color: #d92d20;
-    border: 1px solid #e5e7eb;
+    background: #cd5c56;
+    color: #ffffff;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 600;
     &:hover {
-      border-color: #d92d20;
+      opacity: 0.9;
     }
   }
 
