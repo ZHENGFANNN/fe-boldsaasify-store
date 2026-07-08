@@ -11,6 +11,7 @@ import { isEmail } from "../../../../utils/pattern";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import Api from "../../api";
+import GoogleLoginButton from "@/components/GoogleAuth/GoogleLoginButton";
 
 function UserInfo({ LANG, token }, ref) {
   const {
@@ -25,6 +26,11 @@ function UserInfo({ LANG, token }, ref) {
     React.useContext(OrderContext);
 
   const [touristsEmail, setTouristsEmail] = React.useState("");
+  // 结账页内嵌 Google 登录：成功后原地回跳当前页刷新登录态（不去账户页）
+  const [selfUrl, setSelfUrl] = React.useState("");
+  React.useEffect(() => {
+    setSelfUrl(location.href);
+  }, []);
 
   React.useEffect(() => {
     if (userInfo?.email) {
@@ -151,18 +157,22 @@ function UserInfo({ LANG, token }, ref) {
                   <div className={styles.tip}>
                     {LANG["store.order.user_type.no_login"]}
                   </div>
-                  <div className={styles.btn_container}>
+                  <div className={styles.google_wrap}>
+                    <GoogleLoginButton redirectTo={selfUrl} />
+                  </div>
+                  <div className={styles.entry_links}>
                     <Link
                       scroll={true}
-                      href={`/user/login?redirect=${location.href}`}
-                      className={styles.btn_item}
+                      href={`/user/login?redirect=${selfUrl}`}
+                      className={styles.entry_link}
                     >
                       {LANG["common.pay.pay_info.login"]}
                     </Link>
+                    <span className={styles.entry_divider}>·</span>
                     <Link
                       scroll={true}
-                      href={`/user/register?redirect=${location.href}`}
-                      className={styles.btn_item}
+                      href={`/user/register?redirect=${selfUrl}`}
+                      className={styles.entry_link}
                     >
                       {LANG["store.order.user_type.register"]}
                     </Link>

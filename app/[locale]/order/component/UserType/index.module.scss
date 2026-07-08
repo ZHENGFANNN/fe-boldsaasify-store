@@ -61,41 +61,34 @@
     }
 
     .tip {
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 14px;
       line-height: 1.5715;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
 
       color: #898a8e;
     }
-    .btn_container {
+    // Google 快捷登录（主入口）
+    .google_wrap {
+      margin-bottom: 12px;
+    }
+    // 邮箱登录/注册（次要小入口）
+    .entry_links {
       display: flex;
-      .btn_item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      align-items: center;
 
-        min-width: 120px;
-        margin-right: 12px;
-
-        padding: 10px 16px;
-        color: #fff;
-        background-color: #3c3e40;
-        font-size: 14px;
-        line-height: 17px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 400ms;
-        border: 0;
-
-        text-decoration: none;
-        &:last-child {
-          margin-right: 0;
-        }
-        &:last-child {
+      font-size: 13px;
+      color: #898a8e;
+      .entry_link {
+        color: #3c3e40;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        transition: color 300ms;
+        &:hover {
           color: #000;
-          background-color: #f2f2f3;
         }
+      }
+      .entry_divider {
+        margin: 0 8px;
       }
     }
   }
@@ -116,13 +109,6 @@
         height: 42px;
         font-size: 12px;
         padding: 0 8px;
-      }
-    }
-    .content {
-      .btn_container {
-        .btn_item {
-          min-width: 100px;
-        }
       }
     }
   }

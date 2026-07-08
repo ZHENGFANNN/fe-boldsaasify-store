@@ -558,25 +558,9 @@ export default function Main({ CONFIG, LANG, area, token }) {
             </div>
 
             <div className={`${styles.address_container}`}>
-              {!userInfo?.email && userType === "user" ? (
-                <>
-                  {!token ? (
-                    <div className={styles.mask}>
-                      <div
-                        className={styles.btn}
-                        onClick={() => {
-                          location.href = `/user/login?redirect=${location.href}`;
-                        }}
-                      >
-                        {LANG["store.order.please_login"]}
-                      </div>
-                    </div>
-                  ) : null}
-                </>
-              ) : null}
               <div className={styles.address_header}>
                 <h2>{LANG["common.pay.pay_info.shipping_address"]}</h2>
-                {userType === "user" ? (
+                {userType === "user" && userInfo?.email ? (
                   <NewAddressForm
                     LANG={LANG}
                     onFinish={() => getAddressList()}
@@ -588,14 +572,21 @@ export default function Main({ CONFIG, LANG, area, token }) {
               ) : (
                 <>
                   {userType === "user" ? (
-                    <AddressList
-                      LANG={LANG}
-                      setAddressInfo={setAddressInfo}
-                      list={addressList}
-                      showTip={({ text, type }) => {
-                        showTip({ text, type });
-                      }}
-                    />
+                    userInfo?.email ? (
+                      <AddressList
+                        LANG={LANG}
+                        setAddressInfo={setAddressInfo}
+                        list={addressList}
+                        showTip={({ text, type }) => {
+                          showTip({ text, type });
+                        }}
+                      />
+                    ) : (
+                      <div className={styles.address_login_tip}>
+                        {LANG["store.order.address_login_tip"] ||
+                          "Please sign in to add your shipping address"}
+                      </div>
+                    )
                   ) : (
                     <AddressForm
                       LANG={LANG}

@@ -48,45 +48,14 @@
           box-sizing: border-box;
   
           position: relative;
-          .mask {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-  
-            position: absolute;
-            content: '';
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-  
-            z-index: 9;
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.5);
-  
-            color: #e7e2e2;
-            font-size: 20px;
-            .btn {
-              text-transform: capitalize;
-  
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              min-width: 120px;
-              margin-right: 12px;
-              padding: 10px 16px;
-              color: #fff;
-              background-color: #3c3e40;
-              font-size: 14px;
-              line-height: 17px;
-              border-radius: 8px;
-              cursor: pointer;
-              transition: all 400ms;
-              border: 0;
-              text-decoration: none;
-            }
+          // 未登录（Sign In 页签）空态提示：不再用遮罩，只提示登录后添加地址
+          .address_login_tip {
+            padding: 40px 0;
+            text-align: center;
+            color: #898a8e;
+            font-size: 14px;
           }
-  
+
           .address_header {
             text-transform: capitalize;
   
@@ -541,9 +510,6 @@
         padding: 24px;
         margin-top: 20px;
         border-radius: 0;
-        .mask {
-            border-radius: 0;
-        }
         }
     }
     .pay_container {
