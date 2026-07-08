@@ -56,6 +56,12 @@ export default function Main({ CONFIG, LANG, area, token }) {
   // 用户类型
   const [userType, setUserType] = React.useState("tourists");
   const [userLoading, setUserLoading] = React.useState(false);
+  // 结账邮箱（游客）：预览请求带上，与下单同口径过滤超限折扣规则，
+  // 避免游客场景预览价与下单复算价不一致（登录用户直接用 userInfo.email）
+  const [checkoutEmail, setCheckoutEmail] = React.useState("");
+  React.useEffect(() => {
+    setCheckoutEmail(localStorage.getItem("tourists_email") || "");
+  }, []);
   // 用地址
   const [addressInfo, setAddressInfo] = React.useState();
   // 地址列表
@@ -215,6 +221,10 @@ export default function Main({ CONFIG, LANG, area, token }) {
         if (region) {
           payload.shipping_address = { country: area, state: region };
         }
+        const email = userInfo?.email || checkoutEmail;
+        if (email) {
+          payload.email = email;
+        }
         const res = await Api.previewOrder(payload);
         if (res.code !== 0) {
           const message =
@@ -246,7 +256,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
         setPreviewLoading(false);
       }
     },
-    [orderList, area, LANG]
+    [orderList, area, LANG, userInfo, checkoutEmail]
   );
 
   // Shopify 式坏码自愈：previewOrder 返回的 rejected_codes 从已应用列表剔除并落盘，
@@ -414,6 +424,8 @@ export default function Main({ CONFIG, LANG, area, token }) {
     }
     // 获取用户邮箱
     emailForm = userRef.current?.onSubmit();
+    // 同步到预览身份：即使 blur 未触发（自动填充等），提交时也补上
+    if (emailForm?.email) setCheckoutEmail(emailForm.email);
     // 记录访客登录状态 - 获取地址
     if (userType === "tourists") {
       addressForm = addressRef.current?.onSubmit();
@@ -534,6 +546,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
         userInfo,
         userType,
         setUserType,
+        setCheckoutEmail,
       }}
     >
       <div className={styles.container}>

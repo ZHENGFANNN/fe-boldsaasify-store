@@ -21,7 +21,7 @@ function UserInfo({ LANG, token }, ref) {
   } = useForm();
   const formRef = React.useRef(null);
   const buttonRef = React.useRef(null);
-  const { setUserType, userType, userInfo, userLoading } =
+  const { setUserType, userType, userInfo, userLoading, setCheckoutEmail } =
     React.useContext(OrderContext);
 
   const [touristsEmail, setTouristsEmail] = React.useState("");
@@ -102,6 +102,9 @@ function UserInfo({ LANG, token }, ref) {
                       value: isEmail,
                       message: LANG["common.pay.pay_info.email_error"],
                     },
+                    // 上报到预览身份：预览请求带 email，与下单同口径过滤超限折扣
+                    onBlur: (e) =>
+                      setCheckoutEmail?.(e.target.value.trim()),
                   }),
                 }}
               />

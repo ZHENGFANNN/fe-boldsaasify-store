@@ -47,6 +47,8 @@ export const DISCOUNT_REJECT_REASON = {
   NOT_APPLICABLE: 10109, // 不适用于购物车内商品
   NOT_COMBINABLE: 10110, // 与其他折扣冲突不可叠加
   UNSUPPORTED: 10112, // 暂不支持的折扣类型
+  USAGE_LIMIT: 10113, // 全局总用量已达上限（max_uses_total）
+  PER_USER_LIMIT: 10114, // 当前用户已达使用上限（per_user_limit）
 };
 
 /**
@@ -68,6 +70,10 @@ export function formatRejectedCodeMessage(rejected, LANG = {}) {
       "store.order.discount_reject_not_combinable",
     [DISCOUNT_REJECT_REASON.UNSUPPORTED]:
       "store.order.discount_reject_unsupported",
+    [DISCOUNT_REJECT_REASON.USAGE_LIMIT]:
+      "store.order.discount_reject_usage_limit",
+    [DISCOUNT_REJECT_REASON.PER_USER_LIMIT]:
+      "store.order.discount_reject_per_user_limit",
   };
   const fallbackByReason = {
     [DISCOUNT_REJECT_REASON.INVALID]: '"${code}" is not a valid code',
@@ -77,6 +83,10 @@ export function formatRejectedCodeMessage(rejected, LANG = {}) {
     [DISCOUNT_REJECT_REASON.NOT_COMBINABLE]:
       '"${code}" can\'t be combined with other discounts',
     [DISCOUNT_REJECT_REASON.UNSUPPORTED]: '"${code}" isn\'t supported here',
+    [DISCOUNT_REJECT_REASON.USAGE_LIMIT]:
+      '"${code}" has reached its usage limit',
+    [DISCOUNT_REJECT_REASON.PER_USER_LIMIT]:
+      '"${code}" has reached its usage limit for your account',
   };
   const tpl =
     (LANG && LANG[keyByReason[reason]]) ||
