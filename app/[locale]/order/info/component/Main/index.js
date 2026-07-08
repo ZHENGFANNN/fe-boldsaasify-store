@@ -6,6 +6,8 @@ import Api from "../../api";
 import { track } from "@/utils/analytics";
 import React from "react";
 import Paypal from "../../../component/Paypal";
+import StripePay from "../../../component/StripePay";
+import ConfirmModal from "@/components/Modal/ConfirmModal";
 
 import { useRouter } from "next/navigation";
 import moment from "moment";
@@ -111,6 +113,70 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
     // 移除临时元素
     document.body.removeChild(textarea);
   }, []);
+
+  // Stripe 二次支付：点击后向后端找回/重建支付会话，成功则内嵌 PaymentElement
+  const [repayClientSecret, setRepayClientSecret] = React.useState(null);
+  const [repayLoading, setRepayLoading] = React.useState(false);
+  const handleRepay = React.useCallback(async () => {
+    if (repayLoading) return;
+    setRepayLoading(true);
+    try {
+      const res = await Api.stripeRepay({ secret });
+      if (res.code === 0 && res.data?.client_secret) {
+        setRepayClientSecret(res.data.client_secret);
+      } else if (res.code === 2105 || res.code === 2106) {
+        // 已支付/已关闭：状态已变，刷新对齐
+        if (res.code === 2105) {
+          showTip({
+            text:
+              LANG["store.order_info.already_paid"] ||
+              "This order has already been paid",
+            type: "success",
+          });
+        }
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        throw new Error("repay failed");
+      }
+    } catch {
+      showTip({ text: LANG["store.order_info.pay_error"], type: "error" });
+    } finally {
+      setRepayLoading(false);
+    }
+  }, [repayLoading, secret, showTip, LANG]);
+
+  const [cancelLoading, setCancelLoading] = React.useState(false);
+  const handleCancelOrder = React.useCallback(async () => {
+    if (cancelLoading) return;
+    setCancelLoading(true);
+    try {
+      const res = await Api.cancelOrder({ secret });
+      if (res.code === 0) {
+        showTip({
+          text: LANG["store.order_info.cancel_success"] || "Order cancelled",
+          type: "success",
+        });
+        setTimeout(() => window.location.reload(), 1000);
+      } else if (res.code === 2105) {
+        showTip({
+          text:
+            LANG["store.order_info.already_paid"] ||
+            "This order has already been paid",
+          type: "success",
+        });
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        throw new Error("cancel failed");
+      }
+    } catch {
+      showTip({
+        text: LANG["store.order_info.cancel_fail"] || "Failed to cancel order",
+        type: "error",
+      });
+    } finally {
+      setCancelLoading(false);
+    }
+  }, [cancelLoading, secret, showTip, LANG]);
 
   return (
     <div className={styles.container}>
@@ -230,7 +296,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                   order.order_list[0].priceSymbol
                 }${formatCurrency(
                   order.total_price,
-                  order.order_list[0].priceUnit
+                  order.order_list[0].priceUnit,
                 )}`}</p>
               </li>
 
@@ -244,16 +310,16 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                   applied = Array.isArray(order.applied_discounts)
                     ? order.applied_discounts
                     : order.applied_discounts
-                    ? JSON.parse(order.applied_discounts)
-                    : [];
+                      ? JSON.parse(order.applied_discounts)
+                      : [];
                 } catch {
                   applied = [];
                 }
                 const shipDiscounts = applied.filter(
-                  (d) => d.type === "free_shipping"
+                  (d) => d.type === "free_shipping",
                 );
                 const itemDiscounts = applied.filter(
-                  (d) => d.type !== "free_shipping"
+                  (d) => d.type !== "free_shipping",
                 );
                 const discountLabel = (d) =>
                   d.code ||
@@ -274,7 +340,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                           <h3 className={styles.flex_2}>{discountLabel(d)}</h3>
                           <p className={styles.flex_3}>
                             <span className={styles.red}>{`- ${money(
-                              Number(d.amount) || 0
+                              Number(d.amount) || 0,
                             )}`}</span>
                           </p>
                         </li>
@@ -295,7 +361,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                           </h3>
                           <p className={styles.flex_3}>
                             <span className={styles.red}>{`- ${money(
-                              Number(d.amount) || 0
+                              Number(d.amount) || 0,
                             )}`}</span>
                           </p>
                         </li>
@@ -325,7 +391,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                           </h3>
                           <p className={styles.flex_3}>
                             <span className={styles.red}>{`- ${money(
-                              order.discount
+                              order.discount,
                             )}`}</span>
                           </p>
                         </li>
@@ -352,7 +418,9 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                         <h3 className={styles.flex_2}>
                           {LANG["store.order_info.pay_price"]}
                         </h3>
-                        <p className={styles.flex_3}>{money(order.pay_price)}</p>
+                        <p className={styles.flex_3}>
+                          {money(order.pay_price)}
+                        </p>
                       </li>
                     ) : null}
                   </>
@@ -451,7 +519,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                           goodItem.priceSymbol
                         }${formatCurrency(
                           goodItem.productPrice * goodItem.productNum,
-                          order.order_list[0].priceUnit
+                          order.order_list[0].priceUnit,
                         )}`}</div>
                       </div>
                     </div>
@@ -479,69 +547,142 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 </div>
               ) : null}
             </ul>
-            {order.pay_key === "payPal" && order.order_status === "status0" ? (
+            {order.order_status === "status0" ? (
               <div className={styles.btn_container}>
-                <Paypal
-                  LANG={LANG}
-                  CONFIG={CONFIG}
-                  area={order.area_code || area}
-                  locale={locale}
-                  order_number={order.order_number}
-                  currency={order.order_list[0].priceCurrency}
-                  onError={(error) => {
-                    console.log(error);
-                    showTip({
-                      text: LANG["store.order_info.pay_error"],
-                      type: "error",
-                    });
-                  }}
-                  onCancel={(data) => {
-                    if (data.orderID) {
+                {order.pay_key === "payPal" ? (
+                  <Paypal
+                    LANG={LANG}
+                    CONFIG={CONFIG}
+                    area={order.area_code || area}
+                    locale={locale}
+                    order_number={order.order_number}
+                    currency={order.order_list[0].priceCurrency}
+                    onError={(error) => {
+                      console.log(error);
                       showTip({
-                        text: LANG["store.order_info.pay_cancel"],
+                        text: LANG["store.order_info.pay_error"],
                         type: "error",
                       });
-                    }
-                  }}
-                  createOrder={() => {
-                    return order.order_number;
-                  }}
-                  onApprove={(data) => {
-                    return Api.confirmPaypal({
-                      id: data.orderID,
-                      from:
-                        order.first_name && order.address1 ? "order_page" : "",
-                    })
-                      .then((res) => {
-                        if (res.code === 0) {
-                          track("Purchase", {
-                            from: "order_info_page",
-                            currency: res.data.currency_code,
-                            value: res.data.value,
-                            discount: order.discount,
-                            contents: order.order_list,
-                            type: "payPal",
-                          });
-                          showTip({
-                            text: LANG["store.order_info.pay_success"],
-                            type: "success",
-                          });
-                          // 移除订单信息
-                          localStorage.removeItem("order");
-                          setTimeout(() => {
-                            window.location.reload();
-                          }, 1000);
-                        } else {
-                          throw new Error("code !== 0");
-                        }
-                      })
-                      .catch(() => {
+                    }}
+                    onCancel={(data) => {
+                      if (data.orderID) {
                         showTip({
-                          text: LANG["store.order_info.pay_fail"],
+                          text: LANG["store.order_info.pay_cancel"],
                           type: "error",
                         });
-                      });
-                  }}
+                      }
+                    }}
+                    createOrder={() => {
+                      return order.order_number;
+                    }}
+                    onApprove={(data) => {
+                      return Api.confirmPaypal({
+                        id: data.orderID,
+                        from:
+                          order.first_name && order.address1
+                            ? "order_page"
+                            : "",
+                      })
+                        .then((res) => {
+                          if (res.code === 0) {
+                            track("Purchase", {
+                              from: "order_info_page",
+                              currency: res.data.currency_code,
+                              value: res.data.value,
+                              discount: order.discount,
+                              contents: order.order_list,
+                              type: "payPal",
+                            });
+                            showTip({
+                              text: LANG["store.order_info.pay_success"],
+                              type: "success",
+                            });
+                            // 移除订单信息
+                            localStorage.removeItem("order");
+                            setTimeout(() => {
+                              window.location.reload();
+                            }, 1000);
+                          } else {
+                            throw new Error("code !== 0");
+                          }
+                        })
+                        .catch(() => {
+                          showTip({
+                            text: LANG["store.order_info.pay_fail"],
+                            type: "error",
+                          });
+                        });
+                    }}
+                  />
+                ) : null}
+                {order.pay_key === "stripe" ? (
+                  !repayClientSecret ? (
+                    <div className={styles.repay_btn} onClick={handleRepay}>
+                      {repayLoading
+                        ? "..."
+                        : LANG["store.order_info.continue_pay"] ||
+                          "Continue Payment"}
+                    </div>
+                  ) : (
+                    <StripePay
+                      clientSecret={repayClientSecret}
+                      locale={locale}
+                      LANG={LANG}
+                      returnUrl={
+                        typeof window !== "undefined"
+                          ? window.location.href
+                          : ""
+                      }
+                      amountLabel={`${
+                        order.order_list[0].priceSymbol
+                      }${formatCurrency(
+                        order.pay_price || order.total_price,
+                        order.order_list[0].priceUnit,
+                      )}`}
+                      onError={() => {
+                        showTip({
+                          text: LANG["store.order_info.pay_error"],
+                          type: "error",
+                        });
+                      }}
+                      onSuccess={() => {
+                        track("Purchase", {
+                          from: "order_info_page",
+                          currency: order.order_list[0].priceCurrency,
+                          value: order.pay_price,
+                          discount: order.discount,
+                          contents: order.order_list,
+                          type: "stripe",
+                        });
+                        showTip({
+                          text: LANG["store.order_info.pay_success"],
+                          type: "success",
+                        });
+                        localStorage.removeItem("order");
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 1000);
+                      }}
+                    />
+                  )
+                ) : null}
+                <ConfirmModal
+                  title={
+                    LANG["store.order_info.cancel_order"] || "Cancel Order"
+                  }
+                  content={
+                    LANG["store.order_info.cancel_order_confirm"] ||
+                    "Are you sure you want to cancel this order? This cannot be undone."
+                  }
+                  onOk={handleCancelOrder}
+                  renderNode={
+                    <div className={styles.cancel_btn}>
+                      {cancelLoading
+                        ? "..."
+                        : LANG["store.order_info.cancel_order"] ||
+                          "Cancel Order"}
+                    </div>
+                  }
                 />
               </div>
             ) : null}
