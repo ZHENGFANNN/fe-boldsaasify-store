@@ -47,10 +47,6 @@ const request = {
   confirmPaypal: (data) => {
     return api.post("/pay/confirmPaypal", data);
   },
-  // 可选：Stripe 支付状态查询（加速跳转，不能替代 Webhook）
-  confirmStripe: (data) => {
-    return api.post("/pay/confirmStripe", data);
-  },
 };
 
 export default request;

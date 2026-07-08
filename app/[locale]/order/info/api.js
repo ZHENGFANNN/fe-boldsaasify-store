@@ -13,6 +13,14 @@ const request = {
   confirmPaypal: (data) => {
     return api.post("/pay/confirmPaypal", data);
   },
+  // Stripe 二次支付：凭订单 secret 找回/重建支付会话
+  stripeRepay: (data) => {
+    return api.post("/pay/stripeRepay", data);
+  },
+  // 取消待支付订单
+  cancelOrder: (data) => {
+    return api.post("/pay/cancelOrder", data);
+  },
 };
 
 export default request;
