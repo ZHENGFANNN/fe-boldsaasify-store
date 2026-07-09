@@ -399,6 +399,7 @@ export default function LiveChat({ locale, area }) {
   // Phase 2 订单分享：登录态（token cookie）决定入口可见，picker 控制选择器开关
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [orderPickerOpen, setOrderPickerOpen] = React.useState(false);
+  const [sendError, setSendError] = React.useState("");
   // 商品分享选择器（购物车/最近浏览/搜索三来源，全客户端，无需登录）
   const [productPickerOpen, setProductPickerOpen] = React.useState(false);
   // 切片3 满意度评价：rated 已评价态、rating 选中分值(1~5)、feedback 反馈文本
@@ -1171,6 +1172,7 @@ export default function LiveChat({ locale, area }) {
       isInflight: true,
     };
     setMessages((prev) => upsertMessage(prev, optimistic));
+    setSendError("");
     try {
       const res = await sendChatMessage({
         conversation_id: activeSession.conversation_id,
@@ -1189,9 +1191,11 @@ export default function LiveChat({ locale, area }) {
         }
       } else {
         setMessages((prev) => prev.filter((m) => m.client_msg_id !== clientMsgId));
+        setSendError(copy.sendOrderFailed || "Could not share this order.");
       }
     } catch (err) {
       setMessages((prev) => prev.filter((m) => m.client_msg_id !== clientMsgId));
+      setSendError(copy.sendOrderFailed || "Could not share this order.");
       console.warn("[LiveChat] send order failed", err);
     }
   };
@@ -2024,6 +2028,11 @@ export default function LiveChat({ locale, area }) {
           <div ref={messagesEndRef} />
         </div>
         <div className={styles.footer}>
+          {sendError ? (
+            <div className={styles.sendError} role="alert">
+              {sendError}
+            </div>
+          ) : null}
           <div className={styles.inputWrap}>
             <input
               ref={fileInputRef}
