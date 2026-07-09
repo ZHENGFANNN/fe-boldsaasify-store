@@ -248,7 +248,8 @@ export default function OrderInfo({ LANG }) {
                       <div className={styles.total_price}>
                         <b> {LANG["user_account.my_order.total_price"]}</b>
                         {`${orderItem.order_list[0].priceCurrency} ${
-                          orderItem.total_price - (orderItem.discount ?? 0)
+                          orderItem.subtotal_after_discount ??
+                          orderItem.total_price
                         }`}
                       </div>
                       {orderItem.order_status === "status0" ? (

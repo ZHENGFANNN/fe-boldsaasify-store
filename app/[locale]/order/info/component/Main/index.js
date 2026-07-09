@@ -400,7 +400,9 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                             {LANG["store.order_info.real_price"]}
                           </h3>
                           <p className={styles.flex_3}>
-                            {money(order.total_price - order.discount)}
+                            {money(
+                              order.subtotal_after_discount ?? order.total_price,
+                            )}
                           </p>
                         </li>
                       </>
