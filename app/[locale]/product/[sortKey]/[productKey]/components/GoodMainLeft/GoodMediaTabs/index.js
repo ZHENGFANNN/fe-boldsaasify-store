@@ -55,6 +55,16 @@ export default function SelectList() {
     }
   }, [spinFrames]);
 
+  // spin tab 不可用时（如关闭 demo）自动回到 Photos，避免空白媒体区
+  React.useEffect(() => {
+    if (
+      productShowType === "spin" &&
+      (!spinFrames || spinFrames.length === 0)
+    ) {
+      setProductShowType("image");
+    }
+  }, [productShowType, spinFrames, setProductShowType]);
+
   React.useEffect(() => {
     if (!lazyLoading) {
       // 高亮胶囊定位：直接读激活 tab 的真实位置/宽度，
