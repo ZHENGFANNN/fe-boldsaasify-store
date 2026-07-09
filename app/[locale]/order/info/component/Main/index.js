@@ -178,6 +178,17 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
     }
   }, [cancelLoading, secret, showTip, LANG]);
 
+  // Stripe 二次支付 return_url：只用 secret，不带 payment_intent 等回调参数
+  const repayReturnUrl = React.useMemo(() => {
+    if (typeof window === "undefined") return "";
+    return `${window.location.origin}${window.location.pathname}?secret=${secret}`;
+  }, [secret]);
+
+  const handleStripeRepayConfirm = React.useCallback(async () => {
+    if (!repayClientSecret) return null;
+    return { clientSecret: repayClientSecret, returnUrl: repayReturnUrl };
+  }, [repayClientSecret, repayReturnUrl]);
+
   return (
     <div className={styles.container}>
       {loading || !order ? (
@@ -627,14 +638,14 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                     </div>
                   ) : (
                     <StripePay
-                      clientSecret={repayClientSecret}
+                      amount={Math.round(
+                        (order.pay_price || order.total_price) *
+                          (order.order_list[0].priceUnit || 100),
+                      )}
+                      currency={order.order_list[0].priceCurrency.toLowerCase()}
                       locale={locale}
                       LANG={LANG}
-                      returnUrl={
-                        typeof window !== "undefined"
-                          ? window.location.href
-                          : ""
-                      }
+                      onCreateOrder={handleStripeRepayConfirm}
                       amountLabel={`${
                         order.order_list[0].priceSymbol
                       }${formatCurrency(
