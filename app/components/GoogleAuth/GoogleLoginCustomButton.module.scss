@@ -1,0 +1,60 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  border-radius: 50px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 200ms, background 200ms, border-color 200ms;
+
+  &:hover {
+    background: #f8f9fa;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  &:active {
+    background: #eef0f2;
+  }
+}
+
+.visual {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: transparent;
+  border: 1px solid #dadce0;
+  border-radius: 50px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.icon {
+  flex-shrink: 0;
+  display: block;
+}
+
+.text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1f1f1f;
+  letter-spacing: 0.25px;
+}
+
+// 官方按钮透明覆盖，承接点击；scaleX 由 JS 计算以铺满容器
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 100%;
+  opacity: 0.001;
+  transform-origin: top left;
+  z-index: 2;
+  // 让 Google 渲染的 iframe/容器撑满 48px 高，保证垂直方向也可点
+  > div,
+  iframe {
+    height: 100% !important;
+  }
+}

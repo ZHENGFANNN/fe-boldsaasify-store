@@ -63,49 +63,81 @@
       margin-bottom: 16px;
       color: #898a8e;
     }
-    // Google 快捷登录（主入口）
+    // Google 快捷登录（主入口，铺满 width 100%）
     .google_wrap {
-      margin-bottom: 16px;
+      position: relative;
+      width: 100%;
     }
-    // “or” 分隔线，区隔快捷登录与邮箱登录
-    .or_row {
+    // 「推荐」小标签，暗示这是最快入口
+    .recommend_tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 18px;
+      color: #0f6a2e;
+      background: #e6f4ea;
+      border-radius: 10px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    // OR 分隔线
+    .divider {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 16px;
-      color: #b6b7bb;
+      margin: 20px 0;
+    }
+    .divider_line {
+      flex: 1;
+      height: 1px;
+      background: #e5e7eb;
+    }
+    .divider_text {
+      color: #9ca3af;
       font-size: 12px;
+      font-weight: 600;
       letter-spacing: 1px;
       text-transform: uppercase;
-      &:before,
-      &:after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: rgba(0, 0, 0, 0.08);
-      }
+      white-space: nowrap;
     }
-    // 邮箱登录/注册（次要小入口）
-    .entry_links {
+    // 邮箱登录/注册按钮组（次要入口，一行两颗）
+    .entry_buttons {
+      display: flex;
+      gap: 12px;
+    }
+    .entry_button {
+      flex: 1;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
-
-      font-size: 13px;
-      color: #898a8e;
-      .entry_link {
-        color: #3c3e40;
-        font-weight: 500;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        transition: color 300ms;
-        &:hover {
-          color: #000;
-        }
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: all 200ms;
+      cursor: pointer;
+      &:hover {
+        transform: translateY(-1px);
       }
-      .entry_divider {
-        margin: 0 10px;
-        color: #c9cacd;
+    }
+    .entry_button_primary {
+      background: #f4f5f7;
+      color: #1f1f1f;
+      border: 1px solid transparent;
+      &:hover {
+        background: #ebedf0;
+      }
+    }
+    .entry_button_secondary {
+      background: #fff;
+      color: #1f1f1f;
+      border: 1px solid #dadce0;
+      &:hover {
+        background: #f8f9fa;
       }
     }
   }
@@ -117,6 +149,15 @@
       .tab_item {
         line-height: 38px;
         font-size: 12px;
+      }
+    }
+    .content {
+      .entry_buttons {
+        gap: 8px;
+      }
+      .entry_button {
+        height: 44px;
+        font-size: 13px;
       }
     }
   }

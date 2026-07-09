@@ -11,7 +11,7 @@ import { isEmail } from "../../../../utils/pattern";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import Api from "../../api";
-import GoogleLoginButton from "@/components/GoogleAuth/GoogleLoginButton";
+import GoogleLoginCustomButton from "@/components/GoogleAuth/GoogleLoginCustomButton";
 
 function UserInfo({ LANG, token }, ref) {
   const {
@@ -158,24 +158,36 @@ function UserInfo({ LANG, token }, ref) {
                     {LANG["store.order.user_type.no_login"]}
                   </div>
                   <div className={styles.google_wrap}>
-                    <GoogleLoginButton redirectTo={selfUrl} />
+                    <div className={styles.recommend_tag}>
+                      {LANG["store.order.user_type.recommend"] || "Recommended · Fastest"}
+                    </div>
+                    <GoogleLoginCustomButton
+                      redirectTo={selfUrl}
+                      label={
+                        LANG["store.order.user_type.google_continue"] ||
+                        "Continue with Google"
+                      }
+                    />
                   </div>
-                  <div className={styles.or_row}>
-                    {LANG["common.or"] || "or"}
+                  <div className={styles.divider}>
+                    <span className={styles.divider_line} />
+                    <span className={styles.divider_text}>
+                      {LANG["user_login.other_login"] || "OR"}
+                    </span>
+                    <span className={styles.divider_line} />
                   </div>
-                  <div className={styles.entry_links}>
+                  <div className={styles.entry_buttons}>
                     <Link
                       scroll={true}
                       href={`/user/login?redirect=${selfUrl}`}
-                      className={styles.entry_link}
+                      className={`${styles.entry_button} ${styles.entry_button_primary}`}
                     >
                       {LANG["common.pay.pay_info.login"] || "Log in"}
                     </Link>
-                    <span className={styles.entry_divider}>·</span>
                     <Link
                       scroll={true}
                       href={`/user/register?redirect=${selfUrl}`}
-                      className={styles.entry_link}
+                      className={`${styles.entry_button} ${styles.entry_button_secondary}`}
                     >
                       {LANG["store.order.user_type.register"] || "Register"}
                     </Link>
