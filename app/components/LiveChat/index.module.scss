@@ -1576,22 +1576,25 @@ $shadow-md: 0 8px 28px rgba(0, 0, 0, 0.14);
     padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 
-  // 移动端订单卡片随气泡放宽，避免过窄折行
-  .orderCard {
+  // 移动端订单卡片/商品卡片随气泡放宽，避免过窄折行
+  .orderCard,
+  .productCard {
     max-width: 70vw;
   }
 }
 
-// 平板/中屏：面板为浮层，订单卡片随气泡宽度
+// 平板/中屏：面板为浮层，订单卡片/商品卡片随气泡宽度
 @media (min-width: 780px) and (max-width: 1440px) {
-  .orderCard {
+  .orderCard,
+  .productCard {
     max-width: 260px;
   }
 }
 
-// 大屏桌面：略放宽订单卡片与选择器缩略图
+// 大屏桌面：略放宽订单卡片/商品卡片与选择器缩略图
 @media (min-width: 1440px) and (max-width: 1920px) {
-  .orderCard {
+  .orderCard,
+  .productCard {
     max-width: 280px;
   }
 }
