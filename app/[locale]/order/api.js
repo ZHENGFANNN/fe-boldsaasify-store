@@ -39,10 +39,6 @@ const request = {
   parseAddress: (data) => {
     return api.post("/user/parseAddress", data);
   },
-  // Token登录
-  tokenLogin: () => {
-    return api.get("/user/tokenLogin");
-  },
   // 确认Paypal
   confirmPaypal: (data) => {
     return api.post("/pay/confirmPaypal", data);

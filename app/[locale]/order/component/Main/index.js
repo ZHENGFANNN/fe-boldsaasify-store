@@ -23,6 +23,7 @@ import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
 import Advantage from "@/components/Layout/Advantage";
 import { formatCurrency, roundToDecimalPlaces } from "@/utils";
+import verifyLogin from "@/utils/verifyLogin";
 
 import styles from "./index.module.scss";
 import Cookies from "js-cookie";
@@ -392,27 +393,35 @@ export default function Main({ CONFIG, LANG, area, token }) {
 
   // 获取用户信息
   React.useEffect(() => {
-    if (token) {
-      setUserLoading(true);
-      Api.tokenLogin()
-        .then((res) => {
-          if (res.code === 0) {
-            setUserInfo(res.data);
-            setUserType("user");
-          } else {
-            throw new Error("code !== 0");
-          }
-        })
-        .catch(() => {
+    if (!token) {
+      setUserType("tourists");
+      return;
+    }
+    let cancelled = false;
+    setUserLoading(true);
+    // token 存在即已登录（与页头同口径）。tokenLogin 仅用于拉取用户信息并做二次校验：
+    // 只有服务端明确判定失效（invalid）才清 token 降级游客；网络/超时（error）已在
+    // verifyLogin 内重试，重试耗尽也保留 token 维持登录态，不再因一次抖动把用户登出。
+    verifyLogin()
+      .then((result) => {
+        if (cancelled) return;
+        if (result.status === "ok") {
+          setUserInfo(result.data);
+          setUserType("user");
+        } else if (result.status === "invalid") {
           Cookies.remove("token");
           setUserType("tourists");
-        })
-        .finally(() => {
-          setUserLoading(false);
-        });
-    } else {
-      setUserType("tourists");
-    }
+        } else {
+          // 瞬时错误：保留 token，维持已登录态，等后端恢复后地址等接口自愈
+          setUserType("user");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setUserLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const getUserInfo = React.useCallback(() => {

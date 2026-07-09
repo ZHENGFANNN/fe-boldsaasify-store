@@ -51,10 +51,6 @@ const request = {
   getAfterServiceList: () => {
     return api.post("/pay/getAfterServiceList");
   },
-  // Token登陆
-  tokenLogin: () => {
-    return api.get("/user/tokenLogin");
-  },
 };
 
 export default request;

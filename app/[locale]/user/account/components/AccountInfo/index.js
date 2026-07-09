@@ -10,6 +10,7 @@ import GlobalContext from "@/[locale]/context";
 import EditPasswordForm from "../EditPasswordForm/index";
 import Loading from "@/components/Loading";
 import Cookies from "js-cookie";
+import verifyLogin from "@/utils/verifyLogin";
 
 function FormInput({ inputProps, label, error }) {
   return (
@@ -36,24 +37,30 @@ export default function AccountInfo({ showTip, LANG }) {
   } = useForm();
 
   React.useEffect(() => {
+    let cancelled = false;
     setLoading(true);
-    Api.tokenLogin()
-      .then((res) => {
-        if (res.code === 0) {
-          setUserInfo(res.data);
-          reset(res.data);
+    // 仅在服务端明确判定登录态失效（invalid）时才清 token 并弹回登录页；
+    // 网络/超时（error）已在 verifyLogin 内重试，重试耗尽也保留 token，
+    // 不再因一次抖动把已登录用户误踢到 /user/login。
+    verifyLogin()
+      .then((result) => {
+        if (cancelled) return;
+        if (result.status === "ok") {
+          setUserInfo(result.data);
+          reset(result.data);
+        } else if (result.status === "invalid") {
+          Cookies.remove("token");
+          location.href = "/user/login";
         } else {
-          throw new Error("code !== 0");
+          console.log("[tokenLogin Error]: ", result.error);
         }
       })
-      .catch((error) => {
-        location.href = "/user/login";
-        Cookies.remove("token");
-        console.log("[tokenLogin Error]: ", error);
-      })
       .finally(() => {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const onSubmit = React.useCallback(

@@ -43,9 +43,20 @@ instance.interceptors.response.use(
   },
   // 请求失败
   (error) => {
-    // 网络/CORS/超时等错误没有 response，旧代码直接解构会抛 TypeError，
-    // 把真实错误盖成 "Cannot destructure property 'status'"，进而让 PayPal
-    // createOrder 拿不到订单号报 "Expected an order id"。这里做空值保护。
+    // 无 response = 网络/CORS/超时（含 nginx keepalive_timeout 到期后浏览器复用
+    // 已失效 keep-alive socket 的 Chrome "Stalled" → 卡到 TCP 超时 ~30s）。
+    // 仅对幂等 GET 自动重试一次：重试会新建连接，绕开那条 dead socket。
+    // POST（下单/支付/发消息）绝不自动重试，避免重复提交/重复扣款。
+    const config = error?.config;
+    const isNetworkError = !error?.response;
+    const isIdempotent = (config?.method || "").toLowerCase() === "get";
+    if (config && isNetworkError && isIdempotent && !config.__staleRetry) {
+      config.__staleRetry = true;
+      return instance(config);
+    }
+    // 旧代码直接解构 error.response 会抛 TypeError，把真实错误盖成
+    // "Cannot destructure property 'status'"，进而让 PayPal createOrder
+    // 拿不到订单号报 "Expected an order id"。这里做空值保护。
     const status = error?.response?.status;
     if (status === 403) window.location.href = "/user/login";
     return Promise.reject(error);
