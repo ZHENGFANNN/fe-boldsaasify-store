@@ -11,15 +11,23 @@ import { formatCurrency } from "@/utils";
 
 export default function OrderInfo({ LANG }) {
   const payMap = React.useMemo(() => {
+    const transfer = LANG["user_account.my_order.transfer"];
+    const creditCard = LANG["user_account.my_order.credit_card"];
+    const cod = LANG["user_account.my_order.cod"];
     return {
       wechat: LANG["user_account.my_order.wechat"],
       zhifubao: LANG["user_account.my_order.zhifubao"],
-      bankTransfer: LANG["user_account.my_order.transfer"],
-      creditCard: LANG["user_account.my_order.credit_card"],
+      // 当前 checkout 使用的 pay_key
+      stripe: creditCard || "Card",
       payPal: LANG["user_account.my_order.paypal"],
-      COD: LANG["user_account.my_order.cod"],
+      bank: transfer,
+      cod,
+      // 历史订单兼容
+      bankTransfer: transfer,
+      creditCard,
+      COD: cod,
     };
-  }, []);
+  }, [LANG]);
   const orderStatus = React.useMemo(() => {
     return {
       status0: LANG["user_account.my_order.await_pay"],
@@ -325,18 +333,10 @@ export default function OrderInfo({ LANG }) {
                       {orderItem.order_status === "status0" ? (
                         <div
                           onClick={() => {
-                            if (orderItem.pay_key === "bankTransfer") {
-                              window.open(
-                                `/order/info?secret=${orderItem.secret}`,
-                                "_blank"
-                              );
-                            }
-                            if (orderItem.pay_key === "payPal") {
-                              window.open(
-                                `/order/info?secret=${orderItem.secret}`,
-                                "_blank"
-                              );
-                            }
+                            window.open(
+                              `/order/info?secret=${orderItem.secret}`,
+                              "_blank"
+                            );
                           }}
                           className={styles.insta_pay}
                         >
