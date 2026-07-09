@@ -76,10 +76,13 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
       bank: LANG["store.order_info.transfer"],
       creditCard: LANG["store.order_info.credit_card"],
       payPal: LANG["store.order_info.paypal"],
-      stripe: LANG["store.order_info.credit_card"] || "Card",
+      // 与 checkout PayList / My Orders 一致：Stripe 不显示为 Credit Card
+      stripe:
+        LANG["common.pay.pay_info.pay_list.stripe_detail"]?.split(" ")[0] ||
+        "Stripe",
       cod: LANG["store.order_info.pay_after_arrival"],
     };
-  }, []);
+  }, [LANG]);
 
   const orderStatus = React.useMemo(() => {
     return {
