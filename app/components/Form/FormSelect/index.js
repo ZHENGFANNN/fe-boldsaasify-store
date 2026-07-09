@@ -35,6 +35,7 @@ export default function FormSelect({
   const { onChange, onBlur, name, ref } = inputProps;
 
   const hasValue = value !== "" && value !== undefined && value !== null;
+  const labelFloated = isFocus || hasValue || focus || isOpen;
   const selectedOption = options.find(
     (item) => String(item.value) === String(value)
   );
@@ -91,8 +92,6 @@ export default function FormSelect({
     setIsFocus(false);
     onBlur?.({ target: { name, value: nextValue } });
   };
-
-  const labelFloated = isFocus || hasValue || focus || isOpen;
 
   return (
     <div className={styles.container} ref={containerRef}>
