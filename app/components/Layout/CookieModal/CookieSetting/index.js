@@ -5,7 +5,7 @@ import Link from "next/link";
 import Cookie from "js-cookie";
 import styles from "./index.module.scss";
 import { useRouter } from "next/navigation";
-import { FormSwitch } from "@/components/Form";
+import FormSwitch from "@/components/Form/FormSwitch";
 
 function CookieItem({
   title,

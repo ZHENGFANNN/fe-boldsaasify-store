@@ -7,7 +7,9 @@ import ShowTipModal from "@/components/Modal/ShowTipModal";
 import { useForm } from "react-hook-form";
 
 import Api from "@/components/Layout/api";
-import { FormInput, FormTextarea, FormItem } from "@/components/Form";
+import FormInput from "@/components/Form/FormInput";
+import FormTextarea from "@/components/Form/FormTextArea";
+import FormItem from "@/components/Form/FormItem";
 
 function Modal(_, ref) {
   const tipRef = React.useRef(null);
