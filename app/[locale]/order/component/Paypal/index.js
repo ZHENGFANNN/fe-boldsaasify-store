@@ -63,6 +63,7 @@ function PayButton({
       style={{
         layout: "vertical",
         color: "gold",
+        shape: "pill",
         label: "paypal",
         "disable-country-change": "true"
       }}

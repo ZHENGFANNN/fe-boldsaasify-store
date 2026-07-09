@@ -114,7 +114,6 @@
 
     .conutry_container {
       min-width: 100%;
-      padding-top: 24px;
       display: flex;
       flex-direction: column;
 
@@ -176,6 +175,7 @@
         display: flex;
         align-items: center;
         background: #fff;
+        padding: 12px 0;
 
         .search_icon {
           position: absolute;

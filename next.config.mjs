@@ -56,7 +56,8 @@ const nextConfig = {
         permanent: true
       }
     ];
-  }
+  },
+  allowedDevOrigins: ["www.boldradiant.com"]
 };
 
 export default nextConfig;

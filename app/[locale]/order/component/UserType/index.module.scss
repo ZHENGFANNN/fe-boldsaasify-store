@@ -4,7 +4,7 @@
     display: flex;
     padding: 4px;
     background: rgba(0, 0, 0, 0.05);
-    border-radius: 12px;
+    border-radius: 50px;
     &:after {
       position: absolute;
       content: "";
@@ -12,7 +12,7 @@
       bottom: 4px;
       left: 4px;
       width: calc(50% - 4px);
-      border-radius: 8px;
+      border-radius: 50px;
       background: #000;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
       transition: transform 300ms ease;
@@ -33,7 +33,7 @@
       z-index: 2;
       flex: 1;
       cursor: pointer;
-      line-height: 40px;
+      line-height: 1.2;
       text-align: center;
       font-weight: 600;
       font-size: 13px;
@@ -41,6 +41,12 @@
       letter-spacing: 0.5px;
       text-transform: uppercase;
       transition: color 300ms;
+      padding: 8px 16px;
+      min-height: 32px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
       &.active {
         color: #fff;
       }
@@ -67,20 +73,6 @@
     .google_wrap {
       position: relative;
       width: 100%;
-    }
-    // 「推荐」小标签，暗示这是最快入口
-    .recommend_tag {
-      display: inline-block;
-      margin-bottom: 8px;
-      padding: 2px 10px;
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 18px;
-      color: #0f6a2e;
-      background: #e6f4ea;
-      border-radius: 10px;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
     }
     // OR 分隔线
     .divider {
@@ -118,6 +110,7 @@
       font-weight: 600;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      text-decoration: none;
       transition: all 200ms;
       cursor: pointer;
       &:hover {
@@ -143,19 +136,21 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
   .container {
     .tabs {
       .tab_item {
-        line-height: 38px;
         font-size: 12px;
       }
     }
     .content {
       .entry_buttons {
-        gap: 8px;
+        flex-direction: column;
+        gap: 12px;
       }
       .entry_button {
+        flex: none;
+        width: 100%;
         height: 44px;
         font-size: 13px;
       }

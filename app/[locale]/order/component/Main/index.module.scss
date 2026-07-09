@@ -16,7 +16,7 @@
       justify-content: space-between;
       margin: auto;
   
-      padding-bottom: 64px;
+      padding-bottom: 24px;
       .submit_container {
         width: 726px;
         max-width: 726px;
@@ -472,11 +472,11 @@
         position: relative;
         top: 0;
 
-        .paypal_btn,
+        .paypal_btn {
+          width: 100%;
+        }
         .stripe_btn {
-          min-width: 260px;
-          width: 320px;
-          margin: auto;
+          width: 100%;
         }
 
         .submit_btn {
@@ -545,11 +545,12 @@
         position: relative;
         top: 0;
 
-        .paypal_btn,
+        .paypal_btn {
+        width: 100%;
+        margin-bottom: 56px;
+        }
         .stripe_btn {
-        min-width: 260px;
-        width: 300px;
-        margin: auto;
+        width: 100%;
         margin-bottom: 56px;
         }
 

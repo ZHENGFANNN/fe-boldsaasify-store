@@ -85,7 +85,6 @@ function Modal(_, ref) {
           </div>
           <div className={styles.conutry_container}>
             <LanguagePicker onAfterSelect={() => setShow(false)} />
-            <div className={styles.section_divider} />
             <div className={styles.area_section_title}>
               {areaSectionTitleMap[locale] || areaSectionTitleMap.en}
             </div>

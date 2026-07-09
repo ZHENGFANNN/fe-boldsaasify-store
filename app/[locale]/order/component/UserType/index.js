@@ -158,9 +158,6 @@ function UserInfo({ LANG, token }, ref) {
                     {LANG["store.order.user_type.no_login"]}
                   </div>
                   <div className={styles.google_wrap}>
-                    <div className={styles.recommend_tag}>
-                      {LANG["store.order.user_type.recommend"] || "Recommended · Fastest"}
-                    </div>
                     <GoogleLoginCustomButton
                       redirectTo={selfUrl}
                       label={
