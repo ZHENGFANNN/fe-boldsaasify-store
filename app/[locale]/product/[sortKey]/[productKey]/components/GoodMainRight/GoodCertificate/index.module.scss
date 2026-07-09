@@ -85,33 +85,6 @@
   }
 }
 
-// 溯源叙事段
-.traceability {
-  margin-top: 24px;
-  padding: 20px;
-  background-color: #faf8f3;
-  border-radius: 4px;
-
-  .traceTitle {
-    font-size: 15px;
-    font-weight: 600;
-    color: #262629;
-    line-height: 22px;
-    margin-bottom: 10px;
-  }
-
-  .traceBody {
-    font-size: 13px;
-    color: #5a5a55;
-    line-height: 20px;
-    margin: 0 0 8px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
 // Modal 内容
 .modalBody {
   padding-top: 4px;
@@ -167,9 +140,6 @@
 // ── 响应式 ──
 // 移动端 0–779
 @media screen and (max-width: 779px) {
-  .traceability {
-    padding: 16px;
-  }
 
   .list .item .left_content {
     gap: 8px;

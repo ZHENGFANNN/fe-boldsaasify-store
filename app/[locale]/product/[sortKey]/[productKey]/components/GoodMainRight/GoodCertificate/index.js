@@ -106,25 +106,6 @@ export default function GoodCertificate() {
         </>
       ) : null}
 
-      {/* 溯源叙事：始终渲染，不依赖商品数据 */}
-      <div className={styles.traceability} data-role="traceability">
-        <div className={styles.traceTitle}>
-          {LANG?.["store.product.traceability.title"] ||
-            "Ethically Sourced, Beautifully Traceable"}
-        </div>
-        <p className={styles.traceBody}>
-          {LANG?.["store.product.traceability.body_1"] ||
-            "Every diamond we set is lab-grown using renewable energy, sharing the exact same physical, chemical and optical properties as a mined diamond."}
-        </p>
-        <p className={styles.traceBody}>
-          {LANG?.["store.product.traceability.body_2"] ||
-            "Free from conflict and intensive mining, each stone arrives with a clear origin you can trust — beauty without compromise."}
-        </p>
-        <p className={styles.traceBody}>
-          {LANG?.["store.product.traceability.body_3"] ||
-            "From responsibly grown crystal to a finished piece, your jewelry is crafted to last a lifetime and beyond."}
-        </p>
-      </div>
 
       <Modal ref={modalRef}>
         <div className={styles.modalBody}>
