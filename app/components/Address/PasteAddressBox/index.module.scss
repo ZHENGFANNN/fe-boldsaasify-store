@@ -13,25 +13,6 @@
   border-radius: 8px;
 }
 
-.textarea {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  resize: vertical;
-  padding: 8px 10px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: #333;
-  border: 1px solid #e5e5e5;
-  border-radius: 6px;
-  outline: none;
-
-  &:focus {
-    border-color: #999;
-  }
-}
-
 .btn {
   align-self: flex-end;
   padding: 6px 16px;

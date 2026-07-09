@@ -1,159 +1,320 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React from "react";
 import styles from "./index.module.scss";
 
-/**
- * 表单下拉选择器（自定义面板，替代原生 select）。
- * API 对齐 FormInput / FormTextarea，配合 react-hook-form register 使用。
- *
- * @param {Object} props
- * @param {string} props.label
- * @param {string} props.error
- * @param {boolean} props.focus - 手动标记已有值（浮标 label 上浮）
- * @param {string} props.tip
- * @param {boolean} props.required
- * @param {string} props.placeholder - 未选中时触发器内展示的占位文案
- * @param {{ value: string|number, label: string, disabled?: boolean }[]} props.options
- * @param {Object} props.inputProps - register(...) 返回值
- */
+// 自定义下拉选择器，视觉与 FormInput/FormTextarea 对齐（浮动 label / 必填星号 / 错误态）。
+// 内部渲染一个 hidden <input> 承载真实值，供 react-hook-form register 或 FormData 收集；
+// 用户点击行为通过原生 setter + input 事件触发外部 onChange，保持与 fillField 一致的机制。
+//
+// props:
+//  - label：浮动 label
+//  - options：[{ value, label }]
+//  - required：是否显示星号（默认 true）
+//  - error：错误文案
+//  - searchable：是否可搜索（默认 true，选项多时体验更好）
+//  - disabled
+//  - placeholder：搜索框占位
+//  - defaultValue：初始值
+//  - inputProps：react-hook-form register 展开（含 name/onChange/onBlur/ref）
+//  - LANG：文案
+//  - noResultsText：搜索无结果文案
 export default function FormSelect({
   label = "",
-  error = "",
-  focus = false,
-  tip = "",
-  required = true,
-  placeholder = "",
   options = [],
+  required = true,
+  error = "",
+  searchable = true,
+  disabled = false,
+  placeholder = "",
+  defaultValue = "",
   inputProps = {},
+  noResultsText = "No results",
 }) {
-  const containerRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isFocus, setIsFocus] = useState(false);
-  const [value, setValue] = useState(inputProps.defaultValue ?? "");
+  const [open, setOpen] = React.useState(false);
+  const [isFocus, setIsFocus] = React.useState(false);
+  const [selected, setSelected] = React.useState(defaultValue);
+  const [search, setSearch] = React.useState("");
+  const [highlight, setHighlight] = React.useState(-1);
 
-  const { onChange, onBlur, name, ref } = inputProps;
+  const rootRef = React.useRef(null);
+  const inputRef = React.useRef(null);
+  const searchRef = React.useRef(null);
+  const listRef = React.useRef(null);
+  const itemRefs = React.useRef([]);
 
-  const hasValue = value !== "" && value !== undefined && value !== null;
-  const labelFloated = isFocus || hasValue || focus || isOpen;
-  const selectedOption = options.find(
-    (item) => String(item.value) === String(value)
+  const selectedOption = React.useMemo(
+    () => options.find((o) => String(o.value) === String(selected)),
+    [options, selected]
   );
-  const displayText = hasValue
-    ? selectedOption?.label || ""
-    : labelFloated
-      ? placeholder
-      : "";
-  const showPlaceholder = !hasValue && labelFloated && !!placeholder;
 
-  useEffect(() => {
-    if (!isOpen) return undefined;
+  const filtered = React.useMemo(() => {
+    if (!searchable || !search) return options;
+    const s = search.toLowerCase();
+    return options.filter(
+      (o) =>
+        String(o.label).toLowerCase().includes(s) ||
+        String(o.value).toLowerCase().includes(s)
+    );
+  }, [options, search, searchable]);
 
-    const handlePointerDown = (event) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
-        setIsFocus(false);
-        onBlur?.({ target: { name, value } });
-      }
-    };
+  // 通过 hidden input 的 native setter 触发 react-hook-form onChange。
+  const writeValue = React.useCallback((val) => {
+    const el = inputRef.current;
+    if (!el) return;
+    const setter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      "value"
+    ).set;
+    setter.call(el, val);
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  }, []);
 
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setIsOpen(false);
-        setIsFocus(false);
-        onBlur?.({ target: { name, value } });
-      }
-    };
+  const commitSelect = (opt) => {
+    setSelected(opt.value);
+    writeValue(opt.value);
+    setOpen(false);
+    setSearch("");
+    setHighlight(-1);
+  };
 
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen, name, onBlur, value]);
-
-  const handleToggle = () => {
-    if (inputProps.disabled) return;
-    setIsOpen((prev) => !prev);
+  const openDropdown = () => {
+    if (disabled) return;
+    setOpen(true);
     setIsFocus(true);
+    setHighlight(
+      filtered.findIndex((o) => String(o.value) === String(selected))
+    );
   };
 
-  const handleSelect = (option) => {
-    if (option.disabled) return;
-
-    const nextValue = option.value;
-    setValue(nextValue);
-    onChange?.({ target: { name, value: nextValue } });
-    setIsOpen(false);
+  const closeDropdown = () => {
+    setOpen(false);
     setIsFocus(false);
-    onBlur?.({ target: { name, value: nextValue } });
+    setSearch("");
+    setHighlight(-1);
+    // 通知 react-hook-form 触发 onBlur 校验
+    inputProps?.onBlur?.({ target: inputRef.current });
   };
+
+  // 点击外部关闭
+  React.useEffect(() => {
+    if (!open) return;
+    const onDocClick = (e) => {
+      if (!rootRef.current?.contains(e.target)) closeDropdown();
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [open]);
+
+  // 打开时聚焦搜索框
+  React.useEffect(() => {
+    if (open && searchable) {
+      requestAnimationFrame(() => searchRef.current?.focus());
+    }
+  }, [open, searchable]);
+
+  // 高亮项滚动到可见区域
+  React.useEffect(() => {
+    if (!open || highlight < 0) return;
+    itemRefs.current[highlight]?.scrollIntoView({ block: "nearest" });
+  }, [highlight, open]);
+
+  // defaultValue 变化时同步（异步表单回填场景）
+  React.useEffect(() => {
+    if (defaultValue !== undefined && defaultValue !== selected) {
+      setSelected(defaultValue);
+      if (inputRef.current) writeValue(defaultValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValue]);
+
+  const handleKeyDown = (e) => {
+    if (!open) {
+      if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+        e.preventDefault();
+        openDropdown();
+      }
+      return;
+    }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closeDropdown();
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlight((h) => Math.min(filtered.length - 1, h + 1));
+      return;
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlight((h) => Math.max(0, h - 1));
+      return;
+    }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const opt = filtered[highlight];
+      if (opt) commitSelect(opt);
+    }
+  };
+
+  const hasValue = !!selectedOption;
+  const showFloating = open || hasValue;
 
   return (
-    <div className={styles.container} ref={containerRef}>
-      <div className={styles.input_container}>
-        <input
-          type="hidden"
-          ref={ref}
-          name={name}
-          value={value ?? ""}
-          readOnly
-        />
-        <button
-          type="button"
-          className={`${styles.trigger} ${
-            error && !focus ? styles.input_error : ""
-          } ${isOpen ? styles.trigger_open : ""}`}
-          aria-haspopup="listbox"
-          aria-expanded={isOpen}
-          disabled={inputProps.disabled}
-          onClick={handleToggle}
-        >
-          <span
-            className={`${styles.trigger_text} ${
-              showPlaceholder ? styles.placeholder : ""
-            }`}
-          >
-            {displayText}
-          </span>
-          <span className={styles.chevron} aria-hidden="true" />
-        </button>
+    <div className={styles.container}>
+      <div
+        ref={rootRef}
+        className={`${styles.select_container} ${
+          disabled ? styles.disabled : ""
+        }`}
+      >
         <div
-          className={`${styles.input_label} ${
-            !!error && !focus && !isFocus ? styles.text_error : ""
-          } ${!labelFloated ? styles.input_empyt : ""}`}
+          className={`${styles.trigger} ${open ? styles.trigger_open : ""} ${
+            error && !isFocus ? styles.trigger_error : ""
+          }`}
+          onClick={() => (open ? closeDropdown() : openDropdown())}
+          onKeyDown={handleKeyDown}
+          tabIndex={disabled ? -1 : 0}
+          role="combobox"
+          aria-expanded={open}
+          aria-haspopup="listbox"
+          aria-disabled={disabled}
         >
-          {focus ? label : error || label}
+          <span className={styles.trigger_text}>
+            {selectedOption?.label || ""}
+          </span>
+          <svg
+            className={`${styles.chevron} ${open ? styles.chevron_open : ""}`}
+            width="16"
+            height="16"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden
+          >
+            <path
+              d="M5 7.5 10 12.5 15 7.5"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
-        {required ? <div className={styles.input_symbol}>*</div> : null}
 
-        {isOpen ? (
-          <ul className={styles.list} role="listbox">
-            {options.map((item) => {
-              const active = String(item.value) === String(value);
-              return (
-                <li
-                  key={`${item.value}-${item.label}`}
-                  role="option"
-                  aria-selected={active}
-                  aria-disabled={item.disabled || undefined}
-                  className={`${styles.option} ${
-                    active ? styles.option_active : ""
-                  } ${item.disabled ? styles.option_disabled : ""}`}
-                  onClick={() => handleSelect(item)}
+        {/* react-hook-form / FormData 采集载体 */}
+        <input
+          type="text"
+          className={styles.hidden_input}
+          tabIndex={-1}
+          aria-hidden
+          defaultValue={defaultValue}
+          {...inputProps}
+          ref={(node) => {
+            inputRef.current = node;
+            const outer = inputProps?.ref;
+            if (typeof outer === "function") outer(node);
+            else if (outer && "current" in outer) outer.current = node;
+          }}
+        />
+
+        <div
+          className={`${styles.label}
+            ${error && !isFocus ? styles.label_error : ""}
+            ${!showFloating ? styles.label_empty : ""}`}
+        >
+          {error && !isFocus ? error : label}
+        </div>
+        {required ? <div className={styles.symbol}>*</div> : null}
+
+        {open ? (
+          <div className={styles.dropdown} role="listbox">
+            {searchable ? (
+              <div className={styles.search_wrap}>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden
                 >
-                  {item.label}
-                </li>
-              );
-            })}
-          </ul>
+                  <circle
+                    cx="9"
+                    cy="9"
+                    r="6"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                  />
+                  <path
+                    d="m17 17-3.5-3.5"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <input
+                  ref={searchRef}
+                  className={styles.search}
+                  value={search}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setHighlight(0);
+                  }}
+                  onKeyDown={handleKeyDown}
+                  placeholder={placeholder || label}
+                />
+              </div>
+            ) : null}
+            <div className={styles.options} ref={listRef}>
+              {filtered.length === 0 ? (
+                <div className={styles.empty}>{noResultsText}</div>
+              ) : (
+                filtered.map((opt, i) => {
+                  const isSelected =
+                    String(opt.value) === String(selected);
+                  const isActive = i === highlight;
+                  return (
+                    <div
+                      key={opt.value}
+                      ref={(el) => (itemRefs.current[i] = el)}
+                      className={`${styles.option}
+                        ${isSelected ? styles.option_selected : ""}
+                        ${isActive ? styles.option_active : ""}`}
+                      role="option"
+                      aria-selected={isSelected}
+                      onMouseEnter={() => setHighlight(i)}
+                      onMouseDown={(e) => {
+                        // 阻止 blur 抢先关闭
+                        e.preventDefault();
+                        commitSelect(opt);
+                      }}
+                    >
+                      <span>{opt.label}</span>
+                      {isSelected ? (
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          aria-hidden
+                        >
+                          <path
+                            d="m5 10 3.5 3.5L15 6"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      ) : null}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
         ) : null}
       </div>
-      {tip ? <div className={styles.input_tip}>{tip}</div> : null}
     </div>
   );
 }

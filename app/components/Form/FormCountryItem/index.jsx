@@ -18,7 +18,7 @@ export default function CountryItem({ setValue, value, inputProps, error }) {
 
   React.useEffect(() => {
     setValue(areaInfo);
-  }, []);
+  }, [areaInfo]);
 
   return (
     <Input

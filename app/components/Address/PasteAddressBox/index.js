@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import FormTextarea from "@/components/Form/FormTextArea";
 import styles from "./index.module.scss";
 
 // 粘贴地址 → AI 解析 → 自动填充。
@@ -43,15 +44,17 @@ export default function PasteAddressBox({
 
   return (
     <div className={styles.wrap}>
-      <textarea
-        className={styles.textarea}
-        value={text}
-        rows={2}
-        onChange={(e) => setText(e.target.value)}
-        placeholder={
+      <FormTextarea
+        label={
           LANG["user_account.shipping_address.paste_placeholder"] ||
-          "📋 Paste a full address (name, phone, street, city, ZIP) — AI fills the form"
+          "Paste a full address, AI fills the form"
         }
+        required={false}
+        inputProps={{
+          value: text,
+          onChange: (e) => setText(e.target.value),
+          onBlur: () => {},
+        }}
       />
       <button
         type="button"

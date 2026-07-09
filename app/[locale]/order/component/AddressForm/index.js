@@ -7,6 +7,7 @@ import styles from "./index.module.scss";
 import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
 
 import FormInput from "@/components/Form/FormInput";
+import FormSelect from "@/components/Form/FormSelect";
 import FormCountryItem from "@/components/Form/FormCountryItem";
 import PasteAddressBox from "@/components/Address/PasteAddressBox";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
@@ -143,28 +144,20 @@ function AddressForm({ LANG, onStateChange }, ref) {
       </div>
       {areaMap?.area_code === "us" ? (
         <div className={styles.form_item}>
-          <div className={styles.select_container}>
-            <select
-              className={styles.state_select}
-              {...register("state", {
+          <FormSelect
+            label={LANG["user_account.shipping_address.state"] || "State"}
+            options={US_STATE_OPTIONS}
+            error={errors.state?.message}
+            defaultValue={addressForm?.state || ""}
+            inputProps={{
+              ...register("state", {
                 required:
                   LANG["user_account.shipping_address.state_required"] ||
                   "Please select a state",
-              })}
-            >
-              <option value="">
-                {LANG["user_account.shipping_address.state"] || "State"}
-              </option>
-              {US_STATE_OPTIONS.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            {errors.state?.message ? (
-              <div className={styles.select_error}>{errors.state.message}</div>
-            ) : null}
-          </div>
+              }),
+            }}
+            noResultsText={LANG["common.other.no_results"] || "No results"}
+          />
         </div>
       ) : null}
       <div className={styles.form_group_1_1}>
