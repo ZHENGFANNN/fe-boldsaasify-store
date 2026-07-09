@@ -21,7 +21,6 @@ import StripePay from "../StripePay";
 
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
-import Advantage from "@/components/Layout/Advantage";
 import { formatCurrency, roundToDecimalPlaces } from "@/utils";
 import verifyLogin from "@/utils/verifyLogin";
 
@@ -1079,7 +1078,6 @@ export default function Main({ CONFIG, LANG, area, token }) {
             ) : null}
           </div>
         </div>
-        <Advantage LANG={LANG} />
         <ShowTipModal ref={tipRef} />
       </div>
     </OrderContext.Provider>

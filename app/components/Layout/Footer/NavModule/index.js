@@ -54,23 +54,6 @@ export default function NavModule() {
   return (
     <div className={styles.nav_container}>
       <div className={styles.about_us}>
-        <div className={styles.about_us_logo}>
-          {CONFIG["common.base"]?.logo ? (
-            <>
-              <img
-                alt={CONFIG["common.base"]?.company_name}
-                src={CONFIG["common.base"]?.logo}
-              />
-              <div className={styles.name}>
-                {CONFIG["common.base"]?.company_name}
-              </div>
-            </>
-          ) : (
-            <div className={styles.name}>
-              {CONFIG["common.base"]?.company_name}
-            </div>
-          )}
-        </div>
         {title ? <div className={styles.about_us_title}>{title}</div> : null}
         {content ? (
           <div

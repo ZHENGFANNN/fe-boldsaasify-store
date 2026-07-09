@@ -1,4 +1,3 @@
-import Advantage from "../components/Layout/Advantage";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import getRemoteProductList from "@/config/Api/getRemoteProductList";
@@ -63,7 +62,6 @@ export default async function Home({ params }) {
         {/* Sale 模块：自动展示当前价格有折扣的商品（数据驱动，无折扣商品时整块隐藏） */}
         <IndexSale limit={8} />
         <IndexProductList />
-        <Advantage LANG={LANG} />
       </IndexContext>
       {/* JSON-LD 走 server 子组件（爬虫不执行 JS），SSG 阶段以默认 us 价兜底。 */}
       <IndexProductLdJson

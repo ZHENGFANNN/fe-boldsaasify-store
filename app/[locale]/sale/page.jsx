@@ -1,4 +1,3 @@
-import Advantage from "../../components/Layout/Advantage";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import getRemoteProductList from "@/config/Api/getRemoteProductList";
@@ -60,7 +59,6 @@ export default async function SalePage({ params }) {
           limit={Infinity}
           title={LANG?.["store.sale.title"] || "Sale"}
         />
-        <Advantage LANG={LANG} />
       </IndexContext>
     </main>
   );
