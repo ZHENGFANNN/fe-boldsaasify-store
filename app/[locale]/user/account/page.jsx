@@ -29,5 +29,5 @@ export async function generateMetadata({ params }) {
 export default async function Account({ params }) {
   const { locale } = await params;
   const { LANG } = await getData({ locale });
-  return <Main LANG={LANG} />;
+  return <Main LANG={LANG} locale={locale} />;
 }

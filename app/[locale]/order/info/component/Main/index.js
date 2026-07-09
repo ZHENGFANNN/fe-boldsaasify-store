@@ -10,12 +10,11 @@ import StripePay from "../../../component/StripePay";
 import ConfirmModal from "@/components/Modal/ConfirmModal";
 
 import { useRouter } from "next/navigation";
-import moment from "moment";
 
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
 import CustomizeFileLink from "@/components/CustomizeFileLink";
-import { formatCurrency } from "@/utils";
+import { formatCurrency, formatDateTime } from "@/utils";
 
 export default function Main({ secret, locale, area, LANG, CONFIG }) {
   const router = useRouter();
@@ -92,6 +91,11 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
       status5: LANG["store.order_info.error"],
     };
   }, []);
+
+  const fmtDateTime = React.useCallback(
+    (time) => formatDateTime({ time, locale, area }),
+    [locale, area]
+  );
 
   const tipRef = React.useRef(null);
   const showTip = React.useCallback(({ text, type }) => {
@@ -234,7 +238,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                   {LANG["store.order_info.order_time"]}
                 </h3>
                 <p className={styles.flex_3}>
-                  {moment(order.order_time).format("YYYY-MM-DD HH:mm")}
+                  {fmtDateTime(order.order_time)}
                 </p>
               </li>
               {order.pay_time ? (
@@ -243,7 +247,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                     {LANG["store.order_info.pay_time"]}
                   </h3>
                   <p className={styles.flex_3}>
-                    {moment(order.pay_time).format("YYYY-MM-DD HH:mm")}
+                    {fmtDateTime(order.pay_time)}
                   </p>
                 </li>
               ) : null}
@@ -254,7 +258,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                     {LANG["store.order_info.deliver_time"]}
                   </h3>
                   <p className={styles.flex_3}>
-                    {moment(order.deliver_time).format("YYYY-MM-DD HH:mm")}
+                    {fmtDateTime(order.deliver_time)}
                   </p>
                 </li>
               ) : null}
@@ -265,7 +269,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                     {LANG["store.order_info.finish_time"]}
                   </h3>
                   <p className={styles.flex_3}>
-                    {moment(order.finish_time).format("YYYY-MM-DD HH:mm")}
+                    {fmtDateTime(order.finish_time)}
                   </p>
                 </li>
               ) : null}

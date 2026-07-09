@@ -9,7 +9,7 @@ import OrderInfo from "../OrderInfo";
 import AccountInfo from "../AccountInfo";
 import AfterSaleInfo from "../AfterSaleInfo";
 
-export default function Main({ LANG }) {
+export default function Main({ LANG, locale }) {
   const tipRef = React.useRef();
   // type 来自 URL query，改为挂载后从 window 读取，避免 useSearchParams 触发
   // cacheComponents 的「非缓存数据需 Suspense」约束，使本页可整页静态化。
@@ -117,6 +117,7 @@ export default function Main({ LANG }) {
             <div>
               <OrderInfo
                 LANG={LANG}
+                locale={locale}
                 showTip={({ text, type }) => {
                   showTip({ text, type });
                 }}
