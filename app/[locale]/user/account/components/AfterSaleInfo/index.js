@@ -177,48 +177,52 @@ export default function AfterSaleInfo({ LANG }) {
               <label className={styles.form_label}>
                 {T(LANG, "user_account.after_sale.order", "Order")}
               </label>
-              <select
-                className={`${styles.select} ${errors.order ? styles.error : ""}`}
-                defaultValue=""
-                {...register("order")}
-              >
-                <option value="">
-                  {T(
-                    LANG,
-                    "user_account.after_sale.order_optional",
-                    "Select an order (optional)"
-                  )}
-                </option>
-                {orders.map((o) => (
-                  <option key={o.secret} value={o.secret}>
-                    {o.order_number}
+              <div className={styles.select_wrap}>
+                <select
+                  className={`${styles.select} ${errors.order ? styles.error : ""}`}
+                  defaultValue=""
+                  {...register("order")}
+                >
+                  <option value="">
+                    {T(
+                      LANG,
+                      "user_account.after_sale.order_optional",
+                      "Select an order (optional)"
+                    )}
                   </option>
-                ))}
-              </select>
+                  {orders.map((o) => (
+                    <option key={o.secret} value={o.secret}>
+                      {o.order_number}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className={styles.form_item}>
               <label className={styles.form_label}>
                 {T(LANG, "user_account.after_sale.type", "Type")} *
               </label>
-              <select
-                className={`${styles.select} ${errors.type ? styles.error : ""}`}
-                defaultValue=""
-                {...register("type", { required: true })}
-              >
-                <option value="" disabled>
-                  {T(
-                    LANG,
-                    "user_account.after_sale.type_placeholder",
-                    "Select a type"
-                  )}
-                </option>
-                {TYPE_KEYS.map((k) => (
-                  <option key={k} value={k}>
-                    {typeMap[k]}
+              <div className={styles.select_wrap}>
+                <select
+                  className={`${styles.select} ${errors.type ? styles.error : ""}`}
+                  defaultValue=""
+                  {...register("type", { required: true })}
+                >
+                  <option value="" disabled>
+                    {T(
+                      LANG,
+                      "user_account.after_sale.type_placeholder",
+                      "Select a type"
+                    )}
                   </option>
-                ))}
-              </select>
+                  {TYPE_KEYS.map((k) => (
+                    <option key={k} value={k}>
+                      {typeMap[k]}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className={styles.form_item}>
