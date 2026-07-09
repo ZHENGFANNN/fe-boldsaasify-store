@@ -7,9 +7,10 @@ import Api from "../../api";
 import React from "react";
 import Empyt from "../../../../../components/Empyt";
 import Loading from "../../../../../components/Loading";
-import { formatCurrency } from "@/utils";
+import { formatCurrency, formatDateTime } from "@/utils";
+import readClientArea from "@/utils/readClientArea";
 
-export default function OrderInfo({ LANG }) {
+export default function OrderInfo({ LANG, locale }) {
   const payMap = React.useMemo(() => {
     const transfer = LANG["user_account.my_order.transfer"];
     const creditCard = LANG["user_account.my_order.credit_card"];
@@ -18,7 +19,9 @@ export default function OrderInfo({ LANG }) {
       wechat: LANG["user_account.my_order.wechat"],
       zhifubao: LANG["user_account.my_order.zhifubao"],
       // 当前 checkout 使用的 pay_key
-      stripe: creditCard || "Card",
+      stripe:
+        LANG["common.pay.pay_info.pay_list.stripe_detail"]?.split(" ")[0] ||
+        "Stripe",
       payPal: LANG["user_account.my_order.paypal"],
       bank: transfer,
       cod,
@@ -40,6 +43,11 @@ export default function OrderInfo({ LANG }) {
   }, []);
   const [orderLoading, setOrderLoading] = React.useState(true);
   const [list, setList] = React.useState([]);
+  const area = readClientArea();
+  const fmtDateTime = React.useCallback(
+    (time) => formatDateTime({ time, locale, area }),
+    [locale, area]
+  );
   const getList = React.useCallback(() => {
     setOrderLoading(true);
     Api.getOrderList()
@@ -173,7 +181,7 @@ export default function OrderInfo({ LANG }) {
                           {LANG["user_account.my_order.order_time"]}
                         </div>
                         <div className={styles.order_value}>
-                          {orderItem.order_time}
+                          {fmtDateTime(orderItem.order_time)}
                         </div>
                       </div>
                       {orderItem.pay_time ? (
@@ -182,7 +190,7 @@ export default function OrderInfo({ LANG }) {
                             {LANG["user_account.my_order.pay_time"]}
                           </div>
                           <div className={styles.order_value}>
-                            {orderItem.pay_time}
+                            {fmtDateTime(orderItem.pay_time)}
                           </div>
                         </div>
                       ) : null}
@@ -192,7 +200,7 @@ export default function OrderInfo({ LANG }) {
                             {LANG["user_account.my_order.deliver_time"]}
                           </div>
                           <div className={styles.order_value}>
-                            {orderItem.deliver_time}
+                            {fmtDateTime(orderItem.deliver_time)}
                           </div>
                         </div>
                       ) : null}
@@ -203,7 +211,7 @@ export default function OrderInfo({ LANG }) {
                             {LANG["user_account.my_order.finish_time"]}
                           </div>
                           <div className={styles.order_value}>
-                            {orderItem.finish_time}
+                            {fmtDateTime(orderItem.finish_time)}
                           </div>
                         </div>
                       ) : null}
