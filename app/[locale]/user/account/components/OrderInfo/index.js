@@ -7,6 +7,7 @@ import Api from "../../api";
 import React from "react";
 import Empyt from "../../../../../components/Empyt";
 import Loading from "../../../../../components/Loading";
+import { formatCurrency } from "@/utils";
 
 export default function OrderInfo({ LANG }) {
   const payMap = React.useMemo(() => {
@@ -111,6 +112,13 @@ export default function OrderInfo({ LANG }) {
           {list.length > 0 ? (
             <div className={styles.order_list}>
               {list.map((orderItem, orderIndex) => {
+                const firstLine = orderItem.order_list?.[0] ?? {};
+                const priceUnit =
+                  orderItem.price_unit ?? firstLine.priceUnit ?? 100;
+                const currencyLabel = firstLine.priceCurrency ?? "";
+                const fmtMoney = (value) =>
+                  `${currencyLabel} ${formatCurrency(value, priceUnit)}`;
+
                 return (
                   <div key={orderIndex} className={styles.order_item}>
                     <div className={styles.order_header}>
@@ -216,9 +224,9 @@ export default function OrderInfo({ LANG }) {
                             <div className={styles.order_title}>
                               {LANG["user_account.my_order.order_price"]}
                             </div>
-                            <div
-                              className={styles.order_value}
-                            >{`${orderItem.order_list[0].priceCurrency} ${orderItem.total_price}`}</div>
+                            <div className={styles.order_value}>
+                              {fmtMoney(orderItem.total_price)}
+                            </div>
                           </div>
                           <div className={styles.header_item}>
                             <div className={styles.order_title}>
@@ -228,7 +236,9 @@ export default function OrderInfo({ LANG }) {
                               className={[styles.order_value, styles.red].join(
                                 " "
                               )}
-                            >{`- ${orderItem.order_list[0].priceCurrency} ${orderItem.discount}`}</div>
+                            >
+                              {`- ${fmtMoney(orderItem.discount)}`}
+                            </div>
                           </div>
                         </>
                       ) : null}
@@ -240,17 +250,20 @@ export default function OrderInfo({ LANG }) {
                           </div>
                           <div
                             className={styles.order_value}
-                          >{`${orderItem.pay_symbol} ${orderItem.pay_price}`}</div>
+                          >{`${orderItem.pay_symbol} ${formatCurrency(
+                            orderItem.pay_price,
+                            priceUnit
+                          )}`}</div>
                         </div>
                       ) : null}
                     </div>
                     <div className={styles.pay_container}>
                       <div className={styles.total_price}>
                         <b> {LANG["user_account.my_order.total_price"]}</b>
-                        {`${orderItem.order_list[0].priceCurrency} ${
+                        {fmtMoney(
                           orderItem.subtotal_after_discount ??
-                          orderItem.total_price
-                        }`}
+                            orderItem.total_price
+                        )}
                       </div>
                       {orderItem.order_status === "status0" ? (
                         <div
@@ -318,7 +331,10 @@ export default function OrderInfo({ LANG }) {
                                 <div className={styles.product_number}>
                                   <div
                                     className={styles.good_price}
-                                  >{`${goodItem.priceSymbol}${goodItem.priceCurrency} ${goodItem.productPrice}`}</div>
+                                  >{`${goodItem.priceSymbol}${formatCurrency(
+                                    goodItem.productPrice,
+                                    goodItem.priceUnit ?? priceUnit
+                                  )}`}</div>
                                   <div className={styles.good_number}>
                                     × {goodItem.productNum}
                                   </div>
