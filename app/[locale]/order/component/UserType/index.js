@@ -160,13 +160,16 @@ function UserInfo({ LANG, token }, ref) {
                   <div className={styles.google_wrap}>
                     <GoogleLoginButton redirectTo={selfUrl} />
                   </div>
+                  <div className={styles.or_row}>
+                    {LANG["common.or"] || "or"}
+                  </div>
                   <div className={styles.entry_links}>
                     <Link
                       scroll={true}
                       href={`/user/login?redirect=${selfUrl}`}
                       className={styles.entry_link}
                     >
-                      {LANG["common.pay.pay_info.login"]}
+                      {LANG["common.pay.pay_info.login"] || "Log in"}
                     </Link>
                     <span className={styles.entry_divider}>·</span>
                     <Link
@@ -174,7 +177,7 @@ function UserInfo({ LANG, token }, ref) {
                       href={`/user/register?redirect=${selfUrl}`}
                       className={styles.entry_link}
                     >
-                      {LANG["store.order.user_type.register"]}
+                      {LANG["store.order.user_type.register"] || "Register"}
                     </Link>
                   </div>
                 </div>

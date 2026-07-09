@@ -22,6 +22,20 @@ export default function GoogleLoginButton({ onSuccess, onError, redirectTo }) {
     setRedirect(new URLSearchParams(location.search).get("redirect"));
   }, []);
 
+  // 按钮撑满容器：测量外层宽度传给 Google（官方组件宽度上限 400px），
+  // 外层 flex 居中，避免出现固定 320px 靠左、右侧留白的违和感。
+  const wrapRef = React.useRef(null);
+  const [btnWidth, setBtnWidth] = React.useState(320);
+  React.useEffect(() => {
+    const measure = () => {
+      const w = wrapRef.current?.offsetWidth;
+      if (w) setBtnWidth(Math.min(400, Math.round(w)));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   if (!CLIENT_ID) return null;
 
   const handleSuccess = async (credentialResponse) => {
@@ -50,13 +64,15 @@ export default function GoogleLoginButton({ onSuccess, onError, redirectTo }) {
   };
 
   return (
-    <GoogleLogin
-      onSuccess={handleSuccess}
-      onError={() => onError && onError()}
-      width="320"
-      locale={locale}
-      text="continue_with"
-      shape="rectangular"
-    />
+    <div ref={wrapRef} style={{ display: "flex", justifyContent: "center" }}>
+      <GoogleLogin
+        onSuccess={handleSuccess}
+        onError={() => onError && onError()}
+        width={String(btnWidth)}
+        locale={locale}
+        text="continue_with"
+        shape="rectangular"
+      />
+    </div>
   );
 }
