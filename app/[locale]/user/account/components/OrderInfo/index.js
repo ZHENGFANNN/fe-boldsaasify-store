@@ -118,6 +118,36 @@ export default function OrderInfo({ LANG }) {
                 const currencyLabel = firstLine.priceCurrency ?? "";
                 const fmtMoney = (value) =>
                   `${currencyLabel} ${formatCurrency(value, priceUnit)}`;
+                const shippingFee = Number(orderItem.shipping_fee) || 0;
+                const shippingLabel =
+                  LANG["store.order_info.express_price"] ||
+                  LANG["store.order.express_price"] ||
+                  "Shipping";
+                let appliedDiscounts = [];
+                try {
+                  appliedDiscounts = Array.isArray(orderItem.applied_discounts)
+                    ? orderItem.applied_discounts
+                    : orderItem.applied_discounts
+                      ? JSON.parse(orderItem.applied_discounts)
+                      : [];
+                } catch {
+                  appliedDiscounts = [];
+                }
+                const shippingDiscounts = appliedDiscounts.filter(
+                  (item) => item.type === "free_shipping"
+                );
+                const orderTotal =
+                  orderItem.pay_price ??
+                  (Number(
+                    orderItem.subtotal_after_discount ?? orderItem.total_price
+                  ) || 0) + shippingFee;
+                const fmtOrderTotal =
+                  orderItem.pay_symbol && orderItem.pay_price
+                    ? `${orderItem.pay_symbol} ${formatCurrency(
+                        orderTotal,
+                        priceUnit
+                      )}`
+                    : fmtMoney(orderTotal);
 
                 return (
                   <div key={orderIndex} className={styles.order_item}>
@@ -243,6 +273,36 @@ export default function OrderInfo({ LANG }) {
                         </>
                       ) : null}
 
+                      {shippingFee > 0 ? (
+                        <div className={styles.header_item}>
+                          <div className={styles.order_title}>
+                            {shippingLabel}
+                          </div>
+                          <div className={styles.order_value}>
+                            {fmtMoney(shippingFee)}
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {shippingDiscounts.map((discountItem, discountIndex) => (
+                        <div
+                          key={`ship-discount-${discountIndex}`}
+                          className={styles.header_item}
+                        >
+                          <div className={styles.order_title}>
+                            {LANG["store.order_info.shipping_discount"] ||
+                              "Shipping discount"}
+                          </div>
+                          <div
+                            className={[styles.order_value, styles.red].join(
+                              " "
+                            )}
+                          >
+                            {`- ${fmtMoney(Number(discountItem.amount) || 0)}`}
+                          </div>
+                        </div>
+                      ))}
+
                       {orderItem.pay_price ? (
                         <div className={styles.header_item}>
                           <div className={styles.order_title}>
@@ -260,10 +320,7 @@ export default function OrderInfo({ LANG }) {
                     <div className={styles.pay_container}>
                       <div className={styles.total_price}>
                         <b> {LANG["user_account.my_order.total_price"]}</b>
-                        {fmtMoney(
-                          orderItem.subtotal_after_discount ??
-                            orderItem.total_price
-                        )}
+                        {fmtOrderTotal}
                       </div>
                       {orderItem.order_status === "status0" ? (
                         <div
