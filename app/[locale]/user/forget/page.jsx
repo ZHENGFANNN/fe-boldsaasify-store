@@ -4,7 +4,6 @@ import React from "react";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import ForgetForm from "./components/ForgetForm";
-import BrandLogo from "@/components/BrandLogo";
 
 async function getData({ locale }) {
   const [LANG, CONFIG] = await Promise.all([
@@ -28,7 +27,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Forget({ params }) {
   const { locale } = await params;
-  const { LANG, CONFIG } = await getData({
+  const { LANG } = await getData({
     locale
   });
   return (
@@ -39,10 +38,6 @@ export default async function Forget({ params }) {
       }}
     >
       <main className={styles.main}>
-        <BrandLogo
-          logo={CONFIG["common.base"]?.logo}
-          companyName={CONFIG["common.base"]?.company_name}
-        />
         <h1 className={styles.title}>
           {LANG["user_forget.retrieve_password"]}
         </h1>

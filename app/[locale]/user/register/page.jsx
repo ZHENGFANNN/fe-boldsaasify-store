@@ -7,7 +7,6 @@ import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import RegisterForm from "./components/RegisterForm";
 import GoogleLoginPanel from "@/components/GoogleAuth/GoogleLoginPanel";
-import BrandLogo from "@/components/BrandLogo";
 
 async function getData({ locale }) {
   const [LANG, CONFIG] = await Promise.all([
@@ -31,7 +30,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Register({ params }) {
   const { locale } = await params;
-  const { LANG, CONFIG } = await getData({
+  const { LANG } = await getData({
     locale,
   });
   return (
@@ -42,19 +41,18 @@ export default async function Register({ params }) {
       }}
     >
       <main className={styles.main}>
-        <BrandLogo
-          logo={CONFIG["common.base"]?.logo}
-          companyName={CONFIG["common.base"]?.company_name}
-        />
         <h1 className={styles.title}>
           {LANG["user_register.regsiter_title"]}
         </h1>
-        <RegisterForm LANG={LANG} />
         <GoogleLoginPanel
-          label={LANG["user_register.other_login"]}
+          className={styles.google_top}
+          label="OR"
+          dividerPosition="bottom"
+          buttonLabel={LANG["user_register.google_continue"] || "Continue with Google"}
           successText={LANG["user_register.register_success"]}
           errorText={LANG["user_register.tip_service_exception"]}
         />
+        <RegisterForm LANG={LANG} />
         <p className={styles.register}>
           <span>{LANG["user_register.already_account"]}</span>
           <Link scroll={true} href="/user/login">
@@ -69,12 +67,6 @@ export default async function Register({ params }) {
           <span>{LANG["user_register.and"]}</span>
           <Link scroll={true} href="/article/legal/user-agreement">
             {LANG["user_register.user_service"]}
-          </Link>
-        </div>
-        <div className={styles.help}>
-          <span>{LANG["user_register.help_registration"]}</span>
-          <Link scroll={true} href="/support/contact">
-            {LANG["user_register.contact_us"]}
           </Link>
         </div>
       </main>

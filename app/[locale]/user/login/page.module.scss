@@ -50,6 +50,12 @@
         margin-bottom: 24px;
       }
 
+      .google_top {
+        --gl-divider-top: 24px;
+        --gl-divider-bottom: 0;
+        margin-bottom: 24px;
+      }
+
       .form_item {
         position: relative;
         h2 {
@@ -99,7 +105,7 @@
         color: #fff;
         height: 48px;
 
-        border-radius: 8px;
+        border-radius: 50px;
         margin-top: 32px;
 
         cursor: pointer;
@@ -184,6 +190,9 @@
         line-height: 16px;
         color: rgba(0, 0, 0, 0.45);
 
+        margin-top: 18px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
         margin-bottom: 18px;
 
         text-align: center;
@@ -259,6 +268,12 @@
 
         margin-bottom: 12px;
       }
+      .google_top {
+        --gl-divider-top: 24px;
+        --gl-divider-bottom: 0;
+        margin-top: 12px;
+        margin-bottom: 24px;
+      }
       .form_item {
         position: relative;
         h2 {
@@ -308,7 +323,7 @@
         color: #fff;
         height: 48px;
 
-        border-radius: 8px;
+        border-radius: 50px;
         margin-top: 32px;
 
         cursor: pointer;
@@ -393,6 +408,9 @@
         line-height: 16px;
         color: rgba(0, 0, 0, 0.45);
 
+        margin-top: 18px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
         margin-bottom: 18px;
 
         flex-wrap: wrap;

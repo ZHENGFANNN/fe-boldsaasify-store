@@ -7,7 +7,6 @@ import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import LoginForm from "./components/LoginForm";
 import GoogleLoginPanel from "@/components/GoogleAuth/GoogleLoginPanel";
-import BrandLogo from "@/components/BrandLogo";
 
 async function getData({ locale }) {
   const [LANG, CONFIG] = await Promise.all([
@@ -42,19 +41,16 @@ export default async function Login({ params }) {
       }}
     >
       <main className={styles.main}>
-        <BrandLogo
-          logo={CONFIG["common.base"]?.logo}
-          companyName={CONFIG["common.base"]?.company_name}
-        />
         <h1 className={styles.title}>{LANG["user_login.login_title"]}</h1>
-        <LoginForm LANG={LANG} CONFIG={CONFIG} />
-
-        {/* 第三方登录：Google */}
         <GoogleLoginPanel
-          label={LANG["user_login.other_login"]}
+          className={styles.google_top}
+          label="OR"
+          dividerPosition="bottom"
+          buttonLabel={LANG["user_login.google_continue"] || "Continue with Google"}
           successText={LANG["user_login.login_success"]}
           errorText={LANG["user_login.server_error"]}
         />
+        <LoginForm LANG={LANG} CONFIG={CONFIG} />
         <div className={styles.agreen}>
           <span>{LANG["user_login.countinue_agree"]}</span>
           <Link scroll={true} href="/article/legal/privacy-policy">
@@ -63,12 +59,6 @@ export default async function Login({ params }) {
           <span>{LANG["user_login.and"]}</span>
           <Link scroll={true} href="/article/legal/user-agreement">
             {LANG["user_login.user_service"]}
-          </Link>
-        </div>
-        <div className={styles.help}>
-          <span>{LANG["user_login.login_help"]}</span>
-          <Link scroll={true} href="/support/contact">
-            {LANG["user_login.contact_us"]}
           </Link>
         </div>
       </main>

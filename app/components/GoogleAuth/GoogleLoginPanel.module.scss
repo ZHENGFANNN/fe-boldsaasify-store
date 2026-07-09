@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 20px 0;
+  margin: var(--gl-divider-top, 20px) 0 var(--gl-divider-bottom, 20px);
 }
 
 .line {
@@ -27,6 +27,4 @@
 
 .button_wrap {
   width: 100%;
-  display: flex;
-  justify-content: center;
 }

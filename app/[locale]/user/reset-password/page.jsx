@@ -6,7 +6,6 @@ import React from "react";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import ResetForm from "./components/ResetForm";
-import BrandLogo from "@/components/BrandLogo";
 async function getData({ locale }) {
   const [LANG, CONFIG] = await Promise.all([
     getRemoteLanguage({ locale, nameSpace: ["user_forget"] }),
@@ -28,7 +27,7 @@ export async function generateMetadata({ params }) {
 
 export default async function ResetPassword({ params }) {
   const { locale } = await params;
-  const { LANG, CONFIG } = await getData({ locale });
+  const { LANG } = await getData({ locale });
   return (
     <div
       className={styles.container}
@@ -37,10 +36,6 @@ export default async function ResetPassword({ params }) {
       }}
     >
       <main className={styles.main}>
-        <BrandLogo
-          logo={CONFIG["common.base"]?.logo}
-          companyName={CONFIG["common.base"]?.company_name}
-        />
         <h1 className={styles.title}>
           {LANG["user_forget.retrieve_password"] || "Reset password"}
         </h1>
