@@ -124,7 +124,8 @@
       }
     }
     .form_container {
-      overflow: scroll;
+      overflow-x: hidden;
+      overflow-y: auto;
       &::-webkit-scrollbar {
         width: 6px;
       }
@@ -134,25 +135,26 @@
       }
       display: flex;
       width: 100%;
+      min-width: 0;
       flex-direction: column;
       .form_group_1_1 {
         display: flex;
+        gap: 16px;
         .form_item {
           flex: 1;
-        }
-        .form_item:first-child {
-          margin-right: 16px;
+          min-width: 0;
         }
       }
       .form_group_1_2 {
         display: flex;
+        gap: 16px;
         .form_item_1 {
-          margin-right: 16px;
           flex: 1;
-          min-width: 140px;
+          min-width: 0;
         }
         .form_item_2 {
           flex: 3;
+          min-width: 0;
         }
       }
     }
@@ -180,18 +182,11 @@
       }
       .form_container {
         .form_group_1_1 {
-          .form_item {
-          }
-          .form_item:first-child {
-            margin-right: 12px;
-          }
+          gap: 12px;
         }
         .form_group_1_2 {
-          .form_item_1 {
-            margin-right: 12px;
-            flex: 1;
-            min-width: 0;
-          }
+          gap: 12px;
+          .form_item_1,
           .form_item_2 {
             flex: 1;
           }
