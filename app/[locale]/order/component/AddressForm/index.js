@@ -8,9 +8,14 @@ import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
 
 import FormInput from "@/components/Form/FormInput";
 import FormCountryItem from "@/components/Form/FormCountryItem";
+import PasteAddressBox from "@/components/Address/PasteAddressBox";
+import ShowTipModal from "@/components/Modal/ShowTipModal";
+import GlobalContext from "@/[locale]/context";
+import Api from "../../api";
 import { US_STATE_OPTIONS } from "@/const/usStates";
 
 function AddressForm({ LANG, onStateChange }, ref) {
+  const { locale } = React.useContext(GlobalContext);
   const {
     register,
     handleSubmit,
@@ -20,9 +25,43 @@ function AddressForm({ LANG, onStateChange }, ref) {
   } = useForm();
   const formRef = React.useRef();
   const buttonRef = React.useRef(null);
+  const tipRef = React.useRef(null);
   const [areaMap, setAreaMap] = React.useState(null);
   const [addressForm, setAddressForm] = React.useState({});
   const stateValue = watch("state");
+
+  // 原生 setter + input 事件回填：既更新 react-hook-form，又触发 FormInput 内部
+  // state（浮动 label 正确上浮）。state 是原生 select 且解析结果不含 state，故不处理。
+  const fillField = (name, value) => {
+    const el = formRef.current?.querySelector(`[name="${name}"]`);
+    if (!el || value == null || value === "") return;
+    const setter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      "value"
+    ).set;
+    setter.call(el, value);
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+
+  // 粘贴 AI 解析结果回填。国家跟随 area 选择，不覆盖。
+  const handleParsed = (p) => {
+    fillField("first_name", p.first_name);
+    fillField("last_name", p.last_name);
+    fillField("short_phone", p.short_phone);
+    fillField("phone", p.phone);
+    fillField("zip_code", p.zip_code);
+    fillField("address1", p.address1);
+    fillField("address2", p.address2);
+  };
+
+  const handleParseError = () => {
+    tipRef.current?.show({
+      text:
+        LANG["user_account.shipping_address.parse_fail"] ||
+        "Couldn't parse the address. Please enter it manually.",
+      type: "error",
+    });
+  };
 
   React.useEffect(() => {
     onStateChange?.(stateValue || "");
@@ -74,11 +113,19 @@ function AddressForm({ LANG, onStateChange }, ref) {
   }));
 
   return (
+    <>
     <form
       ref={formRef}
       onSubmit={handleSubmit(() => {})}
       className={styles.form_container}
     >
+      <PasteAddressBox
+        apiParse={Api.parseAddress}
+        language={locale}
+        onParsed={handleParsed}
+        onError={handleParseError}
+        LANG={LANG}
+      />
       <div className={styles.form_item}>
         <FormCountryItem
           value={watch("area")}
@@ -226,6 +273,8 @@ function AddressForm({ LANG, onStateChange }, ref) {
       </div>
       <button type="submit" ref={buttonRef} hidden />
     </form>
+    <ShowTipModal ref={tipRef} />
+    </>
   );
 }
 
