@@ -70,22 +70,39 @@ const PAYMENT_ELEMENT_OPTIONS = {
   wallets: { applePay: "auto", googlePay: "auto" },
 };
 
-function CheckoutForm({ onSuccess, onError, LANG, returnUrl, amountLabel }) {
+function CheckoutForm({ onSuccess, onError, LANG, onCreateOrder, amountLabel }) {
   const stripe = useStripe();
   const elements = useElements();
   const [ready, setReady] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
 
+  // Stripe Deferred 流程：先校验卡信息，此刻才建单拿 client_secret，最后扣款。
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!stripe || !elements || submitting) return;
 
     setSubmitting(true);
     try {
+      // 1. 校验卡信息（deferred 模式必须先于建单）
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        onError?.(submitError);
+        return;
+      }
+
+      // 2. 点 Pay 这一刻才建单，拿回 client_secret + return_url
+      const created = await onCreateOrder?.();
+      if (!created?.clientSecret) {
+        // 校验/建单失败：onCreateOrder 内部已提示
+        return;
+      }
+
+      // 3. 扣款
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
+        clientSecret: created.clientSecret,
         confirmParams: {
-          return_url: returnUrl,
+          return_url: created.returnUrl,
         },
         redirect: "if_required",
       });
@@ -156,12 +173,13 @@ function CheckoutForm({ onSuccess, onError, LANG, returnUrl, amountLabel }) {
 }
 
 export default function StripePay({
-  clientSecret,
+  amount,
+  currency,
   locale,
   onSuccess,
   onError,
   LANG,
-  returnUrl,
+  onCreateOrder,
   amountLabel,
 }) {
   const stripeLocale = React.useMemo(() => {
@@ -169,15 +187,19 @@ export default function StripePay({
     return locale || "auto";
   }, [locale]);
 
-  if (!clientSecret) {
+  if (!amount || amount <= 0 || !currency) {
     return <Loading height={108} />;
   }
 
   return (
+    // Deferred PaymentIntent 模式：无 client_secret 即可挂载卡表单，
+    // 建单推迟到用户点 Pay 时（见 CheckoutForm.handleSubmit）。
     <Elements
       stripe={stripePromise}
       options={{
-        clientSecret,
+        mode: "payment",
+        amount,
+        currency,
         locale: stripeLocale,
         appearance: APPEARANCE,
       }}
@@ -186,7 +208,7 @@ export default function StripePay({
         LANG={LANG}
         onSuccess={onSuccess}
         onError={onError}
-        returnUrl={returnUrl}
+        onCreateOrder={onCreateOrder}
         amountLabel={amountLabel}
       />
     </Elements>

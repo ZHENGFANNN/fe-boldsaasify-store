@@ -459,14 +459,8 @@ export default function Main({ CONFIG, LANG, area, token }) {
     }, 400);
   }, [userType, addressInfo]);
 
-  const [stripeClientSecret, setStripeClientSecret] = React.useState(null);
-  const [stripeOrderSecret, setStripeOrderSecret] = React.useState(null);
-  const [stripeLoading, setStripeLoading] = React.useState(false);
-
-  React.useEffect(() => {
-    setStripeClientSecret(null);
-    setStripeOrderSecret(null);
-  }, [payKey, userType, addressInfo]);
+  // Deferred 模式下订单在点 Pay 时才创建，这里只保留订单 secret 供成功回调/跳转使用。
+  const secret = React.useRef();
 
   // 清空购物车
   const clearOrderList = React.useCallback(() => {
@@ -488,17 +482,22 @@ export default function Main({ CONFIG, LANG, area, token }) {
     });
   }, [orderList, orderPricing, payKey]);
 
-  const handleStripePrepare = React.useCallback(async () => {
-    if (orderLoading || previewLoading || stripeLoading) return;
+  // 点 Pay 时才建单：校验用户/地址 → createOrder → 返回 client_secret + return_url 给 StripePay 扣款。
+  // 校验或建单失败返回 null，StripePay 据此中止支付。
+  const handleStripeCreateOrder = React.useCallback(async () => {
+    if (previewLoading) {
+      showTip({
+        text: LANG["common.pay.pay_button.create_error"],
+        type: "info",
+      });
+      return null;
+    }
     const userInfo = getUserInfo();
-    if (!userInfo) return;
+    if (!userInfo) return null;
 
-    setStripeLoading(true);
     try {
       const res = await Api.createOrder(buildCreateOrderPayload(userInfo));
       if (res.code === 0 && res.data?.client_secret) {
-        setStripeClientSecret(res.data.client_secret);
-        setStripeOrderSecret(res.data.secret);
         secret.current = res.data.secret;
         trackingInitiateCheckout();
         localStorage.setItem(
@@ -508,36 +507,29 @@ export default function Main({ CONFIG, LANG, area, token }) {
             time: Date.now(),
           })
         );
-      } else {
-        throw new Error("missing client_secret");
+        const returnUrl =
+          typeof window === "undefined"
+            ? `${process.env.NEXT_PUBLIC_DOMAIN}/${locale}/order/info?secret=${res.data.secret}`
+            : `${window.location.origin}/${locale}/order/info?secret=${res.data.secret}`;
+        return { clientSecret: res.data.client_secret, returnUrl };
       }
+      throw new Error("missing client_secret");
     } catch {
       showTip({
         text: LANG["common.pay.pay_button.create_error"],
         type: "error",
       });
-    } finally {
-      setStripeLoading(false);
+      return null;
     }
   }, [
-    orderLoading,
     previewLoading,
-    stripeLoading,
     getUserInfo,
     buildCreateOrderPayload,
     trackingInitiateCheckout,
     showTip,
     LANG,
+    locale,
   ]);
-
-  const stripeReturnUrl = React.useMemo(() => {
-    if (typeof window === "undefined") {
-      return `${process.env.NEXT_PUBLIC_DOMAIN}/${locale}/order/info?secret=${stripeOrderSecret || ""}`;
-    }
-    return `${window.location.origin}/${locale}/order/info?secret=${stripeOrderSecret || ""}`;
-  }, [locale, stripeOrderSecret]);
-
-  const secret = React.useRef();
 
   return (
     <OrderContext.Provider
@@ -1036,52 +1028,42 @@ export default function Main({ CONFIG, LANG, area, token }) {
             {/* Stripe 支付方式 */}
             {payKey === "stripe" && stripeEnabled && orderList[0]?.priceCurrency ? (
               <div className={styles.stripe_btn}>
-                {!stripeClientSecret ? (
-                  <div
-                    className={styles.submit_btn}
-                    onClick={handleStripePrepare}
-                  >
-                    {stripeLoading
-                      ? "..."
-                      : LANG["store.order.submit_order"] || "Submit Order"}
-                  </div>
-                ) : (
-                  <StripePay
-                    clientSecret={stripeClientSecret}
-                    locale={locale}
-                    LANG={LANG}
-                    returnUrl={stripeReturnUrl}
-                    amountLabel={`${priceSymbol}${formatCurrency(
-                      orderPricing.pay_price,
-                      priceUnit
-                    )}`}
-                    onError={() => {
-                      showTip({
-                        text: LANG["common.pay.pay_button.pay_error"],
-                        type: "error",
-                      });
-                    }}
-                    onSuccess={() => {
-                      track("Purchase", {
-                        from: "order_page",
-                        currency: orderList[0].priceCurrency,
-                        value: orderPricing.pay_price,
-                        discount: orderPricing.discount,
-                        type: "stripe",
-                        contents: orderList,
-                      });
-                      showTip({
-                        text: LANG["common.pay.pay_button.pay_success"],
-                        type: "success",
-                      });
-                      localStorage.removeItem("order");
-                      setTimeout(() => {
-                        clearOrderList();
-                        router.push(`/order/info?secret=${stripeOrderSecret}`);
-                      }, 1000);
-                    }}
-                  />
-                )}
+                <StripePay
+                  amount={Math.round(orderPricing.pay_price * (priceUnit || 100))}
+                  currency={orderList[0].priceCurrency.toLowerCase()}
+                  locale={locale}
+                  LANG={LANG}
+                  onCreateOrder={handleStripeCreateOrder}
+                  amountLabel={`${priceSymbol}${formatCurrency(
+                    orderPricing.pay_price,
+                    priceUnit
+                  )}`}
+                  onError={() => {
+                    showTip({
+                      text: LANG["common.pay.pay_button.pay_error"],
+                      type: "error",
+                    });
+                  }}
+                  onSuccess={() => {
+                    track("Purchase", {
+                      from: "order_page",
+                      currency: orderList[0].priceCurrency,
+                      value: orderPricing.pay_price,
+                      discount: orderPricing.discount,
+                      type: "stripe",
+                      contents: orderList,
+                    });
+                    showTip({
+                      text: LANG["common.pay.pay_button.pay_success"],
+                      type: "success",
+                    });
+                    localStorage.removeItem("order");
+                    setTimeout(() => {
+                      clearOrderList();
+                      router.push(`/order/info?secret=${secret.current}`);
+                    }, 1000);
+                  }}
+                />
               </div>
             ) : null}
           </div>
