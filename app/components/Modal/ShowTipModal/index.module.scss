@@ -26,6 +26,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      .icon {
+        flex-shrink: 0;
+      }
       .text {
         text-transform: capitalize;
         margin-left: 8px;
