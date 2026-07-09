@@ -116,8 +116,11 @@ const useWishlist = create((set, get) => ({
       const res = await getCollections();
       const list = res?.data?.list || [];
       remote = list
-        .filter((it) => it && it.sortKey && it.productKey)
-        .map((it) => ({ sortKey: it.sortKey, productKey: it.productKey }));
+        .map((it) => ({
+          sortKey: it?.sortKey || it?.sort_key,
+          productKey: it?.productKey || it?.product_key,
+        }))
+        .filter((it) => it.sortKey && it.productKey);
     } catch {
       // 后端不可用：退回本地态，避免登录用户看到空清单。
       remote = local;
