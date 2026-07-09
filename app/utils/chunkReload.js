@@ -16,6 +16,8 @@ const RELOAD_FLAG = "__chunk_reload_at";
 const RELOAD_WINDOW_MS = 10000;
 
 // 识别 chunk 加载失败：webpack/turbopack 的 ChunkLoadError、ESM 动态导入失败、CSS chunk 失败。
+// OpenNext/CF 对不存在的 _next/static chunk 可能回 HTML（SPA fallback）而非 404，
+// 浏览器解析为 JS 时抛 SyntaxError: Unexpected token '<'，也需纳入自动刷新。
 export function isChunkLoadError(error) {
   if (!error) return false;
   const name = (error.name || "").toString();
@@ -26,7 +28,8 @@ export function isChunkLoadError(error) {
     /Loading CSS chunk/i.test(msg) ||
     /Failed to fetch dynamically imported module/i.test(msg) ||
     /error loading dynamically imported module/i.test(msg) ||
-    /importing a module script failed/i.test(msg)
+    /importing a module script failed/i.test(msg) ||
+    /Unexpected token ['"]?<'/i.test(msg)
   );
 }
 

@@ -18,7 +18,7 @@ export default function ChunkErrorReloader() {
       }
     };
     const onError = (e) => {
-      // 普通脚本错误带 error 对象。
+      // 普通脚本错误带 error 对象（含 chunk 404 回 HTML 时的 SyntaxError）。
       if (e?.error && tryReloadOnChunkError(e.error)) return;
       // 资源加载失败（script/link）无 error 对象，靠 target 与 URL 判断。
       const target = e?.target;
@@ -29,7 +29,13 @@ export default function ChunkErrorReloader() {
             name: "ChunkLoadError",
             message: `Loading chunk failed: ${url}`,
           });
+          return;
         }
+      }
+      // 部分浏览器对 script 解析失败只给 message、不给 error 对象。
+      const msg = (e?.message || "").toString();
+      if (/Unexpected token ['"]?<'/i.test(msg)) {
+        tryReloadOnChunkError({ name: "SyntaxError", message: msg });
       }
     };
     window.addEventListener("unhandledrejection", onRejection);
