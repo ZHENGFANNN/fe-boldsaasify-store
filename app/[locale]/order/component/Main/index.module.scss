@@ -348,6 +348,11 @@
           display: inline-block;
           min-width: 24px;
         }
+        // 预览刷新中：保留旧值，仅整块变淡表示重新计算，避免运费/总计跳空
+        .price_refreshing {
+          opacity: 0.45;
+          transition: opacity 0.15s ease;
+        }
         .price_total {
           color: #000;
           line-height: 1.5715;

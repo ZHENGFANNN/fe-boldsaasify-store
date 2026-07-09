@@ -745,7 +745,11 @@ export default function Main({ CONFIG, LANG, area, token }) {
                     </div>
                   ) : null}
                 </div>
-                <div className={styles.price_list}>
+                <div
+                  className={`${styles.price_list}${
+                    previewLoading ? ` ${styles.price_refreshing}` : ""
+                  }`}
+                >
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.good_total"]}</h3>
                     <span>{`${priceSymbol}${formatCurrency(
@@ -796,9 +800,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
                   <div className={styles.price_item}>
                     <h3>{LANG["store.order.express_price"]}</h3>
                     <span>
-                      {previewLoading ? (
-                        "..."
-                      ) : orderPricing.shipping_fee > 0 ? (
+                      {orderPricing.shipping_fee > 0 ? (
                         // 始终展示原运费；运费折扣（free_shipping code）由下方独立折扣行体现，
                         // 不在此处直接抹成「免费」，避免藏掉原价 + 与折扣行重复表达。
                         `${priceSymbol}${formatCurrency(
@@ -827,17 +829,17 @@ export default function Main({ CONFIG, LANG, area, token }) {
                     <span>{LANG["store.order.tax_include"] || "Included"}</span>
                   </div>
                 </div>
-                <div className={styles.price_total}>
+                <div
+                  className={`${styles.price_total}${
+                    previewLoading ? ` ${styles.price_refreshing}` : ""
+                  }`}
+                >
                   <h3>{LANG["store.order.total_price"]}</h3>
                   <span>
-                    {previewLoading ? (
-                      <span className={styles.preview_loading}>...</span>
-                    ) : (
-                      `${priceSymbol}${formatCurrency(
-                        orderPricing.pay_price,
-                        priceUnit
-                      )}`
-                    )}
+                    {`${priceSymbol}${formatCurrency(
+                      orderPricing.pay_price,
+                      priceUnit
+                    )}`}
                   </span>
                 </div>
               </>
