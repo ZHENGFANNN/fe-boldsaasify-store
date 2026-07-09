@@ -48,10 +48,7 @@ export const foreignPay = function ({ CONFIG, LANG }) {
 
   return [
     {
-      title:
-        LANG["common.pay.pay_info.pay_list.stripe"] ||
-        LANG["store.order.pay_info.credit_card"] ||
-        "Credit / Debit Card",
+      title: "Stripe",
       description:
         LANG["common.pay.pay_info.pay_list.stripe_detail"] ||
         "Pay securely with card, Apple Pay, or Google Pay.",
