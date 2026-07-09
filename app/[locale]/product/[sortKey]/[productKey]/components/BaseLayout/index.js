@@ -49,34 +49,44 @@ export default function BaseLayout({
   // 主商品 + 推荐产品(associateProduct) 的折扣命中表（按 product_key 索引），
   // 下发 context 供 AssociateProductList 各卡片算折后价，与主商品同一折扣口径。
   const [discountMap, setDiscountMap] = React.useState({});
+  // 折扣加载态：与 priceLoading 一起 gate 价格区，保证「价 + 折扣」同时呈现，
+  // 避免先渲原价、折扣后到再跳成折后价的那一下闪动。
+  const [discountLoading, setDiscountLoading] = React.useState(true);
 
   React.useEffect(() => {
     const area = readClientArea();
     let cancelled = false;
+    // 切商品/地区重新取折扣时先置 loading，价格区回到骨架，等价+折扣都就绪再一次性渲染。
+    setDiscountLoading(true);
     (async () => {
-      // 接口 A 本就支持 product_list 批量：一次把主商品 + 全部推荐产品带上，
-      // 避免推荐列表再单独发请求。种子(associateProduct)在服务端即已下发，挂载时可读。
-      const seed = initialProductRef.current;
-      const productList = [{ product_key: productKey, sort_key: sortKey }];
-      (seed?.associateProduct || []).forEach((p) => {
-        if (p?.key && p?.sort_key) {
-          productList.push({ product_key: p.key, sort_key: p.sort_key });
+      try {
+        // 接口 A 本就支持 product_list 批量：一次把主商品 + 全部推荐产品带上，
+        // 避免推荐列表再单独发请求。种子(associateProduct)在服务端即已下发，挂载时可读。
+        const seed = initialProductRef.current;
+        const productList = [{ product_key: productKey, sort_key: sortKey }];
+        (seed?.associateProduct || []).forEach((p) => {
+          if (p?.key && p?.sort_key) {
+            productList.push({ product_key: p.key, sort_key: p.sort_key });
+          }
+        });
+        const { map } = await getProductDiscounts({
+          area_code: area,
+          product_list: productList,
+        });
+        if (cancelled) return;
+        // 整表下发（过期过滤由消费方 pickAutoDiscount 逐项处理）。
+        setDiscountMap(map || {});
+        const hit = map?.[productKey] || null;
+        // 有命中就注入：无 ends_at 视为无限期促销（Countdown 内部只在有 ends_at 时才渲染倒计时）；
+        // 有 ends_at 但已过期的丢弃。
+        if (hit && (!hit.ends_at || Number(hit.ends_at) > Date.now())) {
+          setAutoDiscount(hit);
+        } else {
+          setAutoDiscount(null);
         }
-      });
-      const { map } = await getProductDiscounts({
-        area_code: area,
-        product_list: productList,
-      });
-      if (cancelled) return;
-      // 整表下发（过期过滤由消费方 pickAutoDiscount 逐项处理）。
-      setDiscountMap(map || {});
-      const hit = map?.[productKey] || null;
-      // 有命中就注入：无 ends_at 视为无限期促销（Countdown 内部只在有 ends_at 时才渲染倒计时）；
-      // 有 ends_at 但已过期的丢弃。
-      if (hit && (!hit.ends_at || Number(hit.ends_at) > Date.now())) {
-        setAutoDiscount(hit);
-      } else {
-        setAutoDiscount(null);
+      } finally {
+        // 无论成功/失败/是否命中，价格区都结束等待、一次性渲染最终价（含折后价）。
+        if (!cancelled) setDiscountLoading(false);
       }
     })();
     return () => {
@@ -218,6 +228,8 @@ export default function BaseLayout({
         lazyLoading,
         setLazyLoading,
         priceLoading,
+        // 折扣加载态：GoodPrice/GoodFooter 与 priceLoading 一起 gate，价与折扣同时呈现、消除闪动。
+        discountLoading,
         productNum,
         setProductNum,
         productCurCombo,

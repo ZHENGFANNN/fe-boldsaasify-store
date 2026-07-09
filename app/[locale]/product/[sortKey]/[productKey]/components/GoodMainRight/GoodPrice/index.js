@@ -8,11 +8,12 @@ import PriceSkeleton from "./PriceSkeleton";
 import styles from "./index.module.scss";
 
 export default function GoodPrice() {
-  const { LANG, productCurCombo, priceLoading, autoDiscount } =
+  const { LANG, productCurCombo, priceLoading, discountLoading, autoDiscount } =
     React.useContext(ProductContext);
 
-  // 非 us 地区拉取地区价期间：种子价(us)不可信，用骨架占位。
-  if (priceLoading) {
+  // 价与折扣任一未就绪都用骨架占位：等两者都到再一次性渲染最终价（含折后价），
+  // 避免先渲原价、折扣后到再跳成折后价的闪动。
+  if (priceLoading || discountLoading) {
     return <PriceSkeleton />;
   }
 

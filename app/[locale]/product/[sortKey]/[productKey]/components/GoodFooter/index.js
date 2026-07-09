@@ -21,6 +21,7 @@ export default function GoodFooter() {
     optionSelection,
     lazyLoading,
     priceLoading,
+    discountLoading,
     autoDiscount,
   } = React.useContext(ProductContext);
   const comboModalRef = React.useRef(null);
@@ -143,7 +144,7 @@ export default function GoodFooter() {
         </div>
         <div className={styles.footer_right}>
           <div className={styles.footer_price}>
-            {priceLoading ? (
+            {priceLoading || discountLoading ? (
               <Skeleton variant="rect" className={styles.price_loading} />
             ) : (
               <>
