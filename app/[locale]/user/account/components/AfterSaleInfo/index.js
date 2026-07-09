@@ -4,8 +4,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import styles from "./index.module.scss";
 import Api from "../../api";
-import Input from "@/components/Form/FormInput";
 import Textarea from "@/components/Form/FormTextArea";
+import FormSelect from "@/components/Form/FormSelect";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
 import Empyt from "@/components/Empyt";
@@ -23,6 +23,7 @@ export default function AfterSaleInfo({ LANG }) {
   const [orders, setOrders] = React.useState([]);
   const [show, setShow] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
+  const [formKey, setFormKey] = React.useState(0);
 
   const {
     register,
@@ -82,6 +83,11 @@ export default function AfterSaleInfo({ LANG }) {
     getOrders();
   }, []);
 
+  const resetForm = React.useCallback(() => {
+    reset();
+    setFormKey((key) => key + 1);
+  }, [reset]);
+
   const onSubmit = async (values) => {
     if (submitting) return;
     setSubmitting(true);
@@ -95,7 +101,7 @@ export default function AfterSaleInfo({ LANG }) {
         description: values.description,
       });
       if (res.code !== 0) throw new Error("code!==0");
-      reset();
+      resetForm();
       setShow(false);
       tipRef.current?.show({
         text: T(
@@ -119,6 +125,43 @@ export default function AfterSaleInfo({ LANG }) {
       setSubmitting(false);
     }
   };
+
+  const orderOptions = React.useMemo(
+    () => [
+      {
+        value: "",
+        label: T(
+          LANG,
+          "user_account.after_sale.order_optional",
+          "Select an order (optional)"
+        ),
+      },
+      ...orders.map((o) => ({
+        value: o.secret,
+        label: o.order_number,
+      })),
+    ],
+    [LANG, orders]
+  );
+
+  const typeOptions = React.useMemo(
+    () => [
+      {
+        value: "",
+        label: T(
+          LANG,
+          "user_account.after_sale.type_placeholder",
+          "Select a type"
+        ),
+        disabled: true,
+      },
+      ...TYPE_KEYS.map((k) => ({
+        value: k,
+        label: typeMap[k],
+      })),
+    ],
+    [LANG, typeMap]
+  );
 
   return (
     <div className={styles.container}>
@@ -172,58 +215,49 @@ export default function AfterSaleInfo({ LANG }) {
       <div className={`${styles.modal} ${show ? styles.show : ""}`}>
         <div className={styles.modal_content}>
           <h2>{T(LANG, "user_account.after_sale.create", "New Request")}</h2>
-          <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-            <div className={styles.form_item}>
-              <label className={styles.form_label}>
-                {T(LANG, "user_account.after_sale.order", "Order")}
-              </label>
-              <div className={styles.select_wrap}>
-                <select
-                  className={`${styles.select} ${errors.order ? styles.error : ""}`}
-                  defaultValue=""
-                  {...register("order")}
-                >
-                  <option value="">
-                    {T(
-                      LANG,
-                      "user_account.after_sale.order_optional",
-                      "Select an order (optional)"
-                    )}
-                  </option>
-                  {orders.map((o) => (
-                    <option key={o.secret} value={o.secret}>
-                      {o.order_number}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+          <form
+            key={formKey}
+            onSubmit={handleSubmit(onSubmit)}
+            className={styles.form}
+          >
+            <FormSelect
+              label={T(LANG, "user_account.after_sale.order", "Order")}
+              required={false}
+              placeholder={T(
+                LANG,
+                "user_account.after_sale.order_optional",
+                "Select an order (optional)"
+              )}
+              options={orderOptions}
+              inputProps={{
+                ...register("order"),
+                defaultValue: "",
+              }}
+            />
 
-            <div className={styles.form_item}>
-              <label className={styles.form_label}>
-                {T(LANG, "user_account.after_sale.type", "Type")} *
-              </label>
-              <div className={styles.select_wrap}>
-                <select
-                  className={`${styles.select} ${errors.type ? styles.error : ""}`}
-                  defaultValue=""
-                  {...register("type", { required: true })}
-                >
-                  <option value="" disabled>
-                    {T(
+            <FormSelect
+              label={T(LANG, "user_account.after_sale.type", "Type")}
+              required
+              error={
+                errors.type
+                  ? T(
                       LANG,
-                      "user_account.after_sale.type_placeholder",
-                      "Select a type"
-                    )}
-                  </option>
-                  {TYPE_KEYS.map((k) => (
-                    <option key={k} value={k}>
-                      {typeMap[k]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+                      "user_account.after_sale.type_require",
+                      "Please select a type"
+                    )
+                  : ""
+              }
+              placeholder={T(
+                LANG,
+                "user_account.after_sale.type_placeholder",
+                "Select a type"
+              )}
+              options={typeOptions}
+              inputProps={{
+                ...register("type", { required: true }),
+                defaultValue: "",
+              }}
+            />
 
             <div className={styles.form_item}>
               <Textarea
@@ -255,7 +289,7 @@ export default function AfterSaleInfo({ LANG }) {
                 type="button"
                 className={styles.cancel_btn}
                 onClick={() => {
-                  reset();
+                  resetForm();
                   setShow(false);
                 }}
               >
