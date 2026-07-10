@@ -33,7 +33,6 @@ export default function RegisterForm({ LANG }) {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     getValues,
     formState: { errors },
@@ -45,8 +44,6 @@ export default function RegisterForm({ LANG }) {
     switch (res?.code) {
       case 10002:
         return LANG["user_register.email_registered"];
-      case 10023:
-        return LANG["user_register.comfrom_password_error"];
       case 10070:
         return (
           LANG["user_register.code_cooldown"] ||
@@ -113,6 +110,7 @@ export default function RegisterForm({ LANG }) {
   const onSubmit = async function (data) {
     try {
       setLoading(true);
+      // 昵称不再收集：后端为空时自动生成 user_xxxxxx。
       const res = await Api.userRegister({
         ...data,
         language: locale,
@@ -153,27 +151,15 @@ export default function RegisterForm({ LANG }) {
     }
   };
 
-  const { password } = watch();
+  const codeBtnLabel =
+    countdown > 0
+      ? `${countdown}s`
+      : sending
+      ? LANG["user_register.code_sending"] || "Sending…"
+      : LANG["user_register.send_code"] || "Send code";
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className={styles.form_item + " " + styles["mb-16"]}>
-        <h2>{LANG["user_register.nickname"]}</h2>
-        <input
-          {...register("nickname", {
-            required: LANG["user_register.nickname_empyt"],
-            minLength: {
-              value: 2,
-              message: LANG["user_register.nickname_error"],
-            },
-            maxLength: {
-              value: 15,
-              message: LANG["user_register.nickname_error"],
-            },
-          })}
-          autoComplete="off"
-        />
-        <p>{errors.nickname?.message}</p>
-      </div>
       <div className={styles.form_item + " " + styles["mb-16"]}>
         <h2>{LANG["user_register.email"]}</h2>
         <input
@@ -187,33 +173,6 @@ export default function RegisterForm({ LANG }) {
           autoComplete="off"
         />
         <p>{errors.email?.message}</p>
-      </div>
-      <div className={styles.form_item + " " + styles["mb-16"]}>
-        <h2>{LANG["user_register.code"] || "Verification code"}</h2>
-        <div className={styles.code_row}>
-          <input
-            {...register("code", {
-              required:
-                LANG["user_register.code_empty"] ||
-                "Please enter the verification code",
-            })}
-            autoComplete="off"
-            inputMode="numeric"
-          />
-          <button
-            type="button"
-            className={styles.send_code_btn}
-            disabled={sending || countdown > 0}
-            onClick={handleSendCode}
-          >
-            {countdown > 0
-              ? `${countdown}s`
-              : sending
-              ? "..."
-              : LANG["user_register.send_code"] || "Send code"}
-          </button>
-        </div>
-        <p>{errors.code?.message}</p>
       </div>
       <div className={styles.form_item + " " + styles["mb-16"]}>
         <h2>{LANG["user_register.password"]}</h2>
@@ -234,18 +193,30 @@ export default function RegisterForm({ LANG }) {
         <p>{errors.password?.message}</p>
       </div>
       <div className={styles.form_item}>
-        <h2>{LANG["user_register.again_password"]}</h2>
-        <input
-          type="password"
-          {...register("confirm_password", {
-            required: LANG["user_register.again_password_empyt"],
-            validate: (value) => {
-              if (value === password) return true;
-              else return LANG["user_register.comfrom_password_error"];
-            },
-          })}
-        />
-        <p>{errors.confirm_password?.message}</p>
+        <h2>{LANG["user_register.code"] || "Verification code"}</h2>
+        <div className={styles.code_row}>
+          <input
+            {...register("code", {
+              required:
+                LANG["user_register.code_empty"] ||
+                "Please enter the verification code",
+            })}
+            autoComplete="off"
+            inputMode="numeric"
+          />
+          <button
+            type="button"
+            className={
+              styles.send_code_btn +
+              (countdown > 0 || sending ? " " + styles.is_disabled : "")
+            }
+            disabled={sending || countdown > 0}
+            onClick={handleSendCode}
+          >
+            {codeBtnLabel}
+          </button>
+        </div>
+        <p>{errors.code?.message}</p>
       </div>
       <button disabled={loading} type="submit" className={styles.button}>
         {LANG["user_register.submit"]}

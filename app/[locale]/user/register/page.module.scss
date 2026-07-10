@@ -87,37 +87,40 @@
           line-height: 16px;
           margin-top: 4px;
         }
-        // 验证码行：输入框 + 发送按钮同排（嵌套在 form_item 内，specificity 高于
-        // .form_item input，桌面/移动端一致生效，不被移动端媒体查询覆盖）。
+        // 验证码行：发码按钮内嵌到输入框右侧（行业标准做法：输入框留右内边距，
+        // 按钮绝对定位为文字按钮 + 左侧竖分割线）。嵌套在 form_item 内，specificity
+        // 高于 .form_item input，桌面/移动端一致生效，不被移动端媒体查询覆盖。
         .code_row {
-          display: flex;
-          gap: 8px;
-          align-items: stretch;
+          position: relative;
           input {
-            flex: 1 1 auto;
-            width: auto;
-            min-width: 0;
+            width: 100%;
+            padding-right: 116px;
           }
           .send_code_btn {
-            flex: 0 0 auto;
-            min-width: 120px;
-            height: 40px;
+            position: absolute;
+            top: 5px;
+            bottom: 5px;
+            right: 5px;
+            display: flex;
+            align-items: center;
             padding: 0 14px;
-            box-sizing: border-box;
-            border: 1px solid #262626;
-            border-radius: 4px;
-            background: #fff;
+            border: none;
+            border-left: 1px solid #e1e3e6;
+            border-radius: 0;
+            background: transparent;
             color: #262626;
             font-size: 13px;
+            font-weight: 600;
+            line-height: 1;
             white-space: nowrap;
             cursor: pointer;
-            transition: all 300ms;
-            &:hover:not(:disabled) {
-              background: #262626;
-              color: #fff;
+            transition: color 200ms;
+            &:hover {
+              color: #000;
             }
-            &:disabled {
-              opacity: 0.5;
+            &:disabled,
+            &.is_disabled {
+              color: #b0b0b0;
               cursor: not-allowed;
             }
           }
