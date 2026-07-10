@@ -5,7 +5,7 @@
 // 首页产品列表数据层（运行时从后端拉取，按 locale 过滤 + sort 分类整形）。
 //
 // SSG 阶段不返回价格：每个商品的 comboList 只保留 (key, associate_country_key) 元数据，
-// 价格由客户端按 area cookie 调 /api/products-pricing 批量取齐（避免 us→cn 货币闪动）。
+// 价格与折扣由客户端按 area cookie 调 /api/products-offer 批量取齐（避免 us→cn 货币闪动）。
 // JSON-LD（爬虫不执行 JS）走单独的 server 子组件 SSG 阶段以默认 us 取价兜底。
 //
 // 数据源与 getCategoryProducts 共用 /config/getProduct + tag('product:list')，

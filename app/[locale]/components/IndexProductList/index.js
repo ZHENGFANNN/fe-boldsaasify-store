@@ -17,8 +17,7 @@ import {
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import WishlistButton from "@/components/WishlistButton";
-import getProductsPricing from "@/service/product/get-products-pricing";
-import getProductDiscounts from "@/service/product/get-product-discounts";
+import getProductsOffer from "@/service/product/get-offer";
 
 const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
 const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_icon.svg`;
@@ -223,46 +222,31 @@ export default function ProductList() {
   // discountMap：按 product_key 索引的自动规则折扣（限时促销），未就绪为 {}。
   const [discountMap, setDiscountMap] = React.useState({});
 
+  // 一次批量取「价格 + 折扣」聚合：同一份 list 里既建 pricingMap（按 sortKey:productKey）
+  // 又建 discountMap（按 product_key），取代原先价、折扣两条并行请求 + 客户端手动对齐。
   React.useEffect(() => {
     if (!areaReady) return;
     let cancelled = false;
     const effectiveArea = area || "us";
-    getProductsPricing({
+    getProductsOffer({
       area: effectiveArea,
       locale,
       keys: allKeys
     }).then((data) => {
       if (cancelled) return;
-      const map = {};
+      const pMap = {};
+      const dMap = {};
       (data?.list || []).forEach((item) => {
-        map[`${item.sortKey}:${item.productKey}`] = item;
+        pMap[`${item.sortKey}:${item.productKey}`] = item;
+        if (item.discount) dMap[item.productKey] = item.discount;
       });
-      setPricingMap(map);
+      setPricingMap(pMap);
+      setDiscountMap(dMap);
     });
     return () => {
       cancelled = true;
     };
   }, [areaReady, area, locale, allKeys]);
-
-  // 并行批量取自动折扣（限时促销）：与定价独立互不阻塞，命中按 product_key 建 map。
-  React.useEffect(() => {
-    if (!areaReady) return;
-    let cancelled = false;
-    const effectiveArea = area || "us";
-    getProductDiscounts({
-      area_code: effectiveArea,
-      product_list: allKeys.map((k) => ({
-        product_key: k.productKey,
-        sort_key: k.sortKey
-      }))
-    }).then((res) => {
-      if (cancelled) return;
-      setDiscountMap(res?.map || {});
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [areaReady, area, allKeys]);
 
   const pricingReady = pricingMap !== null;
 

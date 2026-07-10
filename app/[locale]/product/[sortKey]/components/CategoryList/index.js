@@ -15,8 +15,7 @@ import {
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import WishlistButton from "@/components/WishlistButton";
-import getProductsPricing from "@/service/product/get-products-pricing";
-import getProductDiscounts from "@/service/product/get-product-discounts";
+import getProductsOffer from "@/service/product/get-offer";
 import styles from "./index.module.scss";
 
 const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
@@ -226,47 +225,32 @@ export default function CategoryList({
     [goodList]
   );
 
+  // 一次批量取「价格 + 折扣」聚合：服务端已把价与自动折扣 join 好，
+  // 这里同一份 list 里既建 pricingMap（按 sortKey:productKey）又建 discountMap（按 product_key），
+  // 取代原先价、折扣两条并行请求 + 客户端手动对齐。
   React.useEffect(() => {
     if (!areaReady) return;
     let cancelled = false;
     const effectiveArea = area || "us";
-    getProductsPricing({
+    getProductsOffer({
       area: effectiveArea,
       locale,
       keys: allKeys,
     }).then((data) => {
       if (cancelled) return;
-      const map = {};
+      const pMap = {};
+      const dMap = {};
       (data?.list || []).forEach((item) => {
-        map[`${item.sortKey}:${item.productKey}`] = item;
+        pMap[`${item.sortKey}:${item.productKey}`] = item;
+        if (item.discount) dMap[item.productKey] = item.discount;
       });
-      setPricingMap(map);
+      setPricingMap(pMap);
+      setDiscountMap(dMap);
     });
     return () => {
       cancelled = true;
     };
   }, [areaReady, area, locale, allKeys]);
-
-  // 并行批量取自动折扣（限时促销）：传当前 area + 全部商品 {product_key, sort_key}。
-  // 与定价取价相互独立，互不阻塞；命中按 product_key 建 map 供卡片渲染。
-  React.useEffect(() => {
-    if (!areaReady) return;
-    let cancelled = false;
-    const effectiveArea = area || "us";
-    getProductDiscounts({
-      area_code: effectiveArea,
-      product_list: allKeys.map((k) => ({
-        product_key: k.productKey,
-        sort_key: k.sortKey,
-      })),
-    }).then((res) => {
-      if (cancelled) return;
-      setDiscountMap(res?.map || {});
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [areaReady, area, allKeys]);
 
   // 筛选状态：selectedTags = Set(已选商品标签)；价格区间字符串（受控输入）。
   const [selectedTags, setSelectedTags] = React.useState(() => new Set());

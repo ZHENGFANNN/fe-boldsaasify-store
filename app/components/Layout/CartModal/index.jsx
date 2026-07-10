@@ -16,7 +16,7 @@ import {
   writeStoredDiscountCodes,
   formatRejectedCodeMessage,
 } from "@/utils/discount-codes";
-import getProductDiscounts from "@/service/product/get-product-discounts";
+import getProductsOffer from "@/service/product/get-offer";
 import { discountedUnitPrice, savedUnitAmount } from "@/utils/productPricing";
 import CustomizeFileLink from "@/components/CustomizeFileLink";
 
@@ -198,7 +198,7 @@ const CartMain = function ({ handleClose }) {
 
   // ==========================================================================
   // 行级商品折扣（product_amount_off 自动折扣）展示：与商品详情页 GoodPrice 同源，
-  // 复用 getProductDiscounts + discountedUnitPrice/savedUnitAmount，让购物车每行也看到折后价。
+  // 复用 getProductsOffer（价格+折扣聚合，仅取折扣）+ discountedUnitPrice/savedUnitAmount，让购物车每行也看到折后价。
   // 仅用于「展示」；结算最终价仍以 previewOrder 的 pay_price 为准（后端唯一真相，已含自动折扣）。
   // 后端只返回符合资格的折扣（含永不过期），无需前端再判 ends_at。
   // ==========================================================================
@@ -210,21 +210,23 @@ const CartMain = function ({ handleClose }) {
     }
     let cancelled = false;
     (async () => {
-      // 按 (sortKey, productKey) 去重后批量查询（service 内存缓存 60s，数量变化命中缓存不回源）。
+      // 按 (sortKey, productKey) 去重后批量查询价格+折扣聚合接口。购物车只用折扣：
+      // 从 list[].discount 建 discountMap（按 product_key），价格字段忽略（行价仍取 cart 内价）。
       const seen = new Set();
-      const product_list = [];
+      const keys = [];
       cartList.forEach((it) => {
         const key = `${it.sortKey}:${it.productKey}`;
         if (seen.has(key)) return;
         seen.add(key);
-        product_list.push({ product_key: it.productKey, sort_key: it.sortKey });
+        keys.push({ sortKey: it.sortKey, productKey: it.productKey });
       });
-      const { map } = await getProductDiscounts({
-        area_code: area || "us",
-        product_list,
-      });
+      const data = await getProductsOffer({ area: area || "us", keys });
       if (cancelled) return;
-      setDiscountMap(map || {});
+      const dMap = {};
+      (data?.list || []).forEach((item) => {
+        if (item.discount) dMap[item.productKey] = item.discount;
+      });
+      setDiscountMap(dMap);
     })();
     return () => {
       cancelled = true;

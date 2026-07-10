@@ -5,8 +5,7 @@ import ProductContext from "../../ProductContext";
 import { pickCombo, applyProductPricing } from "@/utils/productPricing";
 import { resolveVariant, defaultSelection } from "@/utils/resolveVariant";
 import readClientArea from "@/utils/readClientArea";
-import getProductPricing from "@/service/product/get-pricing";
-import getProductDiscounts from "@/service/product/get-product-discounts";
+import getProductsOffer from "@/service/product/get-offer";
 import useCustomizeFields from "../GoodMainRight/CustomizationFields/useCustomizeFields";
 
 export default function BaseLayout({
@@ -33,9 +32,10 @@ export default function BaseLayout({
   }, [initialProductInfo]);
 
   const [lazyLoading, setLazyLoading] = React.useState(true);
-  // 地区价格补差 loading：服务端种子无价，挂载后拉真实地区价之前恒为 true，
-  // 期间价格区展示骨架（首屏种子不含任何 areaInfo）。
-  const [priceLoading, setPriceLoading] = React.useState(true);
+  // 价格+折扣聚合 loading：服务端种子无价、无折扣，挂载后一次拉「地区价 + 自动折扣」
+  // 之前恒为 true，期间价格区展示骨架。合并前是 priceLoading / discountLoading 两态，
+  // 现在同一次请求同时就绪 → 单态 offerLoading，对下游仍以两个 key 下发（见 provider）。
+  const [offerLoading, setOfferLoading] = React.useState(true);
   const [productInfo, setProductInfo] = React.useState(initialProductInfo);
   const [productNum, setProductNum] = React.useState(1);
   const [productCurCombo, setProductCurCombo] = React.useState(() =>
@@ -43,56 +43,12 @@ export default function BaseLayout({
   );
   const [productShowType, setProductShowType] = React.useState("image");
 
-  // 自动规则折扣（限时促销）：挂载/切商品/切地区时调接口 A 取当前单商品的促销，
-  // 命中且未过期则注入 ProductContext，驱动 Countdown 限时倒计时展示。
+  // 自动规则折扣（限时促销）：当前单商品命中的促销，命中且未过期则注入 ProductContext，
+  // 驱动 Countdown 限时倒计时展示。取数已并入下方「价格+折扣聚合」effect。
   const [autoDiscount, setAutoDiscount] = React.useState(null);
   // 主商品 + 推荐产品(associateProduct) 的折扣命中表（按 product_key 索引），
   // 下发 context 供 AssociateProductList 各卡片算折后价，与主商品同一折扣口径。
   const [discountMap, setDiscountMap] = React.useState({});
-  // 折扣加载态：与 priceLoading 一起 gate 价格区，保证「价 + 折扣」同时呈现，
-  // 避免先渲原价、折扣后到再跳成折后价的那一下闪动。
-  const [discountLoading, setDiscountLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    const area = readClientArea();
-    let cancelled = false;
-    // 切商品/地区重新取折扣时先置 loading，价格区回到骨架，等价+折扣都就绪再一次性渲染。
-    setDiscountLoading(true);
-    (async () => {
-      try {
-        // 接口 A 本就支持 product_list 批量：一次把主商品 + 全部推荐产品带上，
-        // 避免推荐列表再单独发请求。种子(associateProduct)在服务端即已下发，挂载时可读。
-        const seed = initialProductRef.current;
-        const productList = [{ product_key: productKey, sort_key: sortKey }];
-        (seed?.associateProduct || []).forEach((p) => {
-          if (p?.key && p?.sort_key) {
-            productList.push({ product_key: p.key, sort_key: p.sort_key });
-          }
-        });
-        const { map } = await getProductDiscounts({
-          area_code: area,
-          product_list: productList,
-        });
-        if (cancelled) return;
-        // 整表下发（过期过滤由消费方 pickAutoDiscount 逐项处理）。
-        setDiscountMap(map || {});
-        const hit = map?.[productKey] || null;
-        // 有命中就注入：无 ends_at 视为无限期促销（Countdown 内部只在有 ends_at 时才渲染倒计时）；
-        // 有 ends_at 但已过期的丢弃。
-        if (hit && (!hit.ends_at || Number(hit.ends_at) > Date.now())) {
-          setAutoDiscount(hit);
-        } else {
-          setAutoDiscount(null);
-        }
-      } finally {
-        // 无论成功/失败/是否命中，价格区都结束等待、一次性渲染最终价（含折后价）。
-        if (!cancelled) setDiscountLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [sortKey, productKey]);
 
   // ---------- V2 选项体系 ----------
   // axes/variants 与地区无关，来自服务端 props；selection = {axis_code: value_code}。
@@ -179,30 +135,59 @@ export default function BaseLayout({
     setProductCurCombo(pickCombo(seed?.comboList));
   }, [sortKey, productKey]);
 
-  // 客户端价格补差：服务端种子已无价（areaInfo 全空），
-  // 挂载后（及切换商品后）按真实 area 拉对应地区定价并合并；
-  // us 不再走服务端预渲染，因此这里对所有地区（含 us）一律拉取。
+  // 客户端「价格 + 折扣」补差：服务端种子无价（areaInfo 全空）也无折扣，
+  // 挂载后（及切换商品后）按真实 area 一次聚合拉「地区价 + 自动折扣」并合并。
+  // 一次把主商品 + 全部推荐产品(associateProduct)带上：主商品条目 join 进 comboList 的价，
+  // 各条目的 discount 汇成 discountMap 供 AssociateProductList 卡片同口径算折后价。
+  // us 不再走服务端预渲染，故所有地区（含 us）一律拉取。
   React.useEffect(() => {
     const area = readClientArea();
 
     let cancelled = false;
-    setPriceLoading(true);
+    // 切商品/地区重新拉取时先置 loading，价格区回骨架，等「价 + 折扣」都就绪再一次性渲染，
+    // 避免先渲原价、折扣后到再跳成折后价的那一下闪动。
+    setOfferLoading(true);
     (async () => {
-      const pricing = await getProductPricing({
-        sortKey,
-        productKey,
-        area,
-        locale
-      });
-      if (cancelled) return;
       const seed = initialProductRef.current;
-      const priced = pricing ? applyProductPricing(seed, pricing) : null;
+      const keys = [{ sortKey, productKey }];
+      (seed?.associateProduct || []).forEach((p) => {
+        if (p?.key && p?.sort_key) {
+          keys.push({ sortKey: p.sort_key, productKey: p.key });
+        }
+      });
+
+      const data = await getProductsOffer({ area, locale, keys });
+      if (cancelled) return;
+
+      const list = data?.list || [];
+      // 折扣整表下发（过期过滤由消费方 pickAutoDiscount 逐项处理）。
+      const dMap = {};
+      list.forEach((item) => {
+        if (item.discount) dMap[item.productKey] = item.discount;
+      });
+      setDiscountMap(dMap);
+
+      // 主商品条目 → 合并地区价 + 命中当前商品折扣。
+      const mainEntry = list.find(
+        (x) => x.sortKey === sortKey && x.productKey === productKey
+      );
+      const priced = mainEntry
+        ? applyProductPricing(seed, mainEntry)
+        : null;
       if (priced) {
         setProductInfo(priced);
         setProductCurCombo((prev) => pickCombo(priced.comboList, prev?.key));
       }
-      // 拿到地区价（或失败退回无价种子）后结束 loading，展示价格。
-      setPriceLoading(false);
+      // 无 ends_at 视为无限期促销（Countdown 内部只在有 ends_at 时才渲染倒计时）；
+      // 有 ends_at 但已过期的丢弃。
+      const hit = dMap[productKey] || null;
+      if (hit && (!hit.ends_at || Number(hit.ends_at) > Date.now())) {
+        setAutoDiscount(hit);
+      } else {
+        setAutoDiscount(null);
+      }
+      // 拿到「价 + 折扣」（或失败退回无价种子）后结束 loading，一次性渲染最终价（含折后价）。
+      setOfferLoading(false);
     })();
 
     return () => {
@@ -227,9 +212,11 @@ export default function BaseLayout({
         productInfo,
         lazyLoading,
         setLazyLoading,
-        priceLoading,
-        // 折扣加载态：GoodPrice/GoodFooter 与 priceLoading 一起 gate，价与折扣同时呈现、消除闪动。
-        discountLoading,
+        // 价与折扣已并成一次请求、同时就绪：下游仍消费 priceLoading（VariantSelector/
+        // GoodBtnList/Countdown 单独用）与 discountLoading（GoodPrice/GoodFooter 与前者联用），
+        // 这里两个 key 同指 offerLoading，下游零改动、语义等价。
+        priceLoading: offerLoading,
+        discountLoading: offerLoading,
         productNum,
         setProductNum,
         productCurCombo,

@@ -6,7 +6,7 @@
 //   - 从 useWishlist store 取收藏键（游客本地 / 登录后端，store 内已处理合并）。
 //   - 用服务端下发的 catalog（{ "sortKey:productKey": product }）映射出可展示商品；
 //     收藏里有但目录里查不到的（下架等）静默跳过。
-//   - 价格沿用 getProductsPricing 客户端批量取（与首页/分类页同源、同缓存）。
+//   - 价格沿用 getProductsOffer 客户端批量取（价格+折扣聚合接口，仅用价；与首页/分类页同源、同缓存）。
 //   - 卡片右上角复用 WishlistButton（此处即「取消收藏」入口，移除后即时从列表消失）。
 
 import React from "react";
@@ -17,7 +17,7 @@ import useArea from "@/hooks/useArea";
 import useWishlist from "@/hooks/useWishlist";
 import Skeleton from "@/components/Skeleton";
 import WishlistButton from "@/components/WishlistButton";
-import getProductsPricing from "@/service/product/get-products-pricing";
+import getProductsOffer from "@/service/product/get-offer";
 
 import styles from "./index.module.scss";
 
@@ -70,7 +70,8 @@ export default function WishlistClient({ LANG, locale, catalog }) {
       return;
     }
     let cancelled = false;
-    getProductsPricing({
+    // 复用价格+折扣聚合接口，心愿单目前仅展示价格：只建 pricingMap（折扣字段忽略）。
+    getProductsOffer({
       area: area || "us",
       locale,
       keys: allKeys

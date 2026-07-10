@@ -8,7 +8,7 @@
 // 产品分类页数据：按 locale + sortKey 从后端拉取该分类下的商品列表。
 //
 // SSG 阶段不返回价格：每个商品的 comboList 只保留 (key, associate_country_key) 元数据，
-// 价格由客户端按 area cookie 调 /api/products-pricing 批量取齐（避免货币闪动）。
+// 价格与折扣由客户端按 area cookie 调 /api/products-offer 批量取齐（避免货币闪动）。
 // JSON-LD 走 server 子组件 SSG 以默认 us 兜底。
 //
 // 数据源与 getProductData 共用 /config/getProduct + tag('product:list')，

@@ -14,7 +14,7 @@ import { buildAlternates } from "@/config/seo";
 //   - LANG    ← /config/getLanguageByNamespace
 //   - CONFIG  ← /config/getPageConfigByNamespace（home.banner / common.base）
 //   - 产品列表 ← getRemoteProductList（comboList 仅含 key + associate_country_key，
-//               价格由客户端 IndexProductList 按 area cookie 调 /api/products-pricing 批量取齐）
+//               价格与折扣由客户端 IndexProductList 按 area cookie 调 /api/products-offer 批量取齐）
 // 不读 area cookie → 首页整页可静态化（SSG）；JSON-LD 走 IndexProductLdJson server 子组件以 us 兜底。
 async function getData({ locale }) {
   const [LANG, CONFIG, goodsSortList] = await Promise.all([
