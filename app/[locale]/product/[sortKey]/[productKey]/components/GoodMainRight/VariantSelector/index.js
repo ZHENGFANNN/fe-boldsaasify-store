@@ -9,7 +9,8 @@ import styles from "./index.module.scss";
  * V2 Shopify 式选项选择器：按选项轴渲染，逐轴选值。
  *   - axis_type=color  → 圆形色块（swatch_color）
  *   - axis_type=image  → 缩略图（swatch_image）
- *   - 其它(text/swatch) → 文本胶囊按钮
+ *   - axis_type=card   → 卡片（缩略图 + 标题 + 描述，仿旧套餐卡）
+ *   - 其它(text)       → 文本胶囊按钮
  * 选满各轴 → BaseLayout 解析命中变体 → 价格刷新。不可命中的候选值置灰。
  */
 export default function VariantSelector() {
@@ -33,6 +34,7 @@ export default function VariantSelector() {
           axis.values.find((v) => v.value_code === selected)?.value_label || "";
         const isColor = axis.axis_type === "color";
         const isImage = axis.axis_type === "image";
+        const isCard = axis.axis_type === "card";
         return (
           <div className={styles.axis} key={axis.axis_code}>
             <div className={styles.axis_head}>
@@ -43,7 +45,15 @@ export default function VariantSelector() {
             </div>
             <div
               className={styles.value_list}
-              data-variant={isColor ? "color" : isImage ? "image" : "text"}
+              data-variant={
+                isColor
+                  ? "color"
+                  : isImage
+                  ? "image"
+                  : isCard
+                  ? "card"
+                  : "text"
+              }
             >
               {axis.values.map((val) => {
                 const active = selected === val.value_code;
@@ -118,6 +128,41 @@ export default function VariantSelector() {
                         src={val.swatch_image}
                         alt={val.value_label}
                       />
+                    </button>
+                  );
+                }
+                if (isCard) {
+                  return (
+                    <button
+                      type="button"
+                      key={val.value_code}
+                      className={cls}
+                      disabled={disabled}
+                      title={val.value_label}
+                      aria-label={val.value_label}
+                      aria-pressed={active}
+                      aria-disabled={disabled}
+                      onClick={handleClick}
+                    >
+                      <span className={styles.card_top}>
+                        {val.swatch_image ? (
+                          <span className={styles.card_img}>
+                            <ImageWithSkeleton
+                              className={styles.card_img_el}
+                              src={val.swatch_image}
+                              alt={val.value_label}
+                            />
+                          </span>
+                        ) : null}
+                        <span className={styles.card_title}>
+                          {val.value_label}
+                        </span>
+                      </span>
+                      {val.swatch_desc ? (
+                        <span className={styles.card_desc}>
+                          {val.swatch_desc}
+                        </span>
+                      ) : null}
                     </button>
                   );
                 }

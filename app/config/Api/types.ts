@@ -141,16 +141,17 @@ export interface ProductSort {
   goodList: SimpleProduct[];
 }
 
-/** V2 选项值（商详页渲染色块/图片/文本） */
+/** V2 选项值（商详页渲染色块/图片/文本/卡片） */
 export interface OptionValue {
   value_code: string;
   value_label: string;
   swatch_color?: string;
   swatch_image?: string;
+  swatch_desc?: string;
   weight?: number;
 }
 
-/** V2 选项轴（含其值）。axis_type: text|color|image|swatch */
+/** V2 选项轴（含其值）。axis_type: text|color|image|card */
 export interface OptionAxis {
   axis_code: string;
   axis_name: string;

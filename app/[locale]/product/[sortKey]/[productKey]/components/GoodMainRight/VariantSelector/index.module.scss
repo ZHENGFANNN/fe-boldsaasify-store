@@ -58,9 +58,11 @@
   border-color: #1a1a1a;
 }
 .value_item.active {
+  /* 选中：只加深外框，不填黑底、不加额外层 */
   border-color: #1a1a1a;
-  background: #1a1a1a;
-  color: #fff;
+  background: #fff;
+  color: #1a1a1a;
+  font-weight: 600;
 }
 .value_item.unavailable {
   color: #8f8f8f;
@@ -76,8 +78,8 @@
   opacity: 0.85;
 }
 .value_item.outofstock.active {
-  /* 选中态保留深底，虚框仍显示以提示缺货 */
-  border-color: #fff;
+  /* 缺货且选中：虚框加深高亮（仍是虚线，仅外框变深） */
+  border-color: #1a1a1a;
   opacity: 1;
 }
 
@@ -102,8 +104,11 @@
   box-shadow: inset 0 0 0 1.5px #c9c9c9;
 }
 .value_list[data-variant="color"] .value_item.active {
+  /* 选中：只加外框，不再画内环那一层 */
   background: transparent;
-  box-shadow: inset 0 0 0 1.5px #1a1a1a;
+  box-shadow: none;
+  outline: 2px solid #1a1a1a;
+  outline-offset: 1px;
 }
 .swatch_color {
   width: 100%;
@@ -121,9 +126,16 @@
 /* 色块缺货：外圈虚线环（色块本身用 box-shadow 做环，虚框改用 outline） */
 .value_list[data-variant="color"] .value_item.outofstock {
   border: none;
+  box-shadow: none;
   outline: 1.5px dashed #b5b5b5;
   outline-offset: -1.5px;
   opacity: 0.85;
+}
+/* 色块缺货且选中：虚线外框加深高亮 */
+.value_list[data-variant="color"] .value_item.outofstock.active {
+  outline: 2px dashed #1a1a1a;
+  outline-offset: 1px;
+  opacity: 1;
 }
 
 /* ---------- 图片块 ---------- */
@@ -145,8 +157,9 @@
   border-color: #b5b5b5;
 }
 .value_list[data-variant="image"] .value_item.active {
+  /* 选中：只加深外框，去掉外发光那一层 */
   border-color: #1a1a1a;
-  box-shadow: 0 0 0 1px #1a1a1a;
+  box-shadow: none;
 }
 .swatch_image {
   width: 100%;
@@ -164,4 +177,82 @@
   border-style: dashed;
   border-color: #b5b5b5;
   opacity: 0.85;
+}
+/* 图片块缺货且选中：虚线外框加深高亮 */
+.value_list[data-variant="image"] .value_item.outofstock.active {
+  border-color: #1a1a1a;
+  opacity: 1;
+}
+
+/* ---------- 卡片（仿旧套餐卡：缩略图 + 标题 + 描述，整卡可选，选中只改外框） ---------- */
+.value_list[data-variant="card"] {
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+.value_list[data-variant="card"] .value_item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1a1a;
+  overflow: hidden;
+  text-align: left;
+  transition: border-color 0.18s ease;
+}
+.value_list[data-variant="card"] .value_item:hover {
+  border-color: #1a1a1a;
+}
+.value_list[data-variant="card"] .value_item.active {
+  /* 选中：仅整卡外框变深，不填底、不加层 */
+  border-color: #1a1a1a;
+}
+.card_top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+.card_img {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: block;
+}
+.card_img_el {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card_title {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+}
+.card_desc {
+  margin: 0 16px;
+  padding: 14px 0;
+  border-top: 1px solid #f0f1f2;
+  font-size: 13px;
+  line-height: 19px;
+  color: #4b4d50;
+  white-space: pre-wrap;
+}
+/* 卡片缺货：虚线外框；缺货且选中：深色虚线高亮 */
+.value_list[data-variant="card"] .value_item.outofstock {
+  border-style: dashed;
+  border-color: #b5b5b5;
+  opacity: 0.85;
+}
+.value_list[data-variant="card"] .value_item.outofstock.active {
+  border-color: #1a1a1a;
+  opacity: 1;
 }
