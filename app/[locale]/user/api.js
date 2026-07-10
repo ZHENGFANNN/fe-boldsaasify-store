@@ -7,6 +7,10 @@ const request = {
   userRegister: (data) => {
     return api.post(`/user/register`, data);
   },
+  // 注册前置：给邮箱发送验证码（用户填码后再 userRegister）
+  sendRegisterCode: (data) => {
+    return api.post(`/user/sendRegisterCode`, data);
+  },
   // Google 登录：提交 Google ID Token(credential) + area/language，换取本站登录态
   userGoogleLogin: (data) => {
     return api.post(`/user/googleLogin`, data);

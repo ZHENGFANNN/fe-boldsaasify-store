@@ -11,6 +11,9 @@ import ShowTipModal from "../../../../../components/Modal/ShowTipModal";
 
 export default function RegisterForm({ LANG }) {
   const [loading, setLoading] = React.useState(false);
+  // 发码在途 / 冷却倒计时（秒）：与后端 60s 发送冷却对齐，倒计时期间禁用发码按钮。
+  const [sending, setSending] = React.useState(false);
+  const [countdown, setCountdown] = React.useState(0);
   const router = useRouter();
   const { locale } = useParams();
   // redirect 来自 URL query，挂载后从 window 读取，避免 useSearchParams 触发
@@ -20,14 +23,93 @@ export default function RegisterForm({ LANG }) {
     setRedirect(new URLSearchParams(location.search).get("redirect"));
   }, []);
 
+  // 倒计时递减。
+  React.useEffect(() => {
+    if (countdown <= 0) return;
+    const t = setTimeout(() => setCountdown((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [countdown]);
+
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    getValues,
     formState: { errors },
   } = useForm();
   const tipRef = React.useRef(null);
+
+  // 按后端错误码映射提示文案（storefront 以英文为主，LANG 有对应 key 时优先取）。
+  const errText = (res) => {
+    switch (res?.code) {
+      case 10002:
+        return LANG["user_register.email_registered"];
+      case 10023:
+        return LANG["user_register.comfrom_password_error"];
+      case 10070:
+        return (
+          LANG["user_register.code_cooldown"] ||
+          "Please wait a moment before requesting another code"
+        );
+      case 10071:
+      case 10072:
+        return (
+          LANG["user_register.code_send_fail"] ||
+          "Failed to send the verification code, please try again later"
+        );
+      case 10073:
+        return (
+          LANG["user_register.code_invalid"] ||
+          "The verification code is invalid or has expired"
+        );
+      case 10074:
+        return (
+          LANG["user_register.code_incorrect"] || "Incorrect verification code"
+        );
+      default:
+        return res?.message || LANG["user_register.tip_service_exception"];
+    }
+  };
+
+  // 发送邮箱验证码：先校验邮箱格式 → 调后端发码 → 成功则起 60s 倒计时。
+  const handleSendCode = async () => {
+    if (sending || countdown > 0) return;
+    const email = (getValues("email") || "").trim();
+    if (!email || !isEmail.test(email)) {
+      tipRef.current.show({
+        text: LANG["user_register.email_format"],
+        type: "error",
+      });
+      return;
+    }
+    try {
+      setSending(true);
+      const res = await Api.sendRegisterCode({ email, language: locale });
+      if (res.code === 0) {
+        setCountdown(60);
+        tipRef.current.show({
+          text:
+            LANG["user_register.code_sent"] ||
+            "Verification code sent to your email",
+          type: "success",
+        });
+      } else {
+        tipRef.current.show({
+          text: errText(res),
+          type: res.code === 10002 ? "info" : "error",
+        });
+      }
+    } catch {
+      tipRef.current.show({
+        text: LANG["user_register.tip_service_exception"],
+        type: "error",
+      });
+    } finally {
+      setSending(false);
+    }
+  };
+
   const onSubmit = async function (data) {
     try {
       setLoading(true);
@@ -42,6 +124,7 @@ export default function RegisterForm({ LANG }) {
           type: "success",
         });
         reset();
+        setCountdown(0);
         setTimeout(() => {
           if (redirect) {
             // TODO： 恶心操作 - url末尾自带 /
@@ -53,23 +136,12 @@ export default function RegisterForm({ LANG }) {
             router.push("/user/login");
           }
         }, 500);
-      } else if (res.code === -1) {
-        setLoading(false);
-        tipRef.current.show({
-          text: LANG["user_register.comfrom_password_error"],
-          type: "error",
-        });
-        reset();
-      } else if (res.code === -2) {
-        setLoading(false);
-
-        tipRef.current.show({
-          text: LANG["user_register.email_registered"],
-          type: "info",
-        });
-        reset();
       } else {
-        throw new Error("code !== 0");
+        setLoading(false);
+        tipRef.current.show({
+          text: errText(res),
+          type: res.code === 10002 ? "info" : "error",
+        });
       }
     } catch {
       setLoading(false);
@@ -115,6 +187,33 @@ export default function RegisterForm({ LANG }) {
           autoComplete="off"
         />
         <p>{errors.email?.message}</p>
+      </div>
+      <div className={styles.form_item + " " + styles["mb-16"]}>
+        <h2>{LANG["user_register.code"] || "Verification code"}</h2>
+        <div className={styles.code_row}>
+          <input
+            {...register("code", {
+              required:
+                LANG["user_register.code_empty"] ||
+                "Please enter the verification code",
+            })}
+            autoComplete="off"
+            inputMode="numeric"
+          />
+          <button
+            type="button"
+            className={styles.send_code_btn}
+            disabled={sending || countdown > 0}
+            onClick={handleSendCode}
+          >
+            {countdown > 0
+              ? `${countdown}s`
+              : sending
+              ? "..."
+              : LANG["user_register.send_code"] || "Send code"}
+          </button>
+        </div>
+        <p>{errors.code?.message}</p>
       </div>
       <div className={styles.form_item + " " + styles["mb-16"]}>
         <h2>{LANG["user_register.password"]}</h2>
