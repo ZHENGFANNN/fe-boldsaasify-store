@@ -4,6 +4,22 @@
   gap: 16px;
 }
 
+.payment_element_wrap {
+  position: relative;
+}
+
+// PaymentElement 加载期间挪出正常流（不占位，避免 Pay 按钮跟着变高的
+// iframe 反复跳动），只是视觉上不可见，留够时间让它把手风琴里的其余
+// 支付方式画完，再一次性以最终高度显示。
+.payment_element_loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .submit_btn {
   width: 100%;
   min-height: 52px;

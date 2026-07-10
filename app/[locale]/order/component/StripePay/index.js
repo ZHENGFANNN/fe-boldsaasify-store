@@ -76,6 +76,17 @@ function CheckoutForm({ onSuccess, onError, LANG, onCreateOrder, amountLabel }) 
   const [ready, setReady] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
 
+  // Stripe onReady 只代表主字段（卡号等）已可交互，手风琴里其余支付方式
+  // （Bank/Klarna 等）仍在异步加载图标和文案，此时就摘掉 loading 遮罩
+  // 会露出它们尚未画完的空白。缓冲一下再展示，给它们留够加载时间。
+  const readyTimerRef = React.useRef(null);
+  const handlePaymentElementReady = React.useCallback(() => {
+    readyTimerRef.current = setTimeout(() => setReady(true), 1500);
+  }, []);
+  React.useEffect(() => {
+    return () => clearTimeout(readyTimerRef.current);
+  }, []);
+
   // Stripe Deferred 流程：先校验卡信息，此刻才建单拿 client_secret，最后扣款。
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -131,12 +142,14 @@ function CheckoutForm({ onSuccess, onError, LANG, onCreateOrder, amountLabel }) 
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      {!ready ? <Loading height={108} /> : null}
-      <div style={ready ? undefined : { display: "none" }}>
-        <PaymentElement
-          options={PAYMENT_ELEMENT_OPTIONS}
-          onReady={() => setReady(true)}
-        />
+      <div className={styles.payment_element_wrap}>
+        {!ready ? <Loading height={108} /> : null}
+        <div className={ready ? undefined : styles.payment_element_loading}>
+          <PaymentElement
+            options={PAYMENT_ELEMENT_OPTIONS}
+            onReady={handlePaymentElementReady}
+          />
+        </div>
       </div>
       <button
         type="submit"
