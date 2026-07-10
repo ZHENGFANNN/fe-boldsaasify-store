@@ -58,8 +58,8 @@
   border-color: #1a1a1a;
 }
 .value_item.active {
-  /* 选中：只加深外框（2px 黑），不填黑底、不加额外层 */
-  border: 2px solid #000;
+  /* 选中：只加深外框（1px 黑），不填黑底、不加额外层 */
+  border: 1px solid #000;
   background: #fff;
   color: #1a1a1a;
   font-weight: 600;
@@ -78,8 +78,8 @@
   opacity: 0.85;
 }
 .value_item.outofstock.active {
-  /* 缺货且选中：虚框加深高亮（2px 黑虚线） */
-  border: 2px dashed #000;
+  /* 缺货且选中：虚框加深高亮（1px 黑虚线） */
+  border: 1px dashed #000;
   opacity: 1;
 }
 
@@ -104,10 +104,10 @@
   box-shadow: inset 0 0 0 1.5px #c9c9c9;
 }
 .value_list[data-variant="color"] .value_item.active {
-  /* 选中：只加外框（2px 黑），不再画内环那一层 */
+  /* 选中：只加外框（1px 黑），不再画内环那一层 */
   background: transparent;
   box-shadow: none;
-  outline: 2px solid #000;
+  outline: 1px solid #000;
   outline-offset: 1px;
 }
 .swatch_color {
@@ -133,7 +133,7 @@
 }
 /* 色块缺货且选中：虚线外框加深高亮 */
 .value_list[data-variant="color"] .value_item.outofstock.active {
-  outline: 2px dashed #000;
+  outline: 1px dashed #000;
   outline-offset: 1px;
   opacity: 1;
 }
@@ -149,7 +149,6 @@
   min-width: 0;
   width: 68px;
   height: 68px;
-  box-sizing: border-box; /* 边框内缩，选中加粗到 2px 不改变外框尺寸、不抖动 */
   overflow: hidden;
   background: #f7f7f7;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
@@ -158,8 +157,8 @@
   border-color: #b5b5b5;
 }
 .value_list[data-variant="image"] .value_item.active {
-  /* 选中：只加深外框（2px 黑），去掉外发光那一层 */
-  border: 2px solid #000;
+  /* 选中：只加深外框（1px 黑），去掉外发光那一层 */
+  border: 1px solid #000;
   box-shadow: none;
 }
 .swatch_image {
@@ -179,9 +178,9 @@
   border-color: #b5b5b5;
   opacity: 0.85;
 }
-/* 图片块缺货且选中：虚线外框加深高亮（2px 黑虚线） */
+/* 图片块缺货且选中：虚线外框加深高亮（1px 黑虚线） */
 .value_list[data-variant="image"] .value_item.outofstock.active {
-  border: 2px dashed #000;
+  border: 1px dashed #000;
   opacity: 1;
 }
 
@@ -202,7 +201,6 @@
   border-radius: 8px;
   background: #fff;
   color: #1a1a1a;
-  box-sizing: border-box; /* 边框内缩，选中加粗到 2px 不改变外框尺寸、不抖动 */
   overflow: hidden;
   text-align: left;
   transition: border-color 0.18s ease;
@@ -211,8 +209,8 @@
   border-color: #1a1a1a;
 }
 .value_list[data-variant="card"] .value_item.active {
-  /* 选中：仅整卡外框变深（2px 黑），不填底、不加层 */
-  border: 2px solid #000;
+  /* 选中：仅整卡外框变深（1px 黑），不填底、不加层 */
+  border: 1px solid #000;
 }
 .card_top {
   display: flex;
@@ -255,6 +253,6 @@
   opacity: 0.85;
 }
 .value_list[data-variant="card"] .value_item.outofstock.active {
-  border: 2px dashed #000;
+  border: 1px dashed #000;
   opacity: 1;
 }
