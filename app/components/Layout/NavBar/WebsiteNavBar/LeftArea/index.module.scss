@@ -162,7 +162,7 @@
               grid-template-columns: repeat(auto-fill, 150px);
               box-sizing: border-box;
 
-              max-height: calc(90vh - 120px);
+              max-height: calc(90dvh - 120px);
               overflow: auto;
   
               &[data-list-text="true"] {
@@ -522,7 +522,7 @@
           }
           
           &.header_mobile_height {
-            min-height: calc(100vh - 50px);
+            min-height: calc(100dvh - 50px);
             display: flex;
             opacity: 1;
           }

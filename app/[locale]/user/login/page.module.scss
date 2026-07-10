@@ -9,7 +9,7 @@
     object-fit: cover;
 
     background-position: 50%;
-    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -451,7 +451,7 @@
 
 @media screen and (max-width: 1080px) {
   .container {
-    min-height: calc(100vh - 50px);
+    min-height: calc(100dvh - 50px);
     overflow: scroll;
   }
 }

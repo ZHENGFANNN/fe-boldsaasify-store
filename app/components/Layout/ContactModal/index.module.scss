@@ -52,7 +52,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(0.8);
-    max-height: calc(84vh - 80px);
+    max-height: calc(84dvh - 80px);
     max-width: 840px;
 
     transition: all 300ms;
@@ -233,7 +233,7 @@
         box-sizing: border-box;
         padding: 24px 12px;
         border-radius: 20px 20px 0 0;
-        max-height: calc(90vh - 80px);
+        max-height: calc(90dvh - 80px);
         opacity: 0;
         .header {
           .title {
