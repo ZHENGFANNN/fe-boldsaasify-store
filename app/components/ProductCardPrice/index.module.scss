@@ -1,0 +1,30 @@
+/** @format */
+
+// 基础排版兜底：各调用方通过 className 传入 absolute 定位与字号，
+// 组件自身仅保证 flex 行内布局与「划线原价」样式，与各卡片 scss 的
+// `.product_price_container div:nth-child(2)` 效果对齐（同值，无冲突）。
+.product_price_container {
+  display: flex;
+  align-items: center;
+
+  .current_price {
+  }
+
+  .origin_price {
+    margin-left: 12px;
+    color: #b6b6c0;
+    font-size: 14px;
+    text-decoration: line-through;
+  }
+
+  .discount_label {
+    margin-left: 8px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: #e3585a;
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+}

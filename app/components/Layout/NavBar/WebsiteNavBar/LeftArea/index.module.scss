@@ -123,6 +123,32 @@
                 right: 0;
               }
             }
+            // 直链项右向 chevron（移动端显示，尺寸/位置与 list 行 mobile_icon 对齐）
+            .mobile_link_arrow {
+              position: relative;
+              display: none;
+              width: 10px;
+              height: 20px;
+              margin-right: 6px;
+              &::before,
+              &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 9px;
+                right: 0;
+                width: 7px;
+                height: 1px;
+                background-color: rgba(0, 0, 0, 0.85);
+                transform-origin: right center;
+              }
+              &::before {
+                transform: rotate(45deg);
+              }
+              &::after {
+                transform: rotate(-45deg);
+              }
+            }
           }
           .nav_item_content {
             position: fixed;
@@ -428,6 +454,9 @@
                 white-space: pre-wrap;
                 display: flex;
                 .mobile_icon {
+                  display: block;
+                }
+                .mobile_link_arrow {
                   display: block;
                 }
                 &::selection {

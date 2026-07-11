@@ -7,6 +7,7 @@ import styles from "./index.module.scss";
 import Cookies from "js-cookie";
 import Modal from "@/components/Modal";
 import { debounce } from "@/utils";
+import useProductsOffer from "@/hooks/useProductsOffer";
 
 // 按地区把关联商品的 comboItem.areaList 解析成 areaInfo。
 // 服务端不再按 cookie area 过滤（保持文章页整页可静态化），
@@ -23,6 +24,7 @@ function resolveAreaList(productList, area) {
 
 export default function ProductModal({
   LANG,
+  locale,
   productList,
   // goodDiscountFestival,
 }) {
@@ -39,6 +41,9 @@ export default function ProductModal({
     () => resolveAreaList(productList, area),
     [productList, area]
   );
+
+  // 关联产品自动折扣命中表（与详情页关联产品同口径），下发给 ProductList 算折后价。
+  const { discountMap } = useProductsOffer(productList, { area, locale });
 
   React.useEffect(() => {
     // 每个Blog页面只出现一次弹窗
@@ -90,6 +95,7 @@ export default function ProductModal({
       <Modal ref={modalRef} onClose={() => setShowTip(true)}>
         <ProductList
           products={resolvedProductList}
+          discountMap={discountMap}
           LANG={LANG}
           // goodDiscountFestival={goodDiscountFestival}
         />

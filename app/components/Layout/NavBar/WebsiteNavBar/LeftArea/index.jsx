@@ -224,6 +224,8 @@ export default function LeftArea({ navActive, setNavActive }) {
                       onClick={() => setNavActive(false)}
                     >
                       <div>{item.title}</div>
+                      {/* 直链项右向箭头（移动端显示，与 list 行箭头对齐；link 直跳不展开，故用右向 chevron 而非加减号） */}
+                      <div className={styles.mobile_link_arrow}></div>
                     </Link>
                   </li>
                 );

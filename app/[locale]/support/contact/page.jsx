@@ -9,7 +9,7 @@ import GlobalContext from "@/[locale]/context";
 import Email from "./components/Email";
 import Link from "./components/Link";
 import Text from "./components/Text";
-import Modal from "./components/Modal";
+import ContactForm from "./components/ContactForm";
 
 async function getData({ locale }) {
   const [LANG, CONFIG] = await Promise.all([
@@ -78,14 +78,12 @@ export default async function Contact({ params }) {
                 {item.type === "text" ? (
                   <Text styles={styles} item={item} LANG={LANG} />
                 ) : null}
-                {item.type === "modal" ? (
-                  <Modal styles={styles} item={item} LANG={LANG} />
-                ) : null}
               </div>
             </li>
           );
         })}
       </ul>
+      <ContactForm />
     </div>
   );
 }

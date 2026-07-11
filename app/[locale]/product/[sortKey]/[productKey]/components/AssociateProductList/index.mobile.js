@@ -6,8 +6,9 @@ import React from "react";
 import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 
-import { formatCurrency, fillOssImage } from "../../../../../../utils";
-import { discountedUnitPrice, pickAutoDiscount } from "@/utils/productPricing";
+import { fillOssImage } from "../../../../../../utils";
+import { pickAutoDiscount } from "@/utils/productPricing";
+import ProductCardPrice from "@/components/ProductCardPrice";
 
 import ProductContext from "../../ProductContext";
 import { lazyLoadImages } from "../../../../../../utils/optimization";
@@ -109,24 +110,12 @@ export default function MobProductList({
                           {LANG["store.product.no_stock"]}
                         </div>
                       ) : (
-                        <div className={styles.product_price_container}>
-                          <div>{`${
-                            item.areaInfo?.currency_symbol
-                          }${formatCurrency(
-                            itemDiscount
-                              ? discountedUnitPrice(item.areaInfo, itemDiscount)
-                              : item.areaInfo?.product_price,
-                            item.areaInfo?.currency_unit
-                          )}`}</div>
-                          {itemDiscount ? (
-                            <div>{`${
-                              item.areaInfo?.currency_symbol
-                            }${formatCurrency(
-                              item.areaInfo?.product_price,
-                              item.areaInfo?.currency_unit
-                            )}`}</div>
-                          ) : null}
-                        </div>
+                        <ProductCardPrice
+                          className={styles.product_price_container}
+                          areaInfo={item.areaInfo}
+                          discount={itemDiscount}
+                          LANG={LANG}
+                        />
                       )}
                     </div>
                   </div>

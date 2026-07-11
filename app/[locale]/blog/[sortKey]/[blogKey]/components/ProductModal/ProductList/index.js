@@ -3,15 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./index.module.scss";
-import { formatCurrency, fillOssImage } from "../../../../../../../utils";
+import { fillOssImage } from "../../../../../../../utils";
+import { pickAutoDiscount } from "@/utils/productPricing";
+import ProductCardPrice from "@/components/ProductCardPrice";
 
 import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 import ProductReviewsRate from "../ProductReviewsRate";
 
-export default function ProductList({ products, LANG }) {
-  // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
-  const goodDiscountFestival = false;
+export default function ProductList({ products, discountMap, LANG }) {
   const initSplide = React.useCallback(() => {
     const splide = new Splide(`.${styles.splide}`, {
       pagination: false,
@@ -85,20 +85,18 @@ export default function ProductList({ products, LANG }) {
                       ) : null}
                       {/* 产品名称 */}
                       <div className={styles.product_name}>{item.name}</div>
-                      {/* 产品价格：商品级折扣已下线，只展示原价 */}
+                      {/* 产品价格：命中自动折扣则折后价 + 划线原价（与详情页关联产品同口径），无价则判缺货 */}
                       {!item.areaInfo?.product_price ? (
                         <div className={styles.product_stock_container}>
                           {LANG["store.product.no_stock"]}
                         </div>
                       ) : (
-                        <div className={styles.product_price_container}>
-                          <div>{`${
-                            item.areaInfo?.currency_symbol
-                          }${formatCurrency(
-                            item.areaInfo?.product_price,
-                            item.areaInfo?.currency_unit
-                          )}`}</div>
-                        </div>
+                        <ProductCardPrice
+                          className={styles.product_price_container}
+                          areaInfo={item.areaInfo}
+                          discount={pickAutoDiscount(item, discountMap)}
+                          LANG={LANG}
+                        />
                       )}
                     </div>
                   </div>

@@ -6,11 +6,6 @@ export const contactList = ({ CONFIG, LANG }) => {
       type: "email",
     },
     {
-      title: LANG["www.company_contact.contact_form"],
-      content: "contact_form",
-      type: "modal",
-    },
-    {
       title: LANG["www.company_contact.contact_number"],
       content: CONFIG["common.base"]?.work_phone,
       type: "text",

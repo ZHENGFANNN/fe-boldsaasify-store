@@ -7,13 +7,13 @@ import styles from "./index.module.scss";
 import Link from "next/link";
 import { IndexContent } from "../IndexContext";
 
-import { formatCurrency, fillOssImage } from "@/utils";
+import { fillOssImage } from "@/utils";
 import {
-  discountedUnitPrice,
   savedUnitAmount,
   pickAutoDiscount,
   formatDiscountLabel,
 } from "@/utils/productPricing";
+import ProductCardPrice from "@/components/ProductCardPrice";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import getProductsOffer from "@/service/product/get-offer";
@@ -104,9 +104,6 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady, discountMap }) 
         const savedAmount = autoDiscount
           ? savedUnitAmount(areaInfo, autoDiscount)
           : 0;
-        const discountedPrice = autoDiscount
-          ? discountedUnitPrice(areaInfo, autoDiscount)
-          : areaInfo?.product_price;
         return (
           <Link
             key={productIndex}
@@ -155,7 +152,8 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady, discountMap }) 
               ) : null}
               {/* 产品名称 */}
               <h3 className={styles.product_name}>{product.name}</h3>
-              {/* 产品价格：pricing 未就绪显示骨架；就绪后无 product_price 显示缺货；否则原价 */}
+              {/* 产品价格：pricing 未就绪显示骨架；就绪后无 product_price 显示缺货；
+                  有价则命中折扣展示折后价 + 划线原价，否则原价（与详情页关联产品同口径） */}
               {!pricingReady ? (
                 <div className={styles.product_price_container}>
                   <Skeleton variant="rect" width={80} height={16} />
@@ -164,26 +162,13 @@ function ProductItem({ goodList, LANG, pricingMap, pricingReady, discountMap }) 
                 <div className={styles.product_stock_container}>
                   {LANG["store.index.no_stock"]}
                 </div>
-              ) : autoDiscount && savedAmount > 0 ? (
-                <>
-                  <div className={styles.product_price_container}>
-                    <div>{`${areaInfo.currency_symbol}${formatCurrency(
-                      discountedPrice,
-                      areaInfo.currency_unit
-                    )}`}</div>
-                    <div>{`${areaInfo.currency_symbol}${formatCurrency(
-                      areaInfo.product_price,
-                      areaInfo.currency_unit
-                    )}`}</div>
-                  </div>
-                </>
               ) : (
-                <div className={styles.product_price_container}>
-                  <div>{`${areaInfo.currency_symbol}${formatCurrency(
-                    areaInfo.product_price,
-                    areaInfo.currency_unit
-                  )}`}</div>
-                </div>
+                <ProductCardPrice
+                  className={styles.product_price_container}
+                  areaInfo={areaInfo}
+                  discount={autoDiscount && savedAmount > 0 ? autoDiscount : null}
+                  LANG={LANG}
+                />
               )}
             </div>
           </Link>
