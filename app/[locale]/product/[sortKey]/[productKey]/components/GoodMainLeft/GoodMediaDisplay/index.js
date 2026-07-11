@@ -329,28 +329,23 @@ export default function GoodMediaDisplay() {
                   loading="eager"
                   preload="true"
                   max-field-of-view="auto"
-                  ar
-                  ar-modes="webxr scene-viewer quick-look"
-                  ar-status="not-presenting"
                   disable-pan="true"
                 >
                   <div slot="progress-bar"></div>
                   <div slot="poster" className={styles.product_3d_process}>
-                    <div
-                      style={{
-                        padding: "24px",
-                      }}
-                    >
-                      <img
-                        width={38}
-                        height={38}
-                        alt="3d"
-                        src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-three-3d.svg`}
-                      />
+                    <div className={styles.loader3d}>
+                      <span className={styles.loaderRing} aria-hidden="true" />
+                      <span className={styles.loaderText}>
+                        {LANG["store.product.3d_loading"] || "Loading 3D model"}
+                      </span>
+                      <span className={styles.loaderBar}>
+                        <span
+                          className={styles.loaderBarFill}
+                          style={{ width: `${progress}%` }}
+                        />
+                      </span>
+                      <span className={styles.loaderPct}>{progress}%</span>
                     </div>
-                    <span>
-                      {LANG["store.product.3d_loading"]} {progress}%
-                    </span>
                   </div>
                 </model-viewer>
               </React.Fragment>

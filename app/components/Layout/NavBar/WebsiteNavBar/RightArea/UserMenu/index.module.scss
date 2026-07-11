@@ -59,20 +59,6 @@
     0 2px 6px rgba(17, 17, 17, 0.05),
     0 12px 32px rgba(17, 17, 17, 0.12);
   color: #1a1a1a;
-
-  /* 指向 icon 的小三角 */
-  &::before {
-    content: "";
-    position: absolute;
-    top: -6px;
-    right: 20px;
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-left: 0.5px solid #e8e8ea;
-    border-top: 0.5px solid #e8e8ea;
-    transform: rotate(45deg);
-  }
 }
 
 /* 已登录：顶部用户区 */
@@ -182,55 +168,52 @@
   background: #ededf0;
 }
 
-/* 未登录 */
+/* 未登录：选项参考登录页样式（深色渐变胶囊主按钮 + 文字链接次级项） */
 .guest {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 12px 10px 10px;
+  padding: 12px 10px 12px;
 }
 
-.guestTip {
-  margin: 0 0 2px;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #6b6b70;
-}
-
-.primaryBtn,
-.secondaryBtn {
+/* 主按钮：对齐登录页 .button —— 深色渐变、胶囊圆角 */
+.primaryBtn {
   display: block;
   width: 100%;
-  height: 42px;
-  border-radius: 10px;
+  height: 44px;
+  border: 0;
+  border-radius: 50px;
+  background: linear-gradient(#434343, #262626);
+  color: #fff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease,
-    color 0.15s ease;
+  transition: background 0.2s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.primaryBtn {
-  border: 0;
-  background: #1a1a1a;
-  color: #fff;
 
   &:hover {
-    background: #333;
+    background: linear-gradient(#595959, #434343);
   }
 }
 
+/* 次级项：对齐登录页 .register —— 居中文字 + 蓝色链接感 */
 .secondaryBtn {
-  border: 1px solid #d9d9dd;
-  background: #fff;
-  color: #1a1a1a;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 4px 0 2px;
+  border: 0;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.15s ease;
 
   &:hover {
-    border-color: #1a1a1a;
-    background: #f7f7f8;
+    color: #1890ff;
   }
 }
 

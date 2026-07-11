@@ -47,26 +47,6 @@ function IconOrder({ className }) {
   );
 }
 
-function IconSupport({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
-      <path d="M4 13a2 2 0 0 1 2-2h1v6H6a2 2 0 0 1-2-2v-2Z" />
-      <path d="M20 13a2 2 0 0 0-2-2h-1v6h1a2 2 0 0 0 2-2v-2Z" />
-      <path d="M17 17v1a3 3 0 0 1-3 3h-2" />
-    </svg>
-  );
-}
-
 function IconSignOut({ className }) {
   return (
     <svg
@@ -170,16 +150,6 @@ export default function UserMenu({ isLogin }) {
                     {t("common.nav.my_order", "My Orders")}
                   </span>
                 </li>
-                <li
-                  className={styles.item}
-                  role="menuitem"
-                  onClick={() => go("/support/after-sales/progress")}
-                >
-                  <IconSupport className={styles.itemIcon} />
-                  <span className={styles.itemLabel}>
-                    {t("common.nav.after_sales", "After-Sales")}
-                  </span>
-                </li>
               </ul>
 
               <div className={styles.divider} />
@@ -199,12 +169,6 @@ export default function UserMenu({ isLogin }) {
             </>
           ) : (
             <div className={styles.guest}>
-              <p className={styles.guestTip}>
-                {t(
-                  "common.nav.guest_tip",
-                  "Sign in to track orders and manage after-sales"
-                )}
-              </p>
               <button
                 type="button"
                 className={styles.primaryBtn}

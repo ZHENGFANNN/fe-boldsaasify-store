@@ -20,28 +20,6 @@ export default function RightArea() {
 
   return (
     <ul className={styles.header_right}>
-      {/* 用户ICON */}
-      <li className={styles.header_user}>
-        <UserMenu isLogin={isLogin} />
-      </li>
-      {/* 购物车ICON */}
-      <li
-        className={styles.header_cart}
-        data-event="NavIcon-Cart"
-        onClick={() => {
-          showCartModal();
-        }}
-      >
-        <div>
-          {productNum !== 0 ? (
-            <div className={styles.num}>{productNum}</div>
-          ) : null}
-          <img
-            alt="avatar"
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-cart.svg`}
-          />
-        </div>
-      </li>
       {/* 国家ICON */}
       <li
         className={styles.header_country}
@@ -63,6 +41,28 @@ export default function RightArea() {
         ) : (
           <Skeleton variant="circular" className={styles.country_loading} />
         )}
+      </li>
+      {/* 购物车ICON */}
+      <li
+        className={styles.header_cart}
+        data-event="NavIcon-Cart"
+        onClick={() => {
+          showCartModal();
+        }}
+      >
+        <div>
+          {productNum !== 0 ? (
+            <div className={styles.num}>{productNum}</div>
+          ) : null}
+          <img
+            alt="avatar"
+            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-cart.svg`}
+          />
+        </div>
+      </li>
+      {/* 用户ICON */}
+      <li className={styles.header_user}>
+        <UserMenu isLogin={isLogin} />
       </li>
     </ul>
   );

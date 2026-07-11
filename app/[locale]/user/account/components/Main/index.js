@@ -7,7 +7,6 @@ import styles from "../../page.module.scss";
 import AddressInfo from "../AddressList";
 import OrderInfo from "../OrderInfo";
 import AccountInfo from "../AccountInfo";
-import AfterSaleInfo from "../AfterSaleInfo";
 
 export default function Main({ LANG, locale }) {
   const tipRef = React.useRef();
@@ -69,23 +68,6 @@ export default function Main({ LANG, locale }) {
           />
           <span>{LANG["user_account.my_order"]}</span>
         </div>
-        <div
-          className={`${styles.item} ${
-            type === "afterSaleInfo" ? styles.active : ""
-          }`}
-          onClick={() => {
-            setType("afterSaleInfo");
-          }}
-        >
-          <img
-            alt="after-sale"
-            className={styles.img_container}
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-order.svg`}
-          />
-          <span>
-            {LANG["user_account.after_sale"] || "After-Sales Service"}
-          </span>
-        </div>
       </div>
       <div className={styles.content}>
         {type === "accountInfo" ? (
@@ -122,13 +104,6 @@ export default function Main({ LANG, locale }) {
                   showTip({ text, type });
                 }}
               />
-            </div>
-          </>
-        ) : null}
-        {type === "afterSaleInfo" ? (
-          <>
-            <div>
-              <AfterSaleInfo LANG={LANG} />
             </div>
           </>
         ) : null}

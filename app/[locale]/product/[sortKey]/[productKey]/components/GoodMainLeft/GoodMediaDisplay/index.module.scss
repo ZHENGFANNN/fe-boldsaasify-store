@@ -289,18 +289,77 @@
     model-viewer {
       width: 100%;
       height: 100%;
+      /* 拖拽旋转时不再选中页面文字 */
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      outline: none;
+
+      /* 隐藏 model-viewer 自带的默认 AR 按钮（右下角） */
+      &::part(default-ar-button) {
+        display: none;
+      }
 
       .product_3d_process {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column;
-        user-select: none;
         width: 100%;
         height: 100%;
-        font-size: 16px;
-        line-height: 20px;
-        color: rgb(0, 0, 0, 0.65);
+        user-select: none;
+        background: #fafafa;
+      }
+
+      .loader3d {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .loaderRing {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 3px solid rgba(0, 0, 0, 0.08);
+        border-top-color: rgba(0, 0, 0, 0.55);
+        animation: spin3d 0.8s linear infinite;
+      }
+
+      .loaderText {
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        color: rgba(0, 0, 0, 0.55);
+      }
+
+      .loaderBar {
+        position: relative;
+        width: 140px;
+        height: 3px;
+        border-radius: 3px;
+        background: rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      .loaderBarFill {
+        position: absolute;
+        inset: 0 auto 0 0;
+        height: 100%;
+        border-radius: 3px;
+        background: #1a1a1a;
+        transition: width 0.25s ease;
+      }
+
+      .loaderPct {
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+        color: rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    @keyframes spin3d {
+      to {
+        transform: rotate(360deg);
       }
     }
   }
