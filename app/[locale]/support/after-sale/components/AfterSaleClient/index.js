@@ -11,9 +11,12 @@ const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 export default function AfterSaleClient({ LANG }) {
   const [isLogin, setIsLogin] = React.useState(null);
 
+  // cookie 仅挂载后可读（SSR 无 window），故在 effect 内同步 setState。
+  /* eslint-disable react-hooks/set-state-in-effect */
   React.useEffect(() => {
     setIsLogin(!!Cookies.get("token"));
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const features = [
     {
@@ -83,7 +86,7 @@ export default function AfterSaleClient({ LANG }) {
               "Please log in to submit and track your after-sales requests."
             )}
           </p>
-          <Link href="/user/login?redirect=/support/after-sale">
+          <Link href="/user/login?redirect=/support/after-sales/progress">
             {T(LANG, "common.nav.log_in", "Log In")}
           </Link>
         </div>

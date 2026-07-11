@@ -1,0 +1,275 @@
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* 触发按钮：复用 .header_right li img 的透明 border 命中区，重置按钮默认样式 */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  line-height: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 下拉外壳：负责定位、悬浮桥接与进出场过渡 */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  /* 透明桥接：让鼠标从 icon 移到卡片不断触发 hover；也为小三角留位 */
+  padding-top: 12px;
+  /* 卡片始终位于导航栈内（.nav z=100000001），高值保证不被页面内容遮挡 */
+  z-index: 200;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* 卡片主体 */
+.card {
+  position: relative;
+  box-sizing: border-box;
+  width: 248px;
+  min-width: 220px;
+  max-width: calc(100vw - 32px);
+  padding: 8px;
+
+  background: #fff;
+  border: 0.5px solid #e8e8ea;
+  border-radius: 12px;
+  box-shadow:
+    0 2px 6px rgba(17, 17, 17, 0.05),
+    0 12px 32px rgba(17, 17, 17, 0.12);
+  color: #1a1a1a;
+
+  /* 指向 icon 的小三角 */
+  &::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-left: 0.5px solid #e8e8ea;
+    border-top: 0.5px solid #e8e8ea;
+    transform: rotate(45deg);
+  }
+}
+
+/* 已登录：顶部用户区 */
+.account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 12px;
+}
+
+.avatar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f3f3f5;
+  color: #4b4b4f;
+}
+
+.avatarIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.accountText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.accountTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.accountSub {
+  font-size: 12px;
+  color: #8a8a8f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 菜单项 */
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: #f5f5f7;
+  }
+}
+
+.itemIcon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  color: #6b6b70;
+}
+
+.itemLabel {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 退出登录：单独一组、危险色 */
+.item.danger {
+  color: #d14343;
+
+  .itemIcon {
+    color: #d14343;
+  }
+
+  &:hover {
+    background-color: #fdecec;
+  }
+}
+
+.divider {
+  height: 1px;
+  margin: 6px 6px;
+  background: #ededf0;
+}
+
+/* 未登录 */
+.guest {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 10px 10px;
+}
+
+.guestTip {
+  margin: 0 0 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #6b6b70;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: block;
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.primaryBtn {
+  border: 0;
+  background: #1a1a1a;
+  color: #fff;
+
+  &:hover {
+    background: #333;
+  }
+}
+
+.secondaryBtn {
+  border: 1px solid #d9d9dd;
+  background: #fff;
+  color: #1a1a1a;
+
+  &:hover {
+    border-color: #1a1a1a;
+    background: #f7f7f8;
+  }
+}
+
+/* 大屏桌面 1440–1920：与基础一致，无需覆盖 */
+
+/* 平板 / 中屏 780–1440：与基础一致，无需覆盖 */
+
+/* 移动端 0–779：缩窄卡片并锁死不溢出屏幕两侧 */
+@media screen and (max-width: 779px) {
+  .dropdown {
+    padding-top: 10px;
+  }
+
+  .card {
+    width: 220px;
+    min-width: 200px;
+    max-width: calc(100vw - 24px);
+    padding: 6px;
+
+    &::before {
+      right: 18px;
+    }
+  }
+
+  .account {
+    padding: 6px 6px 10px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .item {
+    height: 38px;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    height: 40px;
+  }
+}

@@ -8,6 +8,7 @@ import Api from "../../../api";
 import { getJsonData } from "@/utils";
 import { defaultLocale } from "@/config/languageSettings";
 import Loading from "@/components/Loading";
+import AuthRedirectGuard from "@/components/AuthRedirectGuard";
 
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 
@@ -103,21 +104,7 @@ export default function DetailClient({ LANG, locale }) {
   }
 
   if (!isLogin) {
-    return (
-      <div className={styles.login_cta}>
-        <h1>{T(LANG, "user_account.after_sale", "After-Sales Service")}</h1>
-        <p>
-          {T(
-            LANG,
-            "user_account.after_sale.login_tip",
-            "Please log in to submit and track your after-sales requests."
-          )}
-        </p>
-        <Link href={`/user/login?redirect=${encodeURIComponent(redirectPath)}`}>
-          {T(LANG, "common.nav.log_in", "Log In")}
-        </Link>
-      </div>
-    );
+    return <AuthRedirectGuard LANG={LANG} redirectPath={redirectPath} />;
   }
 
   if (error || !data) {

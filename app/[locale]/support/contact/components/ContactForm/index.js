@@ -9,6 +9,7 @@ import FormInput from "@/components/Form/FormInput";
 import FormTextarea from "@/components/Form/FormTextArea";
 import FormItem from "@/components/Form/FormItem";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
+import ContactSuccess from "../ContactSuccess";
 import styles from "./index.module.scss";
 
 // Contact 页内联表单（类 Shopify）。字段与后端契约对齐全局 ContactModal：
@@ -18,6 +19,7 @@ export default function ContactForm() {
   const tipRef = React.useRef(null);
   const { locale, LANG, area } = React.useContext(GlobalContext);
   const [loading, setLoading] = React.useState(false);
+  const [submitted, setSubmitted] = React.useState(false);
 
   const {
     register,
@@ -50,12 +52,8 @@ export default function ContactForm() {
             area,
           }).catch((err) => console.log("[contactForm subscribe]: ", err));
 
-          tipRef.current.show({
-            type: "success",
-            text: LANG["common.contact.submit_success"] || "Submitted successfully",
-          });
-          reset();
-          clearErrors();
+          // 成功不再弹不明显的 toast，切换到「提交成功」展示态。
+          setSubmitted(true);
         } else {
           throw new Error("code!==0");
         }
@@ -69,20 +67,31 @@ export default function ContactForm() {
         setLoading(false);
       }
     },
-    [loading, locale, area, LANG, reset, clearErrors]
+    [loading, locale, area, LANG]
   );
 
   return (
     <section className={styles.form_section}>
       <div className={styles.form_wrapper}>
-        <h2 className={styles.form_title}>
-          {LANG["common.contact.title"] || "Contact us"}
-        </h2>
-        <p className={styles.form_subtitle}>
-          {LANG["common.contact.form_subtitle"] ||
-            "Have a question about our lab-grown diamonds or your order? Send us a message and we'll get back to you shortly."}
-        </p>
-        <form onSubmit={(e) => handleSubmit(onSubmit)(e)}>
+        {submitted ? (
+          <ContactSuccess
+            LANG={LANG}
+            onReset={() => {
+              setSubmitted(false);
+              reset();
+              clearErrors();
+            }}
+          />
+        ) : (
+          <>
+            <h2 className={styles.form_title}>
+              {LANG["common.contact.title"] || "Contact us"}
+            </h2>
+            <p className={styles.form_subtitle}>
+              {LANG["common.contact.form_subtitle"] ||
+                "Have a question about our lab-grown diamonds or your order? Send us a message and we'll get back to you shortly."}
+            </p>
+            <form onSubmit={(e) => handleSubmit(onSubmit)(e)}>
           <FormItem>
             <FormInput
               label={LANG["common.contact.first_name"] || "First name"}
@@ -146,7 +155,9 @@ export default function ContactForm() {
               ? LANG["common.contact.submitting"] || "Sending..."
               : LANG["common.contact.submit"] || "Submit"}
           </button>
-        </form>
+            </form>
+          </>
+        )}
       </div>
       <ShowTipModal ref={tipRef} />
     </section>

@@ -1,18 +1,14 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
 import GlobalContext from "@/[locale]/context";
-import { track } from "@/utils/analytics";
 
 import Skeleton from "@/components/Skeleton";
-import DropSelect from "@/components/DropSelect";
-import Api from "@/components/Layout/api";
+import UserMenu from "./UserMenu";
 import styles from "./index.module.scss";
 import Cookies from "js-cookie";
 
 export default function RightArea() {
-  const router = useRouter();
-  const { LANG, productNum, area, areaReady, showCartModal, showAreaModal } =
+  const { productNum, area, areaReady, showCartModal, showAreaModal } =
     React.useContext(GlobalContext);
   const resolvedArea = area || "us";
 
@@ -26,50 +22,7 @@ export default function RightArea() {
     <ul className={styles.header_right}>
       {/* 用户ICON */}
       <li className={styles.header_user}>
-        <DropSelect
-          options={
-            isLogin
-              ? [
-                  {
-                    label: LANG["common.nav.my_account"],
-                    value: "account",
-                  },
-                  {
-                    label: LANG["common.nav.sign_out"],
-                    value: "loginOut",
-                  },
-                ]
-              : [
-                  {
-                    label: LANG["common.nav.log_in"],
-                    value: "login",
-                  },
-                  {
-                    label: LANG["common.nav.register"],
-                    value: "register",
-                  },
-                ]
-          }
-          tanslatefromX={-4}
-          position="bottom"
-          selectValue={async (e) => {
-            track("NavIcon-User");
-            if (e === "loginOut") {
-              Api.loginOut();
-              Cookies.remove("token");
-              location.href = "/";
-            } else {
-              router.push(`/user/${e}`);
-            }
-          }}
-        >
-          <img
-            alt="avatar"
-            width={24}
-            height={24}
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-user.svg`}
-          />
-        </DropSelect>
+        <UserMenu isLogin={isLogin} />
       </li>
       {/* 购物车ICON */}
       <li
