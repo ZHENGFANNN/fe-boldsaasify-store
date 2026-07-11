@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import styles from "./index.module.scss";
 import Api from "../../api";
@@ -17,6 +18,7 @@ const TYPE_KEYS = ["return", "refund", "exchange", "repair", "other"];
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 
 export default function AfterSaleInfo({ LANG }) {
+  const router = useRouter();
   const tipRef = React.useRef(null);
   const [loading, setLoading] = React.useState(true);
   const [list, setList] = React.useState([]);
@@ -167,7 +169,10 @@ export default function AfterSaleInfo({ LANG }) {
     <div className={styles.container}>
       <div className={styles.title_container}>
         <div>{T(LANG, "user_account.after_sale", "After-Sales Service")}</div>
-        <button className={styles.create_btn} onClick={() => setShow(true)}>
+        <button
+          className={styles.create_btn}
+          onClick={() => router.push("/support/after-sales/create")}
+        >
           {T(LANG, "user_account.after_sale.create", "New Request")}
         </button>
       </div>
@@ -180,7 +185,14 @@ export default function AfterSaleInfo({ LANG }) {
       ) : (
         <div className={styles.record_list}>
           {list.map((item) => (
-            <div key={item.id} className={styles.record_item}>
+            <div
+              key={item.id}
+              className={styles.record_item}
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                router.push(`/support/after-sales/detail?id=${item.id}`)
+              }
+            >
               <div className={styles.record_head}>
                 <span className={styles.record_type}>
                   {typeMap[item.type] || item.type}

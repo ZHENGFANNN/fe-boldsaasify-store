@@ -86,12 +86,30 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
 
   const orderStatus = React.useMemo(() => {
     return {
-      status0: LANG["store.order_info.await_pay"],
-      status1: LANG["store.order_info.await_deliver"],
-      status2: LANG["store.order_info.delivered"],
-      status3: LANG["store.order_info.finished"],
-      status4: LANG["store.order_info.closed"],
-      status5: LANG["store.order_info.error"],
+      pending_payment:
+        LANG["store.order_info.await_pay"] || "Pending payment",
+      paid: LANG["store.order_info.await_deliver"] || "To be delivered",
+      shipped: LANG["store.order_info.delivered"] || "Shipped",
+      delivered: LANG["store.order_info.received"] || "Delivered",
+      completed: LANG["store.order_info.finished"] || "Completed",
+      cancelled: LANG["store.order_info.cancelled"] || "Cancelled",
+      refunding: LANG["store.order_info.refunding"] || "Refunding",
+      refunded: LANG["store.order_info.refunded"] || "Refunded",
+      closed: LANG["store.order_info.closed"] || "Closed",
+    };
+  }, [LANG]);
+
+  const orderStatusColor = React.useMemo(() => {
+    return {
+      pending_payment: styles.error,
+      paid: styles.yellow,
+      shipped: styles.blue,
+      delivered: styles.blue,
+      completed: styles.green,
+      cancelled: styles.black,
+      refunding: styles.yellow,
+      refunded: styles.black,
+      closed: styles.black,
     };
   }, []);
 
@@ -282,20 +300,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                   {LANG["store.order_info.order_status"]}
                 </h3>
                 <p className={styles.flex_3}>
-                  <span
-                    className={`
-                ${
-                  order.order_status === "status0" ||
-                  order.order_status === "status5"
-                    ? styles.error
-                    : ""
-                }
-                ${order.order_status === "status1" ? styles.yellow : ""}
-                ${order.order_status === "status2" ? styles.blue : ""}
-                ${order.order_status === "status3" ? styles.green : ""}
-                ${order.order_status === "status4" ? styles.black : ""}
-                `}
-                  >
+                  <span className={orderStatusColor[order.order_status] || ""}>
                     {orderStatus[order.order_status]}
                   </span>
                 </p>
@@ -567,7 +572,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 </div>
               ) : null}
             </ul>
-            {order.order_status === "status0" ? (
+            {order.order_status === "pending_payment" ? (
               <div className={styles.btn_container}>
                 {order.pay_key === "payPal" ? (
                   <Paypal

@@ -1,19 +1,4 @@
 .container {
-    // 标题与收藏按钮同排：标题占满、收藏靠右顶对齐。
-    .title_row {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 12px;
-        h1 {
-            flex: 1;
-            min-width: 0;
-        }
-        .wishlist_btn {
-            flex: none;
-            margin-top: 2px;
-        }
-    }
     h1 {
         font-size: 32px;
         font-weight: 600;

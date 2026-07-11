@@ -9,8 +9,10 @@ import Empyt from "../../../../../components/Empyt";
 import Loading from "../../../../../components/Loading";
 import { formatCurrency, formatDateTime } from "@/utils";
 import readClientArea from "@/utils/readClientArea";
+import { useRouter } from "next/navigation";
 
 export default function OrderInfo({ LANG, locale }) {
+  const router = useRouter();
   const payMap = React.useMemo(() => {
     const transfer = LANG["user_account.my_order.transfer"];
     const creditCard = LANG["user_account.my_order.credit_card"];
@@ -33,12 +35,29 @@ export default function OrderInfo({ LANG, locale }) {
   }, [LANG]);
   const orderStatus = React.useMemo(() => {
     return {
-      status0: LANG["user_account.my_order.await_pay"],
-      status1: LANG["user_account.my_order.await_deliver"],
-      status2: LANG["user_account.my_order.delivered"],
-      status3: LANG["user_account.my_order.finished"],
-      status4: LANG["user_account.my_order.closed"],
-      status5: LANG["user_account.my_order.error"],
+      pending_payment:
+        LANG["user_account.my_order.await_pay"] || "Pending payment",
+      paid: LANG["user_account.my_order.await_deliver"] || "To be delivered",
+      shipped: LANG["user_account.my_order.delivered"] || "Shipped",
+      delivered: LANG["user_account.my_order.received"] || "Delivered",
+      completed: LANG["user_account.my_order.finished"] || "Completed",
+      cancelled: LANG["user_account.my_order.cancelled"] || "Cancelled",
+      refunding: LANG["user_account.my_order.refunding"] || "Refunding",
+      refunded: LANG["user_account.my_order.refunded"] || "Refunded",
+      closed: LANG["user_account.my_order.closed"] || "Closed",
+    };
+  }, [LANG]);
+  const orderStatusColor = React.useMemo(() => {
+    return {
+      pending_payment: styles.error,
+      paid: styles.yellow,
+      shipped: styles.blue,
+      delivered: styles.blue,
+      completed: styles.green,
+      cancelled: styles.black,
+      refunding: styles.yellow,
+      refunded: styles.black,
+      closed: styles.black,
     };
   }, []);
   const [orderLoading, setOrderLoading] = React.useState(true);
@@ -230,35 +249,9 @@ export default function OrderInfo({ LANG, locale }) {
                           {LANG["user_account.my_order.order_status"]}
                         </div>
                         <div
-                          className={`
-                        ${styles.order_value} 
-                        ${
-                          orderItem.order_status === "status0" ||
-                          orderItem.order_status === "status5"
-                            ? styles.error
-                            : ""
-                        }
-                        ${
-                          orderItem.order_status === "status1"
-                            ? styles.yellow
-                            : ""
-                        }
-                        ${
-                          orderItem.order_status === "status2"
-                            ? styles.blue
-                            : ""
-                        }
-                        ${
-                          orderItem.order_status === "status3"
-                            ? styles.green
-                            : ""
-                        }
-                        ${
-                          orderItem.order_status === "status4"
-                            ? styles.black
-                            : ""
-                        }
-                        `}
+                          className={`${styles.order_value} ${
+                            orderStatusColor[orderItem.order_status] || ""
+                          }`}
                         >
                           {orderStatus[orderItem.order_status]}
                         </div>
@@ -338,7 +331,7 @@ export default function OrderInfo({ LANG, locale }) {
                         <b> {LANG["user_account.my_order.total_price"]}</b>
                         {fmtOrderTotal}
                       </div>
-                      {orderItem.order_status === "status0" ? (
+                      {orderItem.order_status === "pending_payment" ? (
                         <div
                           onClick={() => {
                             window.open(
@@ -349,6 +342,19 @@ export default function OrderInfo({ LANG, locale }) {
                           className={styles.insta_pay}
                         >
                           {LANG["user_account.my_order.insta_pay"]}
+                        </div>
+                      ) : null}
+                      {orderItem.order_status === "completed" ? (
+                        <div
+                          onClick={() => {
+                            router.push(
+                              `/support/after-sales/create?orderNumber=${orderItem.order_number}`
+                            );
+                          }}
+                          className={styles.after_sale}
+                        >
+                          {LANG["user_account.my_order.after_sale"] ||
+                            "After-Sales"}
                         </div>
                       ) : null}
                     </div>

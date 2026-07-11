@@ -14,7 +14,6 @@ import {
 } from "@/utils/productPricing";
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
-import WishlistButton from "@/components/WishlistButton";
 import getProductsOffer from "@/service/product/get-offer";
 import styles from "./index.module.scss";
 
@@ -115,12 +114,6 @@ function ProductCard({ product, LANG, pricingMap, pricingReady, discountMap }) {
       className={styles.goods_item}
     >
       <div className={styles.image_container} data-scenes={!!product.image_scenes}>
-        <WishlistButton
-          className={styles.wishlist_btn}
-          sortKey={product.sort_key}
-          productKey={product.key}
-          LANG={LANG}
-        />
         <img
           className={styles.product_image}
           alt={product.name}

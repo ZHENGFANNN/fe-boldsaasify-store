@@ -24,7 +24,6 @@ const FB_STANDARD_EVENTS = new Set([
   "ViewContent",
   "Search",
   "AddToCart",
-  "AddToWishlist",
   "InitiateCheckout",
   "AddPaymentInfo",
   "Purchase",

@@ -8,7 +8,6 @@ import { formatCurrency, fillOssImage } from "../../../../../../../utils";
 import "@splidejs/splide/css";
 import Splide from "@splidejs/splide";
 import ProductReviewsRate from "../ProductReviewsRate";
-import WishlistButton from "@/components/WishlistButton";
 
 export default function ProductList({ products, LANG }) {
   // 节日折扣已停用：恒为 false，下方折扣相关 UI 自然隐藏（源码保留以备复用）。
@@ -69,12 +68,6 @@ export default function ProductList({ products, LANG }) {
                 >
                   <div className={styles.splide_item}>
                     <div className={styles.image_container}>
-                      <WishlistButton
-                        className={styles.wishlist_btn}
-                        sortKey={item.sort_key}
-                        productKey={item.key}
-                        LANG={LANG}
-                      />
                       <img
                         alt={item.name}
                         className={styles.product_image}

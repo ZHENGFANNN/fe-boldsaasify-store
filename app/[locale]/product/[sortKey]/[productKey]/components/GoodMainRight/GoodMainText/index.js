@@ -2,23 +2,12 @@
 import React from "react";
 import styles from "./index.module.scss";
 import ProductContext from "../../../ProductContext";
-import WishlistButton from "@/components/WishlistButton";
 
 export default function GoodMainText() {
-  const { productInfo, sortKey, productKey, LANG } =
-    React.useContext(ProductContext);
+  const { productInfo } = React.useContext(ProductContext);
   return (
     <div className={styles.container}>
-      <div className={styles.title_row}>
-        <h1>{productInfo.name}</h1>
-        <WishlistButton
-          className={styles.wishlist_btn}
-          sortKey={sortKey}
-          productKey={productKey}
-          LANG={LANG}
-          size={40}
-        />
-      </div>
+      <h1>{productInfo.name}</h1>
       {/* 配置的亮点 */}
       {Array.isArray(productInfo.sellingList) &&
       productInfo.sellingList.length > 0 ? (
