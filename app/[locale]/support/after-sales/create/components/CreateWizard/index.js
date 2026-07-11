@@ -444,7 +444,7 @@ export default function CreateWizard({ LANG, locale }) {
     try {
       const res = await Api.createAfterService(payload);
       if (res.code !== 0) throw new Error("code!==0");
-      const id = res.data?.id;
+      const serviceNo = res.data?.service_no;
       tip(
         T(
           LANG,
@@ -454,7 +454,7 @@ export default function CreateWizard({ LANG, locale }) {
         "success"
       );
       router.push(
-        localeHref(`/support/after-sales/detail?id=${id}`, locale)
+        localeHref(`/support/after-sales/detail?no=${serviceNo}`, locale)
       );
     } catch (err) {
       tip(

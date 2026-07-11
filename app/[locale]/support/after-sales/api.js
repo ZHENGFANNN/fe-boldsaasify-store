@@ -35,11 +35,10 @@ const request = {
     return Api.post("/pay/createAfterService", data);
   },
 
-  // 工单详情，body {id}，返回全部字段含 status/media/产品/seller_reply
-  // id 取自 URL query（字符串），后端 DTO 为 int + binding:required，
-  // 必须转成数字，否则 JSON 绑定失败返回 10001「数据校验错误」→ detail 空白。
-  getAfterServiceDetail: (id) => {
-    return Api.post("/pay/getAfterServiceDetail", { id: Number(id) });
+  // 工单详情，body {service_no}（工单号，字符串），返回全部字段含 status/media/产品/seller_reply
+  // service_no 取自 URL query 参数 no，后端按工单号做归属校验与查询。
+  getAfterServiceDetail: (no) => {
+    return Api.post("/pay/getAfterServiceDetail", { service_no: no });
   },
 };
 

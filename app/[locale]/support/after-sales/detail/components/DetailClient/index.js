@@ -38,7 +38,7 @@ export default function DetailClient({ LANG, locale }) {
   const [redirectPath, setRedirectPath] = React.useState(
     "/support/after-sales/detail"
   );
-  const [id, setId] = React.useState(null);
+  const [serviceNo, setServiceNo] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(false);
@@ -48,7 +48,7 @@ export default function DetailClient({ LANG, locale }) {
   React.useEffect(() => {
     setIsLogin(!!Cookies.get("token"));
     const search = new URLSearchParams(window.location.search);
-    setId(search.get("id"));
+    setServiceNo(search.get("no"));
     setRedirectPath(`${window.location.pathname}${window.location.search}`);
   }, []);
 
@@ -58,20 +58,20 @@ export default function DetailClient({ LANG, locale }) {
       setLoading(false);
       return;
     }
-    if (!id) {
+    if (!serviceNo) {
       setLoading(false);
       setError(true);
       return;
     }
     setLoading(true);
-    Api.getAfterServiceDetail(id)
+    Api.getAfterServiceDetail(serviceNo)
       .then((res) => {
         if (res.code !== 0) throw new Error("code!==0");
         setData(res.data || null);
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
-  }, [isLogin, id]);
+  }, [isLogin, serviceNo]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   const typeLabelMap = React.useMemo(

@@ -190,7 +190,7 @@ export default function AfterSaleInfo({ LANG }) {
               className={styles.record_item}
               style={{ cursor: "pointer" }}
               onClick={() =>
-                router.push(`/support/after-sales/detail?id=${item.id}`)
+                router.push(`/support/after-sales/detail?no=${item.service_no}`)
               }
             >
               <div className={styles.record_head}>
