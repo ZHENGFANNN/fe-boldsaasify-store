@@ -231,12 +231,15 @@ export default function GoodMediaDisplay() {
                     </ul>
                   </div>
                 ) : null}
+                {/* 显隐挂在 React 完全掌控的 wrapper 上（display:contents 不生成盒子、布局不变）。
+                    切 variant 时 Splide.destroy 会抹掉 .splide 根节点的 style 属性，若把 display 挂在
+                    .splide 上会被清除且 React 因 prop 未变不补写 → 出现「半图半3D」。挂 wrapper 可规避。 */}
                 <div
-                  className={`splide ${styles.splide}`}
                   style={{
-                    display: productShowType === "image" ? "block" : "none",
+                    display: productShowType === "image" ? "contents" : "none",
                   }}
                 >
+                  <div className={`splide ${styles.splide}`}>
                   <div className={`splide__track ${styles.splide__track}`}>
                     <ul className="splide__list">
                       {/* 套餐图 */}
@@ -274,6 +277,7 @@ export default function GoodMediaDisplay() {
                           })
                         : null}
                     </ul>
+                  </div>
                   </div>
                 </div>
               </React.Fragment>
