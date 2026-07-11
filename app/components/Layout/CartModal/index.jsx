@@ -203,6 +203,8 @@ const CartMain = function ({ handleClose }) {
   // 后端只返回符合资格的折扣（含永不过期），无需前端再判 ends_at。
   // ==========================================================================
   const [discountMap, setDiscountMap] = React.useState({});
+  // discountReady：折扣是否已取回。为 false 时行价先占位，避免「先显示原价 → 折扣到 → 跳折后价」的闪动。
+  const [discountReady, setDiscountReady] = React.useState(false);
   React.useEffect(() => {
     if (!cartReady || !cartList.length) {
       setDiscountMap({});
@@ -220,13 +222,18 @@ const CartMain = function ({ handleClose }) {
         seen.add(key);
         keys.push({ sortKey: it.sortKey, productKey: it.productKey });
       });
-      const data = await getProductsOffer({ area: area || "us", keys });
-      if (cancelled) return;
-      const dMap = {};
-      (data?.list || []).forEach((item) => {
-        if (item.discount) dMap[item.productKey] = item.discount;
-      });
-      setDiscountMap(dMap);
+      try {
+        const data = await getProductsOffer({ area: area || "us", keys });
+        if (cancelled) return;
+        const dMap = {};
+        (data?.list || []).forEach((item) => {
+          if (item.discount) dMap[item.productKey] = item.discount;
+        });
+        setDiscountMap(dMap);
+      } finally {
+        // 无论成功/失败都置就绪：行价从占位切到最终价（失败即回退原价），不会一直占位。
+        if (!cancelled) setDiscountReady(true);
+      }
     })();
     return () => {
       cancelled = true;
@@ -466,7 +473,9 @@ const CartMain = function ({ handleClose }) {
                             </div>
                             <div className={styles.table_body_price}>
                               <div className={styles.price}>
-                                {hasLineDiscount ? (
+                                {!discountReady ? (
+                                  <div className={styles.price_placeholder} />
+                                ) : hasLineDiscount ? (
                                   <>
                                     <div>{`${item.priceSymbol}${formatCurrency(
                                       lineDiscounted,

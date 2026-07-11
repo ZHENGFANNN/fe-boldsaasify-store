@@ -433,6 +433,13 @@
                     font-size: 14px;
                     text-decoration: line-through;
                   }
+                  // 折扣取回前的行价占位（灰条），避免原价→折后价闪动
+                  .price_placeholder {
+                    width: 72px;
+                    height: 20px;
+                    border-radius: 4px;
+                    background: #f0f0f0;
+                  }
                 }
               }
             }
