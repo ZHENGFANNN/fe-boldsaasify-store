@@ -11,12 +11,13 @@
   gap: 8px;
 }
 
+/* 区块标题：与选项轴名 .axis_name、数量标题 GoodNumber h3 统一（14px / 600 / #1a1a1a / 非大写） */
 .label {
   font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  font-size: 12px;
-  color: #6b6b6b;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 14px;
+  color: #1a1a1a;
 }
 
 .required {
@@ -118,27 +119,84 @@
 .file_item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
   border: 1px solid #ededed;
-  border-radius: 6px;
-  padding: 8px 12px;
+  border-radius: 10px;
+  padding: 8px 10px;
   background: #fff;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.file_item:hover {
+  border-color: #d5d5d5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* 缩略图 + 名称一同点击预览（CustomizeFileLink 渲染此 <a>） */
+.file_link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.file_thumb {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a8a8a;
+}
+
+.file_thumb_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.file_thumb_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file_meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
 }
 
 .file_name {
   font-size: 13px;
+  font-weight: 500;
   color: #1a1a1a;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  flex: 1;
-  text-decoration: underline;
-  cursor: pointer;
+  max-width: 100%;
 }
 
-.file_name:hover {
-  color: #d0021b;
+.file_link:hover .file_name {
+  color: #000;
+}
+
+.file_ext {
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #9b9b9b;
 }
 
 .file_remove {
@@ -148,12 +206,19 @@
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
-  padding: 0 4px;
-  transition: color 0.18s ease;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.18s ease, background 0.18s ease;
 }
 
 .file_remove:hover {
-  color: #d0021b;
+  color: #1a1a1a;
+  background: #f2f2f2;
 }
 
 /* ---------- 响应式 ---------- */

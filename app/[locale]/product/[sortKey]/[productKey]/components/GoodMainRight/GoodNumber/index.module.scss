@@ -4,11 +4,12 @@
     align-items: center;
 
     margin-top: 48px;
+    /* 区块标题：与选项轴名 .axis_name、自定义字段 .label 统一（14px / 600 / #1a1a1a / 非大写） */
     h3 {
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 16px;
-      color: #534040;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: #1a1a1a;
     }
     .product_num_operation {
       display: flex;
@@ -54,9 +55,10 @@
 
     margin-top: 48px;
         h3 {
-          font-size: 16px;
-          font-weight: 700;
-          line-height: 16px;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          color: #1a1a1a;
         }
         .product_num_operation {
           display: flex;

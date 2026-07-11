@@ -5,6 +5,9 @@ import { isValueAvailable, isValueInStock } from "@/utils/resolveVariant";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import styles from "./index.module.scss";
 
+// swatch_desc 含 HTML 标签 → 富文本渲染；否则纯文本（向后兼容 \n 描述）。受信内容，由后台运营维护。
+const HTML_TAG_RE = /<[a-z][\s\S]*>/i;
+
 /**
  * V2 Shopify 式选项选择器：按选项轴渲染，逐轴选值。
  *   - axis_type=color  → 圆形色块（swatch_color）
@@ -159,9 +162,18 @@ export default function VariantSelector() {
                         </span>
                       </span>
                       {val.swatch_desc ? (
-                        <span className={styles.card_desc}>
-                          {val.swatch_desc}
-                        </span>
+                        HTML_TAG_RE.test(val.swatch_desc) ? (
+                          <span
+                            className={`${styles.card_desc} ${styles.card_desc_rich}`}
+                            dangerouslySetInnerHTML={{
+                              __html: val.swatch_desc
+                            }}
+                          />
+                        ) : (
+                          <span className={styles.card_desc}>
+                            {val.swatch_desc}
+                          </span>
+                        )
                       ) : null}
                     </button>
                   );

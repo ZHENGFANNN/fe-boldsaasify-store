@@ -19,16 +19,17 @@
   gap: 8px;
 }
 
+/* 区块标题：与 GoodNumber h3、CustomizationFields .label 统一（14px / 600 / #1a1a1a / 非大写） */
 .axis_name {
   font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  font-size: 12px;
-  color: #6b6b6b;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 14px;
+  color: #1a1a1a;
 }
 
 .axis_value {
-  color: #1a1a1a;
+  color: #555555;
   font-weight: 500;
   font-size: 14px;
 }
@@ -58,9 +59,9 @@
   border-color: #1a1a1a;
 }
 .value_item.active {
-  /* 选中：只加深外框（1px 黑），不填黑底、不加额外层 */
+  /* 选中：深色外框 + 淡背景，更明确但克制 */
   border: 1px solid #000;
-  background: #fff;
+  background: #f5f5f5;
   color: #1a1a1a;
   font-weight: 600;
 }
@@ -104,11 +105,11 @@
   box-shadow: inset 0 0 0 1.5px #c9c9c9;
 }
 .value_list[data-variant="color"] .value_item.active {
-  /* 选中：只加外框（1px 黑），不再画内环那一层 */
+  /* 选中：外层描边环（加粗到 1.5px + 更大间隙），更清晰 */
   background: transparent;
   box-shadow: none;
-  outline: 1px solid #000;
-  outline-offset: 1px;
+  outline: 1.5px solid #000;
+  outline-offset: 2px;
 }
 .swatch_color {
   width: 100%;
@@ -157,9 +158,9 @@
   border-color: #b5b5b5;
 }
 .value_list[data-variant="image"] .value_item.active {
-  /* 选中：只加深外框（1px 黑），去掉外发光那一层 */
+  /* 选中：深色外框 + 内描边（视觉≈2px，无布局位移），更明确 */
   border: 1px solid #000;
-  box-shadow: none;
+  box-shadow: inset 0 0 0 1px #000;
 }
 .swatch_image {
   width: 100%;
@@ -209,8 +210,10 @@
   border-color: #1a1a1a;
 }
 .value_list[data-variant="card"] .value_item.active {
-  /* 选中：仅整卡外框变深（1px 黑），不填底、不加层 */
+  /* 选中：深色外框 + 内描边（视觉≈2px）+ 极淡背景，更明确但克制 */
   border: 1px solid #000;
+  box-shadow: inset 0 0 0 1px #000;
+  background: #fbfbfb;
 }
 .card_top {
   display: flex;
@@ -246,6 +249,48 @@
   color: #4b4d50;
   white-space: pre-wrap;
 }
+/* 富文本分支：交给标签自身排版，不再保留纯文本换行 */
+.card_desc_rich {
+  white-space: normal;
+}
+/* 富文本内容样式（受信 HTML：ol/li、strong/em、inline color/font-size 应生效） */
+.card_desc :global(ol),
+.card_desc :global(ul) {
+  margin: 6px 0;
+  padding-left: 20px;
+}
+.card_desc :global(ol) {
+  list-style: decimal;
+}
+.card_desc :global(ul) {
+  list-style: disc;
+}
+.card_desc :global(li) {
+  margin: 3px 0;
+  padding-left: 2px;
+}
+.card_desc :global(p) {
+  margin: 6px 0;
+}
+.card_desc :global(p):first-child {
+  margin-top: 0;
+}
+.card_desc :global(p):last-child {
+  margin-bottom: 0;
+}
+.card_desc :global(strong),
+.card_desc :global(b) {
+  font-weight: 700;
+}
+.card_desc :global(em),
+.card_desc :global(i) {
+  font-style: italic;
+}
+.card_desc :global(a) {
+  color: inherit;
+  text-decoration: underline;
+}
+/* inline color / font-size 由标签 style 属性直接生效（内联样式特异性更高，不被上面规则覆盖） */
 /* 卡片缺货：虚线外框；缺货且选中：深色虚线高亮 */
 .value_list[data-variant="card"] .value_item.outofstock {
   border-style: dashed;
