@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import styles from "../../page.module.scss";
 import Api from "../../../api";
+import SubmitSuccess from "../SubmitSuccess";
 import { defaultLocale } from "@/config/languageSettings";
 import { fillOssImage } from "@/utils";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
+import AuthRedirectGuard from "@/components/AuthRedirectGuard";
 
 // 文案兜底：语言包暂未配置 user_account.after_sale.* 时用英文兜底
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
@@ -67,8 +67,103 @@ function buildProductGroups(list, locale) {
   return Object.values(map).sort((a, b) => (b.weight || 0) - (a.weight || 0));
 }
 
+// 可搜索下拉选择框：选项内含产品图片，输入即过滤
+function SearchSelect({
+  options,
+  value,
+  onChange,
+  placeholder,
+  searchPlaceholder,
+  emptyText,
+}) {
+  const [open, setOpen] = React.useState(false);
+  const [q, setQ] = React.useState("");
+  const rootRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!open) return undefined;
+    const onDoc = (e) => {
+      if (rootRef.current && !rootRef.current.contains(e.target)) {
+        setOpen(false);
+        setQ("");
+      }
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
+
+  const selected = options.find((o) => o.value === value) || null;
+  const kw = q.trim().toLowerCase();
+  const filtered = kw
+    ? options.filter((o) =>
+        `${o.label} ${o.subLabel || ""}`.toLowerCase().includes(kw)
+      )
+    : options;
+
+  const renderOptBody = (o) => (
+    <>
+      <span className={styles.opt_thumb}>
+        {o.image ? <img src={o.image} alt="" /> : null}
+      </span>
+      <span className={styles.opt_text}>
+        <span className={styles.opt_label}>{o.label}</span>
+        {o.subLabel ? <span className={styles.opt_sub}>{o.subLabel}</span> : null}
+      </span>
+    </>
+  );
+
+  return (
+    <div className={styles.select} ref={rootRef}>
+      <button
+        type="button"
+        className={`${styles.select_trigger} ${open ? styles.select_open : ""}`}
+        onClick={() => setOpen((v) => !v)}
+      >
+        {selected ? (
+          <span className={styles.opt_main}>{renderOptBody(selected)}</span>
+        ) : (
+          <span className={styles.select_ph}>{placeholder}</span>
+        )}
+        <span className={styles.select_arrow}>▾</span>
+      </button>
+      {open ? (
+        <div className={styles.select_panel}>
+          <input
+            className={styles.select_search}
+            autoFocus
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder={searchPlaceholder}
+          />
+          <div className={styles.select_list}>
+            {filtered.length ? (
+              filtered.map((o) => (
+                <button
+                  type="button"
+                  key={o.value}
+                  className={`${styles.opt} ${
+                    o.value === value ? styles.opt_active : ""
+                  }`}
+                  onClick={() => {
+                    onChange(o.value);
+                    setOpen(false);
+                    setQ("");
+                  }}
+                >
+                  {renderOptBody(o)}
+                </button>
+              ))
+            ) : (
+              <div className={styles.select_empty}>{emptyText}</div>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export default function CreateWizard({ LANG, locale }) {
-  const router = useRouter();
   const tipRef = React.useRef(null);
   const fileRef = React.useRef(null);
 
@@ -77,7 +172,8 @@ export default function CreateWizard({ LANG, locale }) {
     "/support/after-sales/create"
   );
 
-  const [step, setStep] = React.useState(1);
+  // 引导式分步：activeStep 为当前展开步；完成态由数据实时派生（isStepDone）
+  const [activeStep, setActiveStep] = React.useState(1);
   const [method, setMethod] = React.useState("order"); // report_type: order | product
 
   // 方式A：选订单
@@ -106,6 +202,8 @@ export default function CreateWizard({ LANG, locale }) {
   const [agreePrivacy, setAgreePrivacy] = React.useState(false);
 
   const [submitting, setSubmitting] = React.useState(false);
+  // 提单成功后记录工单号，非空即切换到成功组件替代向导
+  const [submittedServiceNo, setSubmittedServiceNo] = React.useState(null);
 
   const typeLabelMap = React.useMemo(
     () => ({
@@ -333,14 +431,15 @@ export default function CreateWizard({ LANG, locale }) {
     });
   };
 
-  const canNextStep1 = () => {
-    if (method === "order") return !!(selectedOrder && selectedRow);
-    return !!(selectedProduct && purchaseTime && purchaseChannel.trim());
-  };
-  const canNextStep2 = () => !!(afterType && description.trim());
+  // 各步完成态实时派生（无需单独状态机）
+  const step1Done =
+    method === "order"
+      ? !!(selectedOrder && selectedRow)
+      : !!(selectedProduct && purchaseTime && purchaseChannel.trim());
+  const step2Done = !!(afterType && description.trim());
 
-  const goNext = () => {
-    if (step === 1 && !canNextStep1()) {
+  const confirmStep1 = () => {
+    if (!step1Done) {
       tip(
         T(
           LANG,
@@ -351,7 +450,10 @@ export default function CreateWizard({ LANG, locale }) {
       );
       return;
     }
-    if (step === 2 && !canNextStep2()) {
+    setActiveStep(2);
+  };
+  const confirmStep2 = () => {
+    if (!step2Done) {
       tip(
         T(
           LANG,
@@ -362,9 +464,8 @@ export default function CreateWizard({ LANG, locale }) {
       );
       return;
     }
-    setStep((s) => Math.min(3, s + 1));
+    setActiveStep(3);
   };
-  const goPrev = () => setStep((s) => Math.max(1, s - 1));
 
   const onSubmit = async () => {
     if (submitting) return;
@@ -413,7 +514,7 @@ export default function CreateWizard({ LANG, locale }) {
       return;
     }
     if (!productPayload) {
-      setStep(1);
+      setActiveStep(1);
       return;
     }
 
@@ -445,17 +546,8 @@ export default function CreateWizard({ LANG, locale }) {
       const res = await Api.createAfterService(payload);
       if (res.code !== 0) throw new Error("code!==0");
       const serviceNo = res.data?.service_no;
-      tip(
-        T(
-          LANG,
-          "user_account.after_sale.submit_success",
-          "Your request has been submitted."
-        ),
-        "success"
-      );
-      router.push(
-        localeHref(`/support/after-sales/detail?no=${serviceNo}`, locale)
-      );
+      // 提单成功：切换到成功组件（替代向导表单），不再直接跳转/弹 toast
+      setSubmittedServiceNo(serviceNo ?? "");
     } catch (err) {
       tip(
         T(
@@ -476,505 +568,528 @@ export default function CreateWizard({ LANG, locale }) {
   }
 
   if (!isLogin) {
+    return <AuthRedirectGuard LANG={LANG} redirectPath={redirectPath} />;
+  }
+
+  if (submittedServiceNo !== null) {
     return (
-      <div className={styles.login_cta}>
-        <h1>{T(LANG, "user_account.after_sale", "After-Sales Service")}</h1>
-        <p>
-          {T(
-            LANG,
-            "user_account.after_sale.login_tip",
-            "Please log in to submit and track your after-sales requests."
-          )}
-        </p>
-        <Link href={`/user/login?redirect=${encodeURIComponent(redirectPath)}`}>
-          {T(LANG, "common.nav.log_in", "Log In")}
-        </Link>
-      </div>
+      <SubmitSuccess
+        LANG={LANG}
+        locale={locale}
+        serviceNo={submittedServiceNo}
+      />
     );
   }
 
-  const stepList = [
-    {
-      no: 1,
-      label: T(LANG, "user_account.after_sale.step1", "Select Item"),
-    },
-    {
-      no: 2,
-      label: T(LANG, "user_account.after_sale.step2", "Issue & Evidence"),
-    },
-    {
-      no: 3,
-      label: T(LANG, "user_account.after_sale.step3", "Contact & Submit"),
-    },
-  ];
+  // 新 UI 文案（locale 兜底：zh 显示中文，其它显示英文）
+  const TL = (key, zh, en) =>
+    LANG?.[key] || (locale?.startsWith("zh") ? zh : en);
+
+  const orderNoLabel = T(LANG, "user_account.my_order.order_number", "Order No.");
+
+  // 订单行 → 可搜索下拉选项（含产品图片）
+  const orderOptions = orders.flatMap((o) =>
+    (o.order_list || []).map((row, ri) => ({
+      value: `${o.order_number}__${ri}`,
+      label: rowName(row),
+      subLabel: `${orderNoLabel}: ${o.order_number}${
+        rowCombo(row) ? ` · ${rowCombo(row)}` : ""
+      }`,
+      image: rowImage(row),
+    }))
+  );
+  const orderValue =
+    selectedOrderNumber && selectedRowIndex >= 0
+      ? `${selectedOrderNumber}__${selectedRowIndex}`
+      : "";
+
+  // 产品 → 可搜索下拉选项（含产品图片）
+  const productOptions = productGroups.flatMap((g) =>
+    g.products.map((p) => ({
+      value: p.key,
+      label: p.name,
+      subLabel: g.name,
+      image: p.image,
+    }))
+  );
+
+  // 步1 已填摘要
+  const step1Summary =
+    method === "order" && selectedRow
+      ? {
+          image: rowImage(selectedRow),
+          name: rowName(selectedRow),
+          sub: `${orderNoLabel}: ${selectedOrderNumber}`,
+        }
+      : method === "product" && selectedProduct
+      ? {
+          image: selectedProduct.image,
+          name: selectedProduct.name,
+          sub: [purchaseTime, purchaseChannel].filter(Boolean).join(" · "),
+        }
+      : null;
+
+  const unlocked2 = step1Done;
+  const unlocked3 = step1Done && step2Done;
+
+  const stepBadge = (n, done) => (
+    <span
+      className={`${styles.step_badge} ${done ? styles.step_badge_done : ""}`}
+    >
+      {done ? "✓" : n}
+    </span>
+  );
+
+  const editBtn = (onClick) => (
+    <button type="button" className={styles.step_edit} onClick={onClick}>
+      {TL("user_account.after_sale.edit", "编辑", "Edit")}
+    </button>
+  );
+
+  const searchPh = TL("user_account.after_sale.search_ph", "搜索…", "Search…");
+  const noMatch = TL(
+    "user_account.after_sale.no_match",
+    "无匹配结果",
+    "No matches"
+  );
 
   return (
     <div className={styles.wizard}>
       <h1 className={styles.page_title}>
-        {T(LANG, "user_account.after_sale.create", "New Request")}
+        {T(
+          LANG,
+          "user_account.after_sale.create",
+          locale?.startsWith("zh") ? "售后服务" : "After-Sales Service"
+        )}
       </h1>
 
-      <div className={styles.steps}>
-        {stepList.map((s, i) => (
-          <React.Fragment key={s.no}>
-            <div
-              className={`${styles.step} ${step === s.no ? styles.active : ""} ${
-                step > s.no ? styles.done : ""
-              }`}
-            >
-              <span className={styles.step_no}>{s.no}</span>
-              <span className={styles.step_label}>{s.label}</span>
-            </div>
-            {i < stepList.length - 1 ? (
-              <div
-                className={`${styles.step_line} ${
-                  step > s.no ? styles.done : ""
-                }`}
-              />
-            ) : null}
-          </React.Fragment>
-        ))}
-      </div>
-
-      {/* ---------- 步1：选订单 / 选产品 ---------- */}
-      {step === 1 ? (
-        <div className={styles.panel}>
-          <div className={styles.method_tabs}>
-            <button
-              type="button"
-              className={`${styles.method_tab} ${
-                method === "order" ? styles.active : ""
-              }`}
-              onClick={() => setMethod("order")}
-            >
-              {T(
-                LANG,
-                "user_account.after_sale.method.order",
-                "Select from my orders"
-              )}
-            </button>
-            <button
-              type="button"
-              className={`${styles.method_tab} ${
-                method === "product" ? styles.active : ""
-              }`}
-              onClick={() => setMethod("product")}
-            >
-              {T(
-                LANG,
-                "user_account.after_sale.method.product",
-                "Select a product"
-              )}
-            </button>
-          </div>
-
-          {method === "order" ? (
-            <div className={styles.method_body}>
-              {ordersLoading ? (
-                <Loading height={200} />
-              ) : orders.length < 1 ? (
-                <div className={styles.empty}>
-                  {T(
-                    LANG,
-                    "user_account.after_sale.no_orders",
-                    "No orders found."
-                  )}
-                </div>
-              ) : (
-                <div className={styles.order_list}>
-                  {orders.map((o) => {
-                    const opened =
-                      String(o.order_number) === String(selectedOrderNumber);
-                    return (
-                      <div key={o.order_number} className={styles.order_card}>
-                        <button
-                          type="button"
-                          className={`${styles.order_head} ${
-                            opened ? styles.active : ""
-                          }`}
-                          onClick={() => {
-                            setSelectedOrderNumber(
-                              opened ? "" : o.order_number
-                            );
-                            setSelectedRowIndex(-1);
-                          }}
-                        >
-                          <span className={styles.order_no}>
-                            {T(
-                              LANG,
-                              "user_account.my_order.order_number",
-                              "Order No."
-                            )}
-                            : {o.order_number}
-                          </span>
-                          <span className={styles.order_arrow}>
-                            {opened ? "−" : "+"}
-                          </span>
-                        </button>
-                        {opened ? (
-                          <div className={styles.row_list}>
-                            {(o.order_list || []).map((row, ri) => {
-                              const active = selectedRowIndex === ri;
-                              return (
-                                <button
-                                  type="button"
-                                  key={ri}
-                                  className={`${styles.row_item} ${
-                                    active ? styles.active : ""
-                                  }`}
-                                  onClick={() => setSelectedRowIndex(ri)}
-                                >
-                                  <span className={styles.row_thumb}>
-                                    {rowImage(row) ? (
-                                      <img
-                                        src={rowImage(row)}
-                                        alt={rowName(row)}
-                                      />
-                                    ) : null}
-                                  </span>
-                                  <span className={styles.row_info}>
-                                    <span className={styles.row_name}>
-                                      {rowName(row)}
-                                    </span>
-                                    {rowCombo(row) ? (
-                                      <span className={styles.row_combo}>
-                                        {rowCombo(row)}
-                                      </span>
-                                    ) : null}
-                                  </span>
-                                  <span className={styles.row_radio} />
-                                </button>
-                              );
-                            })}
-                          </div>
-                        ) : null}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {selectedRow ? (
-                <div className={styles.selected_hint}>
-                  {T(
-                    LANG,
-                    "user_account.after_sale.selected_product",
-                    "Selected product"
-                  )}
-                  : <b>{rowName(selectedRow)}</b>
-                </div>
-              ) : null}
-            </div>
-          ) : (
-            <div className={styles.method_body}>
-              {productsLoading ? (
-                <Loading height={200} />
-              ) : productGroups.length < 1 ? (
-                <div className={styles.empty}>
-                  {T(
-                    LANG,
-                    "user_account.after_sale.no_products",
-                    "No products found."
-                  )}
-                </div>
-              ) : (
-                <div className={styles.product_groups}>
-                  {productGroups.map((g) => (
-                    <div key={g.sort_key} className={styles.product_group}>
-                      <div className={styles.group_title}>{g.name}</div>
-                      <div className={styles.product_grid}>
-                        {g.products.map((p) => {
-                          const active = selectedProductKey === p.key;
-                          return (
-                            <button
-                              type="button"
-                              key={p.key}
-                              className={`${styles.product_card} ${
-                                active ? styles.active : ""
-                              }`}
-                              onClick={() => setSelectedProductKey(p.key)}
-                            >
-                              <span className={styles.product_thumb}>
-                                {p.image ? (
-                                  <img src={p.image} alt={p.name} />
-                                ) : null}
-                              </span>
-                              <span className={styles.product_name}>
-                                {p.name}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {selectedProduct ? (
-                <div className={styles.purchase_form}>
-                  <div className={styles.selected_hint}>
-                    {T(
-                      LANG,
-                      "user_account.after_sale.selected_product",
-                      "Selected product"
-                    )}
-                    : <b>{selectedProduct.name}</b>
-                  </div>
-                  <label className={styles.field}>
-                    <span className={styles.field_label}>
-                      {T(
-                        LANG,
-                        "user_account.after_sale.purchase_time",
-                        "Purchase date"
-                      )}
-                      <i>*</i>
-                    </span>
-                    <input
-                      type="date"
-                      value={purchaseTime}
-                      onChange={(e) => setPurchaseTime(e.target.value)}
-                    />
-                  </label>
-                  <label className={styles.field}>
-                    <span className={styles.field_label}>
-                      {T(
-                        LANG,
-                        "user_account.after_sale.purchase_channel",
-                        "Purchase channel"
-                      )}
-                      <i>*</i>
-                    </span>
-                    <input
-                      type="text"
-                      value={purchaseChannel}
-                      onChange={(e) => setPurchaseChannel(e.target.value)}
-                      placeholder={T(
-                        LANG,
-                        "user_account.after_sale.purchase_channel_ph",
-                        "e.g. Official website, Amazon"
-                      )}
-                    />
-                  </label>
-                  <label className={styles.field}>
-                    <span className={styles.field_label}>
-                      {T(
-                        LANG,
-                        "user_account.after_sale.purchase_order_no",
-                        "Purchase order number"
-                      )}
-                    </span>
-                    <input
-                      type="text"
-                      value={purchaseOrderNo}
-                      onChange={(e) => setPurchaseOrderNo(e.target.value)}
-                      placeholder={T(
-                        LANG,
-                        "user_account.after_sale.optional",
-                        "Optional"
-                      )}
-                    />
-                  </label>
-                </div>
-              ) : null}
-            </div>
-          )}
-        </div>
-      ) : null}
-
-      {/* ---------- 步2：售后方式 + 描述 + 媒体 ---------- */}
-      {step === 2 ? (
-        <div className={styles.panel}>
-          <div className={styles.section_label}>
-            {T(
-              LANG,
-              "user_account.after_sale.service_type",
-              "How can we help?"
-            )}
-            <i>*</i>
-          </div>
-          <div className={styles.type_options}>
-            {AFTER_SALE_TYPES.map((k) => (
-              <button
-                type="button"
-                key={k}
-                className={`${styles.type_option} ${
-                  afterType === k ? styles.active : ""
-                }`}
-                onClick={() => setAfterType(k)}
-              >
-                {typeLabelMap[k]}
-              </button>
-            ))}
-          </div>
-
-          <div className={styles.section_label}>
-            {T(LANG, "user_account.after_sale.description", "Describe the issue")}
-            <i>*</i>
-          </div>
-          <textarea
-            className={styles.textarea}
-            rows={5}
-            maxLength={2000}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder={T(
-              LANG,
-              "user_account.after_sale.description_ph",
-              "Tell us what happened so we can help faster."
-            )}
-          />
-
-          <div className={styles.section_label}>
-            {T(LANG, "user_account.after_sale.media", "Photos / Videos")}
-            <span className={styles.section_note}>
-              {T(
-                LANG,
-                "user_account.after_sale.media.note",
-                `Up to ${MAX_FILES} files, max 200MB each`
+      <div className={styles.stack}>
+        {/* ---------- 步1：选订单号 / 产品型号 ---------- */}
+        <section
+          className={`${styles.stepblock} ${
+            activeStep === 1 ? styles.active : ""
+          }`}
+        >
+          <div className={styles.stepblock_head}>
+            {stepBadge(1, step1Done && activeStep !== 1)}
+            <span className={styles.stepblock_title}>
+              {TL(
+                "user_account.after_sale.step1_title",
+                "请选择订单号 / 产品型号",
+                "Select order / product model"
               )}
             </span>
+            {activeStep !== 1 && step1Done
+              ? editBtn(() => setActiveStep(1))
+              : null}
           </div>
-          <div className={styles.media_list}>
-            {mediaList.map((m) => (
-              <div key={m.localId} className={styles.media_item}>
-                {m.type === "video" ? (
-                  <video
-                    src={m.previewUrl || m.url}
-                    className={styles.media_thumb}
-                  />
-                ) : (
-                  <img
-                    src={m.previewUrl || m.url}
-                    alt={m.name}
-                    className={styles.media_thumb}
-                  />
-                )}
-                {m.uploading ? (
-                  <div className={styles.media_uploading}>
-                    <span className={styles.spinner} />
-                  </div>
-                ) : null}
+
+          {activeStep === 1 ? (
+            <div className={styles.stepblock_body}>
+              <div
+                className={`${styles.seg_tabs} ${
+                  method === "order" ? styles.seg_left : styles.seg_right
+                }`}
+              >
                 <button
                   type="button"
-                  className={styles.media_remove}
-                  onClick={() => removeMedia(m.localId)}
-                  aria-label="remove"
+                  className={`${styles.seg_item} ${
+                    method === "order" ? styles.active : ""
+                  }`}
+                  onClick={() => setMethod("order")}
                 >
-                  ×
+                  {T(LANG, "user_account.after_sale.method.order", "Order")}
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.seg_item} ${
+                    method === "product" ? styles.active : ""
+                  }`}
+                  onClick={() => setMethod("product")}
+                >
+                  {T(LANG, "user_account.after_sale.method.product", "Product")}
                 </button>
               </div>
-            ))}
-            {mediaList.length < MAX_FILES ? (
-              <button
-                type="button"
-                className={styles.media_add}
-                onClick={() => fileRef.current?.click()}
-              >
-                <span>+</span>
-                {T(LANG, "user_account.after_sale.media.add", "Add")}
-              </button>
-            ) : null}
-          </div>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*,video/*"
-            multiple
-            hidden
-            onChange={onPickFiles}
-          />
-        </div>
-      ) : null}
 
-      {/* ---------- 步3：联系方式 + 隐私协议 ---------- */}
-      {step === 3 ? (
-        <div className={styles.panel}>
-          <label className={styles.field}>
-            <span className={styles.field_label}>
-              {T(LANG, "user_account.after_sale.contact.email", "Email")}
-              <i>*</i>
-            </span>
-            <input
-              type="email"
-              value={contactEmail}
-              onChange={(e) => setContactEmail(e.target.value)}
-              placeholder="you@example.com"
-            />
-          </label>
-          <label className={styles.field}>
-            <span className={styles.field_label}>
-              {T(LANG, "user_account.after_sale.contact.phone", "Phone")}
-              <i>*</i>
-            </span>
-            <input
-              type="tel"
-              value={contactPhone}
-              onChange={(e) => setContactPhone(e.target.value)}
-              placeholder={T(
-                LANG,
-                "user_account.after_sale.contact.phone_ph",
-                "Contact phone number"
+              {method === "order" ? (
+                ordersLoading ? (
+                  <Loading height={160} />
+                ) : orders.length < 1 ? (
+                  <div className={styles.empty}>
+                    {T(
+                      LANG,
+                      "user_account.after_sale.no_orders",
+                      "No orders found."
+                    )}
+                  </div>
+                ) : (
+                  <SearchSelect
+                    options={orderOptions}
+                    value={orderValue}
+                    onChange={(v) => {
+                      const [ono, ri] = v.split("__");
+                      setSelectedOrderNumber(ono);
+                      setSelectedRowIndex(Number(ri));
+                    }}
+                    placeholder={TL(
+                      "user_account.after_sale.order_ph",
+                      "选择订单商品",
+                      "Select an order item"
+                    )}
+                    searchPlaceholder={searchPh}
+                    emptyText={noMatch}
+                  />
+                )
+              ) : (
+                <>
+                  {productsLoading ? (
+                    <Loading height={160} />
+                  ) : productGroups.length < 1 ? (
+                    <div className={styles.empty}>
+                      {T(
+                        LANG,
+                        "user_account.after_sale.no_products",
+                        "No products found."
+                      )}
+                    </div>
+                  ) : (
+                    <SearchSelect
+                      options={productOptions}
+                      value={selectedProductKey}
+                      onChange={(v) => setSelectedProductKey(v)}
+                      placeholder={TL(
+                        "user_account.after_sale.product_ph",
+                        "选择产品型号",
+                        "Select a product model"
+                      )}
+                      searchPlaceholder={searchPh}
+                      emptyText={noMatch}
+                    />
+                  )}
+
+                  {selectedProduct ? (
+                    <div className={styles.purchase_form}>
+                      <label className={styles.field}>
+                        <span className={styles.field_label}>
+                          {T(
+                            LANG,
+                            "user_account.after_sale.purchase_time",
+                            "Purchase date"
+                          )}
+                          <i>*</i>
+                        </span>
+                        <input
+                          type="date"
+                          value={purchaseTime}
+                          onChange={(e) => setPurchaseTime(e.target.value)}
+                        />
+                      </label>
+                      <label className={styles.field}>
+                        <span className={styles.field_label}>
+                          {T(
+                            LANG,
+                            "user_account.after_sale.purchase_channel",
+                            "Purchase channel"
+                          )}
+                          <i>*</i>
+                        </span>
+                        <input
+                          type="text"
+                          value={purchaseChannel}
+                          onChange={(e) => setPurchaseChannel(e.target.value)}
+                          placeholder={T(
+                            LANG,
+                            "user_account.after_sale.purchase_channel_ph",
+                            "e.g. Official website, Amazon"
+                          )}
+                        />
+                      </label>
+                      <label className={styles.field}>
+                        <span className={styles.field_label}>
+                          {T(
+                            LANG,
+                            "user_account.after_sale.purchase_order_no",
+                            "Purchase order number"
+                          )}
+                        </span>
+                        <input
+                          type="text"
+                          value={purchaseOrderNo}
+                          onChange={(e) => setPurchaseOrderNo(e.target.value)}
+                          placeholder={T(
+                            LANG,
+                            "user_account.after_sale.optional",
+                            "Optional"
+                          )}
+                        />
+                      </label>
+                    </div>
+                  ) : null}
+                </>
               )}
-            />
-          </label>
 
-          <label className={styles.privacy}>
-            <input
-              type="checkbox"
-              checked={agreePrivacy}
-              onChange={(e) => setAgreePrivacy(e.target.checked)}
-            />
-            <span>
-              {T(
-                LANG,
-                "user_account.after_sale.privacy.prefix",
-                "I have read and agree to the"
-              )}{" "}
-              <a
-                href={localeHref(PRIVACY_ARTICLE_PATH, locale)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <div className={styles.step_actions}>
+                <button
+                  type="button"
+                  className={styles.btn_primary}
+                  onClick={confirmStep1}
+                >
+                  {T(LANG, "user_account.after_sale.next", "Next")}
+                </button>
+              </div>
+            </div>
+          ) : step1Done ? (
+            <div className={styles.stepblock_summary}>
+              <span className={styles.summary_thumb}>
+                {step1Summary?.image ? (
+                  <img src={step1Summary.image} alt="" />
+                ) : null}
+              </span>
+              <span className={styles.summary_text}>
+                <span className={styles.summary_name}>{step1Summary?.name}</span>
+                {step1Summary?.sub ? (
+                  <span className={styles.summary_sub}>{step1Summary.sub}</span>
+                ) : null}
+              </span>
+            </div>
+          ) : null}
+        </section>
+
+        {/* ---------- 步2：售后问题 ---------- */}
+        <section
+          className={`${styles.stepblock} ${
+            activeStep === 2 ? styles.active : ""
+          } ${!unlocked2 ? styles.locked : ""}`}
+        >
+          <div className={styles.stepblock_head}>
+            {stepBadge(2, step2Done && activeStep !== 2)}
+            <span className={styles.stepblock_title}>
+              {TL(
+                "user_account.after_sale.step2_title",
+                "请输入售后问题",
+                "Describe your after-sales issue"
+              )}
+            </span>
+            {activeStep !== 2 && step2Done
+              ? editBtn(() => setActiveStep(2))
+              : null}
+          </div>
+
+          {activeStep === 2 ? (
+            <div className={styles.stepblock_body}>
+              <div className={styles.section_label}>
                 {T(
                   LANG,
-                  "user_account.after_sale.privacy.link",
-                  "After-Sales Privacy Policy"
+                  "user_account.after_sale.service_type",
+                  "How can we help?"
                 )}
-              </a>
-            </span>
-          </label>
-        </div>
-      ) : null}
+                <i>*</i>
+              </div>
+              <div className={styles.type_options}>
+                {AFTER_SALE_TYPES.map((k) => (
+                  <button
+                    type="button"
+                    key={k}
+                    className={`${styles.type_option} ${
+                      afterType === k ? styles.active : ""
+                    }`}
+                    onClick={() => setAfterType(k)}
+                  >
+                    {typeLabelMap[k]}
+                  </button>
+                ))}
+              </div>
 
-      {/* ---------- 底部导航 ---------- */}
-      <div className={styles.actions}>
-        {step > 1 ? (
-          <button
-            type="button"
-            className={styles.btn_ghost}
-            onClick={goPrev}
-            disabled={submitting}
-          >
-            {T(LANG, "user_account.after_sale.back", "Back")}
-          </button>
-        ) : (
-          <span />
-        )}
-        {step < 3 ? (
-          <button type="button" className={styles.btn_primary} onClick={goNext}>
-            {T(LANG, "user_account.after_sale.next", "Next")}
-          </button>
-        ) : (
-          <button
-            type="button"
-            className={styles.btn_primary}
-            onClick={onSubmit}
-            disabled={submitting}
-          >
-            {T(LANG, "user_account.after_sale.submit", "Submit")}
-          </button>
-        )}
+              <div className={styles.section_label}>
+                {T(
+                  LANG,
+                  "user_account.after_sale.description",
+                  "Describe the issue"
+                )}
+                <i>*</i>
+              </div>
+              <textarea
+                className={styles.textarea}
+                rows={5}
+                maxLength={2000}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder={T(
+                  LANG,
+                  "user_account.after_sale.description_ph",
+                  "Tell us what happened so we can help faster."
+                )}
+              />
+
+              <div className={styles.section_label}>
+                {T(LANG, "user_account.after_sale.media", "Photos / Videos")}
+                <span className={styles.section_note}>
+                  {T(
+                    LANG,
+                    "user_account.after_sale.media.note",
+                    `Up to ${MAX_FILES} files, max 200MB each`
+                  )}
+                </span>
+              </div>
+              <div className={styles.media_list}>
+                {mediaList.map((m) => (
+                  <div key={m.localId} className={styles.media_item}>
+                    {m.type === "video" ? (
+                      <video
+                        src={m.previewUrl || m.url}
+                        className={styles.media_thumb}
+                      />
+                    ) : (
+                      <img
+                        src={m.previewUrl || m.url}
+                        alt={m.name}
+                        className={styles.media_thumb}
+                      />
+                    )}
+                    {m.uploading ? (
+                      <div className={styles.media_uploading}>
+                        <span className={styles.spinner} />
+                      </div>
+                    ) : null}
+                    <button
+                      type="button"
+                      className={styles.media_remove}
+                      onClick={() => removeMedia(m.localId)}
+                      aria-label="remove"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+                {mediaList.length < MAX_FILES ? (
+                  <button
+                    type="button"
+                    className={styles.media_add}
+                    onClick={() => fileRef.current?.click()}
+                  >
+                    <span>+</span>
+                    {T(LANG, "user_account.after_sale.media.add", "Add")}
+                  </button>
+                ) : null}
+              </div>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*,video/*"
+                multiple
+                hidden
+                onChange={onPickFiles}
+              />
+
+              <div className={styles.step_actions}>
+                <button
+                  type="button"
+                  className={styles.btn_primary}
+                  onClick={confirmStep2}
+                >
+                  {T(LANG, "user_account.after_sale.next", "Next")}
+                </button>
+              </div>
+            </div>
+          ) : step2Done ? (
+            <div className={styles.stepblock_summary}>
+              <span className={styles.summary_text}>
+                <span className={styles.summary_name}>
+                  {typeLabelMap[afterType]}
+                </span>
+                <span className={styles.summary_sub}>{description}</span>
+              </span>
+            </div>
+          ) : null}
+        </section>
+
+        {/* ---------- 步3：基本信息 ---------- */}
+        <section
+          className={`${styles.stepblock} ${
+            activeStep === 3 ? styles.active : ""
+          } ${!unlocked3 ? styles.locked : ""}`}
+        >
+          <div className={styles.stepblock_head}>
+            {stepBadge(3, false)}
+            <span className={styles.stepblock_title}>
+              {TL(
+                "user_account.after_sale.step3_title",
+                "填写基本信息",
+                "Fill in your contact information"
+              )}
+            </span>
+          </div>
+
+          {activeStep === 3 ? (
+            <div className={styles.stepblock_body}>
+              <label className={styles.field}>
+                <span className={styles.field_label}>
+                  {T(LANG, "user_account.after_sale.contact.email", "Email")}
+                  <i>*</i>
+                </span>
+                <input
+                  type="email"
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                  placeholder="you@example.com"
+                />
+              </label>
+              <label className={styles.field}>
+                <span className={styles.field_label}>
+                  {T(LANG, "user_account.after_sale.contact.phone", "Phone")}
+                  <i>*</i>
+                </span>
+                <input
+                  type="tel"
+                  value={contactPhone}
+                  onChange={(e) => setContactPhone(e.target.value)}
+                  placeholder={T(
+                    LANG,
+                    "user_account.after_sale.contact.phone_ph",
+                    "Contact phone number"
+                  )}
+                />
+              </label>
+
+              <label className={styles.privacy}>
+                <input
+                  type="checkbox"
+                  checked={agreePrivacy}
+                  onChange={(e) => setAgreePrivacy(e.target.checked)}
+                />
+                <span>
+                  {T(
+                    LANG,
+                    "user_account.after_sale.privacy.prefix",
+                    "I have read and agree to the"
+                  )}{" "}
+                  <a
+                    href={localeHref(PRIVACY_ARTICLE_PATH, locale)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {T(
+                      LANG,
+                      "user_account.after_sale.privacy.link",
+                      "After-Sales Privacy Policy"
+                    )}
+                  </a>
+                </span>
+              </label>
+
+              <div className={styles.step_actions}>
+                <button
+                  type="button"
+                  className={styles.btn_primary}
+                  onClick={onSubmit}
+                  disabled={submitting}
+                >
+                  {T(LANG, "user_account.after_sale.submit", "Submit")}
+                </button>
+              </div>
+            </div>
+          ) : null}
+        </section>
       </div>
 
       <ShowTipModal ref={tipRef} />
