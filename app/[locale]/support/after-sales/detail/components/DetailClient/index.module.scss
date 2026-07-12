@@ -1,0 +1,411 @@
+// DetailClient 子组件专用样式（parts/*.jsx 引用）。
+// 主页面容器/信息卡/媒体网格样式在 ../../../page.module.scss，与本文件互不覆盖。
+
+// ---------- 6 步进度条 ----------
+.progress {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin: 8px 0 40px;
+  padding: 24px 8px;
+  overflow-x: auto;
+
+  .p_step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 120px;
+    flex: 0 0 auto;
+
+    .p_dot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      height: 42px;
+      padding: 0 10px;
+      border-radius: 4px;
+      font-size: 20px;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.35);
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid transparent;
+    }
+    .p_dot_current {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 46px;
+      height: 46px;
+      padding: 0 10px;
+      color: #111;
+      background: transparent;
+      font-size: 22px;
+      font-weight: 700;
+
+      // 4 个角上的红色三角标记（参考大疆 02 高亮）
+      .p_dot_current_corner {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border: 2px solid #ef4444;
+      }
+      .p_dot_current_corner:nth-child(1) { top: 0; left: 0; border-right: none; border-bottom: none; }
+      .p_dot_current_corner:nth-child(2) { top: 0; right: 0; border-left: none; border-bottom: none; }
+      .p_dot_current_corner:nth-child(3) { bottom: 0; left: 0; border-right: none; border-top: none; }
+      .p_dot_current_corner:nth-child(4) { bottom: 0; right: 0; border-left: none; border-top: none; }
+    }
+    .p_label {
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.35);
+      line-height: 1.3;
+      padding: 0 4px;
+    }
+    .p_time {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+      padding: 0 4px;
+    }
+
+    &.active {
+      .p_label {
+        color: #111;
+      }
+      .p_time {
+        color: rgba(0, 0, 0, 0.55);
+      }
+    }
+    &.done {
+      .p_dot {
+        background: #ef7c1a;
+        color: #fff;
+      }
+      .p_label {
+        color: #111;
+      }
+    }
+  }
+
+  .p_line {
+    flex: 1 1 auto;
+    min-width: 24px;
+    max-width: 60px;
+    height: 1px;
+    margin-top: 21px;
+    background: rgba(0, 0, 0, 0.15);
+
+    &.done {
+      background: #ef7c1a;
+    }
+  }
+}
+
+// ---------- 服务信息 / 联系方式内联编辑 ----------
+.info_card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.section_title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 16px;
+}
+
+.info_row_lg {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.06);
+  font-size: 14px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .info_label {
+    color: rgba(0, 0, 0, 0.55);
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+  .info_value {
+    color: #111;
+    flex: 1;
+    word-break: break-word;
+  }
+  .info_value_mono {
+    color: #111;
+    flex: 1;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 0.02em;
+    word-break: break-all;
+  }
+}
+
+.link_btn {
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 4px 6px;
+  font-size: 14px;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:disabled {
+    color: rgba(0, 0, 0, 0.35);
+    cursor: not-allowed;
+    text-decoration: none;
+  }
+}
+.link_btn_muted {
+  @extend .link_btn;
+  color: rgba(0, 0, 0, 0.55);
+  &:hover {
+    color: #111;
+  }
+}
+
+.info_edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+.info_input {
+  height: 32px;
+  padding: 4px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 14px;
+  flex: 1;
+  min-width: 160px;
+  &:focus {
+    outline: none;
+    border-color: #2563eb;
+  }
+}
+
+.resend_hint {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(219, 234, 254, 0.4);
+  border-radius: 6px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.55);
+  margin-top: 4px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.resend_link {
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:disabled {
+    color: rgba(0, 0, 0, 0.35);
+    cursor: not-allowed;
+    text-decoration: none;
+  }
+}
+
+// ---------- 已取消卡片（红色 X + 四角标记） ----------
+.cancelled_card {
+  position: relative;
+  padding: 40px 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+.cancelled_corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ef4444;
+  &.top_left { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+  &.top_right { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+  &.bottom_left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+  &.bottom_right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+}
+.cancelled_body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cancelled_icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cancelled_text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  b {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+  }
+  .cancelled_reason {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.55);
+  }
+}
+
+// ---------- 物流回寄表单 ----------
+.shipment_card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.shipment_hint {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.55);
+  margin: 0 0 4px;
+  line-height: 1.6;
+}
+.shipment_form_label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  margin: 20px 0 8px;
+}
+.shipment_required {
+  color: #ef4444;
+  margin-left: 4px;
+}
+.shipment_form_row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.shipment_select,
+.shipment_input {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+  &:focus {
+    outline: none;
+    border-color: #2563eb;
+  }
+  &:disabled {
+    background: rgba(0, 0, 0, 0.03);
+    color: rgba(0, 0, 0, 0.4);
+    cursor: not-allowed;
+  }
+}
+.shipment_select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px;
+}
+.shipment_submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 26px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  &:disabled {
+    background: rgba(0, 0, 0, 0.35);
+    cursor: not-allowed;
+  }
+}
+
+// ---------- 保修说明卡（浅蓝背景） ----------
+.warranty_card {
+  background: #f0f7ff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.warranty_title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 12px;
+}
+.warranty_list {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.7);
+
+  b {
+    color: #111;
+    font-weight: 600;
+  }
+}
+
+// ---------- 响应式 ----------
+@media (max-width: 779px) {
+  .progress {
+    padding: 16px 4px;
+    gap: 0;
+    .p_step {
+      min-width: 96px;
+      .p_label {
+        font-size: 13px;
+      }
+      .p_time {
+        font-size: 11px;
+      }
+    }
+    .p_line {
+      min-width: 12px;
+      max-width: 24px;
+    }
+  }
+  .info_card,
+  .shipment_card,
+  .warranty_card {
+    padding: 16px 14px;
+  }
+  .info_row_lg {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    .info_label {
+      min-width: 0;
+      flex-basis: 100%;
+    }
+  }
+  .info_edit {
+    flex-basis: 100%;
+  }
+  .shipment_form_row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .resend_hint {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}

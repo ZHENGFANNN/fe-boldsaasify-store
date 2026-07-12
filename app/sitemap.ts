@@ -22,8 +22,6 @@ const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN || "";
 // 排除：/user/account /user/forget /order /order/info /[...notFound]（私有/无意义）。
 const STATIC_PATHS = [
   "", // 首页
-  "/education",
-  "/support/after-sale",
   "/support/contact",
   "/blog",
   "/user/login",

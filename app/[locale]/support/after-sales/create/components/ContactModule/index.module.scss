@@ -1,0 +1,97 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .field_label {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.55);
+    font-weight: 400;
+
+    i {
+      color: #f13649;
+      font-style: normal;
+      margin-left: 2px;
+    }
+  }
+
+  input {
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    font-size: 14px;
+    color: #16181b;
+    outline: none;
+    background: #fff;
+    transition: border-color 0.15s;
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.35);
+    }
+
+    &:focus {
+      border-color: #16181b;
+    }
+  }
+}
+
+.field + .field {
+  margin-top: 14px;
+}
+
+.privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.5;
+  cursor: pointer;
+
+  input {
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: #16181b;
+  }
+
+  a {
+    color: #2b7fff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.step_actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 28px;
+}
+
+.btn_primary {
+  padding: 12px 40px;
+  border: none;
+  border-radius: 6px;
+  background: #16181b;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover:not(:disabled) {
+    opacity: 0.88;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
