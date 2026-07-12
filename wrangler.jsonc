@@ -1,34 +1,39 @@
 {
   // 账号：Zhengfande666@gmail.com's Account
   "account_id": "72b15fa81a48da4b92492a19ead56cf0",
-  "name": "fe-boldradient",
+  "name": "fe-boldsassify-store",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-05-05",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
 
-  "r2_buckets": [
-    { "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "boldradiant-isr-cache" }
-  ],
+  "r2_buckets": [{
+    "binding": "NEXT_INC_CACHE_R2_BUCKET",
+    "bucket_name": "boldradiant-isr-cache"
+  }],
 
-  "d1_databases": [
-    {
-      "binding": "NEXT_TAG_CACHE_D1",
-      "database_name": "boldradiant-isr-tags",
-      "database_id": "b1872735-c5c7-4ad8-8d75-d63743d1312c"
-    }
-  ],
+  "d1_databases": [{
+    "binding": "NEXT_TAG_CACHE_D1",
+    "database_name": "boldradiant-isr-tags",
+    "database_id": "b1872735-c5c7-4ad8-8d75-d63743d1312c"
+  }],
 
   "durable_objects": {
-    "bindings": [
-      { "name": "NEXT_CACHE_DO_QUEUE", "class_name": "DOQueueHandler" }
-    ]
+    "bindings": [{
+      "name": "NEXT_CACHE_DO_QUEUE",
+      "class_name": "DOQueueHandler"
+    }]
   },
-  "migrations": [
-    { "tag": "v1", "new_sqlite_classes": ["DOQueueHandler"] }
-  ],
+  "migrations": [{
+    "tag": "v1",
+    "new_sqlite_classes": ["DOQueueHandler"]
+  }],
 
-  "services": [
-    { "binding": "WORKER_SELF_REFERENCE", "service": "fe-boldradient" }
-  ]
+  "services": [{
+    "binding": "WORKER_SELF_REFERENCE",
+    "service": "fe-boldsassify-store"
+  }]
 }
