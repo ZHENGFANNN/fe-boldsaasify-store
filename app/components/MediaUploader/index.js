@@ -137,36 +137,69 @@ export default function MediaUploader({
           {files.map((f, i) => {
             const kind = mediaKindOf(f);
             const previewSrc = f.url || f.previewUrl || "";
+            const uploadingItem = !!f.uploading;
+            const failedItem = !!f.failed;
             const linkFile = { url: previewSrc, name: f.name, type: f.type };
+            const failedText = LANG?.["common.media.failed"] || "Upload failed";
+            const uploadingItemText =
+              LANG?.["common.media.uploading"] || "Uploading...";
+            const thumbInner = (
+              <>
+                <span className={styles.file_thumb}>
+                  {kind === "image" && previewSrc ? (
+                    <img
+                      className={styles.file_thumb_img}
+                      src={previewSrc}
+                      alt={f.name}
+                    />
+                  ) : (
+                    <span className={styles.file_thumb_icon}>
+                      <FileTypeIcon kind={kind} />
+                    </span>
+                  )}
+                </span>
+                <span className={styles.file_meta}>
+                  <span className={styles.file_name}>{f.name}</span>
+                  <span
+                    className={`${styles.file_ext} ${
+                      failedItem ? styles.file_ext_failed : ""
+                    }`}
+                  >
+                    {failedItem
+                      ? failedText
+                      : uploadingItem
+                        ? uploadingItemText
+                        : fileMetaLabel(f)}
+                  </span>
+                </span>
+              </>
+            );
+            // 上传中 / 失败 / 无地址：不可点击预览（用静态容器）；仅成功项走 CustomizeFileLink。
+            const clickable = !uploadingItem && !failedItem && !!f.url;
             return (
               <li
                 key={`${f.localId || f.url || f.name}-${i}`}
-                className={styles.file_item}
+                className={`${styles.file_item} ${
+                  failedItem ? styles.file_item_failed : ""
+                }`}
               >
-                <CustomizeFileLink className={styles.file_link} file={linkFile}>
-                  <span className={styles.file_thumb}>
-                    {kind === "image" && previewSrc ? (
-                      <img
-                        className={styles.file_thumb_img}
-                        src={previewSrc}
-                        alt={f.name}
-                      />
-                    ) : (
-                      <span className={styles.file_thumb_icon}>
-                        <FileTypeIcon kind={kind} />
-                      </span>
-                    )}
-                    {f.uploading ? (
-                      <span className={styles.file_thumb_uploading}>
-                        <span className={styles.spinner} />
-                      </span>
-                    ) : null}
-                  </span>
-                  <span className={styles.file_meta}>
-                    <span className={styles.file_name}>{f.name}</span>
-                    <span className={styles.file_ext}>{fileMetaLabel(f)}</span>
-                  </span>
-                </CustomizeFileLink>
+                {clickable ? (
+                  <CustomizeFileLink className={styles.file_link} file={linkFile}>
+                    {thumbInner}
+                  </CustomizeFileLink>
+                ) : (
+                  <div className={styles.file_link_static}>{thumbInner}</div>
+                )}
+                {/* 卡片右侧状态：上传中转圈 / 失败红标 */}
+                <div className={styles.file_status}>
+                  {uploadingItem ? (
+                    <span className={styles.status_spinner} />
+                  ) : failedItem ? (
+                    <span className={styles.status_failed} title={failedText}>
+                      !
+                    </span>
+                  ) : null}
+                </div>
                 <button
                   type="button"
                   className={styles.file_remove}

@@ -122,23 +122,55 @@
   justify-content: center;
 }
 
-/* 上传中：缩略图上覆盖旋转指示（售后逐个上传时用） */
-.file_thumb_uploading {
-  position: absolute;
-  inset: 0;
+/* 失败项：红边浅红底，区别于正常/上传中 */
+.file_item_failed {
+  border-color: #f3b9c0;
+  background: #fff7f8;
+}
+
+/* 上传中/失败项不可点击预览时的静态容器（替代 CustomizeFileLink 的 <a>） */
+.file_link_static {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.file_ext_failed {
+  color: #d0021b;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* 卡片右侧状态区：上传中转圈 / 失败红标 */
+.file_status {
+  flex-shrink: 0;
+  width: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.35);
 }
 
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-top-color: #fff;
+.status_spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  border-top-color: #1a1a1a;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+}
+
+.status_failed {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #d0021b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
 }
 
 @keyframes spin {

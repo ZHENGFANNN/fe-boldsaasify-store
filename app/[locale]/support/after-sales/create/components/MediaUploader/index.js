@@ -104,10 +104,14 @@ export default function AfterSaleMediaUploader() {
             );
           })
           .catch(() => {
+            // 失败保留卡片并标记 failed（共享组件展示失败态），预览 URL 留到卸载时回收。
             setMediaList((prev) =>
-              prev.filter((m) => m.localId !== item.localId)
+              prev.map((m) =>
+                m.localId === item.localId
+                  ? { ...m, uploading: false, failed: true }
+                  : m
+              )
             );
-            if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
             tip(
               `${item.name}: ${T(
                 LANG,

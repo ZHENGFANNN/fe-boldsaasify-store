@@ -93,7 +93,7 @@ export default function useCustomizeFields(customizeFields, customizeRef) {
       }
       if (!candidates.length) return;
 
-      // 已有 + 新增不得超过上限；超出部分截断并提示。
+      // 已有 + 新增不得超过上限（含上传中/失败的乐观项一起计数）；超出部分截断并提示。
       const existing = values[code]?.files || [];
       const room = Math.max(0, limit - existing.length);
       if (room <= 0) {
@@ -102,38 +102,76 @@ export default function useCustomizeFields(customizeFields, customizeRef) {
       }
       const files = candidates.slice(0, room);
       const truncated = candidates.length > room;
+      setNotice((prev) => ({
+        ...prev,
+        [code]: truncated ? `最多上传 ${limit} 个文件，已忽略多余文件` : ""
+      }));
 
+      // 乐观加卡片：点击上传即以「上传中」占位入列（带本地预览），卡片右侧转圈，
+      // 成功后回填 url、失败标记 failed（卡片保留展示失败态，不再只弹文字）。
+      const items = files.map((file) => {
+        const isImage = (file.type || "").startsWith("image");
+        const isVideo = (file.type || "").startsWith("video");
+        return {
+          localId: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          file,
+          name: file.name,
+          type: isVideo ? "video" : isImage ? "image" : "file",
+          previewUrl: isImage || isVideo ? URL.createObjectURL(file) : "",
+          url: "",
+          uploading: true,
+          failed: false
+        };
+      });
+      setValues((prev) => ({
+        ...prev,
+        [code]: { value: "", files: [...(prev[code]?.files || []), ...items] }
+      }));
       setUploading((prev) => ({ ...prev, [code]: true }));
-      try {
-        const uploaded = [];
-        for (const file of files) {
-          const res = await uploadCustomizeFile(file);
-          // 响应拦截器返回的是 body：{ code, message, data:{ url, name, type, size } }
-          const data = res?.data || res;
-          if (data?.url) {
-            uploaded.push({ url: data.url, name: data.name, type: data.type });
+
+      await Promise.all(
+        items.map(async (item) => {
+          try {
+            const res = await uploadCustomizeFile(item.file);
+            // 响应拦截器返回的是 body：{ code, message, data:{ url, name, type, size } }
+            const data = res?.data || res;
+            if (!data?.url) throw new Error("no url");
+            setValues((prev) => ({
+              ...prev,
+              [code]: {
+                value: "",
+                files: (prev[code]?.files || []).map((m) =>
+                  m.localId === item.localId
+                    ? {
+                        ...m,
+                        url: data.url,
+                        name: data.name || m.name,
+                        type: data.type || m.type,
+                        uploading: false,
+                        failed: false
+                      }
+                    : m
+                )
+              }
+            }));
+            setErrors((prev) => (prev[code] ? { ...prev, [code]: false } : prev));
+          } catch (err) {
+            console.error("uploadCustomizeFile 失败:", err?.message);
+            setValues((prev) => ({
+              ...prev,
+              [code]: {
+                value: "",
+                files: (prev[code]?.files || []).map((m) =>
+                  m.localId === item.localId
+                    ? { ...m, uploading: false, failed: true }
+                    : m
+                )
+              }
+            }));
           }
-        }
-        if (uploaded.length) {
-          setValues((prev) => ({
-            ...prev,
-            [code]: {
-              value: "",
-              files: [...(prev[code]?.files || []), ...uploaded]
-            }
-          }));
-          setErrors((prev) => (prev[code] ? { ...prev, [code]: false } : prev));
-        }
-        setNotice((prev) => ({
-          ...prev,
-          [code]: truncated ? `最多上传 ${limit} 个文件，已忽略多余文件` : ""
-        }));
-      } catch (err) {
-        console.error("uploadCustomizeFile 失败:", err?.message);
-        setNotice((prev) => ({ ...prev, [code]: "上传失败，请重试" }));
-      } finally {
-        setUploading((prev) => ({ ...prev, [code]: false }));
-      }
+        })
+      );
+      setUploading((prev) => ({ ...prev, [code]: false }));
     },
     [values]
   );
@@ -141,6 +179,8 @@ export default function useCustomizeFields(customizeFields, customizeRef) {
   const removeFile = React.useCallback((code, index) => {
     setValues((prev) => {
       const cur = prev[code]?.files || [];
+      const target = cur[index];
+      if (target?.previewUrl) URL.revokeObjectURL(target.previewUrl);
       return {
         ...prev,
         [code]: {
@@ -159,12 +199,16 @@ export default function useCustomizeFields(customizeFields, customizeRef) {
         fields.map((f) => {
           const v = values[f.field_code] || { value: "", files: [] };
           const isFile = f.field_type === "file";
+          // 只回传上传成功（有 url）的文件，过滤上传中/失败的乐观占位项。
+          const okFiles = (v.files || [])
+            .filter((x) => x.url)
+            .map((x) => ({ url: x.url, name: x.name, type: x.type }));
           return {
             field_code: f.field_code,
             field_label: f.field_label,
             field_type: f.field_type,
             value: isFile ? "" : v.value || "",
-            files: isFile ? v.files || [] : []
+            files: isFile ? okFiles : []
           };
         }),
       validate: () => {
@@ -175,7 +219,7 @@ export default function useCustomizeFields(customizeFields, customizeRef) {
           const v = values[f.field_code] || { value: "", files: [] };
           const filled =
             f.field_type === "file"
-              ? (v.files || []).length > 0
+              ? (v.files || []).some((x) => x.url)
               : (v.value || "").trim().length > 0;
           if (!filled) {
             nextErrors[f.field_code] = true;
