@@ -134,13 +134,6 @@ export default function AfterSaleMediaUploader() {
     <>
       <div className={`${styles.section_label} ${styles.section_label_mt}`}>
         {T(LANG, "user_account.after_sale.media", "Photos / Videos")}
-        <span className={styles.section_note}>
-          {T(
-            LANG,
-            "user_account.after_sale.media.note",
-            `Up to ${MAX_FILES} files, max 200MB each`
-          )}
-        </span>
       </div>
 
       <MediaUploader
@@ -156,6 +149,15 @@ export default function AfterSaleMediaUploader() {
           "Add photos / videos"
         )}
       />
+
+      {/* 限量提示放在文件列表之后（对齐商详上传 UI） */}
+      <p className={styles.media_hint}>
+        {T(
+          LANG,
+          "user_account.after_sale.media.note",
+          `Up to ${MAX_FILES} files, max 200MB each`
+        )}
+      </p>
     </>
   );
 }

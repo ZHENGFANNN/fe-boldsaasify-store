@@ -18,6 +18,13 @@
   margin-top: 24px;
 }
 
+// 限量说明：放在共享 <MediaUploader>（列表 + 计数）之后
+.media_hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.4);
+}
+
 .media_list {
   display: flex;
   flex-wrap: wrap;
