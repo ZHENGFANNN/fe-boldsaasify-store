@@ -10,9 +10,10 @@
 
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
-// 兜底 revalidate（秒）。真正实时性靠后台 on-demand revalidateTag，
-// 长周期只防 tag 漏触发时数据长期陈旧。
-const REVALIDATE_FALLBACK = 86400; // 24h
+// 兜底 revalidate（秒）。真正实时性靠后台 on-demand revalidateTag；
+// 兜底周期收紧到 5min：当 tag 漏触发（如直接改库设 three_d、或 git push 构建复用了
+// 旧 fetch 缓存）时，商详页（含 3D）最多 5 分钟自愈，而非陈旧 24h。
+const REVALIDATE_FALLBACK = 300; // 5min
 
 /**
  * 商品详情数据（不含地区价格、不含多语言/配置）。
