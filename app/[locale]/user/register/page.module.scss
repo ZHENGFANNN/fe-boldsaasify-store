@@ -294,6 +294,43 @@
           line-height: 16px;
           margin-top: 4px;
         }
+        // 验证码行：发码按钮内嵌到输入框右侧（输入框留右内边距，按钮绝对定位为
+        // 文字按钮 + 左侧竖分割线）。移动端 media query 单独声明，避免桌面块规则不生效。
+        .code_row {
+          position: relative;
+          input {
+            width: 100%;
+            padding-right: 116px;
+          }
+          .send_code_btn {
+            position: absolute;
+            top: 5px;
+            bottom: 5px;
+            right: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            border: none;
+            border-left: 1px solid #e1e3e6;
+            border-radius: 0;
+            background: transparent;
+            color: #262626;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: color 200ms;
+            &:hover {
+              color: #000;
+            }
+            &:disabled,
+            &.is_disabled {
+              color: #b0b0b0;
+              cursor: not-allowed;
+            }
+          }
+        }
       }
       .button {
         background: linear-gradient(#434343, #262626);
