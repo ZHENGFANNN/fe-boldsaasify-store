@@ -1,0 +1,238 @@
+.uploader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #16181b;
+}
+
+.hint {
+  font-weight: 400;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* 选择框：实线描边（原商详为虚线，统一收敛为实线） */
+.file_picker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 14px;
+  color: #1a1a1a;
+  background: #fafafa;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+  text-align: center;
+}
+
+.file_picker:hover {
+  border-color: #1a1a1a;
+  background: #f3f3f3;
+}
+
+.file_picker_disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.invalid {
+  border-color: #d0021b;
+}
+
+.file_input {
+  display: none;
+}
+
+.file_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file_item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #ededed;
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: #fff;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.file_item:hover {
+  border-color: #d5d5d5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* 缩略图 + 名称一同点击预览（CustomizeFileLink 渲染此 <a>） */
+.file_link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.file_thumb {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a8a8a;
+}
+
+.file_thumb_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.file_thumb_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 上传中：缩略图上覆盖旋转指示（售后逐个上传时用） */
+.file_thumb_uploading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.file_meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.file_name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.file_link:hover .file_name {
+  color: #000;
+}
+
+.file_ext {
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #9b9b9b;
+}
+
+.file_remove {
+  border: none;
+  background: transparent;
+  color: #9b9b9b;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+
+.file_remove:hover {
+  color: #1a1a1a;
+  background: #f2f2f2;
+}
+
+/* 计数：文件列表下方，右对齐 */
+.counter {
+  align-self: flex-end;
+  font-size: 11px;
+  color: #9b9b9b;
+  letter-spacing: 0.2px;
+}
+
+.error_text {
+  color: #d0021b;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* ---------- 响应式 ---------- */
+@media screen and (max-width: 779px) {
+  .file_picker {
+    font-size: 15px;
+    padding: 13px 18px;
+  }
+  .file_thumb {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+}
+
+@media screen and (min-width: 780px) and (max-width: 1440px) {
+  .uploader {
+    gap: 10px;
+  }
+}
+
+@media screen and (min-width: 1440px) and (max-width: 1920px) {
+  .uploader {
+    gap: 12px;
+  }
+}

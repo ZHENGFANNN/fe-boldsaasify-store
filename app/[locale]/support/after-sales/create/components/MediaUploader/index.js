@@ -2,15 +2,17 @@
 
 import React from "react";
 import { useAtom } from "jotai";
-import styles from "./index.module.scss";
 import Api from "../../../api";
 import { useCreateWizard } from "../../context";
 import { mediaListAtom } from "../../atoms";
+import MediaUploader from "@/components/MediaUploader";
+import styles from "./index.module.scss";
 
-export default function MediaUploader() {
+// 售后媒体上传容器：状态/上传/删除逻辑留在本组件（atom + Api.uploadMedia），
+// 展示复用共享 <MediaUploader>（实线选择框 + 已传列表 + 底部 x/max 计数），与商详自定义上传一致。
+export default function AfterSaleMediaUploader() {
   const { T, LANG, tip, MAX_FILES, MAX_SIZE } = useCreateWizard();
   const [mediaList, setMediaList] = useAtom(mediaListAtom);
-  const fileRef = React.useRef(null);
 
   // 卸载时回收本地预览 URL（挂载/切页时才触发一次）
   React.useEffect(
@@ -120,12 +122,6 @@ export default function MediaUploader() {
     [mediaList.length, LANG, tip, T, MAX_FILES, MAX_SIZE, setMediaList]
   );
 
-  const onPickFiles = (e) => {
-    const files = Array.from(e.target.files || []);
-    e.target.value = "";
-    if (files.length) addAndUpload(files);
-  };
-
   const removeMedia = (localId) => {
     setMediaList((prev) => {
       const target = prev.find((m) => m.localId === localId);
@@ -147,55 +143,18 @@ export default function MediaUploader() {
         </span>
       </div>
 
-      <div className={styles.media_list}>
-        {mediaList.map((m) => (
-          <div key={m.localId} className={styles.media_item}>
-            {m.type === "video" ? (
-              <video
-                src={m.previewUrl || m.url}
-                className={styles.media_thumb}
-              />
-            ) : (
-              <img
-                src={m.previewUrl || m.url}
-                alt={m.name}
-                className={styles.media_thumb}
-              />
-            )}
-            {m.uploading ? (
-              <div className={styles.media_uploading}>
-                <span className={styles.spinner} />
-              </div>
-            ) : null}
-            <button
-              type="button"
-              className={styles.media_remove}
-              onClick={() => removeMedia(m.localId)}
-              aria-label="remove"
-            >
-              ×
-            </button>
-          </div>
-        ))}
-        {mediaList.length < MAX_FILES ? (
-          <button
-            type="button"
-            className={styles.media_add}
-            onClick={() => fileRef.current?.click()}
-          >
-            <span>+</span>
-            {T(LANG, "user_account.after_sale.media.add", "Add")}
-          </button>
-        ) : null}
-      </div>
-
-      <input
-        ref={fileRef}
-        type="file"
+      <MediaUploader
+        files={mediaList}
+        max={MAX_FILES}
         accept="image/*,video/*"
-        multiple
-        hidden
-        onChange={onPickFiles}
+        onPick={addAndUpload}
+        onRemove={(i, item) => removeMedia(item?.localId)}
+        LANG={LANG}
+        pickerText={T(
+          LANG,
+          "user_account.after_sale.media.add",
+          "Add photos / videos"
+        )}
       />
     </>
   );
