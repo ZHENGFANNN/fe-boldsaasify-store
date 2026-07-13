@@ -158,9 +158,8 @@
   border-color: #b5b5b5;
 }
 .value_list[data-variant="image"] .value_item.active {
-  /* 选中：深色外框 + 内描边（视觉≈2px，无布局位移），更明确 */
+  /* 选中：始终 1px，仅换 border-color，不加内描边（避免视觉变粗） */
   border: 1px solid #000;
-  box-shadow: inset 0 0 0 1px #000;
 }
 .swatch_image {
   width: 100%;
@@ -212,16 +211,6 @@
 .value_list[data-variant="card"] .value_item.active {
   /* 选中：始终 1px、仅换 border-color（不加内描边/不改宽度，避免抖动与双层框） */
   border: 1px solid #000;
-  background: #fbfbfb;
-}
-/* 无货卡片选中：只保留虚线高亮（深色虚框），不出现实框、不抖动 */
-.value_list[data-variant="card"] .value_item.outofstock,
-.value_list[data-variant="card"] .value_item.outofstock:hover {
-  border: 1px dashed #b5b5b5;
-}
-.value_list[data-variant="card"] .value_item.outofstock.active {
-  border: 1px dashed #000;
-  box-shadow: none;
   background: #fbfbfb;
 }
 .card_top {
