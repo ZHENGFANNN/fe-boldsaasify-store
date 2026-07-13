@@ -1,14 +1,13 @@
+// 对齐订单页：浅灰底 + 白卡分区（灰底满宽，内容列居中）
 .container {
-  max-width: 960px;
-  margin: 0 auto;
+  background: #f7f8fc;
   padding: 40px 24px 96px;
 
   @media (min-width: 1440px) {
-    max-width: 1040px;
     padding-top: 48px;
   }
 
-  @media (max-width: 779px) {
-    padding: 24px 16px 72px;
+  @media (max-width: 800px) {
+    padding: 24px 0 64px;
   }
 }

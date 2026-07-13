@@ -38,55 +38,40 @@ export default function StepBlock({
 
   return (
     <section className={wrapClass}>
-      <div className={styles.step_marker}>
-        {done ? (
-          <span className={styles.marker_done} aria-label="done">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <div className={styles.stepblock_head}>
+        <span className={styles.step_badge} aria-hidden="true">
+          {done ? (
+            <svg viewBox="0 0 24 24" fill="none">
               <path
                 d="M4 12l6 6 12-14"
                 stroke="currentColor"
-                strokeWidth="2.4"
+                strokeWidth="2.6"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
-          </span>
-        ) : active ? (
-          <span className={styles.marker_active}>
-            <span className={styles.marker_bracket_l} aria-hidden="true" />
-            <span className={styles.marker_num}>{twoDigit}</span>
-            <span className={styles.marker_bracket_r} aria-hidden="true" />
-          </span>
-        ) : (
-          <span className={styles.marker_idle}>{twoDigit}</span>
-        )}
-      </div>
-
-      <div className={styles.step_body}>
-        <div className={styles.stepblock_head}>
-          <div className={styles.stepblock_title_wrap}>
-            <h2 className={styles.stepblock_title}>{title}</h2>
-            {active && subtitle ? (
-              <p className={styles.stepblock_subtitle}>{subtitle}</p>
-            ) : null}
-          </div>
-          {!active && done && onEdit ? (
-            <button
-              type="button"
-              className={styles.step_edit}
-              onClick={onEdit}
-            >
-              {editLabel}
-            </button>
+          ) : (
+            twoDigit
+          )}
+        </span>
+        <div className={styles.stepblock_title_wrap}>
+          <h2 className={styles.stepblock_title}>{title}</h2>
+          {active && subtitle ? (
+            <p className={styles.stepblock_subtitle}>{subtitle}</p>
           ) : null}
         </div>
-
-        {active ? (
-          <div className={styles.stepblock_content}>{children}</div>
-        ) : done && summary ? (
-          <div className={styles.stepblock_summary}>{summary}</div>
+        {!active && done && onEdit ? (
+          <button type="button" className={styles.step_edit} onClick={onEdit}>
+            {editLabel}
+          </button>
         ) : null}
       </div>
+
+      {active ? (
+        <div className={styles.stepblock_content}>{children}</div>
+      ) : done && summary ? (
+        <div className={styles.stepblock_summary}>{summary}</div>
+      ) : null}
     </section>
   );
 }

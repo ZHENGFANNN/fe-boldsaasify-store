@@ -1,5 +1,11 @@
 .wizard {
   width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+
+  @media (min-width: 1440px) {
+    max-width: 1040px;
+  }
 }
 
 // ---------- 页头 ----------
@@ -7,27 +13,25 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px 4px 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  margin-bottom: 32px;
+  padding: 0 4px;
+  margin-bottom: 24px;
 
-  @media (max-width: 779px) {
-    padding: 4px 2px 14px;
-    margin-bottom: 24px;
+  @media (max-width: 800px) {
+    padding: 0 20px;
+    margin-bottom: 16px;
   }
 }
 
 .page_title {
   flex: 1;
-  font-size: 26px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 700;
   color: #16181b;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
+  line-height: 1.5715;
   margin: 0;
 
-  @media (max-width: 779px) {
-    font-size: 20px;
+  @media (max-width: 800px) {
+    font-size: 22px;
   }
 }
 
@@ -46,7 +50,7 @@
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
 }
 
 // ---------- 折叠后的已填摘要 ----------
