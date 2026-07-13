@@ -42,22 +42,29 @@
   font-size: 13px;
   color: rgba(0, 0, 0, 0.72);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: border-color 0.15s, color 0.15s;
 
-  &:hover:not(.active) {
+  &:hover {
     border-color: rgba(0, 0, 0, 0.35);
     color: #16181b;
   }
 
   &.active {
-    border-color: #16181b;
-    background: #16181b;
-    color: #fff;
+    border-color: #16181b !important;
+    color: #16181b;
+    background-color: rgba(0, 0, 0, 0.03) !important;
+  }
+
+  @media (max-width: 800px) {
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.1);
+    }
   }
 }
 
 .textarea {
   width: 100%;
+  max-width: calc(100% - 40px);
   padding: 14px 16px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -80,14 +87,13 @@
 
 .step_actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: 28px;
 }
 
 .btn_primary {
   padding: 12px 40px;
   border: none;
-  border-radius: 8px;
   background: #16181b;
   color: #fff;
   font-size: 14px;
@@ -96,6 +102,10 @@
   cursor: pointer;
   transition: opacity 0.15s;
 
+  min-width: 240px;
+  border-radius: 100px;
+  height: 44px;
+
   &:hover:not(:disabled) {
     opacity: 0.88;
   }
@@ -103,5 +113,16 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 800px) {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.step_actions {
+  @media (max-width: 800px) {
+    display: block;
   }
 }

@@ -6,12 +6,24 @@ import styles from "../../page.module.scss";
 import AfterSaleInfo from "@/[locale]/user/account/components/AfterSaleInfo";
 import AuthRedirectGuard from "@/components/AuthRedirectGuard";
 import Loading from "@/components/Loading";
+import SegmentTabs from "@/components/SegmentTabs";
 
-// 文案兜底：语言包暂未配置 user_account.after_sale.* 时用英文兜底
+// 文案兜底：语言包暂未配置 user_account.after_sale.* 时用英文兜底；
+// 语言维度兜底走 zh/en 分流。
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
+const TL = (LANG, key, zh, en, locale) =>
+  LANG?.[key] || (locale?.startsWith("zh") ? zh : en);
 
-export default function ProgressClient({ LANG }) {
+// 状态映射：进行中 = pending + processing，历史 = resolved + rejected + closed
+const FILTER_TABS = [
+  { key: "all", zh: "全部工单", en: "All tickets" },
+  { key: "active", zh: "进行中", en: "In progress" },
+  { key: "history", zh: "历史工单", en: "History" },
+];
+
+export default function ProgressClient({ LANG, locale }) {
   const [isLogin, setIsLogin] = React.useState(null);
+  const [filter, setFilter] = React.useState("all");
 
   // cookie 仅挂载后可读（SSR 无 window），故在 effect 内同步 setState。
   /* eslint-disable react-hooks/set-state-in-effect */
@@ -19,6 +31,21 @@ export default function ProgressClient({ LANG }) {
     setIsLogin(!!Cookies.get("token"));
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
+
+  const filterOptions = React.useMemo(
+    () =>
+      FILTER_TABS.map((tab) => ({
+        value: tab.key,
+        label: TL(
+          LANG,
+          `user_account.after_sale.filter.${tab.key}`,
+          tab.zh,
+          tab.en,
+          locale
+        ),
+      })),
+    [LANG, locale]
+  );
 
   if (isLogin === null) {
     return <Loading height={400} />;
@@ -29,25 +56,30 @@ export default function ProgressClient({ LANG }) {
   }
 
   return (
-    <>
-      <div className={styles.hero}>
-        <h1>
+    <div className={styles.wizard}>
+      <div className={styles.page_head}>
+        <h1 className={styles.page_title}>
           {T(
             LANG,
             "user_account.after_sale.progress_page_title",
-            "Track Your After-Sales Requests"
+            locale?.startsWith("zh")
+              ? "跟踪售后服务"
+              : "Track After-Sales Service"
           )}
         </h1>
-        <p>
-          {T(
-            LANG,
-            "user_account.after_sale.progress_page_desc",
-            "View the status and history of all your after-sales requests here."
-          )}
-        </p>
       </div>
 
-      <AfterSaleInfo LANG={LANG} />
-    </>
+      <div className={styles.tabs_wrap}>
+        <SegmentTabs
+          options={filterOptions}
+          value={filter}
+          onChange={setFilter}
+        />
+      </div>
+
+      <div className={styles.card}>
+        <AfterSaleInfo LANG={LANG} filter={filter} />
+      </div>
+    </div>
   );
 }

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
   const { CONFIG } = await getData({ locale });
   const company = CONFIG["common.base"]?.company_name || "";
   return {
-    title: `${company} - Track After-Sales Requests`,
+    title: `${company} - Track After-Sales Service`,
     description:
       "Track the status and history of all your after-sales requests in one place.",
     alternates: buildAlternates("/support/after-sales/progress", locale),
@@ -32,7 +32,7 @@ export default async function AfterSalesProgressPage({ params }) {
   const { LANG } = await getData({ locale });
   return (
     <div className={styles.container}>
-      <ProgressClient LANG={LANG} />
+      <ProgressClient LANG={LANG} locale={locale} />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import styles from "./index.module.scss";
 import Api from "../../../api";
 import SubmitSuccess from "../SubmitSuccess";
 import StepBlock from "../StepBlock";
+import StepSummary from "../StepSummary";
 import OrderProductModule from "../OrderProductModule";
 import IssueModule from "../IssueModule";
 import ContactModule from "../ContactModule";
@@ -35,13 +36,13 @@ import {
   afterTypeAtom,
   purchaseTimeAtom,
   purchaseChannelAtom,
+  purchaseOrderNoAtom,
   buildProductGroups,
   rowName,
-  rowImage,
 } from "../../atoms";
 
 // ---------- 常量 ----------
-const AFTER_SALE_TYPES = ["refund", "return_refund", "repair", "exchange"];
+const AFTER_SALE_TYPES = ["repair", "return_refund", "exchange", "refund"];
 const MAX_FILES = 6;
 const MAX_SIZE = 200 * 1024 * 1024; // 200MB
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -177,6 +178,7 @@ function WizardMain() {
   const selectedProduct = useAtomValue(selectedProductAtom);
   const purchaseTime = useAtomValue(purchaseTimeAtom);
   const purchaseChannel = useAtomValue(purchaseChannelAtom);
+  const purchaseOrderNo = useAtomValue(purchaseOrderNoAtom);
 
   // 步 2 摘要派生
   const afterType = useAtomValue(afterTypeAtom);
@@ -242,8 +244,8 @@ function WizardMain() {
     );
   }
 
-  const unlocked2 = step1Done;
-  const unlocked3 = step1Done && step2Done;
+  const unlocked2 = activeStep >= 2;
+  const unlocked3 = activeStep >= 3;
 
   const purchaseDateLabel = TL(
     "user_account.after_sale.purchase_time",
@@ -266,18 +268,25 @@ function WizardMain() {
     "Issue description"
   );
 
+  const productNameLabel = TL(
+    "user_account.after_sale.product_name",
+    "产品名称",
+    "Product name"
+  );
+
   const step1Summary =
     method === "order" && selectedRow ? (
-      <SummaryRow
-        image={rowImage(selectedRow)}
-        name={rowName(selectedRow)}
-        rows={[[orderNoLabel, selectedOrderNumber]]}
+      <StepSummary
+        rows={[
+          [productNameLabel, rowName(selectedRow)],
+          [orderNoLabel, selectedOrderNumber],
+        ].filter(([, v]) => Boolean(v))}
       />
     ) : method === "product" && selectedProduct ? (
-      <SummaryRow
-        image={selectedProduct.image}
-        name={selectedProduct.name}
+      <StepSummary
         rows={[
+          [productNameLabel, selectedProduct.name],
+          [orderNoLabel, purchaseOrderNo],
           [purchaseDateLabel, purchaseTime],
           [purchaseChannelLabel, purchaseChannel],
         ].filter(([, v]) => Boolean(v))}
@@ -286,7 +295,7 @@ function WizardMain() {
 
   const step2Summary =
     afterType && description ? (
-      <SummaryRow
+      <StepSummary
         rows={[
           [issueTypeLabel, typeLabelMap[afterType]],
           [issueDescLabel, description],
@@ -303,21 +312,9 @@ function WizardMain() {
           {T(
             LANG,
             "user_account.after_sale.create",
-            locale?.startsWith("zh")
-              ? "BOLDRADIANT售后服务申请"
-              : "BOLDRADIANT AFTER-SALES REQUEST"
+            locale?.startsWith("zh") ? "售后服务" : "After-Sales Service"
           )}
         </h1>
-        <span className={styles.page_arrow} aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path
-              d="M6 6l12 12M18 8v10H8"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="square"
-            />
-          </svg>
-        </span>
       </div>
 
       <div className={styles.stack}>
@@ -383,37 +380,6 @@ function WizardMain() {
           <ContactModule />
         </StepBlock>
       </div>
-    </div>
-  );
-}
-
-// 摘要块：顶部展示产品图 + 型号（可选），底部以键值对展示已填字段。
-function SummaryRow({ image, name, rows = [] }) {
-  const hasHeader = Boolean(name) || Boolean(image);
-  return (
-    <div className={styles.summary_row}>
-      {hasHeader ? (
-        <div className={styles.summary_head}>
-          {image ? (
-            <span className={styles.summary_thumb}>
-              <img src={image} alt="" />
-            </span>
-          ) : null}
-          {name ? (
-            <span className={styles.summary_name}>{name}</span>
-          ) : null}
-        </div>
-      ) : null}
-      {rows.length ? (
-        <dl className={styles.summary_list}>
-          {rows.map(([label, value], i) => (
-            <div className={styles.summary_line} key={i}>
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      ) : null}
     </div>
   );
 }

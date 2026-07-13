@@ -55,7 +55,7 @@ export const purchaseChannelAtom = atom("");
 export const purchaseOrderNoAtom = atom("");
 
 // ---------- Step 2: 问题 ----------
-export const afterTypeAtom = atom("");
+export const afterTypeAtom = atom("repair"); // 默认「维修」；与 CreateWizard AFTER_SALE_TYPES 首项对齐
 export const descriptionAtom = atom("");
 export const mediaListAtom = atom([]);
 // media item: {localId, file, name, size, type, previewUrl, url, uploading}

@@ -1,0 +1,253 @@
+.wrap {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #16181b;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.25);
+  }
+}
+
+.trigger_open {
+  border-color: #16181b;
+}
+
+.value {
+  color: #16181b;
+}
+
+.placeholder {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+.icon {
+  color: rgba(0, 0, 0, 0.55);
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.popover {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  animation: fadeIn 0.12s ease-out;
+
+  @media (max-width: 480px) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rdp_root {
+  --rdp-day-height: 36px;
+  --rdp-day-width: 36px;
+  --rdp-accent-color: #16181b;
+  --rdp-accent-background-color: #16181b;
+  font-family: inherit;
+  font-size: 13px;
+  color: #16181b;
+  margin: 0;
+}
+
+.rdp_months {
+  display: flex;
+  gap: 12px;
+}
+
+.rdp_month {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rdp_caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  position: relative;
+}
+
+.rdp_caption_label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #16181b;
+  letter-spacing: 0.2px;
+}
+
+.rdp_nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.rdp_nav_btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.65);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+
+  &:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.05);
+    color: #16181b;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.rdp_chevron {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.rdp_grid {
+  border-collapse: collapse;
+}
+
+.rdp_weekdays {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.rdp_weekday {
+  width: 36px;
+  height: 28px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  padding: 0;
+}
+
+.rdp_week {
+  height: 36px;
+}
+
+.rdp_day {
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  padding: 0;
+}
+
+.rdp_day_button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: #16181b;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: #16181b;
+  }
+}
+
+.rdp_today .rdp_day_button {
+  font-weight: 600;
+  color: #16181b;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 4px;
+    height: 4px;
+    margin: -6px auto 0;
+    border-radius: 50%;
+    background: #16181b;
+  }
+}
+
+.rdp_selected .rdp_day_button {
+  background: #16181b;
+  color: #fff;
+
+  &:hover {
+    background: #16181b;
+    opacity: 0.9;
+  }
+
+  &::after {
+    background: #fff;
+  }
+}
+
+.rdp_outside .rdp_day_button {
+  color: rgba(0, 0, 0, 0.28);
+}
+
+.rdp_disabled .rdp_day_button {
+  color: rgba(0, 0, 0, 0.2);
+  cursor: not-allowed;
+
+  &:hover {
+    background: transparent;
+  }
+}
+
+.rdp_hidden {
+  visibility: hidden;
+}

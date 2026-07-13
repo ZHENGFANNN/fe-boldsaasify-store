@@ -18,20 +18,19 @@
 // ---------- 标题行（徽标 + 标题 + Edit） ----------
 .stepblock_head {
   display: flex;
-  align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-// 步骤徽标：小圆形数字（完成态绿勾、锁定态灰）
+// 步骤徽标:小圆形数字(完成态黑色勾、锁定态灰)
 .step_badge {
   flex-shrink: 0;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   background: #272929;
   color: #fff;
@@ -42,7 +41,7 @@
   }
 
   .stepblock.done & {
-    background: #18a058;
+    background: #16181b;
   }
 
   .stepblock.locked & {
@@ -60,7 +59,10 @@
   font-size: 20px;
   font-weight: 700;
   color: #000;
-  line-height: 1.5715;
+  min-height: 32px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
 
   .stepblock.locked & {
     color: rgba(0, 0, 0, 0.4);
@@ -68,10 +70,10 @@
 }
 
 .stepblock_subtitle {
-  margin: 6px 0 0;
+  margin: 4px 0 0;
   font-size: 13px;
   color: #898a8e;
-  line-height: 1.5;
+  line-height: 1.15;
 }
 
 .step_edit {

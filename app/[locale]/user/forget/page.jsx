@@ -31,12 +31,7 @@ export default async function Forget({ params }) {
     locale
   });
   return (
-    <div
-      className={styles.container}
-      style={{
-        backgroundImage: `url(${process.env.NEXT_PUBLIC_FILE}/common/image/icon/bg.webp)`
-      }}
-    >
+    <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>
           {LANG["user_forget.retrieve_password"]}

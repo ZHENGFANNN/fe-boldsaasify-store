@@ -66,11 +66,21 @@ export default function SearchSelect({
         onClick={() => setOpen((v) => !v)}
       >
         {selected ? (
-          <span className={styles.opt_main}>{renderOptBody(selected)}</span>
+          <span className={styles.select_selected}>{selected.label}</span>
         ) : (
           <span className={styles.select_ph}>{placeholder}</span>
         )}
-        <span className={styles.select_arrow}>▾</span>
+        <span className={styles.select_arrow} aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M5 7.5 10 12.5 15 7.5"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </button>
       {open ? (
         <div className={styles.select_panel}>

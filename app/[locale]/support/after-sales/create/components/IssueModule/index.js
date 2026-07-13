@@ -13,7 +13,7 @@ import {
 } from "../../atoms";
 
 export default function IssueModule() {
-  const { T, LANG, tip, typeLabelMap, AFTER_SALE_TYPES } = useCreateWizard();
+  const { T, TL, LANG, typeLabelMap, AFTER_SALE_TYPES } = useCreateWizard();
 
   const [afterType, setAfterType] = useAtom(afterTypeAtom);
   const [description, setDescription] = useAtom(descriptionAtom);
@@ -21,24 +21,18 @@ export default function IssueModule() {
   const [, setActiveStep] = useAtom(activeStepAtom);
 
   const confirmStep2 = () => {
-    if (!step2Done) {
-      tip(
-        T(
-          LANG,
-          "user_account.after_sale.step2.require",
-          "Please choose a service type and describe the issue."
-        ),
-        "error"
-      );
-      return;
-    }
+    if (!step2Done) return;
     setActiveStep(3);
   };
 
   return (
     <>
       <div className={styles.section_label}>
-        {T(LANG, "user_account.after_sale.service_type", "How can we help?")}
+        {TL(
+          "user_account.after_sale.service_type",
+          "售后类型",
+          "After-sales type"
+        )}
         <i>*</i>
       </div>
       <div className={styles.type_options}>
@@ -80,6 +74,7 @@ export default function IssueModule() {
           type="button"
           className={styles.btn_primary}
           onClick={confirmStep2}
+          disabled={!step2Done}
         >
           {T(LANG, "user_account.after_sale.next", "Next")}
         </button>

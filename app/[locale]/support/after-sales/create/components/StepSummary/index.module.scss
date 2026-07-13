@@ -1,0 +1,40 @@
+// 步骤完成态的键值摘要样式（Step 1 完成后展开的 UI 基线，全步骤复用）
+.summary_list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary_line {
+  display: flex;
+  gap: 12px;
+  padding: 24px 0;
+  border-top: 1px dashed rgba(0, 0, 0, 0.12);
+  font-size: 13px;
+  line-height: 1.2;
+  color: #16181b;
+
+  dt {
+    color: rgba(0, 0, 0, 0.55);
+    font-weight: 400;
+  }
+
+  dd {
+    margin: 0 0 0 auto;
+    text-align: right;
+    color: #16181b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-width: 60%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .summary_line {
+    padding: 16px 0;
+  }
+}

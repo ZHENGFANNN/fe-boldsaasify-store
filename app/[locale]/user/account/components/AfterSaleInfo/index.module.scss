@@ -1,168 +1,71 @@
-.container {
-  .title_container {
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 1.334;
-    color: #3b3e40;
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.record_list {
+  .record_item {
+    padding: 20px 16px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.65);
+    cursor: pointer;
+    transition: background 0.15s;
 
-    .create_btn {
-      text-transform: capitalize;
-      padding: 8px 16px;
-      color: #fff;
-      background: #3b3e40;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-  }
-
-  .record_list {
-    .record_item {
-      padding: 20px 16px;
-      border-radius: 8px;
-      background: rgba(0, 0, 0, 0.02);
-      margin-bottom: 16px;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.65);
-
-      .record_head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-
-        .record_type {
-          font-weight: 600;
-          color: #3b3e40;
-          text-transform: capitalize;
-        }
-        .record_status {
-          padding: 2px 10px;
-          border-radius: 10px;
-          font-size: 12px;
-          background: rgba(0, 0, 0, 0.06);
-          color: rgba(0, 0, 0, 0.55);
-          &.pending {
-            background: #fff7e6;
-            color: #d46b08;
-          }
-          &.processing {
-            background: #e6f4ff;
-            color: #0958d9;
-          }
-          &.resolved {
-            background: #f6ffed;
-            color: #389e0d;
-          }
-          &.rejected {
-            background: #fff1f0;
-            color: #cf1322;
-          }
-          &.closed {
-            background: rgba(0, 0, 0, 0.06);
-            color: rgba(0, 0, 0, 0.45);
-          }
-        }
-      }
-      .record_order {
-        margin-bottom: 6px;
-        font-size: 13px;
-      }
-      .record_desc {
-        color: rgba(0, 0, 0, 0.8);
-        line-height: 1.5;
-        white-space: pre-wrap;
-      }
-      .record_reply {
-        margin-top: 8px;
-        padding-top: 8px;
-        border-top: 1px dashed rgba(0, 0, 0, 0.1);
-        line-height: 1.5;
-        b {
-          color: #3b3e40;
-        }
-      }
-      .record_time {
-        margin-top: 8px;
-        font-size: 12px;
-        color: rgba(0, 0, 0, 0.35);
-      }
-    }
-  }
-/* MODAL_PLACEHOLDER */
-  .modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999999999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.45);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease;
-
-    &.show {
-      opacity: 1;
-      visibility: visible;
+    &:hover {
+      background: rgba(0, 0, 0, 0.04);
     }
 
-    .modal_content {
-      width: 90%;
-      max-width: 480px;
-      max-height: 86dvh;
-      // 避免 overflow 裁剪/错位原生 select 下拉层
-      overflow: visible;
-      background: #fff;
-      border-radius: 12px;
-      padding: 24px;
+    .record_head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
 
-      h2 {
-        font-size: 20px;
-        font-weight: 500;
+      .record_title {
+        font-weight: 600;
         color: #3b3e40;
-        margin-bottom: 20px;
-        text-transform: capitalize;
       }
-
-      .form_item {
-        margin-bottom: 0;
-      }
-
-      .form_actions {
-        display: flex;
-        gap: 12px;
-        margin-top: 8px;
-
-        button {
-          flex: 1;
-          height: 44px;
-          border-radius: 6px;
-          font-size: 14px;
-          cursor: pointer;
-          text-transform: capitalize;
+      .record_status {
+        padding: 2px 10px;
+        border-radius: 10px;
+        font-size: 12px;
+        background: rgba(0, 0, 0, 0.06);
+        color: rgba(0, 0, 0, 0.55);
+        &.pending {
+          background: #fff7e6;
+          color: #d46b08;
         }
-        .cancel_btn {
-          background: #fff;
-          border: 1px solid rgba(0, 0, 0, 0.2);
-          color: rgba(0, 0, 0, 0.65);
+        &.processing {
+          background: #e6f4ff;
+          color: #0958d9;
         }
-        .submit_btn {
-          background: #3b3e40;
-          border: none;
-          color: #fff;
-          &:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-          }
+        &.resolved {
+          background: #f6ffed;
+          color: #389e0d;
+        }
+        &.rejected {
+          background: #fff1f0;
+          color: #cf1322;
+        }
+        &.closed {
+          background: rgba(0, 0, 0, 0.06);
+          color: rgba(0, 0, 0, 0.45);
         }
       }
+    }
+    .record_type_row {
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.65);
+      text-transform: capitalize;
+    }
+    .record_desc {
+      color: rgba(0, 0, 0, 0.8);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+    .record_time {
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.35);
     }
   }
 }
-

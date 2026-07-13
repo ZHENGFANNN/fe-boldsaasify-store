@@ -3,6 +3,7 @@
 import React from "react";
 import { useAtom, useAtomValue } from "jotai";
 import styles from "./index.module.scss";
+import DatePickerField from "./DatePickerField";
 import { useCreateWizard } from "../../context";
 import {
   purchaseTimeAtom,
@@ -20,11 +21,18 @@ export default function PurchaseForm() {
   const [purchaseChannel, setPurchaseChannel] = useAtom(purchaseChannelAtom);
   const [purchaseOrderNo, setPurchaseOrderNo] = useAtom(purchaseOrderNoAtom);
 
+  const todayStr = React.useMemo(() => {
+    const d = new Date();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${d.getFullYear()}-${m}-${day}`;
+  }, []);
+
   if (!selectedProduct) return null;
 
   return (
     <div className={styles.purchase_form}>
-      <label className={styles.field}>
+      <div className={styles.field}>
         <span className={styles.field_label}>
           {T(
             LANG,
@@ -33,12 +41,18 @@ export default function PurchaseForm() {
           )}
           <i>*</i>
         </span>
-        <input
-          type="date"
+        <DatePickerField
           value={purchaseTime}
-          onChange={(e) => setPurchaseTime(e.target.value)}
+          max={todayStr}
+          onChange={setPurchaseTime}
+          lang={LANG}
+          placeholder={T(
+            LANG,
+            "user_account.after_sale.purchase_time_ph",
+            "Select date"
+          )}
         />
-      </label>
+      </div>
       <label className={styles.field}>
         <span className={styles.field_label}>
           {T(

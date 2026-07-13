@@ -70,14 +70,13 @@
 
 .step_actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: 28px;
 }
 
 .btn_primary {
   padding: 12px 40px;
   border: none;
-  border-radius: 8px;
   background: #16181b;
   color: #fff;
   font-size: 14px;
@@ -86,6 +85,10 @@
   cursor: pointer;
   transition: opacity 0.15s;
 
+  min-width: 240px;
+  border-radius: 100px;
+  height: 44px;
+
   &:hover:not(:disabled) {
     opacity: 0.88;
   }
@@ -93,5 +96,16 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 800px) {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.step_actions {
+  @media (max-width: 800px) {
+    display: block;
   }
 }

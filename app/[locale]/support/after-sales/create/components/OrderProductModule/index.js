@@ -4,6 +4,7 @@ import React from "react";
 import { useAtom, useAtomValue } from "jotai";
 import styles from "./index.module.scss";
 import Loading from "@/components/Loading";
+import SegmentTabs from "@/components/SegmentTabs";
 import SearchSelect from "../SearchSelect";
 import PurchaseForm from "./PurchaseForm";
 import { useCreateWizard } from "../../context";
@@ -20,12 +21,18 @@ import {
   step1DoneAtom,
   rowName,
   rowCombo,
-  rowImage,
+  rowImage
 } from "../../atoms";
 
 export default function OrderProductModule() {
-  const { T, LANG, TL, tip, orderNoLabel, searchPh, noMatch } =
-    useCreateWizard();
+  const {
+    T,
+    LANG,
+    TL,
+    orderNoLabel,
+    searchPh,
+    noMatch
+  } = useCreateWizard();
 
   const [method, setMethod] = useAtom(methodAtom);
   const [selectedOrderNumber, setSelectedOrderNumber] = useAtom(
@@ -53,7 +60,7 @@ export default function OrderProductModule() {
           subLabel: `${orderNoLabel}: ${o.order_number}${
             rowCombo(row) ? ` · ${rowCombo(row)}` : ""
           }`,
-          image: rowImage(row),
+          image: rowImage(row)
         }))
       ),
     [orders, orderNoLabel]
@@ -71,64 +78,49 @@ export default function OrderProductModule() {
           value: p.key,
           label: p.name,
           subLabel: g.name,
-          image: p.image,
+          image: p.image
         }))
       ),
     [productGroups]
   );
 
   const confirmStep1 = () => {
-    if (!step1Done) {
-      tip(
-        T(
-          LANG,
-          "user_account.after_sale.step1.require",
-          "Please select the item you need help with."
-        ),
-        "error"
-      );
-      return;
-    }
+    if (!step1Done) return;
     setActiveStep(2);
   };
 
+  const showNextButton =
+    (!productsLoading && method === "product") ||
+    (!ordersLoading && method === "order");
+
+  const methodOptions = React.useMemo(
+    () => [
+      {
+        value: "order",
+        label: T(LANG, "user_account.after_sale.method.order", "Order"),
+      },
+      {
+        value: "product",
+        label: T(LANG, "user_account.after_sale.method.product", "Product"),
+      },
+    ],
+    [T, LANG]
+  );
+
   return (
     <>
-      <div
-        className={`${styles.seg_tabs} ${
-          method === "order" ? styles.seg_left : styles.seg_right
-        }`}
-      >
-        <button
-          type="button"
-          className={`${styles.seg_item} ${
-            method === "order" ? styles.active : ""
-          }`}
-          onClick={() => setMethod("order")}
-        >
-          {T(LANG, "user_account.after_sale.method.order", "Order")}
-        </button>
-        <button
-          type="button"
-          className={`${styles.seg_item} ${
-            method === "product" ? styles.active : ""
-          }`}
-          onClick={() => setMethod("product")}
-        >
-          {T(LANG, "user_account.after_sale.method.product", "Product")}
-        </button>
-      </div>
+      <SegmentTabs
+        options={methodOptions}
+        value={method}
+        onChange={setMethod}
+      />
 
       {method === "order" ? (
         ordersLoading ? (
           <Loading height={160} />
         ) : orders.length < 1 ? (
           <div className={styles.empty}>
-            {T(
-              LANG,
-              "user_account.after_sale.no_orders",
-              "No orders found."
-            )}
+            {T(LANG, "user_account.after_sale.no_orders", "No orders found.")}
           </div>
         ) : (
           <SearchSelect
@@ -179,15 +171,18 @@ export default function OrderProductModule() {
         </>
       )}
 
-      <div className={styles.step_actions}>
-        <button
-          type="button"
-          className={styles.btn_primary}
-          onClick={confirmStep1}
-        >
-          {T(LANG, "user_account.after_sale.next", "Next")}
-        </button>
-      </div>
+      {showNextButton && (
+        <div className={styles.step_actions}>
+          <button
+            type="button"
+            className={styles.btn_primary}
+            onClick={confirmStep1}
+            disabled={!step1Done}
+          >
+            {T(LANG, "user_account.after_sale.next", "Next")}
+          </button>
+        </div>
+      )}
     </>
   );
 }

@@ -68,41 +68,7 @@ export default function ContactModule() {
       );
       return;
     }
-    if (!EMAIL_RE.test(contactEmail)) {
-      tip(
-        T(
-          LANG,
-          "user_account.after_sale.contact.email_invalid",
-          "Please enter a valid email address."
-        ),
-        "error"
-      );
-      return;
-    }
-    if (!contactPhone.trim()) {
-      tip(
-        T(
-          LANG,
-          "user_account.after_sale.contact.phone_require",
-          "Please enter a phone number."
-        ),
-        "error"
-      );
-      return;
-    }
-    if (!agreePrivacy) {
-      tip(
-        T(
-          LANG,
-          "user_account.after_sale.privacy.require",
-          "Please agree to the privacy policy to continue."
-        ),
-        "error"
-      );
-      return;
-    }
     if (!productPayload) {
-      // 步 1 数据已丢失（几乎不会发生），退回步 1
       setActiveStep(1);
       return;
     }
@@ -212,7 +178,12 @@ export default function ContactModule() {
           type="button"
           className={styles.btn_primary}
           onClick={onSubmit}
-          disabled={submitting}
+          disabled={
+            submitting ||
+            !EMAIL_RE.test(contactEmail) ||
+            !contactPhone.trim() ||
+            !agreePrivacy
+          }
         >
           {T(LANG, "user_account.after_sale.submit", "Submit")}
         </button>
