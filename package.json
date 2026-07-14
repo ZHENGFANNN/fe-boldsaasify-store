@@ -62,7 +62,7 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^9",
     "eslint-config-next": "^16.2.7",
-    "typescript": "7.0.2",
+    "typescript": "^5.9.3",
     "wrangler": "^4.49.1"
   }
 }
