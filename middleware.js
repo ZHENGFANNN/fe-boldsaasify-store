@@ -93,14 +93,32 @@ export async function middleware(request) {
   const cookieArea = request.cookies.get("area")?.value;
   const cookieLocale = request.cookies.get("locale")?.value;
 
+  // 从 URL 路径首段解析已带的 locale（如 /zh-cn/... → zh-cn）。
+  // 仅取「非默认」locale：默认语言(en)约定无前缀，/en 这类路径应由既有逻辑清理为 /，
+  // 不能当作有效 pathLocale，否则会阻止 /en → / 的规范化。
+  // 这是「用户当前正在浏览的语言」的最强兜底信号：必须优先于 accept-language，
+  // 否则无 locale cookie 的用户直达 /zh-cn 时会被解析成默认 en 并被强制跳回 /，
+  // 而 next-i18n-router 的 NEXT_LOCALE=zh-cn 又把 / 跳回 /zh-cn → 无限重定向。
+  const pathLocaleMatch = request.nextUrl.pathname.match(/^\/([^/]+)(?=\/|$)/);
+  const pathLocale =
+    pathLocaleMatch &&
+    locales.includes(pathLocaleMatch[1]) &&
+    pathLocaleMatch[1] !== defaultLocale
+      ? pathLocaleMatch[1]
+      : null;
+
   // area：URL 参数 → Cookie → 浏览器地区 → 默认市场（来自 setting.markets）
   const area = resolveArea(
     url_area_code || cookieArea || getAcceptLanguageArea(request) || defaultArea
   );
 
-  // locale：URL 参数 → Cookie → 浏览器语言 → setting.language 默认语言
+  // locale：URL 参数 → URL 路径 locale(非默认) → Cookie → 浏览器语言 → 默认语言。
+  // 显式意图（URL 参数）最高优先；其次尊重 URL 路径携带的非默认 locale，避免与路由前缀互踢。
   const locale = resolveLocale(
-    url_language_code || cookieLocale || getAcceptLanguageLocale(request)
+    url_language_code ||
+      pathLocale ||
+      cookieLocale ||
+      getAcceptLanguageLocale(request)
   );
 
   request.locale = locale;
