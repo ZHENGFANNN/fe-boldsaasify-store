@@ -138,7 +138,16 @@ export async function middleware(request) {
       curLocale,
       locale
     )}${request.nextUrl.search}`;
-    return NextResponse.redirect(`${request.nextUrl.origin}${baseUrl}`);
+    const redirect = NextResponse.redirect(
+      `${request.nextUrl.origin}${baseUrl}`
+    );
+    // 关键：重定向到目标语言路径时，同步把 next-i18n-router 的 NEXT_LOCALE 与
+    // 自定义 locale/area cookie 一并写到目标值，避免残留旧 NEXT_LOCALE 在落地页
+    // 再次触发反向重定向（切语言/兜底重定向后跳回原语言的根因）。
+    redirect.cookies.set("NEXT_LOCALE", locale, { expires });
+    redirect.cookies.set("locale", locale, { expires });
+    redirect.cookies.set("area", area, { expires });
+    return redirect;
   }
 
   returnOptions.headers.set("x-request-url", request.url);

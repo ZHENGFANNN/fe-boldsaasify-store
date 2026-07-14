@@ -71,7 +71,13 @@ export default function LanguagePicker({ onAfterSelect }) {
     setLock(true);
 
     const expires = new Date(Date.now() + 720 * 24 * 60 * 60 * 1000);
+    // 同时写两个 cookie，二者缺一都会导致切换失效：
+    //   - locale：本站自定义 cookie，middleware 读它决定 area/locale 兜底
+    //   - NEXT_LOCALE：next-i18n-router 的路由 cookie（其内部按此 cookie 决定是否重定向到 /{locale}）
+    // 之前只写 locale：从 zh-cn 切回 en 时 NEXT_LOCALE 残留 zh-cn，next-i18n-router 会把 / 强制
+    // 跳回 /zh-cn → 切换“失败/跳回原语言”。故两者必须同步。
     Cookie.set("locale", target.value, { path: "/", expires });
+    Cookie.set("NEXT_LOCALE", target.value, { path: "/", expires });
 
     const nextPath = buildLocalizedPath(pathname, currentLocale, target.value);
 
