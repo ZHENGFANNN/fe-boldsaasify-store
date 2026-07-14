@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import Cookies from "js-cookie";
 import Compressor from "compressorjs";
 import styles from "./index.module.scss";
@@ -1342,7 +1343,7 @@ export default function LiveChat({ locale, area }) {
   };
 
   // 商品分享卡片：解析 product_snapshot（JSON 文本），解析失败兜底空对象，勿崩会话流。
-  // 「View product」新开标签看详情，避免同页硬跳转 remount LiveChat 把面板收起。
+  // 「View product」用 Link 软导航：同页不 remount Layout/LiveChat，面板保持打开。
   // snapshot.href 为站内相对路径（如 /en/product/...）。
   const renderProductCard = (msg) => {
     let snap = {};
@@ -1380,15 +1381,14 @@ export default function LiveChat({ locale, area }) {
           </div>
         </div>
         {snap.href ? (
-          <a
+          <Link
             className={styles.productCardBtn}
             href={snap.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            prefetch={false}
             onClick={(e) => e.stopPropagation()}
           >
             {copy.viewProduct || "View product"}
-          </a>
+          </Link>
         ) : null}
       </div>
     );
