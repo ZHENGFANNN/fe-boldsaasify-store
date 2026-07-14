@@ -19,6 +19,22 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* 触发图标：内联 SVG（DJI 风用户图标），命中区对齐 nav 其它 icon（20px 图 + 12px 透明 border）。 */
+.triggerIcon {
+  display: block;
+  box-sizing: content-box;
+  width: 20px;
+  height: 20px;
+  border: 12px solid transparent;
+  color: #222;
+}
+
+@media screen and (max-width: 780px) {
+  .triggerIcon {
+    border: 10px solid transparent;
+  }
+}
+
 /* 下拉外壳：负责定位、悬浮桥接与进出场过渡 */
 .dropdown {
   position: absolute;

@@ -3,6 +3,7 @@ import React from "react";
 import GlobalContext from "@/[locale]/context";
 
 import Skeleton from "@/components/Skeleton";
+import { CartIcon } from "@/components/Icon";
 import UserMenu from "./UserMenu";
 import styles from "./index.module.scss";
 import Cookies from "js-cookie";
@@ -54,10 +55,7 @@ export default function RightArea() {
           {productNum !== 0 ? (
             <div className={styles.num}>{productNum}</div>
           ) : null}
-          <img
-            alt="avatar"
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-cart.svg`}
-          />
+          <CartIcon className={styles.svg_icon} />
         </div>
       </li>
       {/* 用户ICON */}

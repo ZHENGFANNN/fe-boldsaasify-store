@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import GlobalContext from "@/[locale]/context";
 import { track } from "@/utils/analytics";
 import Api from "@/components/Layout/api";
+import { UserIcon } from "@/components/Icon";
 import styles from "./index.module.scss";
 
 /* 内联 SVG 图标（stroke=currentColor，随 hover 变色，不依赖远程文件） */
@@ -103,12 +104,7 @@ export default function UserMenu({ isLogin }) {
         aria-label={LANG["common.nav.my_account"]}
         onClick={() => setOpen((v) => !v)}
       >
-        <img
-          alt="account"
-          width={24}
-          height={24}
-          src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-user.svg`}
-        />
+        <UserIcon className={styles.triggerIcon} />
       </button>
 
       <div className={`${styles.dropdown} ${open ? styles.open : ""}`}>

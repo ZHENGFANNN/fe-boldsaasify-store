@@ -59,6 +59,16 @@
         color: #000;
 
       }
+      /* 内联 SVG 图标：与 img 命中区一致（20px 图 + 12px 透明 border = 44px），
+         stroke=currentColor 随 li 色，hover 由父级 li 变色。 */
+      .svg_icon {
+        display: block;
+        box-sizing: content-box;
+        width: 20px;
+        height: 20px;
+        border: 12px solid transparent;
+        color: #222;
+      }
       span {
         &::selection {
           display: none;
@@ -92,12 +102,14 @@
               top: 18px;
               left: 24px;
             }
-            img {
+            img,
+            .svg_icon {
               border: 10px solid transparent;
               border-right: 10px solid transparent;
             }
           }
-          img {
+          img,
+          .svg_icon {
             border: 10px solid transparent;
           }
         }
