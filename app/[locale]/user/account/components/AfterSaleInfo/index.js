@@ -10,10 +10,10 @@ import Empyt from "@/components/Empyt";
 // 售后类型枚举（与后端 afterServiceTypes 白名单一致）
 const TYPE_KEYS = ["return", "refund", "exchange", "repair", "other"];
 
-// 筛选桶：进行中 = pending + processing，历史 = resolved + rejected + closed
+// 筛选桶：进行中 = pending + processing，历史 = resolved + rejected + cancelled
 const FILTER_STATUS = {
   active: ["pending", "processing"],
-  history: ["resolved", "rejected", "closed"],
+  history: ["resolved", "rejected", "cancelled"],
 };
 
 // 文案兜底：后端语言包暂未配置 user_account.after_sale.* 时用英文兜底
@@ -37,15 +37,19 @@ export default function AfterSaleInfo({ LANG, filter = "all" }) {
 
   const statusMap = React.useMemo(
     () => ({
-      pending: T(LANG, "user_account.after_sale.status.pending", "Pending"),
+      pending: T(LANG, "user_account.after_sale.status.pending", "Submitted"),
       processing: T(
         LANG,
         "user_account.after_sale.status.processing",
         "Processing"
       ),
-      resolved: T(LANG, "user_account.after_sale.status.resolved", "Resolved"),
+      resolved: T(LANG, "user_account.after_sale.status.resolved", "Completed"),
       rejected: T(LANG, "user_account.after_sale.status.rejected", "Rejected"),
-      closed: T(LANG, "user_account.after_sale.status.closed", "Closed"),
+      cancelled: T(
+        LANG,
+        "user_account.after_sale.status.cancelled",
+        "Cancelled"
+      ),
     }),
     [LANG]
   );

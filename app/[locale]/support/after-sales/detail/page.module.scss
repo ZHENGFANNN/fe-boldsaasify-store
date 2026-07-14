@@ -115,6 +115,34 @@
   }
 }
 
+// ---------- 取消申请按钮 ----------
+.cancel_action {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+.cancel_btn {
+  min-width: 200px;
+  padding: 14px 32px;
+  border-radius: 90px;
+  border: 1px solid #d0021b;
+  background: #fff;
+  color: #d0021b;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #d0021b;
+    color: #fff;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
 // ---------- 信息卡（服务信息/产品信息/回寄物流通用；对齐创建向导 StepBlock） ----------
 .info_card {
   background: #fff;

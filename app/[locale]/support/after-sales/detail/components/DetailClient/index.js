@@ -12,9 +12,7 @@ import AuthRedirectGuard from "@/components/AuthRedirectGuard";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import ProgressSteps from "./parts/ProgressSteps";
 import ServiceInfoCard from "./parts/ServiceInfoCard";
-import ShipmentForm from "./parts/ShipmentForm";
 import CancelledBanner from "./parts/CancelledBanner";
-import WarrantyNote from "./parts/WarrantyNote";
 
 // —— 常量 —— //
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
@@ -22,65 +20,31 @@ const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 const localeHref = (path, locale) =>
   locale && locale !== defaultLocale ? `/${locale}${path}` : path;
 
-// 6 步进度节点定义（对齐 dashboard-service afterServiceStageOrder / ERP common.js after_service_progress_stages）。
-const PROGRESS_STAGES = [
-  { key: "shipped", column: "shipped_at", labelKey: "user_account.after_sale.progress.shipped", labelFallback: "Shipped" },
-  { key: "received", column: "received_at", labelKey: "user_account.after_sale.progress.received", labelFallback: "Awaiting Arrival" },
-  { key: "plan_confirmed", column: "plan_confirmed_at", labelKey: "user_account.after_sale.progress.plan_confirmed", labelFallback: "Confirming Plan" },
-  { key: "paid", column: "paid_at", labelKey: "user_account.after_sale.progress.paid", labelFallback: "Awaiting Payment" },
-  { key: "executed", column: "executed_at", labelKey: "user_account.after_sale.progress.executed", labelFallback: "Plan Execution" },
-  { key: "delivered", column: "delivered_at", labelKey: "user_account.after_sale.progress.delivered", labelFallback: "Ready to Ship" },
-];
+// 简化后的终态集合：已取消 / 已完成 / 已拒绝。
+const TERMINAL_STATUS = new Set(["cancelled", "resolved", "rejected"]);
 
-// 老工单简易 3 步映射（type=refund 或 status ∈ 老态 {processing, closed} 且无节点时间戳时使用）。
-const LEGACY_STEP_STATUS = {
+// 客户可自主取消的状态（对齐 order-service afterServiceCancelableStatus）。
+const CANCELABLE_STATUS = new Set(["pending", "processing"]);
+
+// 简化 3 步进度：提交成功 → 处理中 → 已完成。step = 当前进行到第几步。
+const STEP_BY_STATUS = {
   pending: 1,
   processing: 2,
   resolved: 3,
-  closed: 3,
 };
 
-const TERMINAL_STATUS = new Set(["cancelled", "resolved", "closed", "rejected"]);
-
-// 判定是否需要走 6 步 flow（type 非 refund + 至少一个进度节点时间戳 or 状态已进入 shipped 之后）。
-function shouldUseSixStep(data) {
-  if (!data) return false;
-  if (data.type === "refund") return false;
-  return true;
-}
-
-// 把详情数据转成 6 步（含时间戳），供 ProgressSteps 直接消费。
-function buildSixSteps(data, LANG) {
-  const timestamps = PROGRESS_STAGES.map((s) => data[s.column]);
-  const lastDoneIdx = timestamps.reduce((acc, v, i) => (v ? i : acc), -1);
-  return PROGRESS_STAGES.map((s, i) => ({
-    title: T(LANG, s.labelKey, s.labelFallback),
-    time: timestamps[i] ? formatDateTime(timestamps[i]) : "",
-    done: i <= lastDoneIdx,
-    current: i === lastDoneIdx + 1 && !TERMINAL_STATUS.has(data.status),
-  }));
-}
-
-// 老工单 3 步降级视图。
-function buildLegacySteps(data, LANG) {
-  const step = LEGACY_STEP_STATUS[data.status] || 1;
+// 由状态构建 3 步进度视图（终态不高亮 current）。
+function buildSteps(data, LANG) {
+  const step = STEP_BY_STATUS[data.status] || 1;
   return [
     { title: T(LANG, "user_account.after_sale.progress.submitted", "Submitted") },
     { title: T(LANG, "user_account.after_sale.progress.processing", "Processing") },
-    { title: T(LANG, "user_account.after_sale.progress.resolved", "Resolved") },
+    { title: T(LANG, "user_account.after_sale.progress.resolved", "Completed") },
   ].map((it, i) => ({
     ...it,
     done: i + 1 < step,
     current: i + 1 === step && !TERMINAL_STATUS.has(data.status),
   }));
-}
-
-function formatDateTime(s) {
-  if (!s) return "";
-  // "2026-07-12T13:33:00Z" → "2026-07-12 13:33"
-  const raw = String(s);
-  if (raw.length >= 16) return raw.slice(0, 10) + " " + raw.slice(11, 16);
-  return raw.slice(0, 10);
 }
 
 // 单条信息行（value 为空时不渲染）
@@ -146,6 +110,28 @@ export default function DetailClient({ LANG, locale }) {
     tipRef.current?.show({ text, type: ok ? "success" : "error" });
   }, []);
 
+  const [cancelling, setCancelling] = React.useState(false);
+  const handleCancel = React.useCallback(() => {
+    if (!serviceNo || cancelling) return;
+    setCancelling(true);
+    Api.cancelAfterService({ service_no: serviceNo, reason: "" })
+      .then((res) => {
+        if (res.code !== 0) throw new Error("code!==0");
+        toast(
+          T(LANG, "user_account.after_sale.cancel_success", "Request cancelled."),
+          true
+        );
+        refresh();
+      })
+      .catch(() =>
+        toast(
+          T(LANG, "user_account.after_sale.cancel_fail", "Failed to cancel, please try again."),
+          false
+        )
+      )
+      .finally(() => setCancelling(false));
+  }, [serviceNo, cancelling, LANG, refresh, toast]);
+
   if (isLogin === null || loading) {
     return <Loading height={400} />;
   }
@@ -178,8 +164,7 @@ export default function DetailClient({ LANG, locale }) {
   const isCancelled = status === "cancelled";
   const isRejected = status === "rejected";
   const isTerminal = TERMINAL_STATUS.has(status);
-  const useSixStep = shouldUseSixStep(data);
-  const canEditShipment = !isTerminal && !data.received_at;
+  const canCancel = CANCELABLE_STATUS.has(status);
 
   const media = Array.isArray(data.media) ? data.media : getJsonData(data.media);
   const reportType = data.report_type;
@@ -247,13 +232,7 @@ export default function DetailClient({ LANG, locale }) {
               ) : null}
             </div>
           ) : (
-            <ProgressSteps
-              steps={
-                useSixStep
-                  ? buildSixSteps(data, LANG)
-                  : buildLegacySteps(data, LANG)
-              }
-            />
+            <ProgressSteps steps={buildSteps(data, LANG)} />
           )}
 
           {/* 服务信息 */}
@@ -309,22 +288,18 @@ export default function DetailClient({ LANG, locale }) {
                 value={data.order_number}
               />
             ) : null}
+            <InfoRow
+              label={T(
+                LANG,
+                "user_account.after_sale.service_no",
+                "Request No."
+              )}
+              value={data.service_no}
+            />
           </div>
 
-          {/* 物流回寄：非取消/非终态且未签收时显示编辑表单；签收后展示只读 */}
-          {useSixStep && !isCancelled && !isRejected ? (
-            <ShipmentForm
-              data={data}
-              editable={canEditShipment}
-              LANG={LANG}
-              T={T}
-              onSubmitted={refresh}
-              toast={toast}
-            />
-          ) : null}
-
-          {/* 售后中心回寄物流（第 6 步落成后展示） */}
-          {data.return_express_no ? (
+          {/* 客户回寄快递（可选录入，非终态可填；仅展示已填信息，简化后不再是流程节点） */}
+          {data.express_no ? (
             <div className={styles.info_card}>
               <div className={styles.section_title}>
                 {T(
@@ -335,15 +310,11 @@ export default function DetailClient({ LANG, locale }) {
               </div>
               <InfoRow
                 label={T(LANG, "user_account.after_sale.courier", "Courier")}
-                value={data.return_express_company}
+                value={data.express_company}
               />
               <InfoRow
                 label={T(LANG, "user_account.after_sale.tracking_no", "Tracking No.")}
-                value={data.return_express_no}
-              />
-              <InfoRow
-                label={T(LANG, "user_account.after_sale.delivered_at", "Shipped at")}
-                value={formatDateTime(data.delivered_at)}
+                value={data.express_no}
               />
             </div>
           ) : null}
@@ -386,9 +357,6 @@ export default function DetailClient({ LANG, locale }) {
             </div>
           ) : null}
 
-          {/* 保修说明卡（除已取消/退款仅退款外都展示） */}
-          {useSixStep ? <WarrantyNote LANG={LANG} T={T} /> : null}
-
           {/* 商家回复 */}
           {data.seller_reply && !isRejected ? (
             <div className={styles.info_card}>
@@ -400,6 +368,22 @@ export default function DetailClient({ LANG, locale }) {
                 )}
               </div>
               <div className={styles.description}>{data.seller_reply}</div>
+            </div>
+          ) : null}
+
+          {/* 取消申请：仅 pending/processing 可取消 */}
+          {canCancel ? (
+            <div className={styles.cancel_action}>
+              <button
+                type="button"
+                className={styles.cancel_btn}
+                disabled={cancelling}
+                onClick={handleCancel}
+              >
+                {cancelling
+                  ? T(LANG, "user_account.after_sale.cancelling", "Cancelling...")
+                  : T(LANG, "user_account.after_sale.cancel_request", "Cancel Request")}
+              </button>
             </div>
           ) : null}
         </>
