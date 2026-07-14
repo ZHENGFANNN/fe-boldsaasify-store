@@ -23,7 +23,6 @@ import { getFaqCopy, getFaqItems } from "./faq";
 import openLiveChat, { registerLiveChatOpen } from "./openLiveChat";
 import OrderPicker, { getOrderStatusText } from "./orderPicker";
 import ProductPicker from "./productPicker";
-import GlobalContext from "@/[locale]/context";
 
 const VISITOR_KEY = "boldradiant_chat_visitor_key";
 const LEAD_KEY = "boldradiant_chat_lead";
@@ -344,9 +343,6 @@ function ChevronIcon({ open }) {
 
 export default function LiveChat({ locale, area }) {
   const copy = React.useMemo(() => getFaqCopy(locale), [locale]);
-  // 商品分享：全量商品目录来自布局注入的 GlobalContext.PRODUCT.cart（购物车关联/搜索全部均读它）
-  const globalCtx = React.useContext(GlobalContext);
-  const products = globalCtx?.PRODUCT?.cart || [];
   // FAQ 优先用后端配置，拉取失败/为空时回退写死兜底，前台永不空白
   const fallbackFaq = React.useMemo(() => getFaqItems(locale), [locale]);
   const [faqItems, setFaqItems] = React.useState(fallbackFaq);
@@ -1346,7 +1342,8 @@ export default function LiveChat({ locale, area }) {
   };
 
   // 商品分享卡片：解析 product_snapshot（JSON 文本），解析失败兜底空对象，勿崩会话流。
-  // 「View product」跳商品详情页（snapshot.href 为站内相对路径）。
+  // 「View product」新开标签看详情，避免同页硬跳转 remount LiveChat 把面板收起。
+  // snapshot.href 为站内相对路径（如 /en/product/...）。
   const renderProductCard = (msg) => {
     let snap = {};
     try {
@@ -1383,7 +1380,13 @@ export default function LiveChat({ locale, area }) {
           </div>
         </div>
         {snap.href ? (
-          <a className={styles.productCardBtn} href={snap.href}>
+          <a
+            className={styles.productCardBtn}
+            href={snap.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+          >
             {copy.viewProduct || "View product"}
           </a>
         ) : null}
@@ -2146,7 +2149,7 @@ export default function LiveChat({ locale, area }) {
               <ProductPicker
                 copy={copy}
                 locale={locale}
-                products={products}
+                area={area}
                 onPick={handlePickProduct}
                 onClose={() => setProductPickerOpen(false)}
               />

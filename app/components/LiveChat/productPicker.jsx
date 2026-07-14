@@ -3,70 +3,142 @@
 import React from "react";
 import styles from "./index.module.scss";
 import { getRecentlyViewed } from "./recentlyViewed";
+import resolveCartFromApi from "@/components/Layout/cartClient";
 
-// 商城商品 -> 统一展示/快照结构。价格取首个套餐的常规售价(product_price)，与购物车默认展示口径一致。
-function fromCatalog(product, locale) {
-  const area = product?.comboList?.[0]?.areaInfo || null;
+// 购物车行 -> 统一展示/快照结构（与 CartModal 同源 /api/cart）
+function fromCartRow(row, locale) {
   return {
-    productKey: product?.key || "",
-    sortKey: product?.sort_key || "",
-    title: product?.name || "",
-    image: product?.image || "",
-    symbol: area?.currency_symbol || "",
-    price: area?.product_price ?? "",
-    href: `/${locale}/product/${product?.sort_key}/${product?.key}`,
+    productKey: row?.productKey || "",
+    sortKey: row?.sortKey || "",
+    title: row?.name || "",
+    image: row?.image || "",
+    symbol: row?.areaInfo?.currency_symbol || "",
+    price: row?.areaInfo?.product_price ?? "",
+    href: `/${locale}/product/${row?.sortKey}/${row?.productKey}`,
   };
 }
 
-// 购物车来源：读 store_shopping 行 -> 按 productKey+sortKey 关联全量商品 -> 按商品去重
-function readCartProducts(products, locale) {
-  if (typeof window === "undefined") return [];
-  let lines = [];
-  try {
-    lines = JSON.parse(localStorage.getItem("store_shopping") || "[]") || [];
-  } catch (err) {
-    lines = [];
-  }
-  const seen = new Set();
-  const list = [];
-  lines.forEach((line) => {
-    const product = products.find(
-      (p) => p.key === line.productKey && p.sort_key === line.sortKey
-    );
-    if (!product || seen.has(product.key)) return;
-    seen.add(product.key);
-    list.push(fromCatalog(product, locale));
-  });
-  return list;
+// 目录搜索结果 -> 统一展示结构（价格可选，搜索目录不含价）
+function fromCatalogHit(item, locale) {
+  return {
+    productKey: item?.key || "",
+    sortKey: item?.sort_key || "",
+    title: item?.name || "",
+    image: item?.image || "",
+    symbol: "",
+    price: "",
+    href: `/${locale}/product/${item?.sort_key}/${item?.key}`,
+  };
 }
 
-const SEARCH_LIMIT = 30;
+const SEARCH_DEBOUNCE_MS = 250;
 
-export default function ProductPicker({ copy, locale, products, onPick, onClose }) {
-  const catalog = Array.isArray(products) ? products : [];
-  const cartItems = React.useMemo(
-    () => readCartProducts(catalog, locale),
-    [catalog, locale]
-  );
+export default function ProductPicker({ copy, locale, area, onPick, onClose }) {
   const recentItems = React.useMemo(() => getRecentlyViewed(), []);
+  const [cartItems, setCartItems] = React.useState([]);
+  const [cartLoading, setCartLoading] = React.useState(false);
+  const [cartReady, setCartReady] = React.useState(false);
 
-  // 默认 Tab：优先有内容的来源（购物车 > 最近浏览 > 搜索）
-  const initialTab = cartItems.length
-    ? "cart"
-    : recentItems.length
-      ? "recent"
-      : "search";
+  // 默认 Tab：优先有内容的来源（最近浏览有数据则 recent，否则 search；
+  // cart 异步加载后再不自动切 tab，避免跳动）
+  const initialTab = recentItems.length ? "recent" : "search";
   const [tab, setTab] = React.useState(initialTab);
   const [query, setQuery] = React.useState("");
+  const [searchItems, setSearchItems] = React.useState([]);
+  const [searchLoading, setSearchLoading] = React.useState(false);
 
-  const searchItems = React.useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return catalog
-      .filter((p) => String(p.name || "").toLowerCase().includes(q))
-      .slice(0, SEARCH_LIMIT)
-      .map((p) => fromCatalog(p, locale));
-  }, [query, catalog, locale]);
+  // Cart Tab：与站内购物车同源，读 store_shopping → /api/cart
+  React.useEffect(() => {
+    if (tab !== "cart") return undefined;
+    let cancelled = false;
+    setCartLoading(true);
+    resolveCartFromApi({ area: area || "us", language: locale || "en" })
+      .then((rows) => {
+        if (cancelled) return;
+        const seen = new Set();
+        const list = [];
+        (rows || []).forEach((row) => {
+          if (!row?.productKey || seen.has(row.productKey)) return;
+          seen.add(row.productKey);
+          list.push(fromCartRow(row, locale));
+        });
+        setCartItems(list);
+        setCartReady(true);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setCartItems([]);
+        setCartReady(true);
+      })
+      .finally(() => {
+        if (!cancelled) setCartLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [tab, area, locale]);
+
+  // Search Tab：debounce 后打 /api/products-catalog
+  React.useEffect(() => {
+    if (tab !== "search") return undefined;
+    const q = query.trim();
+    if (!q) {
+      setSearchItems([]);
+      setSearchLoading(false);
+      return undefined;
+    }
+
+    let cancelled = false;
+    setSearchLoading(true);
+    const timer = setTimeout(() => {
+      fetch(
+        `/api/products-catalog?locale=${encodeURIComponent(locale || "en")}&q=${encodeURIComponent(q)}`
+      )
+        .then((res) => (res.ok ? res.json() : null))
+        .then((json) => {
+          if (cancelled) return;
+          const list = Array.isArray(json?.data?.list) ? json.data.list : [];
+          setSearchItems(list.map((item) => fromCatalogHit(item, locale)));
+        })
+        .catch(() => {
+          if (!cancelled) setSearchItems([]);
+        })
+        .finally(() => {
+          if (!cancelled) setSearchLoading(false);
+        });
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [tab, query, locale]);
+
+  // 首次打开时：若购物车有货则默认切到 Cart（异步探测，不阻塞首屏）
+  React.useEffect(() => {
+    let cancelled = false;
+    resolveCartFromApi({ area: area || "us", language: locale || "en" })
+      .then((rows) => {
+        if (cancelled || !rows?.length) return;
+        // 仅当用户尚未操作过、仍停在 initialTab 时切换
+        setTab((cur) => (cur === initialTab ? "cart" : cur));
+        const seen = new Set();
+        const list = [];
+        rows.forEach((row) => {
+          if (!row?.productKey || seen.has(row.productKey)) return;
+          seen.add(row.productKey);
+          list.push(fromCartRow(row, locale));
+        });
+        setCartItems(list);
+        setCartReady(true);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+    // 仅挂载时探测一次
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const tabs = [
     { key: "cart", label: copy?.productTabCart || "Cart" },
@@ -74,7 +146,14 @@ export default function ProductPicker({ copy, locale, products, onPick, onClose 
     { key: "search", label: copy?.productTabSearch || "Search" },
   ];
 
-  const renderList = (items, emptyText) => {
+  const renderList = (items, emptyText, loading) => {
+    if (loading) {
+      return (
+        <div className={styles.productPickerEmpty}>
+          {copy?.productLoading || "Loading..."}
+        </div>
+      );
+    }
     if (!items.length) {
       return <div className={styles.productPickerEmpty}>{emptyText}</div>;
     }
@@ -155,12 +234,17 @@ export default function ProductPicker({ copy, locale, products, onPick, onClose 
         ) : null}
         <div className={styles.orderPickerBody}>
           {tab === "cart"
-            ? renderList(cartItems, copy?.productCartEmpty || "Your cart is empty.")
+            ? renderList(
+                cartItems,
+                copy?.productCartEmpty || "Your cart is empty.",
+                cartLoading && !cartReady
+              )
             : null}
           {tab === "recent"
             ? renderList(
                 recentItems,
-                copy?.productRecentEmpty || "No recently viewed products yet."
+                copy?.productRecentEmpty || "No recently viewed products yet.",
+                false
               )
             : null}
           {tab === "search"
@@ -168,7 +252,8 @@ export default function ProductPicker({ copy, locale, products, onPick, onClose 
                 searchItems,
                 query.trim()
                   ? copy?.productSearchEmpty || "No products found."
-                  : copy?.productSearchHint || "Type to search products."
+                  : copy?.productSearchHint || "Type to search products.",
+                searchLoading
               )
             : null}
         </div>
