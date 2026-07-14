@@ -90,12 +90,6 @@ export default function CountryPickerList({
                 onSelect(countryItem);
               }}
             >
-              <img
-                alt={getCountryLabel(countryItem, locale)}
-                src={`${
-                  process.env.NEXT_PUBLIC_FILE
-                }/common/image/icon/flags/${countryItem.country_code.toLowerCase()}.svg`}
-              />
               {`${getCountryLabel(countryItem, locale)} (${countryItem.currency_symbol}${countryItem.currency})`}
             </div>
           ))}

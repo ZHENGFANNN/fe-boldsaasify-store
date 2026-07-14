@@ -51,16 +51,32 @@
         }
       }
     }
-    .record_type_row {
+    // 售后类型 · 描述：同行展示，中间用点分隔；描述超长省略
+    .record_meta {
+      display: flex;
+      align-items: center;
+      gap: 4px;
       margin-bottom: 6px;
       font-size: 13px;
+      line-height: 1.5;
+      color: rgba(0, 0, 0, 0.8);
+      min-width: 0;
+    }
+    .record_type {
+      flex: none;
       color: rgba(0, 0, 0, 0.65);
       text-transform: capitalize;
     }
+    .record_dot {
+      flex: none;
+      color: rgba(0, 0, 0, 0.35);
+    }
     .record_desc {
-      color: rgba(0, 0, 0, 0.8);
-      line-height: 1.5;
-      white-space: pre-wrap;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .record_time {
       margin-top: 8px;

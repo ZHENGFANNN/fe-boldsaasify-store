@@ -48,17 +48,22 @@ export default function ProgressClient({ LANG, locale }) {
   );
 
   if (isLogin === null) {
-    return <Loading height={400} />;
+    return (
+      <div className={styles.container}>
+        <Loading height={400} />
+      </div>
+    );
   }
 
+  // 未登录：直接返回守卫卡片，不套 .container 外层
   if (!isLogin) {
     return <AuthRedirectGuard LANG={LANG} />;
   }
 
   return (
-    <div className={styles.wizard}>
-      <div className={styles.page_head}>
-        <h1 className={styles.page_title}>
+    <div className={styles.container}>
+      <div className={styles.wizard}>
+        <h1 className="header">
           {T(
             LANG,
             "user_account.after_sale.progress_page_title",
@@ -67,18 +72,18 @@ export default function ProgressClient({ LANG, locale }) {
               : "Track After-Sales Service"
           )}
         </h1>
-      </div>
 
-      <div className={styles.tabs_wrap}>
-        <SegmentTabs
-          options={filterOptions}
-          value={filter}
-          onChange={setFilter}
-        />
-      </div>
+        <div className={styles.tabs_wrap}>
+          <SegmentTabs
+            options={filterOptions}
+            value={filter}
+            onChange={setFilter}
+          />
+        </div>
 
-      <div className={styles.card}>
-        <AfterSaleInfo LANG={LANG} filter={filter} />
+        <div className={styles.card}>
+          <AfterSaleInfo LANG={LANG} filter={filter} />
+        </div>
       </div>
     </div>
   );

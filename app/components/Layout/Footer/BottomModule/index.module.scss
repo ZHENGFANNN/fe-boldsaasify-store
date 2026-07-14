@@ -50,10 +50,8 @@
         .icon {
           width: 18px;
           height: 18px;
-          border-radius: 100%;
-          object-fit: cover;
           margin-right: 6px;
-          border: 0;
+          display: block;
         }
       }
     }

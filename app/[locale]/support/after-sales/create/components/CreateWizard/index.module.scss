@@ -4,22 +4,6 @@
   max-width: 1200px;
 }
 
-.page_head {
-  display: flex;
-  align-items: center;
-  padding: 0 4px;
-  margin-bottom: 24px;
-}
-
-.page_title {
-  flex: 1;
-  font-size: 28px;
-  font-weight: 700;
-  color: #16181b;
-  margin: 0;
-
-}
-
 .stack {
   display: flex;
   flex-direction: column;
@@ -27,15 +11,6 @@
 }
 
 @media (max-width: 800px) {
-
-  .page_head {
-    margin-bottom: 16px;
-  }
-
-  .page_title {
-    font-size: 22px;
-  }
-
   .stack {
     gap: 12px;
   }

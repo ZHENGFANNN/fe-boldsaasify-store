@@ -1,19 +1,19 @@
-.guard {
+.container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  min-height: 60vh;
-  padding: 56px 20px;
+  align-items: center;
+  background-color: #fff;
+  padding: 120px 20px;
 }
 
 .card {
   width: 100%;
-  max-width: 440px;
+  max-width: 520px;
+  padding: 56px 40px 48px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 18px;
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.08);
-  padding: 44px 36px 36px;
   text-align: center;
 }
 
@@ -39,87 +39,86 @@
   font-size: 22px;
   font-weight: 600;
   color: #3b3e40;
-  margin-bottom: 12px;
+  margin: 0 0 10px;
+  line-height: 1.2;
 }
 
 .desc {
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.5;
   color: rgba(0, 0, 0, 0.55);
-  margin: 0 auto 28px;
-  max-width: 340px;
+  margin: 0 auto 24px;
 }
 
-.btn {
+// Google 快捷登录（主入口，铺满 width 100%）
+.google_wrap {
+  position: relative;
   width: 100%;
-  padding: 13px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #3b3e40;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-
-  &:hover {
-    opacity: 0.9;
-  }
-
-  &:active {
-    opacity: 0.8;
-  }
 }
 
-.countdown {
-  margin-top: 18px;
+// OR 分隔线
+.divider {
   display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 3px;
-  color: rgba(0, 0, 0, 0.4);
-
-  .count_num {
-    font-size: 20px;
-    font-weight: 600;
-    color: #3b3e40;
-    font-variant-numeric: tabular-nums;
-    min-width: 22px;
-  }
-  .count_unit {
-    font-size: 13px;
-  }
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
 }
 
-// ---------- 响应式 ----------
-// 中屏 780–1440 使用上方基础样式。
-
-// 大屏 1440–1920
-@media (min-width: 1440px) {
-  .card {
-    max-width: 468px;
-    padding: 48px 40px 40px;
-  }
-  .title {
-    font-size: 24px;
-  }
+.divider_line {
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
 }
 
-// 小屏 0–779
-@media (max-width: 779px) {
-  .guard {
-    min-height: 56vh;
-    padding: 40px 16px;
+.divider_text {
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+// 邮箱登录 / 注册按钮组（次要入口，一行两颗；视觉由公共 Button 承担）
+.entry_buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.entry_button {
+  flex: 1;
+  min-width: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// 小屏 0–680
+@media (max-width: 680px) {
+  .container {
+    padding: 64px 20px;
   }
+
   .card {
     padding: 36px 22px 28px;
     border-radius: 16px;
   }
+
   .icon {
     width: 64px;
     height: 64px;
   }
+
   .title {
     font-size: 20px;
+  }
+
+  .entry_buttons {
+    flex-direction: column;
+  }
+
+  .entry_button {
+    flex: none;
+    width: 100%;
+    max-width: calc(100% - 50px);
   }
 }

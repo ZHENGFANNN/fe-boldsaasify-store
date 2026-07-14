@@ -3,10 +3,9 @@
 import React from "react";
 import styles from "../index.module.scss";
 
-// 6 步进度条：横向 6 个圆圈 + label + 时间戳；当前高亮点用方形边角标（对齐参考图 02 号态）。
+// 横向进度条：数字/勾 + label + 时间戳；当前用背景色高亮，不再使用红色角标聚焦样式。
 // 参数：
-//   steps  : [{title, time?, done, current}] 长度 6
-//   compact: 移动端紧凑模式（小屏 gap 变窄）
+//   steps  : [{title, time?, done, current}]
 const ProgressSteps = React.memo(function ProgressSteps({ steps }) {
   return (
     <div className={styles.progress}>
@@ -21,20 +20,9 @@ const ProgressSteps = React.memo(function ProgressSteps({ steps }) {
                 s.done ? styles.done : "",
               ].join(" ")}
             >
-              {s.current ? (
-                // 当前步：数字用方形角标包裹（对齐参考图 02 高亮样式）
-                <span className={styles.p_dot_current}>
-                  <span className={styles.p_dot_current_corner} />
-                  <span className={styles.p_dot_current_corner} />
-                  <span className={styles.p_dot_current_corner} />
-                  <span className={styles.p_dot_current_corner} />
-                  <b>{String(no).padStart(2, "0")}</b>
-                </span>
-              ) : (
-                <span className={styles.p_dot}>
-                  {s.done ? "✓" : String(no).padStart(2, "0")}
-                </span>
-              )}
+              <span className={styles.p_dot}>
+                {s.done ? "✓" : String(no).padStart(2, "0")}
+              </span>
               <span className={styles.p_label}>{s.title}</span>
               {s.time ? (
                 <span className={styles.p_time}>{s.time}</span>
@@ -53,3 +41,4 @@ const ProgressSteps = React.memo(function ProgressSteps({ steps }) {
 });
 
 export default ProgressSteps;
+

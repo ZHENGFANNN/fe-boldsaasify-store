@@ -46,16 +46,6 @@ const request = {
     return Api.post("/pay/updateAfterServiceExpress", data);
   },
 
-  // 客户修改邮箱/手机号（二选一必填，服务端做终态锁定与格式校验）。
-  updateAfterServiceContact: (data) => {
-    return Api.post("/pay/updateAfterServiceContact", data);
-  },
-
-  // 触发邮件/短信重发（channel = "mail" | "sms"，后端 60s 冷却 + 单日 5 次上限）。
-  resendAfterServiceNotify: (data) => {
-    return Api.post("/pay/resendAfterServiceNotify", data);
-  },
-
   // 客户主动取消工单（仅 pending/processing 可取消）。
   cancelAfterService: (data) => {
     return Api.post("/pay/cancelAfterService", data);

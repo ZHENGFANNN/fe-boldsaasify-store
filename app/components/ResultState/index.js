@@ -1,66 +1,20 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import SuccessIcon from "@/components/Icon/SuccessIcon";
+import WarningIcon from "@/components/Icon/WarningIcon";
+import ErrorIcon from "@/components/Icon/ErrorIcon";
+import Button from "@/components/Button";
 import styles from "./index.module.scss";
 
-// 内置四种状态图标：只用 stroke，不填色，便于图标色随主题变。
+// 内置三种状态图标：24×24 同风格方块底 + 白色符号，图标自带底色，无需外层圆底。
 const ICONS = {
-  success: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.6" />
-      <path
-        d="M8 12.4l2.6 2.6L16 9.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  info: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.6" />
-      <path
-        d="M12 11v6"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <circle cx="12" cy="7.8" r="1.1" fill="currentColor" />
-    </svg>
-  ),
-  warning: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M12 3.5 L21 19 H3 Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12 10v4.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <circle cx="12" cy="17.2" r="1.1" fill="currentColor" />
-    </svg>
-  ),
-  error: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.6" />
-      <path
-        d="M9 9l6 6M15 9l-6 6"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-    </svg>
-  ),
+  success: <SuccessIcon width={64} height={64} />,
+  warning: <WarningIcon width={64} height={64} />,
+  error: <ErrorIcon width={64} height={64} />
 };
 
-// 单个按钮：有 href 走 <Link>，否则 <button>。
+// 单个按钮：视觉与交互由公共 Button 承担；href/onClick/loading 等自动透传。
 function ActionButton({ action }) {
   const {
     label,
@@ -70,39 +24,27 @@ function ActionButton({ action }) {
     rel,
     variant = "ghost",
     disabled = false,
+    loading = false,
+    spinning = false,
     type = "button",
-    ariaLabel,
+    ariaLabel
   } = action;
 
-  const cls =
-    variant === "primary" ? styles.btn_primary : styles.btn_ghost;
-
-  if (href && !disabled) {
-    return (
-      <Link
-        href={href}
-        target={target}
-        rel={target === "_blank" ? rel || "noreferrer noopener" : rel}
-        className={cls}
-        aria-label={ariaLabel}
-        onClick={onClick}
-      >
-        {label}
-      </Link>
-    );
-  }
-
   return (
-    <button
+    <Button
+      variant={variant}
+      href={href}
+      target={target}
+      rel={rel}
       type={type}
-      className={cls}
       onClick={onClick}
       disabled={disabled}
+      loading={loading}
+      spinning={spinning}
       aria-label={ariaLabel}
-      aria-disabled={disabled || undefined}
     >
       {label}
-    </button>
+    </Button>
   );
 }
 
@@ -113,11 +55,11 @@ function ActionButton({ action }) {
  * 视觉参考 Ant Design Result 与 Shopify Polaris EmptyState 的语义，
  * 但样式对齐商城克制风：圆形淡色底 icon + 深色主 CTA + 白底细边次按钮。
  *
- * @param {'success'|'info'|'warning'|'error'} status  状态，决定默认图标与配色，默认 success
+ * @param {'success'|'warning'|'error'} status  状态，决定默认图标与配色，默认 success
  * @param {ReactNode} icon      自定义图标（覆盖 status 默认图标）
  * @param {ReactNode} title     标题（必填）
  * @param {ReactNode} description  描述（可选）
- * @param {Array<Action>} actions  按钮组，Action = { label, onClick?, href?, target?, rel?, variant?: 'primary'|'ghost', disabled?, ariaLabel? }
+ * @param {Array<Action>} actions  按钮组，Action = { label, onClick?, href?, target?, rel?, variant?: 'primary'|'secondary'|'ghost', disabled?, loading?, spinning?, type?, ariaLabel?, key? }
  * @param {ReactNode} extra     actions 上方的额外内容槽（如订单号、编号、状态标签）
  * @param {ReactNode} children  actions 下方的额外内容槽（如帮助链接、二维码）
  * @param {string} className    外层容器额外 class
@@ -132,7 +74,7 @@ export default function ResultState({
   extra,
   children,
   className = "",
-  size = "default",
+  size = "default"
 }) {
   const iconNode = icon ?? ICONS[status] ?? ICONS.success;
 
@@ -140,34 +82,32 @@ export default function ResultState({
     styles.result,
     styles[`status_${status}`] || "",
     size === "compact" ? styles.compact : "",
-    className,
+    className
   ]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <div
-      className={rootCls}
-      role="status"
-      aria-live="polite"
-      data-status={status}
-    >
-      <div className={styles.icon}>{iconNode}</div>
-
-      {title ? <h2 className={styles.title}>{title}</h2> : null}
-      {description ? <p className={styles.desc}>{description}</p> : null}
-
-      {extra ? <div className={styles.extra}>{extra}</div> : null}
-
-      {actions.length > 0 ? (
-        <div className={styles.actions}>
-          {actions.map((action, i) => (
-            <ActionButton key={action.key ?? i} action={action} />
-          ))}
-        </div>
-      ) : null}
-
-      {children ? <div className={styles.children}>{children}</div> : null}
+    <div className={styles.container}>
+      <div
+        className={rootCls}
+        role="status"
+        aria-live="polite"
+        data-status={status}
+      >
+        <div className={styles.icon}>{iconNode}</div>
+        {title ? <h2 className={styles.title}>{title}</h2> : null}
+        {description ? <p className={styles.desc}>{description}</p> : null}
+        {extra ? <div className={styles.extra}>{extra}</div> : null}
+        {actions.length > 0 ? (
+          <div className={styles.actions}>
+            {actions.map((action, i) => (
+              <ActionButton key={action.key ?? i} action={action} />
+            ))}
+          </div>
+        ) : null}
+        {children ? <div className={styles.children}>{children}</div> : null}
+      </div>
     </div>
   );
 }

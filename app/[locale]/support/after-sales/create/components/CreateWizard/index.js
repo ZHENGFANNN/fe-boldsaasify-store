@@ -4,6 +4,7 @@ import React from "react";
 import Cookies from "js-cookie";
 import { Provider, useAtom, useAtomValue, useSetAtom } from "jotai";
 import styles from "./index.module.scss";
+import pageStyles from "../../page.module.scss";
 import Api from "../../../api";
 import SubmitSuccess from "../SubmitSuccess";
 import StepBlock from "../StepBlock";
@@ -71,9 +72,14 @@ export default function CreateWizard({ LANG, locale }) {
   /* eslint-enable react-hooks/set-state-in-effect */
 
   if (isLogin === null) {
-    return <Loading height={400} />;
+    return (
+      <div className={pageStyles.container}>
+        <Loading height={400} />
+      </div>
+    );
   }
 
+  // 未登录：直接返回守卫卡片，不套 .container 外层
   if (!isLogin) {
     return <AuthRedirectGuard LANG={LANG} redirectPath={redirectPath} />;
   }
@@ -81,9 +87,11 @@ export default function CreateWizard({ LANG, locale }) {
   // 登录态下才挂 jotai <Provider>：atom 只在真正需要时创建，
   // 未登录用户不产生 atom store 实例。
   return (
-    <Provider>
-      <WizardBody LANG={LANG} locale={locale} />
-    </Provider>
+    <div className={pageStyles.container}>
+      <Provider>
+        <WizardBody LANG={LANG} locale={locale} />
+      </Provider>
+    </div>
   );
 }
 
@@ -307,15 +315,13 @@ function WizardMain() {
 
   return (
     <div className={styles.wizard}>
-      <div className={styles.page_head}>
-        <h1 className={styles.page_title}>
-          {T(
-            LANG,
-            "user_account.after_sale.create",
-            locale?.startsWith("zh") ? "售后服务" : "After-Sales Service"
-          )}
-        </h1>
-      </div>
+      <h1 className="header">
+        {T(
+          LANG,
+          "user_account.after_sale.create",
+          locale?.startsWith("zh") ? "售后服务" : "After-Sales Service"
+        )}
+      </h1>
 
       <div className={styles.stack}>
         <StepBlock

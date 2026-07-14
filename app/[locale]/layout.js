@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import "@/styles/reset.css";
+import "@/styles/common.scss"
 
 import Layout from "@/components/Layout";
 import Navbar from "@/components/Layout/NavBar";

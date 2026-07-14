@@ -135,3 +135,4 @@ export function getJsonData(data) {
 }
 
 export { formatDateTime, resolveIntlLocale } from "./formatDateTime";
+export { copyToClipboard } from "./clipboard";

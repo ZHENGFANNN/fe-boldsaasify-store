@@ -10,6 +10,7 @@ import { defaultLocale } from "@/config/languageSettings";
 import Loading from "@/components/Loading";
 import AuthRedirectGuard from "@/components/AuthRedirectGuard";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
+import Button from "@/components/Button";
 import ProgressSteps from "./parts/ProgressSteps";
 import ServiceInfoCard from "./parts/ServiceInfoCard";
 import CancelledBanner from "./parts/CancelledBanner";
@@ -67,7 +68,6 @@ export default function DetailClient({ LANG, locale }) {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(false);
-  const [expanded, setExpanded] = React.useState(true);
   const tipRef = React.useRef(null);
 
   // cookie/URL 仅挂载后可读（SSR 无 window），故在 effect 内同步 setState。
@@ -133,29 +133,36 @@ export default function DetailClient({ LANG, locale }) {
   }, [serviceNo, cancelling, LANG, refresh, toast]);
 
   if (isLogin === null || loading) {
-    return <Loading height={400} />;
+    return (
+      <div className={styles.container}>
+        <Loading height={400} />
+      </div>
+    );
   }
 
+  // 未登录：直接返回守卫卡片，不套 .container 外层
   if (!isLogin) {
     return <AuthRedirectGuard LANG={LANG} redirectPath={redirectPath} />;
   }
 
   if (error || !data) {
     return (
-      <div className={styles.empty}>
-        <p>
-          {T(
-            LANG,
-            "user_account.after_sale.not_found",
-            "This request could not be found."
-          )}
-        </p>
-        <Link
-          className={styles.back_link}
-          href={localeHref("/support/after-sales/create", locale)}
-        >
-          {T(LANG, "user_account.after_sale.create", "New Request")}
-        </Link>
+      <div className={styles.container}>
+        <div className={styles.empty}>
+          <p>
+            {T(
+              LANG,
+              "user_account.after_sale.not_found",
+              "This request could not be found."
+            )}
+          </p>
+          <Link
+            className={styles.back_link}
+            href={localeHref("/support/after-sales/create", locale)}
+          >
+            {T(LANG, "user_account.after_sale.create", "New Request")}
+          </Link>
+        </div>
       </div>
     );
   }
@@ -179,46 +186,24 @@ export default function DetailClient({ LANG, locale }) {
   };
 
   return (
-    <div className={styles.detail}>
-      {/* 顶部标题条：售后服务进度 + 右上折叠箭头 */}
-      <div className={styles.detail_header}>
-        <h1 className={styles.detail_title}>
-          {T(
-            LANG,
-            "user_account.after_sale.progress_title",
-            "After-Sales Progress"
-          )}
-        </h1>
-        <button
-          type="button"
-          className={styles.collapse_btn}
-          onClick={() => setExpanded((v) => !v)}
-          aria-label={
-            expanded
-              ? T(LANG, "user_account.after_sale.collapse", "Collapse")
-              : T(LANG, "user_account.after_sale.expand", "Expand")
-          }
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path
-              d={expanded ? "M8 8l8 8M8 16l8-8" : "M17 7L7 17M7 7l10 10"}
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-      </div>
+    <div className={styles.container}>
+      <div className={styles.detail}>
+      {/* 顶部标题条 */}
+      <h1 className="header">
+        {T(
+          LANG,
+          "user_account.after_sale.progress_title",
+          "After-Sales Progress"
+        )}
+      </h1>
 
-      {expanded ? (
-        <>
-          {/* 已取消：红色卡片替代进度条 */}
-          {isCancelled ? (
-            <CancelledBanner
-              reason={data.cancel_reason}
-              LANG={LANG}
-              T={T}
+      <div className={styles.parts}>
+        {/* 已取消：红色卡片替代进度条 */}
+        {isCancelled ? (
+          <CancelledBanner
+            reason={data.cancel_reason}
+            LANG={LANG}
+            T={T}
             />
           ) : isRejected ? (
             <div className={styles.rejected_banner}>
@@ -238,10 +223,8 @@ export default function DetailClient({ LANG, locale }) {
           {/* 服务信息 */}
           <ServiceInfoCard
             data={data}
-            editable={!isTerminal}
             LANG={LANG}
             T={T}
-            onUpdate={refresh}
             toast={toast}
           />
 
@@ -374,22 +357,19 @@ export default function DetailClient({ LANG, locale }) {
           {/* 取消申请：仅 pending/processing 可取消 */}
           {canCancel ? (
             <div className={styles.cancel_action}>
-              <button
-                type="button"
-                className={styles.cancel_btn}
-                disabled={cancelling}
+              <Button
+                variant="ghost"
+                loading={cancelling}
                 onClick={handleCancel}
               >
-                {cancelling
-                  ? T(LANG, "user_account.after_sale.cancelling", "Cancelling...")
-                  : T(LANG, "user_account.after_sale.cancel_request", "Cancel Request")}
-              </button>
+                {T(LANG, "user_account.after_sale.cancel_request", "Cancel Request")}
+              </Button>
             </div>
           ) : null}
-        </>
-      ) : null}
+        </div>
 
       <ShowTipModal ref={tipRef} />
+      </div>
     </div>
   );
 }

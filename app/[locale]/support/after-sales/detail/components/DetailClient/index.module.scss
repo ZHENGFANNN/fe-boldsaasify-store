@@ -2,6 +2,7 @@
 // 主页面容器/信息卡/媒体网格样式在 ../../../page.module.scss，与本文件互不覆盖。
 
 // ---------- 6 步进度条（放在白卡内） ----------
+
 .progress {
   display: flex;
   align-items: flex-start;
@@ -11,7 +12,9 @@
   border-radius: 16px;
   overflow-x: auto;
 
-  @media (max-width: 800px) {
+
+
+  @media (max-width: 780px) {
     border-radius: 0;
     padding: 20px 16px;
   }
@@ -38,31 +41,6 @@
       background: rgba(0, 0, 0, 0.04);
       border: 1px solid transparent;
     }
-    .p_dot_current {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 46px;
-      height: 46px;
-      padding: 0 10px;
-      color: #16181b;
-      background: transparent;
-      font-size: 22px;
-      font-weight: 700;
-
-      // 4 个角上的红色三角标记（参考大疆 02 高亮）
-      .p_dot_current_corner {
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        border: 2px solid #ef4444;
-      }
-      .p_dot_current_corner:nth-child(1) { top: 0; left: 0; border-right: none; border-bottom: none; }
-      .p_dot_current_corner:nth-child(2) { top: 0; right: 0; border-left: none; border-bottom: none; }
-      .p_dot_current_corner:nth-child(3) { bottom: 0; left: 0; border-right: none; border-top: none; }
-      .p_dot_current_corner:nth-child(4) { bottom: 0; right: 0; border-left: none; border-top: none; }
-    }
     .p_label {
       font-size: 15px;
       font-weight: 600;
@@ -76,7 +54,12 @@
       padding: 0 4px;
     }
 
+    // 当前步：数字用深色底 + 白字高亮，取代原来的红色角标聚焦样式
     &.active {
+      .p_dot {
+        background: #16181b;
+        color: #fff;
+      }
       .p_label {
         color: #16181b;
       }
@@ -100,6 +83,7 @@
     min-width: 24px;
     max-width: 60px;
     height: 1px;
+    // 与 .p_dot 垂直居中对齐（dot 高 42px，中线 21px）
     margin-top: 21px;
     background: rgba(0, 0, 0, 0.15);
 
@@ -180,63 +164,6 @@
     text-decoration: none;
   }
 }
-.link_btn_muted {
-  @extend .link_btn;
-  color: rgba(0, 0, 0, 0.55);
-  &:hover {
-    color: #16181b;
-  }
-}
-
-.info_edit {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex: 1;
-}
-.info_input {
-  height: 32px;
-  padding: 4px 10px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  font-size: 14px;
-  flex: 1;
-  min-width: 160px;
-  &:focus {
-    outline: none;
-    border-color: #2563eb;
-  }
-}
-
-.resend_hint {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 10px 16px;
-  background: rgba(219, 234, 254, 0.4);
-  border-radius: 6px;
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.55);
-  margin-top: 4px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-.resend_link {
-  background: transparent;
-  border: none;
-  color: #2563eb;
-  cursor: pointer;
-  font-size: 13px;
-  padding: 0;
-  &:hover {
-    text-decoration: underline;
-  }
-  &:disabled {
-    color: rgba(0, 0, 0, 0.35);
-    cursor: not-allowed;
-    text-decoration: none;
-  }
-}
 
 // ---------- 已取消卡片（红色 X + 四角标记；白卡内嵌红标） ----------
 .cancelled_card {
@@ -250,20 +177,10 @@
     padding: 32px 20px;
   }
 }
-.cancelled_corner {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border: 2px solid #ef4444;
-  &.top_left { top: 8px; left: 8px; border-right: none; border-bottom: none; }
-  &.top_right { top: 8px; right: 8px; border-left: none; border-bottom: none; }
-  &.bottom_left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
-  &.bottom_right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
-}
 .cancelled_body {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 .cancelled_icon {
   display: inline-flex;
@@ -276,8 +193,9 @@
   gap: 4px;
 
   b {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
+    line-height: 24px;
     color: #16181b;
   }
   .cancelled_reason {

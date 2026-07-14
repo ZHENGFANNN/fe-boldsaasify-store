@@ -4,6 +4,7 @@ import React from "react";
 import GlobalContext from "@/[locale]/context";
 
 import Skeleton from "@/components/Skeleton";
+import { GlobalIcon } from "@/components/Icon";
 import { countryMap } from "@/config/marketSettings";
 
 import styles from "./index.module.scss";
@@ -31,10 +32,11 @@ function ShowLanguageItem() {
         showAreaModal();
       }}
     >
-      <img
+      <GlobalIcon
         className={styles.icon}
-        alt={resolvedArea}
-        src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/flags/${resolvedArea}.svg`}
+        width={18}
+        height={18}
+        aria-label={resolvedArea}
       />
       <div>{`${countryMap[resolvedArea]?.country} (${countryMap[resolvedArea]?.currency_symbol}${countryMap[resolvedArea]?.currency})`}</div>
     </div>

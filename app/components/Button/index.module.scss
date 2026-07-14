@@ -1,0 +1,170 @@
+// 通用按钮：pill 形状，默认高 48px，移动端 44px；三种主题（primary/secondary/ghost），
+// 两档尺寸（default/small），支持 loading（内联 Spinner）与 spinning（Skeleton 占位）。
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  outline: none;
+  user-select: none;
+  transition: background-color 200ms, border-color 200ms, color 200ms,
+    transform 100ms, opacity 200ms;
+  white-space: nowrap;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  }
+
+}
+
+// ---------- 尺寸 ----------
+.size_default {
+  height: 48px;
+  font-size: 14px;
+}
+
+.size_small {
+  height: 40px;
+  font-size: 13px;
+  padding: 0 18px;
+}
+
+// 撑满父容器（一行铺开）
+.block {
+  display: flex;
+  width: 100%;
+}
+
+// ---------- 主题 ----------
+// primary: 深色主按钮（登录/注册/找回密码提交）
+.variant_primary {
+  background: rgba(0, 0, 0, 0.88);
+  color: #fff;
+  border-color: rgba(0, 0, 0, 0.88);
+
+  // hover 仅在真正支持悬停的设备上生效（避免移动端 tap 后 hover 残留）
+  @media (hover: hover) {
+    &:hover:not(.inactive) {
+      background: rgba(0, 0, 0, 0.75);
+      border-color: rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  &:active:not(.inactive) {
+    background: #000;
+    border-color: #000;
+  }
+}
+
+// secondary: 浅灰次按钮（结账页 Log in 邮箱入口）
+.variant_secondary {
+  background: #f4f5f7;
+  color: #1f1f1f;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not(.inactive) {
+      background: #ebedf0;
+    }
+  }
+}
+
+// ghost: 白底细描边（结账页 Register 邮箱入口）
+.variant_ghost {
+  background: #fff;
+  color: #1f1f1f;
+  border-color: #dadce0;
+
+  @media (hover: hover) {
+    &:hover:not(.inactive) {
+      background: #f8f9fa;
+      border-color: #c7c9cf;
+    }
+  }
+}
+
+// ---------- 状态 ----------
+// disabled / loading / spinning 统一走 inactive 语义
+.inactive {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.variant_primary.inactive {
+  background: rgba(0, 0, 0, 0.35);
+  border-color: transparent;
+  color: #fff;
+}
+
+.variant_secondary.inactive,
+.variant_ghost.inactive {
+  opacity: 0.55;
+}
+
+// ---------- 内部结构 ----------
+.label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1em;
+}
+
+.spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.spinner_svg {
+  width: 100%;
+  height: 100%;
+  animation: btn_spin 800ms linear infinite;
+  transform-origin: center;
+}
+
+@keyframes btn_spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// spinning：Skeleton 撑满，隐藏 label
+.skeleton_wrap {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.skeleton_fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+// ---------- 响应式 ----------
+@media screen and (max-width: 768px) {
+  .size_default {
+    height: 44px;
+    font-size: 13px;
+  }
+}

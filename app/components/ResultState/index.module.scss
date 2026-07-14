@@ -1,12 +1,20 @@
 // 通用结果态：卡片式布局，居中，克制视觉，不与主 CTA 抢戏。
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 120px 0;
+}
+
 .result {
   max-width: 520px;
-  margin: 0 auto;
   padding: 56px 40px 48px;
+  margin: 0 24px;
   text-align: center;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.04);
 }
 
@@ -14,38 +22,18 @@
   padding: 40px 28px 36px;
 }
 
-// ---------- 状态色 ----------
-.status_success .icon {
-  background: rgba(24, 160, 88, 0.1);
-  color: #18a058;
-}
-.status_info .icon {
-  background: rgba(24, 118, 210, 0.1);
-  color: #1876d2;
-}
-.status_warning .icon {
-  background: rgba(240, 160, 32, 0.12);
-  color: #d68b0c;
-}
-.status_error .icon {
-  background: rgba(215, 60, 60, 0.1);
-  color: #d73c3c;
-}
-
+// ---------- 状态图标 ----------
+// 三种状态都用 24×24 满底色方块 + 白色符号（SuccessIcon/WarningIcon/ErrorIcon），
+// 图标自带底色，此处不再套外层圆形淡色底。
 .icon {
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
   margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.55);
 
   svg {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     display: block;
   }
 }
@@ -54,14 +42,14 @@
   font-size: 22px;
   font-weight: 600;
   color: #16181b;
-  margin: 0 0 10px;
-  line-height: 1.35;
+  margin: 0 0 12px;
+  line-height: 1.15;
   letter-spacing: 0.2px;
 }
 
 .desc {
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.2;
   color: rgba(0, 0, 0, 0.55);
   margin: 0 auto 24px;
   max-width: 380px;
@@ -74,6 +62,7 @@
   font-size: 13px;
 }
 
+// 按钮组：布局由此处控制；按钮视觉/交互由公共 Button 组件承担。
 .actions {
   display: flex;
   align-items: center;
@@ -81,59 +70,6 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 4px;
-
-  a,
-  button {
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 128px;
-    padding: 11px 24px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.2px;
-    line-height: 1.2;
-    cursor: pointer;
-    transition: background-color 0.15s, border-color 0.15s, opacity 0.15s;
-    outline: none;
-
-    &:focus-visible {
-      box-shadow: 0 0 0 3px rgba(24, 118, 210, 0.25);
-    }
-  }
-}
-
-.btn_primary {
-  border: 1px solid #16181b;
-  background: #16181b;
-  color: #fff;
-
-  &:hover {
-    background: #000;
-    border-color: #000;
-  }
-  &:disabled,
-  &[aria-disabled="true"] {
-    opacity: 0.55;
-    cursor: not-allowed;
-  }
-}
-
-.btn_ghost {
-  border: 1px solid rgba(0, 0, 0, 0.18);
-  background: #fff;
-  color: #16181b;
-
-  &:hover {
-    border-color: rgba(0, 0, 0, 0.55);
-  }
-  &:disabled,
-  &[aria-disabled="true"] {
-    opacity: 0.55;
-    cursor: not-allowed;
-  }
 }
 
 .children {
@@ -142,53 +78,32 @@
   font-size: 13px;
 }
 
-// ---------- 响应式 ----------
-// 大屏 ≥1440
-@media (min-width: 1440px) {
-  .result {
-    max-width: 560px;
-    padding: 64px 44px 52px;
+@media (max-width: 680px) {
+  .container {
+    padding: 64px 0;
   }
-  .title {
-    font-size: 24px;
-  }
-}
 
-// 中屏 780–1439 沿用基础样式
-
-// 小屏 <780
-@media (max-width: 779px) {
   .result {
     padding: 40px 20px 32px;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
   }
-  .icon {
-    width: 68px;
-    height: 68px;
-    margin-bottom: 16px;
 
-    svg {
-      width: 36px;
-      height: 36px;
-    }
-  }
   .title {
     font-size: 19px;
   }
+
   .desc {
     font-size: 13px;
     margin-bottom: 20px;
   }
+
   .actions {
     flex-direction: column;
     gap: 10px;
 
-    a,
-    button {
+    & > * {
       width: 100%;
-      min-width: 0;
-      padding: 12px 16px;
     }
   }
 }

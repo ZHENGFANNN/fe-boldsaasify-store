@@ -1,118 +1,131 @@
 .header_right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  transform: translateX(12px);
+  position: relative;
+  z-index: 3;
+
+  li {
+    cursor: pointer;
+    color: #737373;
+    font-size: 14px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 60px;
-    transform: translateX(12px);
+  }
+
+  .header_country,
+  .header_cart,
+  .header_user {
+    display: flex;
     position: relative;
-    z-index: 3;
-    li {
-      cursor: pointer;
-      color: #737373;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-    }
-    .header_country,
-    .header_cart,
-    .header_user {
-      display: flex;
-      position: relative;
-      z-index: 2;
-      &.header_country {
-        img {
-          object-fit: cover;
-          border-radius: 100%;
-        }
+    z-index: 2;
 
-        .country_loading {
-          width: 24px;
-          height: 24px;
-        }
-      }
-      &.header_user {
-        position: static;
-      }
-      .num {
-        position: absolute;
-        top: 22px;
-        left: 26px;
-        display: inline-block;
-        padding: 2px 4px;
-        font-size: 10px;
-        background: #333;
-        color: #fff;
-        line-height: 12px;
-        border-radius: 8px;
-        text-align: center;
-        box-sizing: border-box;
-
-        width: auto;
-        height: auto;
-      }
+    &.header_country {
       img {
-        display: block;
-        box-sizing: content-box;
-        width: 20px;
-        height: 20px;
-        border: 12px solid transparent;
-        color: #000;
+        object-fit: cover;
+        border-radius: 100%;
+      }
 
-      }
-      /* 内联 SVG 图标：与 img 命中区一致（20px 图 + 12px 透明 border = 44px），
-         stroke=currentColor 随 li 色，hover 由父级 li 变色。 */
-      .svg_icon {
-        display: block;
-        box-sizing: content-box;
-        width: 20px;
-        height: 20px;
-        border: 12px solid transparent;
-        color: #222;
-      }
-      span {
-        &::selection {
-          display: none;
-        }
-        margin-left: 0px;
+      .country_loading {
+        width: 24px;
+        height: 24px;
       }
     }
+
+    &.header_user {
+      position: static;
+    }
+
+    .num {
+      position: absolute;
+      top: 22px;
+      left: 26;
+      display: inline-block;
+      padding: 2px 4px;
+      font-size: 10px;
+      background: #333;
+      color: #fff;
+      line-height: 12px;
+      border-radius: 8px;
+      text-align: center;
+      box-sizing: border-box;
+
+      width: auto;
+      height: auto;
+    }
+
+    img {
+      display: block;
+      box-sizing: content-box;
+      width: 20px;
+      height: 20px;
+      border: 12px solid transparent;
+      color: #000;
+
+    }
+
+    /* 内联 SVG 图标：命中区 = 20px 图 + 上下 12px / 左右 6px 透明 border = 44×32 hit area，
+         fill=currentColor 随 li 色，hover 由父级 li 变色。 */
+    .svg_icon {
+      display: block;
+      box-sizing: content-box;
+      width: 20px;
+      height: 20px;
+      border: 12px solid transparent;
+      color: #222;
+    }
+
+    span {
+      &::selection {
+        display: none;
+      }
+
+      margin-left: 0px;
+    }
+  }
 }
 
 
 @media screen and (max-width: 1080px) {
-    .header_right {
-        height: 50px;
-       
-    }
+  .header_right {
+    height: 50px;
+
+  }
 }
 
 
 
 @media screen and (max-width: 780px) {
-    .header_right {
-        transform: translateX(10px);
-        .header_country,
-        .header_cart,
-        .header_user {
-          &.header_country {
-            display: block;
-          }
-          &.header_cart {
-            .num {
-              top: 18px;
-              left: 24px;
-            }
-            img,
-            .svg_icon {
-              border: 10px solid transparent;
-              border-right: 10px solid transparent;
-            }
-          }
-          img,
-          .svg_icon {
-            border: 10px solid transparent;
-          }
+  .header_right {
+    transform: translateX(10px);
+
+    .header_country,
+    .header_cart,
+    .header_user {
+      &.header_country {
+        display: block;
+      }
+
+      &.header_cart {
+        .num {
+          top: 18px;
+          left: 24px;
         }
-       
+
+        img,
+        .svg_icon {
+          border: 10px solid transparent;
+          border-right: 10px solid transparent;
+        }
+      }
+
+      img,
+      .svg_icon {
+        border: 10px solid transparent;
+      }
     }
+
+  }
 }

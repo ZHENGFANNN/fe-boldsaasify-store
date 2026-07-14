@@ -3,7 +3,7 @@ import React from "react";
 import GlobalContext from "@/[locale]/context";
 
 import Skeleton from "@/components/Skeleton";
-import { CartIcon } from "@/components/Icon";
+import { CartIcon, GlobalIcon } from "@/components/Icon";
 import UserMenu from "./UserMenu";
 import styles from "./index.module.scss";
 import Cookies from "js-cookie";
@@ -35,9 +35,11 @@ export default function RightArea() {
         aria-busy={!areaReady}
       >
         {areaReady ? (
-          <img
-            alt={resolvedArea}
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/flags/${resolvedArea}.svg`}
+          <GlobalIcon
+            className={styles.svg_icon}
+            width={20}
+            height={20}
+            aria-label={resolvedArea}
           />
         ) : (
           <Skeleton variant="circular" className={styles.country_loading} />

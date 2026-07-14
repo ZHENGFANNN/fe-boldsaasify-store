@@ -1,29 +1,22 @@
 // 对齐售后申请页：浅灰底 + 白卡分区（灰底满宽，内容列居中）
 .container {
   background: #f7f8fc;
-  padding: 40px 24px 96px;
-
-  @media (min-width: 1440px) {
-    padding-top: 48px;
+  padding: 0 24px 96px;
+  .parts {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
-  @media (max-width: 800px) {
-    padding: 48px 0 64px;
-  }
 }
 
 // ---------- 内容主列（对齐创建向导 .wizard 宽度） ----------
 .detail {
   width: 100%;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-
-  @media (min-width: 1440px) {
-    max-width: 1040px;
-  }
 }
 
 // ---------- 空态 / 登录门槛（居中在灰底上） ----------
@@ -59,47 +52,6 @@
   }
 }
 
-// ---------- 页头（对齐创建向导 .page_head/.page_title） ----------
-.detail_header {
-  display: flex;
-  align-items: center;
-  padding: 0 4px;
-  margin-bottom: 12px; // 叠加 .detail 的 gap:12px = 24px，对齐 create 页 page_head margin
-
-  @media (max-width: 800px) {
-    padding: 0 20px;
-  }
-}
-
-.detail_title {
-  flex: 1;
-  font-size: 28px;
-  font-weight: 700;
-  color: #16181b;
-  margin: 0;
-  line-height: 1.2;
-
-  @media (max-width: 800px) {
-    font-size: 22px;
-  }
-}
-
-.collapse_btn {
-  background: transparent;
-  border: none;
-  color: #6b6c70;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  transition: background 0.15s, color 0.15s;
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-    color: #16181b;
-  }
-}
-
 .rejected_banner {
   background: rgba(241, 54, 73, 0.08);
   color: #f13649;
@@ -115,32 +67,11 @@
   }
 }
 
-// ---------- 取消申请按钮 ----------
+// ---------- 取消申请按钮：视觉走公共 <Button variant="ghost">，此处仅居中定位 ----------
 .cancel_action {
   display: flex;
   justify-content: center;
   padding: 8px 0 4px;
-}
-.cancel_btn {
-  min-width: 200px;
-  padding: 14px 32px;
-  border-radius: 90px;
-  border: 1px solid #d0021b;
-  background: #fff;
-  color: #d0021b;
-  font-size: 14px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: #d0021b;
-    color: #fff;
-  }
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
 }
 
 // ---------- 信息卡（服务信息/产品信息/回寄物流通用；对齐创建向导 StepBlock） ----------
@@ -148,11 +79,6 @@
   background: #fff;
   border-radius: 16px;
   padding: 32px 40px;
-
-  @media (max-width: 800px) {
-    border-radius: 0;
-    padding: 24px 20px;
-  }
 
   .section_title {
     font-size: 20px;
@@ -261,7 +187,13 @@
 }
 
 // ---------- 小屏 ----------
-@media (max-width: 779px) {
+@media (max-width: 780px) {
+  .container {
+    padding: 0 0 12px;
+    .parts {
+      gap: 12px;
+    }
+  }
   .info_row_lg {
     flex-wrap: wrap;
     gap: 4px 8px;
@@ -270,6 +202,10 @@
       min-width: 0;
       flex-basis: 100%;
     }
+  }
+  .info_card {
+     border-radius: 0;
+      padding: 24px 20px;
   }
   .info_row {
     flex-direction: column;

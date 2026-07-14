@@ -12,6 +12,7 @@ import { isEmail } from "../../../../../utils/pattern";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ShowTipModal from "../../../../../components/Modal/ShowTipModal";
+import Button from "@/components/Button";
 
 export default function LoginForm({ LANG }) {
   const tipRef = React.useRef(null);
@@ -133,9 +134,15 @@ export default function LoginForm({ LANG }) {
             {LANG["user_login.forget_password"]}
           </Link>
         </span>
-        <button type="submit" disabled={loading} className={styles.button}>
+        <Button
+          type="submit"
+          variant="primary"
+          block
+          loading={loading}
+          className={styles.button}
+        >
           {LANG["user_login.login_title"]}
-        </button>
+        </Button>
         <ShowTipModal ref={tipRef} />
       </form>
       <p className={styles.register}>

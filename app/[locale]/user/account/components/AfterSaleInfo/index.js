@@ -95,10 +95,19 @@ export default function AfterSaleInfo({ LANG, filter = "all" }) {
               {statusMap[item.status] || item.status}
             </span>
           </div>
-          <div className={styles.record_type_row}>
-            {typeMap[item.type] || item.type}
+          <div className={styles.record_meta}>
+            <span className={styles.record_type}>
+              {typeMap[item.type] || item.type}
+            </span>
+            {item.description ? (
+              <>
+                <span className={styles.record_dot} aria-hidden="true">
+                  ·
+                </span>
+                <span className={styles.record_desc}>{item.description}</span>
+              </>
+            ) : null}
           </div>
-          <div className={styles.record_desc}>{item.description}</div>
           <div className={styles.record_time}>{item.created_time}</div>
         </div>
       ))}

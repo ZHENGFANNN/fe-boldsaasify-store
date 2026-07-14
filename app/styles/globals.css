@@ -8,7 +8,7 @@ body {
   padding-right: constant(safe-area-inset-right);
   padding-bottom: constant(safe-area-inset-bottom);
   padding-top: env(safe-area-inset-top);
-  padding-Left:env(safe-area-inset-left);
+  padding-Left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -20,13 +20,13 @@ body {
 }
 
 #app-content {
-  min-height: calc(100vh - 560px);
+  /* min-height: calc(100vh - 560px); */
   transition: all 300ms;
 }
 
 @media screen and (max-width: 1080px) {
   #app-content {
-    min-height: calc(100vh - 550px);
+    /* min-height: calc(100vh - 550px); */
   }
 }
 
@@ -35,6 +35,7 @@ div {
     height: 80px;
     width: 6px;
   }
+
   &::-webkit-scrollbar-thumb {
     background: #c8c9cd;
     border-radius: 4px;
@@ -49,23 +50,25 @@ img {
   -webkit-user-select: none;
   -moz-user-select: none;
   -moz-user-focus: none;
-  &[data-src], &[data-loading] {
+
+  &[data-src],
+  &[data-loading] {
     box-sizing: border-box;
     background-size: 48px 48px;
     background-color: rgba(255, 255, 255, 0.8);
     background-position: center center;
     background-repeat: no-repeat;
     position: relative;
-    background-blend-mode: overlay; 
+    background-blend-mode: overlay;
   }
 }
 
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-

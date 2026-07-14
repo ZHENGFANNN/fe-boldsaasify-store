@@ -8,10 +8,10 @@ import Input from "../../../../components/Form/FormInput";
 import { useForm } from "react-hook-form";
 import Loading from "../../../../components/Loading";
 import { isEmail } from "../../../../utils/pattern";
-import Link from "next/link";
 import Cookies from "js-cookie";
 import Api from "../../api";
 import GoogleLoginCustomButton from "@/components/GoogleAuth/GoogleLoginCustomButton";
+import Button from "@/components/Button";
 
 function UserInfo({ LANG, token }, ref) {
   const {
@@ -174,20 +174,20 @@ function UserInfo({ LANG, token }, ref) {
                     <span className={styles.divider_line} />
                   </div>
                   <div className={styles.entry_buttons}>
-                    <Link
-                      scroll={true}
+                    <Button
+                      variant="secondary"
                       href={`/user/login?redirect=${selfUrl}`}
-                      className={`${styles.entry_button} ${styles.entry_button_primary}`}
+                      className={styles.entry_button}
                     >
                       {LANG["common.pay.pay_info.login"] || "Log in"}
-                    </Link>
-                    <Link
-                      scroll={true}
+                    </Button>
+                    <Button
+                      variant="ghost"
                       href={`/user/register?redirect=${selfUrl}`}
-                      className={`${styles.entry_button} ${styles.entry_button_secondary}`}
+                      className={styles.entry_button}
                     >
                       {LANG["store.order.user_type.register"] || "Register"}
-                    </Link>
+                    </Button>
                   </div>
                 </div>
               )}

@@ -1,6 +1,5 @@
 /** @format */
 
-import styles from "./page.module.scss";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import { buildAlternates } from "@/config/seo";
@@ -30,9 +29,6 @@ export async function generateMetadata({ params }) {
 export default async function AfterSalesDetailPage({ params }) {
   const { locale } = await params;
   const { LANG } = await getData({ locale });
-  return (
-    <div className={styles.container}>
-      <DetailClient LANG={LANG} locale={locale} />
-    </div>
-  );
+  // 外层 .container 由 DetailClient 在登录检查后自行渲染，未登录时 AuthRedirectGuard 直接返回不套壳
+  return <DetailClient LANG={LANG} locale={locale} />;
 }

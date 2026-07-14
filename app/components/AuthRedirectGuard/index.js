@@ -1,59 +1,44 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import GoogleLoginCustomButton from "@/components/GoogleAuth/GoogleLoginCustomButton";
+import Button from "@/components/Button";
 import styles from "./index.module.scss";
 
-// 文案兜底：语言包暂未配置 user_account.after_sale.login_guard.* 时用英文兜底
+// 文案兜底：语言包暂未配置 user_account.login_guard.* 时用英文兜底
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 
-// 未登录停留时长（秒）；归零后自动跳转登录页
-const COUNTDOWN_SECONDS = 10;
-
 /**
- * 需要登录守卫卡片：展示温馨提示 + 倒计时，倒计时归零或点击按钮均跳转登录页。
- * redirectPath 可显式传入（各调用方 window.location.pathname + search）；
- * 未传时挂载后自动读取当前地址。
+ * 未登录守卫卡片：展示锁图标 + 主副标题 + Google 快捷登录 + OR 分隔 + Login / Register 邮箱入口。
+ * 视觉与结账页 UserType 的「未登录」状态对齐；按钮统一走公共 <Button />。
+ *
+ * @param {object}  LANG          文案 map
+ * @param {string?} redirectPath  登录成功后回跳路径；未传时挂载后取 window.location.pathname+search
  */
 export default function AuthRedirectGuard({ LANG, redirectPath }) {
-  const router = useRouter();
-  const [count, setCount] = React.useState(COUNTDOWN_SECONDS);
-  const [loginHref, setLoginHref] = React.useState("/user/login");
+  const [selfUrl, setSelfUrl] = React.useState("");
 
-  // window 仅挂载后可读（SSR 无 window），据当前路径拼登录回跳地址。
+  // window 仅挂载后可读（SSR 无 window），据当前路径/URL 拼登录回跳地址。
   /* eslint-disable react-hooks/set-state-in-effect */
   React.useEffect(() => {
-    const path =
-      redirectPath || `${window.location.pathname}${window.location.search}`;
-    setLoginHref(`/user/login?redirect=${encodeURIComponent(path)}`);
+    if (redirectPath) {
+      // 显式传路径时，拼绝对 URL（Google OAuth 回跳需要绝对地址）
+      const origin = window.location.origin || "";
+      setSelfUrl(
+        `${origin}${redirectPath.startsWith("/") ? "" : "/"}${redirectPath}`
+      );
+    } else {
+      setSelfUrl(window.location.href);
+    }
   }, [redirectPath]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
-  const goLogin = React.useCallback(() => {
-    router.push(loginHref);
-  }, [router, loginHref]);
-
-  // 每秒递减；归零后由下方 effect 触发跳转
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setCount((c) => (c > 0 ? c - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  React.useEffect(() => {
-    if (count <= 0) goLogin();
-  }, [count, goLogin]);
-
-  const desc = T(
-    LANG,
-    "user_account.after_sale.login_guard.desc",
-    "You need to sign in to continue. Redirecting to the login page in {n}s…"
-  ).replace("{n}", String(count));
+  const loginHref = `/user/login?redirect=${selfUrl}`;
+  const registerHref = `/user/register?redirect=${selfUrl}`;
 
   return (
-    <div className={styles.guard} data-role="auth-redirect-guard">
-      <div className={styles.card}>
+    <div className={styles.container}>
+      <div className={styles.card} data-role="auth-redirect-guard">
         <div className={styles.icon}>
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <rect
@@ -84,22 +69,56 @@ export default function AuthRedirectGuard({ LANG, redirectPath }) {
         <h2 className={styles.title}>
           {T(
             LANG,
-            "user_account.after_sale.login_guard.title",
+            "user_account.login_guard.title",
             "Sign in required"
           )}
         </h2>
 
-        <p className={styles.desc}>{desc}</p>
+        <p className={styles.desc}>
+          {T(
+            LANG,
+            "user_account.login_guard.desc",
+            "You need to sign in to use this feature. Please sign in to continue."
+          )}
+        </p>
 
-        <button type="button" className={styles.btn} onClick={goLogin}>
-          {T(LANG, "user_account.after_sale.login_guard.button", "Sign in")}
-        </button>
+        {/* Google 快捷登录（主入口） */}
+        <div className={styles.google_wrap}>
+          <GoogleLoginCustomButton
+            redirectTo={selfUrl}
+            label={T(
+              LANG,
+              "user_account.login_guard.google_continue",
+              "Continue with Google"
+            )}
+          />
+        </div>
 
-        <div className={styles.countdown}>
-          <span className={styles.count_num}>{count}</span>
-          <span className={styles.count_unit}>
-            {T(LANG, "user_account.after_sale.login_guard.second", "s")}
+        {/* OR 分隔线 */}
+        <div className={styles.divider}>
+          <span className={styles.divider_line} />
+          <span className={styles.divider_text}>
+            {T(LANG, "user_account.login_guard.or", "OR")}
           </span>
+          <span className={styles.divider_line} />
+        </div>
+
+        {/* 邮箱登录 / 注册（次要入口，一行两颗） */}
+        <div className={styles.entry_buttons}>
+          <Button
+            variant="secondary"
+            href={loginHref}
+            className={styles.entry_button}
+          >
+            {T(LANG, "user_account.login_guard.login", "Log in")}
+          </Button>
+          <Button
+            variant="ghost"
+            href={registerHref}
+            className={styles.entry_button}
+          >
+            {T(LANG, "user_account.login_guard.register", "Register")}
+          </Button>
         </div>
       </div>
     </div>

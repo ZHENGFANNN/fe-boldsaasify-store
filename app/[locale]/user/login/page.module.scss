@@ -96,29 +96,9 @@
           text-decoration: underline;
         }
       }
+      // 视觉由公共 Button 组件承担；此处只保留登录表单里的位置微调（与表单间距）
       .button {
-        background: rgba(0, 0, 0, 0.88);
-        border: none;
-        color: #fff;
-        height: 48px;
-        border-radius: 50px;
         margin-top: 28px;
-        font-size: 15px;
-        font-weight: 500;
-        letter-spacing: 0.2px;
-        cursor: pointer;
-        transition: background 200ms, transform 100ms;
-        &:hover {
-          background: rgba(0, 0, 0, 0.75);
-        }
-        &:active {
-          background: #000;
-          transform: translateY(1px);
-        }
-        &:disabled {
-          background: rgba(0, 0, 0, 0.35);
-          cursor: not-allowed;
-        }
       }
       .register {
         display: flex;
@@ -308,25 +288,7 @@
         }
       }
       .button {
-        background: rgba(0, 0, 0, 0.88);
-        border: none;
-        color: #fff;
-        height: 48px;
-        border-radius: 50px;
         margin-top: 24px;
-        font-size: 15px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background 200ms;
-        &:hover {
-          background: rgba(0, 0, 0, 0.75);
-        }
-        &:active {
-          background: #000;
-        }
-        &:disabled {
-          background: rgba(0, 0, 0, 0.35);
-        }
       }
       .register {
         display: flex;
