@@ -3,6 +3,13 @@
 import React from "react";
 import styles from "./index.module.scss";
 import ShowTipModal from "../Modal/ShowTipModal";
+import {
+  SocialFacebookIcon,
+  SocialTwitterIcon,
+  SocialLinkedinIcon,
+  ShareEmailIcon,
+  ShareCopyIcon,
+} from "../Icon";
 
 export default function ShareIconList({ text }) {
   const tipRef = React.useRef(null);
@@ -40,44 +47,36 @@ export default function ShareIconList({ text }) {
           href={FB_LINK_FORMAT}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Share on Facebook"
         >
-          <img
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/share-facebook.svg`}
-            alt="facebook"
-          />
+          <SocialFacebookIcon width={26} height={26} />
         </a>
         <a
           className={styles.share_icon}
           href={TW_LINK_FORMAT}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Share on Twitter"
         >
-          <img
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/share-x.svg`}
-            alt="twitter"
-          />
+          <SocialTwitterIcon width={26} height={26} />
         </a>
         <a
           className={styles.share_icon}
           href={IN_LINK_FORMAT}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Share on LinkedIn"
         >
-          <img
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/share-linkedin.svg`}
-            alt="linkedin"
-          />
+          <SocialLinkedinIcon width={26} height={26} />
         </a>
         <a
           className={styles.share_icon}
           href={MAIL_LINK_FORMAT}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Share by email"
         >
-          <img
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/share-email.svg`}
-            alt="mail"
-          />
+          <ShareEmailIcon width={26} height={26} />
         </a>
         <a
           className={styles.share_icon}
@@ -88,11 +87,9 @@ export default function ShareIconList({ text }) {
               text: "复制成功！",
             });
           }}
+          aria-label="Copy link"
         >
-          <img
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/share-copy.svg`}
-            alt="mail"
-          />
+          <ShareCopyIcon width={26} height={26} />
         </a>
       </div>
       <ShowTipModal ref={tipRef} />

@@ -4,6 +4,7 @@ import GlobalContext from "@/[locale]/context";
 import Skeleton from "@/components/Skeleton";
 import { countryMap } from "@/config/marketSettings";
 import TipModal from "@/components/Modal/FunctionTipModal";
+import { ChevronsRightIcon } from "@/components/Icon";
 import Link from "next/link";
 
 
@@ -379,10 +380,7 @@ function NavSubNextItem({ setNavContentActive, setNavActive, href, type }) {
           : styles.nav_item_content_text_button
       }
     >
-      <img
-        alt={LANG["common.nav.learn_more"]}
-        data-src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/nav-learn-more.svg`}
-      />
+      <ChevronsRightIcon aria-label={LANG["common.nav.learn_more"]} />
       <p>{LANG["common.nav.learn_more"]}</p>
     </Link>
   );

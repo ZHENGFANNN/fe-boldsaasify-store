@@ -1,21 +1,28 @@
 .container {
     .share_list {
         display: flex;
+        align-items: center;
         .share_icon {
-            display: flex;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 26px;
             height: 26px;
-
+            color: #595b5e;
+            transition: color 200ms;
 
             margin-right: 6px;
             cursor: pointer;
             &:last-child {
                 margin-right: 0;
             }
-            img {
+            &:hover {
+                color: #1a1a1a;
+            }
+            svg {
                 width: 100%;
                 height: 100%;
-                object-fit: contain;
+                display: block;
             }
         }
     }

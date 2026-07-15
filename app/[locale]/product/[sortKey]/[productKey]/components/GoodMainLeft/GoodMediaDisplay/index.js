@@ -7,53 +7,11 @@ import Splide from "@splidejs/splide";
 import ProductContext from "../../../ProductContext";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { track } from "@/utils/analytics";
-import SpinViewer from "./SpinViewer";
-import { useSpinFrames } from "../spinDemo";
-
-// 获取类型
-async function getMediaDisplayList({ productInfo, LANG }) {
-  if (productInfo) {
-    const list = [];
-    if (
-      Array.isArray(productInfo.image_list) &&
-      productInfo.image_list.length > 0
-    ) {
-      list.push({
-        type: "image",
-        icon_src: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-image.svg`,
-        text: LANG["store.product.image"],
-        image_list: productInfo.image_list,
-      });
-    }
-    if (productInfo.video_url) {
-      list.push({
-        type: "video",
-        icon_src: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-play.svg`,
-        text: LANG["store.product.product_introduce"],
-        video_url: productInfo.video_url,
-        video_cover: productInfo.video_cover,
-      });
-    }
-    if (productInfo.three_d) {
-      list.push({
-        type: "3d",
-        icon_src: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-three-3d.svg`,
-        text: "3D",
-        three_d: productInfo.three_d,
-        three_d_background: productInfo.three_d_background,
-      });
-    }
-    return list;
-  } else {
-    return null;
-  }
-}
 
 export default function GoodMediaDisplay() {
   const { LANG, lazyLoading, productInfo, productShowType, productCurCombo } =
     React.useContext(ProductContext);
   const [progress, setProgress] = React.useState(0);
-  const spinFrames = useSpinFrames(productInfo);
 
   const mediaDisplayList = React.useMemo(() => {
     if (productInfo) {
@@ -81,14 +39,11 @@ export default function GoodMediaDisplay() {
           three_d_background: productInfo.three_d_background,
         });
       }
-      if (spinFrames && spinFrames.length > 0) {
-        list.push({ type: "spin", frames: spinFrames });
-      }
       return list;
     } else {
       return null;
     }
-  }, [spinFrames]);
+  }, [productInfo]);
 
   React.useEffect(() => {
     if (!lazyLoading) {
@@ -298,14 +253,6 @@ export default function GoodMediaDisplay() {
                 style={{
                   display: productShowType === "video" ? "block" : "none",
                 }}
-              />
-            );
-          } else if (item.type === "spin") {
-            return (
-              <SpinViewer
-                key={item.type}
-                frames={item.frames}
-                active={productShowType === "spin"}
               />
             );
           } else if (item.type === "3d") {

@@ -9,19 +9,17 @@ import VideoModal from "../../../../../../components/Modal/VideoModal";
 import ImageModal from "../../../../../../components/Modal/ImageModal";
 import DropSelect from "../../../../../../components/DropSelect";
 import Empyt from "../../../../../../components/Empyt";
-
-const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
-const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_icon.svg`;
+import { StarIcon, StarActiveIcon } from "@/components/Icon";
 
 function ReviewRate({ scoreRate = 1 }) {
   return (
     <div className={styles.stars_container}>
       <div className={styles.no_active_stars}>
-        <img alt="no_active_icon" src={no_active_icon} />
-        <img alt="no_active_icon" src={no_active_icon} />
-        <img alt="no_active_icon" src={no_active_icon} />
-        <img alt="no_active_icon" src={no_active_icon} />
-        <img alt="no_active_icon" src={no_active_icon} />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
       </div>
       <div
         className={styles.active_stars}
@@ -29,11 +27,11 @@ function ReviewRate({ scoreRate = 1 }) {
           width: 130 * scoreRate,
         }}
       >
-        <img alt="active_icon" src={active_icon} />
-        <img alt="active_icon" src={active_icon} />
-        <img alt="active_icon" src={active_icon} />
-        <img alt="active_icon" src={active_icon} />
-        <img alt="active_icon" src={active_icon} />
+        <StarActiveIcon />
+        <StarActiveIcon />
+        <StarActiveIcon />
+        <StarActiveIcon />
+        <StarActiveIcon />
       </div>
     </div>
   );
@@ -159,7 +157,7 @@ export default function GoodReviewsContent() {
                       onClick={() => setValue(key)}
                       className={styles.reviews_detail_list_item}
                     >
-                      <img alt="active_icon" src={active_icon} />
+                      <StarActiveIcon />
                       <span>
                         {LANG["store.product.stars"]?.replace("${num}", key)}
                       </span>

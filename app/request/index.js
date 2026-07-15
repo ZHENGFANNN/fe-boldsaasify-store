@@ -36,6 +36,17 @@ instance.interceptors.response.use(
   (res) => {
     const { data, status } = res;
     if (status === 200) {
+      // 后端统一约定：token 缺失/过期/session 失效 → body.code === 10014（HTTP 200）。
+      // 全局清 token cookie + 派发事件通知 AuthGateProvider 弹出 LoginModal。
+      // 幂等：即便某接口业务上仍返回 10014，业务层 .catch 仍能拿到 code，
+      // 只是叠加了一次 UI 提示，不改变原 reject 语义。
+      if (data?.code === 10014) {
+        if (typeof window !== "undefined") {
+          Cookies.remove("token");
+          window.dispatchEvent(new CustomEvent("auth:session-expired"));
+        }
+        return Promise.reject(data);
+      }
       return Promise.resolve(data);
     } else {
       return Promise.reject(data);
@@ -54,11 +65,8 @@ instance.interceptors.response.use(
       config.__staleRetry = true;
       return instance(config);
     }
-    // 旧代码直接解构 error.response 会抛 TypeError，把真实错误盖成
-    // "Cannot destructure property 'status'"，进而让 PayPal createOrder
-    // 拿不到订单号报 "Expected an order id"。这里做空值保护。
-    const status = error?.response?.status;
-    if (status === 403) window.location.href = "/user/login";
+    // 旧代码 status === 403 → /user/login 已下线：后端从不返 403，属僵尸代码。
+    // 登录态失效走 body.code === 10014 分支，由 AuthGateProvider 弹窗。
     return Promise.reject(error);
   }
 );

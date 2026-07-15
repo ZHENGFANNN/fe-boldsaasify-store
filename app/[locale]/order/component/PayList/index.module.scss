@@ -52,16 +52,20 @@
         .credit_card {
           position: relative;
           left: -8px;
-          img {
+          img,
+          svg {
             margin: 4px 0;
             margin-left: 8px;
           }
         }
       }
 
-      img {
+      img,
+      svg {
         margin-left: 8px;
-        height: 32px;
+        height: 24px;
+        width: auto;
+        display: block;
       }
     }
     .pay_item_additional {

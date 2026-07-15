@@ -3,7 +3,18 @@
 import React from "react";
 import styles from "./index.module.scss";
 import ProductContext from "../../../ProductContext";
-import { useSpinFrames } from "../spinDemo";
+import {
+  MediaImageIcon,
+  MediaPlayIcon,
+  MediaThreeDIcon,
+} from "@/components/Icon";
+
+// 类型 → 内联图标组件映射；图标以 fill="currentColor" 上色，跟随 tab 文字颜色。
+const TYPE_ICON_MAP = {
+  image: MediaImageIcon,
+  video: MediaPlayIcon,
+  "3d": MediaThreeDIcon,
+};
 
 export default function SelectList() {
   const {
@@ -13,7 +24,6 @@ export default function SelectList() {
     productInfo,
     lazyLoading,
   } = React.useContext(ProductContext);
-  const spinFrames = useSpinFrames(productInfo);
 
   const options = React.useMemo(() => {
     if (productInfo) {
@@ -24,46 +34,26 @@ export default function SelectList() {
       ) {
         list.push({
           type: "image",
-          icon_src: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-image.svg`,
           text: LANG["store.product.image"],
         });
       }
       if (productInfo.video_url) {
         list.push({
           type: "video",
-          icon_src: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-play.svg`,
           text: LANG["store.product.product_introduce"],
         });
       }
       if (productInfo.three_d) {
         list.push({
           type: "3d",
-          icon_src: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-three-3d.svg`,
           text: "3D",
-        });
-      }
-      if (spinFrames && spinFrames.length > 0) {
-        list.push({
-          type: "spin",
-          icon_src: `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/media-three-3d.svg`,
-          text: "360°",
         });
       }
       return list;
     } else {
       return null;
     }
-  }, [spinFrames]);
-
-  // spin tab 不可用时（如关闭 demo）自动回到 Photos，避免空白媒体区
-  React.useEffect(() => {
-    if (
-      productShowType === "spin" &&
-      (!spinFrames || spinFrames.length === 0)
-    ) {
-      setProductShowType("image");
-    }
-  }, [productShowType, spinFrames, setProductShowType]);
+  }, [productInfo]);
 
   React.useEffect(() => {
     if (!lazyLoading) {
@@ -86,6 +76,7 @@ export default function SelectList() {
       <div className={styles.left_content_type}>
         <div className={styles.type_container_color}></div>
         {(Array.isArray(options) ? options : []).map((item) => {
+          const IconCmp = TYPE_ICON_MAP[item.type];
           return (
             <div
               key={item.type}
@@ -100,36 +91,9 @@ export default function SelectList() {
                 setProductShowType(item.type);
               }}
             >
-              <svg
-                style={{
-                  opacity: 0,
-                  position: "fixed",
-                  left: "-1000px",
-                  top: "-1000px",
-                }}
-              >
-                <defs>
-                  <filter id={`${item.type}TurnWhite`}>
-                    <feFlood
-                      floodColor={
-                        productShowType === item.type ? "#FFF" : "#000000"
-                      }
-                      floodOpacity="1"
-                      result="color"
-                    />
-                    <feComposite in="color" in2="SourceGraphic" operator="in" />
-                  </filter>
-                </defs>
-              </svg>
-              <img
-                style={{
-                  filter: `url('#${item.type}TurnWhite')`,
-                }}
-                alt="image"
-                width={16}
-                height={16}
-                src={item.icon_src}
-              />
+              {IconCmp ? (
+                <IconCmp width={16} height={16} className={styles.tab_icon} />
+              ) : null}
               <span>{item.text}</span>
             </div>
           );

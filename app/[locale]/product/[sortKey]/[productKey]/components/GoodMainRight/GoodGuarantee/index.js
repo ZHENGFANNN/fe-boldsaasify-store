@@ -8,6 +8,12 @@ import ViewOrder from "./components/ViewOrder";
 
 import ProductContext from "../../../ProductContext";
 import GlobalContext from "@/[locale]/context";
+import {
+  ProductEmailIcon,
+  TruckIcon,
+  ShieldCheckIcon,
+  ClipboardListIcon,
+} from "@/components/Icon";
 
 export default function GoodGuarantee() {
   const { showContactModal } = React.useContext(GlobalContext);
@@ -29,9 +35,10 @@ export default function GoodGuarantee() {
         >
           <div className={styles.left_content}>
             <div className={styles.icon}>
-              <img
-                alt={LANG["store.product.service_agreement.delivery_terms"]}
-                src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/product-deliver.svg`}
+              <TruckIcon
+                aria-label={
+                  LANG["store.product.service_agreement.delivery_terms"]
+                }
               />
             </div>
             <div className={styles.text}>
@@ -49,9 +56,10 @@ export default function GoodGuarantee() {
         >
           <div className={styles.left_content}>
             <div className={styles.icon}>
-              <img
-                alt={LANG["store.product.service_agreement.produc_guarantee"]}
-                src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/product-guarantee.svg`}
+              <ShieldCheckIcon
+                aria-label={
+                  LANG["store.product.service_agreement.produc_guarantee"]
+                }
               />
             </div>
             <div className={styles.text}>
@@ -69,9 +77,8 @@ export default function GoodGuarantee() {
         >
           <div className={styles.left_content}>
             <div className={styles.icon}>
-              <img
-                alt={LANG["store.product.service_agreement.view_order"]}
-                src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/product-order.svg`}
+              <ClipboardListIcon
+                aria-label={LANG["store.product.service_agreement.view_order"]}
               />
             </div>
             <div className={styles.text}>
@@ -88,10 +95,7 @@ export default function GoodGuarantee() {
           showContactModal();
         }}
       >
-        <img
-          alt={LANG["store.product.question_email"]}
-          src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/product-email.png`}
-        />
+        <ProductEmailIcon aria-label={LANG["store.product.question_email"]} />
         <div>{LANG["store.product.question_email"]}</div>
       </div>
       <DeliveryTermsModal

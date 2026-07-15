@@ -3,6 +3,7 @@
 import styles from "./index.module.scss";
 import Empyt from "../../../../../components/Empyt";
 import ConfirmModal from "../../../../../components/Modal/ConfirmModal";
+import { DeleteIcon } from "../../../../../components/Icon";
 import Api from "../../api";
 import React from "react";
 import Loading from "../../../../../components/Loading";
@@ -93,12 +94,7 @@ export default function AddressInfo({ showTip, LANG }) {
                       content={LANG["user_account.shipping_address.delete_tip"]}
                       renderNode={
                         <div className={styles.icon_container}>
-                          <img
-                            alt="delete"
-                            width={24}
-                            height={24}
-                            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-utils-delete.svg`}
-                          />
+                          <DeleteIcon width={24} height={24} />
                         </div>
                       }
                       onOk={() => {

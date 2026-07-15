@@ -362,10 +362,13 @@
         top: 0;
 
         display: flex;
-        img {
+        img,
+        svg {
             margin: 0 1px;
             width: 16px;
             height: 16px;
+            display: block;
+            flex-shrink: 0;
         }
     }
 

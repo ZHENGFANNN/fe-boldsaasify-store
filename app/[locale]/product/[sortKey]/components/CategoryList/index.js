@@ -15,10 +15,8 @@ import {
 import useArea from "@/hooks/useArea";
 import Skeleton from "@/components/Skeleton";
 import getProductsOffer from "@/service/product/get-offer";
+import { StarIcon, StarActiveIcon } from "@/components/Icon";
 import styles from "./index.module.scss";
-
-const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
-const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_icon.svg`;
 
 // 从批量取价结果挑出当前商品的 areaInfo：取首个有 areaInfo 的 combo（与原 resolveAreaInfo 行为对齐）。
 function pickAreaInfo(pricingItem) {
@@ -36,12 +34,12 @@ function ReviewRate({ LANG, reviewScore, reviewsNum }) {
     <div className={styles.stars_container}>
       <div className={styles.no_active_stars}>
         {Array.from({ length: 5 }).map((_, i) => (
-          <img alt="star" src={no_active_icon} key={i} />
+          <StarIcon key={i} />
         ))}
       </div>
       <div className={styles.active_stars} style={{ width: 90 * (reviewScore / 5) }}>
         {Array.from({ length: 5 }).map((_, i) => (
-          <img alt="star" src={active_icon} key={i} />
+          <StarActiveIcon key={i} />
         ))}
       </div>
       <div className={styles.score}>

@@ -30,6 +30,9 @@ export default async function verifyLogin({ timeout = 10000 } = {}) {
     // 服务端有响应但判定登录态失效（登录过期）
     return { status: "invalid" };
   } catch (error) {
+    // axios 响应拦截器对 body.code === 10014（token 缺失/过期/session 失效）
+    // 直接 Promise.reject(data)，这里 error 就是 { code:10014, message, data:null }。
+    if (error?.code === 10014) return { status: "invalid" };
     // 真正的鉴权失败（服务端有响应）→ 判失效
     const httpStatus = error?.response?.status;
     if (httpStatus === 401 || httpStatus === 403) return { status: "invalid" };

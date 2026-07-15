@@ -1,234 +1,236 @@
-@media screen and (min-width: 780px) {
-  .container {
-    position: relative;
-    z-index: 1;
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 16px;
+  box-sizing: border-box;
+
+  .main {
+    padding: 40px 44px;
+    background-color: #fff;
     width: 100%;
-    background: #fafafa;
-    min-height: calc(100dvh - 60px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 16px;
+    max-width: 600px;
+    border-radius: 12px;
+    
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 18px 48px #00000014;
+
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    .main {
-      padding: 40px 44px;
-      background-color: #fff;
-      width: 100%;
-      max-width: 440px;
-      border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-
-      box-sizing: border-box;
+    form {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+    }
 
-      form {
-        display: flex;
-        flex-direction: column;
-      }
+    .title {
+      text-transform: capitalize;
+      line-height: 32px;
+      font-size: 26px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.88);
+      margin: 0 0 28px;
+      letter-spacing: -0.2px;
+    }
 
-      .title {
-        text-transform: capitalize;
-        line-height: 32px;
-        font-size: 26px;
-        font-weight: 600;
-        color: rgba(0, 0, 0, 0.88);
-        margin: 0 0 28px;
-        letter-spacing: -0.2px;
-      }
+    .google_top {
+      --gl-divider-top: 24px;
+      --gl-divider-bottom: 0;
+      margin-bottom: 24px;
+    }
 
-      .google_top {
-        --gl-divider-top: 24px;
-        --gl-divider-bottom: 0;
-        margin-bottom: 24px;
-      }
-
-      .form_item {
-        position: relative;
-        h2 {
-          font-size: 13px;
-          color: rgba(0, 0, 0, 0.75);
-          line-height: 20px;
-          margin-bottom: 6px;
-          font-weight: 500;
-          text-transform: capitalize;
-        }
-        input {
-          padding: 10px 12px;
-          height: 44px;
-          width: 100%;
-          box-sizing: border-box;
-          outline: none;
-          border-radius: 8px;
-          border: 1px solid #e1e3e6;
-          transition: border-color 200ms, box-shadow 200ms;
-          font-size: 14px;
-          background: #fff;
-          &:hover {
-            border-color: #b7b9bd;
-          }
-          &:focus {
-            border-color: rgba(0, 0, 0, 0.88);
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
-          }
-        }
-        p {
-          position: relative;
-          color: #d32029;
-          font-size: 12px;
-          line-height: 16px;
-          margin-top: 4px;
-        }
-        // 验证码行：发码按钮内嵌到输入框右侧（行业标准做法：输入框留右内边距，
-        // 按钮绝对定位为文字按钮 + 左侧竖分割线）。嵌套在 form_item 内，specificity
-        // 高于 .form_item input，桌面/移动端一致生效，不被移动端媒体查询覆盖。
-        .code_row {
-          position: relative;
-          input {
-            width: 100%;
-            padding-right: 116px;
-          }
-          .send_code_btn {
-            position: absolute;
-            top: 5px;
-            bottom: 5px;
-            right: 5px;
-            display: flex;
-            align-items: center;
-            padding: 0 14px;
-            border: none;
-            border-left: 1px solid #e1e3e6;
-            border-radius: 0;
-            background: transparent;
-            color: rgba(0, 0, 0, 0.88);
-            font-size: 13px;
-            font-weight: 600;
-            line-height: 1;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: color 200ms;
-            &:hover {
-              color: #000;
-            }
-            &:disabled,
-            &.is_disabled {
-              color: #b0b0b0;
-              cursor: not-allowed;
-            }
-          }
-        }
-      }
-      .button {
-        background: rgba(0, 0, 0, 0.88);
-        border: none;
-        color: #fff;
-        height: 48px;
-        border-radius: 50px;
-        margin-top: 28px;
-        font-size: 15px;
+    .form_item {
+      position: relative;
+      h2 {
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.75);
+        line-height: 20px;
+        margin-bottom: 6px;
         font-weight: 500;
-        letter-spacing: 0.2px;
-        cursor: pointer;
-        transition: background 200ms, transform 100ms;
+        text-transform: capitalize;
+      }
+      input {
+        padding: 10px 12px;
+        height: 44px;
+        width: 100%;
+        box-sizing: border-box;
+        outline: none;
+        border-radius: 8px;
+        border: 1px solid #e1e3e6;
+        transition: border-color 200ms, box-shadow 200ms;
+        font-size: 14px;
+        background: #fff;
         &:hover {
-          background: rgba(0, 0, 0, 0.75);
+          border-color: #b7b9bd;
         }
-        &:active {
-          background: #000;
-          transform: translateY(1px);
-        }
-        &:disabled {
-          background: rgba(0, 0, 0, 0.35);
-          cursor: not-allowed;
+        &:focus {
+          border-color: rgba(0, 0, 0, 0.88);
+          box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
         }
       }
-      .register {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 20px;
-        flex-wrap: wrap;
-        text-align: center;
-        font-size: 14px;
-        span {
-          color: rgba(0, 0, 0, 0.65);
-          margin-right: 6px;
-        }
-        a {
-          color: rgba(0, 0, 0, 0.88);
-          font-weight: 500;
-          text-decoration: none;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-      .agreen {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        text-align: center;
+      p {
+        position: relative;
+        color: #d32029;
         font-size: 12px;
-        line-height: 18px;
-        color: rgba(0, 0, 0, 0.45);
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(0, 0, 0, 0.06);
-        a {
-          color: rgba(0, 0, 0, 0.75);
-          margin: 0 4px;
-          text-decoration: none;
+        line-height: 16px;
+        margin-top: 4px;
+      }
+      // 验证码行：发码按钮内嵌到输入框右侧（行业标准做法：输入框留右内边距，
+      // 按钮绝对定位为文字按钮 + 左侧竖分割线）。嵌套在 form_item 内，specificity
+      // 高于 .form_item input，桌面/移动端一致生效，不被移动端媒体查询覆盖。
+      .code_row {
+        position: relative;
+        input {
+          width: 100%;
+          padding-right: 116px;
+        }
+        .send_code_btn {
+          position: absolute;
+          top: 5px;
+          bottom: 5px;
+          right: 5px;
+          display: flex;
+          align-items: center;
+          padding: 0 14px;
+          border: none;
+          border-left: 1px solid #e1e3e6;
+          border-radius: 0;
+          background: transparent;
+          color: rgba(0, 0, 0, 0.88);
+          font-size: 13px;
+          font-weight: 600;
+          line-height: 1;
+          white-space: nowrap;
+          cursor: pointer;
+          transition: color 200ms;
           &:hover {
-            color: rgba(0, 0, 0, 0.88);
-            text-decoration: underline;
+            color: #000;
+          }
+          &:disabled,
+          &.is_disabled {
+            color: #b0b0b0;
+            cursor: not-allowed;
           }
         }
       }
-      .help {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        text-align: center;
-        color: rgba(0, 0, 0, 0.45);
-        font-size: 14px;
-        border-top: 1px solid rgba(0, 0, 0, 0.06);
-        padding-top: 24px;
-        span {
-          margin-right: 6px;
+    }
+    .button {
+      background: rgba(0, 0, 0, 0.88);
+      border: none;
+      color: #fff;
+      height: 48px;
+      border-radius: 50px;
+      margin-top: 28px;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      transition: background 200ms, transform 100ms;
+      &:hover {
+        background: rgba(0, 0, 0, 0.75);
+      }
+      &:active {
+        background: #000;
+        transform: translateY(1px);
+      }
+      &:disabled {
+        background: rgba(0, 0, 0, 0.35);
+        cursor: not-allowed;
+      }
+    }
+    .register {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 20px;
+      flex-wrap: wrap;
+      text-align: center;
+      font-size: 14px;
+      span {
+        color: rgba(0, 0, 0, 0.65);
+        margin-right: 6px;
+      }
+      a {
+        color: rgba(0, 0, 0, 0.88);
+        font-weight: 500;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
         }
-        a {
+      }
+    }
+    .agreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+      font-size: 12px;
+      line-height: 18px;
+      color: rgba(0, 0, 0, 0.45);
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      a {
+        color: rgba(0, 0, 0, 0.75);
+        margin: 0 4px;
+        text-decoration: none;
+        &:hover {
           color: rgba(0, 0, 0, 0.88);
-          text-decoration: none;
-          &:hover {
-            text-decoration: underline;
-          }
+          text-decoration: underline;
+        }
+      }
+    }
+    .help {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 14px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding-top: 24px;
+      span {
+        margin-right: 6px;
+      }
+      a {
+        color: rgba(0, 0, 0, 0.88);
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
         }
       }
     }
   }
 }
 
-@media screen and (max-width: 779px) {
+@media screen and (max-width: 780px) {
   .container {
     width: 100%;
     display: flex;
     align-items: flex-start;
     background-color: #fff;
-    padding: 24px 16px 48px;
     box-sizing: border-box;
+    padding: 0;
 
     .main {
       width: 100%;
-      padding: 8px 0 24px;
+      max-width: 100%;
+      padding: 48px 16px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      border: none;
+      box-shadow: none;
 
       form {
         display: flex;
@@ -406,13 +408,6 @@
         }
       }
     }
-  }
-}
-
-@media screen and (max-width: 1080px) {
-  .container {
-    min-height: calc(100dvh - 50px);
-    overflow: scroll;
   }
 }
 

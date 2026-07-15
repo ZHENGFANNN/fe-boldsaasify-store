@@ -164,11 +164,13 @@
       height: 100px;
       margin-bottom: 12px;
 
-      img {
+      img,
+      svg {
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
+        height: 100%;
       }
     }
     p {
@@ -356,10 +358,16 @@
                       .table_body_operation {
                         display: flex;
                         align-items: center;
-                        img {
+                        color: rgba(0, 0, 0, 0.45);
+                        transition: color 200ms;
+                        img,
+                        svg {
                           cursor: pointer;
                           width: 24px;
                           height: 24px;
+                        }
+                        &:hover {
+                          color: rgba(0, 0, 0, 0.85);
                         }
                       }
                       .table_body_num {

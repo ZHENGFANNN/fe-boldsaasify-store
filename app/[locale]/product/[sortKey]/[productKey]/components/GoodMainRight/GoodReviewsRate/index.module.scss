@@ -17,9 +17,12 @@
         top: 0;
 
         display: flex;
-        img {
+        img,
+        svg {
             width: 14px;
             height: 14px;
+            display: block;
+            flex-shrink: 0;
         }
     }
 

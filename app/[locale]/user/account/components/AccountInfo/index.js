@@ -39,9 +39,10 @@ export default function AccountInfo({ showTip, LANG }) {
   React.useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    // 仅在服务端明确判定登录态失效（invalid）时才清 token 并弹回登录页；
+    // 仅在服务端明确判定登录态失效（invalid）时才清 token 并派全局事件弹 LoginModal；
+    // 不再硬跳 /user/login，保留当前页面上下文由用户自主登录。
     // 网络/超时（error）已在 verifyLogin 内重试，重试耗尽也保留 token，
-    // 不再因一次抖动把已登录用户误踢到 /user/login。
+    // 不再因一次抖动把已登录用户误踢到登录页。
     verifyLogin()
       .then((result) => {
         if (cancelled) return;
@@ -50,7 +51,9 @@ export default function AccountInfo({ showTip, LANG }) {
           reset(result.data);
         } else if (result.status === "invalid") {
           Cookies.remove("token");
-          location.href = "/user/login";
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("auth:session-expired"));
+          }
         } else {
           console.log("[tokenLogin Error]: ", result.error);
         }

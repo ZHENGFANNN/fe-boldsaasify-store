@@ -11,6 +11,7 @@ import { formatCurrency } from "../../../utils";
 import resolveCartFromApi from "../cartClient";
 import api from "../../../request";
 import Skeleton from "@/components/Skeleton";
+import { DeleteIcon, InboxIcon } from "@/components/Icon";
 import {
   readStoredDiscountCodes,
   writeStoredDiscountCodes,
@@ -45,10 +46,7 @@ const EmptyCart = function ({ handleClose }) {
   return (
     <div className={styles.empty_container}>
       <div className={styles.img_container}>
-        <img
-          alt="empty"
-          src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-utils-empyt.svg`}
-        />
+        <InboxIcon aria-label="empty" />
       </div>
       <p>{LANG["common.cart.cart_empty"]}</p>
       <div
@@ -635,7 +633,11 @@ const CartMain = function ({ handleClose }) {
                               </div>
 
                               <div className={styles.table_body_operation}>
-                                <img
+                                <DeleteIcon
+                                  role="button"
+                                  aria-label="delete"
+                                  width={24}
+                                  height={24}
                                   onClick={() => {
                                     const newCart = cartList.filter((item2) => {
                                       return !isSameRow(item, item2);
@@ -666,10 +668,6 @@ const CartMain = function ({ handleClose }) {
                                       )
                                     );
                                   }}
-                                  alt="delete"
-                                  width={24}
-                                  height={24}
-                                  src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-utils-delete.svg`}
                                 />
                               </div>
                             </div>

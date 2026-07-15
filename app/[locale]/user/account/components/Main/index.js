@@ -2,6 +2,7 @@
 
 import React from "react";
 import ShowTipModal from "../../../../../components/Modal/ShowTipModal";
+import { UserIcon, AddressIcon, ClipboardIcon } from "@/components/Icon";
 import styles from "../../page.module.scss";
 
 import AddressInfo from "../AddressList";
@@ -31,11 +32,7 @@ export default function Main({ LANG, locale }) {
             setType("accountInfo");
           }}
         >
-          <img
-            alt="avatar-icon"
-            className={styles.img_container}
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-user.svg`}
-          />
+          <UserIcon className={styles.img_container} aria-label="account" />
           <span>{LANG["user_account.account_info"]}</span>
         </div>
         <div
@@ -46,11 +43,7 @@ export default function Main({ LANG, locale }) {
             setType("addressInfo");
           }}
         >
-          <img
-            alt="address"
-            className={styles.img_container}
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-address.svg`}
-          />
+          <AddressIcon className={styles.img_container} aria-label="address" />
           <span>{LANG["user_account.shipping_address"]}</span>
         </div>
         <div
@@ -61,11 +54,7 @@ export default function Main({ LANG, locale }) {
             setType("orderInfo");
           }}
         >
-          <img
-            alt="order"
-            className={styles.img_container}
-            src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/min-order.svg`}
-          />
+          <ClipboardIcon className={styles.img_container} aria-label="order" />
           <span>{LANG["user_account.my_order"]}</span>
         </div>
       </div>

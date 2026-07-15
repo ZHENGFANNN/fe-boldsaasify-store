@@ -12,6 +12,7 @@ import Head from "@/components/Head";
 import GoogleAuthProvider from "@/components/GoogleAuth";
 import GoogleOneTap from "@/components/GoogleAuth/GoogleOneTap";
 import ChunkErrorReloader from "@/components/ChunkErrorReloader";
+import { AuthGateProvider } from "@/components/LoginModule/AuthGateContext";
 
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
@@ -81,11 +82,13 @@ export default async function RootLayout(props) {
         <TrackingRoot />
         <GoogleAuthProvider>
           <GoogleOneTap />
-          <Layout locale={locale} LANG={LANG} CONFIG={CONFIG}>
-            <Navbar />
-            <div id="app-content">{children}</div>
-            <Footer />
-          </Layout>
+          <AuthGateProvider LANG={LANG}>
+            <Layout locale={locale} LANG={LANG} CONFIG={CONFIG}>
+              <Navbar />
+              <div id="app-content">{children}</div>
+              <Footer />
+            </Layout>
+          </AuthGateProvider>
         </GoogleAuthProvider>
       </body>
     </html>

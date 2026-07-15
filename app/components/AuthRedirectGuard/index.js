@@ -1,41 +1,22 @@
 "use client";
 
 import React from "react";
-import GoogleLoginCustomButton from "@/components/GoogleAuth/GoogleLoginCustomButton";
-import Button from "@/components/Button";
+import LoginModule from "@/components/LoginModule";
 import styles from "./index.module.scss";
 
 // 文案兜底：语言包暂未配置 user_account.login_guard.* 时用英文兜底
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 
 /**
- * 未登录守卫卡片：展示锁图标 + 主副标题 + Google 快捷登录 + OR 分隔 + Login / Register 邮箱入口。
- * 视觉与结账页 UserType 的「未登录」状态对齐；按钮统一走公共 <Button />。
+ * 未登录守卫卡片：展示锁图标 + 主副标题 + 内嵌 <LoginModule>（Google + OR + Log in / Register）。
+ *
+ * 外壳（container / card / icon / title / desc）由本组件保留；
+ * 登录入口三件套（Google 按钮 / OR / 两颗按钮）已收敛到 LoginModule，全站唯一实现。
  *
  * @param {object}  LANG          文案 map
- * @param {string?} redirectPath  登录成功后回跳路径；未传时挂载后取 window.location.pathname+search
+ * @param {string?} redirectPath  登录成功后回跳路径；未传时由 LoginModule 内部取 window.location.href
  */
 export default function AuthRedirectGuard({ LANG, redirectPath }) {
-  const [selfUrl, setSelfUrl] = React.useState("");
-
-  // window 仅挂载后可读（SSR 无 window），据当前路径/URL 拼登录回跳地址。
-  /* eslint-disable react-hooks/set-state-in-effect */
-  React.useEffect(() => {
-    if (redirectPath) {
-      // 显式传路径时，拼绝对 URL（Google OAuth 回跳需要绝对地址）
-      const origin = window.location.origin || "";
-      setSelfUrl(
-        `${origin}${redirectPath.startsWith("/") ? "" : "/"}${redirectPath}`
-      );
-    } else {
-      setSelfUrl(window.location.href);
-    }
-  }, [redirectPath]);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
-  const loginHref = `/user/login?redirect=${selfUrl}`;
-  const registerHref = `/user/register?redirect=${selfUrl}`;
-
   return (
     <div className={styles.container}>
       <div className={styles.card} data-role="auth-redirect-guard">
@@ -67,11 +48,7 @@ export default function AuthRedirectGuard({ LANG, redirectPath }) {
         </div>
 
         <h2 className={styles.title}>
-          {T(
-            LANG,
-            "user_account.login_guard.title",
-            "Sign in required"
-          )}
+          {T(LANG, "user_account.login_guard.title", "Sign in required")}
         </h2>
 
         <p className={styles.desc}>
@@ -82,44 +59,7 @@ export default function AuthRedirectGuard({ LANG, redirectPath }) {
           )}
         </p>
 
-        {/* Google 快捷登录（主入口） */}
-        <div className={styles.google_wrap}>
-          <GoogleLoginCustomButton
-            redirectTo={selfUrl}
-            label={T(
-              LANG,
-              "user_account.login_guard.google_continue",
-              "Continue with Google"
-            )}
-          />
-        </div>
-
-        {/* OR 分隔线 */}
-        <div className={styles.divider}>
-          <span className={styles.divider_line} />
-          <span className={styles.divider_text}>
-            {T(LANG, "user_account.login_guard.or", "OR")}
-          </span>
-          <span className={styles.divider_line} />
-        </div>
-
-        {/* 邮箱登录 / 注册（次要入口，一行两颗） */}
-        <div className={styles.entry_buttons}>
-          <Button
-            variant="secondary"
-            href={loginHref}
-            className={styles.entry_button}
-          >
-            {T(LANG, "user_account.login_guard.login", "Log in")}
-          </Button>
-          <Button
-            variant="ghost"
-            href={registerHref}
-            className={styles.entry_button}
-          >
-            {T(LANG, "user_account.login_guard.register", "Register")}
-          </Button>
-        </div>
+        <LoginModule LANG={LANG} redirectPath={redirectPath} />
       </div>
     </div>
   );

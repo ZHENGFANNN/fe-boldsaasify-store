@@ -67,6 +67,45 @@ function IconSignOut({ className }) {
   );
 }
 
+function IconSignIn({ className }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M10 4H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3" />
+      <path d="M14 8l4 4-4 4" />
+      <path d="M18 12H8" />
+    </svg>
+  );
+}
+
+function IconUserPlus({ className }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="10" cy="8" r="4" />
+      <path d="M2 20c0-3.3 3.6-6 8-6 1.4 0 2.7.3 3.8.8" />
+      <path d="M19 14v6" />
+      <path d="M16 17h6" />
+    </svg>
+  );
+}
+
 export default function UserMenu({ isLogin }) {
   const router = useRouter();
   const { LANG } = React.useContext(GlobalContext);
@@ -164,22 +203,28 @@ export default function UserMenu({ isLogin }) {
               </ul>
             </>
           ) : (
-            <div className={styles.guest}>
-              <button
-                type="button"
-                className={styles.primaryBtn}
+            <ul className={styles.menu}>
+              <li
+                className={styles.item}
+                role="menuitem"
                 onClick={() => go("/user/login")}
               >
-                {LANG["common.nav.log_in"]}
-              </button>
-              <button
-                type="button"
-                className={styles.secondaryBtn}
+                <IconSignIn className={styles.itemIcon} />
+                <span className={styles.itemLabel}>
+                  {LANG["common.nav.log_in"]}
+                </span>
+              </li>
+              <li
+                className={styles.item}
+                role="menuitem"
                 onClick={() => go("/user/register")}
               >
-                {LANG["common.nav.register"]}
-              </button>
-            </div>
+                <IconUserPlus className={styles.itemIcon} />
+                <span className={styles.itemLabel}>
+                  {LANG["common.nav.register"]}
+                </span>
+              </li>
+            </ul>
           )}
         </div>
       </div>

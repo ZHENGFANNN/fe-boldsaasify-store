@@ -10,9 +10,12 @@ function Modal({ children, onClose = () => {} }, ref) {
 
   React.useImperativeHandle(ref, () => {
     return {
-      show: ({ title }) => {
+      show: ({ title } = {}) => {
         setShow(true);
         setTitle(title);
+      },
+      hide: () => {
+        setShow(false);
       },
     };
   });

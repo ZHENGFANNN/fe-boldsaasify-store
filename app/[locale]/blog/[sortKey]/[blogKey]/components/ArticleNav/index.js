@@ -5,6 +5,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import { debounce } from "../../../../../../utils/index";
 import Link from "next/link";
+import { SidebarExpandIcon, MenuIcon } from "@/components/Icon";
 
 export default function ArticleInfo({ titleList }) {
   const navRef = React.useRef(null);
@@ -57,15 +58,7 @@ export default function ArticleInfo({ titleList }) {
           className={styles.expand_icon}
           onClick={() => setIsExpand((state) => !state)}
         >
-          {isExpand ? (
-            <img
-              src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/blog-expand-icon.svg`}
-            />
-          ) : (
-            <img
-              src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/blog-collaspe-icon.svg`}
-            />
-          )}
+          {isExpand ? <SidebarExpandIcon /> : <MenuIcon />}
         </div>
         <div className={styles.header_container}>
           {titleList.map((item, index) => {

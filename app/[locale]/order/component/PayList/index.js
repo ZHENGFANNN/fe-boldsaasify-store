@@ -36,8 +36,8 @@ function PayList({ LANG, setPayKey, payKey, payWayList }, ref) {
                   ${item.key === "creditCard" ? styles.credit_card : ""}
                 `}
               >
-                {item.imgList?.map((img, imgIndex) => {
-                  return <img key={imgIndex} alt={item.title} src={img} />;
+                {item.iconList?.map((IconCmp, iconIndex) => {
+                  return <IconCmp key={iconIndex} aria-label={item.title} />;
                 })}
               </div>
             </div>

@@ -10,8 +10,7 @@ import Loading from "../../../../components/Loading";
 import { isEmail } from "../../../../utils/pattern";
 import Cookies from "js-cookie";
 import Api from "../../api";
-import GoogleLoginCustomButton from "@/components/GoogleAuth/GoogleLoginCustomButton";
-import Button from "@/components/Button";
+import LoginModule from "@/components/LoginModule";
 
 function UserInfo({ LANG, token }, ref) {
   const {
@@ -157,38 +156,7 @@ function UserInfo({ LANG, token }, ref) {
                   <div className={styles.tip}>
                     {LANG["store.order.user_type.no_login"]}
                   </div>
-                  <div className={styles.google_wrap}>
-                    <GoogleLoginCustomButton
-                      redirectTo={selfUrl}
-                      label={
-                        LANG["store.order.user_type.google_continue"] ||
-                        "Continue with Google"
-                      }
-                    />
-                  </div>
-                  <div className={styles.divider}>
-                    <span className={styles.divider_line} />
-                    <span className={styles.divider_text}>
-                      {LANG["user_login.other_login"] || "OR"}
-                    </span>
-                    <span className={styles.divider_line} />
-                  </div>
-                  <div className={styles.entry_buttons}>
-                    <Button
-                      variant="secondary"
-                      href={`/user/login?redirect=${selfUrl}`}
-                      className={styles.entry_button}
-                    >
-                      {LANG["common.pay.pay_info.login"] || "Log in"}
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      href={`/user/register?redirect=${selfUrl}`}
-                      className={styles.entry_button}
-                    >
-                      {LANG["store.order.user_type.register"] || "Register"}
-                    </Button>
-                  </div>
+                  <LoginModule LANG={LANG} redirectPath={selfUrl} />
                 </div>
               )}
             </>

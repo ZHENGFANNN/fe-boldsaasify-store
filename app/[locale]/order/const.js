@@ -1,4 +1,15 @@
 /** area cookie 为小写（如 us），ERP setting.pay.supportArea 为大写 ISO（如 US） */
+import {
+  PayAmericanExpressIcon,
+  PayDiscoverIcon,
+  PayMasterIcon,
+  PayPaypalIcon,
+  PayTransferIcon,
+  PayVisaIcon,
+  PayWechatIcon,
+  PayZhifubaoIcon,
+} from "@/components/Icon";
+
 export function isPayAreaSupported(supportArea, area) {
   if (!Array.isArray(supportArea) || !area) return false;
   const normalized = String(area).toLowerCase();
@@ -7,18 +18,20 @@ export function isPayAreaSupported(supportArea, area) {
   );
 }
 
+// 各种支付方式的品牌 icon，全部内联 SVG 组件，无远端 PNG 依赖。
+// iconList 是 React 组件数组；PayList 直接渲染 `<Cmp />`。
 export const domesticPay = function ({ CONFIG, LANG }) {
   return [
     // {
     //   title: LANG["store.order.pay_info.wechat"],
     //   key: "wechat",
-    //   imgList: [`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-wechat.png`],
+    //   iconList: [PayWechatIcon],
     //   description: "",
     // },
     // {
     //   title: LANG["store.order.pay_info.zhifubao"],
     //   key: "zhifubao",
-    //   imgList: [`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-zhifubao.png`],
+    //   iconList: [PayZhifubaoIcon],
     //   description: "",
     // },
     // {
@@ -27,23 +40,23 @@ export const domesticPay = function ({ CONFIG, LANG }) {
     //   description: LANG["store.order.pay_info.transfer_detail"]
     //     .split("${1}")
     //     .join(CONFIG["common.base"]?.company_name),
-    //   imgList: [`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-transfer.png`],
+    //   iconList: [PayTransferIcon],
     // },
     {
       title: LANG["common.pay.pay_info.pay_list.paypal"],
       description: LANG["common.pay.pay_info.pay_list.paypal_detail"],
       key: "payPal",
-      imgList: [`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-paypal.png`],
+      iconList: [PayPaypalIcon],
     },
   ];
 };
 
 export const foreignPay = function ({ CONFIG, LANG }) {
   const cardIcons = [
-    `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-visa.png`,
-    `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-master.png`,
-    `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-american-express.png`,
-    `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-discover.png`,
+    PayVisaIcon,
+    PayMasterIcon,
+    PayAmericanExpressIcon,
+    PayDiscoverIcon,
   ];
 
   return [
@@ -53,19 +66,19 @@ export const foreignPay = function ({ CONFIG, LANG }) {
         LANG["common.pay.pay_info.pay_list.stripe_detail"] ||
         "Pay securely with card, Apple Pay, or Google Pay.",
       key: "stripe",
-      imgList: cardIcons,
+      iconList: cardIcons,
     },
     {
       title: LANG["common.pay.pay_info.pay_list.paypal"],
       description: LANG["common.pay.pay_info.pay_list.paypal_detail"],
       key: "payPal",
-      imgList: [`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-paypal.png`],
+      iconList: [PayPaypalIcon],
     },
     // {
     //   title: LANG['store.order.pay_info.transfer'],
     //   description: LANG['store.order.pay_info.transfer_detail'].split('${1}').join(CONFIG['company.basic.company_name']),
     //   key: 'bank',
-    //   imgList: [`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/pay-transfer.png`],
+    //   iconList: [PayTransferIcon],
     // },
   ];
 };

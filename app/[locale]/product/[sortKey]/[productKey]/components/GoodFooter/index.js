@@ -10,6 +10,7 @@ import { formatCurrency } from "@/utils";
 import { debounce } from "@/utils";
 import { discountedUnitPrice, savedUnitAmount } from "@/utils/productPricing";
 import { recordRecentlyViewed } from "@/components/LiveChat/recentlyViewed";
+import { ProductComboIcon } from "@/components/Icon";
 
 export default function GoodFooter() {
   const {
@@ -122,10 +123,7 @@ export default function GoodFooter() {
                   }}
                   className={styles.combo_name}
                 >
-                  <img
-                    alt="combo"
-                    src={`${process.env.NEXT_PUBLIC_FILE}/common/image/icon/product-combo.svg`}
-                  />
+                  <ProductComboIcon />
                   <div className={styles.name_container}>
                     <h3>{productInfo.name}</h3>
                     <div>{productCurCombo.title}</div>

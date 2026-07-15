@@ -53,10 +53,13 @@
                         &:last-child {
                             margin-bottom: 0;
                         }
-                        img {
+                        img,
+                        svg {
                             width: 16px;
                             height: 16px;
                             margin-right: 6px;
+                            display: block;
+                            flex-shrink: 0;
                         }
                         .line_container {
                             position: relative;
@@ -287,10 +290,13 @@
         top: 0;
 
         display: flex;
-        img {
+        img,
+        svg {
             margin: 0 1px;
             width: 24px;
             height: 24px;
+            display: block;
+            flex-shrink: 0;
         }
     }
 

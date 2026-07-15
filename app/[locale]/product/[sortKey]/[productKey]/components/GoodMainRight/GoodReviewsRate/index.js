@@ -3,9 +3,7 @@
 import React from "react";
 import ProductContext from "../../../ProductContext";
 import styles from "./index.module.scss";
-
-const active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_active_icon.svg`;
-const no_active_icon = `${process.env.NEXT_PUBLIC_FILE}/common/image/icon/previews_stars_icon.svg`;
+import { StarIcon, StarActiveIcon } from "@/components/Icon";
 
 export default function GoodReviewsRate({ reviewNum, reviewScore }) {
   const { LANG, productInfo } = React.useContext(ProductContext);
@@ -59,11 +57,11 @@ export default function GoodReviewsRate({ reviewNum, reviewScore }) {
       }}
     >
       <div className={styles.no_active_stars}>
-        <img alt="no_active_icon" src={no_active_icon} />
-        <img alt="no_active_icon" src={no_active_icon} />
-        <img alt="no_active_icon" src={no_active_icon} />
-        <img alt="no_active_icon" src={no_active_icon} />
-        <img alt="no_active_icon" src={no_active_icon} />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
       </div>
       <div
         className={styles.active_stars}
@@ -71,11 +69,11 @@ export default function GoodReviewsRate({ reviewNum, reviewScore }) {
           width: 70 * rate
         }}
       >
-        <img alt="active_icon" src={active_icon} />
-        <img alt="active_icon" src={active_icon} />
-        <img alt="active_icon" src={active_icon} />
-        <img alt="active_icon" src={active_icon} />
-        <img alt="active_icon" src={active_icon} />
+        <StarActiveIcon />
+        <StarActiveIcon />
+        <StarActiveIcon />
+        <StarActiveIcon />
+        <StarActiveIcon />
       </div>
       <div className={styles.reviews_text}>{`( ${LANG[
         "store.product.reviews"
