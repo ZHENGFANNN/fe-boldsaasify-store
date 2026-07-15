@@ -2,16 +2,19 @@
 
 import React from "react";
 import Modal from "@/components/Modal";
-import LoginModule from "./index";
-import styles from "./LoginModal.module.scss";
+import LoginModule from "../LoginModule";
+import styles from "./index.module.scss";
 
-// 文案兜底：语言包暂未配置 user_login.session_expired.* 时用英文兜底
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 
 /**
  * Session 过期弹窗 —— axios 收到 10014 后由 AuthGateProvider 弹起。
  *
- * 内嵌共享 <Modal>（portal 到 body + 遮罩 + close ×）+ 锁图标 + LoginModule。
+ * 使用约束：
+ *  - 不可关闭：Modal 传 closable={false}（禁遮罩点击 + 隐藏 close ×，且不渲染 title 避免出现顶部条）；
+ *  - 隐藏 Register：用户已注册过才会 session 过期，Register 冗余；
+ *  - onActive：点击 Log in 前先 hide 弹窗，避免跳登录页后弹窗仍残留一帧遮罩。
+ *
  * 通过 forwardRef 暴露 show() / hide() 与父级 AuthGateContext 联动。
  */
 function LoginModal({ LANG }, ref) {
@@ -19,18 +22,19 @@ function LoginModal({ LANG }, ref) {
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
-      // 传 title 让 Modal 内置 header + close × 生效
-      modalRef.current?.show({
-        title: T(LANG, "user_login.session_expired.title", "Session Expired"),
-      });
+      modalRef.current?.show();
     },
     hide: () => {
       modalRef.current?.hide();
     },
   }));
 
+  const handleActive = React.useCallback(() => {
+    modalRef.current?.hide();
+  }, []);
+
   return (
-    <Modal ref={modalRef}>
+    <Modal ref={modalRef} closable={false}>
       <div className={styles.body}>
         <div className={styles.icon} aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none">
@@ -61,11 +65,14 @@ function LoginModal({ LANG }, ref) {
 
         <LoginModule
           LANG={LANG}
+          title={T(LANG, "user_login.session_expired.title", "Session Expired")}
           desc={T(
             LANG,
             "user_login.session_expired.desc",
             "Your session has expired. Please sign in again to continue."
           )}
+          showRegister={false}
+          onActive={handleActive}
         />
       </div>
     </Modal>

@@ -50,49 +50,6 @@
   margin: 0 auto 24px;
 }
 
-// Google 快捷登录（主入口，铺满 width 100%）
-.google_wrap {
-  position: relative;
-  width: 100%;
-}
-
-// OR 分隔线
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 20px 0;
-}
-
-.divider_line {
-  flex: 1;
-  height: 1px;
-  background: #e5e7eb;
-}
-
-.divider_text {
-  color: #9ca3af;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-// 邮箱登录 / 注册按钮组（次要入口，一行两颗；视觉由公共 Button 承担）
-.entry_buttons {
-  display: flex;
-  gap: 12px;
-}
-
-.entry_button {
-  flex: 1;
-  min-width: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-// 小屏 0–680
 @media (max-width: 680px) {
   .container {
     padding: 64px 20px;
@@ -110,15 +67,5 @@
 
   .title {
     font-size: 20px;
-  }
-
-  .entry_buttons {
-    flex-direction: column;
-  }
-
-  .entry_button {
-    flex: none;
-    width: 100%;
-    max-width: calc(100% - 50px);
   }
 }

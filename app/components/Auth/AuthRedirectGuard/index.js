@@ -1,20 +1,14 @@
 "use client";
 
 import React from "react";
-import LoginModule from "@/components/LoginModule";
+import LoginModule from "../LoginModule";
 import styles from "./index.module.scss";
 
-// 文案兜底：语言包暂未配置 user_account.login_guard.* 时用英文兜底
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 
 /**
- * 未登录守卫卡片：展示锁图标 + 主副标题 + 内嵌 <LoginModule>（Google + OR + Log in / Register）。
- *
- * 外壳（container / card / icon / title / desc）由本组件保留；
- * 登录入口三件套（Google 按钮 / OR / 两颗按钮）已收敛到 LoginModule，全站唯一实现。
- *
- * @param {object}  LANG          文案 map
- * @param {string?} redirectPath  登录成功后回跳路径；未传时由 LoginModule 内部取 window.location.href
+ * 未登录守卫卡片：锁图标 + 主副标题 + LoginModule（Google + OR + Log in / Register）。
+ * 用于售后详情/进度/创建三处的未登录状态。
  */
 export default function AuthRedirectGuard({ LANG, redirectPath }) {
   return (

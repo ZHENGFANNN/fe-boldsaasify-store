@@ -1,9 +1,8 @@
-// LoginModule 纯 UI 面板：Google + OR + 两颗按钮
-// 视觉与 AuthRedirectGuard、结账页 UserType 保持一致。
+// LoginModule 视觉：仅面板本体（Google + OR + Log in / Register）
+// 外壳（守卫卡片 / Modal）分别由 AuthRedirectGuard / LoginModal 承担。
 
 .module {
   width: 100%;
-  text-align: center;
 }
 
 .title {
@@ -12,6 +11,7 @@
   color: #3b3e40;
   margin: 0 0 10px;
   line-height: 1.2;
+  text-align: center;
 }
 
 .desc {
@@ -19,15 +19,36 @@
   line-height: 1.5;
   color: rgba(0, 0, 0, 0.55);
   margin: 0 auto 24px;
+  text-align: center;
 }
 
-// Google 快捷登录（主入口，铺满 width 100%）
+.agree {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgba(0, 0, 0, 0.45);
+
+  a {
+    color: rgba(0, 0, 0, 0.75);
+    margin: 0 4px;
+    text-decoration: none;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.88);
+      text-decoration: underline;
+    }
+  }
+}
+
 .google_wrap {
   position: relative;
   width: 100%;
 }
 
-// OR 分隔线
 .divider {
   display: flex;
   align-items: center;
@@ -50,10 +71,14 @@
   white-space: nowrap;
 }
 
-// 邮箱登录 / 注册按钮组（次要入口，一行两颗；视觉由公共 Button 承担）
 .entry_buttons {
   display: flex;
   gap: 12px;
+
+  &[data-single="true"] .entry_button {
+    flex: 1;
+    max-width: 100%;
+  }
 }
 
 .entry_button {
@@ -61,15 +86,9 @@
   min-width: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  transition: background-color 200ms, border-color 200ms, transform 200ms;
-
-  &:hover {
-    transform: translateY(-1px);
-  }
 }
 
-// 小屏 0–779（对齐项目断点表 mobile）
-@media (max-width: 779px) {
+@media (max-width: 680px) {
   .title {
     font-size: 20px;
   }
@@ -81,5 +100,6 @@
   .entry_button {
     flex: none;
     width: 100%;
+    max-width: calc(100% - 50px);
   }
 }

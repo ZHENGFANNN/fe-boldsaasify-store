@@ -9,10 +9,10 @@ import { AnalyticsNoScript } from "@/components/Head/Analytics";
 import TrackingRoot from "@/components/TrackingRoot";
 
 import Head from "@/components/Head";
-import GoogleAuthProvider from "@/components/GoogleAuth";
-import GoogleOneTap from "@/components/GoogleAuth/GoogleOneTap";
+import GoogleAuthProvider from "@/components/Auth/GoogleAuth";
+import GoogleOneTap from "@/components/Auth/GoogleAuth/GoogleOneTap";
 import ChunkErrorReloader from "@/components/ChunkErrorReloader";
-import { AuthGateProvider } from "@/components/LoginModule/AuthGateContext";
+import { AuthGateProvider } from "@/components/Auth/AuthGateContext";
 
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";

@@ -10,7 +10,7 @@ import Loading from "../../../../components/Loading";
 import { isEmail } from "../../../../utils/pattern";
 import Cookies from "js-cookie";
 import Api from "../../api";
-import LoginModule from "@/components/LoginModule";
+import LoginModule from "@/components/Auth/LoginModule";
 
 function UserInfo({ LANG, token }, ref) {
   const {

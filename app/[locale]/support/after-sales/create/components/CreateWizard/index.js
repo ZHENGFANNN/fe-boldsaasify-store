@@ -14,7 +14,7 @@ import IssueModule from "../IssueModule";
 import ContactModule from "../ContactModule";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
-import AuthRedirectGuard from "@/components/AuthRedirectGuard";
+import AuthRedirectGuard from "@/components/Auth/AuthRedirectGuard";
 import { defaultLocale } from "@/config/languageSettings";
 import CreateWizardContext from "../../context";
 import {

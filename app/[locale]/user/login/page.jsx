@@ -6,7 +6,7 @@ import styles from "./page.module.scss";
 import getRemoteLanguage from "@/config/Api/getRemoteLanguage";
 import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import LoginForm from "./components/LoginForm";
-import GoogleLoginPanel from "@/components/GoogleAuth/GoogleLoginPanel";
+import GoogleLoginPanel from "@/components/Auth/GoogleAuth/GoogleLoginPanel";
 
 async function getData({ locale }) {
   const [LANG, CONFIG] = await Promise.all([

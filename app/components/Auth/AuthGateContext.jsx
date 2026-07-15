@@ -6,12 +6,8 @@ import LoginModal from "./LoginModal";
 /**
  * AuthGate 全局单例：
  *  1. 挂载唯一的 <LoginModal>；
- *  2. 通过 useEffect 监听 window "auth:session-expired" 自定义事件——
- *     axios 拦截器收到 10014 时 dispatchEvent 触发弹窗；
- *  3. 通过 useAuthGate() 暴露 openLoginModal() / closeLoginModal() 供组件主动调用。
- *
- * 事件桥梁避免 axios（模块作用域）直接依赖 React context——请求层解耦，
- * 任何组件也可在没进入 Provider 的情况下 dispatchEvent 触发（如 AccountInfo 的 verifyLogin 分支）。
+ *  2. useEffect 监听 window "auth:session-expired" 自定义事件——axios 拦截器收到 10014 时 dispatchEvent 触发弹窗；
+ *  3. useAuthGate() 暴露 openLoginModal() / closeLoginModal() 供组件主动调用。
  */
 const AuthGateContext = React.createContext({
   openLoginModal: () => {},

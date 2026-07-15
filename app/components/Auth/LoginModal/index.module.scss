@@ -1,8 +1,8 @@
 // LoginModal 内容布局：锁图标 + LoginModule
-// 外壳（portal / 遮罩 / close ×）由 shared @/components/Modal 承担。
+// 外壳（portal / 遮罩）由 shared @/components/Modal 承担；session 过期场景 closable={false}，无 title/close ×。
 
 .body {
-  padding: 8px 16px 8px;
+  padding: 24px 16px 8px;
   text-align: center;
 }
 
@@ -24,10 +24,9 @@
   }
 }
 
-// 小屏 0–779（对齐项目断点表 mobile）
 @media (max-width: 779px) {
   .body {
-    padding: 4px 4px 8px;
+    padding: 16px 4px 8px;
   }
 
   .icon {

@@ -4,7 +4,7 @@ import React from "react";
 import Cookies from "js-cookie";
 import styles from "../../page.module.scss";
 import AfterSaleInfo from "@/[locale]/user/account/components/AfterSaleInfo";
-import AuthRedirectGuard from "@/components/AuthRedirectGuard";
+import AuthRedirectGuard from "@/components/Auth/AuthRedirectGuard";
 import Loading from "@/components/Loading";
 import SegmentTabs from "@/components/SegmentTabs";
 

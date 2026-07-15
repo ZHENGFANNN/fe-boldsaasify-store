@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import styles from "./index.module.scss";
 
-function Modal({ children, onClose = () => {} }, ref) {
+function Modal({ children, onClose = () => {}, closable = true }, ref) {
   const [show, setShow] = React.useState(false);
   const [title, setTitle] = React.useState(false);
 
@@ -46,6 +46,7 @@ function Modal({ children, onClose = () => {} }, ref) {
             className={styles.modal}
             data-show={show}
             onClick={() => {
+              if (!closable) return;
               setShow(false);
               onClose();
             }}
@@ -61,15 +62,17 @@ function Modal({ children, onClose = () => {} }, ref) {
                   {title ? (
                     <div className={styles.header}>
                       <div className={styles.title}>{title}</div>
-                      <div
-                        className={styles.close}
-                        onClick={() => {
-                          setShow(false);
-                          onClose();
-                        }}
-                      >
-                        ×
-                      </div>
+                      {closable ? (
+                        <div
+                          className={styles.close}
+                          onClick={() => {
+                            setShow(false);
+                            onClose();
+                          }}
+                        >
+                          ×
+                        </div>
+                      ) : null}
                     </div>
                   ) : null}
                   {children}

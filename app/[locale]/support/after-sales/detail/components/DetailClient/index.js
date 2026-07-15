@@ -9,7 +9,7 @@ import Api from "../../../api";
 import { getJsonData } from "@/utils";
 import { defaultLocale } from "@/config/languageSettings";
 import Loading from "@/components/Loading";
-import AuthRedirectGuard from "@/components/AuthRedirectGuard";
+import AuthRedirectGuard from "@/components/Auth/AuthRedirectGuard";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Button from "@/components/Button";
 import StatusProgress from "@/components/StatusProgress";
@@ -288,28 +288,32 @@ export default function DetailClient({ LANG, locale }) {
               <span className={styles.info_label}>
                 {T(LANG, "user_account.after_sale.service_type", "Service type")}
               </span>
-              <span className={styles.type_badge}>
+              <span className={styles.info_value}>
                 {typeLabelMap[data.type] || data.type}
               </span>
             </div>
             {reportType === "order" && data.order_number ? (
-              <InfoRow
-                label={T(
-                  LANG,
-                  "user_account.my_order.order_number",
-                  "Order No."
-                )}
-                value={data.order_number}
-              />
+              <div className={styles.info_row_lg}>
+                <span className={styles.info_label}>
+                  {T(
+                    LANG,
+                    "user_account.my_order.order_number",
+                    "Order No."
+                  )}
+                </span>
+                <span className={styles.info_value}>{data.order_number}</span>
+              </div>
             ) : null}
-            <InfoRow
-              label={T(
-                LANG,
-                "user_account.after_sale.service_no",
-                "Request No."
-              )}
-              value={data.service_no}
-            />
+            <div className={styles.info_row_lg}>
+              <span className={styles.info_label}>
+                {T(
+                  LANG,
+                  "user_account.after_sale.service_no",
+                  "Request No."
+                )}
+              </span>
+              <span className={styles.info_value}>{data.service_no}</span>
+            </div>
           </div>
 
           {/* 客户回寄快递（可选录入，非终态可填；仅展示已填信息，简化后不再是流程节点） */}
