@@ -78,7 +78,7 @@
 .info_card {
   background: #fff;
   border-radius: 16px;
-  padding: 32px 40px;
+  padding: 24px;
 
   .section_title {
     font-size: 20px;
@@ -87,6 +87,14 @@
     margin-bottom: 20px;
     line-height: 1.2;
   }
+}
+
+// 进度条白卡：与 info_card 同款留白（PC 24 / 移动 16）
+.progress_card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  overflow-x: auto;
 }
 
 .info_row_lg {
@@ -205,7 +213,11 @@
   }
   .info_card {
      border-radius: 0;
-      padding: 24px 20px;
+      padding: 16px;
+  }
+  .progress_card {
+    border-radius: 0;
+    padding: 16px;
   }
   .info_row {
     flex-direction: column;

@@ -1,98 +1,6 @@
 // DetailClient 子组件专用样式（parts/*.jsx 引用）。
 // 主页面容器/信息卡/媒体网格样式在 ../../../page.module.scss，与本文件互不覆盖。
 
-// ---------- 6 步进度条（放在白卡内） ----------
-
-.progress {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-  padding: 24px 40px;
-  background: #fff;
-  border-radius: 16px;
-  overflow-x: auto;
-
-
-
-  @media (max-width: 780px) {
-    border-radius: 0;
-    padding: 20px 16px;
-  }
-
-  .p_step {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    min-width: 120px;
-    flex: 0 0 auto;
-
-    .p_dot {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 42px;
-      height: 42px;
-      padding: 0 10px;
-      border-radius: 4px;
-      font-size: 20px;
-      font-weight: 700;
-      color: rgba(0, 0, 0, 0.35);
-      background: rgba(0, 0, 0, 0.04);
-      border: 1px solid transparent;
-    }
-    .p_label {
-      font-size: 15px;
-      font-weight: 600;
-      color: rgba(0, 0, 0, 0.35);
-      line-height: 1.3;
-      padding: 0 4px;
-    }
-    .p_time {
-      font-size: 12px;
-      color: rgba(0, 0, 0, 0.5);
-      padding: 0 4px;
-    }
-
-    // 当前步：数字用深色底 + 白字高亮，取代原来的红色角标聚焦样式
-    &.active {
-      .p_dot {
-        background: #16181b;
-        color: #fff;
-      }
-      .p_label {
-        color: #16181b;
-      }
-      .p_time {
-        color: rgba(0, 0, 0, 0.55);
-      }
-    }
-    &.done {
-      .p_dot {
-        background: #ef7c1a;
-        color: #fff;
-      }
-      .p_label {
-        color: #16181b;
-      }
-    }
-  }
-
-  .p_line {
-    flex: 1 1 auto;
-    min-width: 24px;
-    max-width: 60px;
-    height: 1px;
-    // 与 .p_dot 垂直居中对齐（dot 高 42px，中线 21px）
-    margin-top: 21px;
-    background: rgba(0, 0, 0, 0.15);
-
-    &.done {
-      background: #ef7c1a;
-    }
-  }
-}
-
 // ---------- 服务信息 / 联系方式内联编辑（白卡） ----------
 .info_card {
   background: #fff;
@@ -312,22 +220,6 @@
 
 // ---------- 响应式 ----------
 @media (max-width: 779px) {
-  .progress {
-    gap: 0;
-    .p_step {
-      min-width: 96px;
-      .p_label {
-        font-size: 13px;
-      }
-      .p_time {
-        font-size: 11px;
-      }
-    }
-    .p_line {
-      min-width: 12px;
-      max-width: 24px;
-    }
-  }
   .info_row_lg {
     flex-wrap: wrap;
     gap: 4px 8px;

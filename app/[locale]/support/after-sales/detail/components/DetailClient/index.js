@@ -11,7 +11,7 @@ import Loading from "@/components/Loading";
 import AuthRedirectGuard from "@/components/AuthRedirectGuard";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Button from "@/components/Button";
-import ProgressSteps from "./parts/ProgressSteps";
+import StatusProgress from "@/components/StatusProgress";
 import ServiceInfoCard from "./parts/ServiceInfoCard";
 import CancelledBanner from "./parts/CancelledBanner";
 
@@ -27,25 +27,36 @@ const TERMINAL_STATUS = new Set(["cancelled", "resolved", "rejected"]);
 // 客户可自主取消的状态（对齐 order-service afterServiceCancelableStatus）。
 const CANCELABLE_STATUS = new Set(["pending", "processing"]);
 
-// 简化 3 步进度：提交成功 → 处理中 → 已完成。step = 当前进行到第几步。
-const STEP_BY_STATUS = {
-  pending: 1,
-  processing: 2,
-  resolved: 3,
+// 状态 → 高亮到第几块（0 基）。pending 高亮首块，processing 第 2 块，resolved 第 3 块。
+const ACTIVE_INDEX_BY_STATUS = {
+  pending: 0,
+  processing: 1,
+  resolved: 2
 };
 
-// 由状态构建 3 步进度视图（终态不高亮 current）。
-function buildSteps(data, LANG) {
-  const step = STEP_BY_STATUS[data.status] || 1;
-  return [
-    { title: T(LANG, "user_account.after_sale.progress.submitted", "Submitted") },
-    { title: T(LANG, "user_account.after_sale.progress.processing", "Processing") },
-    { title: T(LANG, "user_account.after_sale.progress.resolved", "Completed") },
-  ].map((it, i) => ({
-    ...it,
-    done: i + 1 < step,
-    current: i + 1 === step && !TERMINAL_STATUS.has(data.status),
-  }));
+// 由状态构建 3 步进度：每块文案随状态变化（对齐产品诉求）：
+//   pending    → 提交成功 / 待处理   / 待完成   (高亮第 1 块)
+//   processing → 提交成功 / 处理中   / 待完成   (高亮第 2 块)
+//   resolved   → 提交成功 / 处理完成 / 已完成   (高亮第 3 块)
+function buildProgress(data, LANG) {
+  const status = data.status;
+  const activeIndex = ACTIVE_INDEX_BY_STATUS[status] ?? 0;
+
+  const submitted = T(LANG, "user_account.after_sale.progress.submitted", "Submitted");
+  // 第 2 块随状态在 待处理/处理中/处理完成 之间切换
+  const midLabel =
+    status === "processing"
+      ? T(LANG, "user_account.after_sale.progress.processing", "Processing")
+      : status === "resolved"
+      ? T(LANG, "user_account.after_sale.progress.processed", "Processed")
+      : T(LANG, "user_account.after_sale.progress.to_process", "Pending");
+  // 第 3 块在 待完成/已完成 之间切换
+  const endLabel =
+    status === "resolved"
+      ? T(LANG, "user_account.after_sale.progress.completed", "Completed")
+      : T(LANG, "user_account.after_sale.progress.to_complete", "To be completed");
+
+  return { steps: [submitted, midLabel, endLabel], activeIndex };
 }
 
 // 单条信息行（value 为空时不渲染）
@@ -217,7 +228,14 @@ export default function DetailClient({ LANG, locale }) {
               ) : null}
             </div>
           ) : (
-            <ProgressSteps steps={buildSteps(data, LANG)} />
+            (() => {
+              const { steps, activeIndex } = buildProgress(data, LANG);
+              return (
+                <div className={styles.progress_card}>
+                  <StatusProgress steps={steps} activeIndex={activeIndex} />
+                </div>
+              );
+            })()
           )}
 
           {/* 服务信息 */}
@@ -354,11 +372,12 @@ export default function DetailClient({ LANG, locale }) {
             </div>
           ) : null}
 
-          {/* 取消申请：仅 pending/processing 可取消 */}
+          {/* 取消申请：仅 pending/processing 可取消。按钮复用 order 页 Login 同款 Button 组件 */}
           {canCancel ? (
             <div className={styles.cancel_action}>
               <Button
-                variant="ghost"
+                variant="secondary"
+                block
                 loading={cancelling}
                 onClick={handleCancel}
               >
