@@ -47,25 +47,14 @@
     padding-bottom: 14px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
-    .order_no {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
+    .no_value {
       min-width: 0;
-
-      .no_label {
-        font-size: 12px;
-        color: rgba(0, 0, 0, 0.4);
-        white-space: nowrap;
-      }
-      .no_value {
-        font-size: 14px;
-        font-weight: 600;
-        color: #16181b;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
+      font-size: 14px;
+      font-weight: 600;
+      color: #16181b;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -150,7 +139,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 1;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
     .summary_sub {
@@ -160,11 +149,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-    .summary_date {
-      margin-top: 6px;
-      font-size: 12px;
-      color: rgba(0, 0, 0, 0.4);
     }
   }
 
@@ -179,9 +163,16 @@
 
   .card_foot {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     padding-top: 12px;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+    .foot_date {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.4);
+    }
 
     .view_detail {
       display: inline-flex;
@@ -190,6 +181,7 @@
       font-size: 13px;
       font-weight: 500;
       color: #16181b;
+      white-space: nowrap;
 
       svg {
         transition: transform 0.2s;

@@ -137,14 +137,9 @@ export default function OrderInfo({ LANG, locale }) {
                 onClick={() => goDetail(orderItem)}
               >
                 <div className={styles.card_head}>
-                  <div className={styles.order_no}>
-                    <span className={styles.no_label}>
-                      {LANG["user_account.my_order.order_number"]}
-                    </span>
-                    <span className={styles.no_value}>
-                      {orderItem.order_number}
-                    </span>
-                  </div>
+                  <span className={styles.no_value}>
+                    {orderItem.order_number}
+                  </span>
                   <span
                     className={`${styles.status} ${
                       orderStatusColor[orderItem.order_status] || ""
@@ -172,14 +167,14 @@ export default function OrderInfo({ LANG, locale }) {
                         {firstLine.comboName}
                       </div>
                     ) : null}
-                    <div className={styles.summary_date}>
-                      {fmtDateTime(orderItem.order_time)}
-                    </div>
                   </div>
                   <div className={styles.card_total}>{totalLabel}</div>
                 </div>
 
                 <div className={styles.card_foot}>
+                  <span className={styles.foot_date}>
+                    {fmtDateTime(orderItem.order_time)}
+                  </span>
                   <span className={styles.view_detail}>
                     {orderItem.order_status === "pending_payment"
                       ? LANG["user_account.my_order.insta_pay"]
