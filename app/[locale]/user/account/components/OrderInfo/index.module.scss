@@ -4,344 +4,213 @@
     font-size: 24px;
     line-height: 1.334;
     color: #3b3e40;
-
     margin-bottom: 24px;
-
     display: flex;
     justify-content: space-between;
     align-self: center;
   }
+
   .order_list {
-    .order_item {
-      text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
-      padding: 20px 16px;
-      border-radius: 8px;
-      color: rgba(0, 0, 0, 0.45);
-      margin-bottom: 24px;
-      font-size: 14px;
+  // 单张订单卡片（整卡可点击）
+  .order_card {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 
-      background: rgba(0, 0, 0, 0.02);
-      b {
-        color: rgba(0, 0, 0, 0.8);
-      }
-      .order_header {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        padding-bottom: 16px;
-        font-size: 16px;
-        .header_item {
-          display: flex;
-          margin-bottom: 4px;
-          font-size: 14px;
-          flex-wrap: wrap;
-          .order_title {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            white-space: nowrap;
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
 
-            font-weight: 700px;
-            color: #000;
-            margin-right: 8px;
-            line-height: 1.45;
-            width: 160px;
-            min-width: 180px;
-          }
-          .order_value {
-            white-space: pre-wrap;
-            line-height: 1.45;
-            &.error {
-              margin: 4px 0;
-              padding: 0 6px;
-              border-radius: 4px;
-              color: #cf1322;
-              background: rgb(255, 255, 255);
-              border: 1px solid #cf1322;
-            }
-            &.yellow {
-              margin: 4px 0;
-              padding: 0 6px;
-              border-radius: 4px;
-              color: #d4b106;
-              background: rgb(255, 255, 255);
-              border: 1px solid #d4b106;
-            }
-            &.blue {
-              margin: 4px 0;
-              padding: 0 6px;
-              border-radius: 4px;
-              color: #0958d9;
-              background: rgb(255, 255, 255);
-              border: 1px solid #0958d9;
-            }
-            &.green {
-              margin: 4px 0;
-              padding: 0 6px;
-              border-radius: 4px;
-              color: #389e0d;
-              background: rgb(255, 255, 255);
-              border: 1px solid #389e0d;
-            }
-            &.black {
-              margin: 4px 0;
+    &:active {
+      transform: translateY(1px);
+    }
+  }
 
-              padding: 0 6px;
-              border-radius: 4px;
-              color: black;
-              background: rgb(255, 255, 255);
-              border: 1px solid black;
-            }
-            &.red {
-              margin: 4px 0;
+  .card_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
-              padding: 0 6px;
-              border-radius: 4px;
-              color: #fd6651;
-              opacity: 0.8;
-              border: 1px solid #fd6651;
-            }
-          }
-        }
-      }
-      .pay_container {
-        padding-bottom: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .insta_pay,
-        .after_sale {
-          padding: 8px 12px;
-          border: 1px solid #3b3e40;
-          display: inline-flex;
-          font-weight: 400;
-          text-align: center;
-          white-space: nowrap;
-          user-select: none;
-          color: #3b3e40;
-          justify-content: center;
-          align-items: center;
+    .order_no {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      min-width: 0;
 
-          border-radius: 12px;
-          transition: all 300ms;
-          cursor: pointer;
-          &:hover {
-            font-weight: 700;
-            border-color: #000;
-            color: #000;
-          }
-        }
-        .total_price {
-          font-size: 16px;
-          b {
-            margin-right: 6px;
-          }
-        }
-      }
-      .tip {
-        color: rgba(0, 0, 0, 0.3);
-        margin-bottom: 12px;
+      .no_label {
         font-size: 12px;
-        a {
-          text-decoration: none;
-          color: #1890ff;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
+        color: rgba(0, 0, 0, 0.4);
+        white-space: nowrap;
       }
-      .expand_container {
-        height: 0;
+      .no_value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #16181b;
         overflow: hidden;
-        transition: all 300ms;
-        .expand_height {
-          display: block;
-        }
-      }
-      .expand_icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 12px;
-        cursor: pointer;
-        &.active {
-          .arrow_icon {
-            transform: translateX(-25%) rotate(-45deg);
-          }
-        }
-        .arrow_icon {
-          position: relative;
-          left: -4px;
-          width: 20px;
-          height: 20px;
-          transform: translateX(-25%) rotate(-225deg);
-          margin-left: 12px;
-          transition: transform 300ms;
-          &::after {
-            display: block;
-            content: '';
-            position: absolute;
-            transform-origin: top;
-            transform: rotate(360deg);
-
-            bottom: 5px;
-            left: 10px;
-
-            height: 9px;
-            width: 1px;
-            background-color: #606466;
-          }
-          &::before {
-            display: block;
-            content: '';
-            position: absolute;
-            transform-origin: top;
-            transform: rotate(90deg);
-
-            bottom: 5px;
-            left: 10px;
-
-            height: 8px;
-            width: 1px;
-            background-color: #606466;
-          }
-        }
-      }
-      .good_list {
-        padding: 16px 0;
-        border-top: 1px solid #f0f1f2;
-        border-bottom: 1px solid #f0f1f2;
-        h2 {
-          font-size: 16px;
-          color: #000;
-          margin-bottom: 24px;
-        }
-        .good_item {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 12px;
-          &:last-child {
-            margin-bottom: 0;
-          }
-          .product_info {
-            display: flex;
-            align-items: center;
-            .good_img {
-              margin-right: 8px;
-              width: 86px;
-              min-width: 86px;
-              height: 86px;
-              position: relative;
-              img {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-              }
-            }
-            .good_info {
-              .good_name {
-                line-height: 24px;
-                font-weight: 700;
-                color: #000;
-              }
-              .combo_name {
-                color: #646669;
-                font-size: 14px;
-                line-height: 1.5715;
-                margin-bottom: 8px;
-              }
-              .good_option {
-                line-height: 16px;
-                font-size: 12px;
-                color: #646669;
-              }
-            }
-          }
-          .product_number {
-            .good_price {
-              color: #000;
-              font-size: 14px;
-              line-height: 1.5715;
-              margin-left: 8px;
-              font-weight: 500;
-              text-align: right;
-              white-space: nowrap;
-            }
-            .good_number {
-              color: rgba(0, 0, 0, 0.45);
-              font-size: 14px;
-              line-height: 1.5715;
-              margin-left: 8px;
-              font-weight: 500;
-              text-align: right;
-            }
-          }
-        }
-      }
-      .user_info {
-        padding-top: 16px;
-        padding-bottom: 16px;
-        text-transform: none;
-        h2 {
-          color: #000;
-          margin-bottom: 24px;
-          font-size: 16px;
-        }
-        .user_item {
-          margin-bottom: 12px;
-          white-space: pre;
-          line-height: 1.45;
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-        .user_ground {
-          display: flex;
-          justify-content: space-around;
-          .user_item {
-            flex: 1;
-            text-align: left;
-          }
-        }
-      }
-      .order_remark {
-        padding: 16px 0;
-        border-top: 1px solid rgba(0, 0, 0, 0.15);
-        h2 {
-          font-size: 16px;
-          color: #000;
-          margin-bottom: 24px;
-          line-height: 21px;
-        }
-        .user_item {
-          margin-bottom: 8px;
-        }
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
+  }
+
+  // 订单状态徽标（彩色描边小胶囊）
+  .status {
+    flex-shrink: 0;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    white-space: nowrap;
+    color: #000;
+    border: 1px solid #000;
+    background: #fff;
+
+    &.error {
+      color: #cf1322;
+      border-color: #cf1322;
+    }
+    &.yellow {
+      color: #d4b106;
+      border-color: #d4b106;
+    }
+    &.blue {
+      color: #0958d9;
+      border-color: #0958d9;
+    }
+    &.green {
+      color: #389e0d;
+      border-color: #389e0d;
+    }
+    &.black {
+      color: rgba(0, 0, 0, 0.65);
+      border-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .card_body {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+  }
+
+  .thumb {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.03);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumb_badge {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      padding: 1px 6px;
+      font-size: 11px;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.55);
+      border-top-left-radius: 6px;
+    }
+  }
+
+  .summary {
+    flex: 1;
+    min-width: 0;
+
+    .summary_name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #16181b;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+    .summary_sub {
+      margin-top: 2px;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .summary_date {
+      margin-top: 6px;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .card_total {
+    flex-shrink: 0;
+    align-self: flex-start;
+    font-size: 16px;
+    font-weight: 600;
+    color: #16181b;
+    white-space: nowrap;
+  }
+
+  .card_foot {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+    .view_detail {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #16181b;
+
+      svg {
+        transition: transform 0.2s;
+      }
+    }
+  }
+
+  .order_card:hover .view_detail svg {
+    transform: translateX(2px);
   }
 }
 
 @media screen and (max-width: 680px) {
   .container {
-    .order_list {
-      .order_item {
-        .order_header {
-          .header_item {
-            flex-direction: column;
-            .order_title {
-              width: 100%;
-            }
-            .order_value {
-              display: inline-flex;
-              width: fit-content;
-            }
-          }
-        }
-      }
+    .card_total {
+      font-size: 15px;
+    }
+    .thumb {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
     }
   }
 }

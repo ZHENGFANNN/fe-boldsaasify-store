@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import styles from "../../page.module.scss";
 import Api from "../../../api";
@@ -71,6 +72,7 @@ function InfoRow({ label, value }) {
 }
 
 export default function DetailClient({ LANG, locale }) {
+  const router = useRouter();
   const [isLogin, setIsLogin] = React.useState(null);
   const [redirectPath, setRedirectPath] = React.useState(
     "/support/after-sales/detail"
@@ -78,8 +80,13 @@ export default function DetailClient({ LANG, locale }) {
   const [serviceNo, setServiceNo] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState(null);
-  const [error, setError] = React.useState(false);
   const tipRef = React.useRef(null);
+
+  // 售后进度列表页地址（无参 / 非本人工单 一律回落到此）。
+  const progressHref = React.useMemo(
+    () => localeHref("/support/after-sales/progress", locale),
+    [locale]
+  );
 
   // cookie/URL 仅挂载后可读（SSR 无 window），故在 effect 内同步 setState。
   /* eslint-disable react-hooks/set-state-in-effect */
@@ -95,12 +102,17 @@ export default function DetailClient({ LANG, locale }) {
     setLoading(true);
     Api.getAfterServiceDetail(serviceNo)
       .then((res) => {
+        // code!==0（含后端归属校验不通过 / 工单不存在）→ 回落进度列表页。
         if (res.code !== 0) throw new Error("code!==0");
         setData(res.data || null);
+        setLoading(false);
       })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
-  }, [serviceNo]);
+      .catch(() => {
+        // 非本人工单或查询失败：不展示 not-found，保持 Loading 并跳转进度列表页
+        // （不置 loading=false，避免导航前闪现 not-found 卡片）。
+        router.replace(progressHref);
+      });
+  }, [serviceNo, router, progressHref]);
 
   React.useEffect(() => {
     if (isLogin === null) return;
@@ -108,13 +120,13 @@ export default function DetailClient({ LANG, locale }) {
       setLoading(false);
       return;
     }
+    // 无工单号：detail 无意义，跳转到进度列表页。
     if (!serviceNo) {
-      setLoading(false);
-      setError(true);
+      router.replace(progressHref);
       return;
     }
     refresh();
-  }, [isLogin, serviceNo, refresh]);
+  }, [isLogin, serviceNo, refresh, router, progressHref]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   const toast = React.useCallback((text, ok) => {
@@ -156,7 +168,8 @@ export default function DetailClient({ LANG, locale }) {
     return <AuthRedirectGuard LANG={LANG} redirectPath={redirectPath} />;
   }
 
-  if (error || !data) {
+  // 兜底：data 为空（正常情况下失败已 router.replace 到进度页，不会走到这里）。
+  if (!data) {
     return (
       <div className={styles.container}>
         <div className={styles.empty}>

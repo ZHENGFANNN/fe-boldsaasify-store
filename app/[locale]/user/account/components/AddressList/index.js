@@ -16,6 +16,9 @@ export default function AddressInfo({ showTip, LANG }) {
   const [loading, setLoading] = React.useState(true);
   const [list, setList] = React.useState([]);
   const [deleteLoading, setDeleteLoading] = React.useState(false);
+  // 编辑弹窗受控态：editItem 为选中的地址，editOpen 控制显隐。
+  const [editItem, setEditItem] = React.useState(null);
+  const [editOpen, setEditOpen] = React.useState(false);
   const getList = React.useCallback(() => {
     setLoading(true);
     Api.getUserAddress()
@@ -30,7 +33,14 @@ export default function AddressInfo({ showTip, LANG }) {
   }, []);
 
   React.useEffect(() => {
+    // 首屏拉取地址列表；getList 内部 setState 属预期同步，豁免该规则。
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
     getList();
+  }, []);
+
+  const openEdit = React.useCallback((item) => {
+    setEditItem(item);
+    setEditOpen(true);
   }, []);
 
   return (
@@ -51,7 +61,18 @@ export default function AddressInfo({ showTip, LANG }) {
               {list.map((item, index) => {
                 return (
                   <div key={index} className={styles.item}>
-                    <div className={styles.content}>
+                    <div
+                      className={styles.content}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => openEdit(item)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          openEdit(item);
+                        }
+                      }}
+                    >
                       <div className={styles.user}>
                         <span>
                           {item.first_name}
@@ -60,7 +81,9 @@ export default function AddressInfo({ showTip, LANG }) {
                         <span>{`(${item.short_phone}) ${item.phone}`}</span>
                       </div>
                       <div className={styles.address}>
-                        <div>{`${item.zip_code} ${item.area_text} ${item.address1}`}</div>
+                        <div>{`${item.zip_code} ${
+                          item.state ? `${item.state} ` : ""
+                        }${item.area_text} ${item.address1}`}</div>
                         <div>{item.address2}</div>
                       </div>
                     </div>
@@ -110,6 +133,18 @@ export default function AddressInfo({ showTip, LANG }) {
           ) : (
             <Empyt LANG={LANG} />
           )}
+
+          {/* 受控编辑弹窗：与新增复用同一表单，携带 editItem 回填 + id 提交 */}
+          <NewAddressForm
+            LANG={LANG}
+            editItem={editItem}
+            open={editOpen}
+            onClose={() => setEditOpen(false)}
+            onFinish={() => {
+              setEditOpen(false);
+              getList();
+            }}
+          />
         </div>
       )}
     </>

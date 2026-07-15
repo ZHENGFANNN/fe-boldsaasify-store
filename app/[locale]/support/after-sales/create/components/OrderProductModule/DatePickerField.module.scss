@@ -57,9 +57,13 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   animation: fadeIn 0.12s ease-out;
 
+  // 移动端：撑满与触发按钮同宽（left/right 归零，不用 translateX 居中，
+  // 避免 fadeIn 关键帧覆盖 transform 导致「从右向左」位移闪动）。
   @media (max-width: 480px) {
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
@@ -88,6 +92,11 @@
 .rdp_months {
   display: flex;
   gap: 12px;
+
+  // 移动端 popover 撑满宽度后，让日历整体居中，避免贴左。
+  @media (max-width: 480px) {
+    justify-content: center;
+  }
 }
 
 .rdp_month {

@@ -10,29 +10,19 @@ import Loading from "../../../../../components/Loading";
 import { formatCurrency, formatDateTime } from "@/utils";
 import readClientArea from "@/utils/readClientArea";
 import { useRouter } from "next/navigation";
+import { defaultLocale } from "@/config/languageSettings";
 
+// 订单列表精简为卡片：仅展示订单号 / 时间 / 状态 / 首图 + 商品概要 / 合计。
+// 详细信息（商品明细、收货信息、备注）统一在 /order/info?secret= 详情页查看。
 export default function OrderInfo({ LANG, locale }) {
   const router = useRouter();
-  const payMap = React.useMemo(() => {
-    const transfer = LANG["user_account.my_order.transfer"];
-    const creditCard = LANG["user_account.my_order.credit_card"];
-    const cod = LANG["user_account.my_order.cod"];
-    return {
-      wechat: LANG["user_account.my_order.wechat"],
-      zhifubao: LANG["user_account.my_order.zhifubao"],
-      // 当前 checkout 使用的 pay_key
-      stripe:
-        LANG["common.pay.pay_info.pay_list.stripe_detail"]?.split(" ")[0] ||
-        "Stripe",
-      payPal: LANG["user_account.my_order.paypal"],
-      bank: transfer,
-      cod,
-      // 历史订单兼容
-      bankTransfer: transfer,
-      creditCard,
-      COD: cod,
-    };
-  }, [LANG]);
+
+  const localeHref = React.useCallback(
+    (path) =>
+      locale && locale !== defaultLocale ? `/${locale}${path}` : path,
+    [locale]
+  );
+
   const orderStatus = React.useMemo(() => {
     return {
       pending_payment:
@@ -47,6 +37,7 @@ export default function OrderInfo({ LANG, locale }) {
       closed: LANG["user_account.my_order.closed"] || "Closed",
     };
   }, [LANG]);
+
   const orderStatusColor = React.useMemo(() => {
     return {
       pending_payment: styles.error,
@@ -60,6 +51,7 @@ export default function OrderInfo({ LANG, locale }) {
       closed: styles.black,
     };
   }, []);
+
   const [orderLoading, setOrderLoading] = React.useState(true);
   const [list, setList] = React.useState([]);
   const area = readClientArea();
@@ -67,6 +59,7 @@ export default function OrderInfo({ LANG, locale }) {
     (time) => formatDateTime({ time, locale, area }),
     [locale, area]
   );
+
   const getList = React.useCallback(() => {
     setOrderLoading(true);
     Api.getOrderList()
@@ -81,402 +74,138 @@ export default function OrderInfo({ LANG, locale }) {
   }, []);
 
   React.useEffect(() => {
-    if (list.length < 1) return;
-
-    import("jquery").then(({ default: $ }) => {
-      const $orderList = $(`.${styles.order_list}`);
-      const $expandIcon = $orderList.find(`.${styles.expand_icon}`);
-      const $expandContainer = $orderList.find(`.${styles.expand_container}`);
-      const $expandHeight = $orderList.find(`.${styles.expand_height}`);
-      $(`.${styles.order_list} .${styles.expand_icon}`).on(
-        "click",
-        function () {
-          const _index = $(
-            `.${styles.order_list} .${styles.expand_icon}`
-          ).index(this);
-          $expandIcon.each(function (index) {
-            $(this).find("span").text(LANG["user_account.my_order.expand"]);
-            $(this).removeClass(styles.active);
-            if ($expandContainer.eq(index).height() > 0 && _index !== index) {
-              $expandContainer.eq(index).css({
-                height: 0,
-              });
-            }
-          });
-
-          if ($expandContainer.eq(_index).height() > 0) {
-            $expandContainer.eq(_index).css({
-              height: 0,
-            });
-            $(this).removeClass(styles.active);
-            $(this).find("span").text(LANG["user_account.my_order.expand"]);
-          } else {
-            const height = $expandHeight.eq(_index).height();
-            $expandContainer.eq(_index).css({
-              height: `${height}px`,
-            });
-            $(this).addClass(styles.active);
-            $(this).find("span").text(LANG["user_account.my_order.collaspe"]);
-          }
-        }
-      );
-    });
-  }, [list]);
-
-  React.useEffect(() => {
+    // 首屏拉取订单列表；getList 内部 setState 属预期同步，豁免该规则。
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
     getList();
-  }, []);
+  }, [getList]);
+
+  const goDetail = React.useCallback(
+    (orderItem) => {
+      if (!orderItem?.secret) return;
+      // 待支付：新窗口打开去支付；其余：当前页跳详情。
+      if (orderItem.order_status === "pending_payment") {
+        window.open(localeHref(`/order/info?secret=${orderItem.secret}`), "_blank");
+        return;
+      }
+      router.push(localeHref(`/order/info?secret=${orderItem.secret}`));
+    },
+    [router, localeHref]
+  );
+
+  if (orderLoading) {
+    return <Loading height={400} />;
+  }
+
   return (
-    <>
-      {orderLoading ? (
-        <Loading height={400} />
+    <div className={styles.container}>
+      <div className={styles.title_container}>
+        <div>{LANG["user_account.my_order"]}</div>
+      </div>
+
+      {list.length < 1 ? (
+        <Empyt
+          LANG={LANG}
+          buttonProps={{
+            text: LANG["user_account.my_order.go_to_buy"],
+            href: "/",
+          }}
+        />
       ) : (
-        <div className={styles.container}>
-          <div className={styles.title_container}>
-            <div>{LANG["user_account.my_order"]}</div>
-          </div>
-          {list.length < 1 ? (
-            <Empyt
-              LANG={LANG}
-              buttonProps={{
-                text: LANG["user_account.my_order.go_to_buy"],
-                href: "/",
-              }}
-            />
-          ) : null}
-          {list.length > 0 ? (
-            <div className={styles.order_list}>
-              {list.map((orderItem, orderIndex) => {
-                const firstLine = orderItem.order_list?.[0] ?? {};
-                const priceUnit =
-                  orderItem.price_unit ?? firstLine.priceUnit ?? 100;
-                const currencyLabel = firstLine.priceCurrency ?? "";
-                const fmtMoney = (value) =>
-                  `${currencyLabel} ${formatCurrency(value, priceUnit)}`;
-                const shippingFee = Number(orderItem.shipping_fee) || 0;
-                const shippingLabel =
-                  LANG["store.order_info.express_price"] ||
-                  LANG["store.order.express_price"] ||
-                  "Shipping";
-                let appliedDiscounts = [];
-                try {
-                  appliedDiscounts = Array.isArray(orderItem.applied_discounts)
-                    ? orderItem.applied_discounts
-                    : orderItem.applied_discounts
-                      ? JSON.parse(orderItem.applied_discounts)
-                      : [];
-                } catch {
-                  appliedDiscounts = [];
-                }
-                const shippingDiscounts = appliedDiscounts.filter(
-                  (item) => item.type === "free_shipping"
-                );
-                const orderTotal =
-                  orderItem.pay_price ??
-                  (Number(
-                    orderItem.subtotal_after_discount ?? orderItem.total_price
-                  ) || 0) + shippingFee;
-                const fmtOrderTotal =
-                  orderItem.pay_symbol && orderItem.pay_price
-                    ? `${orderItem.pay_symbol} ${formatCurrency(
-                        orderTotal,
-                        priceUnit
-                      )}`
-                    : fmtMoney(orderTotal);
+        <div className={styles.order_list}>
+          {list.map((orderItem, orderIndex) => {
+            const goods = orderItem.order_list ?? [];
+            const firstLine = goods[0] ?? {};
+            const priceUnit = orderItem.price_unit ?? firstLine.priceUnit ?? 100;
+            const orderTotal =
+              orderItem.pay_price ??
+              (Number(
+                orderItem.subtotal_after_discount ?? orderItem.total_price
+              ) || 0) + (Number(orderItem.shipping_fee) || 0);
+            const totalLabel =
+              orderItem.pay_symbol && orderItem.pay_price
+                ? `${orderItem.pay_symbol} ${formatCurrency(orderTotal, priceUnit)}`
+                : `${firstLine.priceCurrency ?? ""} ${formatCurrency(
+                    orderTotal,
+                    priceUnit
+                  )}`;
 
-                return (
-                  <div key={orderIndex} className={styles.order_item}>
-                    <div className={styles.order_header}>
-                      <div className={styles.header_item}>
-                        <div className={styles.order_title}>
-                          {LANG["user_account.my_order.order_number"]}
-                        </div>
-                        <div className={styles.order_value}>
-                          {orderItem.order_number}
-                        </div>
-                      </div>
-                      <div className={styles.header_item}>
-                        <div className={styles.order_title}>
-                          {LANG["user_account.my_order.order_time"]}
-                        </div>
-                        <div className={styles.order_value}>
-                          {fmtDateTime(orderItem.order_time)}
-                        </div>
-                      </div>
-                      {orderItem.pay_time ? (
-                        <div className={styles.header_item}>
-                          <div className={styles.order_title}>
-                            {LANG["user_account.my_order.pay_time"]}
-                          </div>
-                          <div className={styles.order_value}>
-                            {fmtDateTime(orderItem.pay_time)}
-                          </div>
-                        </div>
-                      ) : null}
-                      {orderItem.deliver_time ? (
-                        <div className={styles.header_item}>
-                          <div className={styles.order_title}>
-                            {LANG["user_account.my_order.deliver_time"]}
-                          </div>
-                          <div className={styles.order_value}>
-                            {fmtDateTime(orderItem.deliver_time)}
-                          </div>
-                        </div>
-                      ) : null}
+            return (
+              <button
+                type="button"
+                key={orderIndex}
+                className={styles.order_card}
+                onClick={() => goDetail(orderItem)}
+              >
+                <div className={styles.card_head}>
+                  <div className={styles.order_no}>
+                    <span className={styles.no_label}>
+                      {LANG["user_account.my_order.order_number"]}
+                    </span>
+                    <span className={styles.no_value}>
+                      {orderItem.order_number}
+                    </span>
+                  </div>
+                  <span
+                    className={`${styles.status} ${
+                      orderStatusColor[orderItem.order_status] || ""
+                    }`}
+                  >
+                    {orderStatus[orderItem.order_status]}
+                  </span>
+                </div>
 
-                      {orderItem.finish_time ? (
-                        <div className={styles.header_item}>
-                          <div className={styles.order_title}>
-                            {LANG["user_account.my_order.finish_time"]}
-                          </div>
-                          <div className={styles.order_value}>
-                            {fmtDateTime(orderItem.finish_time)}
-                          </div>
-                        </div>
-                      ) : null}
-
-                      <div className={styles.header_item}>
-                        <div className={styles.order_title}>
-                          {LANG["user_account.my_order.pay_way"]}
-                        </div>
-                        <div className={styles.order_value}>
-                          {payMap[orderItem.pay_key]}
-                        </div>
-                      </div>
-
-                      <div className={styles.header_item}>
-                        <div className={styles.order_title}>
-                          {LANG["user_account.my_order.order_status"]}
-                        </div>
-                        <div
-                          className={`${styles.order_value} ${
-                            orderStatusColor[orderItem.order_status] || ""
-                          }`}
-                        >
-                          {orderStatus[orderItem.order_status]}
-                        </div>
-                      </div>
-
-                      {orderItem.discount ? (
-                        <>
-                          <div className={styles.header_item}>
-                            <div className={styles.order_title}>
-                              {LANG["user_account.my_order.order_price"]}
-                            </div>
-                            <div className={styles.order_value}>
-                              {fmtMoney(orderItem.total_price)}
-                            </div>
-                          </div>
-                          <div className={styles.header_item}>
-                            <div className={styles.order_title}>
-                              {LANG["user_account.my_order.discount"]}
-                            </div>
-                            <div
-                              className={[styles.order_value, styles.red].join(
-                                " "
-                              )}
-                            >
-                              {`- ${fmtMoney(orderItem.discount)}`}
-                            </div>
-                          </div>
-                        </>
-                      ) : null}
-
-                      {shippingFee > 0 ? (
-                        <div className={styles.header_item}>
-                          <div className={styles.order_title}>
-                            {shippingLabel}
-                          </div>
-                          <div className={styles.order_value}>
-                            {fmtMoney(shippingFee)}
-                          </div>
-                        </div>
-                      ) : null}
-
-                      {shippingDiscounts.map((discountItem, discountIndex) => (
-                        <div
-                          key={`ship-discount-${discountIndex}`}
-                          className={styles.header_item}
-                        >
-                          <div className={styles.order_title}>
-                            {LANG["store.order_info.shipping_discount"] ||
-                              "Shipping discount"}
-                          </div>
-                          <div
-                            className={[styles.order_value, styles.red].join(
-                              " "
-                            )}
-                          >
-                            {`- ${fmtMoney(Number(discountItem.amount) || 0)}`}
-                          </div>
-                        </div>
-                      ))}
-
-                      {orderItem.pay_price ? (
-                        <div className={styles.header_item}>
-                          <div className={styles.order_title}>
-                            {LANG["user_account.my_order.pay_price"]}
-                          </div>
-                          <div
-                            className={styles.order_value}
-                          >{`${orderItem.pay_symbol} ${formatCurrency(
-                            orderItem.pay_price,
-                            priceUnit
-                          )}`}</div>
-                        </div>
+                <div className={styles.card_body}>
+                  {firstLine.image ? (
+                    <div className={styles.thumb}>
+                      <img src={firstLine.image} alt={firstLine.name || ""} />
+                      {goods.length > 1 ? (
+                        <span className={styles.thumb_badge}>
+                          ×{goods.length}
+                        </span>
                       ) : null}
                     </div>
-                    <div className={styles.pay_container}>
-                      <div className={styles.total_price}>
-                        <b> {LANG["user_account.my_order.total_price"]}</b>
-                        {fmtOrderTotal}
+                  ) : null}
+                  <div className={styles.summary}>
+                    <div className={styles.summary_name}>{firstLine.name || ""}</div>
+                    {firstLine.comboName ? (
+                      <div className={styles.summary_sub}>
+                        {firstLine.comboName}
                       </div>
-                      {orderItem.order_status === "pending_payment" ? (
-                        <div
-                          onClick={() => {
-                            window.open(
-                              `/order/info?secret=${orderItem.secret}`,
-                              "_blank"
-                            );
-                          }}
-                          className={styles.insta_pay}
-                        >
-                          {LANG["user_account.my_order.insta_pay"]}
-                        </div>
-                      ) : null}
-                      {orderItem.order_status === "completed" ? (
-                        <div
-                          onClick={() => {
-                            router.push(
-                              `/support/after-sales/create?orderNumber=${orderItem.order_number}`
-                            );
-                          }}
-                          className={styles.after_sale}
-                        >
-                          {LANG["user_account.my_order.after_sale"] ||
-                            "After-Sales"}
-                        </div>
-                      ) : null}
-                    </div>
-
-                    <div
-                      className={styles.tip}
-                      dangerouslySetInnerHTML={{
-                        __html: LANG["user_account.my_order.contact_us"],
-                      }}
-                    />
-                    <div className={styles.expand_container}>
-                      <div className={styles.expand_height}>
-                        <div className={styles.good_list}>
-                          <h2>{LANG["user_account.my_order.good_list"]}</h2>
-                          {orderItem.order_list.map((goodItem, goodIndex) => {
-                            return (
-                              <div key={goodIndex} className={styles.good_item}>
-                                <div className={styles.product_info}>
-                                  <div className={styles.good_img}>
-                                    <img
-                                      src={goodItem.image}
-                                      alt={goodItem.name}
-                                    />
-                                  </div>
-                                  <div className={styles.good_info}>
-                                    <div className={styles.good_name}>
-                                      {goodItem.name}
-                                    </div>
-                                    <div className={styles.combo_name}>
-                                      {goodItem.comboName}
-                                    </div>
-                                    <div className={styles.good_option}>
-                                      {goodItem.options.map(
-                                        (option, optionIndex) => {
-                                          return (
-                                            <div
-                                              key={optionIndex}
-                                            >{`${option.name}: ${option.value}`}</div>
-                                          );
-                                        }
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className={styles.product_number}>
-                                  <div
-                                    className={styles.good_price}
-                                  >{`${goodItem.priceSymbol}${formatCurrency(
-                                    goodItem.productPrice,
-                                    goodItem.priceUnit ?? priceUnit
-                                  )}`}</div>
-                                  <div className={styles.good_number}>
-                                    × {goodItem.productNum}
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <div className={styles.user_info}>
-                          <h2>{LANG["user_account.my_order.user_info"]}</h2>
-                          {orderItem.first_name ? (
-                            <div
-                              className={styles.user_item}
-                            >{`${orderItem.first_name} ${orderItem.last_name}`}</div>
-                          ) : null}
-                          {orderItem.phone ? (
-                            <div className={styles.user_item}>
-                              {orderItem.phone}
-                            </div>
-                          ) : null}
-
-                          <div className={styles.user_item}>
-                            {orderItem.email}
-                          </div>
-                          {orderItem.address1 ? (
-                            <div
-                              className={styles.user_item}
-                            >{`(${orderItem.zip_code}) ${orderItem.area_text} ${orderItem.address1}`}</div>
-                          ) : null}
-                          {orderItem.address2 ? (
-                            <div className={styles.user_item}>
-                              {orderItem.address2}
-                            </div>
-                          ) : null}
-                        </div>
-                        {orderItem.user_remark || orderItem.seller_remark ? (
-                          <div className={styles.order_remark}>
-                            <h2>{LANG["user_account.my_order.order_remark"]}</h2>
-                            {orderItem.user_remark ? (
-                              <div className={styles.user_item}>
-                                <b>
-                                  {LANG["user_account.my_order.user_remark"]}{" "}
-                                </b>{" "}
-                                {orderItem.user_remark}
-                              </div>
-                            ) : null}
-                            {orderItem.seller_remark ? (
-                              <div className={styles.user_item}>
-                                <b>
-                                  {" "}
-                                  {LANG["user_account.my_order.saller_remark"]}
-                                </b>{" "}
-                                {orderItem.address2}
-                              </div>
-                            ) : null}
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-
-                    <div className={styles.expand_icon}>
-                      <span>{LANG["user_account.my_order.expand"]}</span>
-                      <div className={styles.arrow_icon}></div>
+                    ) : null}
+                    <div className={styles.summary_date}>
+                      {fmtDateTime(orderItem.order_time)}
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          ) : null}
+                  <div className={styles.card_total}>{totalLabel}</div>
+                </div>
+
+                <div className={styles.card_foot}>
+                  <span className={styles.view_detail}>
+                    {orderItem.order_status === "pending_payment"
+                      ? LANG["user_account.my_order.insta_pay"]
+                      : LANG["user_account.my_order.view_detail"] ||
+                        LANG["store.order_info.order_info"] ||
+                        "View details"}
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M9 18l6-6-6-6" />
+                    </svg>
+                  </span>
+                </div>
+              </button>
+            );
+          })}
         </div>
       )}
-    </>
+    </div>
   );
 }
