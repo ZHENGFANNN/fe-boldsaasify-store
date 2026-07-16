@@ -8,8 +8,27 @@ import GlobalContext from "@/[locale]/context";
 import { track } from "@/utils/analytics";
 import Api from "@/components/Layout/api";
 import { UserIcon } from "@/components/Icon";
+import { defaultLocale } from "@/config/languageSettings";
 import verifyLogin from "@/utils/verifyLogin";
 import styles from "./index.module.scss";
+
+function IconAddress({ className }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z" />
+      <circle cx="12" cy="10" r="2.6" />
+    </svg>
+  );
+}
 
 function IconOrder({ className }) {
   return (
@@ -90,7 +109,7 @@ function IconUserPlus({ className }) {
 
 export default function UserMenu({ isLogin }) {
   const router = useRouter();
-  const { LANG } = React.useContext(GlobalContext);
+  const { LANG, locale } = React.useContext(GlobalContext);
   const [open, setOpen] = React.useState(false);
   const [accountLabel, setAccountLabel] = React.useState("");
 
@@ -117,7 +136,9 @@ export default function UserMenu({ isLogin }) {
   const go = (path) => {
     track("NavIcon-User");
     setOpen(false);
-    router.push(path);
+    const href =
+      locale && locale !== defaultLocale ? `/${locale}${path}` : path;
+    router.push(href);
   };
 
   const handleSignOut = () => {
@@ -166,21 +187,21 @@ export default function UserMenu({ isLogin }) {
                 <li
                   className={styles.item}
                   role="menuitem"
-                  onClick={() => go("/user/account")}
+                  onClick={() => go("/user/account/address")}
                 >
-                  <UserIcon className={styles.itemIcon} />
+                  <IconAddress className={styles.itemIcon} />
                   <span className={styles.itemLabel}>
-                    {LANG["common.nav.my_account"]}
+                    {t("user_account.shipping_address", "Address")}
                   </span>
                 </li>
                 <li
                   className={styles.item}
                   role="menuitem"
-                  onClick={() => go("/user/account?type=orderInfo")}
+                  onClick={() => go("/user/account/order")}
                 >
                   <IconOrder className={styles.itemIcon} />
                   <span className={styles.itemLabel}>
-                    {t("common.nav.my_order", "My Orders")}
+                    {t("user_account.my_order", "Orders")}
                   </span>
                 </li>
               </ul>

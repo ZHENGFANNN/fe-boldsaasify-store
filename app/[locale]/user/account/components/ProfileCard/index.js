@@ -1,0 +1,341 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import Cookies from "js-cookie";
+import { UserIcon } from "@/components/Icon";
+import Button from "@/components/Button";
+import Loading from "@/components/Loading";
+import ShowTipModal from "@/components/Modal/ShowTipModal";
+import { defaultLocale } from "@/config/languageSettings";
+import verifyLogin from "@/utils/verifyLogin";
+import Api from "../../api";
+import UserApi from "../../../api";
+import SingleFieldEditModal from "../SingleFieldEditModal";
+import styles from "./index.module.scss";
+
+const maskPhone = (phone) => {
+  if (!phone) return "";
+  if (phone.length <= 7) return phone;
+  return `${phone.slice(0, 3)}****${phone.slice(-4)}`;
+};
+
+const displayName = (user) =>
+  user?.nickname || user?.email || user?.phone || "";
+
+function Chevron() {
+  return (
+    <svg
+      className={styles.chevron}
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9 18l6-6-6-6" />
+    </svg>
+  );
+}
+
+function EditPen() {
+  return (
+    <svg
+      className={styles.pen}
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" />
+    </svg>
+  );
+}
+
+// 展示型资料卡：DJI 风格，顶部头像 + 用户名，中部登录安全分组，底部退出登录。
+// 微信绑定/安全验证/账号注销等 BR 尚未支持的能力此处完全不渲染。
+export default function ProfileCard({ LANG, locale }) {
+  const tipRef = React.useRef(null);
+  const [loading, setLoading] = React.useState(true);
+  const [userInfo, setUserInfo] = React.useState({});
+  const [editing, setEditing] = React.useState(null); // "nickname" | "phone" | null
+  const [saving, setSaving] = React.useState(false);
+  const [resetting, setResetting] = React.useState(false);
+
+  const t = React.useCallback(
+    (key, fallback) => (LANG && LANG[key]) || fallback,
+    [LANG]
+  );
+
+  const showTip = React.useCallback(({ text, type }) => {
+    tipRef.current?.show({ text, type });
+  }, []);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    // 首屏拉取用户信息；这里的 setState 是明确的同步初始化，豁免该规则。
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
+    setLoading(true);
+    verifyLogin()
+      .then((result) => {
+        if (cancelled) return;
+        if (result.status === "ok") {
+          setUserInfo(result.data || {});
+        } else if (result.status === "invalid") {
+          Cookies.remove("token");
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("auth:session-expired"));
+          }
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const saveField = React.useCallback(
+    async (field, value) => {
+      if (saving) return;
+      if (value === (userInfo[field] ?? "")) {
+        setEditing(null);
+        return;
+      }
+      setSaving(true);
+      try {
+        const payload = {
+          nickname: userInfo.nickname || "",
+          first_name: userInfo.first_name || "",
+          last_name: userInfo.last_name || "",
+          email: userInfo.email || "",
+          phone: userInfo.phone || "",
+          [field]: value,
+        };
+        const res = await Api.saveUserInfo(payload);
+        if (res.code !== 0) throw new Error("code !== 0");
+        setUserInfo((prev) => ({ ...prev, [field]: value }));
+        setEditing(null);
+        showTip({
+          text: LANG["user_account.account_info.success_modified"],
+          type: "success",
+        });
+      } catch {
+        showTip({
+          text: LANG["user_account.account_info.fail_edit"],
+          type: "error",
+        });
+      } finally {
+        setSaving(false);
+      }
+    },
+    [saving, userInfo, LANG, showTip]
+  );
+
+  const handleSignOut = React.useCallback(() => {
+    Api.loginOut();
+    Cookies.remove("token");
+    location.href = "/";
+  }, []);
+
+  const handleResetPassword = React.useCallback(async () => {
+    if (resetting) return;
+    const targetEmail = userInfo.email || "";
+    if (!targetEmail) {
+      showTip({
+        text: t(
+          "user_account.account_info.email_missing",
+          "No email is bound to this account."
+        ),
+        type: "error",
+      });
+      return;
+    }
+    setResetting(true);
+    try {
+      const res = await UserApi.verifyForgetPassword({ email: targetEmail });
+      if (res.code !== 0) throw new Error("code !== 0");
+      showTip({
+        text: t(
+          "user_forget.reset_link_sent",
+          "If this email is registered, a password reset link has been sent. Please check your inbox."
+        ),
+        type: "success",
+      });
+    } catch {
+      showTip({
+        text: t(
+          "user_forget.tip_service_exception",
+          "Something went wrong. Please try again later."
+        ),
+        type: "error",
+      });
+    } finally {
+      setResetting(false);
+    }
+  }, [resetting, userInfo, showTip, t]);
+
+  if (loading) return <Loading height={400} />;
+
+  const name = displayName(userInfo);
+  const phone = userInfo.phone || "";
+  const email = userInfo.email || "";
+  // 展示层脱敏值优先取后端返回的 email_masked/phone_masked；后端未返回时兜底本地掩码。
+  const emailDisplay = userInfo.email_masked || email;
+  const phoneDisplay = userInfo.phone_masked || maskPhone(phone);
+  const buildHref = (path) =>
+    locale && locale !== defaultLocale ? `/${locale}${path}` : path;
+
+  return (
+    <div className={styles.wrap}>
+      <div className={styles.header}>
+        <div className={styles.avatar}>
+          {userInfo.avatar ? (
+            <img src={userInfo.avatar} alt="" />
+          ) : (
+            <UserIcon />
+          )}
+        </div>
+        <button
+          type="button"
+          className={styles.name_row}
+          onClick={() => setEditing("nickname")}
+        >
+          <span className={styles.name}>{name || t("user_account.account_info.nickname", "Nickname")}</span>
+          <EditPen />
+        </button>
+      </div>
+
+      <section className={styles.group}>
+        <Link
+          href={buildHref("/user/account/address")}
+          prefetch={false}
+          className={`${styles.item} ${styles.shortcut}`}
+        >
+          <span className={styles.item_label}>
+            {t("user_account.shipping_address", "My Address")}
+          </span>
+          <span className={styles.item_action}>
+            <Chevron />
+          </span>
+        </Link>
+
+        <Link
+          href={buildHref("/user/account/order")}
+          prefetch={false}
+          className={`${styles.item} ${styles.shortcut}`}
+        >
+          <span className={styles.item_label}>
+            {t("user_account.my_order", "My Orders")}
+          </span>
+          <span className={styles.item_action}>
+            <Chevron />
+          </span>
+        </Link>
+
+        <div className={styles.item_static}>
+          <span className={styles.item_label}>
+            {t("user_account.account_info.email", "Email")}
+          </span>
+          <span className={styles.item_action}>
+            {email ? (
+              <span className={styles.item_value}>{emailDisplay}</span>
+            ) : (
+              <span className={styles.item_muted}>
+                {t("user_account.account_info.not_set", "Not set")}
+              </span>
+            )}
+          </span>
+        </div>
+
+        <button
+          type="button"
+          className={styles.item}
+          onClick={handleResetPassword}
+          disabled={resetting}
+        >
+          <span className={styles.item_label}>
+            {t("user_account.account_info.password", "Password")}
+          </span>
+          <span className={styles.item_action}>
+            {resetting
+              ? t("common.sending", "Sending...")
+              : t("common.change", "Change")}
+            <Chevron />
+          </span>
+        </button>
+
+        <button
+          type="button"
+          className={styles.item}
+          onClick={() => setEditing("phone")}
+        >
+          <span className={styles.item_label}>
+            {t("user_account.account_info.phone", "Phone")}
+          </span>
+          <span className={styles.item_action}>
+            {phone ? (
+              <>
+                <span className={styles.item_value}>{phoneDisplay}</span>
+                {t("common.change", "Change")}
+              </>
+            ) : (
+              t("common.setting", "Setting")
+            )}
+            <Chevron />
+          </span>
+        </button>
+      </section>
+
+      <div className={styles.footer}>
+        <Button
+          variant="ghost"
+          size="small"
+          className={styles.sign_out}
+          onClick={handleSignOut}
+        >
+          {LANG["user_account.account_info.login_out"]}
+        </Button>
+      </div>
+
+      <SingleFieldEditModal
+        open={editing === "nickname"}
+        title={t("common.friendly_tip", "Friendly Reminder")}
+        label={LANG["user_account.account_info.nickname"]}
+        defaultValue={userInfo.nickname || ""}
+        maxLength={15}
+        requiredMessage={LANG["user_account.account_info.nickname_require"]}
+        LANG={LANG}
+        loading={saving}
+        onClose={() => setEditing(null)}
+        onConfirm={(v) => saveField("nickname", v)}
+      />
+
+      <SingleFieldEditModal
+        open={editing === "phone"}
+        title={t("common.friendly_tip", "Friendly Reminder")}
+        label={LANG["user_account.account_info.phone"]}
+        defaultValue={userInfo.phone || ""}
+        maxLength={20}
+        requiredMessage={LANG["user_account.account_info.phone_required"]}
+        LANG={LANG}
+        loading={saving}
+        onClose={() => setEditing(null)}
+        onConfirm={(v) => saveField("phone", v)}
+      />
+
+      <ShowTipModal ref={tipRef} />
+    </div>
+  );
+}

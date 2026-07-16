@@ -71,14 +71,15 @@
       }
     }
 
-    // COD / Bank 支付方式提示语（顶部横幅）
+    // COD / Bank 支付方式提示语（顶部横幅 · 黑色描边 + 半透明底）
     // - textarea 保存的换行需要保留：white-space: pre-wrap
-    // - 两种方式共用容器；COD/Bank 用不同色带（cod=琥珀，bank=蓝色）区分
+    // - COD/Bank 同色系，共用一套样式即可（不再拆两个变体 class）
     .pay_notice {
       margin-bottom: 24px;
       padding: 16px 20px;
-      border-radius: 8px;
-      border-left: 3px solid transparent;
+      border-radius: 0;
+      border: 1px solid #000000;
+      background: rgba(0, 0, 0, 0.05);
 
       h4 {
         margin: 0 0 6px;
@@ -95,14 +96,6 @@
         white-space: pre-wrap;
         word-break: break-word;
       }
-    }
-    .pay_notice_cod {
-      background: #fff7e6;
-      border-left-color: #fa8c16;
-    }
-    .pay_notice_bank {
-      background: #e6f4ff;
-      border-left-color: #1890ff;
     }
 
     .order_list {

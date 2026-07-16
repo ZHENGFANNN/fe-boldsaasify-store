@@ -32,6 +32,30 @@
         width: 24px;
         height: 24px;
       }
+
+      /* 图标 + 国家码 合成一个命中区：外层承担 12px 透明 border（对齐购物车/用户按钮），
+         内部 svg 去掉 border，与文字水平排列。 */
+      .country_inner {
+        display: flex;
+        align-items: center;
+        box-sizing: content-box;
+        border: 12px solid transparent;
+        color: #222;
+        line-height: 1;
+
+        .svg_icon {
+          border: 0;
+          width: 20px;
+          height: 20px;
+        }
+
+        .country_code {
+          margin-left: 4px;
+          font-size: 14px;
+          color: #222;
+          letter-spacing: 0.02em;
+        }
+      }
     }
 
     &.header_user {
@@ -106,6 +130,18 @@
     .header_user {
       &.header_country {
         display: block;
+
+        .country_inner {
+          border: 10px solid transparent;
+
+          .svg_icon {
+            border: 0;
+          }
+
+          .country_code {
+            font-size: 13px;
+          }
+        }
       }
 
       &.header_cart {

@@ -36,12 +36,17 @@ export default function RightArea() {
         aria-busy={!areaReady}
       >
         {areaReady ? (
-          <GlobalIcon
-            className={styles.svg_icon}
-            width={20}
-            height={20}
-            aria-label={resolvedArea}
-          />
+          <div className={styles.country_inner}>
+            <GlobalIcon
+              className={styles.svg_icon}
+              width={20}
+              height={20}
+              aria-label={resolvedArea}
+            />
+            <span className={styles.country_code}>
+              {resolvedArea.toUpperCase()}
+            </span>
+          </div>
         ) : (
           <Skeleton variant="circular" className={styles.country_loading} />
         )}
