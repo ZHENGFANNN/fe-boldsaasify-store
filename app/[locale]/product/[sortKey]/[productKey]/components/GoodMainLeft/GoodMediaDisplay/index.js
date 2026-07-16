@@ -45,6 +45,12 @@ export default function GoodMediaDisplay() {
     }
   }, [productInfo]);
 
+  const splideRef = React.useRef(null);
+  const productCurComboRef = React.useRef(productCurCombo);
+  React.useEffect(() => {
+    productCurComboRef.current = productCurCombo;
+  }, [productCurCombo]);
+
   React.useEffect(() => {
     if (!lazyLoading) {
       // 图片总数 = 套餐图 + 产品图(见下方轮播渲染)。只有一张时无需左右切换箭头。
@@ -64,10 +70,11 @@ export default function GoodMediaDisplay() {
           arrow: `splide__arrow ${styles.splide__arrow}`,
         },
       });
+      splideRef.current = splide;
       const $domListContainer = $(`.${styles.splide_image_list}`);
-      const $domList = $(`.${styles.splide_image_list}`).find("ul li");
       // 激活index
       splide.on("active", (target) => {
+        const $domList = $(`.${styles.splide_image_list}`).find("ul li");
         $domList.each((index) => {
           if (index === target.index) {
             $domList.eq(index).addClass(styles.active);
@@ -81,8 +88,8 @@ export default function GoodMediaDisplay() {
           }
         });
       });
-      // 点击轮播图
-      $domList.on("click", function () {
+      // 点击轮播图(委托绑到容器,避免 refresh 后 li 换了对象丢事件)
+      $domListContainer.on("click", "ul li", function () {
         track("ProductMediaCoverItem");
         splide.go($(this).index());
       });
@@ -90,18 +97,32 @@ export default function GoodMediaDisplay() {
       $("[data-carousel]").on("click", function () {
         let index = parseInt($(this).attr("data-carousel"));
         if (!isNaN(index)) {
-          index = index + productCurCombo.img_list.length;
+          index = index + (productCurComboRef.current.img_list?.length || 0);
           splide.go(index - 1);
         }
       });
       splide.mount();
       return () => {
         splide.destroy();
+        splideRef.current = null;
         $("[data-carousel]").off("click");
-        $domList.off("click");
+        $domListContainer.off("click");
       };
     }
-  }, [productCurCombo, lazyLoading]);
+  }, [lazyLoading]);
+
+  // 套餐切换时,同步 Splide 的 slide 列表并跳回首图。
+  // 套餐图会因当前 combo.img_list 增删变化,首图即当前套餐首图(套餐图排在产品图前)。
+  React.useEffect(() => {
+    const splide = splideRef.current;
+    if (!splide) return;
+    const totalSlides =
+      (productCurCombo.img_list?.length || 0) +
+      (productInfo.image_list?.length || 0);
+    splide.options = { arrows: totalSlides > 1 };
+    splide.refresh();
+    splide.go(0);
+  }, [productCurCombo, productInfo.image_list]);
 
   React.useEffect(() => {
     if (!lazyLoading) {

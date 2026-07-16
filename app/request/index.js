@@ -37,9 +37,10 @@ instance.interceptors.response.use(
     const { data, status } = res;
     if (status === 200) {
       // 后端统一约定：token 缺失/过期/session 失效 → body.code === 10014（HTTP 200）。
-      // 全局清 token cookie + 派发事件通知 AuthGateProvider 弹出 LoginModal。
+      // 全局清 token cookie + 派发事件通知 AuthGateProvider 翻 authed=false，
+      // 受保护路由由 <AuthBoundary> 换成整页登录守卫；公共页只静默清 token 不换守卫。
       // 幂等：即便某接口业务上仍返回 10014，业务层 .catch 仍能拿到 code，
-      // 只是叠加了一次 UI 提示，不改变原 reject 语义。
+      // 只是叠加了一次状态更新，不改变原 reject 语义。
       if (data?.code === 10014) {
         if (typeof window !== "undefined") {
           Cookies.remove("token");

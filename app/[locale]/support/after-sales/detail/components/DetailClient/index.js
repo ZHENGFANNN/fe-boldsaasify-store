@@ -3,13 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import styles from "../../page.module.scss";
 import Api from "../../../api";
 import { getJsonData } from "@/utils";
 import { defaultLocale } from "@/config/languageSettings";
 import Loading from "@/components/Loading";
-import AuthRedirectGuard from "@/components/Auth/AuthRedirectGuard";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Button from "@/components/Button";
 import StatusProgress from "@/components/StatusProgress";
@@ -73,10 +71,6 @@ function InfoRow({ label, value }) {
 
 export default function DetailClient({ LANG, locale }) {
   const router = useRouter();
-  const [isLogin, setIsLogin] = React.useState(null);
-  const [redirectPath, setRedirectPath] = React.useState(
-    "/support/after-sales/detail"
-  );
   const [serviceNo, setServiceNo] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState(null);
@@ -88,13 +82,12 @@ export default function DetailClient({ LANG, locale }) {
     [locale]
   );
 
-  // cookie/URL 仅挂载后可读（SSR 无 window），故在 effect 内同步 setState。
+  // 登录守卫已上移到全局 <AuthBoundary>（受保护路由 /support/after-sales 统一接管），
+  // 本组件挂载即代表已登录；这里只需从 URL 取工单号（SSR 无 window，故在 effect 内读）。
   /* eslint-disable react-hooks/set-state-in-effect */
   React.useEffect(() => {
-    setIsLogin(!!Cookies.get("token"));
     const search = new URLSearchParams(window.location.search);
     setServiceNo(search.get("no"));
-    setRedirectPath(`${window.location.pathname}${window.location.search}`);
   }, []);
 
   const refresh = React.useCallback(() => {
@@ -115,18 +108,15 @@ export default function DetailClient({ LANG, locale }) {
   }, [serviceNo, router, progressHref]);
 
   React.useEffect(() => {
-    if (isLogin === null) return;
-    if (!isLogin) {
-      setLoading(false);
-      return;
-    }
+    // serviceNo 尚未从 URL 解析出来（初始 null）时不动作，等下一轮。
+    if (serviceNo === null) return;
     // 无工单号：detail 无意义，跳转到进度列表页。
     if (!serviceNo) {
       router.replace(progressHref);
       return;
     }
     refresh();
-  }, [isLogin, serviceNo, refresh, router, progressHref]);
+  }, [serviceNo, refresh, router, progressHref]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   const toast = React.useCallback((text, ok) => {
@@ -155,17 +145,12 @@ export default function DetailClient({ LANG, locale }) {
       .finally(() => setCancelling(false));
   }, [serviceNo, cancelling, LANG, refresh, toast]);
 
-  if (isLogin === null || loading) {
+  if (loading) {
     return (
       <div className={styles.container}>
         <Loading height={400} />
       </div>
     );
-  }
-
-  // 未登录：直接返回守卫卡片，不套 .container 外层
-  if (!isLogin) {
-    return <AuthRedirectGuard LANG={LANG} redirectPath={redirectPath} />;
   }
 
   // 兜底：data 为空（正常情况下失败已 router.replace 到进度页，不会走到这里）。

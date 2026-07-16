@@ -59,32 +59,23 @@ export default function GoodFooter() {
         href: pathname,
       });
       const $footerDom = $('[data-role="footer-buy"]');
-      // 滚动展示底部位置
-      const $btnDom = $('[data-role="buy-btn-list"]').eq(0);
+      // 滚动到主区购买按钮下方才显现底部购买栏。
+      // 首屏 priceLoading 时 GoodBtnList 还是骨架，DOM 无 buy-btn-list：
+      // 兜底必须保持隐藏，等骨架换成真实按钮后由 scroll 事件重算。
       const scrollFunc = debounce(function () {
+        const $btnDom = $('[data-role="buy-btn-list"]').eq(0);
         const btnTop = $btnDom.offset()?.top;
-        if (btnTop) {
-          const scrollTop = $(document).scrollTop();
-          if (scrollTop > btnTop) {
-            $footerDom.css({
-              bottom: 0,
-            });
-          } else {
-            $footerDom.css({
-              bottom: "-100%",
-            });
-          }
+        if (btnTop && $(document).scrollTop() > btnTop) {
+          $footerDom.css({ bottom: 0 });
         } else {
-          $footerDom.css({
-            bottom: 0,
-          });
+          $footerDom.css({ bottom: "-100%" });
         }
       }, 50);
       scrollFunc();
       $(window).on("scroll", scrollFunc);
       return () => $(window).off("scroll", scrollFunc);
     }
-  }, [lazyLoading]);
+  }, [lazyLoading, priceLoading]);
 
   // 处理底部按钮
   React.useEffect(() => {

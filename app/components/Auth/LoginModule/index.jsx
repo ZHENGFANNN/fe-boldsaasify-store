@@ -11,17 +11,19 @@ const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 /**
  * 全站统一「登录入口面板」——Google 快捷登录 + OR + Log in / Register 跳链。
  *
- * 三处共用：
- *  1. AuthRedirectGuard（售后 3 个页面的整页守卫卡片外壳内）
+ * 两处共用：
+ *  1. AuthRedirectGuard（受保护路由未登录/会话失效时由 <AuthBoundary> 渲染的整页守卫卡片外壳内）
  *  2. 结账页 UserType 的 Sign-In tab 未登录面板
- *  3. Session 过期弹窗 LoginModal（复用同一入口，通过 showRegister/onActive 控制差异）
+ *
+ * showRegister/onActive/title/desc 为可选形参：当前两处消费者均未使用，
+ * 保留默认值以便复用（title/desc 不传即不渲染，showRegister 默认展示注册按钮）。
  *
  * @param {object}   LANG           文案 map
  * @param {string?}  redirectPath   登录成功后回跳路径；未传时挂载后取 window.location.href
  * @param {string?}  title          可选标题（不传不渲染）
  * @param {string?}  desc           可选副标题（不传不渲染）
- * @param {boolean?} showRegister   是否展示 Register 按钮，默认 true；session 过期场景传 false
- * @param {Function?} onActive      Login / Register 被点击时先触发（session 过期弹窗用它先关弹窗，再跳登录页）
+ * @param {boolean?} showRegister   是否展示 Register 按钮，默认 true
+ * @param {Function?} onActive      Login / Register 被点击时先触发（可选前置钩子）
  */
 export default function LoginModule({
   LANG,

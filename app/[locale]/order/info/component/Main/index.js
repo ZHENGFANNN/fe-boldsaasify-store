@@ -13,9 +13,15 @@ import { useRouter } from "next/navigation";
 
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
+import Button from "@/components/Button";
 import CustomizeFileLink from "@/components/CustomizeFileLink";
 import AuthRedirectGuard from "@/components/Auth/AuthRedirectGuard";
 import { formatCurrency, formatDateTime } from "@/utils";
+import { defaultLocale } from "@/config/languageSettings";
+
+// 默认语言不带前缀，其它语言带 /{locale}（与 middleware buildLocalizedPath / 售后模块约定一致）。
+const localeHref = (path, locale) =>
+  locale && locale !== defaultLocale ? `/${locale}${path}` : path;
 
 export default function Main({ secret, locale, area, LANG, CONFIG }) {
   const router = useRouter();
@@ -27,7 +33,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
   const [emailErr, setEmailErr] = React.useState("");
   const [emailSubmitting, setEmailSubmitting] = React.useState(false);
 
-  // 归一化订单数据（裁剪 order_list 到页面所需字段；user_remark 等随 ...data 透传）
+  // 归一化订单数据（裁剪 order_list 到页面所需字段；user_remark / after_service 等随 ...data 透传）
   const normalizeOrder = React.useCallback((data) => {
     return {
       ...data,
@@ -80,7 +86,7 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
         if (res.code === 10029) return "forbidden"; // OrderNotBelongUser：已登录但非本人
         return "error";
       } catch {
-        // 10014（会话过期）由全局 LoginModal 处理；其余网络错误按 error 处理
+        // 10014（会话过期）由全局 AuthGateProvider/AuthBoundary 处理；其余网络错误按 error 处理
         return "error";
       }
     },
@@ -899,15 +905,63 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                     }
                     onOk={handleCancelOrder}
                     renderNode={
-                      <div className={styles.cancel_btn}>
-                        {cancelLoading
-                          ? "..."
-                          : LANG["store.order_info.cancel_order"] ||
-                            "Cancel Order"}
-                      </div>
+                      <Button
+                        variant="ghost"
+                        block
+                        loading={cancelLoading}
+                        className={styles.cancel_btn}
+                      >
+                        {LANG["store.order_info.cancel_order"] ||
+                          "Cancel Order"}
+                      </Button>
                     }
                   />
                 </div>
+              </div>
+            ) : null}
+            {/* 售后入口：有关联工单 → 售后进度；已完成且无工单 → 申请售后。
+                after_service 仅登录用户订单存在（游客订单后端不下发该字段，天然不显示按钮）。 */}
+            {order.after_service ? (
+              <div className={styles.btn_container}>
+                <Button
+                  variant="ghost"
+                  block
+                  className={styles.after_sale_btn}
+                  onClick={() =>
+                    router.push(
+                      localeHref(
+                        `/support/after-sales/detail?no=${encodeURIComponent(
+                          order.after_service.service_no,
+                        )}`,
+                        locale,
+                      ),
+                    )
+                  }
+                >
+                  {LANG["store.order_info.after_service_progress"] ||
+                    "After-Sales Progress"}
+                </Button>
+              </div>
+            ) : order.order_status === "completed" ? (
+              <div className={styles.btn_container}>
+                <Button
+                  variant="ghost"
+                  block
+                  className={styles.after_sale_btn}
+                  onClick={() =>
+                    router.push(
+                      localeHref(
+                        `/support/after-sales/create?orderNumber=${encodeURIComponent(
+                          order.order_number,
+                        )}`,
+                        locale,
+                      ),
+                    )
+                  }
+                >
+                  {LANG["store.order_info.apply_after_service"] ||
+                    "Apply for After-Sales"}
+                </Button>
               </div>
             ) : null}
           </div>

@@ -6,59 +6,27 @@ import {
   PayPaypalIcon,
   PayTransferIcon,
   PayVisaIcon,
-  PayWechatIcon,
-  PayZhifubaoIcon,
 } from "@/components/Icon";
 
 export function isPayAreaSupported(supportArea, area) {
-  if (!Array.isArray(supportArea) || !area) return false;
+  if (!area) return false;
+  // supportArea 未配置 / 空数组 视为"未限制地区"，直接放行；
+  // 只有显式给出地区列表时才做过滤。这样避免主开关启用后因遗留脏数据（supportArea 缺失或 []）
+  // 在前台被卡住，用户 workaround 只需在 ERP 里正常保存一次。
+  if (!Array.isArray(supportArea) || supportArea.length === 0) return true;
   const normalized = String(area).toLowerCase();
   return supportArea.some(
     (code) => String(code).toLowerCase() === normalized
   );
 }
 
-// 各种支付方式的品牌 icon，全部内联 SVG 组件，无远端 PNG 依赖。
-// iconList 是 React 组件数组；PayList 直接渲染 `<Cmp />`。
-export const domesticPay = function ({ CONFIG, LANG }) {
-  return [
-    // {
-    //   title: LANG["store.order.pay_info.wechat"],
-    //   key: "wechat",
-    //   iconList: [PayWechatIcon],
-    //   description: "",
-    // },
-    // {
-    //   title: LANG["store.order.pay_info.zhifubao"],
-    //   key: "zhifubao",
-    //   iconList: [PayZhifubaoIcon],
-    //   description: "",
-    // },
-    // {
-    //   title: LANG["store.order.pay_info.transfer"],
-    //   key: "bank",
-    //   description: LANG["store.order.pay_info.transfer_detail"]
-    //     .split("${1}")
-    //     .join(CONFIG["common.base"]?.company_name),
-    //   iconList: [PayTransferIcon],
-    // },
-    {
-      title: LANG["common.pay.pay_info.pay_list.paypal"],
-      description: LANG["common.pay.pay_info.pay_list.paypal_detail"],
-      key: "payPal",
-      iconList: [PayPaypalIcon],
-    },
-  ];
-};
-
-export const foreignPay = function ({ CONFIG, LANG }) {
-  const cardIcons = [
-    PayVisaIcon,
-    PayMasterIcon,
-    PayAmericanExpressIcon,
-    PayDiscoverIcon,
-  ];
-
+/**
+ * 支付方式默认列表。
+ * - title/description 取 LANG，缺 key 时用中英文 fallback。
+ * - cod/bank 的 description 优先用后台 setting.pay 里配置的 message[locale]（在 Main 里合并）。
+ * - key 与 setting.pay 通道键（小写）对应：paypal→payPal 特例（历史遗留），其余同名。
+ */
+function baseList({ LANG }) {
   return [
     {
       title: "Stripe",
@@ -66,19 +34,39 @@ export const foreignPay = function ({ CONFIG, LANG }) {
         LANG["common.pay.pay_info.pay_list.stripe_detail"] ||
         "Pay securely with card, Apple Pay, or Google Pay.",
       key: "stripe",
-      iconList: cardIcons,
+      iconList: [
+        PayVisaIcon,
+        PayMasterIcon,
+        PayAmericanExpressIcon,
+        PayDiscoverIcon,
+      ],
     },
     {
-      title: LANG["common.pay.pay_info.pay_list.paypal"],
+      title: LANG["common.pay.pay_info.pay_list.paypal"] || "PayPal",
       description: LANG["common.pay.pay_info.pay_list.paypal_detail"],
       key: "payPal",
       iconList: [PayPaypalIcon],
     },
-    // {
-    //   title: LANG['store.order.pay_info.transfer'],
-    //   description: LANG['store.order.pay_info.transfer_detail'].split('${1}').join(CONFIG['company.basic.company_name']),
-    //   key: 'bank',
-    //   iconList: [PayTransferIcon],
-    // },
+    {
+      title:
+        LANG["common.pay.pay_info.pay_list.cod"] ||
+        LANG["store.order.pay_info.cod"] ||
+        "Cash on Delivery",
+      description: LANG["common.pay.pay_info.pay_list.cod_detail"] || "",
+      key: "cod",
+      iconList: [],
+    },
+    {
+      title:
+        LANG["common.pay.pay_info.pay_list.bank"] ||
+        LANG["store.order.pay_info.transfer"] ||
+        "Bank Transfer",
+      description: LANG["common.pay.pay_info.pay_list.bank_detail"] || "",
+      key: "bank",
+      iconList: [PayTransferIcon],
+    },
   ];
-};
+}
+
+export const domesticPay = baseList;
+export const foreignPay = baseList;

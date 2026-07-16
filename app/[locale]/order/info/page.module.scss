@@ -305,18 +305,14 @@
 
   .cancel_btn {
     width: 100%;
-    height: 48px;
-    line-height: 48px;
-    text-align: center;
-    background: #cd5c56;
-    color: #ffffff;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    &:hover {
-      opacity: 0.9;
-    }
+    color: #cd5c56 !important;
+    border-color: #cd5c56 !important;
+  }
+
+  .after_sale_btn {
+    width: 100%;
+    color: #111111 !important;
+    border-color: #111111 !important;
   }
 
   .transfer_container {

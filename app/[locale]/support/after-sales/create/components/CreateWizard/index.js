@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Cookies from "js-cookie";
 import { Provider, useAtom, useAtomValue, useSetAtom } from "jotai";
 import styles from "./index.module.scss";
 import pageStyles from "../../page.module.scss";
@@ -14,7 +13,6 @@ import IssueModule from "../IssueModule";
 import ContactModule from "../ContactModule";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
-import AuthRedirectGuard from "@/components/Auth/AuthRedirectGuard";
 import { defaultLocale } from "@/config/languageSettings";
 import CreateWizardContext from "../../context";
 import {
@@ -57,35 +55,10 @@ const localeHref = (path, locale) =>
 // 文案兜底：语言包暂未配置 user_account.after_sale.* 时用英文兜底
 const T = (LANG, key, fallback) => LANG?.[key] || fallback;
 
+// 登录守卫已上移到全局 <AuthBoundary>（受保护路由 /support/after-sales 统一接管），
+// 本组件挂载即代表已登录，无需再自检 cookie / 渲染 AuthRedirectGuard。
 export default function CreateWizard({ LANG, locale }) {
-  const [isLogin, setIsLogin] = React.useState(null);
-  const [redirectPath, setRedirectPath] = React.useState(
-    "/support/after-sales/create"
-  );
-
-  // 登录判断 + URL 参数解析（cookie/URL 仅挂载后可读，SSR 无 window，故在 effect 内同步 setState）
-  /* eslint-disable react-hooks/set-state-in-effect */
-  React.useEffect(() => {
-    setIsLogin(!!Cookies.get("token"));
-    setRedirectPath(`${window.location.pathname}${window.location.search}`);
-  }, []);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
-  if (isLogin === null) {
-    return (
-      <div className={pageStyles.container}>
-        <Loading height={400} />
-      </div>
-    );
-  }
-
-  // 未登录：直接返回守卫卡片，不套 .container 外层
-  if (!isLogin) {
-    return <AuthRedirectGuard LANG={LANG} redirectPath={redirectPath} />;
-  }
-
-  // 登录态下才挂 jotai <Provider>：atom 只在真正需要时创建，
-  // 未登录用户不产生 atom store 实例。
+  // 登录态下才挂 jotai <Provider>：atom 只在真正需要时创建。
   return (
     <div className={pageStyles.container}>
       <Provider>
@@ -209,15 +182,29 @@ function WizardMain() {
   /* eslint-enable react-hooks/set-state-in-effect */
 
   // 拉订单列表（登录后 mount 一次）
+  // 售后申请仅接受可再次发起售后的订单：
+  //   1) order_status === 'completed'（已完成订单才允许售后）；
+  //   2) 无进行中售后工单（after_service.status 不在 pending/processing）。
+  // 后端 GetOrderList 已在 OrderDetailVo.after_service 上挂了「非 cancelled/rejected」的
+  // 最近活跃工单摘要——resolved 也算活跃但允许再申请，仅屏蔽 pending/processing。
+  const AFTER_SALE_ACTIVE = new Set(["pending", "processing"]);
   React.useEffect(() => {
     setOrdersLoading(true);
     Api.getOrderList()
       .then((res) => {
         if (res.code !== 0) throw new Error("code!==0");
-        setOrders(res.data?.list ?? []);
+        const list = res.data?.list ?? [];
+        setOrders(
+          list.filter(
+            (o) =>
+              o.order_status === "completed" &&
+              !AFTER_SALE_ACTIVE.has(o.after_service?.status)
+          )
+        );
       })
       .catch(() => {})
       .finally(() => setOrdersLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setOrders, setOrdersLoading]);
 
   // 懒拉全商品：切到 product 方式且未加载过时拉一次

@@ -39,7 +39,8 @@ export default function AccountInfo({ showTip, LANG }) {
   React.useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    // 仅在服务端明确判定登录态失效（invalid）时才清 token 并派全局事件弹 LoginModal；
+    // 仅在服务端明确判定登录态失效（invalid）时才清 token 并派全局事件，由
+    // AuthGateProvider 翻 authed=false → AuthBoundary（本页在 /user/account 受保护路由内）换成登录守卫；
     // 不再硬跳 /user/login，保留当前页面上下文由用户自主登录。
     // 网络/超时（error）已在 verifyLogin 内重试，重试耗尽也保留 token，
     // 不再因一次抖动把已登录用户误踢到登录页。

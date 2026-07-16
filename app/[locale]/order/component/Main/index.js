@@ -93,22 +93,23 @@ export default function Main({ CONFIG, LANG, area, token }) {
   const showTip = React.useCallback(({ text, type }) => {
     tipRef.current.show({ text, type });
   }, []);
-  // PayPal 是否对当前地区开放（来自 config_global_settings 的 setting.pay）
-  const paypalEnabled = React.useMemo(() => {
-    const paypal = CONFIG["setting.pay"]?.paypal;
-    return (
-      paypal?.enabled === true &&
-      isPayAreaSupported(paypal?.supportArea, area)
-    );
-  }, [CONFIG, area]);
+  // 通道开关：来自 config_global_settings 的 setting.pay，enabled + supportArea 都要通过
+  const paySetting = CONFIG["setting.pay"] || {};
+  const isEnabled = React.useCallback(
+    (channelKey) => {
+      const ch = paySetting[channelKey];
+      return ch?.enabled === true && isPayAreaSupported(ch?.supportArea, area);
+    },
+    [paySetting, area],
+  );
+  const paypalEnabled = React.useMemo(() => isEnabled("paypal"), [isEnabled]);
+  const stripeEnabled = React.useMemo(() => isEnabled("stripe"), [isEnabled]);
 
-  const stripeEnabled = React.useMemo(() => {
-    const stripe = CONFIG["setting.pay"]?.stripe;
-    return (
-      stripe?.enabled === true &&
-      isPayAreaSupported(stripe?.supportArea, area)
-    );
-  }, [CONFIG, area]);
+  // item.key 如 payPal（历史遗留），setting.pay 通道键为小写 paypal，此处统一 lower。
+  const channelKeyOf = React.useCallback(
+    (item) => String(item.key).toLowerCase(),
+    [],
+  );
 
   // 选中支付方式
   const [payKey, setPayKey] = React.useState();
@@ -117,22 +118,22 @@ export default function Main({ CONFIG, LANG, area, token }) {
       locale === "zh-cn"
         ? domesticPay({ CONFIG, LANG })
         : foreignPay({ CONFIG, LANG });
-    // PayPal / Stripe 受 setting.pay 门控
-    const gated = base.filter((item) => {
-      if (item.key === "payPal") return paypalEnabled;
-      if (item.key === "stripe") return stripeEnabled;
-      return true;
+    // 全部通道统一走 setting.pay.[channel].enabled + supportArea 门控
+    const gated = base.filter((item) => isEnabled(channelKeyOf(item)));
+    // 后台配置的多语言 message 覆盖默认 description（COD / 银行转账账户说明等）
+    const withDesc = gated.map((item) => {
+      const msg = paySetting[channelKeyOf(item)]?.message;
+      const localized = msg?.[locale] || msg?.en;
+      return localized ? { ...item, description: localized } : item;
     });
     // 按 setting.pay 权重降序排序（权重越大越靠前，权重相同保持声明顺序）
-    // item.key 如 payPal，配置键为小写 paypal，故用 toLowerCase 对齐
-    const paySetting = CONFIG["setting.pay"] || {};
     const weightOf = (item) =>
-      Number(paySetting[String(item.key).toLowerCase()]?.weight) || 0;
-    return gated
+      Number(paySetting[channelKeyOf(item)]?.weight) || 0;
+    return withDesc
       .map((item, index) => ({ item, index }))
       .sort((a, b) => weightOf(b.item) - weightOf(a.item) || a.index - b.index)
       .map(({ item }) => item);
-  }, [locale, paypalEnabled, stripeEnabled, CONFIG, LANG]);
+  }, [locale, isEnabled, channelKeyOf, paySetting, CONFIG, LANG]);
 
   React.useEffect(() => {
     if (!payWayList.length) return;

@@ -1,46 +1,48 @@
 "use client";
 
 import React from "react";
-import LoginModal from "./LoginModal";
+import Cookies from "js-cookie";
 
 /**
- * AuthGate 全局单例：
- *  1. 挂载唯一的 <LoginModal>；
- *  2. useEffect 监听 window "auth:session-expired" 自定义事件——axios 拦截器收到 10014 时 dispatchEvent 触发弹窗；
- *  3. useAuthGate() 暴露 openLoginModal() / closeLoginModal() 供组件主动调用。
+ * 全局登录态：
+ *  1. authed —— null(未判定) / true(已登录) / false(未登录或会话失效)；
+ *     SSR/SSG 阶段 cookie 不可读，故初始 null，挂载后由 cookie 判定。
+ *  2. useEffect 监听 window "auth:session-expired"（axios 拦截器收到 10014、
+ *     或 verifyLogin 判定 invalid 时 dispatch）→ 翻 authed=false。
+ *  3. 暴露 setAuthed(bool) / refresh()（重新按 cookie 判定），供登录成功等场景主动更新。
+ *
+ * 注意：不再挂 LoginModal 单例；受保护路由的整页守卫由 <AuthBoundary> 统一渲染。
  */
 const AuthGateContext = React.createContext({
-  openLoginModal: () => {},
-  closeLoginModal: () => {},
+  authed: null,
+  setAuthed: () => {},
+  refresh: () => {},
 });
 
-export function AuthGateProvider({ LANG, children }) {
-  const modalRef = React.useRef(null);
+export function AuthGateProvider({ children }) {
+  const [authed, setAuthed] = React.useState(null);
 
-  const openLoginModal = React.useCallback(() => {
-    modalRef.current?.show();
-  }, []);
-
-  const closeLoginModal = React.useCallback(() => {
-    modalRef.current?.hide();
+  const refresh = React.useCallback(() => {
+    setAuthed(!!Cookies.get("token"));
   }, []);
 
   React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const handler = () => openLoginModal();
-    window.addEventListener("auth:session-expired", handler);
-    return () => window.removeEventListener("auth:session-expired", handler);
-  }, [openLoginModal]);
+    // 挂载后首次按 cookie 判定登录态（cookie 仅客户端可读，故在 effect 内 setState）。
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
+    refresh();
+    const onExpired = () => setAuthed(false);
+    window.addEventListener("auth:session-expired", onExpired);
+    return () => window.removeEventListener("auth:session-expired", onExpired);
+  }, [refresh]);
 
   const value = React.useMemo(
-    () => ({ openLoginModal, closeLoginModal }),
-    [openLoginModal, closeLoginModal]
+    () => ({ authed, setAuthed, refresh }),
+    [authed, refresh]
   );
 
   return (
     <AuthGateContext.Provider value={value}>
       {children}
-      <LoginModal ref={modalRef} LANG={LANG} />
     </AuthGateContext.Provider>
   );
 }
