@@ -118,11 +118,20 @@ export default function Main({ CONFIG, LANG, area, token }) {
         ? domesticPay({ CONFIG, LANG })
         : foreignPay({ CONFIG, LANG });
     // PayPal / Stripe 受 setting.pay 门控
-    return base.filter((item) => {
+    const gated = base.filter((item) => {
       if (item.key === "payPal") return paypalEnabled;
       if (item.key === "stripe") return stripeEnabled;
       return true;
     });
+    // 按 setting.pay 权重降序排序（权重越大越靠前，权重相同保持声明顺序）
+    // item.key 如 payPal，配置键为小写 paypal，故用 toLowerCase 对齐
+    const paySetting = CONFIG["setting.pay"] || {};
+    const weightOf = (item) =>
+      Number(paySetting[String(item.key).toLowerCase()]?.weight) || 0;
+    return gated
+      .map((item, index) => ({ item, index }))
+      .sort((a, b) => weightOf(b.item) - weightOf(a.item) || a.index - b.index)
+      .map(({ item }) => item);
   }, [locale, paypalEnabled, stripeEnabled, CONFIG, LANG]);
 
   React.useEffect(() => {
