@@ -585,6 +585,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
                       <AddressList
                         LANG={LANG}
                         setAddressInfo={setAddressInfo}
+                        addressInfo={addressInfo}
                         list={addressList}
                         showTip={({ text, type }) => {
                           showTip({ text, type });
