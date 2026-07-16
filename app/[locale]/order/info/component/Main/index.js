@@ -221,6 +221,23 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
     [locale, area]
   );
 
+  // COD / Bank 提示语：来自 ERP 后台 setting.pay.[channel].message 多语言配置
+  // - 仅 order.pay_key === 'cod' 或 'bank' 展示；其他支付方式不渲染节点
+  // - locale 大小写归一后再取（后端存 zh-CN/大写 CN，前端 locale 为 zh-cn/小写）
+  // - 优先当前 locale，缺失回退 en；两者都空则不显示
+  const payNoticeMessage = React.useMemo(() => {
+    const key = order?.pay_key;
+    if (key !== "cod" && key !== "bank") return "";
+    const msg = CONFIG?.["setting.pay"]?.[key]?.message;
+    if (!msg || typeof msg !== "object") return "";
+    // 构造 lower-case key 索引：兼容 zh-CN / zh-cn / EN / en 等任意大小写
+    const lc = {};
+    for (const k of Object.keys(msg)) lc[k.toLowerCase()] = msg[k];
+    const target = String(locale || "").toLowerCase();
+    const localized = lc[target] || lc.en;
+    return typeof localized === "string" ? localized.trim() : "";
+  }, [order?.pay_key, CONFIG, locale]);
+
   const tipRef = React.useRef(null);
   const showTip = React.useCallback(({ text, type }) => {
     tipRef.current.show({ text, type });
@@ -449,6 +466,22 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 {LANG["store.order_info.copy_order"]}
               </div>
             </div>
+            {payNoticeMessage ? (
+              <div
+                className={`${styles.pay_notice} ${
+                  order.pay_key === "cod"
+                    ? styles.pay_notice_cod
+                    : styles.pay_notice_bank
+                }`}
+              >
+                <h4>
+                  {order.pay_key === "cod"
+                    ? payMap.cod
+                    : payMap.bank}
+                </h4>
+                <p>{payNoticeMessage}</p>
+              </div>
+            ) : null}
             <ul className={styles.order_list}>
               <h2>{LANG["store.order_info.order_info"]}</h2>
               <li>
