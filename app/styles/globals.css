@@ -1,6 +1,6 @@
 html,
 body {
-  font-family: 'Open Sans', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Arial, sans-serif;
+  font-family: var(--font-base, 'Open Sans', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Arial, sans-serif);
   background-image: linear-gradient(#fff, #f8f9fc 160px, #f8f9fc);
 
   padding-top: constant(safe-area-inset-top);

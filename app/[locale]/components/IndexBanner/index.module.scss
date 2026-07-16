@@ -50,8 +50,8 @@
 
             padding: 0 24px;
             height: 48px;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.85);
+            color: var(--color-cta-fg, #fff);
+            background: var(--color-cta, rgba(0, 0, 0, 0.85));
             border-radius: 120px;
             margin-top: 48px;
             display: flex;

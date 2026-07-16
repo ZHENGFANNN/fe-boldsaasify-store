@@ -7,7 +7,7 @@
   justify-content: center;
   gap: 8px;
   padding: 0 24px;
-  border-radius: 50px;
+  border-radius: var(--radius-pill, 50px);
   font-weight: 600;
   letter-spacing: 0.3px;
   line-height: 1;
@@ -49,21 +49,21 @@
 // ---------- 主题 ----------
 // primary: 深色主按钮（登录/注册/找回密码提交）
 .variant_primary {
-  background: rgba(0, 0, 0, 0.88);
-  color: #fff;
-  border-color: rgba(0, 0, 0, 0.88);
+  background: var(--color-cta, rgba(0, 0, 0, 0.88));
+  color: var(--color-cta-fg, #fff);
+  border-color: var(--color-cta, rgba(0, 0, 0, 0.88));
 
   // hover 仅在真正支持悬停的设备上生效（避免移动端 tap 后 hover 残留）
   @media (hover: hover) {
     &:hover:not(.inactive) {
-      background: rgba(0, 0, 0, 0.75);
-      border-color: rgba(0, 0, 0, 0.75);
+      background: var(--color-cta-hover, rgba(0, 0, 0, 0.75));
+      border-color: var(--color-cta-hover, rgba(0, 0, 0, 0.75));
     }
   }
 
   &:active:not(.inactive) {
-    background: #000;
-    border-color: #000;
+    background: var(--color-cta-active, #000);
+    border-color: var(--color-cta-active, #000);
   }
 }
 
