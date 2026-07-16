@@ -14,60 +14,157 @@ import { useRouter } from "next/navigation";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
 import CustomizeFileLink from "@/components/CustomizeFileLink";
+import AuthRedirectGuard from "@/components/AuthRedirectGuard";
 import { formatCurrency, formatDateTime } from "@/utils";
 
 export default function Main({ secret, locale, area, LANG, CONFIG }) {
   const router = useRouter();
   const [order, setOrder] = React.useState();
   const [loading, setLoading] = React.useState(true);
-  React.useEffect(() => {
-    setLoading(true);
-    Api.getOrderDetail({
-      secret,
-    })
-      .then((res) => {
-        if (res.code === 0) {
-          setOrder({
-            ...res.data,
-            order_list: res.data.order_list.map((item) => {
-              const {
-                name,
-                comboName,
-                productNum,
-                priceSymbol,
-                priceCurrency,
-                priceUnit,
-                productPrice,
-                options,
-                image,
-              } = item;
-              return {
-                name,
-                comboName,
-                productNum,
-                priceSymbol,
-                priceCurrency,
-                priceUnit,
-                productPrice,
-                options,
-                image,
-                customize_data: Array.isArray(item.customize_data)
-                  ? item.customize_data
-                  : [],
-              };
-            }),
-          });
-        } else {
-          throw new Error("code !== 0");
-        }
-      })
-      .catch(() => {
-        router.push("/");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  // 访问门禁：null=已通过 / "login"=用户订单需登录 / "email"=游客订单需邮箱校验
+  const [gate, setGate] = React.useState(null);
+  const [emailInput, setEmailInput] = React.useState("");
+  const [emailErr, setEmailErr] = React.useState("");
+  const [emailSubmitting, setEmailSubmitting] = React.useState(false);
+
+  // 归一化订单数据（裁剪 order_list 到页面所需字段；user_remark 等随 ...data 透传）
+  const normalizeOrder = React.useCallback((data) => {
+    return {
+      ...data,
+      order_list: data.order_list.map((item) => {
+        const {
+          name,
+          comboName,
+          productNum,
+          priceSymbol,
+          priceCurrency,
+          priceUnit,
+          productPrice,
+          options,
+          image,
+        } = item;
+        return {
+          name,
+          comboName,
+          productNum,
+          priceSymbol,
+          priceCurrency,
+          priceUnit,
+          productPrice,
+          options,
+          image,
+          customize_data: Array.isArray(item.customize_data)
+            ? item.customize_data
+            : [],
+        };
+      }),
+    };
   }, []);
+
+  // 拉订单：带 secret（登录用户 token 由 axios 请求拦截器自动附加）；游客可带 email。
+  // 返回："ok" 成功 / "login" 需登录 / "email" 需邮箱 / "error" 其它错误。
+  const fetchOrder = React.useCallback(
+    async (email) => {
+      try {
+        const res = await Api.getOrderDetail({
+          secret,
+          ...(email ? { email } : {}),
+        });
+        if (res.code === 0) {
+          setOrder(normalizeOrder(res.data));
+          setGate(null);
+          return "ok";
+        }
+        if (res.code === 2107) return "login"; // OrderLoginRequired：用户订单未登录
+        if (res.code === 2108) return "email"; // OrderEmailRequired：游客订单需邮箱匹配
+        if (res.code === 10029) return "forbidden"; // OrderNotBelongUser：已登录但非本人
+        return "error";
+      } catch {
+        // 10014（会话过期）由全局 LoginModal 处理；其余网络错误按 error 处理
+        return "error";
+      }
+    },
+    [secret, normalizeOrder]
+  );
+
+  // 首次进入：先只带 secret 试；游客订单缺邮箱时，用结账记住的邮箱自动重试一次（刚下单无感）。
+  React.useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      const r1 = await fetchOrder();
+      if (cancelled) return;
+      if (r1 === "ok") {
+        setLoading(false);
+        return;
+      }
+      if (r1 === "login" || r1 === "forbidden") {
+        setGate(r1);
+        setLoading(false);
+        return;
+      }
+      if (r1 === "email") {
+        const remembered =
+          typeof window !== "undefined"
+            ? window.localStorage.getItem("tourists_email") || ""
+            : "";
+        if (remembered) {
+          const r2 = await fetchOrder(remembered);
+          if (cancelled) return;
+          if (r2 === "ok") {
+            setEmailInput(remembered);
+            setLoading(false);
+            return;
+          }
+          setGate(r2 === "login" ? "login" : "email");
+          setLoading(false);
+          return;
+        }
+        setGate("email");
+        setLoading(false);
+        return;
+      }
+      // 其它错误：回首页（保持原行为）
+      router.push("/");
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [fetchOrder, router]);
+
+  // 游客邮箱门禁：提交邮箱做后端归属校验
+  const handleEmailSubmit = React.useCallback(
+    async (e) => {
+      e?.preventDefault?.();
+      const email = emailInput.trim();
+      if (!email) {
+        setEmailErr(
+          LANG["store.order_info.email_gate_required"] ||
+            "Please enter your email"
+        );
+        return;
+      }
+      setEmailSubmitting(true);
+      setEmailErr("");
+      const r = await fetchOrder(email);
+      setEmailSubmitting(false);
+      if (r === "ok") {
+        if (typeof window !== "undefined") {
+          window.localStorage.setItem("tourists_email", email);
+        }
+        return;
+      }
+      if (r === "login") {
+        setGate("login");
+        return;
+      }
+      setEmailErr(
+        LANG["store.order_info.email_gate_error"] ||
+          "This email does not match the order. Please try again."
+      );
+    },
+    [emailInput, fetchOrder, LANG]
+  );
 
   const payMap = React.useMemo(() => {
     return {
@@ -216,7 +313,107 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
 
   return (
     <div className={styles.container}>
-      {loading || !order ? (
+      {gate === "login" ? (
+        // 用户订单未登录：强制登录守卫（登录成功后回跳本页，带 token 自动通过归属校验）
+        <AuthRedirectGuard LANG={LANG} />
+      ) : gate === "forbidden" ? (
+        // 已登录但非订单归属者：无权限提示
+        <div className={styles.email_gate}>
+          <svg
+            className={styles.lock_icon}
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <rect
+              x="4"
+              y="10.5"
+              width="16"
+              height="10"
+              rx="2.5"
+              stroke="currentColor"
+              strokeWidth="1.6"
+            />
+            <path
+              d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+            <circle cx="12" cy="15" r="1.4" fill="currentColor" />
+          </svg>
+          <h2>
+            {LANG["store.order_info.forbidden_title"] || "Access denied"}
+          </h2>
+          <p className={styles.gate_desc}>
+            {LANG["store.order_info.forbidden_desc"] ||
+              "This order isn't associated with your account. Please sign in with the account used to place it."}
+          </p>
+          <button type="button" onClick={() => router.push("/")}>
+            {LANG["store.order_info.back_home"] || "Back to home"}
+          </button>
+        </div>
+      ) : gate === "email" ? (
+        // 游客订单：邮箱归属校验门禁
+        <div className={styles.email_gate}>
+          <svg
+            className={styles.lock_icon}
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <rect
+              x="4"
+              y="10.5"
+              width="16"
+              height="10"
+              rx="2.5"
+              stroke="currentColor"
+              strokeWidth="1.6"
+            />
+            <path
+              d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+            <circle cx="12" cy="15" r="1.4" fill="currentColor" />
+            <path
+              d="M12 16.2v1.6"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          </svg>
+          <h2>
+            {LANG["store.order_info.email_gate_title"] || "Verify your email"}
+          </h2>
+          <p className={styles.gate_desc}>
+            {LANG["store.order_info.email_gate_desc"] ||
+              "For your security, please enter the email you used to place this order to view its details."}
+          </p>
+          <form onSubmit={handleEmailSubmit}>
+            <input
+              type="email"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              placeholder={
+                LANG["store.order_info.email_gate_placeholder"] ||
+                "Enter your order email"
+              }
+              autoComplete="email"
+            />
+            {emailErr ? (
+              <div className={styles.gate_error}>{emailErr}</div>
+            ) : null}
+            <button type="submit" disabled={emailSubmitting}>
+              {emailSubmitting
+                ? "..."
+                : LANG["store.order_info.email_gate_submit"] || "View order"}
+            </button>
+          </form>
+        </div>
+      ) : loading || !order ? (
         <div className={styles.loading_container}>
           <Loading />
         </div>

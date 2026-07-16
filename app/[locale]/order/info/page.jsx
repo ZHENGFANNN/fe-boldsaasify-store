@@ -29,7 +29,11 @@ async function OrderInfoContent({ locale, searchParams }) {
   const area = cookieStore.get("area")?.value || "us";
   const { LANG, CONFIG } = await getData({
     locale,
-    languageNameSpace: ["store.order_info", "common.pay"],
+    languageNameSpace: [
+      "store.order_info",
+      "common.pay",
+      "user_account.login_guard"
+    ],
     configNameSpace: ["common.base"]
   });
   return (

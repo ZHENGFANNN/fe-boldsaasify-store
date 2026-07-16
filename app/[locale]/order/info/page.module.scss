@@ -549,3 +549,97 @@
     }
   }
 }
+
+.email_gate {
+  max-width: 480px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 40px 32px;
+  border-radius: 16px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  .lock_icon {
+    width: 48px;
+    height: 48px;
+    color: rgba(0, 0, 0, 0.55);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.85);
+    margin-bottom: 8px;
+  }
+
+  .gate_desc {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.5);
+    line-height: 20px;
+    margin-bottom: 24px;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  input {
+    width: 100%;
+    height: 44px;
+    box-sizing: border-box;
+    padding: 0 14px;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: #1890ff;
+    }
+  }
+
+  .gate_error {
+    font-size: 12px;
+    color: #e34d59;
+    text-align: left;
+    margin-top: -4px;
+  }
+
+  button {
+    width: 100%;
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    background: #111111;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.88;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .email_gate {
+    max-width: calc(100% - 32px);
+    padding: 32px 20px;
+  }
+}
