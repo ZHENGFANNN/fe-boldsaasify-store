@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import Loading from "@/components/Loading";
 import CustomizeFileLink from "@/components/CustomizeFileLink";
-import AuthRedirectGuard from "@/components/AuthRedirectGuard";
+import AuthRedirectGuard from "@/components/Auth/AuthRedirectGuard";
 import { formatCurrency, formatDateTime } from "@/utils";
 
 export default function Main({ secret, locale, area, LANG, CONFIG }) {
