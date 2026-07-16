@@ -8,26 +8,8 @@ import GlobalContext from "@/[locale]/context";
 import { track } from "@/utils/analytics";
 import Api from "@/components/Layout/api";
 import { UserIcon } from "@/components/Icon";
+import verifyLogin from "@/utils/verifyLogin";
 import styles from "./index.module.scss";
-
-/* 内联 SVG 图标（stroke=currentColor，随 hover 变色，不依赖远程文件） */
-function IconUser({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" />
-    </svg>
-  );
-}
 
 function IconOrder({ className }) {
   return (
@@ -110,9 +92,27 @@ export default function UserMenu({ isLogin }) {
   const router = useRouter();
   const { LANG } = React.useContext(GlobalContext);
   const [open, setOpen] = React.useState(false);
+  const [accountLabel, setAccountLabel] = React.useState("");
 
   // LANG 兜底：新增项若命名空间无 key，回退英文
   const t = (key, fallback) => (LANG && LANG[key]) || fallback;
+
+  // 已登录时拉一次用户信息，把邮箱/手机号显示在抽屉顶部（图1参考样式）。
+  // 未登录清空；避免登出后残留上一次账号。
+  React.useEffect(() => {
+    let cancelled = false;
+    if (!isLogin) {
+      setAccountLabel("");
+      return;
+    }
+    verifyLogin().then((r) => {
+      if (cancelled || r.status !== "ok" || !r.data) return;
+      setAccountLabel(r.data.email || r.data.phone || r.data.nickname || "");
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [isLogin]);
 
   const go = (path) => {
     track("NavIcon-User");
@@ -151,16 +151,14 @@ export default function UserMenu({ isLogin }) {
           {isLogin ? (
             <>
               <div className={styles.account}>
-                <span className={styles.avatar}>
-                  <IconUser className={styles.avatarIcon} />
-                </span>
-                <span className={styles.accountText}>
-                  <span className={styles.accountTitle}>
-                    {t("common.nav.account_greeting", "Welcome back")}
-                  </span>
-                  <span className={styles.accountSub}>
-                    {t("common.nav.account_subtitle", "Manage your account")}
-                  </span>
+                {/* <span className={styles.accountIconBox}>
+                  <UserIcon className={styles.accountIcon} />
+                </span> */}
+                <span
+                  className={styles.accountText}
+                  title={accountLabel || undefined}
+                >
+                  {accountLabel}
                 </span>
               </div>
 
@@ -170,7 +168,7 @@ export default function UserMenu({ isLogin }) {
                   role="menuitem"
                   onClick={() => go("/user/account")}
                 >
-                  <IconUser className={styles.itemIcon} />
+                  <UserIcon className={styles.itemIcon} />
                   <span className={styles.itemLabel}>
                     {LANG["common.nav.my_account"]}
                   </span>
