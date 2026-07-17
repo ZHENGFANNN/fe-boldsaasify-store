@@ -29,11 +29,6 @@
     font-family: inherit;
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 
-    &:hover {
-      border-color: rgba(0, 0, 0, 0.2);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-    }
-
     &:active {
       transform: translateY(1px);
     }
@@ -189,8 +184,18 @@
     }
   }
 
-  .order_card:hover .view_detail svg {
-    transform: translateX(2px);
+}
+
+// hover 态仅在 >=780px 生效：移动端(<780px)点触后不残留 hover 边框/阴影/箭头位移。
+@media (min-width: 780px) {
+  .container {
+    .order_card:hover {
+      border-color: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+    .order_card:hover .view_detail svg {
+      transform: translateX(2px);
+    }
   }
 }
 

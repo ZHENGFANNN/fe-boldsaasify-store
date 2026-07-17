@@ -12,6 +12,19 @@ import { defaultLocale } from "@/config/languageSettings";
 import verifyLogin from "@/utils/verifyLogin";
 import styles from "./index.module.scss";
 
+// 账号胶囊展示脱敏：邮箱保留首 2 位本地名 + 域名，手机保留前 3 后 4。
+const maskEmail = (email) => {
+  if (!email || !email.includes("@")) return email || "";
+  const [local, domain] = email.split("@");
+  if (local.length <= 2) return `${local[0] || ""}***@${domain}`;
+  return `${local.slice(0, 2)}***@${domain}`;
+};
+const maskPhone = (phone) => {
+  if (!phone) return "";
+  if (phone.length <= 7) return phone;
+  return `${phone.slice(0, 3)}****${phone.slice(-4)}`;
+};
+
 function IconAddress({ className }) {
   return (
     <svg
@@ -126,7 +139,15 @@ export default function UserMenu({ isLogin }) {
     }
     verifyLogin().then((r) => {
       if (cancelled || r.status !== "ok" || !r.data) return;
-      setAccountLabel(r.data.email || r.data.phone || r.data.nickname || "");
+      // 优先用后端返回的脱敏值，否则本地脱敏；邮箱/手机都不暴露完整明文。
+      const label =
+        r.data.email_masked ||
+        (r.data.email ? maskEmail(r.data.email) : "") ||
+        r.data.phone_masked ||
+        (r.data.phone ? maskPhone(r.data.phone) : "") ||
+        r.data.nickname ||
+        "";
+      setAccountLabel(label);
     });
     return () => {
       cancelled = true;
@@ -184,6 +205,16 @@ export default function UserMenu({ isLogin }) {
               </div>
 
               <ul className={styles.menu}>
+                <li
+                  className={styles.item}
+                  role="menuitem"
+                  onClick={() => go("/user/account")}
+                >
+                  <UserIcon className={styles.itemIcon} />
+                  <span className={styles.itemLabel}>
+                    {t("common.nav.my_account", "My Account")}
+                  </span>
+                </li>
                 <li
                   className={styles.item}
                   role="menuitem"

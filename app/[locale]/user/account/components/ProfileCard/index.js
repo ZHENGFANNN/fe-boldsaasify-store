@@ -71,6 +71,14 @@ export default function ProfileCard({ LANG, locale }) {
   const [editing, setEditing] = React.useState(null); // "nickname" | "phone" | null
   const [saving, setSaving] = React.useState(false);
   const [resetting, setResetting] = React.useState(false);
+  // 密码 Change 60s 冷却：发出重置邮件后进入倒计时，防止用户不断点击触发发信轰炸。
+  const [cooldown, setCooldown] = React.useState(0);
+
+  React.useEffect(() => {
+    if (cooldown <= 0) return undefined;
+    const id = setTimeout(() => setCooldown((s) => s - 1), 1000);
+    return () => clearTimeout(id);
+  }, [cooldown]);
 
   const t = React.useCallback(
     (key, fallback) => (LANG && LANG[key]) || fallback,
@@ -150,7 +158,7 @@ export default function ProfileCard({ LANG, locale }) {
   }, []);
 
   const handleResetPassword = React.useCallback(async () => {
-    if (resetting) return;
+    if (resetting || cooldown > 0) return;
     const targetEmail = userInfo.email || "";
     if (!targetEmail) {
       showTip({
@@ -173,6 +181,7 @@ export default function ProfileCard({ LANG, locale }) {
         ),
         type: "success",
       });
+      setCooldown(60);
     } catch {
       showTip({
         text: t(
@@ -184,7 +193,7 @@ export default function ProfileCard({ LANG, locale }) {
     } finally {
       setResetting(false);
     }
-  }, [resetting, userInfo, showTip, t]);
+  }, [resetting, cooldown, userInfo, showTip, t]);
 
   if (loading) return <Loading height={400} />;
 
@@ -262,23 +271,6 @@ export default function ProfileCard({ LANG, locale }) {
         <button
           type="button"
           className={styles.item}
-          onClick={handleResetPassword}
-          disabled={resetting}
-        >
-          <span className={styles.item_label}>
-            {t("user_account.account_info.password", "Password")}
-          </span>
-          <span className={styles.item_action}>
-            {resetting
-              ? t("common.sending", "Sending...")
-              : t("common.change", "Change")}
-            <Chevron />
-          </span>
-        </button>
-
-        <button
-          type="button"
-          className={styles.item}
           onClick={() => setEditing("phone")}
         >
           <span className={styles.item_label}>
@@ -286,13 +278,29 @@ export default function ProfileCard({ LANG, locale }) {
           </span>
           <span className={styles.item_action}>
             {phone ? (
-              <>
-                <span className={styles.item_value}>{phoneDisplay}</span>
-                {t("common.change", "Change")}
-              </>
+              <span className={styles.item_value}>{phoneDisplay}</span>
             ) : (
               t("common.setting", "Setting")
             )}
+            <Chevron />
+          </span>
+        </button>
+
+        <button
+          type="button"
+          className={styles.item}
+          onClick={handleResetPassword}
+          disabled={resetting || cooldown > 0}
+        >
+          <span className={styles.item_label}>
+            {t("user_account.account_info.password", "Password")}
+          </span>
+          <span className={styles.item_action}>
+            {cooldown > 0
+              ? `${cooldown}s`
+              : resetting
+              ? t("common.sending", "Sending...")
+              : t("common.change", "Change")}
             <Chevron />
           </span>
         </button>
@@ -311,7 +319,7 @@ export default function ProfileCard({ LANG, locale }) {
 
       <SingleFieldEditModal
         open={editing === "nickname"}
-        title={t("common.friendly_tip", "Friendly Reminder")}
+        title={t("user_account.account_info.edit_info", "Edit info")}
         label={LANG["user_account.account_info.nickname"]}
         defaultValue={userInfo.nickname || ""}
         maxLength={15}
@@ -324,7 +332,7 @@ export default function ProfileCard({ LANG, locale }) {
 
       <SingleFieldEditModal
         open={editing === "phone"}
-        title={t("common.friendly_tip", "Friendly Reminder")}
+        title={t("user_account.account_info.edit_info", "Edit info")}
         label={LANG["user_account.account_info.phone"]}
         defaultValue={userInfo.phone || ""}
         maxLength={20}

@@ -55,6 +55,9 @@ export default function SingleFieldEditModal({
               type="text"
               maxLength={maxLength}
               autoComplete="off"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               {...register("field", {
                 required: required
                   ? requiredMessage || LANG["user_account.account_info.nickname_require"]
