@@ -25,24 +25,6 @@ const maskPhone = (phone) => {
   return `${phone.slice(0, 3)}****${phone.slice(-4)}`;
 };
 
-function IconAddress({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z" />
-      <circle cx="12" cy="10" r="2.6" />
-    </svg>
-  );
-}
-
 function IconOrder({ className }) {
   return (
     <svg
@@ -192,18 +174,21 @@ export default function UserMenu({ isLogin }) {
         <div className={styles.card} role="menu">
           {isLogin ? (
             <>
-              <div className={styles.account}>
-                {/* <span className={styles.accountIconBox}>
-                  <UserIcon className={styles.accountIcon} />
-                </span> */}
-                <span
-                  className={styles.accountText}
-                  title={accountLabel || undefined}
-                >
-                  {accountLabel}
-                </span>
-              </div>
-
+            {
+              accountLabel && (
+                <div className={styles.account}>
+                  {/* <span className={styles.accountIconBox}>
+                    <UserIcon className={styles.accountIcon} />
+                  </span> */}
+                  <span
+                    className={styles.accountText}
+                    title={accountLabel || undefined}
+                  >
+                    {accountLabel}-
+                  </span>
+                </div>
+              )
+            }
               <ul className={styles.menu}>
                 <li
                   className={styles.item}
@@ -213,16 +198,6 @@ export default function UserMenu({ isLogin }) {
                   <UserIcon className={styles.itemIcon} />
                   <span className={styles.itemLabel}>
                     {t("common.nav.my_account", "My Account")}
-                  </span>
-                </li>
-                <li
-                  className={styles.item}
-                  role="menuitem"
-                  onClick={() => go("/user/account/address")}
-                >
-                  <IconAddress className={styles.itemIcon} />
-                  <span className={styles.itemLabel}>
-                    {t("user_account.shipping_address", "Address")}
                   </span>
                 </li>
                 <li

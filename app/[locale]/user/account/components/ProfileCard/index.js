@@ -101,11 +101,14 @@ export default function ProfileCard({ LANG, locale }) {
         if (cancelled) return;
         if (result.status === "ok") {
           setUserInfo(result.data || {});
-        } else if (result.status === "invalid") {
-          Cookies.remove("token");
-          if (typeof window !== "undefined") {
-            window.dispatchEvent(new CustomEvent("auth:session-expired"));
-          }
+          return;
+        }
+        // 服务端判失效(invalid) 或 连续网络/超时后仍失败(error):
+        // 清 token cookie 并整页刷新;刷新后 AuthGateContext 读不到 cookie,
+        // AuthBoundary 自动换成登录守卫,不会回到当前空壳 UI。
+        Cookies.remove("token");
+        if (typeof window !== "undefined") {
+          window.location.reload();
         }
       })
       .finally(() => {
@@ -246,32 +249,6 @@ export default function ProfileCard({ LANG, locale }) {
       </div>
 
       <section className={styles.group}>
-        <Link
-          href={buildHref("/user/account/address")}
-          prefetch={false}
-          className={`${styles.item} ${styles.shortcut}`}
-        >
-          <span className={styles.item_label}>
-            {t("user_account.shipping_address", "My Address")}
-          </span>
-          <span className={styles.item_action}>
-            <Chevron />
-          </span>
-        </Link>
-
-        <Link
-          href={buildHref("/user/account/order")}
-          prefetch={false}
-          className={`${styles.item} ${styles.shortcut}`}
-        >
-          <span className={styles.item_label}>
-            {t("user_account.my_order", "My Orders")}
-          </span>
-          <span className={styles.item_action}>
-            <Chevron />
-          </span>
-        </Link>
-
         <div className={styles.item_static}>
           <span className={styles.item_label}>
             {t("user_account.account_info.email", "Email")}
@@ -323,16 +300,48 @@ export default function ProfileCard({ LANG, locale }) {
             <Chevron />
           </span>
         </button>
+
+        <Link
+          href={buildHref("/user/account/order")}
+          prefetch={false}
+          className={`${styles.item} ${styles.shortcut}`}
+        >
+          <span className={styles.item_label}>
+            {t("user_account.my_order", "My Orders")}
+          </span>
+          <span className={styles.item_action}>
+            <Chevron />
+          </span>
+        </Link>
+
+        <Link
+          href={buildHref("/user/account/address")}
+          prefetch={false}
+          className={`${styles.item} ${styles.shortcut}`}
+        >
+          <span className={styles.item_label}>
+            {t("user_account.shipping_address", "My Address")}
+          </span>
+          <span className={styles.item_action}>
+            <Chevron />
+          </span>
+        </Link>
+
+        <button
+          type="button"
+          className={styles.item}
+          onClick={() => setShowDelete(true)}
+        >
+          <span className={styles.item_label}>
+            {t("user_account.delete_account.entry", "Delete account")}
+          </span>
+          <span className={styles.item_action}>
+            <Chevron />
+          </span>
+        </button>
       </section>
 
       <div className={styles.footer}>
-        <button
-          type="button"
-          className={styles.delete_account}
-          onClick={() => setShowDelete(true)}
-        >
-          {t("user_account.delete_account.entry", "Delete account")}
-        </button>
         <Button
           variant="ghost"
           size="small"

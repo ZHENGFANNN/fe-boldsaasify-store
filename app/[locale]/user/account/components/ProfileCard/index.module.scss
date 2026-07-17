@@ -131,22 +131,6 @@
   align-items: center;
   gap: 12px;
 
-  .delete_account {
-    background: none;
-    border: 0;
-    padding: 4px 8px;
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.45);
-    cursor: pointer;
-    transition: color 0.2s;
-
-    @media (hover: hover) {
-      &:hover {
-        color: #d14343;
-      }
-    }
-  }
-
   .sign_out {
     min-width: 160px;
     width: 100%;

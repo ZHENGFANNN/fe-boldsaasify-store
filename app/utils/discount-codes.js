@@ -4,8 +4,7 @@
  * 购物车/结算/详情页共享的「已应用折扣码」读写工具。
  *
  * 单一来源：localStorage key `store_shopping_discount_codes`，存字符串数组。
- * - 购物车 Drawer（CartModal）、结算页（order/Main）、详情页折扣码入口、
- *   WelcomePopup 订阅成功自动应用，全部读写同一 key，体验闭环。
+ * - 购物车 Drawer（CartModal）、结算页（order/Main）、详情页折扣码入口全部读写同一 key，体验闭环。
  * - 读取做防御：非数组 / 解析失败 / SSR 一律返回 []，只保留字符串项。
  */
 export const DISCOUNT_CODES_STORAGE_KEY = "store_shopping_discount_codes";
