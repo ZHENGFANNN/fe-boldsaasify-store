@@ -8,6 +8,42 @@ import ProductContext from "../../../ProductContext";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { track } from "@/utils/analytics";
 
+/** sRGB 分量(0~1) → 线性空间；glTF baseColorFactor 定义在线性空间，
+ *  而颜色选择器给的 hex 是 sRGB，需做 gamma 转换才能所见即所得。 */
+function srgbToLinear(c) {
+  return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+}
+
+/** hex(#RRGGBB, sRGB) → model-viewer 线性 baseColorFactor [r,g,b,a](0~1, a=1)；非法值返回 null。
+ *  model-viewer 对传入的数组按线性空间直写（不做 sRGB→线性），故此处显式转换，避免颜色偏亮。 */
+function hexToColorFactor(hex) {
+  if (typeof hex !== "string") return null;
+  const m = hex.trim().replace(/^#/, "");
+  if (!/^[0-9a-fA-F]{6}$/.test(m)) return null;
+  return [
+    srgbToLinear(parseInt(m.slice(0, 2), 16) / 255),
+    srgbToLinear(parseInt(m.slice(2, 4), 16) / 255),
+    srgbToLinear(parseInt(m.slice(4, 6), 16) / 255),
+    1,
+  ];
+}
+
+/** 套餐 three_d_colors 归一为 { 材质名: hex } 对象；兼容后端下发对象或 JSON 字符串。 */
+function parseThreeDColors(raw) {
+  if (!raw) return {};
+  if (typeof raw === "string") {
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+        ? parsed
+        : {};
+    } catch {
+      return {};
+    }
+  }
+  return typeof raw === "object" && !Array.isArray(raw) ? raw : {};
+}
+
 export default function GoodMediaDisplay() {
   const { LANG, lazyLoading, productInfo, productShowType, productCurCombo } =
     React.useContext(ProductContext);
@@ -50,6 +86,65 @@ export default function GoodMediaDisplay() {
   React.useEffect(() => {
     productCurComboRef.current = productCurCombo;
   }, [productCurCombo]);
+
+  // ===== 套餐 3D 上色 =====
+  // 外层 model-viewer 的材质按当前套餐 productCurCombo.three_d_colors 逐个上色（同名材质）；
+  // 未配色的材质保持/恢复原始色。model-viewer 懒加载(data-src)，须等 load 事件后再上色。
+  const modelSrc = productInfo?.three_d || null;
+  // 已完成 load 且已缓存原始色的模型 URL；等于当前 modelSrc 时才对该模型上色（避免竞态/切商品残留）。
+  const [loadedSrc, setLoadedSrc] = React.useState(null);
+  // 首次 load 时缓存每个材质的原始 baseColorFactor（按材质名），用于切换套餐时恢复未配色材质。
+  const originalColorsRef = React.useRef({});
+
+  // 绑定 model-viewer 的 load 事件：挂载即绑定，早于用户切到 3D 视图时才设置的 src，故不漏听。
+  // 切商品（modelSrc 变化）时重跑：清空上个模型的原始色缓存，待新模型 load 后按新材质重建。
+  React.useEffect(() => {
+    if (lazyLoading || !modelSrc) return;
+    const mv = document.getElementById("product-model-viewer");
+    if (!mv) return;
+    originalColorsRef.current = {};
+    const onLoad = () => {
+      const materials = mv.model?.materials;
+      if (Array.isArray(materials)) {
+        materials.forEach((mat) => {
+          const name = mat?.name;
+          const factor = mat?.pbrMetallicRoughness?.baseColorFactor;
+          if (
+            name != null &&
+            Array.isArray(factor) &&
+            !(name in originalColorsRef.current)
+          ) {
+            originalColorsRef.current[name] = factor.slice();
+          }
+        });
+      }
+      // load 回调内 setState（非 effect 同步体），驱动上色 effect 重跑。
+      setLoadedSrc(modelSrc);
+    };
+    mv.addEventListener("load", onLoad);
+    return () => mv.removeEventListener("load", onLoad);
+  }, [lazyLoading, modelSrc]);
+
+  // 套餐变化（或模型就绪）→ 逐材质上色：命中 three_d_colors 用套餐色，
+  // 其余一律恢复原始色，避免上一个套餐的颜色残留。仅在当前模型已 load 时执行。
+  React.useEffect(() => {
+    if (!modelSrc || loadedSrc !== modelSrc) return;
+    const mv = document.getElementById("product-model-viewer");
+    const materials = mv?.model?.materials;
+    if (!Array.isArray(materials)) return;
+    const colorMap = parseThreeDColors(productCurCombo?.three_d_colors);
+    materials.forEach((mat) => {
+      const pbr = mat?.pbrMetallicRoughness;
+      if (!pbr?.setBaseColorFactor) return;
+      const factor = hexToColorFactor(colorMap[mat?.name]);
+      if (factor) {
+        pbr.setBaseColorFactor(factor);
+      } else {
+        const original = originalColorsRef.current[mat?.name];
+        if (Array.isArray(original)) pbr.setBaseColorFactor(original);
+      }
+    });
+  }, [loadedSrc, modelSrc, productCurCombo]);
 
   React.useEffect(() => {
     if (!lazyLoading) {
