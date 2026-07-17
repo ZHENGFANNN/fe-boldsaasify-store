@@ -12,6 +12,7 @@ import verifyLogin from "@/utils/verifyLogin";
 import Api from "../../api";
 import UserApi from "../../../api";
 import SingleFieldEditModal from "../SingleFieldEditModal";
+import DeleteAccountModal from "../DeleteAccountModal";
 import styles from "./index.module.scss";
 
 const maskPhone = (phone) => {
@@ -69,6 +70,7 @@ export default function ProfileCard({ LANG, locale }) {
   const [loading, setLoading] = React.useState(true);
   const [userInfo, setUserInfo] = React.useState({});
   const [editing, setEditing] = React.useState(null); // "nickname" | "phone" | null
+  const [showDelete, setShowDelete] = React.useState(false);
   const [saving, setSaving] = React.useState(false);
   const [resetting, setResetting] = React.useState(false);
   // 密码 Change 60s 冷却：发出重置邮件后进入倒计时，防止用户不断点击触发发信轰炸。
@@ -156,6 +158,23 @@ export default function ProfileCard({ LANG, locale }) {
     Cookies.remove("token");
     location.href = "/";
   }, []);
+
+  // 注销申请成功 → 提示进入冷静期并登出（期内重新登录可撤销）。
+  const handleDeletionSuccess = React.useCallback(() => {
+    setShowDelete(false);
+    showTip({
+      text: t(
+        "user_account.delete_account.success",
+        "Your account is scheduled for deletion. Signing in again within the cooling-off period will cancel it."
+      ),
+      type: "success",
+    });
+    setTimeout(() => {
+      Api.loginOut();
+      Cookies.remove("token");
+      location.href = "/";
+    }, 2500);
+  }, [showTip, t]);
 
   const handleResetPassword = React.useCallback(async () => {
     if (resetting || cooldown > 0) return;
@@ -307,6 +326,13 @@ export default function ProfileCard({ LANG, locale }) {
       </section>
 
       <div className={styles.footer}>
+        <button
+          type="button"
+          className={styles.delete_account}
+          onClick={() => setShowDelete(true)}
+        >
+          {t("user_account.delete_account.entry", "Delete account")}
+        </button>
         <Button
           variant="ghost"
           size="small"
@@ -341,6 +367,14 @@ export default function ProfileCard({ LANG, locale }) {
         loading={saving}
         onClose={() => setEditing(null)}
         onConfirm={(v) => saveField("phone", v)}
+      />
+
+      <DeleteAccountModal
+        open={showDelete}
+        LANG={LANG}
+        locale={locale}
+        onClose={() => setShowDelete(false)}
+        onSuccess={handleDeletionSuccess}
       />
 
       <ShowTipModal ref={tipRef} />

@@ -47,6 +47,14 @@ const request = {
   getAfterServiceList: () => {
     return api.post("/pay/getAfterServiceList");
   },
+  // 账号注销：发送邮箱验证码
+  sendDeletionCode: () => {
+    return api.post("/user/sendDeletionCode");
+  },
+  // 账号注销：提交注销申请（验证码 + 进行中订单/工单校验）
+  requestAccountDeletion: (data) => {
+    return api.post("/user/requestAccountDeletion", data);
+  },
 };
 
 export default request;
