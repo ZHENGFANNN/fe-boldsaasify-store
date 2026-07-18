@@ -354,7 +354,6 @@ export default function ProfileCard({ LANG, locale }) {
 
       <SingleFieldEditModal
         open={editing === "nickname"}
-        title={t("user_account.account_info.edit_info", "Edit info")}
         label={LANG["user_account.account_info.nickname"]}
         defaultValue={userInfo.nickname || ""}
         maxLength={15}
@@ -367,7 +366,6 @@ export default function ProfileCard({ LANG, locale }) {
 
       <SingleFieldEditModal
         open={editing === "phone"}
-        title={t("user_account.account_info.edit_info", "Edit info")}
         label={LANG["user_account.account_info.phone"]}
         defaultValue={userInfo.phone || ""}
         maxLength={20}

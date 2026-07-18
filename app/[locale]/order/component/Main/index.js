@@ -549,6 +549,9 @@ export default function Main({ CONFIG, LANG, area, token }) {
     locale,
   ]);
 
+  // 当前选中的支付方式（cod/bank 结果区展示其标题+说明用）
+  const currentPayWay = payWayList.find((item) => item.key === payKey);
+
   return (
     <OrderContext.Provider
       value={{
@@ -876,50 +879,59 @@ export default function Main({ CONFIG, LANG, area, token }) {
             />
             {/* 银行支付方式 */}
             {payKey === "bank" || payKey === "cod" ? (
-              <div
-                className={styles.submit_btn}
-                onClick={async () => {
-                  if (orderLoading || previewLoading) return;
-                  const userInfo = getUserInfo();
-                  if (!userInfo) return;
-                  // 处理订单
-                  try {
-                    setOrderLoading(true);
-                    const res = await Api.createOrder(
-                      buildCreateOrderPayload(userInfo)
-                    );
-                    if (res.code === 0) {
-                      trackingInitiateCheckout();
-                      showTip({
-                        text: LANG["store.order.create_success"],
-                        type: "success",
-                      });
-                      // 保存订单号
-                      localStorage.setItem(
-                        "order",
-                        JSON.stringify({
-                          secret: res.data.secret,
-                          time: Date.now(),
-                        })
+              <>
+                {/* 结果区：展示所选支付方式的标题与说明（标题走 LANG，见 const.js） */}
+                <div className={styles.pay_summary}>
+                  <h3>{currentPayWay?.title}</h3>
+                  {currentPayWay?.description ? (
+                    <p>{currentPayWay.description}</p>
+                  ) : null}
+                </div>
+                <div
+                  className={styles.submit_btn}
+                  onClick={async () => {
+                    if (orderLoading || previewLoading) return;
+                    const userInfo = getUserInfo();
+                    if (!userInfo) return;
+                    // 处理订单
+                    try {
+                      setOrderLoading(true);
+                      const res = await Api.createOrder(
+                        buildCreateOrderPayload(userInfo)
                       );
-                      setTimeout(() => {
-                        clearOrderList();
-                        router.push(`/order/info?secret=${res.data.secret}`);
-                      }, 1000);
-                    } else {
-                      throw new Error("code !== 0");
+                      if (res.code === 0) {
+                        trackingInitiateCheckout();
+                        showTip({
+                          text: LANG["store.order.create_success"],
+                          type: "success",
+                        });
+                        // 保存订单号
+                        localStorage.setItem(
+                          "order",
+                          JSON.stringify({
+                            secret: res.data.secret,
+                            time: Date.now(),
+                          })
+                        );
+                        setTimeout(() => {
+                          clearOrderList();
+                          router.push(`/order/info?secret=${res.data.secret}`);
+                        }, 1000);
+                      } else {
+                        throw new Error("code !== 0");
+                      }
+                    } catch (error) {
+                      setOrderLoading(false);
+                      showTip({
+                        text: LANG["common.pay.pay_button.create_error"],
+                        type: "error",
+                      });
                     }
-                  } catch (error) {
-                    setOrderLoading(false);
-                    showTip({
-                      text: LANG["common.pay.pay_button.create_error"],
-                      type: "error",
-                    });
-                  }
-                }}
-              >
-                {LANG["store.order.submit_order"] || "Submit Order"}
-              </div>
+                  }}
+                >
+                  {LANG["store.order.submit_order"] || "Submit Order"}
+                </div>
+              </>
             ) : null}
             {/* Paypal支付方式 */}
             {payKey === "payPal" && orderList[0]?.priceCurrency ? (

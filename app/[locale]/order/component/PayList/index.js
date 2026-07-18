@@ -29,16 +29,9 @@ function PayList({ LANG, setPayKey, payKey, payWayList }, ref) {
             <div className={styles.pay_item_select}>
               <div className={styles.pay_text}>
                 <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </div>
-              <div
-                className={`${styles.img_container}
-                  ${item.key === "creditCard" ? styles.credit_card : ""}
-                `}
-              >
-                {item.iconList?.map((IconCmp, iconIndex) => {
-                  return <IconCmp key={iconIndex} aria-label={item.title} />;
-                })}
+                {item.key === "cod" || item.key === "bank" ? null : (
+                  <p>{item.description}</p>
+                )}
               </div>
             </div>
             <div className={styles.pay_item_additional}>

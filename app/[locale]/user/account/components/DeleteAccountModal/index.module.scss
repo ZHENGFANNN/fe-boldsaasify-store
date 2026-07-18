@@ -125,54 +125,29 @@
     }
   }
 
+  // 统一按钮规范：PC 横向排列、每个按钮 max-width 160px；移动端每个独占一行、100% 宽。
   .btn_container {
     margin-top: 24px;
     display: flex;
+    gap: 12px;
     width: 100%;
     justify-content: flex-end;
 
-    .btn_cancel,
-    .btn_danger {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      font-size: 14px;
-      min-width: 120px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 400ms;
-      border: 0;
-      outline: none;
+    .action_btn {
+      flex: 1;
+      max-width: 160px;
     }
+  }
+}
 
-    .btn_cancel {
-      margin-right: 12px;
-      background: #edeff2;
-      color: #000;
+// 移动端（0–779）：按钮纵向堆叠、每个独占一行铺满
+@media screen and (max-width: 779px) {
+  .modal .btn_container {
+    flex-direction: column;
 
-      &:hover {
-        background: #f8f9fc;
-      }
-      &:active {
-        background: #e1e3e6;
-      }
-    }
-
-    .btn_danger {
-      color: #fff;
-      background-color: #d32029;
-
-      &:hover:not(:disabled) {
-        opacity: 0.88;
-      }
-      &:active:not(:disabled) {
-        background: #a8071a;
-      }
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
+    .action_btn {
+      max-width: none;
+      width: 100%;
     }
   }
 }

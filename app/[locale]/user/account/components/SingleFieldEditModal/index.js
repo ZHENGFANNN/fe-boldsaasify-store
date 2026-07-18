@@ -47,7 +47,7 @@ export default function SingleFieldEditModal({
   return (
     <div className={`${styles.modal} ${open ? styles.show : ""}`}>
       <div className={styles.modal_content}>
-        <h2>{title}</h2>
+        {title ? <h2>{title}</h2> : null}
         <form onSubmit={handleSubmit(submit)} className={styles.form_container}>
           <div className={styles.form_item}>
             <label>{label}</label>

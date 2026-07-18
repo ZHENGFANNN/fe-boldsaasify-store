@@ -382,6 +382,27 @@
           width: 100%;
           position: relative;
         }
+        .pay_summary {
+          margin-bottom: 12px;
+          padding: 12px 16px;
+          border: 1px solid #e6e6e6;
+          border-radius: 8px;
+          background: rgba(0, 0, 0, 0.02);
+          h3 {
+            color: #000;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.5715;
+            text-transform: capitalize;
+          }
+          p {
+            margin-top: 4px;
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.45);
+            line-height: 1.5715;
+            white-space: pre-line;
+          }
+        }
         .submit_btn {
           box-sizing: border-box;
           width: 100%;
@@ -555,11 +576,9 @@
         }
 
         .submit_btn {
-        min-width: 260px;
-        width: 300px;
-        margin: auto;
-
-        margin-bottom: 56px;
+        min-width: 0;
+        width: 100%;
+        margin: 0 0 56px;
         }
     }
     }

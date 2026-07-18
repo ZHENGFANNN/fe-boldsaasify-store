@@ -55,6 +55,11 @@
   .content {
     margin-top: 24px;
     .form_item {
+      // 游客邮箱输入框内边距对齐「登录/邮箱拦截门」输入框
+      // （order/info 页 .email_gate input：padding 0 14px）
+      &:not(.disabled) {
+        padding: 0 14px;
+      }
       &.disabled {
         background: rgba(0, 0, 0, 0.05);
         input {

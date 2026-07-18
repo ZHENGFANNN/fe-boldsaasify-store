@@ -80,46 +80,13 @@
         display: flex;
         width: 100%;
         justify-content: flex-end;
+        gap: 12px;
 
-        .btn_cancel,
-        button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          padding: 10px;
-          color: #fff;
-          background-color: #3c3e40;
-          font-size: 14px;
-          min-width: 120px;
-
-          border-radius: 8px;
-          cursor: pointer;
-
-          transition: all 400ms;
-
-          border: 0;
-          outline: none;
-          &:hover {
-            opacity: 0.8;
-          }
-          &:active {
-            opacity: 1;
-            background: #000;
-          }
-        }
-        .btn_cancel {
-          margin-right: 12px;
-          background: #edeff2;
-          color: #000;
-          opacity: 1;
-          &:hover {
-            opacity: 1;
-            background: #f8f9fc;
-          }
-          &:active {
-            background: #e1e3e6;
-          }
+        // 视觉由公共 Button 组件承担；此处只控制布局：
+        // PC 端按钮横向排列、每个 max-width 160px
+        .modal_action_btn {
+          flex: 1;
+          max-width: 160px;
         }
       }
     }
@@ -171,12 +138,13 @@
     .modal {
       .modal_content {
         padding: 32px 16px 24px;
-        h2 {
-        }
+        // 移动端：每个按钮独占一行、100% 宽
         .btn_container {
-          button {
-          }
-          .btn_cancel {
+          flex-direction: column;
+          .modal_action_btn {
+            flex: none;
+            max-width: none;
+            width: 100%;
           }
         }
       }

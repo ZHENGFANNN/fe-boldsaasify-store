@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import styles from "./index.module.scss";
 import Input from "@/components/Form/FormInput";
 import FormSelect from "@/components/Form/FormSelect";
+import Button from "@/components/Button";
 import { ISPHONE, ISPHONEOBERVER } from "@/utils/pattern";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import FormCountryItem from "@/components/Form/FormCountryItem";
@@ -357,12 +358,21 @@ export default function NewAddressForm({
               />
             </div>
             <div className={styles.btn_container}>
-              <div className={styles.btn_cancel} onClick={closeModal}>
+              <Button
+                variant="secondary"
+                className={styles.action_btn}
+                onClick={closeModal}
+              >
                 {LANG["user_account.shipping_address.close"]}
-              </div>
-              <button type="submit" className={styles.btn_confirm}>
+              </Button>
+              <Button
+                type="submit"
+                variant="primary"
+                className={styles.action_btn}
+                loading={loading}
+              >
                 {LANG["user_account.shipping_address.confirm"]}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

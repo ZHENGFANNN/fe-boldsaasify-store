@@ -10,6 +10,7 @@ import ShowTipModal from "@/components/Modal/ShowTipModal";
 import GlobalContext from "@/[locale]/context";
 import AddressAutocomplete from "@/components/Address/AddressAutocomplete";
 import PasteAddressBox from "@/components/Address/PasteAddressBox";
+import Button from "@/components/Button";
 import Api from "../../api";
 
 export default function NewAddressForm({ LANG, onFinish }) {
@@ -253,24 +254,28 @@ export default function NewAddressForm({ LANG, onFinish }) {
               />
             </div>
             <div className={styles.btn_container}>
-              <div
-                className={styles.btn_cancel}
+              <Button
+                variant="secondary"
+                type="button"
+                className={styles.modal_action_btn}
                 onClick={() => {
                   setShow(false);
                   document.body.style.overflow = "scroll";
                 }}
               >
                 {LANG["user_account.shipping_address.close"]}
-              </div>
-              <button
+              </Button>
+              <Button
+                variant="primary"
                 type="submit"
-                className={styles.btn_confirm}
+                loading={loading}
+                className={styles.modal_action_btn}
                 onClick={() => {
                   document.body.style.overflow = "scroll";
                 }}
               >
                 {LANG["user_account.shipping_address.confirm"]}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

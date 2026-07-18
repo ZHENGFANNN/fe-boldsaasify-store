@@ -76,55 +76,24 @@
 
         margin-bottom: 25px;
       }
+      // 统一按钮规范：PC 横向排列、每个按钮 max-width 160px；移动端每个独占一行、100% 宽。
       .btn_container {
         margin-top: 16px;
         display: flex;
+        gap: 12px;
         width: 100%;
         justify-content: flex-end;
 
-        .btn_cancel,
-        button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          padding: 10px;
-          color: #fff;
-          background-color: #3c3e40;
-          font-size: 14px;
-          min-width: 120px;
-
-          border-radius: 8px;
-          cursor: pointer;
-
-          transition: all 400ms;
-
-          border: 0;
-          outline: none;
-          &:hover {
-            opacity: 0.8;
-          }
-          &:active {
-            opacity: 1;
-            background: #000;
-          }
-        }
-        .btn_cancel {
-          margin-right: 12px;
-          background: #edeff2;
-          color: #000;
-          opacity: 1;
-          &:hover {
-            opacity: 1;
-            background: #f8f9fc;
-          }
-          &:active {
-            background: #e1e3e6;
-          }
+        .action_btn {
+          flex: 1;
+          max-width: 160px;
         }
       }
     }
     .form_container {
+      // 表单内容左对齐（覆盖 .modal_content 的 text-align: center），
+      // 使共享 FormSelect 的 state 下拉触发文案/搜索/选项左对齐，观感对齐 order 页。
+      text-align: left;
       overflow-x: hidden;
       overflow-y: auto;
       &::-webkit-scrollbar {
@@ -172,14 +141,6 @@
     .modal {
       .modal_content {
         padding: 32px 16px 24px;
-        h2 {
-        }
-        .btn_container {
-          button {
-          }
-          .btn_cancel {
-          }
-        }
       }
       .form_container {
         .form_group_1_1 {
@@ -193,6 +154,18 @@
           }
         }
       }
+    }
+  }
+}
+
+// 移动端（0–779）：操作按钮纵向堆叠、每个独占一行铺满
+@media screen and (max-width: 779px) {
+  .container .modal .modal_content .btn_container {
+    flex-direction: column;
+
+    .action_btn {
+      max-width: none;
+      width: 100%;
     }
   }
 }

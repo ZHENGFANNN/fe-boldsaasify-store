@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Button from "@/components/Button";
 import { defaultLocale } from "@/config/languageSettings";
 import Api from "../../api";
 import styles from "./index.module.scss";
@@ -176,19 +177,21 @@ export default function DeleteAccountModal({
         </div>
 
         <div className={styles.btn_container}>
-          <div className={styles.btn_cancel} onClick={close}>
+          <Button
+            variant="secondary"
+            className={styles.action_btn}
+            onClick={close}
+          >
             {LANG["user_account.account_info.close"]}
-          </div>
-          <button
-            type="button"
-            className={styles.btn_danger}
-            disabled={submitting}
+          </Button>
+          <Button
+            variant="primary"
+            className={styles.action_btn}
+            loading={submitting}
             onClick={handleConfirm}
           >
-            {submitting
-              ? "..."
-              : t("user_account.delete_account.confirm", "Delete account")}
-          </button>
+            {t("user_account.delete_account.confirm", "Delete account")}
+          </Button>
         </div>
       </div>
     </div>
