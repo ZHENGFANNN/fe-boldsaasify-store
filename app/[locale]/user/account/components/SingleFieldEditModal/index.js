@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
+import Button from "@/components/Button";
 import styles from "./index.module.scss";
 
 // 单字段编辑弹窗：视觉沿用 EditPasswordForm 的 modal 骨架，只暴露一个 input。
@@ -68,18 +69,19 @@ export default function SingleFieldEditModal({
             {errors.field?.message ? <p>{errors.field.message}</p> : null}
           </div>
           <div className={styles.btn_container}>
-            <div
-              className={styles.btn_cancel}
+            <Button
+              variant="secondary"
+              className={styles.action_btn}
               onClick={() => {
                 reset({ field: defaultValue });
                 onClose?.();
               }}
             >
               {LANG["user_account.account_info.close"]}
-            </div>
-            <button type="submit" className={styles.btn_confirm}>
+            </Button>
+            <Button type="submit" variant="primary" className={styles.action_btn}>
               {LANG["user_account.account_info.confirm"]}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

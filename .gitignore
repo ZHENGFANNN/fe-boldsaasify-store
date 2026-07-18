@@ -46,3 +46,6 @@ cloudflare-env.d.ts
 *.tsbuildinfo
 next-env.d.ts
 
+
+# 本项目用 yarn，禁用 npm 锁文件（避免 CF 探测成 npm）
+package-lock.json

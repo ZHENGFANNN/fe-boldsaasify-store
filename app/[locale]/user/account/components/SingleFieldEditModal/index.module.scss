@@ -80,50 +80,28 @@
       }
     }
   }
+  // 统一按钮规范：公共 Button；PC 横排、每个 max-width 160px；
+  // align-items:center 让按钮按自身 48px 高度显示（不被 stretch 压塌）。
   .btn_container {
     margin-top: 20px;
     display: flex;
+    gap: 12px;
     width: 100%;
+    align-items: center;
     justify-content: flex-end;
 
-    .btn_cancel,
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 10px;
-      color: #fff;
-      background-color: #3c3e40;
-      font-size: 14px;
-      min-width: 120px;
-
-      border-radius: 8px;
-      cursor: pointer;
-
-      transition: all 400ms;
-
-      border: 0;
-      outline: none;
-      &:hover {
-        opacity: 0.8;
-      }
-      &:active {
-        opacity: 1;
-        background: #000;
-      }
+    .action_btn {
+      flex: 1;
+      max-width: 160px;
     }
-    .btn_cancel {
-      margin-right: 12px;
-      background: #edeff2;
-      color: #000;
-      opacity: 1;
-      &:hover {
-        opacity: 1;
-        background: #f8f9fc;
-      }
-      &:active {
-        background: #e1e3e6;
+
+    // <780px：纵向堆叠并反转，confirm(primary，DOM 第二个)排在上方引导点击。
+    @media screen and (max-width: 779px) {
+      flex-direction: column-reverse;
+
+      .action_btn {
+        max-width: none;
+        width: 100%;
       }
     }
   }

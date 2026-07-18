@@ -79,11 +79,12 @@
         margin-top: 16px;
         display: flex;
         width: 100%;
+        align-items: center;
         justify-content: flex-end;
         gap: 12px;
 
         // 视觉由公共 Button 组件承担；此处只控制布局：
-        // PC 端按钮横向排列、每个 max-width 160px
+        // PC 端按钮横向排列、每个 max-width 160px（align-items:center 撑起 48px 高）
         .modal_action_btn {
           flex: 1;
           max-width: 160px;
@@ -138,9 +139,9 @@
     .modal {
       .modal_content {
         padding: 32px 16px 24px;
-        // 移动端：每个按钮独占一行、100% 宽
+        // 移动端：每个按钮独占一行、100% 宽、反转（confirm 在上）
         .btn_container {
-          flex-direction: column;
+          flex-direction: column-reverse;
           .modal_action_btn {
             flex: none;
             max-width: none;
@@ -160,6 +161,19 @@
           }
         }
       }
+    }
+  }
+}
+
+// <780px：地址弹窗按钮纵向堆叠并反转（confirm(primary，DOM 第二个) 在上引导点击），与其它弹窗一致。
+@media screen and (max-width: 779px) {
+  .container .modal .modal_content .btn_container {
+    flex-direction: column-reverse;
+
+    .modal_action_btn {
+      flex: none;
+      max-width: none;
+      width: 100%;
     }
   }
 }

@@ -82,6 +82,7 @@
         display: flex;
         gap: 12px;
         width: 100%;
+        align-items: center;
         justify-content: flex-end;
 
         .action_btn {
@@ -158,10 +159,10 @@
   }
 }
 
-// 移动端（0–779）：操作按钮纵向堆叠、每个独占一行铺满
+// 移动端（0–779）：操作按钮纵向堆叠并反转，confirm(primary，DOM 第二个)排在上方引导点击。
 @media screen and (max-width: 779px) {
   .container .modal .modal_content .btn_container {
-    flex-direction: column;
+    flex-direction: column-reverse;
 
     .action_btn {
       max-width: none;
