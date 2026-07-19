@@ -12,7 +12,7 @@
     "build": "next build --webpack",
     "cf-build": "opennextjs-cloudflare build",
     "cf-preview": "opennextjs-cloudflare preview",
-    "cf-deploy": "opennextjs-cloudflare deploy -- --keep-vars",
+    "cf-deploy": "wrangler deploy --keep-vars",
     "preview": "yarn fetch-prod && yarn cf-build && yarn cf-preview",
     "deploy": "yarn fetch-prod && yarn cf-build && yarn cf-deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
