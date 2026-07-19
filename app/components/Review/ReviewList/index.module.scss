@@ -1,0 +1,32 @@
+.list {
+  width: 100%;
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  padding: 24px 0;
+
+  .error_text {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.45);
+    margin-bottom: 16px;
+  }
+  .retry {
+    padding: 10px 24px;
+    border-radius: 64px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.65);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 200ms;
+    &:hover {
+      border-color: #534040;
+      color: #534040;
+    }
+  }
+}

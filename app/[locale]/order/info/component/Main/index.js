@@ -16,6 +16,7 @@ import Loading from "@/components/Loading";
 import Button from "@/components/Button";
 import CustomizeFileLink from "@/components/CustomizeFileLink";
 import AuthRedirectGuard from "@/components/Auth/AuthRedirectGuard";
+import ReviewModal from "../ReviewModal";
 import { formatCurrency, formatDateTime } from "@/utils";
 import { defaultLocale } from "@/config/languageSettings";
 import { getChannelMessage } from "@/config/paySettings";
@@ -49,6 +50,10 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
           productPrice,
           options,
           image,
+          // 评论用主键：匹配 getReviewStatus(product_key) + 构造 submitReview 入参。
+          productKey,
+          sortKey,
+          comboKey,
         } = item;
         return {
           name,
@@ -60,6 +65,9 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
           productPrice,
           options,
           image,
+          productKey,
+          sortKey,
+          comboKey,
           customize_data: Array.isArray(item.customize_data)
             ? item.customize_data
             : [],
@@ -326,6 +334,67 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
     if (!repayClientSecret) return null;
     return { clientSecret: repayClientSecret, returnUrl: repayReturnUrl };
   }, [repayClientSecret, repayReturnUrl]);
+
+  // ---- 评论：仅已完成订单拉取每商品评论状态，底部渲染「评论 / 已评价」 ----
+  // reviewStatus: [{ product_key, reviewed, can_review }]（按 product_key）
+  const [reviewStatus, setReviewStatus] = React.useState([]);
+  // 当前正在评论的商品（打开弹窗）；null 关闭。
+  const [reviewTarget, setReviewTarget] = React.useState(null);
+
+  const fetchReviewStatus = React.useCallback(async () => {
+    if (!order?.order_number) return;
+    try {
+      const res = await Api.getReviewStatus(order.order_number);
+      if (res.code === 0) {
+        const data = Array.isArray(res.data) ? res.data : res.data?.list ?? [];
+        setReviewStatus(data);
+      }
+    } catch {
+      // 静默：拉取失败不影响订单详情主体展示。
+    }
+  }, [order?.order_number]);
+
+  React.useEffect(() => {
+    if (order?.order_status === "completed") {
+      // 已完成订单进入即拉评论状态；setState 属预期同步，豁免该规则。
+      /* eslint-disable-next-line react-hooks/set-state-in-effect */
+      fetchReviewStatus();
+    }
+  }, [order?.order_status, fetchReviewStatus]);
+
+  // 可评/已评商品：按 product_key 去重，映射到订单行以取图片/名称/主键。
+  const reviewableProducts = React.useMemo(() => {
+    if (order?.order_status !== "completed") return [];
+    if (!Array.isArray(reviewStatus) || reviewStatus.length < 1) return [];
+    const seen = new Set();
+    const out = [];
+    for (const st of reviewStatus) {
+      const key = st?.product_key;
+      if (!key || seen.has(key)) continue;
+      if (!st.can_review && !st.reviewed) continue; // 不可评且未评：不展示
+      const item = (order.order_list || []).find((g) => g.productKey === key);
+      if (!item) continue;
+      seen.add(key);
+      out.push({ product_key: key, reviewed: !!st.reviewed, item });
+    }
+    return out;
+  }, [order, reviewStatus]);
+
+  const handleReviewSuccess = React.useCallback(
+    (productKey) => {
+      setReviewTarget(null);
+      // 乐观置为已评，再拉一次以后端为准。
+      setReviewStatus((prev) =>
+        prev.map((s) =>
+          s.product_key === productKey
+            ? { ...s, reviewed: true, can_review: false }
+            : s
+        )
+      );
+      fetchReviewStatus();
+    },
+    [fetchReviewStatus]
+  );
 
   return (
     <div className={styles.container}>
@@ -982,6 +1051,74 @@ export default function Main({ secret, locale, area, LANG, CONFIG }) {
                 </Button>
               </div>
             ) : null}
+
+            {/* 已完成订单：底部逐商品评论入口（can_review 可评，reviewed 已评禁用）。 */}
+            {order.order_status === "completed" &&
+            reviewableProducts.length > 0 ? (
+              <div className={styles.review_section}>
+                <h4 className={styles.review_title}>
+                  {LANG["store.order_info.review_title"] ||
+                    "Reviews"}
+                </h4>
+                <div className={styles.review_list}>
+                  {reviewableProducts.map(({ product_key, reviewed, item }) => (
+                    <div key={product_key} className={styles.review_item}>
+                      <div className={styles.review_product}>
+                        {item.image ? (
+                          <div className={styles.review_thumb}>
+                            <img src={item.image} alt={item.name || ""} />
+                          </div>
+                        ) : null}
+                        <div className={styles.review_meta}>
+                          <div className={styles.review_name}>{item.name}</div>
+                          {item.comboName ? (
+                            <div className={styles.review_combo}>
+                              {item.comboName}
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                      {reviewed ? (
+                        <button
+                          type="button"
+                          className={styles.reviewed_btn}
+                          disabled
+                        >
+                          {LANG["store.order_info.reviewed"] || "Reviewed"}
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className={styles.write_review_btn}
+                          onClick={() =>
+                            setReviewTarget({
+                              productKey: item.productKey,
+                              sortKey: item.sortKey,
+                              comboKey: item.comboKey,
+                              name: item.name,
+                              comboName: item.comboName,
+                              image: item.image,
+                            })
+                          }
+                        >
+                          {LANG["store.order_info.write_review"] ||
+                            "Write a review"}
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            <ReviewModal
+              open={!!reviewTarget}
+              product={reviewTarget}
+              orderNumber={order.order_number}
+              LANG={LANG}
+              onClose={() => setReviewTarget(null)}
+              onSuccess={handleReviewSuccess}
+            />
           </div>
         </>
       )}

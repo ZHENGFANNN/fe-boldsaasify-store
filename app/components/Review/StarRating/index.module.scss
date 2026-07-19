@@ -1,0 +1,50 @@
+.stars {
+  position: relative;
+  user-select: none;
+  flex-shrink: 0;
+
+  .base,
+  .fill_inner {
+    display: flex;
+    align-items: center;
+    svg {
+      display: block;
+      flex-shrink: 0;
+    }
+  }
+  .base {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  .star_btn {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      display: block;
+      transition: transform 120ms ease;
+    }
+    &:hover svg {
+      transform: scale(1.12);
+    }
+  }
+}

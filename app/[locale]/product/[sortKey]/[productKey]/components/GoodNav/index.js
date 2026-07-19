@@ -34,12 +34,11 @@ export default function GoodNav() {
       title: LANG["store.product.nav.faq"],
       href: "#product_faq",
     });
-    if (Array.isArray(productInfo.reviewsList) && productInfo.reviewsList.length > 0) {
-      navList.push({
-        title: LANG["store.product.nav.reviews"],
-        href: "#product_reviews",
-      });
-    }
+    // 评论区改为运行时按需拉取、区块恒常渲染，导航锚点始终展示。
+    navList.push({
+      title: LANG["store.product.nav.reviews"],
+      href: "#product_reviews",
+    });
     return navList;
   }, []);
   React.useEffect(() => {

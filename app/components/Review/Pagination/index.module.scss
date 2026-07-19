@@ -1,0 +1,67 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+  user-select: none;
+
+  .page,
+  .arrow {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e2e6;
+    border-radius: 8px;
+    background: #fff;
+    color: #534040;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 180ms;
+    &:hover:not(:disabled) {
+      border-color: #534040;
+    }
+  }
+
+  .arrow {
+    font-size: 18px;
+    line-height: 1;
+    &:disabled {
+      color: rgba(0, 0, 0, 0.25);
+      cursor: not-allowed;
+      background: #f7f7f8;
+    }
+  }
+
+  .active {
+    background: #534040;
+    border-color: #534040;
+    color: #fff;
+    &:hover {
+      border-color: #534040;
+    }
+  }
+
+  .ellipsis {
+    min-width: 24px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 779px) {
+  .pagination {
+    gap: 6px;
+    .page,
+    .arrow {
+      min-width: 32px;
+      height: 32px;
+      font-size: 13px;
+    }
+  }
+}

@@ -1,278 +1,189 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import ProductContext from "../../ProductContext";
+import Api from "../../api";
 import styles from "./index.module.scss";
 
-import { lazyLoadImages } from "../../../../../../utils/optimization";
-import VideoModal from "../../../../../../components/Modal/VideoModal";
-import ImageModal from "../../../../../../components/Modal/ImageModal";
-import DropSelect from "../../../../../../components/DropSelect";
-import Empyt from "../../../../../../components/Empyt";
-import { StarIcon, StarActiveIcon } from "@/components/Icon";
+import DropSelect from "@/components/DropSelect";
+import { ReviewList, Pagination } from "@/components/Review";
+import readClientArea from "@/utils/readClientArea";
+import { defaultLocale } from "@/config/languageSettings";
 
-function ReviewRate({ scoreRate = 1 }) {
-  return (
-    <div className={styles.stars_container}>
-      <div className={styles.no_active_stars}>
-        <StarIcon />
-        <StarIcon />
-        <StarIcon />
-        <StarIcon />
-        <StarIcon />
-      </div>
-      <div
-        className={styles.active_stars}
-        style={{
-          width: 130 * scoreRate,
-        }}
-      >
-        <StarActiveIcon />
-        <StarActiveIcon />
-        <StarActiveIcon />
-        <StarActiveIcon />
-        <StarActiveIcon />
-      </div>
-    </div>
-  );
-}
+const PAGE_SIZE = 10;
 
-function LoadingReviews({ reviewsList, score }) {
-  const safeReviewsList = Array.isArray(reviewsList) ? reviewsList : [];
-  const [scoreList, setScoreList] = React.useState(safeReviewsList);
-  const [page, setPage] = React.useState(1);
-
-  const scoreMap = React.useMemo(() => {
-    const map = {
-      5: {
-        num: 0,
-        list: [],
-      },
-      4: {
-        num: 0,
-        list: [],
-      },
-      3: {
-        num: 0,
-        list: [],
-      },
-      2: {
-        num: 0,
-        list: [],
-      },
-      1: {
-        num: 0,
-        list: [],
-      },
-    };
-    safeReviewsList.forEach((item) => {
-      map[item.score].num = map[item.score].num + 1;
-      map[item.score].push = map[item.score].list.push(item);
-    });
-    return map;
-  }, [safeReviewsList]);
-
-  const totalScore = React.useMemo(() => {
-    return safeReviewsList.reduce((pre, cur) => {
-      return pre + cur.score;
-    }, 0);
-  }, [safeReviewsList]);
-
-  const scoreRate = React.useMemo(() => {
-    if (safeReviewsList.length < 1) return 0;
-    return totalScore / safeReviewsList.length / 5;
-  }, [safeReviewsList, totalScore]);
-
-  const averageScore = React.useMemo(() => {
-    if (safeReviewsList.length < 1) return "0.0";
-    return (totalScore / safeReviewsList.length).toFixed(1);
-  }, [safeReviewsList, totalScore]);
-
-  React.useEffect(() => {
-    setPage(1);
-    if (score === "all") {
-      setScoreList(safeReviewsList);
-    } else {
-      setScoreList(scoreMap[score].list);
-    }
-  }, [score, scoreMap, safeReviewsList]);
-
-  return { scoreRate, averageScore, scoreMap, scoreList, page, setPage };
-}
-
+// 商品详情页评论模块。
+// 懒加载：评论不参与首屏，section 滚动进入视口（IntersectionObserver）后才客户端拉取；
+// 分页：pageSize=10，行业标准页码分页；
+// 「写评论」按钮跳转「我的账号 → 订单列表」（带 locale 前缀），从订单去评价。
 export default function GoodReviewsContent() {
-  const {
-    LANG,
-    productInfo: { reviewsList },
-  } = React.useContext(ProductContext);
+  const { LANG, locale, productKey } = React.useContext(ProductContext);
 
-  const [value, setValue] = React.useState("all");
-  const { scoreRate, averageScore, scoreMap, scoreList, page, setPage } =
-    LoadingReviews({
-      reviewsList,
-      score: value,
-    });
-  const { lazyLoading } = React.useContext(ProductContext);
+  const sectionRef = React.useRef(null);
+  const area = React.useMemo(() => readClientArea(), []);
 
-  const starsList = React.useMemo(() => {
-    return [
-      { label: LANG["store.product.all"], value: "all" },
-      { label: LANG["store.product.stars"]?.replace("${num}", 5), value: "5" },
-      { label: LANG["store.product.stars"]?.replace("${num}", 4), value: "4" },
-      { label: LANG["store.product.stars"]?.replace("${num}", 3), value: "3" },
-      { label: LANG["store.product.stars"]?.replace("${num}", 2), value: "2" },
-      { label: LANG["store.product.stars"]?.replace("${num}", 1), value: "1" },
-    ];
-  }, [LANG]);
+  const [inViewed, setInViewed] = React.useState(false);
+  const [list, setList] = React.useState([]);
+  const [total, setTotal] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [current, setCurrent] = React.useState(1);
+  const [sortOrder, setSortOrder] = React.useState("latest");
+  const [reloadFlag, setReloadFlag] = React.useState(0);
 
+  const localeHref = React.useCallback(
+    (path) => (locale && locale !== defaultLocale ? `/${locale}${path}` : path),
+    [locale]
+  );
+
+  const sortOptions = React.useMemo(
+    () => [
+      {
+        label: LANG["store.product.review_sort_latest"] || "Latest",
+        value: "latest",
+      },
+      {
+        label: LANG["store.product.review_sort_highest"] || "Highest rating",
+        value: "rating_desc",
+      },
+      {
+        label: LANG["store.product.review_sort_lowest"] || "Lowest rating",
+        value: "rating_asc",
+      },
+    ],
+    [LANG]
+  );
+
+  // 懒加载触发：滚动进入视口（提前 200px）后置 inViewed，首拉随即发生，且只触发一次。
   React.useEffect(() => {
-    if (!lazyLoading) {
-      const cleanLazy = lazyLoadImages($(`.${styles.reviews}`));
-      return () => cleanLazy();
+    if (inViewed) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setInViewed(true);
+      return;
     }
-  }, [lazyLoading, scoreList]);
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setInViewed(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [inViewed]);
 
-  if (!Array.isArray(reviewsList) || reviewsList.length < 1) return null;
+  // 拉取当前页评论：inViewed 后按 (排序, 页码) 拉取；换排序/页码/重试均触发。
+  React.useEffect(() => {
+    if (!inViewed || !productKey) return;
+    let cancelled = false;
+    setLoading(true);
+    setError(false);
+    Api.getProductReviews({
+      productKey,
+      sortKey: sortOrder,
+      current,
+      pageSize: PAGE_SIZE,
+    })
+      .then((res) => {
+        if (cancelled) return;
+        if (res?.code !== 0) throw new Error("load reviews failed");
+        const data = res.data || {};
+        setList(Array.isArray(data.list) ? data.list : []);
+        setTotal(Number(data.total) || 0);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setList([]);
+        setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [inViewed, productKey, sortOrder, current, reloadFlag]);
+
+  const handleSortChange = React.useCallback((value) => {
+    setSortOrder(value);
+    setCurrent(1);
+  }, []);
+
+  const handlePageChange = React.useCallback((page) => {
+    setCurrent(page);
+    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  const titleText =
+    total > 0
+      ? LANG["store.product.reviews"]?.replace("${num}", total)
+      : LANG["store.product.nav.reviews"] || "Reviews";
+
   return (
-    <section className={styles.reviews} id="product_reviews">
+    <section
+      ref={sectionRef}
+      className={styles.reviews}
+      id="product_reviews"
+      data-role="product-reviews"
+    >
       <div className={styles.reviews_container}>
-        <div className={styles.review_top}>
-          <div className={styles.reviews_total}>
-            <div className={styles.reviews_score}>{averageScore}</div>
-            <ReviewRate scoreRate={scoreRate} />
-            <div className={styles.reviews_text}>
-              {LANG["store.product.reviews"]?.replace(
-                "${num}",
-                reviewsList.length
-              )}
+        <div className={styles.header}>
+          <div className={styles.title}>{titleText}</div>
+          <div className={styles.actions}>
+            <div className={styles.sort}>
+              <span className={styles.sort_tip}>
+                {LANG["store.product.filter"] || "Sort"}
+              </span>
+              <DropSelect
+                zIndex={9}
+                position="bottom"
+                tanslatefromX={16}
+                selectValue={handleSortChange}
+                options={sortOptions}
+              >
+                <div className={styles.sort_label}>
+                  {sortOptions.find((o) => o.value === sortOrder)?.label}
+                </div>
+              </DropSelect>
             </div>
-          </div>
-          <div className={styles.reviews_detail}>
-            <div className={styles.reviews_detail_list}>
-              {Object.keys(scoreMap)
-                .map((key, index) => {
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => setValue(key)}
-                      className={styles.reviews_detail_list_item}
-                    >
-                      <StarActiveIcon />
-                      <span>
-                        {LANG["store.product.stars"]?.replace("${num}", key)}
-                      </span>
-                      <div className={styles.line_container}>
-                        <div className={styles.un_active_line}></div>
-                        <div
-                          style={{
-                            width: `${
-                              (scoreMap[key].list.length / reviewsList.length) *
-                              100
-                            }%`,
-                          }}
-                          className={styles.active_line}
-                        ></div>
-                      </div>
-                      <span>{scoreMap[key].list.length}</span>
-                    </div>
-                  );
-                })
-                .sort((a, b) => b.key - a.key)}
-            </div>
+            <Link
+              href={localeHref("/user/account/order")}
+              prefetch={false}
+              className={styles.write_btn}
+            >
+              {LANG["store.product.write_review"] || "Write a Review"}
+            </Link>
           </div>
         </div>
-        <div className={styles.review_bottom}>
-          <div className={styles.reviews_header}>
-            <div className={styles.reviews_header_num}>
-              {LANG["store.product.reviews"]?.replace(
-                "${num}",
-                scoreMap[value]?.list.length || reviewsList.length
-              )}
-            </div>
-            <div className={styles.reviews_header_select}>
-              <div className={styles.review_header_select_item}>
-                <div className={styles.review_header_select_item_tip}>
-                  {LANG["store.product.filter"]}
-                </div>
-                <DropSelect
-                  zIndex={9}
-                  position="bottom"
-                  tanslatefromX={16}
-                  selectValue={(value) => setValue(value)}
-                  options={starsList}
-                >
-                  <div className={styles.review_header_select_item_label}>
-                    {starsList.find((item) => item.value === value)?.label}
-                  </div>
-                </DropSelect>
-              </div>
-            </div>
-          </div>
-          {scoreList.length > 0 ? (
+
+        <div className={styles.body}>
+          {inViewed ? (
             <>
-              <div className={styles.reviews_list}>
-                {scoreList.map((item, index) => {
-                  return (
-                    <div
-                      style={{
-                        display: index + 1 <= page * 5 ? "flex" : "none",
-                      }}
-                      className={styles.reviews_list_item}
-                      key={index}
-                    >
-                      <div className={styles.reviews_user_info}>
-                        <div className={styles.reviews_user_name}>
-                          {item.name}
-                        </div>
-                        <div className={styles.review_rate_container}>
-                          <ReviewRate scoreRate={item.score / 5} />
-                        </div>
-                      </div>
-                      <div className={styles.reviews_content}>
-                        <div className={styles.reviews_content_description}>
-                          {item.comment}
-                        </div>
-                        {item.type === "image" ? (
-                          <div className={styles.reviews_content_media}>
-                            <ImageModal
-                              alt={item.comment}
-                              lazyLoading={lazyLoading}
-                              src={item.image}
-                            />
-                          </div>
-                        ) : null}
-                        {item.type === "video" ? (
-                          <div className={styles.reviews_content_media}>
-                            <VideoModal
-                              lazyLoading={lazyLoading}
-                              poster={item.image}
-                              alt={item.comment}
-                              src={item.video}
-                            />
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              {page * 5 < scoreList.length ? (
-                <div className={styles.load_more_container}>
-                  <div
-                    className={styles.load_more}
-                    onClick={() => {
-                      setPage((state) => state + 1);
-                    }}
-                  >
-                    {LANG["store.product.load_more"]}
-                  </div>
-                </div>
+              <ReviewList
+                list={list}
+                LANG={LANG}
+                locale={locale}
+                area={area}
+                loading={loading}
+                error={error}
+                onRetry={() => setReloadFlag((f) => f + 1)}
+              />
+              {!loading && !error ? (
+                <Pagination
+                  current={current}
+                  total={total}
+                  pageSize={PAGE_SIZE}
+                  onChange={handlePageChange}
+                />
               ) : null}
             </>
           ) : (
-            <div className={styles.empyt}>
-              <Empyt />
-            </div>
+            <div className={styles.placeholder} />
           )}
         </div>
       </div>
