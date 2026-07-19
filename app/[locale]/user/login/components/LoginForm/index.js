@@ -56,18 +56,17 @@ export default function LoginForm({ LANG }) {
             text: LANG["user_login.login_success"],
             type: "success",
           });
-          setTimeout(() => {
-            if (redirect) {
-              // TODO： 恶心操作 - url末尾自带 /
-              const path = redirect.endsWith("/")
-                ? redirect.slice(0, -1)
-                : redirect;
-              location.href = path;
-            } else {
-              location.href = "/user/account";
-            }
-          }, 500);
           reset();
+          // 登录成功后直接跳转，去掉原 500ms 延迟（消除跳转前的卡顿感）。
+          if (redirect) {
+            // TODO： 恶心操作 - url末尾自带 /
+            const path = redirect.endsWith("/")
+              ? redirect.slice(0, -1)
+              : redirect;
+            location.href = path;
+          } else {
+            location.href = "/user/account";
+          }
         } else if (data.code === -1) {
           setLoading(false);
           tipRef.current.show({

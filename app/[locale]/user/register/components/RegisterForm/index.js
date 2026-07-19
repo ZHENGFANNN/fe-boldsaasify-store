@@ -123,17 +123,16 @@ export default function RegisterForm({ LANG }) {
         });
         reset();
         setCountdown(0);
-        setTimeout(() => {
-          if (redirect) {
-            // TODO： 恶心操作 - url末尾自带 /
-            const path = redirect.endsWith("/")
-              ? redirect.slice(0, -1)
-              : redirect;
-            location.href = path;
-          } else {
-            router.push("/user/login");
-          }
-        }, 500);
+        // 注册成功后直接跳转，去掉原 500ms 延迟（消除跳转前的卡顿感）。
+        if (redirect) {
+          // TODO： 恶心操作 - url末尾自带 /
+          const path = redirect.endsWith("/")
+            ? redirect.slice(0, -1)
+            : redirect;
+          location.href = path;
+        } else {
+          router.push("/user/login");
+        }
       } else {
         setLoading(false);
         tipRef.current.show({

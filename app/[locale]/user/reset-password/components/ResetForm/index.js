@@ -52,7 +52,8 @@ export default function ResetForm({ LANG }) {
         type: "success",
       });
       reset();
-      setTimeout(() => router.push("/user/login"), 1200);
+      // 重置成功后直接跳转，去掉原 1200ms 延迟（消除跳转前的卡顿感）。
+      router.push("/user/login");
     } catch {
       tipRef.current.show({
         text:

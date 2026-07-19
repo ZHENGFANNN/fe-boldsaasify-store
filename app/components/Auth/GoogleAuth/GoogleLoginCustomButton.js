@@ -56,9 +56,8 @@ export default function GoogleLoginCustomButton({
           redirect && redirect.endsWith("/")
             ? redirect.slice(0, -1)
             : redirect;
-        setTimeout(() => {
-          location.href = target || redirectTo || "/user/account";
-        }, 500);
+        // 登录成功后直接跳转，去掉原 500ms 延迟（消除跳转前的卡顿感）。
+        location.href = target || redirectTo || "/user/account";
       } else {
         onError && onError();
       }
