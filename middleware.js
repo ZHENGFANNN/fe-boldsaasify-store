@@ -136,11 +136,22 @@ export async function middleware(request) {
     ...(secure ? { secure: true } : {})
   };
 
-  // 只有值来自「显式来源」时才回写 cookie；纯 Accept-Language/默认兜底不写——否则一次无 cookie
-  // 的请求（WebView 退后台后常见）会把浏览器语言猜测写死，把「cookie 一时丢失」放大成
-  // 「永久切成中文/中国区」。首访语言仍由兜底渲染，待进入带 locale 前缀的 URL 后自然落盘。
-  if (localeExplicit) returnOptions.cookies.set("locale", locale, cookieOpts);
-  if (areaExplicit) returnOptions.cookies.set("area", area, cookieOpts);
+  // 关键：只在 cookie 值「实际变化」时才 Set-Cookie。
+  //
+  // Next.js App Router 的坑：middleware 在每个请求(含 RSC 软跳/预取)都写 Set-Cookie，会让
+  // 客户端把该导航响应视为「有副作用/动态」→ 首次客户端导航退化成整页硬跳(MPA 导航)——
+  // 表现为「点一下刷新、第二次才软跳」，且站内几乎所有跳转普遍中招。稳定用户值未变则不写，
+  // 响应无 Set-Cookie 可被路由缓存复用 → 软跳恢复正常。
+  //
+  // 同时保留两条既有约束：① 仅显式来源(URL/路径/已有 cookie)才写，纯 Accept-Language/默认
+  // 兜底不写，避免把浏览器语言猜测写死(退后台丢 cookie → 永久切中文的放大器)；② 首访语言
+  // 仍由兜底渲染，待进入带 locale 前缀的 URL 后自然落盘。
+  if (localeExplicit && locale !== cookieLocale) {
+    returnOptions.cookies.set("locale", locale, cookieOpts);
+  }
+  if (areaExplicit && area !== cookieArea) {
+    returnOptions.cookies.set("area", area, cookieOpts);
+  }
 
   const curLocale =
     returnOptions.headers.get("x-next-i18n-router-locale") || defaultLocale;
