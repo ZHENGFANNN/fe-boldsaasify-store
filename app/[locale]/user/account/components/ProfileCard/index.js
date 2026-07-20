@@ -103,13 +103,23 @@ export default function ProfileCard({ LANG, locale }) {
           setUserInfo(result.data || {});
           return;
         }
-        // 服务端判失效(invalid) 或 连续网络/超时后仍失败(error):
-        // 清 token cookie 并整页刷新;刷新后 AuthGateContext 读不到 cookie,
-        // AuthBoundary 自动换成登录守卫,不会回到当前空壳 UI。
-        Cookies.remove("token");
-        if (typeof window !== "undefined") {
-          window.location.reload();
+        if (result.status === "invalid") {
+          // 服务端明确判定登录态失效(token 过期/session 失效)：清 token + 派发全局事件，
+          // AuthGateProvider 翻 authed=false → AuthBoundary 就地换成登录守卫(AuthRedirectGuard)。
+          // 不再 window.location.reload()——整页刷新正是「点我的账号信息页面被刷新」的来源，
+          // 事件驱动可无刷新地切到登录组件（与 axios 拦截器 10014 同款处理）。
+          Cookies.remove("token");
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("auth:session-expired"));
+          }
+          return;
         }
+        // status === "error"：网络/超时等瞬时错误 —— 按 verifyLogin 契约保留 token、不登出，
+        // 仅提示稍后重试，避免把已登录用户误踢成游客(旧代码在此也清 token+刷新是隐患)。
+        showTip({
+          text: t("common.other.load_failed", "Failed to load. Please try again."),
+          type: "error",
+        });
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -117,6 +127,8 @@ export default function ProfileCard({ LANG, locale }) {
     return () => {
       cancelled = true;
     };
+    // 仅首屏拉一次；showTip/t 为稳定引用，无需进依赖。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveField = React.useCallback(
