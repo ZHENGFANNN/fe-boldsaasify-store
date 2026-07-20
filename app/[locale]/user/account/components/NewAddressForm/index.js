@@ -185,9 +185,13 @@ export default function NewAddressForm({
       {/* 受控（编辑）模式不渲染新增按钮 */}
       {controlled ? null : (
         <div className={styles.main_btn}>
-          <button onClick={() => setInternalShow(true)}>
+          <Button
+            variant="primary"
+            size="small"
+            onClick={() => setInternalShow(true)}
+          >
             {LANG["user_account.shipping_address.create_address"]}
-          </button>
+          </Button>
         </div>
       )}
       <div className={`${styles.modal} ${show ? styles.show : ""}`}>

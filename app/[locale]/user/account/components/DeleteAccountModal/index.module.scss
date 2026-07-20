@@ -96,24 +96,6 @@
       .send_btn {
         flex-shrink: 0;
         min-width: 108px;
-        height: 40px;
-        padding: 0 12px;
-        border: 1px solid #e1e3e6;
-        border-radius: 4px;
-        background: #f8f9fc;
-        color: #16181b;
-        font-size: 13px;
-        cursor: pointer;
-        transition: all 300ms;
-
-        &:hover:not(:disabled) {
-          background: #edeff2;
-        }
-
-        &:disabled {
-          color: rgba(0, 0, 0, 0.35);
-          cursor: not-allowed;
-        }
       }
     }
 

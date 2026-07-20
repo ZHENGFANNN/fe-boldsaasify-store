@@ -106,9 +106,13 @@ export default function NewAddressForm({ LANG, onFinish }) {
   return (
     <div className={styles.container}>
       <div className={styles.main_btn}>
-        <button onClick={() => setShow(true)}>
+        <Button
+          variant="primary"
+          size="small"
+          onClick={() => setShow(true)}
+        >
           {LANG["user_account.shipping_address.create_address"]}
-        </button>
+        </Button>
       </div>
       <div className={`${styles.modal} ${show ? styles.show : ""}`}>
         <div className={styles.modal_content}>

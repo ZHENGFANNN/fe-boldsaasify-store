@@ -160,18 +160,18 @@ export default function DeleteAccountModal({
               onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
               placeholder={t("user_account.delete_account.code_ph", "6-digit code")}
             />
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              size="small"
               className={styles.send_btn}
-              disabled={sending || cooldown > 0}
+              disabled={cooldown > 0}
+              loading={sending}
               onClick={handleSend}
             >
               {cooldown > 0
                 ? `${cooldown}s`
-                : sending
-                ? t("common.sending", "Sending...")
                 : t("user_account.delete_account.send_code", "Send code")}
-            </button>
+            </Button>
           </div>
           {err ? <p className={styles.err}>{err}</p> : null}
         </div>
