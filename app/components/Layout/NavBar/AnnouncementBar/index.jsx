@@ -13,7 +13,7 @@ export default function AnnouncementBar() {
 
   React.useEffect(() => {
     const $textListDom = textListRef.current;
-    if (activeIndex === bannerList.length && $textListDom) {
+    if (bannerList && activeIndex === bannerList.length && $textListDom) {
       setTimeout(() => {
         const $activeTextDom = $textListDom.querySelector(
           "[data-active='true']"

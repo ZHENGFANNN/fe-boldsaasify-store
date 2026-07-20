@@ -13,6 +13,11 @@ const instance = axios.create({
   timeout: 30000,
   withCredentials: false,
   proxy: false,
+  // 多站点：品牌分支用 NEXT_PUBLIC_SITE_ID 声明站点，fetch-prod 构建期也要带 X-Site-Id 让后端按站切库。
+  // 未设置时不带（主站按域名解析，行为不变）。
+  headers: process.env.NEXT_PUBLIC_SITE_ID
+    ? { "X-Site-Id": process.env.NEXT_PUBLIC_SITE_ID }
+    : {},
 });
 
 /**

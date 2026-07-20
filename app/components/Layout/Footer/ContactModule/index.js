@@ -67,12 +67,14 @@ export default function ContactModule() {
                       data-event="FooterSocialMedia"
                       data-ev-alt={item.alt}
                     >
-                      <img
-                        alt={item.alt}
-                        width={24}
-                        height={24}
-                        src={item.src}
-                      />
+                      {item.src ? (
+                        <img
+                          alt={item.alt}
+                          width={24}
+                          height={24}
+                          src={item.src}
+                        />
+                      ) : null}
                     </a>
                   ) : null}
                 </div>

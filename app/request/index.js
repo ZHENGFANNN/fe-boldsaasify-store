@@ -18,6 +18,12 @@ const instance = axios.create({
  * 否则登录后所有需要登录态的接口（tokenLogin / 地址 / 订单）都会被当成游客。
  */
 instance.interceptors.request.use((config) => {
+  // 多站点：品牌分支用 NEXT_PUBLIC_SITE_ID 声明自己是哪个站，注入 X-Site-Id 让后端按站切库。
+  // 未设置时不注入（主站按域名解析，行为不变）。SSR + 浏览器两侧都要带。
+  if (process.env.NEXT_PUBLIC_SITE_ID) {
+    config.headers = config.headers || {};
+    config.headers["X-Site-Id"] = process.env.NEXT_PUBLIC_SITE_ID;
+  }
   if (typeof window !== "undefined") {
     const token = Cookies.get("token");
     if (token) {
