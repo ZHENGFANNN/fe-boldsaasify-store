@@ -12,14 +12,9 @@ import {
   defaultLocale,
   locales
 } from "./app/config/languageSettings";
-import {
-  resolveArea,
-  defaultArea,
-  supportedAreas
-} from "./app/config/marketSettings";
+import { resolveArea, defaultArea } from "./app/config/marketSettings";
 
 import qs from "qs";
-import parser from "accept-language-parser";
 import { NextResponse } from "next/server";
 
 function getUrlParams(request) {
@@ -27,32 +22,6 @@ function getUrlParams(request) {
   if (!search) return {};
   const { area_code, language_code } = qs.parse(search);
   return { area_code, language_code };
-}
-
-function getAcceptLanguageArea(request) {
-  const acceptLanguage = request.headers.get("accept-language");
-  if (!acceptLanguage) return null;
-  const areaList = parser.parse(acceptLanguage);
-  for (const item of areaList) {
-    const region = item.region?.toLowerCase();
-    if (region && supportedAreas.includes(region)) return region;
-  }
-  return null;
-}
-
-function getAcceptLanguageLocale(request) {
-  const acceptLanguage = request.headers.get("accept-language");
-  if (!acceptLanguage) return null;
-  const parsed = parser.parse(acceptLanguage);
-  for (const item of parsed) {
-    if (item.code && item.region) {
-      const iso = `${item.code}-${item.region}`.toLowerCase();
-      if (locales.includes(iso)) return iso;
-    }
-    const code = item.code?.toLowerCase();
-    if (code && locales.includes(code)) return code;
-  }
-  return null;
 }
 
 /**
@@ -107,19 +76,17 @@ export async function middleware(request) {
       ? pathLocaleMatch[1]
       : null;
 
-  // area：URL 参数 → Cookie → 浏览器地区 → 默认市场（来自 setting.markets）
-  const area = resolveArea(
-    url_area_code || cookieArea || getAcceptLanguageArea(request) || defaultArea
-  );
+  // area：URL 参数 → Cookie → 默认市场（来自 setting.markets）。
+  // 强制走「显式意图 + cookie + 默认」，不再按浏览器 Accept-Language 自动判地区：
+  // 否则移动端/微信内置浏览器退到后台后 cookie 丢失，回前台的无 cookie 请求会被
+  // zh-CN 浏览器重新判成中国区（且 locale 连带变中文），造成「退后台回来自动切中文/中国区」。
+  const area = resolveArea(url_area_code || cookieArea || defaultArea);
 
-  // locale：URL 参数 → URL 路径 locale(非默认) → Cookie → 浏览器语言 → 默认语言。
-  // 显式意图（URL 参数）最高优先；其次尊重 URL 路径携带的非默认 locale，避免与路由前缀互踢。
-  const locale = resolveLocale(
-    url_language_code ||
-      pathLocale ||
-      cookieLocale ||
-      getAcceptLanguageLocale(request)
-  );
+  // locale：URL 参数 → URL 路径 locale(非默认) → Cookie → 默认语言(en)。
+  // 同理移除 Accept-Language 兜底：cookie 缺失时统一默认 en，绝不按浏览器语言自动切中文。
+  // 这既杜绝「退后台回来变中文」，也消除 zh 浏览器在英文 URL 上被 307 打成整页刷新的连锁反应
+  // （locale 与英文路径一致 → 不再重定向 → 软跳正常）。用户主动切语言仍由 LanguagePicker 写 cookie 生效。
+  const locale = resolveLocale(url_language_code || pathLocale || cookieLocale);
 
   request.locale = locale;
   request.area = area;
