@@ -85,7 +85,7 @@ export default function GoodReviewsContent() {
     setError(false);
     Api.getProductReviews({
       productKey,
-      sortKey: sortOrder,
+      sortOrder,
       current,
       pageSize: PAGE_SIZE,
     })

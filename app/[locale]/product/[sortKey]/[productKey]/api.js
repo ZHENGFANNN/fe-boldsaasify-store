@@ -19,7 +19,7 @@ const request = {
     return api.post("/pay/confirmPaypal", data);
   },
   // 商品评论分页拉取（公开，无需登录）
-  // 入参 { productKey, sortKey(排序), current, pageSize }
+  // 入参 { productKey, sortOrder(latest/rating_desc/rating_asc), current, pageSize }
   // 出参 data:{ list:[{id,rating,content,media:[{url,type,name}],seller_reply,email,created_time}], total }
   getProductReviews: (params) => {
     return api.get("/pay/getProductReviews", { params });
