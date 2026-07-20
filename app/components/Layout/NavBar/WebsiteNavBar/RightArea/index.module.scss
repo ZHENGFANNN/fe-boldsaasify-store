@@ -76,8 +76,9 @@
       text-align: center;
       box-sizing: border-box;
 
-      width: auto;
-      height: auto;
+      /* 单位数时保持正圆（min-width = height = 16px），多位数自动撑成胶囊形 */
+      min-width: 16px;
+      height: 16px;
     }
 
     img {
