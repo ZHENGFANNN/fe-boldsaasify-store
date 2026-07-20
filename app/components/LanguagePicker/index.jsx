@@ -2,10 +2,10 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
-import Cookie from "js-cookie";
 
 import GlobalContext from "@/[locale]/context";
 import { languageList, defaultLocale } from "@/config/languageSettings";
+import { saveLocalePref, buildLocalizedPath } from "@/utils/localePrefs";
 
 import styles from "./index.module.scss";
 
@@ -39,23 +39,6 @@ function getEndonym(item) {
   return endonymMap[item.value] || item.label || item.value;
 }
 
-/**
- * 复刻 middleware.buildLocalizedPath：
- * 去掉当前 locale 前缀得到语言无关路径，再按目标语言加前缀（默认语言不加）。
- */
-function buildLocalizedPath(pathname, fromLocale, toLocale) {
-  let path = pathname || "/";
-
-  if (fromLocale && fromLocale !== defaultLocale) {
-    path = path.replace(new RegExp(`^/${fromLocale}(?=/|$)`), "") || "/";
-  } else {
-    path = path.replace(new RegExp(`^/${defaultLocale}(?=/|$)`), "") || "/";
-  }
-
-  if (toLocale === defaultLocale) return path;
-  return `/${toLocale}${path === "/" ? "" : path}`;
-}
-
 export default function LanguagePicker({ onAfterSelect }) {
   const { locale } = React.useContext(GlobalContext);
   const pathname = usePathname();
@@ -70,14 +53,9 @@ export default function LanguagePicker({ onAfterSelect }) {
     if (lock || target.value === currentLocale) return;
     setLock(true);
 
-    const expires = new Date(Date.now() + 720 * 24 * 60 * 60 * 1000);
-    // 同时写两个 cookie，二者缺一都会导致切换失效：
-    //   - locale：本站自定义 cookie，middleware 读它决定 area/locale 兜底
-    //   - NEXT_LOCALE：next-i18n-router 的路由 cookie（其内部按此 cookie 决定是否重定向到 /{locale}）
-    // 之前只写 locale：从 zh-cn 切回 en 时 NEXT_LOCALE 残留 zh-cn，next-i18n-router 会把 / 强制
-    // 跳回 /zh-cn → 切换“失败/跳回原语言”。故两者必须同步。
-    Cookie.set("locale", target.value, { path: "/", expires });
-    Cookie.set("NEXT_LOCALE", target.value, { path: "/", expires });
+    // 统一走 saveLocalePref：写 locale + NEXT_LOCALE cookie（加固 Secure/SameSite）并镜像
+    // localStorage。二者缺一会导致切换失效/跳回原语言，故收敛到一处保证始终同步。
+    saveLocalePref(target.value);
 
     const nextPath = buildLocalizedPath(pathname, currentLocale, target.value);
 

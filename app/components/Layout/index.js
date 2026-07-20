@@ -9,6 +9,7 @@ import ContactModal from "./ContactModal";
 import CookieModal from "./CookieModal";
 import LiveChat from "@/components/LiveChat";
 import openLiveChat from "@/components/LiveChat/openLiveChat";
+import LocalePrefsSync from "@/components/LocalePrefsSync";
 
 export default function Layout({ locale, LANG, CONFIG, children }) {
   const { area, areaReady } = useArea();
@@ -82,6 +83,8 @@ export default function Layout({ locale, LANG, CONFIG, children }) {
       <ContactModal ref={contactRef} />
       {/* Cookie Modal */}
       <CookieModal />
+      {/* 语言/地区偏好补偿：cookie 丢失时用 localStorage 镜像补回并纠正语言 */}
+      <LocalePrefsSync locale={locale} />
       {/* Live Chat */}
       <LiveChat locale={locale} area={areaReady ? area || "us" : "us"} />
       {children}

@@ -107,27 +107,40 @@ export async function middleware(request) {
       ? pathLocaleMatch[1]
       : null;
 
-  // area：URL 参数 → Cookie → 浏览器地区 → 默认市场（来自 setting.markets）
+  // 解析来源分「显式」(URL 参数 / URL 路径 locale / 已有 cookie —— 用户真实意图或历史选择)
+  // 与「兜底」(Accept-Language / 默认值 —— 仅是猜测)。显式意图最高优先。
+  const areaExplicit = url_area_code || cookieArea;
+  const localeExplicit = url_language_code || pathLocale || cookieLocale;
+
+  // area：显式来源 → 浏览器地区 → 默认市场（来自 setting.markets）
   const area = resolveArea(
-    url_area_code || cookieArea || getAcceptLanguageArea(request) || defaultArea
+    areaExplicit || getAcceptLanguageArea(request) || defaultArea
   );
 
-  // locale：URL 参数 → URL 路径 locale(非默认) → Cookie → 浏览器语言 → 默认语言。
-  // 显式意图（URL 参数）最高优先；其次尊重 URL 路径携带的非默认 locale，避免与路由前缀互踢。
+  // locale：显式来源 → 浏览器语言 → 默认语言。
   const locale = resolveLocale(
-    url_language_code ||
-      pathLocale ||
-      cookieLocale ||
-      getAcceptLanguageLocale(request)
+    localeExplicit || getAcceptLanguageLocale(request)
   );
 
   request.locale = locale;
   request.area = area;
   const returnOptions = i18nRouter(request, i18nConfig);
 
+  // cookie 加固：长期有效 + path=/ + SameSite=Lax；https 下加 Secure（与客户端 localePrefs 一致）。
   const expires = new Date(Date.now() + 720 * 24 * 60 * 60 * 1000);
-  returnOptions.cookies.set("locale", locale, { expires });
-  returnOptions.cookies.set("area", area, { expires });
+  const secure = request.nextUrl.protocol === "https:";
+  const cookieOpts = {
+    expires,
+    path: "/",
+    sameSite: "lax",
+    ...(secure ? { secure: true } : {})
+  };
+
+  // 只有值来自「显式来源」时才回写 cookie；纯 Accept-Language/默认兜底不写——否则一次无 cookie
+  // 的请求（WebView 退后台后常见）会把浏览器语言猜测写死，把「cookie 一时丢失」放大成
+  // 「永久切成中文/中国区」。首访语言仍由兜底渲染，待进入带 locale 前缀的 URL 后自然落盘。
+  if (localeExplicit) returnOptions.cookies.set("locale", locale, cookieOpts);
+  if (areaExplicit) returnOptions.cookies.set("area", area, cookieOpts);
 
   const curLocale =
     returnOptions.headers.get("x-next-i18n-router-locale") || defaultLocale;
@@ -144,9 +157,9 @@ export async function middleware(request) {
     // 关键：重定向到目标语言路径时，同步把 next-i18n-router 的 NEXT_LOCALE 与
     // 自定义 locale/area cookie 一并写到目标值，避免残留旧 NEXT_LOCALE 在落地页
     // 再次触发反向重定向（切语言/兜底重定向后跳回原语言的根因）。
-    redirect.cookies.set("NEXT_LOCALE", locale, { expires });
-    redirect.cookies.set("locale", locale, { expires });
-    redirect.cookies.set("area", area, { expires });
+    redirect.cookies.set("NEXT_LOCALE", locale, cookieOpts);
+    redirect.cookies.set("locale", locale, cookieOpts);
+    redirect.cookies.set("area", area, cookieOpts);
     return redirect;
   }
 

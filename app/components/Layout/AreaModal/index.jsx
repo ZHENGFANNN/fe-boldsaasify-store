@@ -4,7 +4,7 @@ import GlobalContext from "@/[locale]/context";
 import { countryList } from "@/config/marketSettings";
 import CountryPickerList from "@/components/CountrySelect/CountryPickerList";
 import LanguagePicker from "@/components/LanguagePicker";
-import Cookie from "js-cookie";
+import { saveAreaPref } from "@/utils/localePrefs";
 import styles from "./index.module.scss";
 import { track } from "@/utils/analytics";
 
@@ -48,11 +48,8 @@ function Modal(_, ref) {
     if (lock) return;
     setLock(true);
     track("AreaModal", { countryCode: countryItem.country_code });
-    const expires = new Date(Date.now() + 720 * 24 * 60 * 60 * 1000);
-    Cookie.set("area", countryItem.country_code, {
-      path: "/",
-      expires,
-    });
+    // 统一走 saveAreaPref：写 area cookie（加固 Secure/SameSite）并镜像 localStorage
+    saveAreaPref(countryItem.country_code);
     location.reload();
     setShow(false);
     setLock(false);
