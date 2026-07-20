@@ -136,6 +136,23 @@ export default function UserMenu({ isLogin }) {
     };
   }, [isLogin]);
 
+  // 打开菜单时预取账号/订单等目标路由，暖 RSC 缓存。否则新鲜加载(刷新/杀 App 重开)后
+  // 首次点击这些「未预取」入口时，i18n 默认语言重写(/ → /en)导致客户端路由树与 RSC 不匹配，
+  // Next 退化成整页硬跳（点一下刷新、再点才正常）。预取让首点走软跳缓存命中。
+  React.useEffect(() => {
+    if (!open) return;
+    const paths = isLogin
+      ? ["/user/account", "/user/account/order"]
+      : ["/user/login", "/user/register"];
+    paths.forEach((path) => {
+      const href =
+        locale && locale !== defaultLocale ? `/${locale}${path}` : path;
+      try {
+        router.prefetch(href);
+      } catch {}
+    });
+  }, [open, isLogin, locale, router]);
+
   const go = (path) => {
     track("NavIcon-User");
     setOpen(false);

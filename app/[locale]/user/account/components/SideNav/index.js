@@ -55,7 +55,7 @@ export default function SideNav({ LANG, locale }) {
         <Link
           key={key}
           href={href}
-          prefetch={false}
+          prefetch={true}
           className={`${styles.item} ${activeKey === key ? styles.active : ""}`}
           aria-current={activeKey === key ? "page" : undefined}
         >

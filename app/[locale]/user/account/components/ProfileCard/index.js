@@ -315,7 +315,7 @@ export default function ProfileCard({ LANG, locale }) {
 
         <Link
           href={buildHref("/user/account/order")}
-          prefetch={false}
+          prefetch={true}
           className={`${styles.item} ${styles.shortcut}`}
         >
           <span className={styles.item_label}>
@@ -328,7 +328,7 @@ export default function ProfileCard({ LANG, locale }) {
 
         <Link
           href={buildHref("/user/account/address")}
-          prefetch={false}
+          prefetch={true}
           className={`${styles.item} ${styles.shortcut}`}
         >
           <span className={styles.item_label}>
