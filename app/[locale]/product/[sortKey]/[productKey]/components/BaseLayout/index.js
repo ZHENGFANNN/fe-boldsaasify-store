@@ -42,6 +42,9 @@ export default function BaseLayout({
     pickCombo(initialProductInfo?.comboList)
   );
   const [productShowType, setProductShowType] = React.useState("image");
+  // 评论模块是否有内容可展示：GoodReviewsContent 合并真实评论 + 营销好评后回写，
+  // 供 GoodNav 决定是否显示「评论」导航 tab（两套都空时置 false → 隐藏 tab）。
+  const [reviewsVisible, setReviewsVisible] = React.useState(true);
 
   // 自动规则折扣（限时促销）：当前单商品命中的促销，命中且未过期则注入 ProductContext，
   // 驱动 Countdown 限时倒计时展示。取数已并入下方「价格+折扣聚合」effect。
@@ -223,6 +226,8 @@ export default function BaseLayout({
         setProductCurCombo,
         productShowType,
         setProductShowType,
+        reviewsVisible,
+        setReviewsVisible,
         // 自动规则折扣（限时促销），驱动 Countdown；setter 供倒计时到点局部隐藏
         autoDiscount,
         setAutoDiscount,

@@ -6,7 +6,8 @@ import { debounce } from "../../../../../../utils";
 import { track } from "../../../../../../utils/analytics";
 
 export default function GoodNav() {
-  const { lazyLoading, productInfo, LANG } = React.useContext(ProductContext);
+  const { lazyLoading, productInfo, LANG, reviewsVisible } =
+    React.useContext(ProductContext);
   const navList = React.useMemo(() => {
     let navList = [];
     if (Array.isArray(productInfo.mediaList) && productInfo.mediaList.length > 0) {
@@ -34,13 +35,16 @@ export default function GoodNav() {
       title: LANG["store.product.nav.faq"],
       href: "#product_faq",
     });
-    // 评论区改为运行时按需拉取、区块恒常渲染，导航锚点始终展示。
-    navList.push({
-      title: LANG["store.product.nav.reviews"],
-      href: "#product_reviews",
-    });
+    // 评论区两套数据（真实评论 + 营销好评）都为空时，GoodReviewsContent 会置
+    // reviewsVisible=false（模块整块不渲染），此处同步隐藏「评论」导航锚点。
+    if (reviewsVisible !== false) {
+      navList.push({
+        title: LANG["store.product.nav.reviews"],
+        href: "#product_reviews",
+      });
+    }
     return navList;
-  }, []);
+  }, [productInfo, LANG, reviewsVisible]);
   React.useEffect(() => {
     if (!lazyLoading) {
       $(`.${styles.nav_item}`).on("click", function () {
