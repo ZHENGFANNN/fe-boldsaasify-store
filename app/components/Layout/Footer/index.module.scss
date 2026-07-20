@@ -3,13 +3,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: var(--color-footer-bg, #fff);
   border-top: 1px solid #f2f2f2;
 }
 
 @media screen and (max-width: 1249px) {
   .container {
-    background-color: #ffffff;
+    background-color: var(--color-footer-bg, #ffffff);
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;

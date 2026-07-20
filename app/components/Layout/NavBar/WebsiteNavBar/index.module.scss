@@ -1,6 +1,6 @@
 .nav {
     width: 100%;
-    background: rgba(251, 251, 253, .8);
+    background: var(--color-header-bg, rgba(251, 251, 253, .8));
     backdrop-filter: saturate(180%) blur(20px);
     position: sticky;
     top: 0;

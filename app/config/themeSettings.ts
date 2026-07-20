@@ -18,6 +18,11 @@ export interface SiteTheme {
   colorCtaActive?: string;
   colorCtaFg?: string;
   radiusPill?: string;
+  colorPageBg?: string;
+  colorBodyFg?: string;
+  colorHeaderBg?: string;
+  colorFooterBg?: string;
+  colorAccent?: string;
   [key: string]: unknown;
 }
 
@@ -34,6 +39,12 @@ const TOKEN_MAP: Record<string, { cssVar: string; valid: (v: string) => boolean 
   colorCtaActive: { cssVar: "--color-cta-active", valid: (v) => COLOR_RE.test(v) },
   colorCtaFg: { cssVar: "--color-cta-fg", valid: (v) => COLOR_RE.test(v) },
   radiusPill: { cssVar: "--radius-pill", valid: (v) => LENGTH_RE.test(v) },
+  colorPageBg: { cssVar: "--color-page-bg", valid: (v) => COLOR_RE.test(v) },
+  colorBodyFg: { cssVar: "--color-body-fg", valid: (v) => COLOR_RE.test(v) },
+  colorHeaderBg: { cssVar: "--color-header-bg", valid: (v) => COLOR_RE.test(v) },
+  colorFooterBg: { cssVar: "--color-footer-bg", valid: (v) => COLOR_RE.test(v) },
+  // colorAccent 暂无 SCSS 消费点，先入白名单随 import 存储，组件按需渐进接入 var(--color-accent, ...)
+  colorAccent: { cssVar: "--color-accent", valid: (v) => COLOR_RE.test(v) },
 };
 
 /** 从 theme 对象取出白名单内、通过校验的 token（CSS 变量名 → 值） */

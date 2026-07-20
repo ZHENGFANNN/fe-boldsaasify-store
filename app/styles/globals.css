@@ -1,7 +1,8 @@
 html,
 body {
   font-family: var(--font-base, 'Open Sans', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Arial, sans-serif);
-  background-image: linear-gradient(#fff, #f8f9fc 160px, #f8f9fc);
+  background-image: linear-gradient(var(--color-page-bg, #fff), var(--color-page-bg, #f8f9fc) 160px, var(--color-page-bg, #f8f9fc));
+  color: var(--color-body-fg, #000);
 
   padding-top: constant(safe-area-inset-top);
   padding-Left: constant(safe-area-inset-left);
