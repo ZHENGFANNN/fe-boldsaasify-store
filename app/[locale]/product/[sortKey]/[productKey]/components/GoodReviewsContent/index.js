@@ -19,11 +19,32 @@ const PAGE_SIZE = 10;
 const FETCH_SIZE = 50;
 const MAX_PAGES = 20;
 
-// 营销好评（content_reviews：{name,score,comment,image,video,type}）→ 与真实评论同款卡片结构。
-// score→rating、comment→content、image/video→media、name 落 email 字段（ReviewCard 以 email 作展示名）。
+// 营销好评（content_reviews：{name,score,comment,media_list,image,video,type}）→ 与真实评论同款卡片结构。
+// score→rating、comment→content、media_list→media(新版,数组[{url,type,name}])。
+// media_list 为空时回退老 image/video 单值字段(存量兼容,回填前的数据也不丢)。
+// name 落 email 字段（ReviewCard 以 email 作展示名）。
 function marketingToCard(item, idx) {
-  const media = [];
-  if (item?.type === "video" && item?.video) {
+  let media = [];
+  const raw = item?.media_list;
+  let parsed = null;
+  if (Array.isArray(raw)) {
+    parsed = raw;
+  } else if (typeof raw === "string" && raw.trim()) {
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      parsed = null;
+    }
+  }
+  if (Array.isArray(parsed) && parsed.length > 0) {
+    media = parsed
+      .filter((m) => m && m.url)
+      .map((m) => ({
+        url: m.url,
+        type: m.type === "video" ? "video" : "image",
+        name: m.name || item?.name || "",
+      }));
+  } else if (item?.type === "video" && item?.video) {
     media.push({ url: item.video, type: "video", name: item?.name || "" });
   } else if (item?.image) {
     media.push({ url: item.image, type: "image", name: item?.name || "" });

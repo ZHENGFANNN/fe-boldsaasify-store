@@ -245,12 +245,12 @@
 
       .review_top {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 24px;
 
         .reviews_total {
           margin-left: 0;
-          align-items: flex-start;
+          align-items: center;
 
           .reviews_score {
             font-size: 44px;
