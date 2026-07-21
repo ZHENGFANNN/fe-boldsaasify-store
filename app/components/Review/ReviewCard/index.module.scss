@@ -36,10 +36,8 @@
       white-space: break-spaces;
       color: #000;
     }
+    /* 布局（flex/wrap/gap）由 PreviewMediaList .list 负责，这里只补上间距 */
     .media {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
       margin-top: 16px;
     }
     .reply {

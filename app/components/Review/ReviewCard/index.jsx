@@ -2,8 +2,8 @@
 
 import React from "react";
 import { resolveIntlLocale } from "@/utils";
+import PreviewMediaList from "@/components/PreviewMediaList";
 import StarRating from "../StarRating";
-import ReviewMedia from "../ReviewMedia";
 import styles from "./index.module.scss";
 
 // created_time 归一为 Date：兼容 秒级/毫秒级 epoch 与 ISO 字符串。
@@ -72,11 +72,11 @@ export default function ReviewCard({
       <div className={styles.body}>
         {content ? <div className={styles.content}>{content}</div> : null}
         {mediaList.length > 0 ? (
-          <div className={styles.media}>
-            {mediaList.map((m, i) => (
-              <ReviewMedia key={`${m.url}-${i}`} media={m} />
-            ))}
-          </div>
+          <PreviewMediaList
+            list={mediaList}
+            thumbSize={88}
+            className={styles.media}
+          />
         ) : null}
         {sellerReply ? (
           <div className={styles.reply}>
