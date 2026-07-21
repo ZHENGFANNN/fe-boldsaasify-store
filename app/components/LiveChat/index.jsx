@@ -5,6 +5,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import Compressor from "compressorjs";
 import styles from "./index.module.scss";
+import ShowTipModal from "@/components/Modal/ShowTipModal";
 import {
   createChatSession,
   evaluateChat,
@@ -32,11 +33,11 @@ const UNREAD_KEY = "boldradiant_chat_last_read_id";
 const CHAT_END_BODY = "__CHAT_END__";
 const BRAND_NAME = "BoldRadiant";
 const MOBILE_PANEL_CLOSE_MS = 280;
-// 上传：accept 列表与图片判定（对标 herodash guest），10MB 上限与后端一致
+// 上传：accept 列表与图片判定（对标 herodash guest），5MB 上限与后端 /chat/upload 一致
 const UPLOAD_ACCEPT =
   ".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.xlsm,.ods,.csv,.txt,.zip,.rar";
 const IMAGE_EXT_RE = /\.(jpe?g|png|gif|webp)$/i;
-const UPLOAD_MAX_SIZE = 10 * 1024 * 1024;
+const UPLOAD_MAX_SIZE = 5 * 1024 * 1024;
 // 满意度评价：五级表情，索引 0~4 对应 rating 1~5
 const RATING_EMOJIS = ["😞", "🙁", "😐", "🙂", "😄"];
 
@@ -344,6 +345,11 @@ function ChevronIcon({ open }) {
 
 export default function LiveChat({ locale, area }) {
   const copy = React.useMemo(() => getFaqCopy(locale), [locale]);
+  // 轻量 toast：上传超限/失败等给用户可见反馈（复用全站 ShowTipModal，portal 到 body）
+  const tipRef = React.useRef(null);
+  const tip = React.useCallback((text, type = "info") => {
+    tipRef.current?.show({ text, type });
+  }, []);
   // FAQ 优先用后端配置，拉取失败/为空时回退写死兜底，前台永不空白
   const fallbackFaq = React.useMemo(() => getFaqItems(locale), [locale]);
   const [faqItems, setFaqItems] = React.useState(fallbackFaq);
@@ -1277,7 +1283,10 @@ export default function LiveChat({ locale, area }) {
     const file = e.target.files?.[0];
     e.target.value = ""; // 允许重复选同一文件
     if (!file) return;
-    if (file.size > UPLOAD_MAX_SIZE) return;
+    if (file.size > UPLOAD_MAX_SIZE) {
+      tip(copy.uploadTooLarge, "error");
+      return;
+    }
     setUploading(true);
     try {
       const isImage = IMAGE_EXT_RE.test(file.name);
@@ -1287,10 +1296,15 @@ export default function LiveChat({ locale, area }) {
           ? blob
           : new File([blob], file.name, { type: blob.type || file.type });
       const res = await uploadChatFile(toUpload);
-      if (res?.code !== 0 || !res.data?.url) return;
+      // 后端约定：成功 code===0 且 data.url 存在；否则（如 code:-1 "file too large"）弹提示，勿静默
+      if (res?.code !== 0 || !res.data?.url) {
+        tip(copy.uploadFailed, "error");
+        return;
+      }
       await sendMediaMessage(res.data);
     } catch (err) {
       console.warn("[LiveChat] upload failed", err);
+      tip(copy.uploadFailed, "error");
     } finally {
       setUploading(false);
     }
@@ -2181,6 +2195,7 @@ export default function LiveChat({ locale, area }) {
           </span>
         ) : null}
       </button>
+      <ShowTipModal ref={tipRef} />
     </div>
   );
 }
