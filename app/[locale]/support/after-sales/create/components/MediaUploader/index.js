@@ -57,7 +57,7 @@ export default function AfterSaleMediaUploader() {
             `${file.name}: ${T(
               LANG,
               "user_account.after_sale.media.too_large",
-              "File exceeds the 200MB limit."
+              "File exceeds the 5MB limit."
             )}`,
             "error"
           );
@@ -159,7 +159,7 @@ export default function AfterSaleMediaUploader() {
         {T(
           LANG,
           "user_account.after_sale.media.note",
-          `Up to ${MAX_FILES} files, max 200MB each`
+          `Up to ${MAX_FILES} files, max 5MB each`
         )}
       </p>
     </>

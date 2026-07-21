@@ -43,7 +43,7 @@ import {
 // ---------- 常量 ----------
 const AFTER_SALE_TYPES = ["repair", "return_refund", "exchange", "refund"];
 const MAX_FILES = 6;
-const MAX_SIZE = 200 * 1024 * 1024; // 200MB
+const MAX_SIZE = 5 * 1024 * 1024; // 5MB（与后端 /chat/upload chatUploadMaxSize 一致）
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // TODO(P4)：文章尚未建，待 ERP 文章配置创建 sortKey=legal / articleKey=after-sales-privacy。
 const PRIVACY_ARTICLE_PATH = "/article/legal/after-sales-privacy";
