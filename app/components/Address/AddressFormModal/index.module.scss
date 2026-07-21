@@ -69,7 +69,7 @@
     }
     .form_container {
       // 表单内容左对齐（覆盖 .modal_content 的 text-align: center），
-      // 使共享 FormSelect 的 state 下拉触发文案/搜索/选项左对齐，观感对齐 order 页。
+      // 使共享 FormSelect 的 state 下拉触发文案/搜索/选项左对齐。
       text-align: left;
       overflow-x: hidden;
       overflow-y: auto;

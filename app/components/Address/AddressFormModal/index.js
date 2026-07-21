@@ -14,25 +14,36 @@ import AddressAutocomplete from "@/components/Address/AddressAutocomplete";
 import PasteAddressBox from "@/components/Address/PasteAddressBox";
 import { US_STATE_OPTIONS } from "@/const/usStates";
 
-import Api from "../../api";
-
-// 收货地址新增 / 编辑弹窗。
-//   - 新增模式（默认）：自渲染「新增地址」按钮，内部维护 show。
-//   - 编辑模式（受控）：父级传 editItem + open + onClose，不渲染按钮，
-//     打开时回填字段并携带 id 提交（后端按 id+user_id 更新，非本人不可改）。
-// 美国地区额外渲染「州」下拉（对齐结账 AddressForm），随 area 锁定。
-export default function NewAddressForm({
-  onFinish,
+// 用户地址「新增 / 编辑」弹窗。可选自渲染触发按钮，也可完全受控使用。
+//
+// props:
+//  - LANG: 语言包
+//  - apiSave: 保存/新增/编辑接口(必填)。编辑模式会在 payload 追加 id
+//  - apiParse?/apiAutocomplete?/apiDetail?: 粘贴解析 & 地址联想接口(可选)
+//  - editItem?: 传入即进入编辑模式(回填字段 + 携带 id 提交)
+//  - open?: 受控开启；未传则内部维护
+//  - onClose?: 受控关闭回调
+//  - onFinish?: 保存成功回调(通常触发上层重拉列表)
+//  - showTriggerButton?: 是否渲染「新增地址」按钮，默认 true。受控模式(有 open)自动关闭
+export default function AddressFormModal({
   LANG,
+  apiSave,
+  apiParse,
+  apiAutocomplete,
+  apiDetail,
   editItem = null,
   open,
   onClose,
+  onFinish,
+  showTriggerButton = true,
 }) {
   const { locale } = React.useContext(GlobalContext);
   const controlled = typeof open === "boolean";
   const isEdit = !!editItem;
   const [internalShow, setInternalShow] = React.useState(false);
   const show = controlled ? open : internalShow;
+  // 受控模式不再渲染触发按钮(由父级控制打开)。
+  const renderTrigger = showTriggerButton && !controlled;
 
   const tipRef = React.useRef(null);
   const formRef = React.useRef(null);
@@ -46,9 +57,8 @@ export default function NewAddressForm({
     }
   }, [controlled, onClose]);
 
-  // 用浏览器定位 + Google 反编码，把值写进对应的输入框。
-  // 通过原生 setter + input 事件触发，既更新 react-hook-form 的值，
-  // 又能让 FormInput 内部状态更新（浮动 label 正确上浮）。
+  // 原生 setter + input 事件回填：既更新 react-hook-form，又触发 FormInput
+  // 浮动 label（内部 state 依赖 input 事件）。
   const fillField = (name, value) => {
     const el = formRef.current?.querySelector(`[name="${name}"]`);
     if (!el || value == null || value === "") return;
@@ -60,7 +70,6 @@ export default function NewAddressForm({
     el.dispatchEvent(new Event("input", { bubbles: true }));
   };
 
-  // 粘贴 AI 解析结果回填。国家锁定跟随 area，故不覆盖国家字段。
   const handleParsed = (p) => {
     fillField("first_name", p.first_name);
     fillField("last_name", p.last_name);
@@ -98,16 +107,13 @@ export default function NewAddressForm({
   } = useForm();
   const [areaMap, setAreaMap] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
-  // 编辑模式打开时用于回填「州」下拉的初始值。
   const [stateDefault, setStateDefault] = React.useState("");
 
-  // 编辑模式：弹窗打开时回填各字段（含州）。新增模式打开时清空。
+  // 编辑模式：弹窗打开时回填各字段；新增模式打开时清空。
   React.useEffect(() => {
     if (!show) return;
     if (isEdit && editItem) {
-      // 州先于其他字段设置，保证 FormSelect defaultValue 生效。
       setStateDefault(editItem.state || "");
-      // 延后一拍等表单挂载，再用原生 setter 回填 FormInput（浮动 label 正确上浮）。
       const raf = requestAnimationFrame(() => {
         fillField("first_name", editItem.first_name);
         fillField("last_name", editItem.last_name);
@@ -145,12 +151,10 @@ export default function NewAddressForm({
         ...data,
         ...areaMap,
         short_phone: short_phone || "86",
-        // 仅美国带 state，其余地区置空避免脏写。
         state: areaMap?.area_code === "us" ? state || "" : "",
       };
-      // 编辑模式携带 id，后端按 id+user_id 更新（非本人不可改）。
       if (isEdit && editItem?.id != null) payload.id = editItem.id;
-      const res = await Api.saveUserAddress(payload);
+      const res = await apiSave(payload);
       if (res.code === 0) {
         reset();
         onFinish?.();
@@ -182,8 +186,7 @@ export default function NewAddressForm({
 
   return (
     <div className={styles.container}>
-      {/* 受控（编辑）模式不渲染新增按钮 */}
-      {controlled ? null : (
+      {renderTrigger ? (
         <div className={styles.main_btn}>
           <Button
             variant="primary"
@@ -193,7 +196,7 @@ export default function NewAddressForm({
             {LANG["user_account.shipping_address.create_address"]}
           </Button>
         </div>
-      )}
+      ) : null}
       <div className={`${styles.modal} ${show ? styles.show : ""}`}>
         <div className={styles.modal_content}>
           <h2>{modalTitle}</h2>
@@ -202,16 +205,18 @@ export default function NewAddressForm({
             onSubmit={handleSubmit(onSubmit)}
             className={styles.form_container}
           >
-            <PasteAddressBox
-              apiParse={Api.parseAddress}
-              language={locale}
-              onParsed={handleParsed}
-              onError={handleParseError}
-              LANG={LANG}
-            />
+            {apiParse ? (
+              <PasteAddressBox
+                apiParse={apiParse}
+                language={locale}
+                onParsed={handleParsed}
+                onError={handleParseError}
+                LANG={LANG}
+              />
+            ) : null}
             <div className={styles.form_item}>
               <FormCountryItem
-                disabled={true}
+                disabled={isEdit}
                 value={watch("area")}
                 setValue={(e) => {
                   setAreaMap(e);
@@ -286,7 +291,8 @@ export default function NewAddressForm({
                         pattern: {
                           value: ISPHONEOBERVER,
                           message:
-                            LANG["user_account.shipping_address.incorrect_ode"],
+                            LANG["user_account.shipping_address.incorrect_ode"] ||
+                            LANG["common.pay.pay_info.incorrect_code"],
                         },
                       }),
                     }}
@@ -329,32 +335,49 @@ export default function NewAddressForm({
               />
             </div>
             <div className={styles.form_item}>
-              <AddressAutocomplete
-                error={errors.address1?.message}
-                label={LANG["user_account.shipping_address.address"]}
-                apiAutocomplete={Api.placeAutocomplete}
-                apiDetail={Api.placeDetail}
-                language={locale}
-                regionCode={areaMap?.area_code}
-                onSelect={(addr) => {
-                  fillField("zip_code", addr.zip_code);
-                  fillField("address1", addr.address1);
-                  fillField("address2", addr.address2);
-                }}
-                inputProps={{
-                  maxLength: 500,
-                  ...register("address1", {
-                    required:
-                      LANG["user_account.shipping_address.address_require"],
-                  }),
-                }}
-              />
+              {apiAutocomplete && apiDetail ? (
+                <AddressAutocomplete
+                  error={errors.address1?.message}
+                  label={LANG["user_account.shipping_address.address"]}
+                  apiAutocomplete={apiAutocomplete}
+                  apiDetail={apiDetail}
+                  language={locale}
+                  regionCode={areaMap?.area_code}
+                  onSelect={(addr) => {
+                    fillField("zip_code", addr.zip_code);
+                    fillField("address1", addr.address1);
+                    fillField("address2", addr.address2);
+                  }}
+                  inputProps={{
+                    maxLength: 500,
+                    ...register("address1", {
+                      required:
+                        LANG["user_account.shipping_address.address_require"],
+                    }),
+                  }}
+                />
+              ) : (
+                <Input
+                  error={errors.address1?.message}
+                  label={LANG["user_account.shipping_address.address"]}
+                  inputProps={{
+                    maxLength: 500,
+                    ...register("address1", {
+                      required:
+                        LANG["user_account.shipping_address.address_require"],
+                    }),
+                  }}
+                />
+              )}
             </div>
             <div className={styles.form_item}>
               <Input
                 error={errors.address2?.message}
                 required={false}
-                label={LANG["user_account.shipping_address.detail_address"]}
+                label={
+                  LANG["user_account.shipping_address.detail_address"] ||
+                  LANG["common.pay.pay_info.detail_address"]
+                }
                 inputProps={{
                   maxLength: 500,
                   ...register("address2"),
@@ -364,6 +387,7 @@ export default function NewAddressForm({
             <div className={styles.btn_container}>
               <Button
                 variant="secondary"
+                type="button"
                 className={styles.action_btn}
                 onClick={closeModal}
               >

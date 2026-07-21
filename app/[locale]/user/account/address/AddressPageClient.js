@@ -2,7 +2,7 @@
 
 import React from "react";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
-import AddressList from "../components/AddressList";
+import AddressListSection from "../components/AddressList";
 
 export default function AddressPageClient({ LANG }) {
   const tipRef = React.useRef(null);
@@ -11,7 +11,7 @@ export default function AddressPageClient({ LANG }) {
   }, []);
   return (
     <>
-      <AddressList LANG={LANG} showTip={showTip} />
+      <AddressListSection LANG={LANG} showTip={showTip} />
       <ShowTipModal ref={tipRef} />
     </>
   );

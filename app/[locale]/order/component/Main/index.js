@@ -12,9 +12,9 @@ import UserInfo from "../UserType";
 import Api from "../../api";
 import { track } from "@/utils/analytics";
 import OrderContext from "../../context";
-import AddressList from "../AddressList";
-import AddressForm from "../AddressForm";
-import NewAddressForm from "../NewAddressForm";
+import AddressBar from "@/components/Address/AddressBar";
+import AddressForm from "@/components/Address/AddressForm";
+import AddressFormModal from "@/components/Address/AddressFormModal";
 import { domesticPay, foreignPay, isPayAreaSupported } from "../../const";
 import Paypal from "../Paypal";
 import StripePay from "../StripePay";
@@ -574,8 +574,12 @@ export default function Main({ CONFIG, LANG, area, token }) {
               <div className={styles.address_header}>
                 <h2>{LANG["common.pay.pay_info.shipping_address"]}</h2>
                 {userType === "user" && userInfo?.email ? (
-                  <NewAddressForm
+                  <AddressFormModal
                     LANG={LANG}
+                    apiSave={Api.saveUserAddress}
+                    apiParse={Api.parseAddress}
+                    apiAutocomplete={Api.placeAutocomplete}
+                    apiDetail={Api.placeDetail}
                     onFinish={() => getAddressList()}
                   />
                 ) : null}
@@ -586,14 +590,11 @@ export default function Main({ CONFIG, LANG, area, token }) {
                 <>
                   {userType === "user" ? (
                     userInfo?.email ? (
-                      <AddressList
+                      <AddressBar
                         LANG={LANG}
-                        setAddressInfo={setAddressInfo}
-                        addressInfo={addressInfo}
                         list={addressList}
-                        showTip={({ text, type }) => {
-                          showTip({ text, type });
-                        }}
+                        activeId={addressInfo?.id}
+                        onSelect={setAddressInfo}
                       />
                     ) : (
                       <div className={styles.address_login_tip}>
@@ -605,6 +606,7 @@ export default function Main({ CONFIG, LANG, area, token }) {
                     <AddressForm
                       LANG={LANG}
                       ref={addressRef}
+                      apiParse={Api.parseAddress}
                       onStateChange={setPreviewRegion}
                     />
                   )}

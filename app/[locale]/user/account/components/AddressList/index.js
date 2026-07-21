@@ -1,19 +1,15 @@
 "use client";
 
 import styles from "./index.module.scss";
-import Empyt from "../../../../../components/Empyt";
-import ConfirmModal from "../../../../../components/Modal/ConfirmModal";
-import { DeleteIcon } from "../../../../../components/Icon";
 import Api from "../../api";
 import React from "react";
-import Loading from "../../../../../components/Loading";
+import Loading from "@/components/Loading";
+import AddressBar from "@/components/Address/AddressBar";
+import AddressFormModal from "@/components/Address/AddressFormModal";
 
-import dynamic from "next/dynamic";
-const NewAddressForm = dynamic(() => import("../NewAddressForm"), {
-  ssr: false,
-});
-
-export default function AddressInfo({ showTip, LANG }) {
+// 账户中心的地址列表容器：负责拉取列表 + 删除，卡片渲染与「新增/编辑」交互
+// 分别下发给 AddressBar 与 AddressFormModal（放在 app/components/Address 下复用）。
+export default function AddressListSection({ showTip, LANG }) {
   const [loading, setLoading] = React.useState(true);
   const [list, setList] = React.useState([]);
   const [deleteLoading, setDeleteLoading] = React.useState(false);
@@ -44,6 +40,30 @@ export default function AddressInfo({ showTip, LANG }) {
     setEditOpen(true);
   }, []);
 
+  const handleDelete = React.useCallback(
+    (item) => {
+      if (deleteLoading) return;
+      setDeleteLoading(true);
+      Api.deleteUserAddress({ id: item.id })
+        .then(() => {
+          showTip({
+            type: "success",
+            text: LANG["user_account.shipping_address.success_deleted"],
+          });
+          getList();
+          setDeleteLoading(false);
+        })
+        .catch(() => {
+          showTip({
+            type: "error",
+            text: LANG["user_account.shipping_address.fail_deleted"],
+          });
+          setDeleteLoading(false);
+        });
+    },
+    [deleteLoading, showTip, LANG, getList]
+  );
+
   return (
     <>
       {loading ? (
@@ -54,85 +74,32 @@ export default function AddressInfo({ showTip, LANG }) {
             <div>
               <span>{LANG["user_account.shipping_address"]}</span>
             </div>
-            <NewAddressForm LANG={LANG} onFinish={() => getList()} />
+            <AddressFormModal
+              LANG={LANG}
+              apiSave={Api.saveUserAddress}
+              apiParse={Api.parseAddress}
+              apiAutocomplete={Api.placeAutocomplete}
+              apiDetail={Api.placeDetail}
+              onFinish={() => getList()}
+            />
           </div>
 
-          {list?.length > 0 ? (
-            <div className={styles.list}>
-              {list.map((item, index) => {
-                return (
-                  <div key={index} className={styles.item}>
-                    <div
-                      className={styles.content}
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => openEdit(item)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          openEdit(item);
-                        }
-                      }}
-                    >
-                      <div className={styles.user}>
-                        <span>
-                          {item.first_name}
-                          {item.last_name}
-                        </span>
-                        <span>{`(${item.short_phone}) ${item.phone}`}</span>
-                      </div>
-                      <div className={styles.address}>
-                        <div>{`${item.zip_code} ${
-                          item.state ? `${item.state} ` : ""
-                        }${item.area_text} ${item.address1}`}</div>
-                        <div>{item.address2}</div>
-                      </div>
-                    </div>
-                    <ConfirmModal
-                      LANG={LANG}
-                      title={LANG["user_account.shipping_address.tip"]}
-                      content={LANG["user_account.shipping_address.delete_tip"]}
-                      renderNode={
-                        <div className={styles.icon_container}>
-                          <DeleteIcon width={24} height={24} />
-                        </div>
-                      }
-                      onOk={() => {
-                        if (deleteLoading) return;
-                        setDeleteLoading(true);
-                        Api.deleteUserAddress({ id: item.id })
-                          .then(() => {
-                            showTip({
-                              type: "success",
-                              text: LANG[
-                                "user_account.shipping_address.success_deleted"
-                              ],
-                            });
-                            getList();
-                            setDeleteLoading(false);
-                          })
-                          .catch(() => {
-                            showTip({
-                              type: "error",
-                              text: LANG[
-                                "user_account.shipping_address.fail_deleted"
-                              ],
-                            });
-                            setDeleteLoading(false);
-                          });
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <Empyt LANG={LANG} />
-          )}
+          <AddressBar
+            LANG={LANG}
+            list={list}
+            onEdit={openEdit}
+            onDelete={handleDelete}
+            deleteLoading={deleteLoading}
+            autoSelectFirst={false}
+          />
 
           {/* 受控编辑弹窗：与新增复用同一表单，携带 editItem 回填 + id 提交 */}
-          <NewAddressForm
+          <AddressFormModal
             LANG={LANG}
+            apiSave={Api.saveUserAddress}
+            apiParse={Api.parseAddress}
+            apiAutocomplete={Api.placeAutocomplete}
+            apiDetail={Api.placeDetail}
             editItem={editItem}
             open={editOpen}
             onClose={() => setEditOpen(false)}

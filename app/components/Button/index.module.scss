@@ -164,7 +164,7 @@
 // ---------- 响应式 ----------
 @media screen and (max-width: 768px) {
   .size_default {
-    height: 44px;
+    min-height: 44px;
     font-size: 13px;
   }
 }
