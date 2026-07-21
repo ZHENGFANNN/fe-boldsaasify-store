@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import ProductContext from "../../ProductContext";
 import Api from "../../api";
 import styles from "./index.module.scss";
@@ -9,6 +9,9 @@ import styles from "./index.module.scss";
 import DropSelect from "@/components/DropSelect";
 import { StarRating, ReviewList, Pagination } from "@/components/Review";
 import { StarActiveIcon } from "@/components/Icon";
+import ReviewModal from "@/[locale]/order/info/component/ReviewModal";
+import ShowTipModal from "@/components/Modal/ShowTipModal";
+import { useAuthGate } from "@/components/Auth/AuthGateContext";
 import readClientArea from "@/utils/readClientArea";
 import { defaultLocale } from "@/config/languageSettings";
 
@@ -57,8 +60,15 @@ function marketingToCard(item, idx) {
     seller_reply: "",
     email: item?.name || "",
     created_time: null,
+    // 营销好评非验证购买，不打 Verified Buyer 标（该标仅给 erp_goods_review 真实评论）。
+    verified: false,
     _source: "marketing",
   };
+}
+
+// 判断卡片是否含有效图片/视频（含图评价优先排序用）。
+function cardHasMedia(card) {
+  return Array.isArray(card?.media) && card.media.some((m) => m && m.url);
 }
 
 // 循环拉全某商品的真实评论（published）。
@@ -92,8 +102,17 @@ export default function GoodReviewsContent() {
   const { LANG, locale, productKey, productInfo, setReviewsVisible } =
     React.useContext(ProductContext);
 
+  const router = useRouter();
+  const { authed } = useAuthGate();
+
   const sectionRef = React.useRef(null);
+  const tipRef = React.useRef(null);
   const area = React.useMemo(() => readClientArea(), []);
+
+  // 就地写评价：点击后按 product_key 定位当前用户可评订单，命中则原地弹 ReviewModal。
+  const [resolving, setResolving] = React.useState(false);
+  const [reviewTarget, setReviewTarget] = React.useState(null);
+  const [reviewOrderNumber, setReviewOrderNumber] = React.useState("");
 
   const [inViewed, setInViewed] = React.useState(false);
   const [realCards, setRealCards] = React.useState([]);
@@ -110,6 +129,63 @@ export default function GoodReviewsContent() {
     [locale]
   );
 
+  const tip = React.useCallback((text, type = "info") => {
+    tipRef.current?.show({ text, type });
+  }, []);
+
+  // 「Write a Review」点击：未登录→带回跳跳登录；已登录→查可评订单，
+  // 命中就地弹 ReviewModal，未命中按 reason 提示（未购买/未完成/已评价）。
+  const handleWriteClick = React.useCallback(async () => {
+    if (resolving) return;
+    if (authed !== true) {
+      const back = encodeURIComponent(
+        window.location.pathname + window.location.search
+      );
+      router.push(`${localeHref("/user/login")}?redirect=${back}`);
+      return;
+    }
+    setResolving(true);
+    try {
+      const res = await Api.getReviewableOrder({ product_key: productKey });
+      const data = res?.data || {};
+      if (res?.code === 0 && data.reviewable) {
+        setReviewTarget({
+          productKey: data.product_key || productKey,
+          sortKey: data.sort_key || "",
+          comboKey: data.combo_key || "",
+          name: data.name || productInfo?.name || "",
+          comboName: data.combo_name || "",
+          image: data.image || "",
+        });
+        setReviewOrderNumber(data.order_number || "");
+      } else {
+        const reasonKey = {
+          already_reviewed: "store.product.review_already",
+          not_completed: "store.product.review_not_completed",
+          not_purchased: "store.product.review_not_purchased",
+        }[data.reason || "not_purchased"];
+        const fallback = {
+          already_reviewed: "You've already reviewed this item.",
+          not_completed:
+            "You can write a review once your order is completed.",
+          not_purchased: "Only customers who purchased this item can review it.",
+        }[data.reason || "not_purchased"];
+        tip(LANG[reasonKey] || fallback, "info");
+      }
+    } catch {
+      tip(LANG["common.other.load_failed"] || "Something went wrong.", "error");
+    } finally {
+      setResolving(false);
+    }
+  }, [resolving, authed, router, localeHref, productKey, productInfo, LANG, tip]);
+
+  // 就地评价提交成功：关闭弹窗并重拉真实评论，让新评价即时出现在列表。
+  const handleReviewSuccess = React.useCallback(() => {
+    setReviewTarget(null);
+    setReviewOrderNumber("");
+    setReloadFlag((f) => f + 1);
+  }, []);
+
   // 营销好评（SSR）：模块是否渲染的初始信号，也是无真实评论时唯一的内容来源。
   const marketingCards = React.useMemo(() => {
     const list = Array.isArray(productInfo?.reviewsList)
@@ -119,11 +195,15 @@ export default function GoodReviewsContent() {
   }, [productInfo]);
   const hasMarketing = marketingCards.length > 0;
 
-  // 合并集：真实评论在前（后端按 latest 已倒序），营销好评置于其后。
-  const allCards = React.useMemo(
-    () => [...realCards, ...marketingCards],
-    [realCards, marketingCards]
-  );
+  // 合并集：真实评论在前（后端按 latest 已倒序），营销好评置于其后；
+  // 再做「含图评价优先」稳定分区——含图/视频的卡片整体上浮，组内保留原相对次序
+  // （真实在前、最新在前）。珠宝高客单强视觉，含图真实评价对转化最有说服力。
+  const allCards = React.useMemo(() => {
+    const merged = [...realCards, ...marketingCards];
+    const withMedia = merged.filter(cardHasMedia);
+    const withoutMedia = merged.filter((c) => !cardHasMedia(c));
+    return [...withMedia, ...withoutMedia];
+  }, [realCards, marketingCards]);
 
   // 聚合摘要：总条数 = 真实评论数 + 营销好评数；平均分 = 全部单条评分的均值（即两套加权平均）。
   const summary = React.useMemo(() => {
@@ -220,7 +300,8 @@ export default function GoodReviewsContent() {
     fetchAllRealReviews(productKey)
       .then(({ list }) => {
         if (cancelled) return;
-        setRealCards(list.map((r) => ({ ...r, _source: "real" })));
+        // 真实评论均来自 erp_goods_review（后端已强校验订单归属+完成态）→ 打 Verified Buyer 标。
+        setRealCards(list.map((r) => ({ ...r, verified: true, _source: "real" })));
       })
       .catch(() => {
         if (cancelled) return;
@@ -335,13 +416,14 @@ export default function GoodReviewsContent() {
                       </div>
                     </DropSelect>
                   </div>
-                  <Link
-                    href={localeHref("/user/account/order")}
-                    prefetch={false}
+                  <button
+                    type="button"
                     className={styles.write_btn}
+                    disabled={resolving}
+                    onClick={handleWriteClick}
                   >
                     {LANG["store.product.write_review"] || "Write a Review"}
-                  </Link>
+                  </button>
                 </div>
               </div>
 
@@ -379,6 +461,20 @@ export default function GoodReviewsContent() {
           <div className={styles.sentinel} />
         )}
       </div>
+
+      {/* 就地写评价弹窗（复用账户订单页同款 ReviewModal）+ 分支提示 */}
+      <ReviewModal
+        open={!!reviewTarget}
+        product={reviewTarget}
+        orderNumber={reviewOrderNumber}
+        LANG={LANG}
+        onClose={() => {
+          setReviewTarget(null);
+          setReviewOrderNumber("");
+        }}
+        onSuccess={handleReviewSuccess}
+      />
+      <ShowTipModal ref={tipRef} />
     </section>
   );
 }

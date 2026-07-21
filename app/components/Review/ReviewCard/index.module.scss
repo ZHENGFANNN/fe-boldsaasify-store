@@ -18,6 +18,19 @@
       margin-bottom: 8px;
       word-break: break-word;
     }
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #1a8f5c;
+      svg {
+        color: #1a8f5c;
+        flex-shrink: 0;
+      }
+    }
     .date {
       margin-top: 8px;
       font-size: 13px;

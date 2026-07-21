@@ -24,6 +24,12 @@ const request = {
   getProductReviews: (params) => {
     return api.get("/pay/getProductReviews", { params });
   },
+  // 就地写评价：按 product_key 定位当前用户可评订单（需登录）
+  // 入参 { product_key }
+  // 出参 data:{ reviewable, reason?, order_number?, product_key?, sort_key?, combo_key?, combo_name?, name?, image? }
+  getReviewableOrder: (params) => {
+    return api.get("/pay/getReviewableOrder", { params });
+  },
 };
 
 export default request;

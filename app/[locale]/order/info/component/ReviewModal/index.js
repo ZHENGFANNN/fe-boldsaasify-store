@@ -219,14 +219,7 @@ export default function ReviewModal({
       );
       return;
     }
-    if (!content.trim()) {
-      tip(
-        LANG["store.order_info.review_need_content"] ||
-          "Please write your review.",
-        "error"
-      );
-      return;
-    }
+    // 正文选填（对齐业界「仅星级必填」）：留空也可提交，一键打星即可。
     if (mediaList.some((m) => m.uploading)) {
       tip(
         LANG["store.order_info.review_uploading"] ||
@@ -322,6 +315,9 @@ export default function ReviewModal({
             <div className={styles.field}>
               <div className={styles.label}>
                 {LANG["store.order_info.review_content"] || "Your review"}
+                <span className={styles.optional}>
+                  {LANG["store.order_info.review_optional"] || "(optional)"}
+                </span>
               </div>
               <textarea
                 className={styles.textarea}
