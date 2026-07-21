@@ -64,6 +64,40 @@
   }
 }
 
+// 多订单选择器
+.order_select {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #e2e4e8;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: #16181b;
+  cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// 匿名发表复选框
+.anonymous {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #16181b;
+  cursor: pointer;
+  user-select: none;
+  input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #534040;
+  }
+}
+
 // 星级评分
 .stars {
   display: flex;

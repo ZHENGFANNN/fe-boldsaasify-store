@@ -109,10 +109,10 @@ export default function GoodReviewsContent() {
   const tipRef = React.useRef(null);
   const area = React.useMemo(() => readClientArea(), []);
 
-  // 就地写评价：点击后按 product_key 定位当前用户可评订单，命中则原地弹 ReviewModal。
+  // 就地写评价：点击后按 product_key 定位当前用户可评订单列表，命中则原地弹 ReviewModal
+  // （多笔可评时弹窗内出订单选择器）。
   const [resolving, setResolving] = React.useState(false);
-  const [reviewTarget, setReviewTarget] = React.useState(null);
-  const [reviewOrderNumber, setReviewOrderNumber] = React.useState("");
+  const [reviewOrders, setReviewOrders] = React.useState(null);
 
   const [inViewed, setInViewed] = React.useState(false);
   const [realCards, setRealCards] = React.useState([]);
@@ -148,16 +148,8 @@ export default function GoodReviewsContent() {
     try {
       const res = await Api.getReviewableOrder({ product_key: productKey });
       const data = res?.data || {};
-      if (res?.code === 0 && data.reviewable) {
-        setReviewTarget({
-          productKey: data.product_key || productKey,
-          sortKey: data.sort_key || "",
-          comboKey: data.combo_key || "",
-          name: data.name || productInfo?.name || "",
-          comboName: data.combo_name || "",
-          image: data.image || "",
-        });
-        setReviewOrderNumber(data.order_number || "");
+      if (res?.code === 0 && data.reviewable && data.orders?.length) {
+        setReviewOrders(data.orders);
       } else {
         const reasonKey = {
           already_reviewed: "store.product.review_already",
@@ -177,12 +169,11 @@ export default function GoodReviewsContent() {
     } finally {
       setResolving(false);
     }
-  }, [resolving, authed, router, localeHref, productKey, productInfo, LANG, tip]);
+  }, [resolving, authed, router, localeHref, productKey, LANG, tip]);
 
   // 就地评价提交成功：关闭弹窗并重拉真实评论，让新评价即时出现在列表。
   const handleReviewSuccess = React.useCallback(() => {
-    setReviewTarget(null);
-    setReviewOrderNumber("");
+    setReviewOrders(null);
     setReloadFlag((f) => f + 1);
   }, []);
 
@@ -464,14 +455,10 @@ export default function GoodReviewsContent() {
 
       {/* 就地写评价弹窗（复用账户订单页同款 ReviewModal）+ 分支提示 */}
       <ReviewModal
-        open={!!reviewTarget}
-        product={reviewTarget}
-        orderNumber={reviewOrderNumber}
+        open={!!reviewOrders}
+        orders={reviewOrders}
         LANG={LANG}
-        onClose={() => {
-          setReviewTarget(null);
-          setReviewOrderNumber("");
-        }}
+        onClose={() => setReviewOrders(null)}
         onSuccess={handleReviewSuccess}
       />
       <ShowTipModal ref={tipRef} />

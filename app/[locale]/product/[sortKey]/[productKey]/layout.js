@@ -12,9 +12,14 @@ import { buildAlternates } from "@/config/seo";
 // 地区价格由 BaseLayout 挂载后对所有地区（含 us）拉取并合并。
 
 // 商品详情页多语言/页面配置命名空间（各接口独立拉取，互不耦合）。
+// store.order_info + common.other：商品页评论区就地复用账户端 ReviewModal（文案在
+// store.order_info.review_*）与其取消/加载/重试提示（common.other.*），需一并加载，
+// 否则弹窗在非 en 语言下整体退英文兜底。
 const LANG_NAMESPACE = [
   "store.product",
+  "store.order_info",
   "common.pay",
+  "common.other",
   "common.footer.sales_policy"
 ];
 const CONFIG_NAMESPACE = ["common.base", "setting.pay"];

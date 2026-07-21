@@ -7,9 +7,10 @@ import Modal from "@/components/Modal";
 import ShowTipModal from "@/components/Modal/ShowTipModal";
 import MediaUploader from "@/components/MediaUploader";
 
-// 评论上传限制（与售后申请 CreateWizard 对齐）：最多 6 个文件、单文件 ≤ 200MB。
+// 评论上传限制（与售后申请 CreateWizard 对齐）：最多 6 个文件、单文件 ≤ 5MB。
+// 与后端 /chat/upload 的 chatUploadMaxSize（5MB）保持一致，超出会被后端 413/“file too large”拒绝。
 const MAX_FILES = 6;
-const MAX_SIZE = 200 * 1024 * 1024; // 200MB
+const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
 // 1-5 星评分输入（可点选，鼠标悬停预览）。纯展示 + 回调，无内部业务。
 function StarRating({ value, onChange, disabled }) {
@@ -52,10 +53,16 @@ function StarRating({ value, onChange, disabled }) {
  * 复用 portal 到 body 的共享 <Modal>（遮罩天然压过导航）、共享 <MediaUploader>
  * 展示（上传通道走 Api.uploadReviewMedia → /chat/upload，与售后同口径）。
  *
+ * 两种驱动方式（互斥）：
+ *   - 账户订单详情页：传 product + orderNumber（单一订单，无选择器）；
+ *   - 商品详情页就地评价：传 orders 列表（同一商品的多笔可评订单），
+ *     长度 >1 时弹窗顶部出订单选择器，提交用选中那笔。
+ *
  * props：
- *   - open        是否打开（受控；父级用 reviewTarget 驱动）
- *   - product     被评商品 { productKey, sortKey, comboKey?, name, comboName?, image? }
- *   - orderNumber 订单号（提交入参 order_number）
+ *   - open        是否打开（受控；父级用 reviewTarget / reviewOrders 驱动）
+ *   - product     被评商品 { productKey, sortKey, comboKey?, name, comboName?, image? }（单订单模式）
+ *   - orderNumber 订单号（单订单模式提交入参 order_number）
+ *   - orders      可评订单列表 [{ order_number, order_time, product_key, sort_key, combo_key, combo_name, name, image }]（多订单模式）
  *   - LANG        文案对象（LANG["key"] || fallback）
  *   - onClose     请求关闭（背景/×/取消）
  *   - onSuccess(productKey) 提交成功回调（父级据此标记已评 + 刷新状态）
@@ -64,6 +71,7 @@ export default function ReviewModal({
   open,
   product,
   orderNumber,
+  orders,
   LANG,
   onClose,
   onSuccess,
@@ -74,9 +82,24 @@ export default function ReviewModal({
   const [rating, setRating] = React.useState(0);
   const [content, setContent] = React.useState("");
   const [mediaList, setMediaList] = React.useState([]);
+  const [anonymous, setAnonymous] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
-  // 关闭动画期间保留商品信息，避免内容瞬间消失。
+  // 关闭动画期间保留数据，避免内容瞬间消失。
   const [activeProduct, setActiveProduct] = React.useState(null);
+  const [activeOrders, setActiveOrders] = React.useState(null);
+  const [selIdx, setSelIdx] = React.useState(0);
+
+  // 多订单模式下当前选中的可评订单；单订单模式为 null。
+  const selectedOrder =
+    Array.isArray(activeOrders) && activeOrders.length ? activeOrders[selIdx] : null;
+  // 弹窗顶部展示的商品信息：多订单取选中订单行，单订单取 product。
+  const displayProduct = selectedOrder
+    ? {
+        name: selectedOrder.name,
+        comboName: selectedOrder.combo_name,
+        image: selectedOrder.image,
+      }
+    : activeProduct;
 
   const tip = React.useCallback((text, type = "info") => {
     tipRef.current?.show({ text, type });
@@ -84,19 +107,28 @@ export default function ReviewModal({
 
   const title = LANG["store.order_info.write_review"] || "Write a review";
 
-  // open 切换：打开时重置表单并弹出；关闭时收起（保留 activeProduct 供出场动画）。
+  // open 切换：打开时重置表单并弹出；关闭时收起（保留 active* 供出场动画）。
   React.useEffect(() => {
-    if (open && product) {
-      setActiveProduct(product);
+    const hasOrders = Array.isArray(orders) && orders.length > 0;
+    if (open && (product || hasOrders)) {
+      if (hasOrders) {
+        setActiveOrders(orders);
+        setSelIdx(0);
+        setActiveProduct(null);
+      } else {
+        setActiveProduct(product);
+        setActiveOrders(null);
+      }
       setRating(0);
       setContent("");
       setMediaList([]);
+      setAnonymous(false);
       setSubmitting(false);
       modalRef.current?.show({ title });
     } else {
       modalRef.current?.hide();
     }
-    // 仅按 open 切换驱动；title/product 变化不重复弹出。
+    // 仅按 open 切换驱动；title/product/orders 变化不重复弹出。
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
@@ -109,7 +141,7 @@ export default function ReviewModal({
     []
   );
 
-  // 本弹窗层做 200MB / 6 个校验，通过后逐个走上传通道，结果回填 mediaList。
+  // 本弹窗层做 5MB / 6 个校验，通过后逐个走上传通道，结果回填 mediaList。
   const addAndUpload = React.useCallback(
     (files) => {
       const remaining = MAX_FILES - mediaList.length;
@@ -118,7 +150,7 @@ export default function ReviewModal({
         `You can upload up to ${MAX_FILES} files.`;
       const tooLargeMsg =
         LANG["store.order_info.review_too_large"] ||
-        "File exceeds the 200MB limit.";
+        "File exceeds the 5MB limit.";
       if (remaining <= 0) {
         tip(maxFilesMsg, "error");
         return;
@@ -210,7 +242,20 @@ export default function ReviewModal({
 
   const handleSubmit = React.useCallback(async () => {
     if (submitting) return;
-    if (!activeProduct?.productKey) return;
+    // 多订单模式取选中订单，单订单模式取 product/orderNumber。
+    const productKey = selectedOrder
+      ? selectedOrder.product_key
+      : activeProduct?.productKey;
+    const submitOrderNumber = selectedOrder
+      ? selectedOrder.order_number
+      : orderNumber;
+    const submitSortKey = selectedOrder
+      ? selectedOrder.sort_key
+      : activeProduct?.sortKey;
+    const submitComboKey = selectedOrder
+      ? selectedOrder.combo_key
+      : activeProduct?.comboKey;
+    if (!productKey || !submitOrderNumber) return;
     if (rating < 1) {
       tip(
         LANG["store.order_info.review_need_rating"] ||
@@ -241,13 +286,14 @@ export default function ReviewModal({
     setSubmitting(true);
     try {
       const res = await Api.submitReview({
-        order_number: orderNumber,
-        product_key: activeProduct.productKey,
-        sort_key: activeProduct.sortKey,
-        ...(activeProduct.comboKey ? { combo_key: activeProduct.comboKey } : {}),
+        order_number: submitOrderNumber,
+        product_key: productKey,
+        sort_key: submitSortKey,
+        ...(submitComboKey ? { combo_key: submitComboKey } : {}),
         rating,
         content: content.trim(),
         media,
+        anonymous,
       });
       if (res.code === 0) {
         tip(
@@ -255,7 +301,7 @@ export default function ReviewModal({
             "Thanks for your review!",
           "success"
         );
-        onSuccess?.(activeProduct.productKey);
+        onSuccess?.(productKey);
       } else {
         throw new Error("submit failed");
       }
@@ -270,11 +316,13 @@ export default function ReviewModal({
     }
   }, [
     submitting,
+    selectedOrder,
     activeProduct,
+    orderNumber,
     rating,
     content,
     mediaList,
-    orderNumber,
+    anonymous,
     LANG,
     tip,
     onSuccess,
@@ -283,23 +331,45 @@ export default function ReviewModal({
   return (
     <>
       <Modal ref={modalRef} onClose={requestClose} closable={!submitting}>
-        {activeProduct ? (
+        {displayProduct ? (
           <div className={styles.body} data-role="review-modal">
             <div className={styles.product}>
-              {activeProduct.image ? (
+              {displayProduct.image ? (
                 <div className={styles.thumb}>
-                  <img src={activeProduct.image} alt={activeProduct.name || ""} />
+                  <img src={displayProduct.image} alt={displayProduct.name || ""} />
                 </div>
               ) : null}
               <div className={styles.product_meta}>
-                <div className={styles.product_name}>{activeProduct.name}</div>
-                {activeProduct.comboName ? (
+                <div className={styles.product_name}>{displayProduct.name}</div>
+                {displayProduct.comboName ? (
                   <div className={styles.product_combo}>
-                    {activeProduct.comboName}
+                    {displayProduct.comboName}
                   </div>
                 ) : null}
               </div>
             </div>
+
+            {/* 多订单：同一商品分属多笔已完成订单，让用户选评哪一笔 */}
+            {Array.isArray(activeOrders) && activeOrders.length > 1 ? (
+              <div className={styles.field}>
+                <div className={styles.label}>
+                  {LANG["store.order_info.review_select_order"] ||
+                    "Which order?"}
+                </div>
+                <select
+                  className={styles.order_select}
+                  value={selIdx}
+                  disabled={submitting}
+                  onChange={(e) => setSelIdx(Number(e.target.value))}
+                >
+                  {activeOrders.map((o, i) => (
+                    <option key={o.order_number} value={i}>
+                      {`#${o.order_number}${o.order_time ? ` · ${o.order_time}` : ""}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : null}
 
             <div className={styles.field}>
               <div className={styles.label}>
@@ -350,9 +420,22 @@ export default function ReviewModal({
               />
               <p className={styles.media_hint}>
                 {LANG["store.order_info.review_media_note"] ||
-                  `Up to ${MAX_FILES} files, max 200MB each`}
+                  `Up to ${MAX_FILES} files, max 5MB each`}
               </p>
             </div>
+
+            <label className={styles.anonymous}>
+              <input
+                type="checkbox"
+                checked={anonymous}
+                disabled={submitting}
+                onChange={(e) => setAnonymous(e.target.checked)}
+              />
+              <span>
+                {LANG["store.order_info.review_anonymous"] ||
+                  "Post anonymously"}
+              </span>
+            </label>
 
             <div className={styles.actions}>
               <button
