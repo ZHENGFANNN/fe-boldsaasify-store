@@ -1,4 +1,6 @@
 .container {
+  // 「新增地址」按钮改用公共 Button 组件（自带 48/44px 高度与 pill 内边距），
+  // 这里只保留布局；不再自定义 button 样式，避免选择器覆盖公共样式导致移动端扁平无 padding。
   .main_btn {
     display: flex;
     justify-content: flex-end;

@@ -262,10 +262,11 @@
           padding-left: 0;
           border-left: none;
           width: 100%;
+          display: flex;
+          justify-content: center;
 
-          .reviews_detail_list
-            .reviews_detail_list_item
-            .line_container {
+          // 星级分布整体水平居中；每行(星标+档位+进度条+计数)保持左对齐不逐字散开
+          .reviews_detail_list .reviews_detail_list_item .line_container {
             width: 160px;
           }
         }
