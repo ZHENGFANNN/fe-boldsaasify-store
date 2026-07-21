@@ -33,19 +33,43 @@ function fromCatalogHit(item, locale) {
 
 const SEARCH_DEBOUNCE_MS = 250;
 
+// 记住用户上次选中的分享 Tab（纯客户端）
+const TAB_KEY = "boldradiant_livechat_product_tab";
+const VALID_TABS = ["cart", "recent", "search"];
+
+function getSavedTab() {
+  if (typeof window === "undefined") return "";
+  try {
+    const saved = localStorage.getItem(TAB_KEY);
+    return VALID_TABS.includes(saved) ? saved : "";
+  } catch (err) {
+    return "";
+  }
+}
+
 export default function ProductPicker({ copy, locale, area, onPick, onClose }) {
   const recentItems = React.useMemo(() => getRecentlyViewed(), []);
   const [cartItems, setCartItems] = React.useState([]);
   const [cartLoading, setCartLoading] = React.useState(false);
   const [cartReady, setCartReady] = React.useState(false);
 
-  // 默认 Tab：优先有内容的来源（最近浏览有数据则 recent，否则 search；
-  // cart 异步加载后再不自动切 tab，避免跳动）
-  const initialTab = recentItems.length ? "recent" : "search";
+  // 默认 Tab：优先复用用户上次选中的 Tab；无记录时默认「最近浏览」
+  // （最近浏览为空才回退到 search，避免开局空面板）。
+  const initialTab =
+    getSavedTab() || (recentItems.length ? "recent" : "search");
   const [tab, setTab] = React.useState(initialTab);
   const [query, setQuery] = React.useState("");
   const [searchItems, setSearchItems] = React.useState([]);
   const [searchLoading, setSearchLoading] = React.useState(false);
+
+  // 每次切 Tab 都持久化，下次打开记住选择
+  React.useEffect(() => {
+    try {
+      localStorage.setItem(TAB_KEY, tab);
+    } catch (err) {
+      // ignore quota / serialize errors
+    }
+  }, [tab]);
 
   // Cart Tab：与站内购物车同源，读 store_shopping → /api/cart
   React.useEffect(() => {
@@ -113,32 +137,6 @@ export default function ProductPicker({ copy, locale, area, onPick, onClose }) {
       clearTimeout(timer);
     };
   }, [tab, query, locale]);
-
-  // 首次打开时：若购物车有货则默认切到 Cart（异步探测，不阻塞首屏）
-  React.useEffect(() => {
-    let cancelled = false;
-    resolveCartFromApi({ area: area || "us", language: locale || "en" })
-      .then((rows) => {
-        if (cancelled || !rows?.length) return;
-        // 仅当用户尚未操作过、仍停在 initialTab 时切换
-        setTab((cur) => (cur === initialTab ? "cart" : cur));
-        const seen = new Set();
-        const list = [];
-        rows.forEach((row) => {
-          if (!row?.productKey || seen.has(row.productKey)) return;
-          seen.add(row.productKey);
-          list.push(fromCartRow(row, locale));
-        });
-        setCartItems(list);
-        setCartReady(true);
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-    // 仅挂载时探测一次
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const tabs = [
     { key: "cart", label: copy?.productTabCart || "Cart" },
@@ -233,29 +231,32 @@ export default function ProductPicker({ copy, locale, area, onPick, onClose }) {
           </div>
         ) : null}
         <div className={styles.orderPickerBody}>
-          {tab === "cart"
-            ? renderList(
-                cartItems,
-                copy?.productCartEmpty || "Your cart is empty.",
-                cartLoading && !cartReady
-              )
-            : null}
-          {tab === "recent"
-            ? renderList(
-                recentItems,
-                copy?.productRecentEmpty || "No recently viewed products yet.",
-                false
-              )
-            : null}
-          {tab === "search"
-            ? renderList(
-                searchItems,
-                query.trim()
-                  ? copy?.productSearchEmpty || "No products found."
-                  : copy?.productSearchHint || "Type to search products.",
-                searchLoading
-              )
-            : null}
+          {/* key={tab} 让切换时重挂载，触发淡入动画，避免"先关再开"的割裂感 */}
+          <div className={styles.productPickerPane} key={tab}>
+            {tab === "cart"
+              ? renderList(
+                  cartItems,
+                  copy?.productCartEmpty || "Your cart is empty.",
+                  cartLoading && !cartReady
+                )
+              : null}
+            {tab === "recent"
+              ? renderList(
+                  recentItems,
+                  copy?.productRecentEmpty || "No recently viewed products yet.",
+                  false
+                )
+              : null}
+            {tab === "search"
+              ? renderList(
+                  searchItems,
+                  query.trim()
+                    ? copy?.productSearchEmpty || "No products found."
+                    : copy?.productSearchHint || "Type to search products.",
+                  searchLoading
+                )
+              : null}
+          </div>
         </div>
       </div>
     </div>
