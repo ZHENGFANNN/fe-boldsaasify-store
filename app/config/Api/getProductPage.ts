@@ -81,5 +81,14 @@ export async function getProductPage({
     throw err;
   }
 
+  // 兜底清洗 image_list：ERP 图片列表表单可能存下末尾空占位（{} 或 {src:""}），
+  // 直接渲染会出一个空图位，且 layout 的 new URL(image_list[0].src) 会抛错。
+  // 在数据源头统一过滤掉无 src 的条目，所有消费方（metadata/openGraph/展示组件）随之干净。
+  if (productInfo && Array.isArray(productInfo.image_list)) {
+    productInfo.image_list = productInfo.image_list.filter(
+      (it: any) => it && typeof it.src === "string" && it.src.trim() !== ""
+    );
+  }
+
   return { productInfo, customizeFields };
 }
