@@ -27,6 +27,7 @@ const request = {
   uploadMedia: (file) => {
     const form = new FormData();
     form.append("file", file);
+    form.append("scene", "after-sales"); // 售后图片/凭证 → private/after-sales
     return Api.post("/chat/upload", form);
   },
 

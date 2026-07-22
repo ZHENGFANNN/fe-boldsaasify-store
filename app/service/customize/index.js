@@ -18,5 +18,6 @@ import Api from "@/request";
 export function uploadCustomizeFile(file) {
   const form = new FormData();
   form.append("file", file);
+  form.append("scene", "order"); // 商品定制字段文件 → private/order
   return Api.post("/chat/upload", form);
 }

@@ -37,6 +37,7 @@ const request = {
   uploadReviewMedia: (file) => {
     const form = new FormData();
     form.append("file", file);
+    form.append("scene", "review"); // 真实评论媒体 → public/review（公开展示+缓存）
     return api.post("/chat/upload", form);
   },
 };
