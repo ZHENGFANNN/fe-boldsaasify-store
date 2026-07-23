@@ -6,7 +6,7 @@ import Cookie from "js-cookie";
 import styles from "./index.module.scss";
 import { useRouter } from "next/navigation";
 import FormSwitch from "@/components/Form/FormSwitch";
-import { setCookieConsent } from "@/hooks/useCookieConsent";
+import { setCookieConsent, computeConsent } from "@/hooks/useCookieConsent";
 
 function CookieItem({
   title,
@@ -60,13 +60,10 @@ function CookieItem({
 function Modal({ onFinish }, ref) {
   const [isMounted, setIsMounted] = React.useState(false);
   const [show, setShow] = React.useState(false);
-  const { locale, LANG } = React.useContext(GlobalContext);
+  const { locale, LANG, area } = React.useContext(GlobalContext);
   const [changeBodyScroll, setChangeBodyScroll] = React.useState(true);
-  const [checkList, setCheckList] = React.useState([
-    "functional",
-    "analytical",
-    "marketing",
-  ]);
+  // 初始留空，由下方 effect 按「已存偏好 / 地区默认」填充，避免 GDPR 地区首次打开就默认全勾。
+  const [checkList, setCheckList] = React.useState([]);
   const [openList, setOpenList] = React.useState([]);
 
   React.useImperativeHandle(ref, () => ({
@@ -83,6 +80,16 @@ function Modal({ onFinish }, ref) {
       );
       if (cookiePermissionsList) {
         setCheckList(JSON.parse(cookiePermissionsList));
+      } else {
+        // 未决定：按地区默认（与 computeConsent 一致）——GDPR 地区非必要全关，其它默认全开。
+        const c = computeConsent(area, null);
+        setCheckList(
+          [
+            c.functional && "functional",
+            c.analytical && "analytical",
+            c.marketing && "marketing",
+          ].filter(Boolean)
+        );
       }
     } catch (error) {
       console.log("[解析Cookie List失败]", error);

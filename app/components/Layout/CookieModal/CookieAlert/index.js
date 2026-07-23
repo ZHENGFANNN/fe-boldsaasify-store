@@ -6,7 +6,7 @@ import { setCookieConsent } from "@/hooks/useCookieConsent";
 import { track } from "@/utils/analytics";
 
 function CookieSetting({ showCookieSetting }, ref) {
-  const { LANG, area } = React.useContext(GlobalContext);
+  const { LANG, area, areaReady } = React.useContext(GlobalContext);
   const contentRef = React.useRef();
   const [show, setShow] = React.useState(false);
   const [firstRender, setFirstRender] = React.useState(true);
@@ -55,19 +55,28 @@ function CookieSetting({ showCookieSetting }, ref) {
   }));
 
   React.useEffect(() => {
+    // 必须等 area cookie 就绪再判：useArea 首帧 area=undefined、mount 后才填，
+    // 否则本 effect（原 [] 依赖）在 area 未就绪时判 includes(undefined)=false → 横幅永不弹。
+    if (!areaReady) return;
     const cookiePermissionsList = localStorage.getItem(
       "cookie_permissions_list"
     );
-    if (!cookiePermissionsList && COOKIE_ALERT_REGION_LIST.includes(area)) {
-      setTimeout(() => {
+    // 无 area cookie 时按站点默认 us（与 BottomModule/readClientArea 一致），否则横幅对默认访客不弹。
+    const effectiveArea = area || "us";
+    if (
+      !cookiePermissionsList &&
+      COOKIE_ALERT_REGION_LIST.includes(effectiveArea)
+    ) {
+      const timer = setTimeout(() => {
         track("cookie-alert-view");
         setFirstRender(false);
         setTimeout(() => {
           setShow(true);
         }, 100);
       }, 3000);
+      return () => clearTimeout(timer);
     }
-  }, []);
+  }, [areaReady, area]);
 
   if (firstRender) return null;
 
