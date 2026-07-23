@@ -10,9 +10,12 @@ import CookieModal from "./CookieModal";
 import LiveChat from "@/components/LiveChat";
 import openLiveChat from "@/components/LiveChat/openLiveChat";
 import LocalePrefsSync from "@/components/LocalePrefsSync";
+import AnalyticsGate from "@/components/Head/Analytics/Gate";
 
-export default function Layout({ locale, LANG, CONFIG, children }) {
+export default function Layout({ locale, LANG, CONFIG, analytics, children }) {
   const { area, areaReady } = useArea();
+  // Cookie 设置弹窗（Footer 入口 / 横幅内「偏好」触发）
+  const cookieRef = React.useRef(null);
   /**
    * 处理购物车数量
    */
@@ -72,6 +75,10 @@ export default function Layout({ locale, LANG, CONFIG, children }) {
         // Open live chat widget
         showLiveChat: (forceOpen = true) => {
           openLiveChat(forceOpen);
+        },
+        // Show Cookie 设置弹窗（Footer 入口调用）
+        showCookieSetting: () => {
+          cookieRef.current?.showCookieSetting();
         }
       }}
     >
@@ -81,8 +88,10 @@ export default function Layout({ locale, LANG, CONFIG, children }) {
       <AreaModal ref={areaRef} />
       {/* Contact Modal */}
       <ContactModal ref={contactRef} />
-      {/* Cookie Modal */}
-      <CookieModal />
+      {/* Cookie Modal（横幅 + 设置弹窗）；ref 供 Footer 入口打开设置 */}
+      <CookieModal ref={cookieRef} />
+      {/* GA4 / Pixel 按 Cookie 同意加载（欧洲默认不载、美国默认载）*/}
+      <AnalyticsGate ga4Id={analytics?.ga4Id} pixelId={analytics?.pixelId} />
       {/* 语言/地区偏好补偿：cookie 丢失时用 localStorage 镜像补回并纠正语言 */}
       <LocalePrefsSync locale={locale} />
       {/* Live Chat */}

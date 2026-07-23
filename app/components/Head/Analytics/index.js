@@ -1,11 +1,12 @@
-import Script from "next/script";
-
 /**
- * 商城埋点注入：GA4 + Facebook Pixel。
+ * 商城埋点配置读取（GA4 + Facebook Pixel）。
  *
  * 数据源：ERP 后台「全局管理 → 埋点管理」写入 config_global_settings.setting.analytics，
  * 由 script/fetch-config.js 在构建期物化到 fetch-data/globalConfig/index.json。
- * 保存后需重新构建/部署商城才会生效（不做 ISR 主动失效，head 脚本走 build-time require）。
+ * 保存后需重新构建/部署商城才会生效（build-time require）。
+ *
+ * 合规：脚本本身不再无条件注入 <head>，改由 AnalyticsGate（客户端）按 Cookie 同意
+ * （useCookieConsent）加载——欧洲(GDPR)默认不加载、美国默认加载。见 ./Gate。
  *
  * XSS 兜底：ID 只以字符串插入，前后端各正则一次；非法值一律不渲染。
  */
@@ -25,79 +26,41 @@ const loadAnalyticsConfig = () => {
   }
 };
 
-export default function Analytics() {
+/**
+ * 读取并校验埋点 ID（服务端/构建期调用）。非法或未启用返回 null。
+ * 只把校验过的 ID 传给客户端 gate，避免整份 globalConfig 进客户端包。
+ * @returns {{ ga4Id: string|null, pixelId: string|null }}
+ */
+export function getAnalyticsIds() {
   const cfg = loadAnalyticsConfig();
   const ga4 = cfg.ga4 || {};
   const pixel = cfg.pixel || {};
-
-  const ga4Enabled =
-    ga4.enabled && typeof ga4.measurementId === "string" && GA4_ID_REGEX.test(ga4.measurementId);
-  const pixelEnabled =
-    pixel.enabled && typeof pixel.pixelId === "string" && PIXEL_ID_REGEX.test(pixel.pixelId);
-
-  const ga4Id = ga4Enabled ? ga4.measurementId : null;
-  const pixelId = pixelEnabled ? pixel.pixelId : null;
-
-  return (
-    <>
-      {ga4Id ? (
-        <>
-          <Script
-            id="ga4-loader"
-            strategy="afterInteractive"
-            src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}
-          />
-          <Script
-            id="ga4-init"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${ga4Id}');`,
-            }}
-          />
-        </>
-      ) : null}
-
-      {pixelId ? (
-        <Script
-          id="fb-pixel-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window,document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '${pixelId}');
-              fbq('track', 'PageView');`,
-          }}
-        />
-      ) : null}
-    </>
-  );
+  const ga4Id =
+    ga4.enabled &&
+    typeof ga4.measurementId === "string" &&
+    GA4_ID_REGEX.test(ga4.measurementId)
+      ? ga4.measurementId
+      : null;
+  const pixelId =
+    pixel.enabled &&
+    typeof pixel.pixelId === "string" &&
+    PIXEL_ID_REGEX.test(pixel.pixelId)
+      ? pixel.pixelId
+      : null;
+  return { ga4Id, pixelId };
 }
 
-// noscript 兜底（GA4 无 noscript；Pixel 依赖 fetch-config 拉下来的 ID 才渲染）
+// noscript 兜底（Pixel）。注：noscript 无法读同意状态，仅在禁用 JS 时生效，属极端边缘。
 export function AnalyticsNoScript() {
-  const cfg = loadAnalyticsConfig();
-  const pixel = cfg.pixel || {};
-  const enabled =
-    pixel.enabled && typeof pixel.pixelId === "string" && PIXEL_ID_REGEX.test(pixel.pixelId);
-  if (!enabled) return null;
+  const { pixelId } = getAnalyticsIds();
+  if (!pixelId) return null;
   return (
     <noscript>
       <img
         height="1"
         width="1"
         style={{ display: "none" }}
-        src={`https://www.facebook.com/tr?id=${pixel.pixelId}&ev=PageView&noscript=1`}
+        src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
         alt=""
       />
     </noscript>

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import GlobalContext from "@/[locale]/context";
 import { COOKIE_ALERT_REGION_LIST } from "@/components/Layout/CookieModal/const";
+import { setCookieConsent } from "@/hooks/useCookieConsent";
 import { track } from "@/utils/analytics";
 
 function CookieSetting({ showCookieSetting }, ref) {
@@ -36,8 +37,9 @@ function CookieSetting({ showCookieSetting }, ref) {
     // 上报走 data-event 冒泡，见 dangerouslySetInnerHTML 内的属性
   };
 
+  // 写偏好并广播（setCookieConsent 内部 localStorage + dispatch），使脚本 gate 即时响应。
   const setCookiePermissions = React.useCallback((list) => {
-    localStorage.setItem("cookie_permissions_list", JSON.stringify(list));
+    setCookieConsent(list);
   }, []);
 
   React.useImperativeHandle(ref, () => ({

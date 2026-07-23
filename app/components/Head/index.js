@@ -1,4 +1,3 @@
-import Analytics from "./Analytics";
 import ThemeStyle from "./ThemeStyle";
 
 export default function Head({ logoLink, theme }) {
@@ -17,8 +16,7 @@ export default function Head({ logoLink, theme }) {
           <link rel="preconnect" href={apiOrigin} crossOrigin="anonymous" />
         </>
       ) : null}
-      {/* GA4 / Facebook Pixel — 由 ERP 全局管理 → 埋点管理配置，构建期物化到 fetch-data */}
-      <Analytics />
+      {/* GA4 / Facebook Pixel 脚本改由 body 内 AnalyticsGate 按 Cookie 同意加载（见 Layout） */}
     </head>
   );
 }

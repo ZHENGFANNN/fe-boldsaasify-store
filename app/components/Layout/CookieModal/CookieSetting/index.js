@@ -6,6 +6,7 @@ import Cookie from "js-cookie";
 import styles from "./index.module.scss";
 import { useRouter } from "next/navigation";
 import FormSwitch from "@/components/Form/FormSwitch";
+import { setCookieConsent } from "@/hooks/useCookieConsent";
 
 function CookieItem({
   title,
@@ -197,10 +198,8 @@ function Modal({ onFinish }, ref) {
             <div
               className={styles.btn}
               onClick={() => {
-                localStorage.setItem(
-                  "cookie_permissions_list",
-                  JSON.stringify(checkList)
-                );
+                // 写偏好并广播，脚本 gate 即时按新开关加载/停留。
+                setCookieConsent(checkList);
                 setShow(false);
                 onFinish();
               }}

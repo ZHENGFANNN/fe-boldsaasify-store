@@ -9,7 +9,8 @@ import Api from "../../api";
 import styles from "./index.module.scss";
 
 export default function ContactModule() {
-  const { CONFIG, LANG, locale, area } = React.useContext(GlobalContext);
+  const { CONFIG, LANG, locale, area, showCookieSetting } =
+    React.useContext(GlobalContext);
 
   const [email, setEmail] = React.useState("");
   const [emailStatue, setEmailStatue] = React.useState();
@@ -86,6 +87,16 @@ export default function ContactModule() {
           >
             <span>{LANG["common.footer.contact_email"]}：</span>
             <div>{CONFIG["common.base"]?.customer_service}</div>
+          </div>
+          {/* Cookie 设置入口：放在营业时间(office hours)上方，点击打开偏好弹窗 */}
+          <div className={styles.content_item}>
+            <a
+              style={{ cursor: "pointer" }}
+              data-event="FooterCookieSetting"
+              onClick={() => showCookieSetting?.()}
+            >
+              {LANG["common.cookie.cookie_perferences"] || "Cookie Settings"}
+            </a>
           </div>
           <time
             className={styles.content_item}

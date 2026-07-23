@@ -5,7 +5,7 @@ import "@/styles/common.scss"
 import Layout from "@/components/Layout";
 import Navbar from "@/components/Layout/NavBar";
 import Footer from "@/components/Layout/Footer";
-import { AnalyticsNoScript } from "@/components/Head/Analytics";
+import { AnalyticsNoScript, getAnalyticsIds } from "@/components/Head/Analytics";
 import TrackingRoot from "@/components/TrackingRoot";
 
 import Head from "@/components/Head";
@@ -84,7 +84,12 @@ export default async function RootLayout(props) {
         <GoogleAuthProvider>
           <GoogleOneTap />
           <AuthGateProvider>
-            <Layout locale={locale} LANG={LANG} CONFIG={CONFIG}>
+            <Layout
+              locale={locale}
+              LANG={LANG}
+              CONFIG={CONFIG}
+              analytics={getAnalyticsIds()}
+            >
               <Navbar />
               <div id="app-content">
                 <AuthBoundary LANG={LANG}>{children}</AuthBoundary>
