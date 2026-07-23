@@ -18,8 +18,8 @@ const request = {
   confirmPaypal: (data) => {
     return api.post("/pay/confirmPaypal", data);
   },
-  // 商品评论分页拉取（公开，无需登录）
-  // 入参 { productKey, sortOrder(latest/rating_desc/rating_asc), current, pageSize }
+  // 商品评论分页拉取（公开，无需登录）。合并后单一数据源：营销评论(按 language) + 真实评论(language='all')。
+  // 入参 { productKey, language(=locale), sortOrder(latest/rating_desc/rating_asc), current, pageSize }
   // 出参 data:{ list:[{id,rating,content,media:[{url,type,name}],seller_reply,email,created_time}], total }
   getProductReviews: (params) => {
     return api.get("/pay/getProductReviews", { params });

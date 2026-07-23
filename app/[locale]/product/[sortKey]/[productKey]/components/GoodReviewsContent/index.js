@@ -16,19 +16,16 @@ import readClientArea from "@/utils/readClientArea";
 import { defaultLocale } from "@/config/languageSettings";
 
 const PAGE_SIZE = 10;
-// 一次性把某商品的真实评论全量拉回（分页 API），供聚合摘要 + 客户端合并分页用。
-// 后端 getProductReviews 只返回 { list, total }，无跨页平均分/星级分布，
-// 故这里循环把所有页拉全，前端自行算平均分与 5~1 星分布。真实评论量级小，代价可控。
+// 评论已合并到单表 erp_content_reviews（营销 + 真实），前台一次性把全量评论拉回（分页 API），
+// 供聚合摘要（平均分 + 星条 + 条数 + 5~1 星分布）+ 客户端分页用。
+// 后端 getProductReviews 只返回 { list, total }，无跨页平均分/星级分布，故这里循环拉全，前端自算。
 const FETCH_SIZE = 50;
-const MAX_PAGES = 20;
+const MAX_PAGES = 40;
 
-// 营销好评（content_reviews：{name,score,comment,media_list,image,video,type}）→ 与真实评论同款卡片结构。
-// score→rating、comment→content、media_list→media(新版,数组[{url,type,name}])。
-// media_list 为空时回退老 image/video 单值字段(存量兼容,回填前的数据也不丢)。
-// name 落 email 字段（ReviewCard 以 email 作展示名）。
-function marketingToCard(item, idx) {
+// 后端评论项 → 卡片结构。media 已是原生数组 [{url,type,name}]；email 字段承载展示名（写入时已定型/脱敏）。
+function reviewToCard(item, idx) {
   let media = [];
-  const raw = item?.media_list;
+  const raw = item?.media;
   let parsed = null;
   if (Array.isArray(raw)) {
     parsed = raw;
@@ -45,24 +42,17 @@ function marketingToCard(item, idx) {
       .map((m) => ({
         url: m.url,
         type: m.type === "video" ? "video" : "image",
-        name: m.name || item?.name || "",
+        name: m.name || item?.email || "",
       }));
-  } else if (item?.type === "video" && item?.video) {
-    media.push({ url: item.video, type: "video", name: item?.name || "" });
-  } else if (item?.image) {
-    media.push({ url: item.image, type: "image", name: item?.name || "" });
   }
   return {
-    id: `mkt-${idx}`,
-    rating: Number(item?.score) || 0,
-    content: item?.comment || "",
+    id: item?.id != null ? `r-${item.id}` : `r-${idx}`,
+    rating: Number(item?.rating) || 0,
+    content: item?.content || "",
     media,
-    seller_reply: "",
-    email: item?.name || "",
-    created_time: null,
-    // 营销好评非验证购买，不打 Verified Buyer 标（该标仅给 erp_goods_review 真实评论）。
-    verified: false,
-    _source: "marketing",
+    seller_reply: item?.seller_reply || "",
+    email: item?.email || "",
+    created_time: item?.created_time || null,
   };
 }
 
@@ -71,13 +61,15 @@ function cardHasMedia(card) {
   return Array.isArray(card?.media) && card.media.some((m) => m && m.url);
 }
 
-// 循环拉全某商品的真实评论（published）。
-async function fetchAllRealReviews(productKey) {
+// 循环拉全某商品的 published 评论（合并后单一数据源）。language 传当前 locale：
+// 营销评论按语言命中，真实评论 language='all' 跨语言恒命中。
+async function fetchAllReviews(productKey, language) {
   let acc = [];
   let total = 0;
   for (let page = 1; page <= MAX_PAGES; page += 1) {
     const res = await Api.getProductReviews({
       productKey,
+      language,
       sortOrder: "latest",
       current: page,
       pageSize: FETCH_SIZE,
@@ -92,14 +84,13 @@ async function fetchAllRealReviews(productKey) {
   return { list: acc, total };
 }
 
-// 商品详情页评论模块。
-// 两套数据合并展示：真实用户评论（运行时 Api.getProductReviews / goods_review）
-// + 营销好评（SSR productInfo.reviewsList / content_reviews），聚合出顶部摘要
-// （大号平均分 + 星条 + 条数 + 5~1 星分布），下方按「真实评论在前、营销在后」排列成卡片列表。
-// 判空：两套都为空 → 整块 return null（并通过 ProductContext.setReviewsVisible 通知导航隐藏该 tab）。
-// 懒加载：真实评论不参与首屏，section 滚入视口后才客户端拉取。
+// PLACEHOLDER_COMPONENT
+// 商品详情页评论模块（纯客户端渲染，不做 SEO）。
+// 单一数据源：懒加载滚入视口后调 Api.getProductReviews 拉全 published 评论（营销 + 真实合并表），
+// 聚合出顶部摘要（大号平均分 + 星条 + 条数 + 5~1 星分布），下方按「含图评价优先」排成卡片列表。
+// 判空：拉回为 0 条 → 整块 return null（并通过 ProductContext.setReviewsVisible 通知导航隐藏该 tab）。
 export default function GoodReviewsContent() {
-  const { LANG, locale, productKey, productInfo, setReviewsVisible } =
+  const { LANG, locale, productKey, setReviewsVisible } =
     React.useContext(ProductContext);
 
   const router = useRouter();
@@ -115,7 +106,7 @@ export default function GoodReviewsContent() {
   const [reviewOrders, setReviewOrders] = React.useState(null);
 
   const [inViewed, setInViewed] = React.useState(false);
-  const [realCards, setRealCards] = React.useState([]);
+  const [cards, setCards] = React.useState([]);
   const [fetched, setFetched] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -171,32 +162,21 @@ export default function GoodReviewsContent() {
     }
   }, [resolving, authed, router, localeHref, productKey, LANG, tip]);
 
-  // 就地评价提交成功：关闭弹窗并重拉真实评论，让新评价即时出现在列表。
+  // 就地评价提交成功：关闭弹窗并重拉评论，让新评价即时出现在列表。
   const handleReviewSuccess = React.useCallback(() => {
     setReviewOrders(null);
     setReloadFlag((f) => f + 1);
   }, []);
 
-  // 营销好评（SSR）：模块是否渲染的初始信号，也是无真实评论时唯一的内容来源。
-  const marketingCards = React.useMemo(() => {
-    const list = Array.isArray(productInfo?.reviewsList)
-      ? productInfo.reviewsList
-      : [];
-    return list.map((item, i) => marketingToCard(item, i));
-  }, [productInfo]);
-  const hasMarketing = marketingCards.length > 0;
-
-  // 合并集：真实评论在前（后端按 latest 已倒序），营销好评置于其后；
-  // 再做「含图评价优先」稳定分区——含图/视频的卡片整体上浮，组内保留原相对次序
-  // （真实在前、最新在前）。珠宝高客单强视觉，含图真实评价对转化最有说服力。
+  // 「含图评价优先」稳定分区——含图/视频的卡片整体上浮，组内保留原相对次序（最新在前）。
+  // 珠宝高客单强视觉，含图真实评价对转化最有说服力。
   const allCards = React.useMemo(() => {
-    const merged = [...realCards, ...marketingCards];
-    const withMedia = merged.filter(cardHasMedia);
-    const withoutMedia = merged.filter((c) => !cardHasMedia(c));
+    const withMedia = cards.filter(cardHasMedia);
+    const withoutMedia = cards.filter((c) => !cardHasMedia(c));
     return [...withMedia, ...withoutMedia];
-  }, [realCards, marketingCards]);
+  }, [cards]);
 
-  // 聚合摘要：总条数 = 真实评论数 + 营销好评数；平均分 = 全部单条评分的均值（即两套加权平均）。
+  // 聚合摘要：总条数 + 平均分 + 5~1 星分布。
   const summary = React.useMemo(() => {
     const map = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     let sum = 0;
@@ -238,21 +218,19 @@ export default function GoodReviewsContent() {
     [LANG]
   );
 
-  // 内容判定：营销好评存在，或真实评论拉回后 > 0，即有内容可展示。
-  const hasContent = hasMarketing || realCards.length > 0;
-  // 两套最终都空（真实评论已拉回且为 0，且无营销）→ 整块不渲染。
-  const determinedEmpty =
-    fetched && !error && !hasMarketing && realCards.length === 0;
-  // 真实评论拉取失败且无营销兜底：给一个重试口，避免静默丢失。
-  const errorRealOnly =
-    fetched && error && !hasMarketing && realCards.length === 0;
+  // 内容判定：评论拉回后 > 0 即有内容。
+  const hasContent = cards.length > 0;
+  // 拉回且为 0 且无错误 → 整块不渲染。
+  const determinedEmpty = fetched && !error && cards.length === 0;
+  // 拉取失败且无内容：给一个重试口，避免静默丢失。
+  const errorEmpty = fetched && error && cards.length === 0;
 
   // 向导航同步「评论 tab 是否可见」：有内容→显示；确定为空→隐藏。
   React.useEffect(() => {
     if (typeof setReviewsVisible !== "function") return;
     if (determinedEmpty) setReviewsVisible(false);
-    else if (hasContent || errorRealOnly) setReviewsVisible(true);
-  }, [determinedEmpty, hasContent, errorRealOnly, setReviewsVisible]);
+    else if (hasContent || errorEmpty) setReviewsVisible(true);
+  }, [determinedEmpty, hasContent, errorEmpty, setReviewsVisible]);
 
   // 过滤后翻页越界回收（数据到位后 filteredCards 变化时）。
   React.useEffect(() => {
@@ -282,21 +260,20 @@ export default function GoodReviewsContent() {
     return () => io.disconnect();
   }, [inViewed]);
 
-  // 真实评论全量拉取：inViewed 后一次拉全，重试时重拉。
+  // 评论全量拉取：inViewed 后一次拉全，重试/提交成功时重拉。language 传当前 locale。
   React.useEffect(() => {
     if (!inViewed || !productKey) return;
     let cancelled = false;
     setLoading(true);
     setError(false);
-    fetchAllRealReviews(productKey)
+    fetchAllReviews(productKey, locale)
       .then(({ list }) => {
         if (cancelled) return;
-        // 真实评论均来自 erp_goods_review（后端已强校验订单归属+完成态）→ 打 Verified Buyer 标。
-        setRealCards(list.map((r) => ({ ...r, verified: true, _source: "real" })));
+        setCards(list.map((r, i) => reviewToCard(r, i)));
       })
       .catch(() => {
         if (cancelled) return;
-        setRealCards([]);
+        setCards([]);
         setError(true);
       })
       .finally(() => {
@@ -307,7 +284,7 @@ export default function GoodReviewsContent() {
     return () => {
       cancelled = true;
     };
-  }, [inViewed, productKey, reloadFlag]);
+  }, [inViewed, productKey, locale, reloadFlag]);
 
   const handleStarChange = React.useCallback((value) => {
     setStarFilter(value);
@@ -319,7 +296,7 @@ export default function GoodReviewsContent() {
     sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
-  // 两套最终都空 → 整块不渲染（hooks 已全部执行，安全早返回）。
+  // 拉回为空 → 整块不渲染（hooks 已全部执行，安全早返回）。
   if (determinedEmpty) return null;
 
   return (
@@ -423,7 +400,7 @@ export default function GoodReviewsContent() {
                 LANG={LANG}
                 locale={locale}
                 area={area}
-                loading={loading && realCards.length === 0 && !hasMarketing}
+                loading={loading && cards.length === 0}
               />
               <Pagination
                 current={current}
@@ -433,7 +410,7 @@ export default function GoodReviewsContent() {
               />
             </div>
           </>
-        ) : errorRealOnly ? (
+        ) : errorEmpty ? (
           <div className={styles.state} data-role="product-reviews-error">
             <p className={styles.error_text}>
               {LANG["common.other.load_failed"] || "Failed to load reviews."}
@@ -447,8 +424,7 @@ export default function GoodReviewsContent() {
             </button>
           </div>
         ) : (
-          // 无营销兜底且真实评论未拉回（未知/加载中）：零高度哨兵，仅用于触发懒加载观察，
-          // 不渲染重摘要，避免「先空后隐」闪烁。
+          // 加载中/未拉回：零高度哨兵，仅用于触发懒加载观察，避免「先空后隐」闪烁。
           <div className={styles.sentinel} />
         )}
       </div>
