@@ -89,15 +89,7 @@ export default function ContactModule() {
             <div>{CONFIG["common.base"]?.customer_service}</div>
           </div>
           {/* Cookie 设置入口：放在营业时间(office hours)上方，点击打开偏好弹窗 */}
-          <div className={styles.content_item}>
-            <a
-              style={{ cursor: "pointer" }}
-              data-event="FooterCookieSetting"
-              onClick={() => showCookieSetting?.()}
-            >
-              {LANG["common.cookie.cookie_perferences"] || "Cookie Settings"}
-            </a>
-          </div>
+          
           <time
             className={styles.content_item}
             dateTime={CONFIG["common.base"]?.work_time}
@@ -120,6 +112,15 @@ export default function ContactModule() {
               </span>
             </div>
           ) : null}
+          <div className={styles.content_item}>
+            <a
+              style={{ cursor: "pointer" }}
+              data-event="FooterCookieSetting"
+              onClick={() => showCookieSetting?.()}
+            >
+              {LANG["common.cookie.cookie_perferences"] || "Cookie Settings"}
+            </a>
+          </div>
         </div>
         <div className={styles.content_subscription}>
           <h2 className={styles.content_title}>
