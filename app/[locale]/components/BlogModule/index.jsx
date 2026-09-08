@@ -1,15 +1,18 @@
 /**
- * BlogModule — From the Journal（首页最新博客,编辑风,对齐旗舰站 IndexDiamondShapes 调性）。
+ * BlogModule — From the Journal（首页博客位,编辑风,对齐旗舰站 IndexDiamondShapes 调性）。
  *
  * 设计:
  *   - Georgia serif 标题 + 暖白 ivory 背景,奢品编辑调性(非首页其它模块的 sans 版式)。
- *   - 3 张最新文章卡:16:9 封面 + 分类眉标(带短分隔线) + serif 标题 + 日期。
+ *   - 3 张文章卡:16:9 封面 + 分类眉标(带短分隔线) + serif 标题 + 日期。
  *   - 无封面图时不再用高饱和色块,改「柔和低饱和 tonal 渐变 + 钻石刻面线稿 SVG」占位,读起来是刻意留白而非坏图。
  *
- * 数据源:
- *   - 优先 HomeContent.blogList(IndexContext 已预留;接后端后 page.jsx 下发即自动切换)。
- *   - 空店/未接线兜底: MOCK_BLOGS。兼容 blogSortList([{name,blogList}]) 与扁平 article[]。
- * 展示: 跨分类拍平后按 updated_time 降序取最新 3 篇;不足 2 篇不渲染。
+ * 数据源: HomeContent.blogList ← page.jsx 的 getTagBlogs(index-blog)。
+ *   运营在后台「博客标签」给文章打上 index-blog 即出现在此位置,换文章不需要发版
+ *   (改完去发布页点发布重建)。没打标 → 下发空数组 → 整块隐藏。
+ *
+ * 排序: 直接沿用后端顺序(weight 降序,同权重更新时间新的在前) —— weight 是运营
+ *   在后台设的排序意图,前端不再按时间重排,否则后台调权重看不到效果。
+ * 兼容: 仍接受 blogSortList([{name,blogList}]) 形状(分类页等其它调用方),拍平后使用。
  */
 "use client";
 import React from "react";
@@ -25,34 +28,6 @@ const THEMES = [
   { bg: "linear-gradient(150deg,#e9ede8 0%,#d5ded4 100%)", ink: "rgba(47,79,74,0.30)" },
   { bg: "linear-gradient(150deg,#f2ebdd 0%,#e6d8bf 100%)", ink: "rgba(150,110,44,0.28)" },
   { bg: "linear-gradient(150deg,#eeeae6 0%,#ddd6cd 100%)", ink: "rgba(60,60,60,0.22)" },
-];
-
-// mock 数据:接后端前的占位,形状对齐后端 article(image/title/key/sort_key/updated_time)。
-const MOCK_BLOGS = [
-  {
-    key: "how-to-choose-lab-grown-diamond",
-    sort_key: "buying-guide",
-    sort_name: "Buying Guide",
-    title: "How to Choose the Perfect Lab-Grown Diamond",
-    image: "",
-    updated_time: "2026-08-20T00:00:00Z",
-  },
-  {
-    key: "engagement-ring-styles-2026",
-    sort_key: "trends",
-    sort_name: "Trends",
-    title: "Engagement Ring Styles Defining 2026",
-    image: "",
-    updated_time: "2026-08-14T00:00:00Z",
-  },
-  {
-    key: "caring-for-your-fine-jewelry",
-    sort_key: "care",
-    sort_name: "Jewelry Care",
-    title: "Caring for Your Fine Jewelry: A Complete Guide",
-    image: "",
-    updated_time: "2026-08-06T00:00:00Z",
-  },
 ];
 
 // 钻石刻面线稿(占位中心图案),color 跟随主题 ink,细线奢品感。
@@ -104,14 +79,12 @@ function flattenBlogs(blogList) {
 export default function BlogModule() {
   const { blogList, LANG, locale } = React.useContext(HomeContent) || {};
 
-  const real = flattenBlogs(blogList);
-  const source = real.length > 0 ? real : MOCK_BLOGS;
+  // 后端已按 weight 降序 + limit 截断；这里只做形状归一 + 兜底截断，不重排。
+  const latest = flattenBlogs(blogList).slice(0, LATEST_COUNT);
 
-  const latest = [...source]
-    .sort((a, b) => new Date(b.updated_time || 0) - new Date(a.updated_time || 0))
-    .slice(0, LATEST_COUNT);
-
-  if (latest.length < 2) return null;
+  // 没打标/接口失败 → 整块隐藏。注意是 ==0 而非 <2：运营只挑 1 篇也应正常渲染，
+  // 否则「打了标签但页面毫无反应」会被当成 bug（商品标签位踩过同一个坑）。
+  if (latest.length === 0) return null;
 
   return (
     <section className={styles.module} aria-label="From the Journal">

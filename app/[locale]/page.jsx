@@ -3,6 +3,7 @@ import getRemoteConfig from "@/config/Api/getRemoteConfig";
 import getRemoteProductList from "@/config/Api/getRemoteProductList";
 import getSortList from "@/config/Api/getSortList";
 import getTagProducts from "@/config/Api/getTagProducts";
+import getTagBlogs from "@/config/Api/getTagBlogs";
 
 import IndexContext from "./components/IndexContext";
 import IndexBanner from "./components/IndexBanner";
@@ -23,15 +24,23 @@ import { mergeMeta } from "@/config/mergeMeta";
 // 换商品不需要发版（改完打标去发布页点发布重建即可）。标签不存在 → 模块自动隐藏。
 const BEST_SELLERS_TAG = "best-sellers";
 
+// 首页 Stories & Guides 位的文章来源：后台「博客标签」建这个 key 的标签并给文章打标即可，
+// 换文章不需要发版（同样改完去发布页点发布重建）。标签不存在/没打标 → 模块自动隐藏。
+const HOME_BLOG_TAG = "index-blog";
+
+// 首页博客位展示条数（后台打标超过这个数时取 weight 最高的前 N 篇）。
+const HOME_BLOG_COUNT = 3;
+
 // 首页数据层（后端整形 + TTL，前端开箱即用），构建期一次 Promise.all 取全 —— 纯 SSG：
 //   - LANG      ← /config/getLanguageByNamespace（home + home.category 文案命名空间）
 //   - CONFIG    ← /config/getPageConfigByNamespace（home.banner / common.base）
 //   - 产品列表  ← getRemoteProductList（comboList 仅含 key + associate_country_key，
 //                价格/折扣由客户端 IndexProductList 按 area cookie 调 /api/products-offer 批量取齐）
 //   - 热卖位    ← getTagProducts（按 best-sellers 标签取 Top 10，同样不含价格）
+//   - 博客位    ← getTagBlogs（按 index-blog 标签取 Top 3 文章卡，不含正文）
 // 不读 area cookie → 首页整页可 SSG；JSON-LD 走 IndexProductLdJson server 子组件以 us 兜底。
 async function getData({ locale }) {
-  const [LANG, CONFIG, goodsSortList, categoryList, bestSellersData] =
+  const [LANG, CONFIG, goodsSortList, categoryList, bestSellersData, blogTagData] =
     await Promise.all([
       getRemoteLanguage({
         locale,
@@ -47,7 +56,8 @@ async function getData({ locale }) {
       getRemoteConfig({ locale, nameSpace: ["home.banner", "common.base"] }),
       getRemoteProductList({ locale }),
       getSortList({ locale }),
-      getTagProducts({ locale, tagKey: BEST_SELLERS_TAG, limit: 10 })
+      getTagProducts({ locale, tagKey: BEST_SELLERS_TAG, limit: 10 }),
+      getTagBlogs({ locale, tagKey: HOME_BLOG_TAG, limit: HOME_BLOG_COUNT })
     ]);
 
   return {
@@ -57,7 +67,9 @@ async function getData({ locale }) {
     categoryList,
     // 标签不存在/接口失败 → null → 下发空数组，BestSellersModule 自行隐藏
     bestSellers: bestSellersData?.goodList || [],
-    bestSellersTag: bestSellersData?.tag || null
+    bestSellersTag: bestSellersData?.tag || null,
+    // 同上：标签不存在/没打标 → 空数组 → BlogModule 自行隐藏（不再退回 mock 假文章）
+    blogList: blogTagData?.blogList || []
   };
 }
 
@@ -95,7 +107,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Home({ params }) {
   const { locale } = await params;
-  const { CONFIG, LANG, goodsSortList, categoryList, bestSellers, bestSellersTag } =
+  const { CONFIG, LANG, goodsSortList, categoryList, bestSellers, bestSellersTag, blogList } =
     await getData({ locale });
 
   return (
@@ -107,6 +119,7 @@ export default async function Home({ params }) {
         categoryList={categoryList}
         bestSellers={bestSellers}
         bestSellersTag={bestSellersTag}
+        blogList={blogList}
         locale={locale}
       >
         {/* 首屏 KV 轮播（banner 为空时组件内部渲染空轨道，不报错） */}
@@ -125,7 +138,7 @@ export default async function Home({ params }) {
         {/* <IndexProductList /> */}
         {/* 客户评价聚合：总均分 + 精选评价卡（mock，接后端后由 props 下发） */}
         <ReviewsModule LANG={LANG} />
-        {/* From the Journal：最新博客（先 mock，接后端后由 page 下发 blogList 自动切换） */}
+        {/* From the Journal：文章来自后台「博客标签」index-blog（见 HOME_BLOG_TAG），没打标则整块隐藏 */}
         <BlogModule />
       </IndexContext>
       {/* JSON-LD 走 server 子组件（爬虫不执行 JS），SSG 阶段以默认 us 价兜底。 */}
