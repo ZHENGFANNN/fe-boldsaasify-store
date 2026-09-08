@@ -109,7 +109,8 @@ a.tile:hover .icon {
   }
 }
 
-/* 移动端：网格改 3 列，图标缩小 */
+/* 移动端：10 个形状改横向滚动（保留 2 行，与 PC 视觉一致且比单行少滑一半）
+   —— 原先 3 列换行会堆成 4 行、把下方模块推得很远。 */
 @media screen and (max-width: 767px) {
   .section {
     padding-block: 48px;
@@ -125,8 +126,43 @@ a.tile:hover .icon {
     display: none;
   }
   .grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px 8px;
+    /* 出血到视口两边：负 margin 抵掉 .inner 的 gutter，再用 padding 把首个 tile
+       推回与标题左对齐，末尾 tile 得以滑出右边缘 —— 读起来就是「可横滑」。 */
+    margin-inline: calc(var(--layout-gutter) * -1);
+    padding-inline: var(--layout-gutter);
+
+    /* 关掉移动端之前的 3 列换行，改为「2 行 + 列方向流动」 */
+    grid-template-columns: none;
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    /* minmax 而非定值 92px：1fr 是按 scrollport 宽度（不是 scrollWidth）分配剩余空间，
+       所以窄屏放不下时列被夹在下限 92px → 照常横滑；平板宽度（600–767）有余量时列
+       自动撑开填满，不会只占左边 476px 剩一大片空白。 */
+    grid-auto-columns: minmax(92px, 1fr);
+    gap: 20px 4px;
+
+    overflow-x: auto;
+    /* overflow-x 设为 auto 后，overflow-y 会被规范隐式提升为 auto → 意外可上下滚，须显式锁死 */
+    overflow-y: hidden;
+    /* 拦掉横向滚到尽头联动浏览器「后退/前进」手势 */
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    /* 必须与 padding-inline 同值：snap-align:start 默认把首个 tile 的左缘吸到 scrollport
+       左缘，会让容器自动滚掉 16px —— padding 白给、首个 tile 反而贴死视口边、跟标题错开。
+       用 scroll-padding 把 snapport 同样内缩，才既保留吸附又保住与标题的左对齐。 */
+    scroll-padding-inline: var(--layout-gutter);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .cell {
+    scroll-snap-align: start;
+  }
+  .tile {
+    padding-inline: 2px;
+    gap: 8px;
   }
   .icon {
     width: 66px;
