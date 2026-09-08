@@ -109,7 +109,7 @@ a.tile:hover .icon {
   }
 }
 
-/* 移动端：10 个形状改横向滚动（保留 2 行，与 PC 视觉一致且比单行少滑一半）
+/* 移动端：10 个形状排成单行横向滚动（10 个塞进一屏每个仅 ~33px，不可用，故保留横滑）
    —— 原先 3 列换行会堆成 4 行、把下方模块推得很远。 */
 @media screen and (max-width: 767px) {
   .section {
@@ -131,9 +131,9 @@ a.tile:hover .icon {
     margin-inline: calc(var(--layout-gutter) * -1);
     padding-inline: var(--layout-gutter);
 
-    /* 关掉移动端之前的 3 列换行，改为「2 行 + 列方向流动」 */
+    /* 关掉移动端之前的 3 列换行，改为「单行 + 列方向流动」 */
     grid-template-columns: none;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto;
     grid-auto-flow: column;
     /* minmax 而非定值 92px：1fr 是按 scrollport 宽度（不是 scrollWidth）分配剩余空间，
        所以窄屏放不下时列被夹在下限 92px → 照常横滑；平板宽度（600–767）有余量时列
