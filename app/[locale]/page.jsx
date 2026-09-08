@@ -74,11 +74,16 @@ async function getData({ locale }) {
 }
 
 // 「为什么选培育钻」图文交替 mock（无图走 tonal 占位；接后端后换真实图/文案）。
+// 配图刻意「举证」而非展示商品（商品位已由 Category/BestSellers 承担，避免视觉重复）：
+//   第一块讲光学性质无差别 → 裸石微距（火彩/色散可见），冷调呼应 tonal 占位色；
+//   第二块讲来路而非成品 → 实验室原石 + CVD 生长舱，暖调。
+// 图存 R2 public/home/why-lab-grown/*.jpg；换图后同名覆盖需给 URL 递增 ?v=N 绕 CF immutable 缓存。
 const WHY_LAB_GROWN = [
   {
     eyebrow: "Why Lab-Grown",
     title: "Identical to Mined, Better in Every Way",
     desc: "Lab-grown diamonds share the exact chemical, physical, and optical properties of mined diamonds — the same fire and brilliance, graded by the same IGI and GIA standards. The only difference is how they're made.",
+    image: "https://asset.boldradiant.com/public/home/why-lab-grown/identical.jpg?v=1",
     cta_text: "Explore Diamonds",
     cta_href: "/product",
   },
@@ -86,6 +91,7 @@ const WHY_LAB_GROWN = [
     eyebrow: "Conscious by Design",
     title: "Ethically Created, Sustainably Sourced",
     desc: "Grown in a lab, not the earth — no mining, no conflict, and a fraction of the environmental footprint. Beautiful jewelry you can feel good about, at a price that leaves room for the moments that matter.",
+    image: "https://asset.boldradiant.com/public/home/why-lab-grown/ethical.jpg?v=1",
     cta_text: "Our Promise",
     cta_href: "/blog",
   },
