@@ -78,22 +78,28 @@ async function getData({ locale }) {
 //   第一块讲光学性质无差别 → 裸石微距（火彩/色散可见），冷调呼应 tonal 占位色；
 //   第二块讲来路而非成品 → 实验室原石 + CVD 生长舱，暖调。
 // 图存 R2 public/home/why-lab-grown/*.jpg；换图后同名覆盖需给 URL 递增 ?v=N 绕 CF immutable 缓存。
+// CTA 落点刻意指向对应的教育文章，而不是商品列表/博客首页：
+//   这两块是「举证」而非「卖货」，读者此刻的问题是「培育钻到底跟天然的差在哪 / 怎么长出来的」，
+//   把他推进列表页等于让他自己去找答案。商品导流已由上方 Category/BestSellers/Shop by Shape 承担。
+//   两篇文章标题与本块论点一一对应（已核 200）：
+//     lab-grown-vs-natural-diamonds → "Lab-Grown vs Natural Diamonds: The Honest Difference"
+//     how-lab-diamonds-are-grown    → "How Lab-Grown Diamonds Are Made: CVD vs HPHT"
 const WHY_LAB_GROWN = [
   {
     eyebrow: "Why Lab-Grown",
     title: "Identical to Mined, Better in Every Way",
     desc: "Lab-grown diamonds share the exact chemical, physical, and optical properties of mined diamonds — the same fire and brilliance, graded by the same IGI and GIA standards. The only difference is how they're made.",
     image: "https://asset.boldradiant.com/public/home/why-lab-grown/identical.jpg?v=1",
-    cta_text: "Explore Diamonds",
-    cta_href: "/product",
+    cta_text: "See the Difference",
+    cta_href: "/blog/diamond-education/lab-grown-vs-natural-diamonds",
   },
   {
     eyebrow: "Conscious by Design",
     title: "Ethically Created, Sustainably Sourced",
     desc: "Grown in a lab, not the earth — no mining, no conflict, and a fraction of the environmental footprint. Beautiful jewelry you can feel good about, at a price that leaves room for the moments that matter.",
     image: "https://asset.boldradiant.com/public/home/why-lab-grown/ethical.jpg?v=1",
-    cta_text: "Our Promise",
-    cta_href: "/blog",
+    cta_text: "How They're Grown",
+    cta_href: "/blog/diamond-education/how-lab-diamonds-are-grown",
   },
 ];
 
