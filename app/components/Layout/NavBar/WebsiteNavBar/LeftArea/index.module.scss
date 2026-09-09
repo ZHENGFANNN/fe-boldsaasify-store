@@ -13,10 +13,11 @@
     padding-right: 16px;
     cursor: pointer;
 
+    // 只定高，宽度按原图比例自适应，绝不拉伸
     img {
       height: 32px;
-      width: 32px;
-      margin-right: 10px;
+      width: auto;
+      object-fit: contain;
     }
 
     a {
@@ -435,8 +436,8 @@
 
     .header_logo {
       img {
-        width: 26px;
         height: 26px;
+        width: auto;
       }
     }
 
