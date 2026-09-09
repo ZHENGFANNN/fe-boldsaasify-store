@@ -190,12 +190,17 @@ export default function LeftArea({ navActive, setNavActive }) {
               setNavActive(false);
             }}
           >
-            {CONFIG["common.base"]?.logo && (
-              <img alt={"logo"} src={CONFIG["common.base"]?.logo} />
+            {/* logo 与公司名二选一：配了 logo 就只出图（logo 自带品牌名，再叠文字会重复） */}
+            {CONFIG["common.base"]?.logo ? (
+              <img
+                alt={CONFIG["common.base"]?.company_name || "logo"}
+                src={CONFIG["common.base"]?.logo}
+              />
+            ) : (
+              <div className={styles.name}>
+                {CONFIG["common.base"]?.company_name}
+              </div>
             )}
-            <div className={styles.name}>
-              {CONFIG["common.base"]?.company_name}
-            </div>
           </Link>
         </div>
         <div
