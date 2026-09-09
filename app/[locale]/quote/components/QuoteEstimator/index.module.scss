@@ -1,0 +1,497 @@
+// QuoteEstimator —— 估价器版式。
+// 宽度一律消费 --layout-max / --layout-gutter（全站基准 = Nav 内容盒），
+// 断点与首页各模块对齐：1079 收布局、767 收成窄屏。禁硬写 1200/1280。
+
+.wrap {
+  background: #fff;
+}
+
+/* ---------- 页头 ---------- */
+.hero {
+  background: #f6f5f3;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.heroInner {
+  max-width: var(--layout-max);
+  width: calc(100% - var(--layout-gutter) * 2);
+  margin: 0 auto;
+  padding: 56px 0 48px;
+  text-align: center;
+}
+.kicker {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #96794a;
+  margin-bottom: 12px;
+}
+.h1 {
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.15;
+  color: #1b1b1b;
+  margin: 0 0 14px;
+}
+.heroText {
+  max-width: 660px;
+  margin: 0 auto;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #5a5a5a;
+}
+
+/* ---------- 主布局 ---------- */
+.layout {
+  max-width: var(--layout-max);
+  width: calc(100% - var(--layout-gutter) * 2);
+  margin: 0 auto;
+  padding: 44px 0 88px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 366px;
+  gap: 48px;
+  align-items: start;
+}
+
+.controls {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+/* ---------- 选择区块 ---------- */
+.block {
+  min-width: 0;
+}
+.blockHead {
+  margin-bottom: 16px;
+}
+.blockTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: #1b1b1b;
+  margin: 0 0 6px;
+}
+.optional {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.blockHint {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #6d6d6d;
+  margin: 0;
+  max-width: 62ch;
+}
+
+/* ---------- 形状网格 ---------- */
+.shapeGrid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8px;
+}
+.shapeTile {
+  appearance: none;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  padding: 12px 4px 9px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  &:hover {
+    border-color: rgba(150, 121, 74, 0.55);
+  }
+}
+.shapeTileActive {
+  border-color: #96794a;
+  box-shadow: inset 0 0 0 1px #96794a;
+}
+.shapeImg {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+.shapeLabel {
+  font-size: 10.5px;
+  line-height: 1.25;
+  color: #4a4a4a;
+  text-align: center;
+}
+
+/* ---------- chip 行（克拉/颜色/净度/切工） ---------- */
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  appearance: none;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 999px;
+  padding: 9px 17px;
+  font-size: 13px;
+  color: #3a3a3a;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+  &:hover {
+    border-color: rgba(150, 121, 74, 0.55);
+  }
+}
+.chipActive {
+  background: #1b1b1b;
+  border-color: #1b1b1b;
+  color: #fff;
+}
+
+/* ---------- 戒托卡 ---------- */
+.settingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.settingCard {
+  appearance: none;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  &:hover {
+    border-color: rgba(150, 121, 74, 0.55);
+  }
+}
+.settingCardActive {
+  border-color: #96794a;
+  box-shadow: inset 0 0 0 1px #96794a;
+}
+.settingThumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f4f2ef;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+.settingThumbEmpty {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(150deg, #eeeae6 0%, #ddd6cd 100%);
+}
+.settingBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.settingName {
+  font-size: 13px;
+  line-height: 1.35;
+  color: #1b1b1b;
+}
+.settingPrice {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #3a3a3a;
+}
+.fromWord {
+  font-size: 11px;
+  color: #8a8a8a;
+}
+
+/* ---------- 汇总卡 ---------- */
+.summaryCol {
+  min-width: 0;
+  // 🔴 sticky 的关键：必须让这一列拉满行高。
+  // .layout 设了 align-items: start，网格项会收缩到内容高度 —— 即 aside 高度
+  // 恰好等于卡片高度，粘性元素只能在父盒内移动，travelRoom=0，于是「设了 sticky
+  // 却完全不吸」。align-self 覆盖掉该列的 start，让 aside 拉到与左侧选项列同高，
+  // 卡片才有滚动行程。
+  align-self: stretch;
+}
+.summary {
+  position: sticky;
+  // 60px = 顶部 NavBar 自身也是 sticky top:0（不减掉会被压在导航底下），
+  // 余下 24px 是留白。站内同类做法见商详页侧栏 top:108px。
+  top: 84px;
+  background: #faf9f7;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  padding: 26px 24px;
+}
+.sumTitle {
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: #1b1b1b;
+  margin: 0 0 18px;
+}
+.sumSpecs {
+  margin: 0 0 18px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sumSpecRow {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  dt {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+  }
+  dd {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #1b1b1b;
+  }
+}
+.sumLines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.sumLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: #4a4a4a;
+}
+.sumLineVal {
+  color: #1b1b1b;
+  white-space: nowrap;
+}
+.sumTotal {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.sumTotalLabel {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+}
+.sumTotalVal {
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #1b1b1b;
+}
+.sumRange {
+  font-size: 12.5px;
+  color: #6d6d6d;
+}
+.disclaimer {
+  margin: 16px 0 0;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #7a7a7a;
+}
+.ctas {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ctaPrimary,
+.ctaSecondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: opacity 0.18s ease, background 0.18s ease;
+}
+.ctaPrimary {
+  background: #1b1b1b;
+  color: #fff;
+  &:hover {
+    opacity: 0.88;
+  }
+}
+.ctaSecondary {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  color: #1b1b1b;
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+.basisNote {
+  margin: 14px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #9a9a9a;
+}
+
+/* ---------- FAQ ---------- */
+.faq {
+  background: #f6f5f3;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+.faqInner {
+  max-width: var(--layout-max);
+  width: calc(100% - var(--layout-gutter) * 2);
+  margin: 0 auto;
+  padding: 56px 0 64px;
+}
+.faqTitle {
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 26px;
+  font-weight: 400;
+  color: #1b1b1b;
+  margin: 0 0 26px;
+}
+.faqList {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.faqItem {
+  min-width: 0;
+}
+.faqQ {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #1b1b1b;
+  margin-bottom: 8px;
+}
+.faqA {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #5a5a5a;
+}
+
+/* ---------- ≤1079：单列，汇总卡跟在选项之后 ---------- */
+@media screen and (max-width: 1079px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding: 32px 0 64px;
+  }
+  /* 刻意不写 order：单列下沿用 DOM 顺序(选项 → 汇总)，让顾客先选完再看总价。
+     曾用 order:-1 把汇总卡顶到最上面，但那样一进页面就是一个还没做任何选择的
+     默认价，选项全被推到折叠线以下。桌面端的侧栏布局由 grid 列决定，不受影响。 */
+  .summary {
+    position: static;
+  }
+  .h1 {
+    font-size: 33px;
+  }
+  .heroInner {
+    padding: 44px 0 38px;
+  }
+  .shapeGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .faqList {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .faqInner {
+    padding: 44px 0 52px;
+  }
+  .faqTitle {
+    font-size: 23px;
+  }
+}
+
+/* ---------- ≤767：窄屏 ---------- */
+@media screen and (max-width: 767px) {
+  .h1 {
+    font-size: 27px;
+  }
+  .heroInner {
+    padding: 34px 0 30px;
+  }
+  .heroText {
+    font-size: 14px;
+  }
+  .controls {
+    gap: 30px;
+  }
+  .shapeGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .shapeImg {
+    width: 34px;
+    height: 34px;
+  }
+  .shapeLabel {
+    font-size: 9.5px;
+  }
+  .settingGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .chip {
+    padding: 8px 14px;
+    font-size: 12.5px;
+  }
+  .summary {
+    padding: 20px 18px;
+  }
+  .sumTotalVal {
+    font-size: 26px;
+  }
+  .faqList {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .faqInner {
+    padding: 34px 0 42px;
+  }
+  .faqTitle {
+    font-size: 21px;
+    margin-bottom: 20px;
+  }
+}

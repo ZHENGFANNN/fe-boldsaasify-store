@@ -42,6 +42,9 @@ const STATIC_PATHS: {
 }[] = [
   { path: "", changeFrequency: "daily", priority: 1.0 }, // 首页
   { path: "/blog", changeFrequency: "weekly", priority: 0.6 },
+  // 估价器：搜索意图明确（"lab grown diamond price" 类查询）且内容不随库变，
+  // 权重高于客服页；表校准后内容会变，故按 monthly。
+  { path: "/quote", changeFrequency: "monthly", priority: 0.7 },
   { path: "/support/contact", changeFrequency: "monthly", priority: 0.3 }
 ];
 

@@ -1,0 +1,226 @@
+/* QuoteTeaserModule —— 首页估价器入口位。
+   容器宽度一律消费 --layout-max / --layout-gutter（全站基准 = NavBar 内容盒），
+   不写 1200/1280 硬值，否则与 Nav 及相邻模块横向错位。 */
+
+.module {
+  padding-block: 80px;
+}
+
+.inner {
+  max-width: var(--layout-max);
+  width: calc(100% - var(--layout-gutter) * 2);
+  margin: 0 auto;
+}
+
+/* 深色卡片：与上下相邻的浅色模块（Shop by Shape #f6f5f3 / BestSellers 白）
+   形成明确分节，避免首页长滚动里这一块被当成上一块的续页。 */
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #1e2420 0%, #2b3430 55%, #202824 100%);
+  color: #f4f2ee;
+  display: grid;
+  grid-template-columns: 1fr minmax(200px, 300px);
+  gap: 48px;
+  align-items: center;
+  padding: 56px 56px 56px 64px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.kicker {
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #c8b89a;
+  margin-bottom: 14px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: 0.3px;
+  color: #fbfaf8;
+}
+
+.desc {
+  margin: 16px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #cfd4cf;
+  max-width: 56ch;
+}
+
+/* 4C 维度说明行：细线胶囊，纯说明性（aria-hidden，读屏不重复念） */
+.dims {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dim {
+  font-size: 11px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #a9b2ab;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+/* 克拉快捷入口 */
+.quick {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.quickLabel {
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #a9b2ab;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 2px;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  color: #f4f2ee;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.chip:hover {
+  background: #f4f2ee;
+  border-color: #f4f2ee;
+  color: #1e2420;
+}
+
+/* 主 CTA */
+.actions {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #f4f2ee;
+  color: #1e2420;
+  padding: 14px 26px;
+  border-radius: 2px;
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.cta svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+.cta:hover {
+  background: #c8b89a;
+  transform: translateX(2px);
+}
+
+.note {
+  font-size: 12.5px;
+  letter-spacing: 0.3px;
+  color: #9aa39c;
+}
+
+/* 装饰面：细线钻石轮廓 */
+.visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diamond {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  /* 香槟金细线：在深绿灰卡面上要看得见轮廓但不抢主文案，
+     0.5 alpha 实测几乎融进背景，提到 0.72。 */
+  color: rgba(200, 184, 154, 0.72);
+}
+
+/* ---- 响应式（断点与相邻模块 / NavBar 对齐）---- */
+
+/* 中屏：装饰面收窄，内边距回收 */
+@media screen and (max-width: 1080px) {
+  .card {
+    grid-template-columns: 1fr minmax(160px, 220px);
+    gap: 32px;
+    padding: 48px;
+  }
+  .diamond {
+    max-width: 180px;
+  }
+}
+
+/* 窄屏：单列，装饰面移除（首页纵向已经很长，装饰图不值得再占一屏高度） */
+@media screen and (max-width: 779px) {
+  .module {
+    padding-block: 56px;
+  }
+  .card {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 36px 24px;
+  }
+  .visual {
+    display: none;
+  }
+  .title {
+    font-size: clamp(24px, 6.4vw, 30px);
+  }
+  .desc {
+    font-size: 14.5px;
+  }
+  .actions {
+    margin-top: 26px;
+    gap: 14px;
+  }
+  .cta {
+    width: 100%;
+    justify-content: center;
+  }
+  .note {
+    width: 100%;
+  }
+}

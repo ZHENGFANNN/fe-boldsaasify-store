@@ -11,6 +11,7 @@ import TrustBar from "./components/TrustBar";
 import CategoryModule from "./components/CategoryModule";
 import BestSellersModule from "./components/BestSellersModule";
 import IndexDiamondShapes from "./components/IndexDiamondShapes";
+import QuoteTeaserModule from "./components/QuoteTeaserModule";
 import FeatureShowcase from "./components/FeatureShowcase";
 import IndexProductList from "./components/IndexProductList";
 import ReviewsModule from "./components/ReviewsModule";
@@ -140,10 +141,13 @@ export default async function Home({ params }) {
         <TrustBar />
         {/* Shop Jewelry by Category：横向滑动分类卡（参考 brilliantearth 版式，空店走 8 分类兜底） */}
         <CategoryModule />
-        {/* 当前热卖：商品来自后台「best-sellers」标签（见 BEST_SELLERS_TAG），标签为空则整块隐藏 */}
-        <BestSellersModule />
         {/* 按形状选购钻石（旗舰站特色，纯 SSG） */}
         <IndexDiamondShapes />
+        {/* 当前热卖：商品来自后台「best-sellers」标签（见 BEST_SELLERS_TAG），标签为空则整块隐藏 */}
+        <BestSellersModule />
+        {/* 估价器入口 → /quote。刻意放在热卖位之后：顾客刚看完戒托真实价，
+            「那颗中心石要多少钱」的疑问最强（本站只卖戒托），此处接住并给克拉快捷入口。 */}
+        <QuoteTeaserModule LANG={LANG} />
         {/* 为什么选培育钻：图文交替品牌故事（mock list，无图走占位） */}
         <FeatureShowcase list={WHY_LAB_GROWN} />
         {/* 精选商品分类网格（复用现有卡片 + 客户端取价）：0 商品时各类 goodList 为空、不渲染 */}
