@@ -495,3 +495,112 @@
     margin-bottom: 20px;
   }
 }
+
+/* ---------- 移动端吸底汇总条 ---------- */
+/* 汇总卡在 ≤1079 被排到选项之后，选择过程中看不见金额；此条补位。
+   桌面端有粘性侧栏，不需要它 —— 故默认 display:none，仅窄屏媒体查询里打开。 */
+.stickyBar {
+  display: none;
+}
+
+@media screen and (max-width: 1079px) {
+  .stickyBar {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    // 收起态：整条移出视口下方（配合 transition 得到滑入滑出）。
+    // 用 transform 而非 bottom 动画：transform 走合成层，滚动中不触发重排。
+    bottom: 0;
+    transform: translateY(110%);
+    transition: transform 280ms ease;
+    // 低于 LiveChat 气泡(99999999999)与 Cookie 弹窗(999999999)，
+    // 高于页面内容 —— 与商详页 GoodFooter(99999999) 同层级。
+    z-index: 99999999;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.09);
+    // iOS 底部安全区（全面屏手势条），否则文字会被横条压住
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .stickyBarShown {
+    transform: translateY(0);
+  }
+
+  .stickyInner {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    // 🔴 右侧留 92px：LiveChat 气泡固定在 right:24px 且 60px 宽、z-index 更高，
+    // 不留出这段的话「Details」按钮会被气泡压住点不到。
+    padding: 10px var(--layout-gutter) 10px var(--layout-gutter);
+    padding-right: 92px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 60px;
+    box-sizing: border-box;
+  }
+
+  .stickyText {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stickySpec {
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    color: #6a6a6a;
+    // 规格串（含戒托名）可能很长，单行截断优于把条撑高
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .stickyPrice {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: #1b1b1b;
+    line-height: 1.15;
+  }
+  .stickyPriceLabel {
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+    white-space: nowrap;
+  }
+
+  .stickyBtn {
+    flex-shrink: 0;
+    appearance: none;
+    border: 1px solid rgba(0, 0, 0, 0.22);
+    background: #fff;
+    border-radius: 999px;
+    padding: 9px 16px;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: #1b1b1b;
+    cursor: pointer;
+    // 44px 触摸目标下限
+    min-height: 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .stickyPrice {
+    font-size: 17.5px;
+  }
+  .stickyInner {
+    // 窄屏气泡仍在 right:24px，但按钮更小，留白可略收
+    padding-right: 88px;
+    gap: 8px;
+  }
+}

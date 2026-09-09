@@ -211,6 +211,26 @@ export default function QuoteEstimator({ LANG = {}, locale, settings = [] }) {
 
   const showCut = shapeHasCutGrade(selection.shape);
 
+  // ---- 移动端吸底条 ----
+  // ≤1079 汇总卡排在选项之后（顾客要求先选完再看总价），代价是选择过程中看不到金额。
+  // 用吸底条补上：汇总卡不在视口内就显示，滚到汇总卡就让位（信息重复反而干扰）。
+  // 刻意用 IntersectionObserver 而不是 scroll 事件 —— 它就是在问「真卡片露出来了吗」，
+  // 不需要 debounce，也不用手算阈值（站内 GoodFooter 那套 jQuery scroll 是历史写法）。
+  const summaryRef = React.useRef(null);
+  const [summaryOnScreen, setSummaryOnScreen] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = summaryRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      ([entry]) => setSummaryOnScreen(entry.isIntersecting),
+      // 露出约 1/4 才算「看见了」：只冒出个圆角就收条会造成反复闪烁。
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div className={styles.wrap}>
       {/* ---------- 页头 ---------- */}
@@ -483,7 +503,7 @@ export default function QuoteEstimator({ LANG = {}, locale, settings = [] }) {
 
         {/* ---------- 右：汇总（桌面粘性） ---------- */}
         <aside className={styles.summaryCol}>
-          <div className={styles.summary}>
+          <div className={styles.summary} ref={summaryRef}>
             <h2 className={styles.sumTitle}>
               {T("quote.summary_title", "Your Estimate")}
             </h2>
@@ -644,6 +664,44 @@ export default function QuoteEstimator({ LANG = {}, locale, settings = [] }) {
           </dl>
         </div>
       </section>
+
+      {/* ---------- 移动端吸底汇总条（≤1079，由 CSS 控制只在窄屏出现） ---------- */}
+      {/* 始终渲染、用 class 切换位移：这样有进出动画，也不会在显隐瞬间抖动布局。
+          aria-hidden 跟随可见性，避免屏幕阅读器把同一份金额念两遍。 */}
+      <div
+        className={`${styles.stickyBar} ${summaryOnScreen ? "" : styles.stickyBarShown}`}
+        aria-hidden={summaryOnScreen ? "true" : "false"}
+      >
+        <div className={styles.stickyInner}>
+          <div className={styles.stickyText}>
+            <span className={styles.stickySpec}>
+              {formatCarat(selection.carat)}ct{" "}
+              {LANG[`home.shape_${selection.shape}`] || shapeLabel(selection.shape)}
+              {" · "}
+              {selection.color}/{selection.clarity}
+              {selectedSetting ? ` · ${selectedSetting.name}` : ""}
+            </span>
+            <span className={styles.stickyPrice}>
+              {diamond.valid ? money(total) : "—"}
+              {/* 条内空间很挤，用比汇总卡更短的措辞（不复用 total_ring/total_stone） */}
+              <span className={styles.stickyPriceLabel}>
+                {selectedSetting
+                  ? T("quote.sticky_ring_total", "est. ring total")
+                  : T("quote.sticky_stone_total", "est. stone cost")}
+              </span>
+            </span>
+          </div>
+          <button
+            type="button"
+            className={styles.stickyBtn}
+            onClick={() =>
+              summaryRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+            }
+          >
+            {T("quote.sticky_details", "Details")}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
