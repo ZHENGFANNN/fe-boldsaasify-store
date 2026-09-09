@@ -2,7 +2,7 @@
 .module {
   --home-section-gap-desktop: 120px;
   --home-section-gap-tablet: 88px;
-  --home-section-gap-mobile: 56px;
+  --home-section-gap-mobile: 48px;
   --home-gutter-desktop: 24px;
   --home-gutter-mobile: 16px;
   --home-pad-left: 88px; // 左缘留白（标题与第一张卡共用，替代 max-width 居中）
@@ -35,6 +35,7 @@
   }
   .subtitle {
     font-size: 16px;
+    line-height: 1.2;
     color: rgba(0, 0, 0, 0.55);
   }
 }
@@ -151,12 +152,22 @@
 
 @media screen and (max-width: 780px) {
   .module {
-    padding-block: 56px;
+    padding-block: 48px;
     --home-pad-left: 16px; // 移动：同上
   }
+
+  .head {
+    margin-bottom: 16px;
+    .title {
+      margin-bottom: 12px;
+      font-size: 28px;
+    }
+  }
+
   .scroller {
     gap: 12px;
   }
+
   .card {
     width: 300px;
     .name {

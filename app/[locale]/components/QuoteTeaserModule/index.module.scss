@@ -1,9 +1,17 @@
 /* QuoteTeaserModule —— 首页估价器入口位。
    容器宽度一律消费 --layout-max / --layout-gutter（全站基准 = NavBar 内容盒），
-   不写 1200/1280 硬值，否则与 Nav 及相邻模块横向错位。 */
+   不写 1200/1280 硬值，否则与 Nav 及相邻模块横向错位。
+
+   配色跟随首页既有语言（BlogModule / IndexDiamondShapes）：
+   金色眉标 #96794a + serif 深色标题 #1b1b1b + 暖白底。
+   最初做成深绿渐变卡，是全页唯一的深色块，跳脱其余模块 —— 已改浅色。 */
 
 .module {
   padding-block: 80px;
+  /* 本模块用白底、内嵌暖白面板：上邻 BestSellers 是白、下邻 Reviews 是 #f6f5f3，
+     若本块也铺 #f6f5f3 就会和 Reviews 连成一片（Reviews→Blog 已是同底相接）。
+     白底 + 暖白面板既留住 CTA 的「成块感」，又不引入深色。 */
+  background: #fff;
 }
 
 .inner {
@@ -12,14 +20,13 @@
   margin: 0 auto;
 }
 
-/* 深色卡片：与上下相邻的浅色模块（Shop by Shape #f6f5f3 / BestSellers 白）
-   形成明确分节，避免首页长滚动里这一块被当成上一块的续页。 */
 .card {
   position: relative;
   overflow: hidden;
   border-radius: 2px;
-  background: linear-gradient(135deg, #1e2420 0%, #2b3430 55%, #202824 100%);
-  color: #f4f2ee;
+  background: #f6f5f3; // 与 Shop by Shape / Journal 同一暖白
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  color: #1b1b1b;
   display: grid;
   grid-template-columns: 1fr minmax(200px, 300px);
   gap: 48px;
@@ -35,9 +42,10 @@
 
 .kicker {
   font-size: 12px;
-  letter-spacing: 1.6px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #c8b89a;
+  color: #96794a; // champagne gold，全站统一强调色
   margin-bottom: 14px;
 }
 
@@ -47,15 +55,15 @@
   font-size: clamp(26px, 3vw, 40px);
   font-weight: 500;
   line-height: 1.18;
-  letter-spacing: 0.3px;
-  color: #fbfaf8;
+  letter-spacing: 0.4px;
+  color: #1b1b1b;
 }
 
 .desc {
   margin: 16px 0 0;
   font-size: 15px;
   line-height: 1.7;
-  color: #cfd4cf;
+  color: rgba(0, 0, 0, 0.55);
   max-width: 56ch;
 }
 
@@ -73,8 +81,8 @@
   font-size: 11px;
   letter-spacing: 1.1px;
   text-transform: uppercase;
-  color: #a9b2ab;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 999px;
   padding: 5px 12px;
 }
@@ -92,7 +100,7 @@
   font-size: 12px;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #a9b2ab;
+  color: rgba(0, 0, 0, 0.45);
 }
 
 .chips {
@@ -107,19 +115,20 @@
   justify-content: center;
   min-width: 60px;
   padding: 8px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.14);
   border-radius: 2px;
   font-size: 14px;
   letter-spacing: 0.4px;
-  color: #f4f2ee;
+  color: #1b1b1b;
   text-decoration: none;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
+/* hover 用金色描边而非填充：与 Shop by Shape 的 tile hover 一致 */
 .chip:hover {
-  background: #f4f2ee;
-  border-color: #f4f2ee;
-  color: #1e2420;
+  border-color: #96794a;
+  color: #96794a;
 }
 
 /* 主 CTA */
@@ -135,15 +144,15 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #f4f2ee;
-  color: #1e2420;
+  background: #1b1b1b; // 与 quote 页 .ctaPrimary 同一实心深色按钮
+  color: #fff;
   padding: 14px 26px;
   border-radius: 2px;
   font-size: 14px;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .cta svg {
@@ -153,14 +162,14 @@
 }
 
 .cta:hover {
-  background: #c8b89a;
+  opacity: 0.88;
   transform: translateX(2px);
 }
 
 .note {
   font-size: 12.5px;
   letter-spacing: 0.3px;
-  color: #9aa39c;
+  color: rgba(0, 0, 0, 0.45);
 }
 
 /* 装饰面：细线钻石轮廓 */
@@ -174,9 +183,9 @@
   width: 100%;
   max-width: 240px;
   height: auto;
-  /* 香槟金细线：在深绿灰卡面上要看得见轮廓但不抢主文案，
-     0.5 alpha 实测几乎融进背景，提到 0.72。 */
-  color: rgba(200, 184, 154, 0.72);
+  /* 暖白面板上的香槟金细线：用全站强调色降透明度，
+     既看得见轮廓又不与右侧留白抢主文案。 */
+  color: rgba(150, 121, 74, 0.5);
 }
 
 /* ---- 响应式（断点与相邻模块 / NavBar 对齐）---- */
@@ -215,6 +224,18 @@
   .actions {
     margin-top: 26px;
     gap: 14px;
+  }
+  /* 4 个克拉快捷位改等宽单行：flex-wrap 在 390px 下会折成 3+1，
+     末尾孤零零一个「2 ct」很碎。窄屏 .quickLabel 已独占一行，
+     .chips 拿得到整行宽度，grid 四等分刚好放得下。 */
+  .chips {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+  }
+  .chip {
+    min-width: 0;
+    padding: 9px 4px;
   }
   .cta {
     width: 100%;

@@ -88,39 +88,26 @@ a.tile:hover .icon {
   color: rgba(0, 0, 0, 0.72);
 }
 
-/* 平板：左右改上下堆叠，网格保持 5 列 */
-@media screen and (max-width: 1079px) {
+/* 窄屏（<780，与相邻模块断点对齐）：左右两栏改上下堆叠，标题居中，10 个形状单行横滑 */
+@media screen and (max-width: 779px) {
+  .section {
+    padding-block: 48px;
+  }
+  .title {
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
   .inner {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 24px;
   }
   .intro {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 24px;
-  }
-  .featured {
-    margin-top: 0;
-    max-width: 180px;
-  }
-  .grid {
-    gap: 24px 12px;
-  }
-}
-
-/* 移动端：10 个形状排成单行横向滚动（10 个塞进一屏每个仅 ~33px，不可用，故保留横滑）
-   —— 原先 3 列换行会堆成 4 行、把下方模块推得很远。 */
-@media screen and (max-width: 767px) {
-  .section {
-    padding-block: 48px;
-  }
-  .inner {
-    gap: 32px;
-  }
-  .intro {
-    flex-direction: column;
-    align-items: flex-start;
   }
   .featured {
     display: none;
@@ -165,10 +152,11 @@ a.tile:hover .icon {
     gap: 8px;
   }
   .icon {
-    width: 66px;
-    height: 66px;
+    width: 80px;
+    height: 80px;
   }
   .label {
     font-size: 12.5px;
   }
 }
+
