@@ -1,0 +1,182 @@
+// 设计 token 局部化到本模块（不写全局 globals）：所有子选择器都在 .module 下，变量正常继承。
+.module {
+  --home-section-gap-desktop: 120px;
+  --home-section-gap-tablet: 88px;
+  --home-section-gap-mobile: 48px;
+  --home-gutter-desktop: 24px;
+  --home-gutter-mobile: 16px;
+  --home-pad-left: 88px; // 左缘留白（标题与第一张卡共用，替代 max-width 居中）
+  --home-fg: #1b1b1b;
+  --home-fg-muted: rgba(0, 0, 0, 0.55);
+  --home-bg: #ffffff;
+  --home-radius: 10px;
+  --home-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --home-h2: clamp(24px, 3.2vw, 40px);
+  --home-h3: clamp(18px, 2vw, 24px);
+  --home-body: 16px;
+  --home-eyebrow: 13px;
+
+  padding-block: var(--home-section-gap-desktop);
+  background: var(--home-bg);
+}
+// 标题区左右缘都对齐 Nav 内容盒（下方 .carousel 才向右出血）
+.inner {
+  padding-left: max(calc((100% - var(--layout-max)) / 2), var(--layout-gutter));
+  padding-right: max(calc((100% - var(--layout-max)) / 2), var(--layout-gutter));
+}
+// 标题区左对齐（图一）
+.head {
+  margin-bottom: 24px;
+  .title {
+    font-size: 36px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.85);
+    margin-bottom: 16px;
+  }
+  .subtitle {
+    font-size: 16px;
+    line-height: 1.2;
+    color: rgba(0, 0, 0, 0.55);
+  }
+}
+
+// 横向滑动区：满宽，左内边距与标题同值（第一张卡与标题左对齐），右侧出血到视口边
+.carousel {
+  position: relative;
+  padding-left: max(calc((100% - var(--layout-max)) / 2), var(--layout-gutter));
+}
+
+.scroller {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  // overflow-x 设为 auto 后,overflow-y 会被规范隐式提升为 auto → 意外可上下滚,须显式锁死
+  overflow-y: hidden;
+  // 拦掉横向滚到尽头联动浏览器「后退/前进」手势
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-right: var(--layout-gutter);
+  // overflow-y: hidden 的裁剪线会压到卡片底部文字行盒 → 切掉 g/y 下伸部,留出底部空间避让
+  padding-bottom: 6px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+// 卡片：定宽，desktop 露出下一张暗示可滑
+.card {
+  flex: 0 0 auto;
+  width: 380px;
+  scroll-snap-align: start;
+  text-decoration: none;
+  .thumb {
+    position: relative;
+    padding-top: 100%; // 近方形（图一）
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    // 场景图叠在 cover 之上，默认透明，hover 交叉淡入（附带轻微放大）
+    .scene {
+      opacity: 0;
+      transition: opacity 0.55s ease, transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+  &:hover .thumb img {
+    transform: scale(1.05);
+  }
+  &:hover .thumb .scene {
+    opacity: 1;
+  }
+  .placeholderMark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 46px;
+    height: 46px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 4px;
+  }
+  // 标签在图下方、左对齐（图一）
+  .name {
+    display: block;
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.85);
+  }
+}
+
+// 圆形翻页箭头
+.arrow {
+  position: absolute;
+  top: calc((100% - 40px) / 2);
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: var(--home-shadow);
+  color: var(--home-fg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.2s;
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+  &:hover {
+    background: #f2f0ec;
+  }
+  &.next {
+    right: var(--layout-gutter);
+  }
+  &.prev {
+    left: max(calc((100% - var(--layout-max)) / 2 + 12px), calc(var(--layout-gutter) + 12px));
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .module {
+    padding-block: 48px;
+    --home-pad-left: 16px; // 移动：同上
+  }
+
+  .head {
+    margin-bottom: 16px;
+    .title {
+      margin-bottom: 12px;
+      font-size: 28px;
+    }
+  }
+
+  .scroller {
+    gap: 12px;
+  }
+
+  .card {
+    width: 300px;
+    .name {
+      font-size: 16px;
+      margin-top: 12px;
+    }
+  }
+  // 移动端隐藏箭头，靠手势滑动
+  .arrow {
+    display: none;
+  }
+}

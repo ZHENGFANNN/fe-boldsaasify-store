@@ -141,6 +141,17 @@ export interface ProductSort {
   goodList: SimpleProduct[];
 }
 
+/** 轻量分类项（/config/getSortList 返回；不含 goodList，供首页分类导航直接读全量分类） */
+export interface CategoryItem {
+  key: string;
+  name: string;
+  description?: string;
+  image_src?: string;
+  image_scenes?: string;
+  weight?: number;
+  language?: string;
+}
+
 /** V2 选项值（商详页渲染色块/图片/文本/卡片） */
 export interface OptionValue {
   value_code: string;

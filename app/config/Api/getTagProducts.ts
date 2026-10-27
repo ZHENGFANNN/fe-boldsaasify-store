@@ -3,9 +3,15 @@ import { ssrFetch } from "@/config/Api/ssrFetch";
 import { isFrameworkBailout } from "@/config/Api/bailout";
 
 // ============================================================
-// 远程数据 API · GET ${HOST}/config/getProduct（复用分类页同一数据源）
-// 商品标签页数据：按 locale + tagKey 从全量商品里筛出「标签 tagList 含该 key」的商品。
-// 不新增后端接口——/config/getProduct 已返回每个商品的 tagList([{key,name,language}])。
+// 远程数据 API · GET ${HOST}/config/getTagProducts
+// 商品标签位数据：传一个标签 key（后台「商品标签」里建的，如 best-sellers）即拿到该标签下的商品卡。
+//
+// 后端已把筛选下推到 SQL（经 erp_goods_tag_relation 子查询），只回商品卡字段：
+// 相比早先「拉全量 /config/getProduct（全语言全关联 >44KB）再在 JS 里筛 tagList」，
+// 响应量级小一到两个数量级，且语言回退/分类停用过滤都在后端统一处理。
+//
+// 不含价格：与分类页/首页同口径——comboList 只给 (key, associate_country_key)，
+// 价格由客户端按 area cookie 调 /api/products-offer 批量取齐（避免货币闪动）。
 // 纯 SSG，构建期固化，靠「发布」重建。
 // ============================================================
 
@@ -18,77 +24,47 @@ interface TagProductsResult {
     key: string;
     name: string;
     description?: string;
+    /** 后台给标签配的主图 / 场景图，可空串 */
+    image?: string;
+    scene_image?: string;
+    /** 实际命中的语言：请求语言无该标签时后端回退 en */
+    language?: string;
   };
   goodList: SimpleProduct[];
 }
 
-// 商品卡片精简（与 getCategoryProducts.toSimpleProduct 同款口径）：
-// comboList 只保留 (key, associate_country_key) 供客户端按 area 批量取价。
-function toSimpleProduct(item: any): SimpleProduct {
-  const { reviewsList, reviews_num, reviews_score, image_list } = item;
-  const totalScore = reviewsList?.reduce(
-    (pre: number, cur: any) => pre + cur.score,
-    0
-  );
-  return {
-    key: item.key,
-    sort_key: item.sort_key,
-    name: item.name,
-    description: item.description,
-    image: image_list?.[0]?.src,
-    image_scenes: item.image_scenes,
-    image_list: image_list,
-    reviewScore: totalScore / reviewsList?.length || reviews_score,
-    reviewsNum: reviewsList?.length || reviews_num,
-    reviews_score,
-    reviews_num,
-    weight: item.weight,
-    comboList: Array.isArray(item.comboList)
-      ? item.comboList.map((c: any) => ({
-          key: c?.key,
-          associate_country_key: c?.associate_country_key,
-        }))
-      : [],
-  };
-}
-
-// 取商品 tagList 里匹配 tagKey 的项（返回该 tag 的 {key,name,description}），不匹配返回 null。
-function matchTag(
-  item: any,
-  tagKey: string
-): { key: string; name: string; description: string } | null {
-  const list = Array.isArray(item?.tagList) ? item.tagList : [];
-  for (const t of list) {
-    if (t?.key === tagKey) {
-      return {
-        key: t.key,
-        name: t.name || t.key,
-        description: t.description || "",
-      };
-    }
-  }
-  return null;
-}
-
 /**
- * @returns tag: { key, name }；goodList: 该标签下商品（按 weight 降序）。
- *   标签不存在 / 该标签下无商品 / 接口失败 → 整体返回 null（页面据此走 notFound）。
+ * 按标签 key 取商品。
+ *
+ * @param locale  语言码；该语言没有这个标签时后端整体回退 en。
+ * @param tagKey  标签 key（后台创建标签时填的，如 best-sellers）。
+ * @param limit   只要前 N 条（按 weight 降序）；不传 = 全部。首页位常传 10。
+ * @returns tag + goodList；标签不存在 / 接口失败 → null（调用方据此 404 或隐藏模块）。
+ *          标签存在但该标签下没有上架商品 → goodList 为空数组（不是 null）。
  */
 export default async function getTagProducts({
   locale,
   tagKey,
+  limit,
 }: {
   locale: string;
   tagKey: string;
+  limit?: number;
 }): Promise<TagProductsResult | null> {
   if (!HOST) {
     console.error("getTagProducts: NEXT_PUBLIC_HOST 未配置");
     return null;
   }
+  if (!tagKey) return null;
+
+  const qs = new URLSearchParams({ tagKey, language: locale });
+  if (limit && limit > 0) qs.set("limit", String(limit));
 
   let res;
   try {
-    res = await ssrFetch(`${HOST}/config/getProduct`, { cache: "force-cache" });
+    res = await ssrFetch(`${HOST}/config/getTagProducts?${qs.toString()}`, {
+      cache: "force-cache",
+    });
   } catch (err: any) {
     if (isFrameworkBailout(err)) throw err;
     console.error("getTagProducts fetch 失败:", err?.message);
@@ -100,34 +76,20 @@ export default async function getTagProducts({
   }
 
   const json = await res.json().catch(() => null);
-  const list = json?.data?.list || [];
+  // 标签不存在时后端回 data:null；接口自身失败回 code!=0。
+  const data = json?.data;
+  if (!data?.tag?.key) return null;
 
-  // 按 locale 过滤（无该语言回退英文）。
-  const byLang: Record<string, any[]> = {};
-  list.forEach((item: any) => {
-    (byLang[item.language] ||= []).push(item);
-  });
-  const localeList = byLang[locale] || byLang["en"] || [];
-
-  let tag: TagProductsResult["tag"] | null = null;
-  const goodList: SimpleProduct[] = [];
-  localeList.forEach((item: any) => {
-    const hit = matchTag(item, tagKey);
-    if (!hit) return;
-    // 分类启用校验：商品所属分类未启用则不展示（与分类页口径一致）。
-    const sortInfo = item.goodSort?.[0];
-    if (sortInfo && sortInfo.enabled === false) return;
-    if (!tag) tag = hit;
-    goodList.push(toSimpleProduct(item));
-  });
-
-  if (!tag || goodList.length === 0) return null;
-
-  goodList.sort((a, b) => (b.weight || 0) - (a.weight || 0));
-  return { tag, goodList };
+  return {
+    tag: data.tag,
+    goodList: Array.isArray(data.goodList) ? data.goodList : [],
+  };
 }
 
 // 供 generateStaticParams / sitemap 用：聚合全部 (locale, tagKey)（去重）。
+//
+// 仍走 /config/getProduct：本接口按单个 tagKey 取数，不做「全站有哪些标签」的枚举；
+// 枚举只在构建期跑一次（非每页），沿用现有数据源即可，无需新增后端接口。
 export async function getAllTagPaths(): Promise<
   { locale: string; tagKey: string }[]
 > {

@@ -1,3 +1,18 @@
+:root {
+  /* 全站内容容器 token —— 唯一基准是 NavBar 的 .header（max-width 1248 + padding 0 24），
+     即内容盒 = min(1200px, 100vw - 48px)。所有区块容器一律消费这两个变量，
+     不要再各写 1280 / 1200 硬值，否则模块之间、模块与 Nav 之间会横向错位。 */
+  --layout-max: 1200px;
+  --layout-gutter: 24px;
+}
+
+/* 断点与 NavBar 对齐（Nav 在此处把 padding 24 → 16），故 gutter 同步收窄。 */
+@media screen and (max-width: 1080px) {
+  :root {
+    --layout-gutter: 16px;
+  }
+}
+
 html,
 body {
   font-family: var(--font-base, 'Open Sans', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Arial, sans-serif);

@@ -41,6 +41,8 @@ const STATIC_PATHS: {
   priority: number;
 }[] = [
   { path: "", changeFrequency: "daily", priority: 1.0 }, // 首页
+  // 全部商品（按分类分组）：分类页的父级聚合页，权重介于首页 1.0 与分类 0.8 之间
+  { path: "/product", changeFrequency: "weekly", priority: 0.9 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.6 },
   { path: "/support/contact", changeFrequency: "monthly", priority: 0.3 }
 ];

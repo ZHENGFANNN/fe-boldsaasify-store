@@ -1,0 +1,287 @@
+// Best Sellers —— 白底(与 ivory 的 BlogModule 交替),横向滑动 Top 10。
+.module {
+  padding-block: 96px;
+  background: #fff;
+}
+
+.inner {
+  max-width: var(--layout-max);
+  width: calc(100% - var(--layout-gutter) * 2);
+  margin: 0 auto;
+}
+
+.head {
+  margin-bottom: 40px;
+}
+
+.kicker {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #96794a;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  line-height: 1.15;
+  color: #1b1b1b;
+  margin: 0 0 14px;
+}
+
+.subtitle {
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.5);
+  max-width: 520px;
+}
+
+// 横向滑动区:左缘与标题(= Nav 内容左缘)对齐,右侧出血到视口边
+.carousel {
+  position: relative;
+  padding-left: max(calc((100% - var(--layout-max)) / 2), var(--layout-gutter));
+}
+
+.scroller {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-right: var(--layout-gutter);
+  padding-bottom: 6px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// 卡片:定宽,方图 + 内容;悬浮抬升
+.card {
+  flex: 0 0 auto;
+  width: 264px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(27, 27, 27, 0.1);
+    .thumb img {
+      transform: scale(1.06);
+    }
+  }
+
+  .thumb {
+    position: relative;
+    padding-top: 100%; // 方图
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+
+  // 排名角标:serif 数字,细描边圆
+  .rank {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+    font-size: 15px;
+    font-weight: 600;
+    color: #1b1b1b;
+  }
+
+  .saleTag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: #96794a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .placeholderMark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 46px;
+    height: 46px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 4px;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 18px 22px;
+  }
+
+  .name {
+    font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+    margin: 10px 0 0;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #1b1b1b;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.6em;
+  }
+
+  // 价格行：内部两个 div 由 ProductCardPrice 渲染（第 1 个折后/原价、第 2 个划线原价），
+  // 故样式挂在子元素上而不是自有 .price/.compareAt 类名。
+  .priceRow {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1b1b1b;
+
+    // 划线原价（ProductCardPrice 的 .origin_price，第二个 div）
+    div:nth-child(2) {
+      margin-left: 0;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.4);
+      text-decoration: line-through;
+    }
+  }
+}
+
+// 评分星条(复刻 IndexProductList,宽 78px)
+.stars {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 16px;
+}
+.starsBase,
+.starsActive {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  svg {
+    width: 15.6px;
+    height: 16px;
+  }
+}
+.starsBase svg {
+  color: #e2ddd3;
+}
+.starsActive {
+  color: #c9a96a;
+  white-space: nowrap;
+}
+.score {
+  margin-left: 84px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+}
+
+// 圆形翻页箭头
+.arrow {
+  position: absolute;
+  top: calc(50% - 60px); // 大致对齐方图中心
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  color: #1b1b1b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  transition: background 0.2s;
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+  &:hover {
+    background: #f6f5f3;
+  }
+  &.next {
+    right: var(--layout-gutter);
+  }
+  &.prev {
+    left: max(calc((100% - var(--layout-max)) / 2 + 12px), calc(var(--layout-gutter) + 12px));
+  }
+}
+
+@media screen and (max-width: 1079px) {
+  .module {
+    padding-block: 72px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .module {
+    padding-block: 56px;
+  }
+  .head {
+    margin-bottom: 28px;
+    .title {
+      font-size: 28px;
+    }
+  }
+  .scroller {
+    gap: 14px;
+  }
+  .card {
+    width: 220px;
+  }
+  .arrow {
+    display: none;
+  }
+}
