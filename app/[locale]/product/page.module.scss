@@ -1,0 +1,41 @@
+// /product 页面标题区。
+//
+// 宽度基准与 Nav / IndexProductList 对齐：内容盒 = min(--layout-max, 100vw - gutter*2)。
+// 不设 margin-bottom —— IndexProductList 的第一个 .sort_container 自带 padding-top: 120px，
+// 由它提供与标题的间距（那个组件同时被首页复用，不在此处改它的盒模型）。
+.head {
+  max-width: var(--layout-max);
+  width: calc(100% - var(--layout-gutter) * 2);
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding-top: 56px;
+}
+
+.title {
+  margin: 0;
+  color: #000;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.3;
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+}
+
+@media screen and (max-width: 1080px) {
+  .head {
+    padding-top: 40px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .head {
+    padding-top: 32px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+}

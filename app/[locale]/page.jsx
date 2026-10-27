@@ -16,7 +16,6 @@ import FeatureShowcase from "./components/FeatureShowcase";
 import IndexProductList from "./components/IndexProductList";
 import ReviewsModule from "./components/ReviewsModule";
 import BlogModule from "./components/BlogModule";
-import IndexProductLdJson from "./components/IndexProductLdJson";
 
 import { buildAlternates } from "@/config/seo";
 import { mergeMeta } from "@/config/mergeMeta";
@@ -35,11 +34,12 @@ const HOME_BLOG_COUNT = 3;
 // 首页数据层（后端整形 + TTL，前端开箱即用），构建期一次 Promise.all 取全 —— 纯 SSG：
 //   - LANG      ← /config/getLanguageByNamespace（home + home.category 文案命名空间）
 //   - CONFIG    ← /config/getPageConfigByNamespace（home.banner / common.base）
-//   - 产品列表  ← getRemoteProductList（comboList 仅含 key + associate_country_key，
-//                价格/折扣由客户端 IndexProductList 按 area cookie 调 /api/products-offer 批量取齐）
+//   - 产品列表  ← getRemoteProductList（现在只为 IndexDiamondShapes 服务：它要从首个分类
+//                的首个商品取 sort_key 拼「按形状选购」的落地链接。首页本身已不列商品，
+//                故这份数据不再喂 IndexProductList/JSON-LD；全量商品列表在 /product 页）
 //   - 热卖位    ← getTagProducts（按 best-sellers 标签取 Top 10，同样不含价格）
 //   - 博客位    ← getTagBlogs（按 index-blog 标签取 Top 3 文章卡，不含正文）
-// 不读 area cookie → 首页整页可 SSG；JSON-LD 走 IndexProductLdJson server 子组件以 us 兜底。
+// 不读 area cookie → 首页整页可 SSG。
 async function getData({ locale }) {
   const [LANG, CONFIG, goodsSortList, categoryList, bestSellersData, blogTagData] =
     await Promise.all([
@@ -157,12 +157,9 @@ export default async function Home({ params }) {
         {/* From the Journal：文章来自后台「博客标签」index-blog（见 HOME_BLOG_TAG），没打标则整块隐藏 */}
         <BlogModule />
       </IndexContext>
-      {/* JSON-LD 走 server 子组件（爬虫不执行 JS），SSG 阶段以默认 us 价兜底。 */}
-      <IndexProductLdJson
-        goodsSortList={goodsSortList}
-        locale={locale}
-        companyName={CONFIG["common.base"]?.company_name}
-      />
+      {/* 商品 JSON-LD 不在首页输出：首页已不展示商品列表（IndexProductList 见上方注释），
+          且 /product 页会为同一批商品输出逐商品 Product/Offer —— 两处都出就是两个 URL
+          争同一组结构化数据。结构化数据须与页面可见内容一致，故此处交给 /product 承担。 */}
     </main>
   );
 }

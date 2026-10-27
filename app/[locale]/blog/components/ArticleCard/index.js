@@ -12,7 +12,11 @@ export default function ArticleCard({ item, locale }) {
       className={styles.card}
     >
       <div className={styles.img_wrapper}>
-        <img src={item.image} alt={item.title} />
+        {item.image ? (
+          <img src={item.image} alt={item.title} />
+        ) : (
+          <div className={styles.img_fallback} />
+        )}
       </div>
       <h3 className={styles.article_title}>{item.title}</h3>
       <div className={styles.article_info}>
